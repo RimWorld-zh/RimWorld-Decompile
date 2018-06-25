@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C00 RID: 3072
 	public static class AreaUtility
 	{
-		// Token: 0x06004331 RID: 17201 RVA: 0x0023886C File Offset: 0x00236C6C
+		[CompilerGenerated]
+		private static Func<Area, bool> <>f__am$cache0;
+
 		public static void MakeAllowedAreaListFloatMenu(Action<Area> selAction, bool addNullAreaOption, bool addManageOption, Map map)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -43,7 +45,6 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06004332 RID: 17202 RVA: 0x002389D4 File Offset: 0x00236DD4
 		public static string AreaAllowedLabel(Pawn pawn)
 		{
 			string result;
@@ -58,7 +59,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004333 RID: 17203 RVA: 0x00238A10 File Offset: 0x00236E10
 		public static string AreaAllowedLabel_Area(Area area)
 		{
 			string result;
@@ -71,6 +71,56 @@ namespace Verse
 				result = "NoAreaAllowed".Translate();
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeAllowedAreaListFloatMenu>m__0(Area a)
+		{
+			return a.AssignableAsAllowed();
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeAllowedAreaListFloatMenu>c__AnonStorey0
+		{
+			internal Action<Area> selAction;
+
+			internal Map map;
+
+			public <MakeAllowedAreaListFloatMenu>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.selAction(null);
+			}
+
+			internal void <>m__1()
+			{
+				Find.WindowStack.Add(new Dialog_ManageAreas(this.map));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeAllowedAreaListFloatMenu>c__AnonStorey1
+		{
+			internal Area localArea;
+
+			internal AreaUtility.<MakeAllowedAreaListFloatMenu>c__AnonStorey0 <>f__ref$0;
+
+			public <MakeAllowedAreaListFloatMenu>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$0.selAction(this.localArea);
+			}
+
+			internal void <>m__1()
+			{
+				this.localArea.MarkForDraw();
+			}
 		}
 	}
 }

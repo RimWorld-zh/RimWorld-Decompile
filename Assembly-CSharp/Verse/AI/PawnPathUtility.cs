@@ -4,10 +4,8 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A97 RID: 2711
 	public static class PawnPathUtility
 	{
-		// Token: 0x06003C3F RID: 15423 RVA: 0x001FD598 File Offset: 0x001FB998
 		public static Thing FirstBlockingBuilding(this PawnPath path, out IntVec3 cellBefore, Pawn pawn = null)
 		{
 			Thing result;
@@ -65,7 +63,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C40 RID: 15424 RVA: 0x001FD730 File Offset: 0x001FBB30
 		public static IntVec3 FinalWalkableNonDoorCell(this PawnPath path, Map map)
 		{
 			IntVec3 result;
@@ -93,7 +90,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C41 RID: 15425 RVA: 0x001FD7E0 File Offset: 0x001FBBE0
 		public static IntVec3 LastCellBeforeBlockerOrFinalCell(this PawnPath path, Map map)
 		{
 			IntVec3 result;
@@ -125,7 +121,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C42 RID: 15426 RVA: 0x001FD8A4 File Offset: 0x001FBCA4
 		public static bool TryFindLastCellBeforeBlockingDoor(this PawnPath path, Pawn pawn, out IntVec3 result)
 		{
 			bool result2;
@@ -155,7 +150,6 @@ namespace Verse.AI
 			return result2;
 		}
 
-		// Token: 0x06003C43 RID: 15427 RVA: 0x001FD958 File Offset: 0x001FBD58
 		public static bool TryFindCellAtIndex(PawnPath path, int index, out IntVec3 result)
 		{
 			bool result2;

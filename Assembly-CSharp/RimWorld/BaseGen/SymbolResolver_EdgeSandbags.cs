@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003AC RID: 940
 	public class SymbolResolver_EdgeSandbags : SymbolResolver
 	{
-		// Token: 0x04000A17 RID: 2583
 		private static readonly IntRange LineLengthRange = new IntRange(2, 5);
 
-		// Token: 0x04000A18 RID: 2584
 		private static readonly IntRange GapLengthRange = new IntRange(1, 5);
 
-		// Token: 0x0600104A RID: 4170 RVA: 0x00089344 File Offset: 0x00087744
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
+		public SymbolResolver_EdgeSandbags()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -67,6 +71,17 @@ namespace RimWorld.BaseGen
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_EdgeSandbags()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(Thing x)
+		{
+			return x.def.category == ThingCategory.Building || x.def.category == ThingCategory.Item;
 		}
 	}
 }

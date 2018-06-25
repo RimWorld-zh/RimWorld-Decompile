@@ -2,10 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x020001FF RID: 511
 	public class Thought_HardWorkerVsLazy : Thought_SituationalSocial
 	{
-		// Token: 0x060009C9 RID: 2505 RVA: 0x000580C0 File Offset: 0x000564C0
+		public Thought_HardWorkerVsLazy()
+		{
+		}
+
 		public override float OpinionOffset()
 		{
 			int num = this.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.Industriousness);

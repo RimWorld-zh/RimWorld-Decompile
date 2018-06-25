@@ -1,30 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000239 RID: 569
 	public static class ThingDefGenerator_Buildings
 	{
-		// Token: 0x040003ED RID: 1005
 		public static readonly string BlueprintDefNamePrefix = "Blueprint_";
 
-		// Token: 0x040003EE RID: 1006
 		public static readonly string InstallBlueprintDefNamePrefix = "Install_";
 
-		// Token: 0x040003EF RID: 1007
 		public static readonly string BuildingFrameDefNamePrefix = "Frame_";
 
-		// Token: 0x040003F0 RID: 1008
 		private static readonly string TerrainBlueprintGraphicPath = "Things/Special/TerrainBlueprint";
 
-		// Token: 0x040003F1 RID: 1009
 		private static Color BlueprintColor = new Color(0.8235294f, 0.921568632f, 1f, 0.6f);
 
-		// Token: 0x06000A3F RID: 2623 RVA: 0x0005BD4C File Offset: 0x0005A14C
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
 			foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>())
@@ -52,7 +49,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A40 RID: 2624 RVA: 0x0005BD70 File Offset: 0x0005A170
 		private static ThingDef BaseBlueprintDef()
 		{
 			return new ThingDef
@@ -71,7 +67,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06000A41 RID: 2625 RVA: 0x0005BDD4 File Offset: 0x0005A1D4
 		private static ThingDef BaseFrameDef()
 		{
 			return new ThingDef
@@ -93,7 +88,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06000A42 RID: 2626 RVA: 0x0005BE58 File Offset: 0x0005A258
 		private static ThingDef NewBlueprintDef_Thing(ThingDef def, bool isInstallBlueprint, ThingDef normalBlueprint = null)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseBlueprintDef();
@@ -179,7 +173,6 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06000A43 RID: 2627 RVA: 0x0005C0F8 File Offset: 0x0005A4F8
 		private static ThingDef NewFrameDef_Thing(ThingDef def)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseFrameDef();
@@ -217,7 +210,6 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06000A44 RID: 2628 RVA: 0x0005C268 File Offset: 0x0005A668
 		private static ThingDef NewBlueprintDef_Terrain(TerrainDef terrDef)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseBlueprintDef();
@@ -237,7 +229,6 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06000A45 RID: 2629 RVA: 0x0005C33C File Offset: 0x0005A73C
 		private static ThingDef NewFrameDef_Terrain(TerrainDef terrDef)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseFrameDef();
@@ -262,6 +253,234 @@ namespace RimWorld
 				Log.Error("Framedef is not frame: " + thingDef, false);
 			}
 			return thingDef;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingDefGenerator_Buildings()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <ImpliedBlueprintAndFrameDefs>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal List<ThingDef>.Enumerator $locvar0;
+
+			internal ThingDef <def>__1;
+
+			internal ThingDef <blueprint>__2;
+
+			internal IEnumerator<TerrainDef> $locvar1;
+
+			internal TerrainDef <terrDef>__3;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ImpliedBlueprintAndFrameDefs>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+				case 2u:
+				case 3u:
+					break;
+				case 4u:
+				case 5u:
+					goto IL_16D;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						this.$current = ThingDefGenerator_Buildings.NewFrameDef_Thing(def);
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					case 2u:
+						break;
+					case 3u:
+						goto IL_12D;
+					default:
+						goto IL_12E;
+					}
+					IL_ED:
+					if (def.Minifiable)
+					{
+						this.$current = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, true, blueprint);
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+					IL_12D:
+					IL_12E:
+					if (enumerator.MoveNext())
+					{
+						def = enumerator.Current;
+						blueprint = null;
+						if (def.BuildableByPlayer)
+						{
+							blueprint = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, false, null);
+							this.$current = blueprint;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_ED;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				enumerator2 = DefDatabase<TerrainDef>.AllDefs.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_16D:
+					switch (num)
+					{
+					case 4u:
+						this.$current = ThingDefGenerator_Buildings.NewFrameDef_Terrain(terrDef);
+						if (!this.$disposing)
+						{
+							this.$PC = 5;
+						}
+						flag = true;
+						return true;
+					}
+					while (enumerator2.MoveNext())
+					{
+						terrDef = enumerator2.Current;
+						if (terrDef.BuildableByPlayer)
+						{
+							this.$current = ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(terrDef);
+							if (!this.$disposing)
+							{
+								this.$PC = 4;
+							}
+							flag = true;
+							return true;
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+				case 2u:
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				case 4u:
+				case 5u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator0();
+			}
 		}
 	}
 }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003BA RID: 954
 	public class SymbolResolver_SingleThing : SymbolResolver
 	{
-		// Token: 0x04000A28 RID: 2600
 		private static Rot4[] tmpRotations = new Rot4[]
 		{
 			Rot4.North,
@@ -16,7 +15,13 @@ namespace RimWorld.BaseGen
 			Rot4.East
 		};
 
-		// Token: 0x06001086 RID: 4230 RVA: 0x0008BC38 File Offset: 0x0008A038
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		public SymbolResolver_SingleThing()
+		{
+		}
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -45,7 +50,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001087 RID: 4231 RVA: 0x0008BD20 File Offset: 0x0008A120
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.singleThingToSpawn is Pawn)
@@ -150,7 +154,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001088 RID: 4232 RVA: 0x0008C00C File Offset: 0x0008A40C
 		private bool TryFindSpawnCellForItem(CellRect rect, out IntVec3 result)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -177,7 +180,6 @@ namespace RimWorld.BaseGen
 			}, out result);
 		}
 
-		// Token: 0x06001089 RID: 4233 RVA: 0x0008C04C File Offset: 0x0008A44C
 		private IntVec3 FindBestSpawnCellForNonItem(CellRect rect, ThingDef thingDef, ref Rot4? rot, out bool hasToWipeBuilding, out bool doesntFit)
 		{
 			if (!thingDef.rotatable)
@@ -216,7 +218,6 @@ namespace RimWorld.BaseGen
 			return result3;
 		}
 
-		// Token: 0x0600108A RID: 4234 RVA: 0x0008C1A0 File Offset: 0x0008A5A0
 		private IntVec3 FindBestSpawnCellForNonItem(CellRect rect, ThingDef thingDef, Rot4 rot, out bool hasToWipeBuilding, out bool doesntFit)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -285,7 +286,6 @@ namespace RimWorld.BaseGen
 			return centerCell;
 		}
 
-		// Token: 0x0600108B RID: 4235 RVA: 0x0008C514 File Offset: 0x0008A914
 		private bool AnyNonStandableCellOrAnyBuildingInside(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -309,6 +309,49 @@ namespace RimWorld.BaseGen
 				return result;
 			}
 			return false;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_SingleThing()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(ThingDef x)
+		{
+			return x.IsWeapon || x.IsMedicine || x.IsDrug;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSpawnCellForItem>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <TryFindSpawnCellForItem>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				bool result;
+				if (c.GetFirstItem(this.map) != null)
+				{
+					result = false;
+				}
+				else
+				{
+					if (!c.Standable(this.map))
+					{
+						SurfaceType surfaceType = c.GetSurfaceType(this.map);
+						if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
+						{
+							return false;
+						}
+					}
+					result = true;
+				}
+				return result;
+			}
 		}
 	}
 }

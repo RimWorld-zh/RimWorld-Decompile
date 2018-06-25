@@ -1,31 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005FD RID: 1533
 	public class FactionBase : Settlement
 	{
-		// Token: 0x04001218 RID: 4632
 		private string nameInt;
 
-		// Token: 0x04001219 RID: 4633
 		public bool namedByPlayer;
 
-		// Token: 0x0400121A RID: 4634
 		private Material cachedMat;
 
-		// Token: 0x06001E7E RID: 7806 RVA: 0x0010AACC File Offset: 0x00108ECC
 		public FactionBase()
 		{
 			this.trader = new FactionBase_TraderTracker(this);
 		}
 
-		// Token: 0x17000477 RID: 1143
-		// (get) Token: 0x06001E7F RID: 7807 RVA: 0x0010AAE4 File Offset: 0x00108EE4
-		// (set) Token: 0x06001E80 RID: 7808 RVA: 0x0010AAFF File Offset: 0x00108EFF
 		public string Name
 		{
 			get
@@ -38,8 +34,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000478 RID: 1144
-		// (get) Token: 0x06001E81 RID: 7809 RVA: 0x0010AB0C File Offset: 0x00108F0C
 		public override Texture2D ExpandingIcon
 		{
 			get
@@ -48,8 +42,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000479 RID: 1145
-		// (get) Token: 0x06001E82 RID: 7810 RVA: 0x0010AB34 File Offset: 0x00108F34
 		public override string Label
 		{
 			get
@@ -58,8 +50,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700047A RID: 1146
-		// (get) Token: 0x06001E83 RID: 7811 RVA: 0x0010AB68 File Offset: 0x00108F68
 		public override Material Material
 		{
 			get
@@ -72,8 +62,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700047B RID: 1147
-		// (get) Token: 0x06001E84 RID: 7812 RVA: 0x0010ABC8 File Offset: 0x00108FC8
 		public override MapGeneratorDef MapGeneratorDef
 		{
 			get
@@ -91,7 +79,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E85 RID: 7813 RVA: 0x0010AC00 File Offset: 0x00109000
 		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			foreach (IncidentTargetTypeDef type in this.<AcceptedTypes>__BaseCallProxy0())
@@ -109,7 +96,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001E86 RID: 7814 RVA: 0x0010AC2A File Offset: 0x0010902A
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -117,11 +103,172 @@ namespace RimWorld.Planet
 			Scribe_Values.Look<bool>(ref this.namedByPlayer, "namedByPlayer", false, false);
 		}
 
-		// Token: 0x06001E87 RID: 7815 RVA: 0x0010AC57 File Offset: 0x00109057
 		public override void Tick()
 		{
 			base.Tick();
 			FactionBaseDefeatUtility.CheckDefeated(this);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<IncidentTargetTypeDef> <AcceptedTypes>__BaseCallProxy0()
+		{
+			return base.AcceptedTypes();
+		}
+
+		[CompilerGenerated]
+		private sealed class <AcceptedTypes>c__Iterator0 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		{
+			internal IEnumerator<IncidentTargetTypeDef> $locvar0;
+
+			internal IncidentTargetTypeDef <type>__1;
+
+			internal FactionBase $this;
+
+			internal IncidentTargetTypeDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AcceptedTypes>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<AcceptedTypes>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_118;
+				case 3u:
+					goto IL_118;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						type = enumerator.Current;
+						this.$current = type;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (base.Faction == Faction.OfPlayer)
+				{
+					this.$current = IncidentTargetTypeDefOf.Map_PlayerHome;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+				}
+				else
+				{
+					this.$current = IncidentTargetTypeDefOf.Map_Misc;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+				}
+				return true;
+				IL_118:
+				this.$PC = -1;
+				return false;
+			}
+
+			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				FactionBase.<AcceptedTypes>c__Iterator0 <AcceptedTypes>c__Iterator = new FactionBase.<AcceptedTypes>c__Iterator0();
+				<AcceptedTypes>c__Iterator.$this = this;
+				return <AcceptedTypes>c__Iterator;
+			}
 		}
 	}
 }

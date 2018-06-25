@@ -5,101 +5,72 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AE7 RID: 2791
 	public class CameraDriver : MonoBehaviour
 	{
-		// Token: 0x0400270E RID: 9998
 		public CameraShaker shaker = new CameraShaker();
 
-		// Token: 0x0400270F RID: 9999
 		private Camera cachedCamera = null;
 
-		// Token: 0x04002710 RID: 10000
 		private GameObject reverbDummy;
 
-		// Token: 0x04002711 RID: 10001
 		public CameraMapConfig config = new CameraMapConfig_Normal();
 
-		// Token: 0x04002712 RID: 10002
 		private Vector3 velocity;
 
-		// Token: 0x04002713 RID: 10003
 		private Vector3 rootPos;
 
-		// Token: 0x04002714 RID: 10004
 		private float rootSize;
 
-		// Token: 0x04002715 RID: 10005
 		private float desiredSize;
 
-		// Token: 0x04002716 RID: 10006
 		private Vector2 desiredDolly = Vector2.zero;
 
-		// Token: 0x04002717 RID: 10007
 		private Vector2 mouseDragVect = Vector2.zero;
 
-		// Token: 0x04002718 RID: 10008
 		private bool mouseCoveredByUI = false;
 
-		// Token: 0x04002719 RID: 10009
 		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
 
-		// Token: 0x0400271A RID: 10010
 		private float fixedTimeStepBuffer;
 
-		// Token: 0x0400271B RID: 10011
 		private static int lastViewRectGetFrame = -1;
 
-		// Token: 0x0400271C RID: 10012
 		private static CellRect lastViewRect;
 
-		// Token: 0x0400271D RID: 10013
 		public const float MaxDeltaTime = 0.1f;
 
-		// Token: 0x0400271E RID: 10014
 		private const float ScreenDollyEdgeWidth = 20f;
 
-		// Token: 0x0400271F RID: 10015
 		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
 
-		// Token: 0x04002720 RID: 10016
 		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
 
-		// Token: 0x04002721 RID: 10017
 		private const float MapEdgeClampMarginCells = -2f;
 
-		// Token: 0x04002722 RID: 10018
 		public const float StartingSize = 24f;
 
-		// Token: 0x04002723 RID: 10019
 		private const float MinSize = 11f;
 
-		// Token: 0x04002724 RID: 10020
 		private const float MaxSize = 60f;
 
-		// Token: 0x04002725 RID: 10021
 		private const float ZoomTightness = 0.4f;
 
-		// Token: 0x04002726 RID: 10022
 		private const float ZoomScaleFromAltDenominator = 35f;
 
-		// Token: 0x04002727 RID: 10023
 		private const float PageKeyZoomRate = 4f;
 
-		// Token: 0x04002728 RID: 10024
 		private const float ScrollWheelZoomRate = 0.35f;
 
-		// Token: 0x04002729 RID: 10025
 		public const float MinAltitude = 15f;
 
-		// Token: 0x0400272A RID: 10026
 		private const float MaxAltitude = 65f;
 
-		// Token: 0x0400272B RID: 10027
 		private const float ReverbDummyAltitude = 65f;
 
-		// Token: 0x17000949 RID: 2377
-		// (get) Token: 0x06003DD6 RID: 15830 RVA: 0x0020A450 File Offset: 0x00208850
+		public CameraDriver()
+		{
+		}
+
 		private Camera MyCamera
 		{
 			get
@@ -112,8 +83,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700094A RID: 2378
-		// (get) Token: 0x06003DD7 RID: 15831 RVA: 0x0020A488 File Offset: 0x00208888
 		private float ScreenDollyEdgeWidthBottom
 		{
 			get
@@ -131,8 +100,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700094B RID: 2379
-		// (get) Token: 0x06003DD8 RID: 15832 RVA: 0x0020A4B8 File Offset: 0x002088B8
 		public CameraZoomRange CurrentZoom
 		{
 			get
@@ -162,8 +129,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700094C RID: 2380
-		// (get) Token: 0x06003DD9 RID: 15833 RVA: 0x0020A52C File Offset: 0x0020892C
 		private Vector3 CurrentRealPosition
 		{
 			get
@@ -172,8 +137,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700094D RID: 2381
-		// (get) Token: 0x06003DDA RID: 15834 RVA: 0x0020A554 File Offset: 0x00208954
 		private bool AnythingPreventsCameraMotion
 		{
 			get
@@ -182,8 +145,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700094E RID: 2382
-		// (get) Token: 0x06003DDB RID: 15835 RVA: 0x0020A580 File Offset: 0x00208980
 		public IntVec3 MapPosition
 		{
 			get
@@ -194,8 +155,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700094F RID: 2383
-		// (get) Token: 0x06003DDC RID: 15836 RVA: 0x0020A5AC File Offset: 0x002089AC
 		public CellRect CurrentViewRect
 		{
 			get
@@ -214,8 +173,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000950 RID: 2384
-		// (get) Token: 0x06003DDD RID: 15837 RVA: 0x0020A6A4 File Offset: 0x00208AA4
 		public static float HitchReduceFactor
 		{
 			get
@@ -229,8 +186,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000951 RID: 2385
-		// (get) Token: 0x06003DDE RID: 15838 RVA: 0x0020A6DC File Offset: 0x00208ADC
 		public float CellSizePixels
 		{
 			get
@@ -239,7 +194,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DDF RID: 15839 RVA: 0x0020A704 File Offset: 0x00208B04
 		public void Awake()
 		{
 			this.ResetSize();
@@ -248,7 +202,6 @@ namespace Verse
 			this.MyCamera.farClipPlane = 71.5f;
 		}
 
-		// Token: 0x06003DE0 RID: 15840 RVA: 0x0020A733 File Offset: 0x00208B33
 		public void OnPreRender()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -259,7 +212,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE1 RID: 15841 RVA: 0x0020A754 File Offset: 0x00208B54
 		public void OnPreCull()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -274,7 +226,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE2 RID: 15842 RVA: 0x0020A790 File Offset: 0x00208B90
 		public void OnGUI()
 		{
 			GUI.depth = 100;
@@ -343,7 +294,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE3 RID: 15843 RVA: 0x0020AA28 File Offset: 0x00208E28
 		public void Update()
 		{
 			if (LongEventHandler.ShouldWaitForEvent)
@@ -407,7 +357,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE4 RID: 15844 RVA: 0x0020AD18 File Offset: 0x00209118
 		private void ApplyPositionToGameObject()
 		{
 			this.rootPos.y = 15f + (this.rootSize - 11f) / 49f * 50f;
@@ -418,7 +367,6 @@ namespace Verse
 			this.reverbDummy.transform.position = position;
 		}
 
-		// Token: 0x06003DE5 RID: 15845 RVA: 0x0020ADB0 File Offset: 0x002091B0
 		private Vector2 CalculateCurInputDollyVect()
 		{
 			Vector2 vector = this.desiredDolly;
@@ -478,7 +426,6 @@ namespace Verse
 			return vector;
 		}
 
-		// Token: 0x06003DE6 RID: 15846 RVA: 0x0020B0A4 File Offset: 0x002094A4
 		public void Expose()
 		{
 			if (Scribe.EnterNode("cameraMap"))
@@ -496,26 +443,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE7 RID: 15847 RVA: 0x0020B120 File Offset: 0x00209520
 		public void ResetSize()
 		{
 			this.desiredSize = 24f;
 			this.rootSize = this.desiredSize;
 		}
 
-		// Token: 0x06003DE8 RID: 15848 RVA: 0x0020B13A File Offset: 0x0020953A
 		public void JumpToCurrentMapLoc(IntVec3 cell)
 		{
 			this.JumpToCurrentMapLoc(cell.ToVector3Shifted());
 		}
 
-		// Token: 0x06003DE9 RID: 15849 RVA: 0x0020B14A File Offset: 0x0020954A
 		public void JumpToCurrentMapLoc(Vector3 loc)
 		{
 			this.rootPos = new Vector3(loc.x, this.rootPos.y, loc.z);
 		}
 
-		// Token: 0x06003DEA RID: 15850 RVA: 0x0020B171 File Offset: 0x00209571
 		public void SetRootPosAndSize(Vector3 rootPos, float rootSize)
 		{
 			this.rootPos = rootPos;
@@ -523,6 +466,11 @@ namespace Verse
 			this.desiredDolly = Vector2.zero;
 			this.desiredSize = rootSize;
 			LongEventHandler.ExecuteWhenFinished(new Action(this.ApplyPositionToGameObject));
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CameraDriver()
+		{
 		}
 	}
 }

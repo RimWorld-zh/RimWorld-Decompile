@@ -7,14 +7,14 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000411 RID: 1041
 	public class GenStep_SleepingMechanoids : GenStep
 	{
-		// Token: 0x04000AE5 RID: 2789
 		public FloatRange pointsRange;
 
-		// Token: 0x17000264 RID: 612
-		// (get) Token: 0x060011E6 RID: 4582 RVA: 0x0009B5D0 File Offset: 0x000999D0
+		public GenStep_SleepingMechanoids()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -23,7 +23,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E7 RID: 4583 RVA: 0x0009B5EC File Offset: 0x000999EC
 		public override void Generate(Map map)
 		{
 			CellRect around;
@@ -53,7 +52,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E8 RID: 4584 RVA: 0x0009B6F4 File Offset: 0x00099AF4
 		private IEnumerable<Pawn> GeneratePawns(Map map)
 		{
 			return PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms

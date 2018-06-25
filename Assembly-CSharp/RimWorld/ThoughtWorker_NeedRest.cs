@@ -3,10 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200022F RID: 559
 	public class ThoughtWorker_NeedRest : ThoughtWorker
 	{
-		// Token: 0x06000A2B RID: 2603 RVA: 0x00059D70 File Offset: 0x00058170
+		public ThoughtWorker_NeedRest()
+		{
+		}
+
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;

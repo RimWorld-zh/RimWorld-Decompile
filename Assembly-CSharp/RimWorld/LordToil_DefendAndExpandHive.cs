@@ -3,13 +3,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200018B RID: 395
 	public class LordToil_DefendAndExpandHive : LordToil_HiveRelated
 	{
-		// Token: 0x04000383 RID: 899
 		public float distToHiveToAttack = 10f;
 
-		// Token: 0x06000831 RID: 2097 RVA: 0x0004EECC File Offset: 0x0004D2CC
+		public LordToil_DefendAndExpandHive()
+		{
+		}
+
 		public override void UpdateAllDuties()
 		{
 			base.FilterOutUnspawnedHives();

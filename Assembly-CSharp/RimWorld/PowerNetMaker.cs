@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000429 RID: 1065
 	public static class PowerNetMaker
 	{
-		// Token: 0x04000B58 RID: 2904
 		private static HashSet<Building> closedSet = new HashSet<Building>();
 
-		// Token: 0x04000B59 RID: 2905
 		private static HashSet<Building> openSet = new HashSet<Building>();
 
-		// Token: 0x04000B5A RID: 2906
 		private static HashSet<Building> currentSet = new HashSet<Building>();
 
-		// Token: 0x06001292 RID: 4754 RVA: 0x000A1668 File Offset: 0x0009FA68
+		[CompilerGenerated]
+		private static Func<Building, CompPower> <>f__am$cache0;
+
 		private static IEnumerable<CompPower> ContiguousPowerBuildings(Building root)
 		{
 			PowerNetMaker.closedSet.Clear();
@@ -69,15 +68,24 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001293 RID: 4755 RVA: 0x000A18EC File Offset: 0x0009FCEC
 		public static PowerNet NewPowerNetStartingFrom(Building root)
 		{
 			return new PowerNet(PowerNetMaker.ContiguousPowerBuildings(root));
 		}
 
-		// Token: 0x06001294 RID: 4756 RVA: 0x000A190C File Offset: 0x0009FD0C
 		public static void UpdateVisualLinkagesFor(PowerNet net)
 		{
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PowerNetMaker()
+		{
+		}
+
+		[CompilerGenerated]
+		private static CompPower <ContiguousPowerBuildings>m__0(Building b)
+		{
+			return b.PowerComp;
 		}
 	}
 }

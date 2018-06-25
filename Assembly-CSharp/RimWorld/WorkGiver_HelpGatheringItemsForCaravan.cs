@@ -6,10 +6,12 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200014B RID: 331
 	public class WorkGiver_HelpGatheringItemsForCaravan : WorkGiver
 	{
-		// Token: 0x060006D5 RID: 1749 RVA: 0x000461E0 File Offset: 0x000445E0
+		public WorkGiver_HelpGatheringItemsForCaravan()
+		{
+		}
+
 		public override Job NonScanJob(Pawn pawn)
 		{
 			List<Lord> lords = pawn.Map.lordManager.lords;
@@ -34,7 +36,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060006D6 RID: 1750 RVA: 0x000462A0 File Offset: 0x000446A0
 		private bool AnyReachableCarrierOrColonist(Pawn forPawn, Lord lord)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)

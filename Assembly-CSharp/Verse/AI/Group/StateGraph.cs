@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009FD RID: 2557
 	public class StateGraph
 	{
-		// Token: 0x0400248E RID: 9358
 		public List<LordToil> lordToils = new List<LordToil>();
 
-		// Token: 0x0400248F RID: 9359
 		public List<Transition> transitions = new List<Transition>();
 
-		// Token: 0x04002490 RID: 9360
 		private static HashSet<LordToil> checkedToils;
 
-		// Token: 0x170008E1 RID: 2273
-		// (get) Token: 0x0600395D RID: 14685 RVA: 0x001E7480 File Offset: 0x001E5880
-		// (set) Token: 0x0600395E RID: 14686 RVA: 0x001E74A1 File Offset: 0x001E58A1
+		public StateGraph()
+		{
+		}
+
 		public LordToil StartingToil
 		{
 			get
@@ -35,19 +33,16 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600395F RID: 14687 RVA: 0x001E74CF File Offset: 0x001E58CF
 		public void AddToil(LordToil toil)
 		{
 			this.lordToils.Add(toil);
 		}
 
-		// Token: 0x06003960 RID: 14688 RVA: 0x001E74DE File Offset: 0x001E58DE
 		public void AddTransition(Transition transition)
 		{
 			this.transitions.Add(transition);
 		}
 
-		// Token: 0x06003961 RID: 14689 RVA: 0x001E74F0 File Offset: 0x001E58F0
 		public StateGraph AttachSubgraph(StateGraph subGraph)
 		{
 			for (int i = 0; i < subGraph.lordToils.Count; i++)
@@ -61,7 +56,6 @@ namespace Verse.AI.Group
 			return subGraph;
 		}
 
-		// Token: 0x06003962 RID: 14690 RVA: 0x001E7570 File Offset: 0x001E5970
 		public void ErrorCheck()
 		{
 			if (this.lordToils.Count == 0)
@@ -115,7 +109,6 @@ namespace Verse.AI.Group
 			StateGraph.checkedToils = null;
 		}
 
-		// Token: 0x06003963 RID: 14691 RVA: 0x001E7724 File Offset: 0x001E5B24
 		private void CheckForUnregisteredLinkedToilsRecursive(LordToil toil)
 		{
 			if (!this.lordToils.Contains(toil))
@@ -130,6 +123,36 @@ namespace Verse.AI.Group
 				{
 					this.CheckForUnregisteredLinkedToilsRecursive(transition.target);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ErrorCheck>c__AnonStorey0
+		{
+			internal LordToil toil;
+
+			public <ErrorCheck>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(LordToil s)
+			{
+				return s == this.toil;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ErrorCheck>c__AnonStorey1
+		{
+			internal Transition trans;
+
+			public <ErrorCheck>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Transition t)
+			{
+				return t == this.trans;
 			}
 		}
 	}

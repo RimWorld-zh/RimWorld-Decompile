@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000BAF RID: 2991
 	public class ThinkTreeDef : Def
 	{
-		// Token: 0x04002C20 RID: 11296
 		public ThinkNode thinkRoot;
 
-		// Token: 0x04002C21 RID: 11297
 		[NoTranslate]
 		public string insertTag;
 
-		// Token: 0x04002C22 RID: 11298
 		public float insertPriority;
 
-		// Token: 0x060040E7 RID: 16615 RVA: 0x00224670 File Offset: 0x00222A70
+		public ThinkTreeDef()
+		{
+		}
+
 		public override void ResolveReferences()
 		{
 			this.thinkRoot.ResolveSubnodesAndRecur();
@@ -29,7 +32,6 @@ namespace Verse
 			this.ResolveParentNodes(this.thinkRoot);
 		}
 
-		// Token: 0x060040E8 RID: 16616 RVA: 0x00224700 File Offset: 0x00222B00
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -75,7 +77,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040E9 RID: 16617 RVA: 0x0022472C File Offset: 0x00222B2C
 		public bool TryGetThinkNodeWithSaveKey(int key, out ThinkNode outNode)
 		{
 			outNode = null;
@@ -104,7 +105,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060040EA RID: 16618 RVA: 0x002247D8 File Offset: 0x00222BD8
 		private void ResolveParentNodes(ThinkNode node)
 		{
 			for (int i = 0; i < node.subNodes.Count; i++)
@@ -127,6 +127,259 @@ namespace Verse
 					node.subNodes[i].parent = node;
 					this.ResolveParentNodes(node.subNodes[i]);
 				}
+			}
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal HashSet<int> <usedKeys>__0;
+
+			internal HashSet<ThinkNode> <instances>__0;
+
+			internal IEnumerator<ThinkNode> $locvar1;
+
+			internal ThinkNode <node>__2;
+
+			internal int <key>__3;
+
+			internal ThinkTreeDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+				case 3u:
+				case 4u:
+					goto IL_F5;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				usedKeys = new HashSet<int>();
+				instances = new HashSet<ThinkNode>();
+				enumerator2 = this.thinkRoot.ThisAndChildrenRecursive.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_F5:
+					switch (num)
+					{
+					case 2u:
+						break;
+					case 3u:
+						break;
+					case 4u:
+						break;
+					default:
+						goto IL_288;
+					}
+					IL_257:
+					if (key != -1)
+					{
+						usedKeys.Add(key);
+					}
+					instances.Add(node);
+					IL_288:
+					if (enumerator2.MoveNext())
+					{
+						node = enumerator2.Current;
+						key = node.UniqueSaveKey;
+						if (key == -1)
+						{
+							this.$current = string.Concat(new object[]
+							{
+								"Thinknode ",
+								node.GetType(),
+								" has invalid save key ",
+								key
+							});
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						if (instances.Contains(node))
+						{
+							this.$current = "There are two same ThinkNode instances in one think tree (their type is " + node.GetType() + ")";
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+						if (usedKeys.Contains(key))
+						{
+							this.$current = string.Concat(new object[]
+							{
+								"Two ThinkNodes have the same unique save key ",
+								key,
+								" (one of the nodes is ",
+								node.GetType(),
+								")"
+							});
+							if (!this.$disposing)
+							{
+								this.$PC = 4;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_257;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+				case 3u:
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThinkTreeDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ThinkTreeDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
 			}
 		}
 	}

@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000CC RID: 204
 	public class JobGiver_SpectateDutySpectateRect : ThinkNode_JobGiver
 	{
-		// Token: 0x060004A6 RID: 1190 RVA: 0x00034D8C File Offset: 0x0003318C
+		public JobGiver_SpectateDutySpectateRect()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			PawnDuty duty = pawn.mindState.duty;

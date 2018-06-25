@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000E2A RID: 3626
 	public static class DebugTools_MapGen
 	{
-		// Token: 0x0600551C RID: 21788 RVA: 0x002BB720 File Offset: 0x002B9B20
 		public static List<DebugMenuOption> Options_Scatterers()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -20,6 +19,22 @@ namespace Verse
 				}));
 			}
 			return list;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Options_Scatterers>c__AnonStorey0
+		{
+			internal Type localSt;
+
+			public <Options_Scatterers>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				GenStep_Scatterer genStep_Scatterer = (GenStep_Scatterer)Activator.CreateInstance(this.localSt);
+				genStep_Scatterer.ForceScatterAt(UI.MouseCell(), Find.CurrentMap);
+			}
 		}
 	}
 }

@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AA RID: 1962
 	public class Alert_HunterHasShieldAndRangedWeapon : Alert
 	{
-		// Token: 0x06002B61 RID: 11105 RVA: 0x0016EE05 File Offset: 0x0016D205
 		public Alert_HunterHasShieldAndRangedWeapon()
 		{
 			this.defaultLabel = "HunterHasShieldAndRangedWeapon".Translate();
 			this.defaultExplanation = "HunterHasShieldAndRangedWeaponDesc".Translate();
 		}
 
-		// Token: 0x170006BE RID: 1726
-		// (get) Token: 0x06002B62 RID: 11106 RVA: 0x0016EE30 File Offset: 0x0016D230
 		private IEnumerable<Pawn> BadHunters
 		{
 			get
@@ -31,10 +31,145 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B63 RID: 11107 RVA: 0x0016EE54 File Offset: 0x0016D254
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BadHunters);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <col>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_A7:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						col = enumerator.Current;
+						if (col.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && WorkGiver_HunterHunt.HasShieldAndRangedWeapon(col))
+						{
+							this.$current = col;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_A7;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Alert_HunterHasShieldAndRangedWeapon.<>c__Iterator0();
+			}
 		}
 	}
 }

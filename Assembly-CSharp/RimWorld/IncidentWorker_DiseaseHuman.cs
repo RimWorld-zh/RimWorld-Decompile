@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200032B RID: 811
 	public class IncidentWorker_DiseaseHuman : IncidentWorker_Disease
 	{
-		// Token: 0x06000DD9 RID: 3545 RVA: 0x00076620 File Offset: 0x00074A20
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		public IncidentWorker_DiseaseHuman()
+		{
+		}
+
 		protected override IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
 		{
 			Map map = target as Map;
@@ -28,7 +34,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DDA RID: 3546 RVA: 0x00076680 File Offset: 0x00074A80
 		protected override IEnumerable<Pawn> ActualVictims(IncidentParms parms)
 		{
 			int num = this.PotentialVictimCandidates(parms.target).Count<Pawn>();
@@ -36,6 +41,12 @@ namespace RimWorld
 			int num2 = intRange.RandomInRange;
 			num2 = Mathf.Clamp(num2, 1, this.def.diseaseMaxVictims);
 			return base.PotentialVictims(parms.target).InRandomOrder(null).Take(num2);
+		}
+
+		[CompilerGenerated]
+		private static bool <PotentialVictimCandidates>m__0(Pawn x)
+		{
+			return x.IsFreeColonist || x.IsPrisonerOfColony;
 		}
 	}
 }

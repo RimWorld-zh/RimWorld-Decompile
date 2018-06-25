@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using RimWorld.BaseGen;
 using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000410 RID: 1040
 	public class GenStep_PrisonerWillingToJoin : GenStep_Scatterer
 	{
-		// Token: 0x04000AE3 RID: 2787
 		private const int Size = 8;
 
-		// Token: 0x17000263 RID: 611
-		// (get) Token: 0x060011E1 RID: 4577 RVA: 0x0009B37C File Offset: 0x0009977C
+		[CompilerGenerated]
+		private static Action<Thing> <>f__am$cache0;
+
+		public GenStep_PrisonerWillingToJoin()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -21,7 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E2 RID: 4578 RVA: 0x0009B398 File Offset: 0x00099798
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -53,7 +56,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011E3 RID: 4579 RVA: 0x0009B450 File Offset: 0x00099850
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			Faction faction;
@@ -95,6 +97,13 @@ namespace RimWorld
 			BaseGen.symbolStack.Push("pawn", resolveParams2);
 			BaseGen.Generate();
 			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
+		}
+
+		[CompilerGenerated]
+		private static void <ScatterAt>m__0(Thing x)
+		{
+			MapGenerator.rootsToUnfog.Add(x.Position);
+			((Pawn)x).mindState.willJoinColonyIfRescued = true;
 		}
 	}
 }

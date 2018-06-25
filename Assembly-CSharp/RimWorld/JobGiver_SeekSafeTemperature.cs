@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000EF RID: 239
 	public class JobGiver_SeekSafeTemperature : ThinkNode_JobGiver
 	{
-		// Token: 0x06000514 RID: 1300 RVA: 0x0003855C File Offset: 0x0003695C
+		public JobGiver_SeekSafeTemperature()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -38,7 +41,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000515 RID: 1301 RVA: 0x00038600 File Offset: 0x00036A00
 		private static Region ClosestRegionWithinTemperatureRange(IntVec3 root, Map map, FloatRange tempRange, TraverseParms traverseParms, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			Region region = root.GetRegion(map, traversableRegionTypes);
@@ -73,6 +75,44 @@ namespace RimWorld
 				result = foundReg;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ClosestRegionWithinTemperatureRange>c__AnonStorey0
+		{
+			internal TraverseParms traverseParms;
+
+			internal FloatRange tempRange;
+
+			internal Region foundReg;
+
+			public <ClosestRegionWithinTemperatureRange>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return r.Allows(this.traverseParms, false);
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				bool result;
+				if (r.portal != null)
+				{
+					result = false;
+				}
+				else if (this.tempRange.Includes(r.Room.Temperature))
+				{
+					this.foundReg = r;
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
 		}
 	}
 }

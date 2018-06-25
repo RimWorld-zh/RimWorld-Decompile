@@ -4,16 +4,16 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000D3 RID: 211
 	public class JobGiver_Kidnap : ThinkNode_JobGiver
 	{
-		// Token: 0x040002A5 RID: 677
 		public const float VictimSearchRadiusInitial = 8f;
 
-		// Token: 0x040002A6 RID: 678
 		private const float VictimSearchRadiusOngoing = 18f;
 
-		// Token: 0x060004BA RID: 1210 RVA: 0x000353D0 File Offset: 0x000337D0
+		public JobGiver_Kidnap()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c;

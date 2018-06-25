@@ -5,14 +5,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000F9 RID: 249
 	public class JobGiver_GetJoyInBed : JobGiver_GetJoy
 	{
-		// Token: 0x040002D1 RID: 721
 		private const float MaxJoyLevel = 0.5f;
 
-		// Token: 0x170000CF RID: 207
-		// (get) Token: 0x0600053E RID: 1342 RVA: 0x00039934 File Offset: 0x00037D34
+		public JobGiver_GetJoyInBed()
+		{
+		}
+
 		protected override bool CanDoDuringMedicalRest
 		{
 			get
@@ -21,19 +21,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600053F RID: 1343 RVA: 0x0003994C File Offset: 0x00037D4C
 		protected override bool JoyGiverAllowed(JoyGiverDef def)
 		{
 			return def.canDoWhileInBed;
 		}
 
-		// Token: 0x06000540 RID: 1344 RVA: 0x00039968 File Offset: 0x00037D68
 		protected override Job TryGiveJobFromJoyGiverDefDirect(JoyGiverDef def, Pawn pawn)
 		{
 			return def.Worker.TryGiveJobWhileInBed(pawn);
 		}
 
-		// Token: 0x06000541 RID: 1345 RVA: 0x0003998C File Offset: 0x00037D8C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

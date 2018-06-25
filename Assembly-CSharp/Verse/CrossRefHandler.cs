@@ -3,19 +3,18 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000D97 RID: 3479
 	public class CrossRefHandler
 	{
-		// Token: 0x040033EA RID: 13290
 		private LoadedObjectDirectory loadedObjectDirectory = new LoadedObjectDirectory();
 
-		// Token: 0x040033EB RID: 13291
 		public LoadIDsWantedBank loadIDs = new LoadIDsWantedBank();
 
-		// Token: 0x040033EC RID: 13292
 		private List<IExposable> crossReferencingExposables = new List<IExposable>();
 
-		// Token: 0x06004DC2 RID: 19906 RVA: 0x00289E4C File Offset: 0x0028824C
+		public CrossRefHandler()
+		{
+		}
+
 		public void RegisterForCrossRefResolve(IExposable s)
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -38,7 +37,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DC3 RID: 19907 RVA: 0x00289EE8 File Offset: 0x002882E8
 		public void ResolveAllCrossReferences()
 		{
 			Scribe.mode = LoadSaveMode.ResolvingCrossRefs;
@@ -85,14 +83,12 @@ namespace Verse
 			this.Clear(true);
 		}
 
-		// Token: 0x06004DC4 RID: 19908 RVA: 0x0028A080 File Offset: 0x00288480
 		public T TakeResolvedRef<T>(string pathRelToParent, IExposable parent) where T : ILoadReferenceable
 		{
 			string loadID = this.loadIDs.Take<T>(pathRelToParent, parent);
 			return this.loadedObjectDirectory.ObjectWithLoadID<T>(loadID);
 		}
 
-		// Token: 0x06004DC5 RID: 19909 RVA: 0x0028A0B4 File Offset: 0x002884B4
 		public T TakeResolvedRef<T>(string toAppendToPathRelToParent) where T : ILoadReferenceable
 		{
 			string text = Scribe.loader.curPathRelToParent;
@@ -103,7 +99,6 @@ namespace Verse
 			return this.TakeResolvedRef<T>(text, Scribe.loader.curParent);
 		}
 
-		// Token: 0x06004DC6 RID: 19910 RVA: 0x0028A100 File Offset: 0x00288500
 		public List<T> TakeResolvedRefList<T>(string pathRelToParent, IExposable parent)
 		{
 			List<string> list = this.loadIDs.TakeList(pathRelToParent, parent);
@@ -118,7 +113,6 @@ namespace Verse
 			return list2;
 		}
 
-		// Token: 0x06004DC7 RID: 19911 RVA: 0x0028A164 File Offset: 0x00288564
 		public List<T> TakeResolvedRefList<T>(string toAppendToPathRelToParent)
 		{
 			string text = Scribe.loader.curPathRelToParent;
@@ -129,7 +123,6 @@ namespace Verse
 			return this.TakeResolvedRefList<T>(text, Scribe.loader.curParent);
 		}
 
-		// Token: 0x06004DC8 RID: 19912 RVA: 0x0028A1AF File Offset: 0x002885AF
 		public void Clear(bool errorIfNotEmpty)
 		{
 			if (errorIfNotEmpty)

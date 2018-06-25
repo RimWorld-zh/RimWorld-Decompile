@@ -5,23 +5,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000402 RID: 1026
 	public class GenStep_ScatterShrines : GenStep_ScatterRuinsSimple
 	{
-		// Token: 0x04000AB3 RID: 2739
 		private static readonly IntRange ShrinesCountX = new IntRange(1, 4);
 
-		// Token: 0x04000AB4 RID: 2740
 		private static readonly IntRange ShrinesCountZ = new IntRange(1, 4);
 
-		// Token: 0x04000AB5 RID: 2741
 		private static readonly IntRange ExtraHeightRange = new IntRange(0, 8);
 
-		// Token: 0x04000AB6 RID: 2742
 		private const int MarginCells = 1;
 
-		// Token: 0x1700025A RID: 602
-		// (get) Token: 0x0600119F RID: 4511 RVA: 0x00098BD4 File Offset: 0x00096FD4
+		public GenStep_ScatterShrines()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -30,7 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011A0 RID: 4512 RVA: 0x00098BF0 File Offset: 0x00096FF0
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -46,7 +42,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011A1 RID: 4513 RVA: 0x00098C44 File Offset: 0x00097044
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_ScatterShrines.ShrinesCountX.RandomInRange;
@@ -96,6 +91,11 @@ namespace RimWorld
 					GenSpawn.Spawn(rectTrigger, rect.CenterCell, map, WipeMode.Vanish);
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenStep_ScatterShrines()
+		{
 		}
 	}
 }

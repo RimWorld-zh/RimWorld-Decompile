@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000F4A RID: 3914
 	public static class GenMorphology
 	{
-		// Token: 0x04003E2C RID: 15916
 		private static HashSet<IntVec3> tmpOutput = new HashSet<IntVec3>();
 
-		// Token: 0x04003E2D RID: 15917
 		private static HashSet<IntVec3> cellsSet = new HashSet<IntVec3>();
 
-		// Token: 0x04003E2E RID: 15918
 		private static List<IntVec3> tmpEdgeCells = new List<IntVec3>();
 
-		// Token: 0x06005E9F RID: 24223 RVA: 0x00301ACC File Offset: 0x002FFECC
+		[CompilerGenerated]
+		private static Predicate<IntVec3> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<IntVec3> <>f__am$cache1;
+
 		public static void Erode(List<IntVec3> cells, int count, Map map, Predicate<IntVec3> extraPredicate = null)
 		{
 			if (count > 0)
@@ -67,7 +69,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EA0 RID: 24224 RVA: 0x00301C38 File Offset: 0x00300038
 		public static void Dilate(List<IntVec3> cells, int count, Map map, Predicate<IntVec3> extraPredicate = null)
 		{
 			if (count > 0)
@@ -102,18 +103,89 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EA1 RID: 24225 RVA: 0x00301CC2 File Offset: 0x003000C2
 		public static void Open(List<IntVec3> cells, int count, Map map)
 		{
 			GenMorphology.Erode(cells, count, map, null);
 			GenMorphology.Dilate(cells, count, map, null);
 		}
 
-		// Token: 0x06005EA2 RID: 24226 RVA: 0x00301CD7 File Offset: 0x003000D7
 		public static void Close(List<IntVec3> cells, int count, Map map)
 		{
 			GenMorphology.Dilate(cells, count, map, null);
 			GenMorphology.Erode(cells, count, map, null);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenMorphology()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Erode>m__0(IntVec3 x)
+		{
+			return GenMorphology.cellsSet.Contains(x);
+		}
+
+		[CompilerGenerated]
+		private static bool <Dilate>m__1(IntVec3 x)
+		{
+			return true;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Erode>c__AnonStorey0
+		{
+			internal Predicate<IntVec3> extraPredicate;
+
+			internal int count;
+
+			public <Erode>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return GenMorphology.cellsSet.Contains(x) && this.extraPredicate(x);
+			}
+
+			internal bool <>m__1(IntVec3 cell, int traversalDist)
+			{
+				if (traversalDist >= this.count)
+				{
+					GenMorphology.tmpOutput.Add(cell);
+				}
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Dilate>c__AnonStorey1
+		{
+			internal int count;
+
+			internal List<IntVec3> cells;
+
+			public <Dilate>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 cell, int traversalDist)
+			{
+				bool result;
+				if (traversalDist > this.count)
+				{
+					result = true;
+				}
+				else
+				{
+					if (traversalDist != 0)
+					{
+						this.cells.Add(cell);
+					}
+					result = false;
+				}
+				return result;
+			}
 		}
 	}
 }

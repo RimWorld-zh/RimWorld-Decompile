@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000896 RID: 2198
 	public class PawnColumnWorker_Outfit : PawnColumnWorker
 	{
-		// Token: 0x04001AE3 RID: 6883
 		private const int TopAreaHeight = 65;
 
-		// Token: 0x04001AE4 RID: 6884
 		private const int ManageOutfitsButtonHeight = 32;
 
-		// Token: 0x0600322C RID: 12844 RVA: 0x001B04D8 File Offset: 0x001AE8D8
+		[CompilerGenerated]
+		private static Func<Pawn, Outfit> <>f__am$cache0;
+
+		public PawnColumnWorker_Outfit()
+		{
+		}
+
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
@@ -27,7 +34,6 @@ namespace RimWorld
 			UIHighlighter.HighlightOpportunity(rect2, "ManageOutfits");
 		}
 
-		// Token: 0x0600322D RID: 12845 RVA: 0x001B0568 File Offset: 0x001AE968
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.outfits != null)
@@ -78,7 +84,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600322E RID: 12846 RVA: 0x001B07B8 File Offset: 0x001AEBB8
 		private IEnumerable<Widgets.DropdownMenuElement<Outfit>> Button_GenerateMenu(Pawn pawn)
 		{
 			using (List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator())
@@ -99,34 +104,216 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600322F RID: 12847 RVA: 0x001B07E4 File Offset: 0x001AEBE4
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), Mathf.CeilToInt(194f));
 		}
 
-		// Token: 0x06003230 RID: 12848 RVA: 0x001B0810 File Offset: 0x001AEC10
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(Mathf.CeilToInt(354f), this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
-		// Token: 0x06003231 RID: 12849 RVA: 0x001B0844 File Offset: 0x001AEC44
 		public override int GetMinHeaderHeight(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinHeaderHeight(table), 65);
 		}
 
-		// Token: 0x06003232 RID: 12850 RVA: 0x001B0868 File Offset: 0x001AEC68
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x06003233 RID: 12851 RVA: 0x001B0894 File Offset: 0x001AEC94
 		private int GetValueToCompare(Pawn pawn)
 		{
 			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : int.MinValue;
+		}
+
+		[CompilerGenerated]
+		private static Outfit <DoCell>m__0(Pawn p)
+		{
+			return p.outfits.CurrentOutfit;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoCell>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			public <DoCell>c__AnonStorey1()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				string text = "ForcedApparel".Translate() + ":\n";
+				foreach (Apparel apparel in this.pawn.outfits.forcedHandler.ForcedApparel)
+				{
+					text = text + "\n   " + apparel.LabelCap;
+				}
+				return text;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Button_GenerateMenu>c__Iterator0 : IEnumerable, IEnumerable<Widgets.DropdownMenuElement<Outfit>>, IEnumerator, IDisposable, IEnumerator<Widgets.DropdownMenuElement<Outfit>>
+		{
+			internal List<Outfit>.Enumerator $locvar0;
+
+			internal Pawn pawn;
+
+			internal Widgets.DropdownMenuElement<Outfit> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private PawnColumnWorker_Outfit.<Button_GenerateMenu>c__Iterator0.<Button_GenerateMenu>c__AnonStorey3 $locvar1;
+
+			private PawnColumnWorker_Outfit.<Button_GenerateMenu>c__Iterator0.<Button_GenerateMenu>c__AnonStorey2 $locvar2;
+
+			[DebuggerHidden]
+			public <Button_GenerateMenu>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						Outfit outfit = enumerator.Current;
+						this.$current = new Widgets.DropdownMenuElement<Outfit>
+						{
+							option = new FloatMenuOption(outfit.label, delegate()
+							{
+								<Button_GenerateMenu>c__AnonStorey.pawn.outfits.CurrentOutfit = outfit;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null),
+							payload = outfit
+						};
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Widgets.DropdownMenuElement<Outfit> IEnumerator<Widgets.DropdownMenuElement<Outfit>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Widgets.DropdownMenuElement<RimWorld.Outfit>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Widgets.DropdownMenuElement<Outfit>> IEnumerable<Widgets.DropdownMenuElement<Outfit>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnColumnWorker_Outfit.<Button_GenerateMenu>c__Iterator0 <Button_GenerateMenu>c__Iterator = new PawnColumnWorker_Outfit.<Button_GenerateMenu>c__Iterator0();
+				<Button_GenerateMenu>c__Iterator.pawn = pawn;
+				return <Button_GenerateMenu>c__Iterator;
+			}
+
+			private sealed class <Button_GenerateMenu>c__AnonStorey3
+			{
+				internal Pawn pawn;
+
+				public <Button_GenerateMenu>c__AnonStorey3()
+				{
+				}
+			}
+
+			private sealed class <Button_GenerateMenu>c__AnonStorey2
+			{
+				internal Outfit outfit;
+
+				internal PawnColumnWorker_Outfit.<Button_GenerateMenu>c__Iterator0.<Button_GenerateMenu>c__AnonStorey3 <>f__ref$3;
+
+				public <Button_GenerateMenu>c__AnonStorey2()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$3.pawn.outfits.CurrentOutfit = this.outfit;
+				}
+			}
 		}
 	}
 }

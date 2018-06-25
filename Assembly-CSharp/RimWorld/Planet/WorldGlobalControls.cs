@@ -5,19 +5,18 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EA RID: 2282
 	public class WorldGlobalControls
 	{
-		// Token: 0x04001C6D RID: 7277
 		public const float Width = 200f;
 
-		// Token: 0x04001C6E RID: 7278
 		private const int VisibilityControlsPerRow = 5;
 
-		// Token: 0x04001C6F RID: 7279
 		private WidgetRow rowVisibility = new WidgetRow();
 
-		// Token: 0x06003483 RID: 13443 RVA: 0x001C1720 File Offset: 0x001BFB20
+		public WorldGlobalControls()
+		{
+		}
+
 		public void WorldGlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)

@@ -1,36 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004E6 RID: 1254
 	public class Pawn_DraftController : IExposable
 	{
-		// Token: 0x04000D0C RID: 3340
 		public Pawn pawn;
 
-		// Token: 0x04000D0D RID: 3341
 		private bool draftedInt = false;
 
-		// Token: 0x04000D0E RID: 3342
 		private bool fireAtWillInt = true;
 
-		// Token: 0x04000D0F RID: 3343
 		private AutoUndrafter autoUndrafter;
 
-		// Token: 0x0600165C RID: 5724 RVA: 0x000C6A8F File Offset: 0x000C4E8F
 		public Pawn_DraftController(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.autoUndrafter = new AutoUndrafter(pawn);
 		}
 
-		// Token: 0x170002EA RID: 746
-		// (get) Token: 0x0600165D RID: 5725 RVA: 0x000C6ABC File Offset: 0x000C4EBC
-		// (set) Token: 0x0600165E RID: 5726 RVA: 0x000C6AD8 File Offset: 0x000C4ED8
 		public bool Drafted
 		{
 			get
@@ -74,9 +69,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002EB RID: 747
-		// (get) Token: 0x0600165F RID: 5727 RVA: 0x000C6C60 File Offset: 0x000C5060
-		// (set) Token: 0x06001660 RID: 5728 RVA: 0x000C6C7C File Offset: 0x000C507C
 		public bool FireAtWill
 		{
 			get
@@ -96,7 +88,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001661 RID: 5729 RVA: 0x000C6CC8 File Offset: 0x000C50C8
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.draftedInt, "drafted", false, false);
@@ -107,13 +98,11 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001662 RID: 5730 RVA: 0x000C6D19 File Offset: 0x000C5119
 		public void DraftControllerTick()
 		{
 			this.autoUndrafter.AutoUndraftTick();
 		}
 
-		// Token: 0x06001663 RID: 5731 RVA: 0x000C6D28 File Offset: 0x000C5128
 		internal IEnumerable<Gizmo> GetGizmos()
 		{
 			Command_Toggle draft = new Command_Toggle();
@@ -171,10 +160,183 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001664 RID: 5732 RVA: 0x000C6D52 File Offset: 0x000C5152
 		internal void Notify_PrimaryWeaponChanged()
 		{
 			this.fireAtWillInt = true;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Toggle <draft>__1;
+
+			internal Command_Toggle <toggleFireAtWill>__2;
+
+			internal Pawn_DraftController $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					draft = new Command_Toggle();
+					draft.hotKey = KeyBindingDefOf.Command_ColonistDraft;
+					draft.isActive = (() => base.Drafted);
+					draft.toggleAction = delegate()
+					{
+						base.Drafted = !base.Drafted;
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Drafting, KnowledgeAmount.SpecificInteraction);
+						if (base.Drafted)
+						{
+							LessonAutoActivator.TeachOpportunity(ConceptDefOf.QueueOrders, OpportunityType.GoodToKnow);
+						}
+					};
+					draft.defaultDesc = "CommandToggleDraftDesc".Translate();
+					draft.icon = TexCommand.Draft;
+					draft.turnOnSound = SoundDefOf.DraftOn;
+					draft.turnOffSound = SoundDefOf.DraftOff;
+					if (!base.Drafted)
+					{
+						draft.defaultLabel = "CommandDraftLabel".Translate();
+					}
+					if (this.pawn.Downed)
+					{
+						draft.Disable("IsIncapped".Translate(new object[]
+						{
+							this.pawn.LabelShort
+						}));
+					}
+					if (!base.Drafted)
+					{
+						draft.tutorTag = "Draft";
+					}
+					else
+					{
+						draft.tutorTag = "Undraft";
+					}
+					this.$current = draft;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					if (base.Drafted && this.pawn.equipment.Primary != null && this.pawn.equipment.Primary.def.IsRangedWeapon)
+					{
+						Command_Toggle toggleFireAtWill = new Command_Toggle();
+						toggleFireAtWill.hotKey = KeyBindingDefOf.Misc6;
+						toggleFireAtWill.isActive = (() => base.FireAtWill);
+						toggleFireAtWill.toggleAction = delegate()
+						{
+							base.FireAtWill = !base.FireAtWill;
+						};
+						toggleFireAtWill.icon = TexCommand.FireAtWill;
+						toggleFireAtWill.defaultLabel = "CommandFireAtWillLabel".Translate();
+						toggleFireAtWill.defaultDesc = "CommandFireAtWillDesc".Translate();
+						toggleFireAtWill.tutorTag = "FireAtWillToggle";
+						this.$current = toggleFireAtWill;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_DraftController.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Pawn_DraftController.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return base.Drafted;
+			}
+
+			internal void <>m__1()
+			{
+				base.Drafted = !base.Drafted;
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Drafting, KnowledgeAmount.SpecificInteraction);
+				if (base.Drafted)
+				{
+					LessonAutoActivator.TeachOpportunity(ConceptDefOf.QueueOrders, OpportunityType.GoodToKnow);
+				}
+			}
+
+			internal bool <>m__2()
+			{
+				return base.FireAtWill;
+			}
+
+			internal void <>m__3()
+			{
+				base.FireAtWill = !base.FireAtWill;
+			}
 		}
 	}
 }

@@ -2,10 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000B6D RID: 2925
 	public abstract class RoomRoleWorker
 	{
-		// Token: 0x06003FE4 RID: 16356
+		protected RoomRoleWorker()
+		{
+		}
+
 		public abstract float GetScore(Room room);
 	}
 }

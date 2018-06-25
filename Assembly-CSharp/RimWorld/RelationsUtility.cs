@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200052C RID: 1324
 	public static class RelationsUtility
 	{
-		// Token: 0x0600186A RID: 6250 RVA: 0x000D6974 File Offset: 0x000D4D74
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
 		public static bool PawnsKnowEachOther(Pawn p1, Pawn p2)
 		{
 			return (p1.Faction != null && p1.Faction == p2.Faction) || (p1.RaceProps.IsFlesh && p1.relations.DirectRelations.Find((DirectPawnRelation x) => x.otherPawn == p2) != null) || (p2.RaceProps.IsFlesh && p2.relations.DirectRelations.Find((DirectPawnRelation x) => x.otherPawn == p1) != null) || RelationsUtility.HasAnySocialMemoryWith(p1, p2) || RelationsUtility.HasAnySocialMemoryWith(p2, p1);
 		}
 
-		// Token: 0x0600186B RID: 6251 RVA: 0x000D6A90 File Offset: 0x000D4E90
 		public static bool IsDisfigured(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -31,7 +32,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600186C RID: 6252 RVA: 0x000D6B30 File Offset: 0x000D4F30
 		public static bool TryDevelopBondRelation(Pawn humanlike, Pawn animal, float baseChance)
 		{
 			bool result;
@@ -133,7 +133,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600186D RID: 6253 RVA: 0x000D6E30 File Offset: 0x000D5230
 		public static string LabelWithBondInfo(Pawn humanlike, Pawn animal)
 		{
 			string text = humanlike.LabelShort;
@@ -144,7 +143,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600186E RID: 6254 RVA: 0x000D6E7C File Offset: 0x000D527C
 		private static bool HasAnySocialMemoryWith(Pawn p, Pawn otherPawn)
 		{
 			bool result;
@@ -170,6 +168,34 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <TryDevelopBondRelation>m__0(Pawn x)
+		{
+			return x.Spawned;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnsKnowEachOther>c__AnonStorey0
+		{
+			internal Pawn p2;
+
+			internal Pawn p1;
+
+			public <PawnsKnowEachOther>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return x.otherPawn == this.p2;
+			}
+
+			internal bool <>m__1(DirectPawnRelation x)
+			{
+				return x.otherPawn == this.p1;
+			}
 		}
 	}
 }

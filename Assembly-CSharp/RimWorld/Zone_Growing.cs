@@ -1,32 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000456 RID: 1110
 	public class Zone_Growing : Zone, IPlantToGrowSettable
 	{
-		// Token: 0x04000BD5 RID: 3029
 		private ThingDef plantDefToGrow = ThingDefOf.Plant_Potato;
 
-		// Token: 0x04000BD6 RID: 3030
 		public bool allowSow = true;
 
-		// Token: 0x06001367 RID: 4967 RVA: 0x000A840E File Offset: 0x000A680E
 		public Zone_Growing()
 		{
 		}
 
-		// Token: 0x06001368 RID: 4968 RVA: 0x000A8429 File Offset: 0x000A6829
 		public Zone_Growing(ZoneManager zoneManager) : base("GrowingZone".Translate(), zoneManager)
 		{
 		}
 
-		// Token: 0x170002A8 RID: 680
-		// (get) Token: 0x06001369 RID: 4969 RVA: 0x000A8450 File Offset: 0x000A6850
 		public override bool IsMultiselectable
 		{
 			get
@@ -35,8 +32,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002A9 RID: 681
-		// (get) Token: 0x0600136A RID: 4970 RVA: 0x000A8468 File Offset: 0x000A6868
 		protected override Color NextZoneColor
 		{
 			get
@@ -45,8 +40,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002A7 RID: 679
-		// (get) Token: 0x0600136B RID: 4971 RVA: 0x000A8484 File Offset: 0x000A6884
 		IEnumerable<IntVec3> IPlantToGrowSettable.Cells
 		{
 			get
@@ -55,7 +48,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600136C RID: 4972 RVA: 0x000A849F File Offset: 0x000A689F
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -63,7 +55,6 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.allowSow, "allowSow", true, false);
 		}
 
-		// Token: 0x0600136D RID: 4973 RVA: 0x000A84CC File Offset: 0x000A68CC
 		public override string GetInspectString()
 		{
 			string text = "";
@@ -94,7 +85,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600136E RID: 4974 RVA: 0x000A8594 File Offset: 0x000A6994
 		public static string GrowingQuadrumsDescription(int tile)
 		{
 			List<Twelfth> list = GenTemperature.TwelfthsInAverageTemperatureRange(tile, 10f, 42f);
@@ -117,7 +107,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600136F RID: 4975 RVA: 0x000A8638 File Offset: 0x000A6A38
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -140,29 +129,285 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001370 RID: 4976 RVA: 0x000A8664 File Offset: 0x000A6A64
 		public override IEnumerable<Gizmo> GetZoneAddGizmos()
 		{
 			yield return DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing_Expand>();
 			yield break;
 		}
 
-		// Token: 0x06001371 RID: 4977 RVA: 0x000A8688 File Offset: 0x000A6A88
 		public ThingDef GetPlantDefToGrow()
 		{
 			return this.plantDefToGrow;
 		}
 
-		// Token: 0x06001372 RID: 4978 RVA: 0x000A86A3 File Offset: 0x000A6AA3
 		public void SetPlantDefToGrow(ThingDef plantDef)
 		{
 			this.plantDefToGrow = plantDef;
 		}
 
-		// Token: 0x06001373 RID: 4979 RVA: 0x000A86B0 File Offset: 0x000A6AB0
 		public bool CanAcceptSowNow()
 		{
 			return true;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Toggle <com>__2;
+
+			internal Zone_Growing $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+				{
+					Command_Toggle com = new Command_Toggle();
+					com.defaultLabel = "CommandAllowSow".Translate();
+					com.defaultDesc = "CommandAllowSowDesc".Translate();
+					com.hotKey = KeyBindingDefOf.Command_ItemForbid;
+					com.icon = TexCommand.Forbidden;
+					com.isActive = (() => this.allowSow);
+					com.toggleAction = delegate()
+					{
+						this.allowSow = !this.allowSow;
+					};
+					this.$current = com;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$current = PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Zone_Growing.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Zone_Growing.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return this.allowSow;
+			}
+
+			internal void <>m__1()
+			{
+				this.allowSow = !this.allowSow;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetZoneAddGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetZoneAddGizmos>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing_Expand>();
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Zone_Growing.<GetZoneAddGizmos>c__Iterator1();
+			}
 		}
 	}
 }

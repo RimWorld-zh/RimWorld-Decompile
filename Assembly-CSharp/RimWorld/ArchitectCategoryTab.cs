@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000845 RID: 2117
 	public class ArchitectCategoryTab
 	{
-		// Token: 0x040019F0 RID: 6640
 		public DesignationCategoryDef def;
 
-		// Token: 0x040019F1 RID: 6641
 		public const float InfoRectHeight = 270f;
 
-		// Token: 0x06002FE9 RID: 12265 RVA: 0x001A1211 File Offset: 0x0019F611
 		public ArchitectCategoryTab(DesignationCategoryDef def)
 		{
 			this.def = def;
 		}
 
-		// Token: 0x17000798 RID: 1944
-		// (get) Token: 0x06002FEA RID: 12266 RVA: 0x001A1224 File Offset: 0x0019F624
 		public static Rect InfoRect
 		{
 			get
@@ -30,7 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FEB RID: 12267 RVA: 0x001A1274 File Offset: 0x0019F674
 		public void DesignationTabOnGUI()
 		{
 			if (Find.DesignatorManager.SelectedDesignator != null)
@@ -47,7 +41,6 @@ namespace RimWorld
 			this.DoInfoBox(ArchitectCategoryTab.InfoRect, (Designator)selectedDesignator);
 		}
 
-		// Token: 0x06002FEC RID: 12268 RVA: 0x001A1318 File Offset: 0x0019F718
 		protected void DoInfoBox(Rect infoRect, Designator designator)
 		{
 			Find.WindowStack.ImmediateWindow(32520, infoRect, WindowLayer.GameUI, delegate
@@ -68,6 +61,37 @@ namespace RimWorld
 					GUI.EndGroup();
 				}
 			}, true, false, 1f);
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoInfoBox>c__AnonStorey0
+		{
+			internal Designator designator;
+
+			internal Rect infoRect;
+
+			public <DoInfoBox>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (this.designator != null)
+				{
+					Rect position = this.infoRect.AtZero().ContractedBy(7f);
+					GUI.BeginGroup(position);
+					Rect rect = new Rect(0f, 0f, position.width - this.designator.PanelReadoutTitleExtraRightMargin, 999f);
+					Text.Font = GameFont.Small;
+					Widgets.Label(rect, this.designator.LabelCap);
+					float num = Mathf.Max(24f, Text.CalcHeight(this.designator.LabelCap, rect.width));
+					this.designator.DrawPanelReadout(ref num, position.width);
+					Rect rect2 = new Rect(0f, num, position.width, position.height - num);
+					string desc = this.designator.Desc;
+					GenText.SetTextSizeToFit(desc, rect2);
+					Widgets.Label(rect2, desc);
+					GUI.EndGroup();
+				}
+			}
 		}
 	}
 }

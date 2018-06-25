@@ -5,19 +5,15 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E5B RID: 3675
 	public class FloatMenuWorld : FloatMenu
 	{
-		// Token: 0x04003969 RID: 14697
 		private Vector2 clickPos;
 
-		// Token: 0x060056A2 RID: 22178 RVA: 0x002CAD27 File Offset: 0x002C9127
 		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos) : base(options, title, false)
 		{
 			this.clickPos = clickPos;
 		}
 
-		// Token: 0x060056A3 RID: 22179 RVA: 0x002CAD3C File Offset: 0x002C913C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Caravan caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
@@ -39,7 +35,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A4 RID: 22180 RVA: 0x002CADE4 File Offset: 0x002C91E4
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
 		{
 			if (opt.revalidateWorldClickTarget == null)
@@ -72,7 +67,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060056A5 RID: 22181 RVA: 0x002CAEC8 File Offset: 0x002C92C8
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
 			return a.Label == b.Label;

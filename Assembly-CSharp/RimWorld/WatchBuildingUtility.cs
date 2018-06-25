@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000F7 RID: 247
 	public static class WatchBuildingUtility
 	{
-		// Token: 0x040002CF RID: 719
 		private static List<int> allowedDirections = new List<int>();
 
-		// Token: 0x0600052F RID: 1327 RVA: 0x00039000 File Offset: 0x00037400
 		public static IEnumerable<IntVec3> CalculateWatchCells(ThingDef def, IntVec3 center, Rot4 rot, Map map)
 		{
 			List<int> allowedDirections = WatchBuildingUtility.CalculateAllowedDirections(def, rot);
@@ -29,7 +30,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000530 RID: 1328 RVA: 0x00039040 File Offset: 0x00037440
 		public static bool TryFindBestWatchCell(Thing toWatch, Pawn pawn, bool desireSit, out IntVec3 result, out Building chair)
 		{
 			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
@@ -92,7 +92,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000531 RID: 1329 RVA: 0x00039244 File Offset: 0x00037644
 		public static bool CanWatchFromBed(Pawn pawn, Building_Bed bed, Thing toWatch)
 		{
 			bool result;
@@ -136,7 +135,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000532 RID: 1330 RVA: 0x000393D4 File Offset: 0x000377D4
 		private static CellRect GetWatchCellRect(ThingDef def, IntVec3 center, Rot4 rot, int watchRot)
 		{
 			Rot4 a = new Rot4(watchRot);
@@ -186,13 +184,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000533 RID: 1331 RVA: 0x000395D8 File Offset: 0x000379D8
 		private static bool EverPossibleToWatchFrom(IntVec3 watchCell, IntVec3 buildingCenter, Map map, bool bedAllowed)
 		{
 			return (watchCell.Standable(map) || (bedAllowed && watchCell.GetEdifice(map) is Building_Bed)) && GenSight.LineOfSight(buildingCenter, watchCell, map, true, null, 0, 0);
 		}
 
-		// Token: 0x06000534 RID: 1332 RVA: 0x00039620 File Offset: 0x00037A20
 		private static List<int> CalculateAllowedDirections(ThingDef toWatchDef, Rot4 toWatchRot)
 		{
 			WatchBuildingUtility.allowedDirections.Clear();
@@ -208,6 +204,172 @@ namespace RimWorld
 				WatchBuildingUtility.allowedDirections.Add(3);
 			}
 			return WatchBuildingUtility.allowedDirections;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WatchBuildingUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateWatchCells>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal ThingDef def;
+
+			internal Rot4 rot;
+
+			internal List<int> <allowedDirections>__0;
+
+			internal int <i>__1;
+
+			internal IntVec3 center;
+
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__2;
+
+			internal Map map;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CalculateWatchCells>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					allowedDirections = WatchBuildingUtility.CalculateAllowedDirections(def, rot);
+					i = 0;
+					break;
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						case 1u:
+							IL_E4:
+							break;
+						}
+						if (enumerator.MoveNext())
+						{
+							c = enumerator.Current;
+							if (WatchBuildingUtility.EverPossibleToWatchFrom(c, center, map, true))
+							{
+								this.$current = c;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_E4;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < allowedDirections.Count)
+				{
+					enumerator = WatchBuildingUtility.GetWatchCellRect(def, center, rot, allowedDirections[i]).GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WatchBuildingUtility.<CalculateWatchCells>c__Iterator0 <CalculateWatchCells>c__Iterator = new WatchBuildingUtility.<CalculateWatchCells>c__Iterator0();
+				<CalculateWatchCells>c__Iterator.def = def;
+				<CalculateWatchCells>c__Iterator.rot = rot;
+				<CalculateWatchCells>c__Iterator.center = center;
+				<CalculateWatchCells>c__Iterator.map = map;
+				return <CalculateWatchCells>c__Iterator;
+			}
 		}
 	}
 }

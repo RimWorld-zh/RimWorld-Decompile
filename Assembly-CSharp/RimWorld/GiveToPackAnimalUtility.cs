@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 using Verse.AI;
@@ -8,10 +9,14 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000039 RID: 57
 	public static class GiveToPackAnimalUtility
 	{
-		// Token: 0x060001EC RID: 492 RVA: 0x00014ED0 File Offset: 0x000132D0
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
 		public static IEnumerable<Pawn> CarrierCandidatesFor(Pawn pawn)
 		{
 			IEnumerable<Pawn> enumerable = (!pawn.IsFormingCaravan()) ? pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction) : pawn.GetLord().ownedPawns;
@@ -27,7 +32,6 @@ namespace RimWorld
 			return enumerable;
 		}
 
-		// Token: 0x060001ED RID: 493 RVA: 0x00014F70 File Offset: 0x00013370
 		public static Pawn UsablePackAnimalWithTheMostFreeSpace(Pawn pawn)
 		{
 			IEnumerable<Pawn> enumerable = GiveToPackAnimalUtility.CarrierCandidatesFor(pawn);
@@ -46,6 +50,18 @@ namespace RimWorld
 				}
 			}
 			return pawn2;
+		}
+
+		[CompilerGenerated]
+		private static bool <CarrierCandidatesFor>m__0(Pawn x)
+		{
+			return x.RaceProps.packAnimal && !x.inventory.UnloadEverything;
+		}
+
+		[CompilerGenerated]
+		private static bool <CarrierCandidatesFor>m__1(Pawn x)
+		{
+			return x.IsFormingCaravan();
 		}
 	}
 }

@@ -1,26 +1,33 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000483 RID: 1155
 	public class NameBank
 	{
-		// Token: 0x04000C35 RID: 3125
 		public PawnNameCategory nameType;
 
-		// Token: 0x04000C36 RID: 3126
 		private List<string>[,] names;
 
-		// Token: 0x04000C37 RID: 3127
 		private static readonly int numGenders = Enum.GetValues(typeof(Gender)).Length;
 
-		// Token: 0x04000C38 RID: 3128
 		private static readonly int numSlots = Enum.GetValues(typeof(PawnNameSlot)).Length;
 
-		// Token: 0x06001465 RID: 5221 RVA: 0x000B2DF0 File Offset: 0x000B11F0
+		[CompilerGenerated]
+		private static Func<string, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<IGrouping<string, string>, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<IGrouping<string, string>, string> <>f__am$cache2;
+
 		public NameBank(PawnNameCategory ID)
 		{
 			this.nameType = ID;
@@ -34,8 +41,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002BF RID: 703
-		// (get) Token: 0x06001466 RID: 5222 RVA: 0x000B2E64 File Offset: 0x000B1264
 		private IEnumerable<List<string>> AllNameLists
 		{
 			get
@@ -51,7 +56,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001467 RID: 5223 RVA: 0x000B2E90 File Offset: 0x000B1290
 		public void ErrorCheck()
 		{
 			foreach (List<string> list in this.AllNameLists)
@@ -74,13 +78,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001468 RID: 5224 RVA: 0x000B303C File Offset: 0x000B143C
 		private List<string> NamesFor(PawnNameSlot slot, Gender gender)
 		{
 			return this.names[(int)gender, (int)slot];
 		}
 
-		// Token: 0x06001469 RID: 5225 RVA: 0x000B3060 File Offset: 0x000B1460
 		public void AddNames(PawnNameSlot slot, Gender gender, IEnumerable<string> namesToAdd)
 		{
 			foreach (string item in namesToAdd)
@@ -89,13 +91,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600146A RID: 5226 RVA: 0x000B30C0 File Offset: 0x000B14C0
 		public void AddNamesFromFile(PawnNameSlot slot, Gender gender, string fileName)
 		{
 			this.AddNames(slot, gender, GenFile.LinesFromFile("Names/" + fileName));
 		}
 
-		// Token: 0x0600146B RID: 5227 RVA: 0x000B30DC File Offset: 0x000B14DC
 		public string GetName(PawnNameSlot slot, Gender gender = Gender.None, bool checkIfAlreadyUsed = true)
 		{
 			List<string> list = this.NamesFor(slot, gender);
@@ -134,6 +134,135 @@ namespace RimWorld
 				result = text;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static NameBank()
+		{
+		}
+
+		[CompilerGenerated]
+		private static string <ErrorCheck>m__0(string x)
+		{
+			return x;
+		}
+
+		[CompilerGenerated]
+		private static bool <ErrorCheck>m__1(IGrouping<string, string> g)
+		{
+			return g.Count<string>() > 1;
+		}
+
+		[CompilerGenerated]
+		private static string <ErrorCheck>m__2(IGrouping<string, string> g)
+		{
+			return g.Key;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<List<string>>, IEnumerator, IDisposable, IEnumerator<List<string>>
+		{
+			internal int <i>__1;
+
+			internal int <j>__2;
+
+			internal NameBank $this;
+
+			internal List<string> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_A0;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_81:
+				if (j < NameBank.numSlots)
+				{
+					this.$current = this.names[i, j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_A0:
+				if (i < NameBank.numGenders)
+				{
+					j = 0;
+					goto IL_81;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			List<string> IEnumerator<List<string>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.Collections.Generic.List<string>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<List<string>> IEnumerable<List<string>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				NameBank.<>c__Iterator0 <>c__Iterator = new NameBank.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

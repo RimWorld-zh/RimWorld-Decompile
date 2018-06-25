@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200056D RID: 1389
 	public abstract class FeatureWorker_FloodFill : FeatureWorker
 	{
-		// Token: 0x04000F5A RID: 3930
 		private List<int> roots = new List<int>();
 
-		// Token: 0x04000F5B RID: 3931
 		private HashSet<int> rootsSet = new HashSet<int>();
 
-		// Token: 0x04000F5C RID: 3932
 		private List<int> possiblyAllowed = new List<int>();
 
-		// Token: 0x04000F5D RID: 3933
 		private HashSet<int> possiblyAllowedSet = new HashSet<int>();
 
-		// Token: 0x04000F5E RID: 3934
 		private List<int> currentGroup = new List<int>();
 
-		// Token: 0x04000F5F RID: 3935
 		private List<int> currentGroupMembers = new List<int>();
 
-		// Token: 0x04000F60 RID: 3936
 		private static List<int> tmpGroup = new List<int>();
 
-		// Token: 0x170003B6 RID: 950
-		// (get) Token: 0x06001A45 RID: 6725 RVA: 0x000E3C90 File Offset: 0x000E2090
+		[CompilerGenerated]
+		private static Action<int> <>f__am$cache0;
+
+		protected FeatureWorker_FloodFill()
+		{
+		}
+
 		protected virtual int MinSize
 		{
 			get
@@ -39,8 +37,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B7 RID: 951
-		// (get) Token: 0x06001A46 RID: 6726 RVA: 0x000E3CB0 File Offset: 0x000E20B0
 		protected virtual int MaxSize
 		{
 			get
@@ -49,8 +45,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B8 RID: 952
-		// (get) Token: 0x06001A47 RID: 6727 RVA: 0x000E3CD0 File Offset: 0x000E20D0
 		protected virtual int MaxPossiblyAllowedSizeToTake
 		{
 			get
@@ -59,8 +53,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B9 RID: 953
-		// (get) Token: 0x06001A48 RID: 6728 RVA: 0x000E3CF0 File Offset: 0x000E20F0
 		protected virtual float MaxPossiblyAllowedSizePctOfMeToTake
 		{
 			get
@@ -69,29 +61,24 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A49 RID: 6729
 		protected abstract bool IsRoot(int tile);
 
-		// Token: 0x06001A4A RID: 6730 RVA: 0x000E3D10 File Offset: 0x000E2110
 		protected virtual bool IsPossiblyAllowed(int tile)
 		{
 			return false;
 		}
 
-		// Token: 0x06001A4B RID: 6731 RVA: 0x000E3D28 File Offset: 0x000E2128
 		protected virtual bool IsMember(int tile)
 		{
 			return Find.WorldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A4C RID: 6732 RVA: 0x000E3D50 File Offset: 0x000E2150
 		public override void GenerateWhereAppropriate()
 		{
 			this.CalculateRootsAndPossiblyAllowedTiles();
 			this.CalculateContiguousGroups();
 		}
 
-		// Token: 0x06001A4D RID: 6733 RVA: 0x000E3D60 File Offset: 0x000E2160
 		private void CalculateRootsAndPossiblyAllowedTiles()
 		{
 			this.roots.Clear();
@@ -114,7 +101,6 @@ namespace RimWorld.Planet
 			this.possiblyAllowedSet.AddRange(this.possiblyAllowed);
 		}
 
-		// Token: 0x06001A4E RID: 6734 RVA: 0x000E3E0C File Offset: 0x000E220C
 		private void CalculateContiguousGroups()
 		{
 			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
@@ -204,6 +190,112 @@ namespace RimWorld.Planet
 						}
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FeatureWorker_FloodFill()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <CalculateContiguousGroups>m__0(int x)
+		{
+			FeatureWorker.visited[x] = true;
+			FeatureWorker_FloodFill.tmpGroup.Add(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateContiguousGroups>c__AnonStorey1
+		{
+			internal int minSize;
+
+			internal int maxPossiblyAllowedSizeToTake;
+
+			internal float maxPossiblyAllowedSizePctOfMeToTake;
+
+			internal int maxSize;
+
+			internal WorldGrid worldGrid;
+
+			internal FeatureWorker_FloodFill $this;
+
+			public <CalculateContiguousGroups>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return this.$this.possiblyAllowedSet.Contains(x) && !this.$this.rootsSet.Contains(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateContiguousGroups>c__AnonStorey0
+		{
+			internal int initialMembersCountClamped;
+
+			internal int initialRootsCount;
+
+			internal int traversedRootsCount;
+
+			internal FeatureWorker_FloodFill.<CalculateContiguousGroups>c__AnonStorey1 <>f__ref$1;
+
+			public <CalculateContiguousGroups>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return (this.<>f__ref$1.$this.rootsSet.Contains(x) || this.<>f__ref$1.$this.possiblyAllowedSet.Contains(x)) && this.<>f__ref$1.$this.IsMember(x);
+			}
+
+			internal bool <>m__1(int x)
+			{
+				FeatureWorker.visited[x] = true;
+				this.initialMembersCountClamped++;
+				return this.initialMembersCountClamped >= this.<>f__ref$1.minSize;
+			}
+
+			internal bool <>m__2(int x)
+			{
+				return this.<>f__ref$1.$this.rootsSet.Contains(x);
+			}
+
+			internal void <>m__3(int x)
+			{
+				FeatureWorker.visited[x] = true;
+				this.initialRootsCount++;
+			}
+
+			internal bool <>m__4(int x)
+			{
+				return this.<>f__ref$1.$this.rootsSet.Contains(x) || (this.<>f__ref$1.$this.possiblyAllowedSet.Contains(x) && FeatureWorker.groupSize[x] <= this.<>f__ref$1.maxPossiblyAllowedSizeToTake && (float)FeatureWorker.groupSize[x] <= this.<>f__ref$1.maxPossiblyAllowedSizePctOfMeToTake * (float)Mathf.Max(this.traversedRootsCount, this.initialRootsCount) && FeatureWorker.groupSize[x] < this.<>f__ref$1.maxSize);
+			}
+
+			internal void <>m__5(int x)
+			{
+				FeatureWorker.visited[x] = true;
+				if (this.<>f__ref$1.$this.rootsSet.Contains(x))
+				{
+					this.traversedRootsCount++;
+				}
+				this.<>f__ref$1.$this.currentGroup.Add(x);
+			}
+
+			internal bool <>m__6(int x)
+			{
+				return this.<>f__ref$1.worldGrid.IsOnEdge(x);
+			}
+
+			internal bool <>m__7(int x)
+			{
+				return this.<>f__ref$1.worldGrid[x].feature == null;
+			}
+
+			internal bool <>m__8(int x)
+			{
+				return this.<>f__ref$1.worldGrid[x].feature != null;
 			}
 		}
 	}

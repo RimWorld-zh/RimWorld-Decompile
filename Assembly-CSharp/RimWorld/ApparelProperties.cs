@@ -1,56 +1,67 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200023C RID: 572
 	public class ApparelProperties
 	{
-		// Token: 0x040003F6 RID: 1014
 		public List<BodyPartGroupDef> bodyPartGroups = new List<BodyPartGroupDef>();
 
-		// Token: 0x040003F7 RID: 1015
 		public List<ApparelLayerDef> layers = new List<ApparelLayerDef>();
 
-		// Token: 0x040003F8 RID: 1016
 		[NoTranslate]
 		public string wornGraphicPath = "";
 
-		// Token: 0x040003F9 RID: 1017
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
-		// Token: 0x040003FA RID: 1018
 		[NoTranslate]
 		public List<string> defaultOutfitTags = null;
 
-		// Token: 0x040003FB RID: 1019
 		public float wearPerDay = 0.4f;
 
-		// Token: 0x040003FC RID: 1020
 		public bool careIfWornByCorpse = true;
 
-		// Token: 0x040003FD RID: 1021
 		public bool hatRenderedFrontOfFace = false;
 
-		// Token: 0x040003FE RID: 1022
 		public bool useDeflectMetalEffect;
 
-		// Token: 0x040003FF RID: 1023
 		[Unsaved]
 		private float cachedHumanBodyCoverage = -1f;
 
-		// Token: 0x04000400 RID: 1024
 		[Unsaved]
 		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
 
-		// Token: 0x04000401 RID: 1025
 		private static BodyPartGroupDef[] apparelRelevantGroups;
 
-		// Token: 0x1700017D RID: 381
-		// (get) Token: 0x06000A4B RID: 2635 RVA: 0x0005D70C File Offset: 0x0005BB0C
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, IEnumerable<BodyPartGroupDef>> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ApparelLayerDef, string> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, IEnumerable<BodyPartGroupDef>> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<BodyPartGroupDef, bool> <>f__am$cache5;
+
+		public ApparelProperties()
+		{
+		}
+
 		public ApparelLayerDef LastLayer
 		{
 			get
@@ -69,8 +80,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700017E RID: 382
-		// (get) Token: 0x06000A4C RID: 2636 RVA: 0x0005D768 File Offset: 0x0005BB68
 		public float HumanBodyCoverage
 		{
 			get
@@ -91,7 +100,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A4D RID: 2637 RVA: 0x0005D7F0 File Offset: 0x0005BBF0
 		public static void ResetStaticData()
 		{
 			ApparelProperties.apparelRelevantGroups = (from td in DefDatabase<ThingDef>.AllDefs
@@ -99,7 +107,6 @@ namespace RimWorld
 			select td).SelectMany((ThingDef td) => td.apparel.bodyPartGroups).Distinct<BodyPartGroupDef>().ToArray<BodyPartGroupDef>();
 		}
 
-		// Token: 0x06000A4E RID: 2638 RVA: 0x0005D858 File Offset: 0x0005BC58
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			if (this.layers.NullOrEmpty<ApparelLayerDef>())
@@ -109,7 +116,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A4F RID: 2639 RVA: 0x0005D88C File Offset: 0x0005BC8C
 		public bool CoversBodyPart(BodyPartRecord partRec)
 		{
 			for (int i = 0; i < partRec.groups.Count; i++)
@@ -122,7 +128,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000A50 RID: 2640 RVA: 0x0005D8E4 File Offset: 0x0005BCE4
 		public string GetCoveredOuterPartsString(BodyDef body)
 		{
 			IEnumerable<BodyPartRecord> source = from x in body.AllParts
@@ -132,14 +137,12 @@ namespace RimWorld
 			select part.Label).ToCommaList(true).CapitalizeFirst();
 		}
 
-		// Token: 0x06000A51 RID: 2641 RVA: 0x0005D944 File Offset: 0x0005BD44
 		public string GetLayersString()
 		{
 			return (from layer in this.layers
 			select layer.label).ToCommaList(true).CapitalizeFirst();
 		}
 
-		// Token: 0x06000A52 RID: 2642 RVA: 0x0005D98C File Offset: 0x0005BD8C
 		public BodyPartGroupDef[] GetInterferingBodyPartGroups(BodyDef body)
 		{
 			if (this.interferingBodyPartGroups == null || this.interferingBodyPartGroups.Length != DefDatabase<BodyDef>.DefCount)
@@ -157,6 +160,161 @@ namespace RimWorld
 				this.interferingBodyPartGroups[(int)body.index] = array;
 			}
 			return this.interferingBodyPartGroups[(int)body.index];
+		}
+
+		[CompilerGenerated]
+		private static bool <ResetStaticData>m__0(ThingDef td)
+		{
+			return td.IsApparel;
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<BodyPartGroupDef> <ResetStaticData>m__1(ThingDef td)
+		{
+			return td.apparel.bodyPartGroups;
+		}
+
+		[CompilerGenerated]
+		private bool <GetCoveredOuterPartsString>m__2(BodyPartRecord x)
+		{
+			return x.depth == BodyPartDepth.Outside && x.groups.Any((BodyPartGroupDef y) => this.bodyPartGroups.Contains(y));
+		}
+
+		[CompilerGenerated]
+		private static string <GetCoveredOuterPartsString>m__3(BodyPartRecord part)
+		{
+			return part.Label;
+		}
+
+		[CompilerGenerated]
+		private static string <GetLayersString>m__4(ApparelLayerDef layer)
+		{
+			return layer.label;
+		}
+
+		[CompilerGenerated]
+		private bool <GetInterferingBodyPartGroups>m__5(BodyPartRecord part)
+		{
+			return part.groups.Any((BodyPartGroupDef group) => this.bodyPartGroups.Contains(group));
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<BodyPartGroupDef> <GetInterferingBodyPartGroups>m__6(BodyPartRecord bpr)
+		{
+			return bpr.groups;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetInterferingBodyPartGroups>m__7(BodyPartGroupDef bpgd)
+		{
+			return ApparelProperties.apparelRelevantGroups.Contains(bpgd);
+		}
+
+		[CompilerGenerated]
+		private bool <GetCoveredOuterPartsString>m__8(BodyPartGroupDef y)
+		{
+			return this.bodyPartGroups.Contains(y);
+		}
+
+		[CompilerGenerated]
+		private bool <GetInterferingBodyPartGroups>m__9(BodyPartGroupDef group)
+		{
+			return this.bodyPartGroups.Contains(group);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef parentDef;
+
+			internal ApparelProperties $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.layers.NullOrEmpty<ApparelLayerDef>())
+					{
+						this.$current = parentDef.defName + " apparel has no layers.";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ApparelProperties.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ApparelProperties.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.parentDef = parentDef;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

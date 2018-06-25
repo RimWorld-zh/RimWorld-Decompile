@@ -5,16 +5,12 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005EE RID: 1518
 	public static class CaravanTweenerUtility
 	{
-		// Token: 0x040011D7 RID: 4567
 		private const float BaseRadius = 0.15f;
 
-		// Token: 0x040011D8 RID: 4568
 		private const float BaseDistToCollide = 0.2f;
 
-		// Token: 0x06001E28 RID: 7720 RVA: 0x00103CC4 File Offset: 0x001020C4
 		public static Vector3 PatherTweenedPosRoot(Caravan caravan)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -52,7 +48,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E29 RID: 7721 RVA: 0x00103DC8 File Offset: 0x001021C8
 		public static Vector3 CaravanCollisionPosOffsetFor(Caravan caravan)
 		{
 			Vector3 result;
@@ -104,7 +99,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E2A RID: 7722 RVA: 0x00103F0C File Offset: 0x0010230C
 		private static void GetCaravansStandingAtOrAboutToStandAt(int tile, out int caravansCount, out int caravansWithLowerIdCount, Caravan forCaravan)
 		{
 			caravansCount = 0;
@@ -138,7 +132,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E2B RID: 7723 RVA: 0x00103FD4 File Offset: 0x001023D4
 		private static bool DrawPosCollides(Caravan caravan)
 		{
 			Vector3 a = CaravanTweenerUtility.PatherTweenedPosRoot(caravan);

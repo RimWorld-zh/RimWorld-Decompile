@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000FC RID: 252
 	public class JoyGiver_BuildSnowman : JoyGiver
 	{
-		// Token: 0x040002D5 RID: 725
 		private const float MinSnowmanDepth = 0.5f;
 
-		// Token: 0x040002D6 RID: 726
 		private const float MinDistBetweenSnowmen = 12f;
 
-		// Token: 0x0600054D RID: 1357 RVA: 0x00039A94 File Offset: 0x00037E94
+		[CompilerGenerated]
+		private static Predicate<Region> <>f__am$cache0;
+
+		public JoyGiver_BuildSnowman()
+		{
+		}
+
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -45,7 +49,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600054E RID: 1358 RVA: 0x00039B2C File Offset: 0x00037F2C
 		private static IntVec3 TryFindSnowmanBuildCell(Pawn pawn)
 		{
 			Region rootReg;
@@ -75,7 +78,6 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600054F RID: 1359 RVA: 0x00039BDC File Offset: 0x00037FDC
 		private static bool IsGoodSnowmanCell(IntVec3 c, Pawn pawn)
 		{
 			bool result;
@@ -120,6 +122,45 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindSnowmanBuildCell>m__0(Region r)
+		{
+			return r.Room.PsychologicallyOutdoors;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSnowmanBuildCell>c__AnonStorey0
+		{
+			internal Region rootReg;
+
+			internal Pawn pawn;
+
+			internal IntVec3 result;
+
+			public <TryFindSnowmanBuildCell>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return r.Room == this.rootReg.Room;
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					IntVec3 randomCell = r.RandomCell;
+					if (JoyGiver_BuildSnowman.IsGoodSnowmanCell(randomCell, this.pawn))
+					{
+						this.result = randomCell;
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 	}
 }

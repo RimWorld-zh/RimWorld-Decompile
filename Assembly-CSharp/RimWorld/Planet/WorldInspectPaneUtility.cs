@@ -5,10 +5,8 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EC RID: 2284
 	public static class WorldInspectPaneUtility
 	{
-		// Token: 0x060034A3 RID: 13475 RVA: 0x001C1FD8 File Offset: 0x001C03D8
 		public static string AdjustedLabelFor(List<WorldObject> worldObjects, Rect rect)
 		{
 			string result;
@@ -27,7 +25,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060034A4 RID: 13476 RVA: 0x001C2048 File Offset: 0x001C0448
 		private static bool AllLabelsAreSame(List<WorldObject> worldObjects)
 		{
 			for (int i = 0; i < worldObjects.Count; i++)

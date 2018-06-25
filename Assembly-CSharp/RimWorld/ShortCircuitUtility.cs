@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000994 RID: 2452
 	public static class ShortCircuitUtility
 	{
-		// Token: 0x04002396 RID: 9110
 		private static Dictionary<PowerNet, bool> tmpPowerNetHasActivePowerSource = new Dictionary<PowerNet, bool>();
 
-		// Token: 0x04002397 RID: 9111
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x06003718 RID: 14104 RVA: 0x001D7D1C File Offset: 0x001D611C
+		[CompilerGenerated]
+		private static Predicate<CompPowerBattery> <>f__am$cache0;
+
 		public static IEnumerable<Building> GetShortCircuitablePowerConduits(Map map)
 		{
 			ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Clear();
@@ -48,7 +51,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003719 RID: 14105 RVA: 0x001D7D48 File Offset: 0x001D6148
 		public static void DoShortCircuit(Building culprit)
 		{
 			PowerNet powerNet = culprit.PowerComp.PowerNet;
@@ -112,7 +114,6 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(culprit.Position, map, false), null, null);
 		}
 
-		// Token: 0x0600371A RID: 14106 RVA: 0x001D7F14 File Offset: 0x001D6314
 		public static bool TryShortCircuitInRain(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
@@ -142,7 +143,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600371B RID: 14107 RVA: 0x001D8034 File Offset: 0x001D6434
 		private static void DrainBatteriesAndCauseExplosion(PowerNet net, Building culprit, out float totalEnergy, out float explosionRadius)
 		{
 			totalEnergy = 0f;
@@ -161,7 +161,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600371C RID: 14108 RVA: 0x001D8128 File Offset: 0x001D6528
 		private static bool TryStartFireNear(Building b)
 		{
 			ShortCircuitUtility.tmpCells.Clear();
@@ -176,6 +175,178 @@ namespace RimWorld
 				}
 			}
 			return ShortCircuitUtility.tmpCells.Any<IntVec3>() && FireUtility.TryStartFireIn(ShortCircuitUtility.tmpCells.RandomElement<IntVec3>(), b.Map, Rand.Range(0.1f, 1.75f));
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ShortCircuitUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DoShortCircuit>m__0(CompPowerBattery x)
+		{
+			return x.StoredEnergy > 20f;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetShortCircuitablePowerConduits>c__Iterator0 : IEnumerable, IEnumerable<Building>, IEnumerator, IDisposable, IEnumerator<Building>
+		{
+			internal Map map;
+
+			internal List<Thing> <conduits>__1;
+
+			internal int <i>__2;
+
+			internal Building <b>__3;
+
+			internal CompPower <power>__3;
+
+			internal bool <hasActivePowerSource>__3;
+
+			internal Building $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetShortCircuitablePowerConduits>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Clear();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						break;
+					default:
+						conduits = map.listerThings.ThingsOfDef(ThingDefOf.PowerConduit);
+						i = 0;
+						goto IL_137;
+					}
+					IL_129:
+					i++;
+					IL_137:
+					if (i < conduits.Count)
+					{
+						b = (Building)conduits[i];
+						power = b.PowerComp;
+						if (power == null)
+						{
+							goto IL_129;
+						}
+						if (!ShortCircuitUtility.tmpPowerNetHasActivePowerSource.TryGetValue(power.PowerNet, out hasActivePowerSource))
+						{
+							hasActivePowerSource = power.PowerNet.HasActivePowerSource;
+							ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Add(power.PowerNet, hasActivePowerSource);
+						}
+						if (!hasActivePowerSource)
+						{
+							goto IL_129;
+						}
+						this.$current = b;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Building IEnumerator<Building>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Building>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Building> IEnumerable<Building>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ShortCircuitUtility.<GetShortCircuitablePowerConduits>c__Iterator0 <GetShortCircuitablePowerConduits>c__Iterator = new ShortCircuitUtility.<GetShortCircuitablePowerConduits>c__Iterator0();
+				<GetShortCircuitablePowerConduits>c__Iterator.map = map;
+				return <GetShortCircuitablePowerConduits>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Clear();
+			}
 		}
 	}
 }

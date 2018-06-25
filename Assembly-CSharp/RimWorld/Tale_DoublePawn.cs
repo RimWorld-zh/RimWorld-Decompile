@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000668 RID: 1640
 	public class Tale_DoublePawn : Tale
 	{
-		// Token: 0x04001385 RID: 4997
 		public TaleData_Pawn firstPawnData;
 
-		// Token: 0x04001386 RID: 4998
 		public TaleData_Pawn secondPawnData;
 
-		// Token: 0x06002257 RID: 8791 RVA: 0x00123D09 File Offset: 0x00122109
 		public Tale_DoublePawn()
 		{
 		}
 
-		// Token: 0x06002258 RID: 8792 RVA: 0x00123D14 File Offset: 0x00122114
 		public Tale_DoublePawn(Pawn firstPawn, Pawn secondPawn)
 		{
 			this.firstPawnData = TaleData_Pawn.GenerateFrom(firstPawn);
@@ -33,8 +32,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700050A RID: 1290
-		// (get) Token: 0x06002259 RID: 8793 RVA: 0x00123D68 File Offset: 0x00122168
 		public override Pawn DominantPawn
 		{
 			get
@@ -43,8 +40,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700050B RID: 1291
-		// (get) Token: 0x0600225A RID: 8794 RVA: 0x00123D88 File Offset: 0x00122188
 		public override string ShortSummary
 		{
 			get
@@ -58,13 +53,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600225B RID: 8795 RVA: 0x00123DE4 File Offset: 0x001221E4
 		public override bool Concerns(Thing th)
 		{
 			return (this.secondPawnData != null && this.secondPawnData.pawn == th) || base.Concerns(th) || this.firstPawnData.pawn == th;
 		}
 
-		// Token: 0x0600225C RID: 8796 RVA: 0x00123E39 File Offset: 0x00122239
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -72,7 +65,6 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Pawn>(ref this.secondPawnData, "secondPawnData", new object[0]);
 		}
 
-		// Token: 0x0600225D RID: 8797 RVA: 0x00123E70 File Offset: 0x00122270
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			if (this.def.firstPawnSymbol.NullOrEmpty() || this.def.secondPawnSymbol.NullOrEmpty())
@@ -101,12 +93,297 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600225E RID: 8798 RVA: 0x00123E9A File Offset: 0x0012229A
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();
 			this.firstPawnData = TaleData_Pawn.GenerateRandom();
 			this.secondPawnData = TaleData_Pawn.GenerateRandom();
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialTextGenerationRules>c__Iterator0 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal IEnumerator<Rule> $locvar0;
+
+			internal Rule <r>__1;
+
+			internal IEnumerator<Rule> $locvar1;
+
+			internal Rule <r>__2;
+
+			internal IEnumerator<Rule> $locvar2;
+
+			internal Rule <r>__3;
+
+			internal IEnumerator<Rule> $locvar3;
+
+			internal Rule <r>__4;
+
+			internal Tale_DoublePawn $this;
+
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialTextGenerationRules>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.def.firstPawnSymbol.NullOrEmpty() || this.def.secondPawnSymbol.NullOrEmpty())
+					{
+						Log.Error(this.def + " uses DoublePawn tale class but firstPawnSymbol and secondPawnSymbol are not both set", false);
+					}
+					enumerator = this.firstPawnData.GetRules("ANYPAWN").GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_148;
+				case 3u:
+					goto IL_1F3;
+				case 4u:
+					goto IL_298;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						r = enumerator.Current;
+						this.$current = r;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = this.firstPawnData.GetRules(this.def.firstPawnSymbol).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_148:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						r2 = enumerator2.Current;
+						this.$current = r2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				if (this.secondPawnData == null)
+				{
+					goto IL_30F;
+				}
+				enumerator3 = this.firstPawnData.GetRules("ANYPAWN").GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_1F3:
+					switch (num)
+					{
+					}
+					if (enumerator3.MoveNext())
+					{
+						r3 = enumerator3.Current;
+						this.$current = r3;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+				}
+				enumerator4 = this.secondPawnData.GetRules(this.def.secondPawnSymbol).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_298:
+					switch (num)
+					{
+					}
+					if (enumerator4.MoveNext())
+					{
+						r4 = enumerator4.Current;
+						this.$current = r4;
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+				}
+				IL_30F:
+				this.$PC = -1;
+				return false;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator0 <SpecialTextGenerationRules>c__Iterator = new Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator0();
+				<SpecialTextGenerationRules>c__Iterator.$this = this;
+				return <SpecialTextGenerationRules>c__Iterator;
+			}
 		}
 	}
 }

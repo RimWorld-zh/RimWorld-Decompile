@@ -3,142 +3,101 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000191 RID: 401
+	[AddComponentMenu("Image Effects/Camera/Depth of Field (deprecated)")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Camera/Depth of Field (deprecated)")]
 	public class DepthOfFieldDeprecated : PostEffectsBase
 	{
-		// Token: 0x040007AC RID: 1964
 		private static int SMOOTH_DOWNSAMPLE_PASS = 6;
 
-		// Token: 0x040007AD RID: 1965
 		private static float BOKEH_EXTRA_BLUR = 2f;
 
-		// Token: 0x040007AE RID: 1966
 		public DepthOfFieldDeprecated.Dof34QualitySetting quality = DepthOfFieldDeprecated.Dof34QualitySetting.OnlyBackground;
 
-		// Token: 0x040007AF RID: 1967
 		public DepthOfFieldDeprecated.DofResolution resolution = DepthOfFieldDeprecated.DofResolution.Low;
 
-		// Token: 0x040007B0 RID: 1968
 		public bool simpleTweakMode = true;
 
-		// Token: 0x040007B1 RID: 1969
 		public float focalPoint = 1f;
 
-		// Token: 0x040007B2 RID: 1970
 		public float smoothness = 0.5f;
 
-		// Token: 0x040007B3 RID: 1971
 		public float focalZDistance = 0f;
 
-		// Token: 0x040007B4 RID: 1972
 		public float focalZStartCurve = 1f;
 
-		// Token: 0x040007B5 RID: 1973
 		public float focalZEndCurve = 1f;
 
-		// Token: 0x040007B6 RID: 1974
 		private float focalStartCurve = 2f;
 
-		// Token: 0x040007B7 RID: 1975
 		private float focalEndCurve = 2f;
 
-		// Token: 0x040007B8 RID: 1976
 		private float focalDistance01 = 0.1f;
 
-		// Token: 0x040007B9 RID: 1977
 		public Transform objectFocus = null;
 
-		// Token: 0x040007BA RID: 1978
 		public float focalSize = 0f;
 
-		// Token: 0x040007BB RID: 1979
 		public DepthOfFieldDeprecated.DofBlurriness bluriness = DepthOfFieldDeprecated.DofBlurriness.High;
 
-		// Token: 0x040007BC RID: 1980
 		public float maxBlurSpread = 1.75f;
 
-		// Token: 0x040007BD RID: 1981
 		public float foregroundBlurExtrude = 1.15f;
 
-		// Token: 0x040007BE RID: 1982
 		public Shader dofBlurShader;
 
-		// Token: 0x040007BF RID: 1983
 		private Material dofBlurMaterial = null;
 
-		// Token: 0x040007C0 RID: 1984
 		public Shader dofShader;
 
-		// Token: 0x040007C1 RID: 1985
 		private Material dofMaterial = null;
 
-		// Token: 0x040007C2 RID: 1986
 		public bool visualize = false;
 
-		// Token: 0x040007C3 RID: 1987
 		public DepthOfFieldDeprecated.BokehDestination bokehDestination = DepthOfFieldDeprecated.BokehDestination.Background;
 
-		// Token: 0x040007C4 RID: 1988
 		private float widthOverHeight = 1.25f;
 
-		// Token: 0x040007C5 RID: 1989
 		private float oneOverBaseSize = 0.001953125f;
 
-		// Token: 0x040007C6 RID: 1990
 		public bool bokeh = false;
 
-		// Token: 0x040007C7 RID: 1991
 		public bool bokehSupport = true;
 
-		// Token: 0x040007C8 RID: 1992
 		public Shader bokehShader;
 
-		// Token: 0x040007C9 RID: 1993
 		public Texture2D bokehTexture;
 
-		// Token: 0x040007CA RID: 1994
 		public float bokehScale = 2.4f;
 
-		// Token: 0x040007CB RID: 1995
 		public float bokehIntensity = 0.15f;
 
-		// Token: 0x040007CC RID: 1996
 		public float bokehThresholdContrast = 0.1f;
 
-		// Token: 0x040007CD RID: 1997
 		public float bokehThresholdLuminance = 0.55f;
 
-		// Token: 0x040007CE RID: 1998
 		public int bokehDownsample = 1;
 
-		// Token: 0x040007CF RID: 1999
 		private Material bokehMaterial;
 
-		// Token: 0x040007D0 RID: 2000
 		private Camera _camera;
 
-		// Token: 0x040007D1 RID: 2001
 		private RenderTexture foregroundTexture = null;
 
-		// Token: 0x040007D2 RID: 2002
 		private RenderTexture mediumRezWorkTexture = null;
 
-		// Token: 0x040007D3 RID: 2003
 		private RenderTexture finalDefocus = null;
 
-		// Token: 0x040007D4 RID: 2004
 		private RenderTexture lowRezWorkTexture = null;
 
-		// Token: 0x040007D5 RID: 2005
 		private RenderTexture bokehSource = null;
 
-		// Token: 0x040007D6 RID: 2006
 		private RenderTexture bokehSource2 = null;
 
-		// Token: 0x06000906 RID: 2310 RVA: 0x00015174 File Offset: 0x00013374
+		public DepthOfFieldDeprecated()
+		{
+		}
+
 		private void CreateMaterials()
 		{
 			this.dofBlurMaterial = base.CheckShaderAndCreateMaterial(this.dofBlurShader, this.dofBlurMaterial);
@@ -150,7 +109,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000907 RID: 2311 RVA: 0x00015204 File Offset: 0x00013404
 		public override bool CheckResources()
 		{
 			base.CheckSupport(true);
@@ -168,26 +126,22 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x06000908 RID: 2312 RVA: 0x000152B7 File Offset: 0x000134B7
 		private void OnDisable()
 		{
 			Quads.Cleanup();
 		}
 
-		// Token: 0x06000909 RID: 2313 RVA: 0x000152BF File Offset: 0x000134BF
 		private void OnEnable()
 		{
 			this._camera = base.GetComponent<Camera>();
 			this._camera.depthTextureMode |= DepthTextureMode.Depth;
 		}
 
-		// Token: 0x0600090A RID: 2314 RVA: 0x000152E4 File Offset: 0x000134E4
 		private float FocalDistance01(float worldDist)
 		{
 			return this._camera.WorldToViewportPoint((worldDist - this._camera.nearClipPlane) * this._camera.transform.forward + this._camera.transform.position).z / (this._camera.farClipPlane - this._camera.nearClipPlane);
 		}
 
-		// Token: 0x0600090B RID: 2315 RVA: 0x0001535C File Offset: 0x0001355C
 		private int GetDividerBasedOnQuality()
 		{
 			int result = 1;
@@ -202,7 +156,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x0600090C RID: 2316 RVA: 0x00015398 File Offset: 0x00013598
 		private int GetLowResolutionDividerBasedOnQuality(int baseDivider)
 		{
 			int num = baseDivider;
@@ -217,7 +170,6 @@ namespace UnityStandardAssets.ImageEffects
 			return num;
 		}
 
-		// Token: 0x0600090D RID: 2317 RVA: 0x000153D0 File Offset: 0x000135D0
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources())
@@ -318,7 +270,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x0600090E RID: 2318 RVA: 0x00015A04 File Offset: 0x00013C04
 		private void Blur(RenderTexture from, RenderTexture to, DepthOfFieldDeprecated.DofBlurriness iterations, int blurPass, float spread)
 		{
 			RenderTexture temporary = RenderTexture.GetTemporary(to.width, to.height);
@@ -343,7 +294,6 @@ namespace UnityStandardAssets.ImageEffects
 			RenderTexture.ReleaseTemporary(temporary);
 		}
 
-		// Token: 0x0600090F RID: 2319 RVA: 0x00015B50 File Offset: 0x00013D50
 		private void BlurFg(RenderTexture from, RenderTexture to, DepthOfFieldDeprecated.DofBlurriness iterations, int blurPass, float spread)
 		{
 			this.dofBlurMaterial.SetTexture("_TapHigh", from);
@@ -369,7 +319,6 @@ namespace UnityStandardAssets.ImageEffects
 			RenderTexture.ReleaseTemporary(temporary);
 		}
 
-		// Token: 0x06000910 RID: 2320 RVA: 0x00015CAC File Offset: 0x00013EAC
 		private void BlurHex(RenderTexture from, RenderTexture to, int blurPass, float spread, RenderTexture tmp)
 		{
 			this.dofBlurMaterial.SetVector("offsets", new Vector4(0f, spread * this.oneOverBaseSize, 0f, 0f));
@@ -382,14 +331,12 @@ namespace UnityStandardAssets.ImageEffects
 			Graphics.Blit(tmp, to, this.dofBlurMaterial, blurPass);
 		}
 
-		// Token: 0x06000911 RID: 2321 RVA: 0x00015DC8 File Offset: 0x00013FC8
 		private void Downsample(RenderTexture from, RenderTexture to)
 		{
 			this.dofMaterial.SetVector("_InvRenderTargetSize", new Vector4(1f / (1f * (float)to.width), 1f / (1f * (float)to.height), 0f, 0f));
 			Graphics.Blit(from, to, this.dofMaterial, DepthOfFieldDeprecated.SMOOTH_DOWNSAMPLE_PASS);
 		}
 
-		// Token: 0x06000912 RID: 2322 RVA: 0x00015E30 File Offset: 0x00014030
 		private void AddBokeh(RenderTexture bokehInfo, RenderTexture tempTex, RenderTexture finalTarget)
 		{
 			if (this.bokehMaterial)
@@ -421,7 +368,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000913 RID: 2323 RVA: 0x00015FA8 File Offset: 0x000141A8
 		private void ReleaseTextures()
 		{
 			if (this.foregroundTexture)
@@ -450,7 +396,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000914 RID: 2324 RVA: 0x00016058 File Offset: 0x00014258
 		private void AllocateTextures(bool blurForeground, RenderTexture source, int divider, int lowTexDivider)
 		{
 			this.foregroundTexture = null;
@@ -482,45 +427,35 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x02000192 RID: 402
+		// Note: this type is marked as 'beforefieldinit'.
+		static DepthOfFieldDeprecated()
+		{
+		}
+
 		public enum Dof34QualitySetting
 		{
-			// Token: 0x040007D8 RID: 2008
 			OnlyBackground = 1,
-			// Token: 0x040007D9 RID: 2009
 			BackgroundAndForeground
 		}
 
-		// Token: 0x02000193 RID: 403
 		public enum DofResolution
 		{
-			// Token: 0x040007DB RID: 2011
 			High = 2,
-			// Token: 0x040007DC RID: 2012
 			Medium,
-			// Token: 0x040007DD RID: 2013
 			Low
 		}
 
-		// Token: 0x02000194 RID: 404
 		public enum DofBlurriness
 		{
-			// Token: 0x040007DF RID: 2015
 			Low = 1,
-			// Token: 0x040007E0 RID: 2016
 			High,
-			// Token: 0x040007E1 RID: 2017
 			VeryHigh = 4
 		}
 
-		// Token: 0x02000195 RID: 405
 		public enum BokehDestination
 		{
-			// Token: 0x040007E3 RID: 2019
 			Background = 1,
-			// Token: 0x040007E4 RID: 2020
 			Foreground,
-			// Token: 0x040007E5 RID: 2021
 			BackgroundAndForeground
 		}
 	}

@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000E9 RID: 233
 	public class JobGiver_PrisonerEscape : ThinkNode_JobGiver
 	{
-		// Token: 0x040002C9 RID: 713
 		private const int MaxRegionsToCheckWhenEscapingThroughOpenDoors = 25;
 
-		// Token: 0x06000500 RID: 1280 RVA: 0x00037B38 File Offset: 0x00035F38
+		[CompilerGenerated]
+		private static RegionEntryPredicate <>f__am$cache0;
+
+		public JobGiver_PrisonerEscape()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			if (this.ShouldStartEscaping(pawn))
@@ -34,7 +39,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000501 RID: 1281 RVA: 0x00037BC4 File Offset: 0x00035FC4
 		private bool ShouldStartEscaping(Pawn pawn)
 		{
 			bool result;
@@ -70,6 +74,37 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ShouldStartEscaping>m__0(Region from, Region reg)
+		{
+			return reg.portal == null || reg.portal.FreePassage;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ShouldStartEscaping>c__AnonStorey0
+		{
+			internal bool found;
+
+			public <ShouldStartEscaping>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region reg)
+			{
+				bool result;
+				if (reg.Room.TouchesMapEdge)
+				{
+					this.found = true;
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
 		}
 	}
 }

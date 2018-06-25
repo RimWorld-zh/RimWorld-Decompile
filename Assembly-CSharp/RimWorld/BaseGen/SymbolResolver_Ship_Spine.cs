@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003E2 RID: 994
 	public class SymbolResolver_Ship_Spine : SymbolResolver
 	{
-		// Token: 0x060010FF RID: 4351 RVA: 0x000915A4 File Offset: 0x0008F9A4
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
+		public SymbolResolver_Ship_Spine()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef ship_Beam = ThingDefOf.Ship_Beam;
@@ -122,6 +128,12 @@ namespace RimWorld.BaseGen
 				resolveParams3.floorDef = TerrainDefOf.Concrete;
 				BaseGen.symbolStack.Push("floor", resolveParams3);
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(Thing thing)
+		{
+			return thing.def == ThingDefOf.Ship_Beam;
 		}
 	}
 }

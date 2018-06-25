@@ -1,81 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000DCA RID: 3530
 	public class Explosion : Thing
 	{
-		// Token: 0x0400347B RID: 13435
 		public float radius;
 
-		// Token: 0x0400347C RID: 13436
 		public DamageDef damType;
 
-		// Token: 0x0400347D RID: 13437
 		public int damAmount;
 
-		// Token: 0x0400347E RID: 13438
 		public Thing instigator;
 
-		// Token: 0x0400347F RID: 13439
 		public ThingDef weapon;
 
-		// Token: 0x04003480 RID: 13440
 		public ThingDef projectile;
 
-		// Token: 0x04003481 RID: 13441
 		public Thing intendedTarget;
 
-		// Token: 0x04003482 RID: 13442
 		public bool applyDamageToExplosionCellsNeighbors;
 
-		// Token: 0x04003483 RID: 13443
 		public ThingDef preExplosionSpawnThingDef = null;
 
-		// Token: 0x04003484 RID: 13444
 		public float preExplosionSpawnChance = 0f;
 
-		// Token: 0x04003485 RID: 13445
 		public int preExplosionSpawnThingCount = 1;
 
-		// Token: 0x04003486 RID: 13446
 		public ThingDef postExplosionSpawnThingDef = null;
 
-		// Token: 0x04003487 RID: 13447
 		public float postExplosionSpawnChance = 0f;
 
-		// Token: 0x04003488 RID: 13448
 		public int postExplosionSpawnThingCount = 1;
 
-		// Token: 0x04003489 RID: 13449
 		public float chanceToStartFire;
 
-		// Token: 0x0400348A RID: 13450
 		public bool damageFalloff;
 
-		// Token: 0x0400348B RID: 13451
 		private int startTick;
 
-		// Token: 0x0400348C RID: 13452
 		private List<IntVec3> cellsToAffect;
 
-		// Token: 0x0400348D RID: 13453
 		private List<Thing> damagedThings;
 
-		// Token: 0x0400348E RID: 13454
 		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
 
-		// Token: 0x0400348F RID: 13455
 		private const float DamageFactorAtEdge = 0.2f;
 
-		// Token: 0x04003490 RID: 13456
 		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
 
-		// Token: 0x06004EFB RID: 20219 RVA: 0x0029376C File Offset: 0x00291B6C
+		[CompilerGenerated]
+		private static RegionEntryPredicate <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache1;
+
+		public Explosion()
+		{
+		}
+
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -90,7 +77,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EFC RID: 20220 RVA: 0x002937CC File Offset: 0x00291BCC
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.DeSpawn(mode);
@@ -105,7 +91,6 @@ namespace Verse
 			this.addedCellsAffectedOnlyByDamage = null;
 		}
 
-		// Token: 0x06004EFD RID: 20221 RVA: 0x00293838 File Offset: 0x00291C38
 		public virtual void StartExplosion(SoundDef explosionSound)
 		{
 			if (!base.Spawned)
@@ -139,7 +124,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EFE RID: 20222 RVA: 0x00293964 File Offset: 0x00291D64
 		public override void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -172,7 +156,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EFF RID: 20223 RVA: 0x00293A50 File Offset: 0x00291E50
 		public int GetDamageAmountAt(IntVec3 c)
 		{
 			int result;
@@ -189,7 +172,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F00 RID: 20224 RVA: 0x00293AB8 File Offset: 0x00291EB8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -219,13 +201,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F01 RID: 20225 RVA: 0x00293C78 File Offset: 0x00292078
 		private int GetCellAffectTick(IntVec3 cell)
 		{
 			return this.startTick + (int)((cell - base.Position).LengthHorizontal * 1.5f);
 		}
 
-		// Token: 0x06004F02 RID: 20226 RVA: 0x00293CB0 File Offset: 0x002920B0
 		private void AffectCell(IntVec3 c)
 		{
 			if (c.InBounds(base.Map))
@@ -258,7 +238,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F03 RID: 20227 RVA: 0x00293DD0 File Offset: 0x002921D0
 		private void TrySpawnExplosionThing(ThingDef thingDef, IntVec3 c, int count)
 		{
 			if (thingDef != null)
@@ -276,7 +255,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F04 RID: 20228 RVA: 0x00293E28 File Offset: 0x00292228
 		private void PlayExplosionSound(SoundDef explosionSound)
 		{
 			bool flag;
@@ -298,7 +276,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F05 RID: 20229 RVA: 0x00293EA8 File Offset: 0x002922A8
 		private void AddCellsNeighbors(List<IntVec3> cells)
 		{
 			Explosion.tmpCells.Clear();
@@ -333,10 +310,43 @@ namespace Verse
 			Explosion.tmpCells.Clear();
 		}
 
-		// Token: 0x06004F06 RID: 20230 RVA: 0x00293FFC File Offset: 0x002923FC
 		private bool ShouldCellBeAffectedOnlyByDamage(IntVec3 c)
 		{
 			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Explosion()
+		{
+		}
+
+		[CompilerGenerated]
+		private int <StartExplosion>m__0(IntVec3 a, IntVec3 b)
+		{
+			return this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a));
+		}
+
+		[CompilerGenerated]
+		private static bool <StartExplosion>m__1(Region from, Region to)
+		{
+			return true;
+		}
+
+		[CompilerGenerated]
+		private bool <StartExplosion>m__2(Region x)
+		{
+			List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+			for (int i = list.Count - 1; i >= 0; i--)
+			{
+				((Pawn)list[i]).mindState.Notify_Explosion(this);
+			}
+			return false;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__3(Thing x)
+		{
+			return x == null;
 		}
 	}
 }

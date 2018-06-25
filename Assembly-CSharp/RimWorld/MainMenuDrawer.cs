@@ -2,47 +2,93 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Profile;
 
 namespace RimWorld
 {
-	// Token: 0x0200082D RID: 2093
 	[StaticConstructorOnStartup]
 	public static class MainMenuDrawer
 	{
-		// Token: 0x0400195F RID: 6495
 		private static bool anyMapFiles;
 
-		// Token: 0x04001960 RID: 6496
 		private const float PlayRectWidth = 170f;
 
-		// Token: 0x04001961 RID: 6497
 		private const float WebRectWidth = 145f;
 
-		// Token: 0x04001962 RID: 6498
 		private const float RightEdgeMargin = 50f;
 
-		// Token: 0x04001963 RID: 6499
 		private static readonly Vector2 PaneSize = new Vector2(450f, 450f);
 
-		// Token: 0x04001964 RID: 6500
 		private static readonly Vector2 TitleSize = new Vector2(1032f, 146f);
 
-		// Token: 0x04001965 RID: 6501
 		private static readonly Texture2D TexTitle = ContentFinder<Texture2D>.Get("UI/HeroArt/GameTitle", true);
 
-		// Token: 0x04001966 RID: 6502
 		private const float TitleShift = 50f;
 
-		// Token: 0x04001967 RID: 6503
 		private static readonly Vector2 LudeonLogoSize = new Vector2(200f, 58f);
 
-		// Token: 0x04001968 RID: 6504
 		private static readonly Texture2D TexLudeonLogo = ContentFinder<Texture2D>.Get("UI/HeroArt/LudeonLogoSmall", true);
 
-		// Token: 0x06002F14 RID: 12052 RVA: 0x0019307C File Offset: 0x0019147C
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheA;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheB;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheC;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheD;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheE;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheF;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache10;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache11;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache12;
+
 		public static void Init()
 		{
 			PlayerKnowledgeDatabase.Save();
@@ -50,7 +96,6 @@ namespace RimWorld
 			MainMenuDrawer.anyMapFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
 		}
 
-		// Token: 0x06002F15 RID: 12053 RVA: 0x00193098 File Offset: 0x00191498
 		public static void MainMenuOnGUI()
 		{
 			VersionControl.DrawInfoInCorner();
@@ -89,7 +134,6 @@ namespace RimWorld
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
 		}
 
-		// Token: 0x06002F16 RID: 12054 RVA: 0x00193328 File Offset: 0x00191728
 		public static void DoMainMenuControls(Rect rect, bool anyMapFiles)
 		{
 			GUI.BeginGroup(rect);
@@ -287,7 +331,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F17 RID: 12055 RVA: 0x0019398C File Offset: 0x00191D8C
 		private static void InitLearnToPlay()
 		{
 			Current.Game = new Game();
@@ -301,12 +344,188 @@ namespace RimWorld
 			Find.WindowStack.Add(next);
 		}
 
-		// Token: 0x06002F18 RID: 12056 RVA: 0x00193A13 File Offset: 0x00191E13
 		private static void CloseMainTab()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				Find.MainTabsRoot.EscapeCurrentTab(false);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MainMenuDrawer()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__0()
+		{
+			MainMenuDrawer.InitLearnToPlay();
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__1()
+		{
+			Find.WindowStack.Add(new Page_SelectScenario());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__2()
+		{
+			MainMenuDrawer.CloseMainTab();
+			Find.WindowStack.Add(new Dialog_SaveFileList_Save());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__3()
+		{
+			MainMenuDrawer.CloseMainTab();
+			Find.WindowStack.Add(new Dialog_SaveFileList_Load());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__4()
+		{
+			WindowStack windowStack = Find.WindowStack;
+			string fullInformationText = Find.Scenario.GetFullInformationText();
+			string name = Find.Scenario.name;
+			windowStack.Add(new Dialog_MessageBox(fullInformationText, null, null, null, null, name, false, null, null));
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__5()
+		{
+			MainMenuDrawer.CloseMainTab();
+			Find.WindowStack.Add(new Dialog_Options());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__6()
+		{
+			Find.WindowStack.Add(new Page_ModsConfig());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__7()
+		{
+			LanguageReportGenerator.SaveTranslationReport();
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__8()
+		{
+			Find.WindowStack.Add(new Screen_Credits());
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__9()
+		{
+			LongEventHandler.QueueLongEvent(delegate()
+			{
+				GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
+				MemoryUtility.ClearAllMapsAndWorld();
+			}, "Entry", "SavingLongEvent", false, null);
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__A()
+		{
+			LongEventHandler.QueueLongEvent(delegate()
+			{
+				GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
+				LongEventHandler.ExecuteWhenFinished(delegate
+				{
+					Root.Shutdown();
+				});
+			}, "SavingLongEvent", false, null);
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__B()
+		{
+			if (GameDataSaveLoader.CurrentGameStateIsValuable)
+			{
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmQuit".Translate(), delegate
+				{
+					GenScene.GoToMainMenu();
+				}, true, null));
+			}
+			else
+			{
+				GenScene.GoToMainMenu();
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__C()
+		{
+			if (GameDataSaveLoader.CurrentGameStateIsValuable)
+			{
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmQuit".Translate(), delegate
+				{
+					Root.Shutdown();
+				}, true, null));
+			}
+			else
+			{
+				Root.Shutdown();
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__D()
+		{
+			Root.Shutdown();
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__E()
+		{
+			GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
+			MemoryUtility.ClearAllMapsAndWorld();
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__F()
+		{
+			GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
+			LongEventHandler.ExecuteWhenFinished(delegate
+			{
+				Root.Shutdown();
+			});
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__10()
+		{
+			GenScene.GoToMainMenu();
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__11()
+		{
+			Root.Shutdown();
+		}
+
+		[CompilerGenerated]
+		private static void <DoMainMenuControls>m__12()
+		{
+			Root.Shutdown();
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoMainMenuControls>c__AnonStorey0
+		{
+			internal LoadedLanguage localLang;
+
+			public <DoMainMenuControls>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				LanguageDatabase.SelectLanguage(this.localLang);
+				Prefs.Save();
 			}
 		}
 	}

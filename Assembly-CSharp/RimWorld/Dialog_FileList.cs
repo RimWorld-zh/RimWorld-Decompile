@@ -1,66 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200080E RID: 2062
 	public abstract class Dialog_FileList : Window
 	{
-		// Token: 0x04001876 RID: 6262
 		protected string interactButLabel = "Error";
 
-		// Token: 0x04001877 RID: 6263
 		protected float bottomAreaHeight = 0f;
 
-		// Token: 0x04001878 RID: 6264
 		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
 
-		// Token: 0x04001879 RID: 6265
 		protected Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x0400187A RID: 6266
 		protected string typingName = "";
 
-		// Token: 0x0400187B RID: 6267
 		private bool focusedNameArea = false;
 
-		// Token: 0x0400187C RID: 6268
 		protected const float BoxMargin = 20f;
 
-		// Token: 0x0400187D RID: 6269
 		protected const float EntrySpacing = 3f;
 
-		// Token: 0x0400187E RID: 6270
 		protected const float EntryMargin = 1f;
 
-		// Token: 0x0400187F RID: 6271
 		protected const float NameExtraLeftMargin = 15f;
 
-		// Token: 0x04001880 RID: 6272
 		protected const float InfoExtraLeftMargin = 270f;
 
-		// Token: 0x04001881 RID: 6273
 		protected const float DeleteButtonSpace = 5f;
 
-		// Token: 0x04001882 RID: 6274
 		protected const float EntryHeight = 36f;
 
-		// Token: 0x04001883 RID: 6275
 		private static readonly Color DefaultFileTextColor = new Color(1f, 1f, 0.6f);
 
-		// Token: 0x04001884 RID: 6276
 		protected const float NameTextFieldWidth = 400f;
 
-		// Token: 0x04001885 RID: 6277
 		protected const float NameTextFieldHeight = 35f;
 
-		// Token: 0x04001886 RID: 6278
 		protected const float NameTextFieldButtonSpace = 20f;
 
-		// Token: 0x06002E0D RID: 11789 RVA: 0x001848EC File Offset: 0x00182CEC
 		public Dialog_FileList()
 		{
 			this.doCloseButton = true;
@@ -71,8 +53,6 @@ namespace RimWorld
 			this.ReloadFiles();
 		}
 
-		// Token: 0x17000756 RID: 1878
-		// (get) Token: 0x06002E0E RID: 11790 RVA: 0x00184968 File Offset: 0x00182D68
 		public override Vector2 InitialSize
 		{
 			get
@@ -81,8 +61,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000757 RID: 1879
-		// (get) Token: 0x06002E0F RID: 11791 RVA: 0x0018498C File Offset: 0x00182D8C
 		protected virtual bool ShouldDoTypeInField
 		{
 			get
@@ -91,7 +69,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E10 RID: 11792 RVA: 0x001849A4 File Offset: 0x00182DA4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(inRect.width - 16f, 36f);
@@ -160,13 +137,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E11 RID: 11793
 		protected abstract void DoFileInteraction(string fileName);
 
-		// Token: 0x06002E12 RID: 11794
 		protected abstract void ReloadFiles();
 
-		// Token: 0x06002E13 RID: 11795 RVA: 0x00184D38 File Offset: 0x00183138
 		protected virtual void DoTypeInField(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -202,13 +176,11 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E14 RID: 11796 RVA: 0x00184E74 File Offset: 0x00183274
 		protected virtual Color FileNameColor(SaveFileInfo sfi)
 		{
 			return Dialog_FileList.DefaultFileTextColor;
 		}
 
-		// Token: 0x06002E15 RID: 11797 RVA: 0x00184E90 File Offset: 0x00183290
 		public static void DrawDateAndVersion(SaveFileInfo sfi, Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -222,6 +194,29 @@ namespace RimWorld
 			Widgets.Label(rect3, sfi.GameVersion);
 			TooltipHandler.TipRegion(rect3, sfi.CompatibilityTip);
 			GUI.EndGroup();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Dialog_FileList()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey0
+		{
+			internal FileInfo localFile;
+
+			internal Dialog_FileList $this;
+
+			public <DoWindowContents>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.localFile.Delete();
+				this.$this.ReloadFiles();
+			}
 		}
 	}
 }

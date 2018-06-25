@@ -1,84 +1,68 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F0 RID: 752
 	public class WorldObjectDef : Def
 	{
-		// Token: 0x04000818 RID: 2072
 		public Type worldObjectClass = typeof(WorldObject);
 
-		// Token: 0x04000819 RID: 2073
 		public bool canHaveFaction = true;
 
-		// Token: 0x0400081A RID: 2074
 		public bool saved = true;
 
-		// Token: 0x0400081B RID: 2075
 		public List<WorldObjectCompProperties> comps = new List<WorldObjectCompProperties>();
 
-		// Token: 0x0400081C RID: 2076
 		public bool allowCaravanIncidentsWhichGenerateMap;
 
-		// Token: 0x0400081D RID: 2077
 		public bool isTempIncidentMapOwner;
 
-		// Token: 0x0400081E RID: 2078
 		public List<IncidentTargetTypeDef> incidentTargetTypes;
 
-		// Token: 0x0400081F RID: 2079
 		public bool selectable = true;
 
-		// Token: 0x04000820 RID: 2080
 		public bool neverMultiSelect;
 
-		// Token: 0x04000821 RID: 2081
 		public MapGeneratorDef mapGenerator = null;
 
-		// Token: 0x04000822 RID: 2082
 		public List<Type> inspectorTabs;
 
-		// Token: 0x04000823 RID: 2083
 		[Unsaved]
 		public List<InspectTabBase> inspectorTabsResolved;
 
-		// Token: 0x04000824 RID: 2084
 		public bool useDynamicDrawer;
 
-		// Token: 0x04000825 RID: 2085
 		public bool expandingIcon;
 
-		// Token: 0x04000826 RID: 2086
 		[NoTranslate]
 		public string expandingIconTexture;
 
-		// Token: 0x04000827 RID: 2087
 		public float expandingIconPriority;
 
-		// Token: 0x04000828 RID: 2088
 		[NoTranslate]
 		public string texture;
 
-		// Token: 0x04000829 RID: 2089
 		[Unsaved]
 		private Material material;
 
-		// Token: 0x0400082A RID: 2090
 		[Unsaved]
 		private Texture2D expandingIconTextureInt;
 
-		// Token: 0x0400082B RID: 2091
 		public bool expandMore;
 
-		// Token: 0x0400082C RID: 2092
 		public bool blockExitGridUntilBattleIsWon;
 
-		// Token: 0x170001DA RID: 474
-		// (get) Token: 0x06000C68 RID: 3176 RVA: 0x0006E334 File Offset: 0x0006C734
+		public WorldObjectDef()
+		{
+		}
+
 		public Material Material
 		{
 			get
@@ -100,8 +84,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001DB RID: 475
-		// (get) Token: 0x06000C69 RID: 3177 RVA: 0x0006E394 File Offset: 0x0006C794
 		public Texture2D ExpandingIconTexture
 		{
 			get
@@ -118,7 +100,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C6A RID: 3178 RVA: 0x0006E3EC File Offset: 0x0006C7EC
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -148,7 +129,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C6B RID: 3179 RVA: 0x0006E4B0 File Offset: 0x0006C8B0
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -158,7 +138,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C6C RID: 3180 RVA: 0x0006E4F4 File Offset: 0x0006C8F4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -177,6 +156,215 @@ namespace RimWorld
 				yield return "has expandMore but doesn't have any expanding icon";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<string> $locvar1;
+
+			internal string <e>__3;
+
+			internal WorldObjectDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							e2 = enumerator2.Current;
+							this.$current = e2;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					i++;
+					goto IL_17E;
+				case 3u:
+					IL_1D8:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				i = 0;
+				IL_17E:
+				if (i < this.comps.Count)
+				{
+					enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				if (this.expandMore && !this.expandingIcon)
+				{
+					this.$current = "has expandMore but doesn't have any expanding icon";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				goto IL_1D8;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldObjectDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new WorldObjectDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

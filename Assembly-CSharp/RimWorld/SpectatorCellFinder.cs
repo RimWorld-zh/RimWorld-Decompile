@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000900 RID: 2304
 	public static class SpectatorCellFinder
 	{
-		// Token: 0x04001CFA RID: 7418
 		private const float MaxDistanceToSpectateRect = 14.5f;
 
-		// Token: 0x04001CFB RID: 7419
 		private static float[] scorePerSide = new float[4];
 
-		// Token: 0x04001CFC RID: 7420
 		private static List<IntVec3> usedCells = new List<IntVec3>();
 
-		// Token: 0x06003571 RID: 13681 RVA: 0x001CC910 File Offset: 0x001CAD10
 		public static bool TryFindSpectatorCellFor(Pawn p, CellRect spectateRect, Map map, out IntVec3 cell, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1, List<IntVec3> extraDisallowedCells = null)
 		{
 			spectateRect.ClipInsideMap(map);
@@ -172,13 +168,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003572 RID: 13682 RVA: 0x001CCB08 File Offset: 0x001CAF08
 		private static bool CorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			return SpectatorCellFinder.GetCorrectlyRotatedChairAt(x, map, spectateRect) != null;
 		}
 
-		// Token: 0x06003573 RID: 13683 RVA: 0x001CCB2C File Offset: 0x001CAF2C
 		private static Building GetCorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			Building result;
@@ -209,7 +203,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003574 RID: 13684 RVA: 0x001CCBD4 File Offset: 0x001CAFD4
 		private static int DistanceToClosestChair(IntVec3 from, IntVec3 step, Map map, int maxDist, CellRect spectateRect)
 		{
 			int num = 0;
@@ -244,7 +237,6 @@ namespace RimWorld
 			return -1;
 		}
 
-		// Token: 0x06003575 RID: 13685 RVA: 0x001CCC44 File Offset: 0x001CB044
 		public static void DebugFlashPotentialSpectatorCells(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -281,7 +273,6 @@ namespace RimWorld
 			map.debugDrawer.FlashLine(spectateRect.CenterCell, centerCell, 50, SimpleColor.White);
 		}
 
-		// Token: 0x06003576 RID: 13686 RVA: 0x001CCDC0 File Offset: 0x001CB1C0
 		public static SpectateRectSide FindSingleBestSide(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			for (int i = 0; i < SpectatorCellFinder.scorePerSide.Length; i++)
@@ -369,6 +360,143 @@ namespace RimWorld
 				break;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SpectatorCellFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSpectatorCellFor>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal CellRect rectWithMargin;
+
+			internal SpectateRectSide allowedSides;
+
+			internal CellRect spectateRect;
+
+			internal Pawn p;
+
+			internal List<IntVec3> extraDisallowedCells;
+
+			public <TryFindSpectatorCellFor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				bool result;
+				if (!x.InBounds(this.map))
+				{
+					result = false;
+				}
+				else if (!x.Standable(this.map))
+				{
+					result = false;
+				}
+				else if (x.Fogged(this.map))
+				{
+					result = false;
+				}
+				else if (this.rectWithMargin.Contains(x))
+				{
+					result = false;
+				}
+				else if ((x.z <= this.rectWithMargin.maxZ || (this.allowedSides & SpectateRectSide.Up) != SpectateRectSide.Up) && (x.x <= this.rectWithMargin.maxX || (this.allowedSides & SpectateRectSide.Right) != SpectateRectSide.Right) && (x.z >= this.rectWithMargin.minZ || (this.allowedSides & SpectateRectSide.Down) != SpectateRectSide.Down) && (x.x >= this.rectWithMargin.minX || (this.allowedSides & SpectateRectSide.Left) != SpectateRectSide.Left))
+				{
+					result = false;
+				}
+				else
+				{
+					IntVec3 intVec = this.spectateRect.ClosestCellTo(x);
+					if ((float)intVec.DistanceToSquared(x) > 210.25f)
+					{
+						result = false;
+					}
+					else if (!GenSight.LineOfSight(intVec, x, this.map, true, null, 0, 0))
+					{
+						result = false;
+					}
+					else if (x.GetThingList(this.map).Find((Thing y) => y is Pawn && y != this.p) != null)
+					{
+						result = false;
+					}
+					else
+					{
+						if (this.p != null)
+						{
+							if (!this.p.CanReserveAndReach(x, PathEndMode.OnCell, Danger.Some, 1, -1, null, false))
+							{
+								return false;
+							}
+							Building edifice = x.GetEdifice(this.map);
+							if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && !this.p.CanReserve(edifice, 1, -1, null, false))
+							{
+								return false;
+							}
+							if (x.IsForbidden(this.p))
+							{
+								return false;
+							}
+							if (x.GetDangerFor(this.p, this.map) != Danger.None)
+							{
+								return false;
+							}
+						}
+						if (this.extraDisallowedCells != null && this.extraDisallowedCells.Contains(x))
+						{
+							result = false;
+						}
+						else
+						{
+							if (!SpectatorCellFinder.CorrectlyRotatedChairAt(x, this.map, this.spectateRect))
+							{
+								int num = 0;
+								for (int i = 0; i < GenAdj.AdjacentCells.Length; i++)
+								{
+									IntVec3 x2 = x + GenAdj.AdjacentCells[i];
+									if (SpectatorCellFinder.CorrectlyRotatedChairAt(x2, this.map, this.spectateRect))
+									{
+										num++;
+									}
+								}
+								if (num >= 3)
+								{
+									return false;
+								}
+								int num2 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(-1, 0, 0), this.map, 4, this.spectateRect);
+								if (num2 >= 0)
+								{
+									int num3 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(1, 0, 0), this.map, 4, this.spectateRect);
+									if (num3 >= 0 && Mathf.Abs(num2 - num3) <= 1)
+									{
+										return false;
+									}
+								}
+								int num4 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(0, 0, 1), this.map, 4, this.spectateRect);
+								if (num4 >= 0)
+								{
+									int num5 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(0, 0, -1), this.map, 4, this.spectateRect);
+									if (num5 >= 0 && Mathf.Abs(num4 - num5) <= 1)
+									{
+										return false;
+									}
+								}
+							}
+							result = true;
+						}
+					}
+				}
+				return result;
+			}
+
+			internal bool <>m__1(Thing y)
+			{
+				return y is Pawn && y != this.p;
+			}
 		}
 	}
 }

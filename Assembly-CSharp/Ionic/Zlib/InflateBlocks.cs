@@ -2,13 +2,10 @@
 
 namespace Ionic.Zlib
 {
-	// Token: 0x0200000C RID: 12
 	internal sealed class InflateBlocks
 	{
-		// Token: 0x0400008B RID: 139
 		private const int MANY = 1440;
 
-		// Token: 0x0400008C RID: 140
 		internal static readonly int[] border = new int[]
 		{
 			16,
@@ -32,67 +29,46 @@ namespace Ionic.Zlib
 			15
 		};
 
-		// Token: 0x0400008D RID: 141
 		private InflateBlocks.InflateBlockMode mode;
 
-		// Token: 0x0400008E RID: 142
 		internal int left;
 
-		// Token: 0x0400008F RID: 143
 		internal int table;
 
-		// Token: 0x04000090 RID: 144
 		internal int index;
 
-		// Token: 0x04000091 RID: 145
 		internal int[] blens;
 
-		// Token: 0x04000092 RID: 146
 		internal int[] bb = new int[1];
 
-		// Token: 0x04000093 RID: 147
 		internal int[] tb = new int[1];
 
-		// Token: 0x04000094 RID: 148
 		internal InflateCodes codes = new InflateCodes();
 
-		// Token: 0x04000095 RID: 149
 		internal int last;
 
-		// Token: 0x04000096 RID: 150
 		internal ZlibCodec _codec;
 
-		// Token: 0x04000097 RID: 151
 		internal int bitk;
 
-		// Token: 0x04000098 RID: 152
 		internal int bitb;
 
-		// Token: 0x04000099 RID: 153
 		internal int[] hufts;
 
-		// Token: 0x0400009A RID: 154
 		internal byte[] window;
 
-		// Token: 0x0400009B RID: 155
 		internal int end;
 
-		// Token: 0x0400009C RID: 156
 		internal int readAt;
 
-		// Token: 0x0400009D RID: 157
 		internal int writeAt;
 
-		// Token: 0x0400009E RID: 158
 		internal object checkfn;
 
-		// Token: 0x0400009F RID: 159
 		internal uint check;
 
-		// Token: 0x040000A0 RID: 160
 		internal InfTree inftree = new InfTree();
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00006C18 File Offset: 0x00005018
 		internal InflateBlocks(ZlibCodec codec, object checkfn, int w)
 		{
 			this._codec = codec;
@@ -104,7 +80,6 @@ namespace Ionic.Zlib
 			this.Reset();
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00006C9C File Offset: 0x0000509C
 		internal uint Reset()
 		{
 			uint result = this.check;
@@ -119,7 +94,6 @@ namespace Ionic.Zlib
 			return result;
 		}
 
-		// Token: 0x060000A2 RID: 162 RVA: 0x00006D08 File Offset: 0x00005108
 		internal int Process(int r)
 		{
 			int num = this._codec.NextIn;
@@ -622,7 +596,6 @@ namespace Ionic.Zlib
 			return this.Flush(r);
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x00007E2F File Offset: 0x0000622F
 		internal void Free()
 		{
 			this.Reset();
@@ -630,7 +603,6 @@ namespace Ionic.Zlib
 			this.hufts = null;
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00007E48 File Offset: 0x00006248
 		internal void SetDictionary(byte[] d, int start, int n)
 		{
 			Array.Copy(d, start, this.window, 0, n);
@@ -638,13 +610,11 @@ namespace Ionic.Zlib
 			this.readAt = n;
 		}
 
-		// Token: 0x060000A5 RID: 165 RVA: 0x00007E78 File Offset: 0x00006278
 		internal int SyncPoint()
 		{
 			return (this.mode != InflateBlocks.InflateBlockMode.LENS) ? 0 : 1;
 		}
 
-		// Token: 0x060000A6 RID: 166 RVA: 0x00007EA0 File Offset: 0x000062A0
 		internal int Flush(int r)
 		{
 			for (int i = 0; i < 2; i++)
@@ -699,28 +669,22 @@ namespace Ionic.Zlib
 			return r;
 		}
 
-		// Token: 0x0200000D RID: 13
+		// Note: this type is marked as 'beforefieldinit'.
+		static InflateBlocks()
+		{
+		}
+
 		private enum InflateBlockMode
 		{
-			// Token: 0x040000A2 RID: 162
 			TYPE,
-			// Token: 0x040000A3 RID: 163
 			LENS,
-			// Token: 0x040000A4 RID: 164
 			STORED,
-			// Token: 0x040000A5 RID: 165
 			TABLE,
-			// Token: 0x040000A6 RID: 166
 			BTREE,
-			// Token: 0x040000A7 RID: 167
 			DTREE,
-			// Token: 0x040000A8 RID: 168
 			CODES,
-			// Token: 0x040000A9 RID: 169
 			DRY,
-			// Token: 0x040000AA RID: 170
 			DONE,
-			// Token: 0x040000AB RID: 171
 			BAD
 		}
 	}

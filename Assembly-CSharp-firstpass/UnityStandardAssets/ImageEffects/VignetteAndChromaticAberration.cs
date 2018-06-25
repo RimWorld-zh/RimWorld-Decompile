@@ -3,55 +3,43 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001B4 RID: 436
+	[AddComponentMenu("Image Effects/Camera/Vignette and Chromatic Aberration")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Camera/Vignette and Chromatic Aberration")]
 	public class VignetteAndChromaticAberration : PostEffectsBase
 	{
-		// Token: 0x0400089B RID: 2203
 		public VignetteAndChromaticAberration.AberrationMode mode = VignetteAndChromaticAberration.AberrationMode.Simple;
 
-		// Token: 0x0400089C RID: 2204
 		public float intensity = 0.036f;
 
-		// Token: 0x0400089D RID: 2205
 		public float chromaticAberration = 0.2f;
 
-		// Token: 0x0400089E RID: 2206
 		public float axialAberration = 0.5f;
 
-		// Token: 0x0400089F RID: 2207
 		public float blur = 0f;
 
-		// Token: 0x040008A0 RID: 2208
 		public float blurSpread = 0.75f;
 
-		// Token: 0x040008A1 RID: 2209
 		public float luminanceDependency = 0.25f;
 
-		// Token: 0x040008A2 RID: 2210
 		public float blurDistance = 2.5f;
 
-		// Token: 0x040008A3 RID: 2211
 		public Shader vignetteShader;
 
-		// Token: 0x040008A4 RID: 2212
 		public Shader separableBlurShader;
 
-		// Token: 0x040008A5 RID: 2213
 		public Shader chromAberrationShader;
 
-		// Token: 0x040008A6 RID: 2214
 		private Material m_VignetteMaterial;
 
-		// Token: 0x040008A7 RID: 2215
 		private Material m_SeparableBlurMaterial;
 
-		// Token: 0x040008A8 RID: 2216
 		private Material m_ChromAberrationMaterial;
 
-		// Token: 0x0600097A RID: 2426 RVA: 0x00019C5C File Offset: 0x00017E5C
+		public VignetteAndChromaticAberration()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(false);
@@ -65,7 +53,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x0600097B RID: 2427 RVA: 0x00019CD8 File Offset: 0x00017ED8
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources())
@@ -122,12 +109,9 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x020001B5 RID: 437
 		public enum AberrationMode
 		{
-			// Token: 0x040008AA RID: 2218
 			Simple,
-			// Token: 0x040008AB RID: 2219
 			Advanced
 		}
 	}

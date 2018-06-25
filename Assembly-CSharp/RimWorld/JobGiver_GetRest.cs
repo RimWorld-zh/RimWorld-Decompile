@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000E2 RID: 226
 	public class JobGiver_GetRest : ThinkNode_JobGiver
 	{
-		// Token: 0x040002B9 RID: 697
 		private RestCategory minCategory = RestCategory.Rested;
 
-		// Token: 0x060004E9 RID: 1257 RVA: 0x00036A64 File Offset: 0x00034E64
+		public JobGiver_GetRest()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_GetRest jobGiver_GetRest = (JobGiver_GetRest)base.DeepCopy(resolve);
@@ -19,7 +21,6 @@ namespace RimWorld
 			return jobGiver_GetRest;
 		}
 
-		// Token: 0x060004EA RID: 1258 RVA: 0x00036A94 File Offset: 0x00034E94
 		public override float GetPriority(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
@@ -109,7 +110,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004EB RID: 1259 RVA: 0x00036C40 File Offset: 0x00035040
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
@@ -147,7 +147,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004EC RID: 1260 RVA: 0x00036D0C File Offset: 0x0003510C
 		private IntVec3 FindGroundSleepSpotFor(Pawn pawn)
 		{
 			Map map = pawn.Map;
@@ -161,6 +160,23 @@ namespace RimWorld
 				}
 			}
 			return CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, map, 4, pawn);
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindGroundSleepSpotFor>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal Map map;
+
+			public <FindGroundSleepSpotFor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !x.IsForbidden(this.pawn) && !x.GetTerrain(this.map).avoidWander;
+			}
 		}
 	}
 }

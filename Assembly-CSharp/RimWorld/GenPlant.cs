@@ -1,73 +1,61 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000980 RID: 2432
 	[HasDebugOutput]
 	public static class GenPlant
 	{
-		// Token: 0x04002356 RID: 9046
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallColorBegin = 0.55f;
 
-		// Token: 0x04002357 RID: 9047
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallColorEnd = 0.45f;
 
-		// Token: 0x04002358 RID: 9048
 		[TweakValue("Graphics", 0f, 30f)]
 		private static float FallSlopeComponent = 15f;
 
-		// Token: 0x04002359 RID: 9049
 		[TweakValue("Graphics", 0f, 100f)]
 		private static bool FallIntensityOverride = false;
 
-		// Token: 0x0400235A RID: 9050
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallIntensity = 0f;
 
-		// Token: 0x0400235B RID: 9051
 		[TweakValue("Graphics", 0f, 100f)]
 		private static bool FallGlobalControls = false;
 
-		// Token: 0x0400235C RID: 9052
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcR = 0.3803f;
 
-		// Token: 0x0400235D RID: 9053
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcG = 0.4352f;
 
-		// Token: 0x0400235E RID: 9054
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcB = 0.1451f;
 
-		// Token: 0x0400235F RID: 9055
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallDstR = 0.4392f;
 
-		// Token: 0x04002360 RID: 9056
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallDstG = 0.3254f;
 
-		// Token: 0x04002361 RID: 9057
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallDstB = 0.1765f;
 
-		// Token: 0x04002362 RID: 9058
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallRangeBegin = 0.02f;
 
-		// Token: 0x04002363 RID: 9059
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallRangeEnd = 0.1f;
 
-		// Token: 0x060036BD RID: 14013 RVA: 0x001D3A08 File Offset: 0x001D1E08
 		public static bool GrowthSeasonNow(IntVec3 c, Map map, bool forSowing = false)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_All);
@@ -95,13 +83,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036BE RID: 14014 RVA: 0x001D3A94 File Offset: 0x001D1E94
 		public static bool SnowAllowsPlanting(IntVec3 c, Map map)
 		{
 			return c.GetSnowDepth(map) < 0.2f;
 		}
 
-		// Token: 0x060036BF RID: 14015 RVA: 0x001D3AB8 File Offset: 0x001D1EB8
 		public static bool CanEverPlantAt(this ThingDef plantDef, IntVec3 c, Map map)
 		{
 			if (plantDef.category != ThingCategory.Plant)
@@ -155,7 +141,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036C0 RID: 14016 RVA: 0x001D3C3C File Offset: 0x001D203C
 		public static void LogPlantProportions()
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
@@ -198,7 +183,6 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060036C1 RID: 14017 RVA: 0x001D3E94 File Offset: 0x001D2294
 		private static Dictionary<ThingDef, float> CalculateDesiredPlantProportions(BiomeDef biome)
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
@@ -221,7 +205,6 @@ namespace RimWorld
 			return dictionary;
 		}
 
-		// Token: 0x060036C2 RID: 14018 RVA: 0x001D3F88 File Offset: 0x001D2388
 		public static IEnumerable<ThingDef> ValidPlantTypesForGrowers(List<IPlantToGrowSettable> sel)
 		{
 			using (IEnumerator<ThingDef> enumerator = (from def in DefDatabase<ThingDef>.AllDefs
@@ -240,7 +223,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060036C3 RID: 14019 RVA: 0x001D3FB4 File Offset: 0x001D23B4
 		public static bool CanSowOnGrower(ThingDef plantDef, object obj)
 		{
 			bool result;
@@ -256,7 +238,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036C4 RID: 14020 RVA: 0x001D4034 File Offset: 0x001D2434
 		public static Thing AdjacentSowBlocker(ThingDef plantDef, IntVec3 c, Map map)
 		{
 			for (int i = 0; i < 8; i++)
@@ -274,20 +255,17 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060036C5 RID: 14021 RVA: 0x001D40CC File Offset: 0x001D24CC
 		public static byte GetWindExposure(Plant plant)
 		{
 			return (byte)Mathf.Min(255f * plant.def.plant.topWindExposure, 255f);
 		}
 
-		// Token: 0x060036C6 RID: 14022 RVA: 0x001D4104 File Offset: 0x001D2504
 		public static void SetWindExposureColors(Color32[] colors, Plant plant)
 		{
 			colors[1].a = (colors[2].a = GenPlant.GetWindExposure(plant));
 			colors[0].a = (colors[3].a = 0);
 		}
 
-		// Token: 0x060036C7 RID: 14023 RVA: 0x001D4150 File Offset: 0x001D2550
 		public static float GetFallColorFactor(float latitude, int dayOfYear)
 		{
 			float a = GenCelestial.AverageGlow(latitude, dayOfYear);
@@ -296,7 +274,6 @@ namespace RimWorld
 			return GenMath.LerpDoubleClamped(GenPlant.FallColorBegin, GenPlant.FallColorEnd, 0f, 1f, x);
 		}
 
-		// Token: 0x060036C8 RID: 14024 RVA: 0x001D41A0 File Offset: 0x001D25A0
 		public static void SetFallShaderGlobals(Map map)
 		{
 			if (GenPlant.FallIntensityOverride)
@@ -317,7 +294,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036C9 RID: 14025 RVA: 0x001D4288 File Offset: 0x001D2688
 		public static void LogFallColorForYear()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -339,6 +315,176 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 			}
 			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenPlant()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <ValidPlantTypesForGrowers>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal List<IPlantToGrowSettable> sel;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<ThingDef, bool> <>f__am$cache0;
+
+			private GenPlant.<ValidPlantTypesForGrowers>c__Iterator0.<ValidPlantTypesForGrowers>c__AnonStorey1 $locvar1;
+
+			[DebuggerHidden]
+			public <ValidPlantTypesForGrowers>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = (from def in DefDatabase<ThingDef>.AllDefs
+					where def.category == ThingCategory.Plant
+					select def).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_E1:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						ThingDef plantDef = enumerator.Current;
+						if (sel.TrueForAll((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(plantDef, x)))
+						{
+							this.$current = plantDef;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_E1;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenPlant.<ValidPlantTypesForGrowers>c__Iterator0 <ValidPlantTypesForGrowers>c__Iterator = new GenPlant.<ValidPlantTypesForGrowers>c__Iterator0();
+				<ValidPlantTypesForGrowers>c__Iterator.sel = sel;
+				return <ValidPlantTypesForGrowers>c__Iterator;
+			}
+
+			private static bool <>m__0(ThingDef def)
+			{
+				return def.category == ThingCategory.Plant;
+			}
+
+			private sealed class <ValidPlantTypesForGrowers>c__AnonStorey1
+			{
+				internal ThingDef plantDef;
+
+				internal GenPlant.<ValidPlantTypesForGrowers>c__Iterator0 <>f__ref$0;
+
+				public <ValidPlantTypesForGrowers>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(IPlantToGrowSettable x)
+				{
+					return GenPlant.CanSowOnGrower(this.plantDef, x);
+				}
+			}
 		}
 	}
 }

@@ -7,37 +7,30 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200087A RID: 2170
 	public class MapInterface
 	{
-		// Token: 0x04001AC6 RID: 6854
 		public ThingOverlays thingOverlays = new ThingOverlays();
 
-		// Token: 0x04001AC7 RID: 6855
 		public Selector selector = new Selector();
 
-		// Token: 0x04001AC8 RID: 6856
 		public Targeter targeter = new Targeter();
 
-		// Token: 0x04001AC9 RID: 6857
 		public DesignatorManager designatorManager = new DesignatorManager();
 
-		// Token: 0x04001ACA RID: 6858
 		public ReverseDesignatorDatabase reverseDesignatorDatabase = new ReverseDesignatorDatabase();
 
-		// Token: 0x04001ACB RID: 6859
 		private MouseoverReadout mouseoverReadout = new MouseoverReadout();
 
-		// Token: 0x04001ACC RID: 6860
 		public GlobalControls globalControls = new GlobalControls();
 
-		// Token: 0x04001ACD RID: 6861
 		protected ResourceReadout resourceReadout = new ResourceReadout();
 
-		// Token: 0x04001ACE RID: 6862
 		public ColonistBar colonistBar = new ColonistBar();
 
-		// Token: 0x06003180 RID: 12672 RVA: 0x001ADD9C File Offset: 0x001AC19C
+		public MapInterface()
+		{
+		}
+
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -101,7 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003181 RID: 12673 RVA: 0x001ADF44 File Offset: 0x001AC344
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -125,7 +117,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003182 RID: 12674 RVA: 0x001ADFD4 File Offset: 0x001AC3D4
 		public void HandleMapClicks()
 		{
 			if (Find.CurrentMap != null)
@@ -142,7 +133,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003183 RID: 12675 RVA: 0x001AE034 File Offset: 0x001AC434
 		public void HandleLowPriorityInput()
 		{
 			if (Find.CurrentMap != null)
@@ -159,7 +149,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003184 RID: 12676 RVA: 0x001AE098 File Offset: 0x001AC498
 		public void MapInterfaceUpdate()
 		{
 			if (Find.CurrentMap != null)
@@ -219,7 +208,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003185 RID: 12677 RVA: 0x001AE228 File Offset: 0x001AC628
 		public void Notify_SwitchedMap()
 		{
 			this.designatorManager.Deselect();

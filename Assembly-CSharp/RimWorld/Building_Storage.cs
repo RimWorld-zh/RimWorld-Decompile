@@ -1,30 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200068D RID: 1677
 	public class Building_Storage : Building, ISlotGroupParent, IStoreSettingsParent, IHaulDestination
 	{
-		// Token: 0x040013E4 RID: 5092
 		public StorageSettings settings;
 
-		// Token: 0x040013E5 RID: 5093
 		public SlotGroup slotGroup;
 
-		// Token: 0x040013E6 RID: 5094
 		private List<IntVec3> cachedOccupiedCells = null;
 
-		// Token: 0x0600237A RID: 9082 RVA: 0x001314EC File Offset: 0x0012F8EC
 		public Building_Storage()
 		{
 			this.slotGroup = new SlotGroup(this);
 		}
 
-		// Token: 0x17000543 RID: 1347
-		// (get) Token: 0x0600237B RID: 9083 RVA: 0x00131508 File Offset: 0x0012F908
 		public bool StorageTabVisible
 		{
 			get
@@ -33,8 +30,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000544 RID: 1348
-		// (get) Token: 0x0600237C RID: 9084 RVA: 0x00131520 File Offset: 0x0012F920
 		public bool IgnoreStoredThingsBeauty
 		{
 			get
@@ -43,13 +38,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600237D RID: 9085 RVA: 0x00131548 File Offset: 0x0012F948
 		public SlotGroup GetSlotGroup()
 		{
 			return this.slotGroup;
 		}
 
-		// Token: 0x0600237E RID: 9086 RVA: 0x00131563 File Offset: 0x0012F963
 		public virtual void Notify_ReceivedThing(Thing newItem)
 		{
 			if (base.Faction == Faction.OfPlayer && newItem.def.storedConceptLearnOpportunity != null)
@@ -58,12 +51,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600237F RID: 9087 RVA: 0x00131597 File Offset: 0x0012F997
 		public virtual void Notify_LostThing(Thing newItem)
 		{
 		}
 
-		// Token: 0x06002380 RID: 9088 RVA: 0x0013159C File Offset: 0x0012F99C
 		public virtual IEnumerable<IntVec3> AllSlotCells()
 		{
 			foreach (IntVec3 c in GenAdj.CellsOccupiedBy(this))
@@ -73,7 +64,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002381 RID: 9089 RVA: 0x001315C8 File Offset: 0x0012F9C8
 		public List<IntVec3> AllSlotCellsList()
 		{
 			if (this.cachedOccupiedCells == null)
@@ -83,31 +73,26 @@ namespace RimWorld
 			return this.cachedOccupiedCells;
 		}
 
-		// Token: 0x06002382 RID: 9090 RVA: 0x00131600 File Offset: 0x0012FA00
 		public StorageSettings GetStoreSettings()
 		{
 			return this.settings;
 		}
 
-		// Token: 0x06002383 RID: 9091 RVA: 0x0013161C File Offset: 0x0012FA1C
 		public StorageSettings GetParentStoreSettings()
 		{
 			return this.def.building.fixedStorageSettings;
 		}
 
-		// Token: 0x06002384 RID: 9092 RVA: 0x00131644 File Offset: 0x0012FA44
 		public string SlotYielderLabel()
 		{
 			return this.LabelCap;
 		}
 
-		// Token: 0x06002385 RID: 9093 RVA: 0x00131660 File Offset: 0x0012FA60
 		public bool Accepts(Thing t)
 		{
 			return this.settings.AllowedToAccept(t);
 		}
 
-		// Token: 0x06002386 RID: 9094 RVA: 0x00131684 File Offset: 0x0012FA84
 		public override void PostMake()
 		{
 			base.PostMake();
@@ -118,14 +103,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002387 RID: 9095 RVA: 0x001316D4 File Offset: 0x0012FAD4
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			this.cachedOccupiedCells = null;
 			base.SpawnSetup(map, respawningAfterLoad);
 		}
 
-		// Token: 0x06002388 RID: 9096 RVA: 0x001316E6 File Offset: 0x0012FAE6
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -135,7 +118,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002389 RID: 9097 RVA: 0x0013170C File Offset: 0x0012FB0C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -147,6 +129,327 @@ namespace RimWorld
 				yield return g2;
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllSlotCells>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__1;
+
+			internal Building_Storage $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllSlotCells>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = GenAdj.CellsOccupiedBy(this).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_Storage.<AllSlotCells>c__Iterator0 <AllSlotCells>c__Iterator = new Building_Storage.<AllSlotCells>c__Iterator0();
+				<AllSlotCells>c__Iterator.$this = this;
+				return <AllSlotCells>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal IEnumerator<Gizmo> $locvar1;
+
+			internal Gizmo <g>__2;
+
+			internal Building_Storage $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_D7;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = StorageSettingsClipboard.CopyPasteGizmosFor(this.settings).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_D7:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						g2 = enumerator2.Current;
+						this.$current = g2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_Storage.<GetGizmos>c__Iterator1 <GetGizmos>c__Iterator = new Building_Storage.<GetGizmos>c__Iterator1();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
 		}
 	}
 }

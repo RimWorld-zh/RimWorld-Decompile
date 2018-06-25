@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000FD RID: 253
 	public class JoyGiver_GoForWalk : JoyGiver
 	{
-		// Token: 0x06000552 RID: 1362 RVA: 0x00039DC8 File Offset: 0x000381C8
+		public JoyGiver_GoForWalk()
+		{
+		}
+
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -56,6 +59,29 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal Predicate<IntVec3> cellValidator;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !PawnUtility.KnownDangerAt(x, this.pawn.Map, this.pawn) && !x.GetTerrain(this.pawn.Map).avoidWander && x.Standable(this.pawn.Map) && !x.Roofed(this.pawn.Map);
+			}
+
+			internal bool <>m__1(Region x)
+			{
+				IntVec3 intVec;
+				return x.Room.PsychologicallyOutdoors && !x.IsForbiddenEntirely(this.pawn) && x.TryFindRandomCellInRegionUnforbidden(this.pawn, this.cellValidator, out intVec);
+			}
 		}
 	}
 }

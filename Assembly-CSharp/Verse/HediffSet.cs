@@ -1,49 +1,52 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D3B RID: 3387
 	public class HediffSet : IExposable
 	{
-		// Token: 0x04003262 RID: 12898
 		public Pawn pawn;
 
-		// Token: 0x04003263 RID: 12899
 		public List<Hediff> hediffs = new List<Hediff>();
 
-		// Token: 0x04003264 RID: 12900
 		private List<Hediff_MissingPart> cachedMissingPartsCommonAncestors = null;
 
-		// Token: 0x04003265 RID: 12901
 		private float cachedPain = -1f;
 
-		// Token: 0x04003266 RID: 12902
 		private float cachedBleedRate = -1f;
 
-		// Token: 0x04003267 RID: 12903
 		private bool? cachedHasHead;
 
-		// Token: 0x04003268 RID: 12904
 		private Stack<BodyPartRecord> coveragePartsStack = new Stack<BodyPartRecord>();
 
-		// Token: 0x04003269 RID: 12905
 		private HashSet<BodyPartRecord> coverageRejectedPartsSet = new HashSet<BodyPartRecord>();
 
-		// Token: 0x0400326A RID: 12906
 		private Queue<BodyPartRecord> missingPartsCommonAncestorsQueue = new Queue<BodyPartRecord>();
 
-		// Token: 0x06004A95 RID: 19093 RVA: 0x0026E7A4 File Offset: 0x0026CBA4
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Hediff, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Hediff, BodyPartRecord> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, float> <>f__am$cache3;
+
 		public HediffSet(Pawn newPawn)
 		{
 			this.pawn = newPawn;
 		}
 
-		// Token: 0x17000BE8 RID: 3048
-		// (get) Token: 0x06004A96 RID: 19094 RVA: 0x0026E808 File Offset: 0x0026CC08
 		public float PainTotal
 		{
 			get
@@ -56,8 +59,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BE9 RID: 3049
-		// (get) Token: 0x06004A97 RID: 19095 RVA: 0x0026E840 File Offset: 0x0026CC40
 		public float BleedRateTotal
 		{
 			get
@@ -70,8 +71,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BEA RID: 3050
-		// (get) Token: 0x06004A98 RID: 19096 RVA: 0x0026E878 File Offset: 0x0026CC78
 		public bool HasHead
 		{
 			get
@@ -85,8 +84,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BEB RID: 3051
-		// (get) Token: 0x06004A99 RID: 19097 RVA: 0x0026E8E4 File Offset: 0x0026CCE4
 		public float HungerRateFactor
 		{
 			get
@@ -112,8 +109,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BEC RID: 3052
-		// (get) Token: 0x06004A9A RID: 19098 RVA: 0x0026E990 File Offset: 0x0026CD90
 		public float RestFallFactor
 		{
 			get
@@ -139,7 +134,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A9B RID: 19099 RVA: 0x0026EA3C File Offset: 0x0026CE3C
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Hediff>(ref this.hediffs, "hediffs", LookMode.Deep, new object[0]);
@@ -153,7 +147,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A9C RID: 19100 RVA: 0x0026EAAC File Offset: 0x0026CEAC
 		public void AddDirect(Hediff hediff, DamageInfo? dinfo = null, DamageWorker.DamageResult damageResult = null)
 		{
 			if (hediff.def == null)
@@ -225,7 +218,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A9D RID: 19101 RVA: 0x0026ED4C File Offset: 0x0026D14C
 		public void DirtyCache()
 		{
 			this.CacheMissingPartsCommonAncestors();
@@ -236,7 +228,6 @@ namespace Verse
 			this.pawn.health.summaryHealth.Notify_HealthChanged();
 		}
 
-		// Token: 0x06004A9E RID: 19102 RVA: 0x0026EDB0 File Offset: 0x0026D1B0
 		public IEnumerable<T> GetHediffs<T>() where T : Hediff
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -250,7 +241,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A9F RID: 19103 RVA: 0x0026EDDC File Offset: 0x0026D1DC
 		public Hediff GetFirstHediffOfDef(HediffDef def, bool mustBeVisible = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -263,7 +253,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004AA0 RID: 19104 RVA: 0x0026EE58 File Offset: 0x0026D258
 		public bool PartIsMissing(BodyPartRecord part)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -276,7 +265,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AA1 RID: 19105 RVA: 0x0026EEC0 File Offset: 0x0026D2C0
 		public float GetPartHealth(BodyPartRecord part)
 		{
 			float result;
@@ -311,7 +299,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AA2 RID: 19106 RVA: 0x0026EFA0 File Offset: 0x0026D3A0
 		public BodyPartRecord GetBrain()
 		{
 			foreach (BodyPartRecord bodyPartRecord in this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
@@ -324,7 +311,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004AA3 RID: 19107 RVA: 0x0026F024 File Offset: 0x0026D424
 		public bool HasHediff(HediffDef def, bool mustBeVisible = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -337,7 +323,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AA4 RID: 19108 RVA: 0x0026F094 File Offset: 0x0026D494
 		public bool HasHediff(HediffDef def, BodyPartRecord bodyPart, bool mustBeVisible = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -350,7 +335,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AA5 RID: 19109 RVA: 0x0026F11C File Offset: 0x0026D51C
 		public IEnumerable<Verb> GetHediffsVerbs()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -368,7 +352,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AA6 RID: 19110 RVA: 0x0026F148 File Offset: 0x0026D548
 		public IEnumerable<Hediff> GetHediffsTendable()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -381,7 +364,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AA7 RID: 19111 RVA: 0x0026F174 File Offset: 0x0026D574
 		public bool HasTendableHediff(bool forAlert = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -397,7 +379,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AA8 RID: 19112 RVA: 0x0026F1F0 File Offset: 0x0026D5F0
 		public IEnumerable<Hediff_Injury> GetInjuriesTendable()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -411,7 +392,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AA9 RID: 19113 RVA: 0x0026F21C File Offset: 0x0026D61C
 		public bool HasTendableInjury()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -425,7 +405,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AAA RID: 19114 RVA: 0x0026F27C File Offset: 0x0026D67C
 		public bool HasNaturallyHealingInjury()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -439,7 +418,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AAB RID: 19115 RVA: 0x0026F2DC File Offset: 0x0026D6DC
 		public bool HasTendedAndHealingInjury()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -453,7 +431,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AAC RID: 19116 RVA: 0x0026F34C File Offset: 0x0026D74C
 		public bool HasTemperatureInjury(TemperatureInjuryStage minStage)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -469,7 +446,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AAD RID: 19117 RVA: 0x0026F3D8 File Offset: 0x0026D7D8
 		public IEnumerable<BodyPartRecord> GetInjuredParts()
 		{
 			return (from x in this.hediffs
@@ -477,7 +453,6 @@ namespace Verse
 			select x.Part).Distinct<BodyPartRecord>();
 		}
 
-		// Token: 0x06004AAE RID: 19118 RVA: 0x0026F43C File Offset: 0x0026D83C
 		public IEnumerable<BodyPartRecord> GetNaturallyHealingInjuredParts()
 		{
 			foreach (BodyPartRecord part in this.GetInjuredParts())
@@ -495,7 +470,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AAF RID: 19119 RVA: 0x0026F468 File Offset: 0x0026D868
 		public List<Hediff_MissingPart> GetMissingPartsCommonAncestors()
 		{
 			if (this.cachedMissingPartsCommonAncestors == null)
@@ -505,7 +479,6 @@ namespace Verse
 			return this.cachedMissingPartsCommonAncestors;
 		}
 
-		// Token: 0x06004AB0 RID: 19120 RVA: 0x0026F494 File Offset: 0x0026D894
 		public IEnumerable<BodyPartRecord> GetNotMissingParts(BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined, BodyPartTagDef tag = null)
 		{
 			List<BodyPartRecord> allPartsList = this.pawn.def.race.body.AllParts;
@@ -529,7 +502,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AB1 RID: 19121 RVA: 0x0026F4D4 File Offset: 0x0026D8D4
 		public BodyPartRecord GetRandomNotMissingPart(DamageDef damDef, BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined)
 		{
 			IEnumerable<BodyPartRecord> notMissingParts;
@@ -562,7 +534,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AB2 RID: 19122 RVA: 0x0026F598 File Offset: 0x0026D998
 		public float GetCoverageOfNotMissingNaturalParts(BodyPartRecord part)
 		{
 			float result;
@@ -611,7 +582,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AB3 RID: 19123 RVA: 0x0026F730 File Offset: 0x0026DB30
 		private void CacheMissingPartsCommonAncestors()
 		{
 			if (this.cachedMissingPartsCommonAncestors == null)
@@ -647,7 +617,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AB4 RID: 19124 RVA: 0x0026F850 File Offset: 0x0026DC50
 		public bool HasDirectlyAddedPartFor(BodyPartRecord part)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -660,19 +629,16 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AB5 RID: 19125 RVA: 0x0026F8B8 File Offset: 0x0026DCB8
 		public bool PartOrAnyAncestorHasDirectlyAddedParts(BodyPartRecord part)
 		{
 			return this.HasDirectlyAddedPartFor(part) || (part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent));
 		}
 
-		// Token: 0x06004AB6 RID: 19126 RVA: 0x0026F904 File Offset: 0x0026DD04
 		public bool AncestorHasDirectlyAddedParts(BodyPartRecord part)
 		{
 			return part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent);
 		}
 
-		// Token: 0x06004AB7 RID: 19127 RVA: 0x0026F940 File Offset: 0x0026DD40
 		public IEnumerable<Hediff> GetTendableNonInjuryNonMissingPartHediffs()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -691,7 +657,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AB8 RID: 19128 RVA: 0x0026F96C File Offset: 0x0026DD6C
 		public bool HasTendableNonInjuryNonMissingPartHediff(bool forAlert = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -713,7 +678,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AB9 RID: 19129 RVA: 0x0026FA20 File Offset: 0x0026DE20
 		public bool HasTendedImmunizableNotImmuneHediff()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -726,8 +690,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x17000BED RID: 3053
-		// (get) Token: 0x06004ABA RID: 19130 RVA: 0x0026FAEC File Offset: 0x0026DEEC
 		public bool AnyHediffMakesSickThought
 		{
 			get
@@ -746,7 +708,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ABB RID: 19131 RVA: 0x0026FB64 File Offset: 0x0026DF64
 		private float CalculateBleedRate()
 		{
 			float result;
@@ -767,7 +728,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ABC RID: 19132 RVA: 0x0026FBF8 File Offset: 0x0026DFF8
 		private float CalculatePain()
 		{
 			float result;
@@ -792,11 +752,893 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ABD RID: 19133 RVA: 0x0026FCCA File Offset: 0x0026E0CA
 		public void Clear()
 		{
 			this.hediffs.Clear();
 			this.DirtyCache();
+		}
+
+		[CompilerGenerated]
+		private static bool <get_HasHead>m__0(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.Head;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetInjuredParts>m__1(Hediff x)
+		{
+			return x is Hediff_Injury;
+		}
+
+		[CompilerGenerated]
+		private static BodyPartRecord <GetInjuredParts>m__2(Hediff x)
+		{
+			return x.Part;
+		}
+
+		[CompilerGenerated]
+		private static float <GetRandomNotMissingPart>m__3(BodyPartRecord x)
+		{
+			return x.coverageAbs;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetHediffs>c__Iterator0<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T> where T : Hediff
+		{
+			internal int <i>__1;
+
+			internal T <t>__2;
+
+			internal HediffSet $this;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetHediffs>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_85:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= this.hediffs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					t = (this.hediffs[i] as T);
+					if (t != null)
+					{
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_85;
+				}
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetHediffs>c__Iterator0<T> <GetHediffs>c__Iterator = new HediffSet.<GetHediffs>c__Iterator0<T>();
+				<GetHediffs>c__Iterator.$this = this;
+				return <GetHediffs>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetHediffsVerbs>c__Iterator1 : IEnumerable, IEnumerable<Verb>, IEnumerator, IDisposable, IEnumerator<Verb>
+		{
+			internal int <i>__1;
+
+			internal HediffComp_VerbGiver <vg>__2;
+
+			internal List<Verb> <verbList>__3;
+
+			internal int <j>__4;
+
+			internal HediffSet $this;
+
+			internal Verb $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetHediffsVerbs>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_DF;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_B9:
+				if (j < verbList.Count)
+				{
+					this.$current = verbList[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				IL_D0:
+				i++;
+				IL_DF:
+				if (i >= this.hediffs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					vg = this.hediffs[i].TryGetComp<HediffComp_VerbGiver>();
+					if (vg != null)
+					{
+						verbList = vg.VerbTracker.AllVerbs;
+						j = 0;
+						goto IL_B9;
+					}
+					goto IL_D0;
+				}
+				return false;
+			}
+
+			Verb IEnumerator<Verb>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Verb>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Verb> IEnumerable<Verb>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetHediffsVerbs>c__Iterator1 <GetHediffsVerbs>c__Iterator = new HediffSet.<GetHediffsVerbs>c__Iterator1();
+				<GetHediffsVerbs>c__Iterator.$this = this;
+				return <GetHediffsVerbs>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetHediffsTendable>c__Iterator2 : IEnumerable, IEnumerable<Hediff>, IEnumerator, IDisposable, IEnumerator<Hediff>
+		{
+			internal int <i>__1;
+
+			internal HediffSet $this;
+
+			internal Hediff $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetHediffsTendable>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_80:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= this.hediffs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.hediffs[i].TendableNow(false))
+					{
+						this.$current = this.hediffs[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_80;
+				}
+				return false;
+			}
+
+			Hediff IEnumerator<Hediff>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Hediff>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Hediff> IEnumerable<Hediff>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetHediffsTendable>c__Iterator2 <GetHediffsTendable>c__Iterator = new HediffSet.<GetHediffsTendable>c__Iterator2();
+				<GetHediffsTendable>c__Iterator.$this = this;
+				return <GetHediffsTendable>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetInjuriesTendable>c__Iterator3 : IEnumerable, IEnumerable<Hediff_Injury>, IEnumerator, IDisposable, IEnumerator<Hediff_Injury>
+		{
+			internal int <i>__1;
+
+			internal Hediff_Injury <inj>__2;
+
+			internal HediffSet $this;
+
+			internal Hediff_Injury $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetInjuriesTendable>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_8C:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= this.hediffs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					inj = (this.hediffs[i] as Hediff_Injury);
+					if (inj != null && inj.TendableNow(false))
+					{
+						this.$current = inj;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_8C;
+				}
+				return false;
+			}
+
+			Hediff_Injury IEnumerator<Hediff_Injury>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Hediff_Injury>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Hediff_Injury> IEnumerable<Hediff_Injury>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetInjuriesTendable>c__Iterator3 <GetInjuriesTendable>c__Iterator = new HediffSet.<GetInjuriesTendable>c__Iterator3();
+				<GetInjuriesTendable>c__Iterator.$this = this;
+				return <GetInjuriesTendable>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetNaturallyHealingInjuredParts>c__Iterator4 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal IEnumerator<BodyPartRecord> $locvar0;
+
+			internal BodyPartRecord <part>__1;
+
+			internal int <i>__2;
+
+			internal Hediff_Injury <injury>__3;
+
+			internal HediffSet $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetNaturallyHealingInjuredParts>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.GetInjuredParts().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					IL_122:
+					if (enumerator.MoveNext())
+					{
+						part = enumerator.Current;
+						for (i = 0; i < this.hediffs.Count; i++)
+						{
+							injury = (this.hediffs[i] as Hediff_Injury);
+							if (injury != null && this.hediffs[i].Part == part && injury.CanHealNaturally())
+							{
+								this.$current = part;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						goto IL_122;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator4 <GetNaturallyHealingInjuredParts>c__Iterator = new HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator4();
+				<GetNaturallyHealingInjuredParts>c__Iterator.$this = this;
+				return <GetNaturallyHealingInjuredParts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetNotMissingParts>c__Iterator5 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal List<BodyPartRecord> <allPartsList>__0;
+
+			internal int <i>__1;
+
+			internal BodyPartRecord <part>__2;
+
+			internal BodyPartHeight height;
+
+			internal BodyPartDepth depth;
+
+			internal BodyPartTagDef tag;
+
+			internal HediffSet $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetNotMissingParts>c__Iterator5()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					allPartsList = this.pawn.def.race.body.AllParts;
+					i = 0;
+					goto IL_131;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_123:
+				i++;
+				IL_131:
+				if (i >= allPartsList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					part = allPartsList[i];
+					if (base.PartIsMissing(part))
+					{
+						goto IL_123;
+					}
+					if (height != BodyPartHeight.Undefined && part.height != height)
+					{
+						goto IL_123;
+					}
+					if (depth != BodyPartDepth.Undefined && part.depth != depth)
+					{
+						goto IL_123;
+					}
+					if (tag != null && !part.def.tags.Contains(tag))
+					{
+						goto IL_123;
+					}
+					this.$current = part;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetNotMissingParts>c__Iterator5 <GetNotMissingParts>c__Iterator = new HediffSet.<GetNotMissingParts>c__Iterator5();
+				<GetNotMissingParts>c__Iterator.$this = this;
+				<GetNotMissingParts>c__Iterator.height = height;
+				<GetNotMissingParts>c__Iterator.depth = depth;
+				<GetNotMissingParts>c__Iterator.tag = tag;
+				return <GetNotMissingParts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRandomNotMissingPart>c__AnonStorey7
+		{
+			internal DamageDef damDef;
+
+			public <GetRandomNotMissingPart>c__AnonStorey7()
+			{
+			}
+
+			internal float <>m__0(BodyPartRecord x)
+			{
+				return x.coverageAbs * x.def.GetHitChanceFactorFor(this.damDef);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CacheMissingPartsCommonAncestors>c__AnonStorey8
+		{
+			internal BodyPartRecord node;
+
+			public <CacheMissingPartsCommonAncestors>c__AnonStorey8()
+			{
+			}
+
+			internal bool <>m__0(Hediff_MissingPart x)
+			{
+				return x.Part == this.node;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator6 : IEnumerable, IEnumerable<Hediff>, IEnumerator, IDisposable, IEnumerator<Hediff>
+		{
+			internal int <i>__1;
+
+			internal HediffSet $this;
+
+			internal Hediff $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator6()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_DE;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_D0:
+				i++;
+				IL_DE:
+				if (i >= this.hediffs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.hediffs[i] is Hediff_Injury)
+					{
+						goto IL_D0;
+					}
+					if (this.hediffs[i] is Hediff_MissingPart)
+					{
+						goto IL_D0;
+					}
+					if (!this.hediffs[i].TendableNow(false))
+					{
+						goto IL_D0;
+					}
+					this.$current = this.hediffs[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			Hediff IEnumerator<Hediff>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Hediff>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Hediff> IEnumerable<Hediff>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator6 <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator = new HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator6();
+				<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator.$this = this;
+				return <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator;
+			}
 		}
 	}
 }

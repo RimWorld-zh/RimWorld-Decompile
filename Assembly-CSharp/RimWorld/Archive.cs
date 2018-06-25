@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F5 RID: 757
 	public class Archive : IExposable
 	{
-		// Token: 0x04000835 RID: 2101
 		private List<IArchivable> archivables = new List<IArchivable>();
 
-		// Token: 0x04000836 RID: 2102
 		private HashSet<IArchivable> pinnedArchivables = new HashSet<IArchivable>();
 
-		// Token: 0x04000837 RID: 2103
 		public const int MaxNonPinnedArchivables = 200;
 
-		// Token: 0x170001DD RID: 477
-		// (get) Token: 0x06000C87 RID: 3207 RVA: 0x0006F300 File Offset: 0x0006D700
+		[CompilerGenerated]
+		private static Predicate<IArchivable> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<IArchivable> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<IArchivable, int> <>f__am$cache2;
+
+		public Archive()
+		{
+		}
+
 		public List<IArchivable> ArchivablesListForReading
 		{
 			get
@@ -26,7 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C88 RID: 3208 RVA: 0x0006F31C File Offset: 0x0006D71C
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<IArchivable>(ref this.archivables, "archivables", LookMode.Deep, new object[0]);
@@ -38,7 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C89 RID: 3209 RVA: 0x0006F3B4 File Offset: 0x0006D7B4
 		public bool Add(IArchivable archivable)
 		{
 			bool result;
@@ -61,7 +67,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C8A RID: 3210 RVA: 0x0006F430 File Offset: 0x0006D830
 		public bool Remove(IArchivable archivable)
 		{
 			bool result;
@@ -78,13 +83,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C8B RID: 3211 RVA: 0x0006F474 File Offset: 0x0006D874
 		public bool Contains(IArchivable archivable)
 		{
 			return this.archivables.Contains(archivable);
 		}
 
-		// Token: 0x06000C8C RID: 3212 RVA: 0x0006F495 File Offset: 0x0006D895
 		public void Pin(IArchivable archivable)
 		{
 			if (this.Contains(archivable))
@@ -96,7 +99,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C8D RID: 3213 RVA: 0x0006F4C7 File Offset: 0x0006D8C7
 		public void Unpin(IArchivable archivable)
 		{
 			if (this.Contains(archivable))
@@ -108,13 +110,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C8E RID: 3214 RVA: 0x0006F4FC File Offset: 0x0006D8FC
 		public bool IsPinned(IArchivable archivable)
 		{
 			return this.pinnedArchivables.Contains(archivable);
 		}
 
-		// Token: 0x06000C8F RID: 3215 RVA: 0x0006F520 File Offset: 0x0006D920
 		private void CheckCullArchivables()
 		{
 			int num = 0;
@@ -141,6 +141,24 @@ namespace RimWorld
 					}
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(IArchivable x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__1(IArchivable x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static int <Add>m__2(IArchivable x)
+		{
+			return x.CreatedTicksGame;
 		}
 	}
 }

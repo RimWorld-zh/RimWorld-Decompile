@@ -3,47 +3,40 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000199 RID: 409
+	[AddComponentMenu("Image Effects/Rendering/Global Fog")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Rendering/Global Fog")]
 	internal class GlobalFog : PostEffectsBase
 	{
-		// Token: 0x040007FB RID: 2043
 		[Tooltip("Apply distance-based fog?")]
 		public bool distanceFog = true;
 
-		// Token: 0x040007FC RID: 2044
 		[Tooltip("Exclude far plane pixels from distance-based fog? (Skybox or clear color)")]
 		public bool excludeFarPixels = true;
 
-		// Token: 0x040007FD RID: 2045
 		[Tooltip("Distance fog is based on radial distance from camera when checked")]
 		public bool useRadialDistance = false;
 
-		// Token: 0x040007FE RID: 2046
 		[Tooltip("Apply height-based fog?")]
 		public bool heightFog = true;
 
-		// Token: 0x040007FF RID: 2047
 		[Tooltip("Fog top Y coordinate")]
 		public float height = 1f;
 
-		// Token: 0x04000800 RID: 2048
 		[Range(0.001f, 10f)]
 		public float heightDensity = 2f;
 
-		// Token: 0x04000801 RID: 2049
 		[Tooltip("Push fog away from the camera by this amount")]
 		public float startDistance = 0f;
 
-		// Token: 0x04000802 RID: 2050
 		public Shader fogShader = null;
 
-		// Token: 0x04000803 RID: 2051
 		private Material fogMaterial = null;
 
-		// Token: 0x06000920 RID: 2336 RVA: 0x000165B8 File Offset: 0x000147B8
+		public GlobalFog()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(true);
@@ -55,7 +48,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x06000921 RID: 2337 RVA: 0x00016604 File Offset: 0x00014804
 		[ImageEffectOpaque]
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
@@ -131,7 +123,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000922 RID: 2338 RVA: 0x000169E0 File Offset: 0x00014BE0
 		private static void CustomGraphicsBlit(RenderTexture source, RenderTexture dest, Material fxMaterial, int passNr)
 		{
 			RenderTexture.active = dest;

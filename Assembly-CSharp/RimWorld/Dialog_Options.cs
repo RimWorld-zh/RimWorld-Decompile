@@ -3,19 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200080C RID: 2060
 	public class Dialog_Options : Window
 	{
-		// Token: 0x04001865 RID: 6245
 		private const float SubOptionTabWidth = 40f;
 
-		// Token: 0x04001866 RID: 6246
 		private static readonly float[] UIScales = new float[]
 		{
 			1f,
@@ -29,7 +27,45 @@ namespace RimWorld
 			4f
 		};
 
-		// Token: 0x06002DF5 RID: 11765 RVA: 0x0018348B File Offset: 0x0018188B
+		[CompilerGenerated]
+		private static Func<Resolution, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Resolution, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Resolution, int> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheA;
+
+		[CompilerGenerated]
+		private static Predicate<string> <>f__am$cacheB;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheC;
+
 		public Dialog_Options()
 		{
 			this.doCloseButton = true;
@@ -38,8 +74,6 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x17000755 RID: 1877
-		// (get) Token: 0x06002DF6 RID: 11766 RVA: 0x001834B0 File Offset: 0x001818B0
 		public override Vector2 InitialSize
 		{
 			get
@@ -48,7 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF7 RID: 11767 RVA: 0x001834D4 File Offset: 0x001818D4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = inRect.AtZero();
@@ -415,14 +448,12 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002DF8 RID: 11768 RVA: 0x00184460 File Offset: 0x00182860
 		public override void PreClose()
 		{
 			base.PreClose();
 			Prefs.Save();
 		}
 
-		// Token: 0x06002DF9 RID: 11769 RVA: 0x00184470 File Offset: 0x00182870
 		public static string ResToString(int width, int height)
 		{
 			string text = width + "x" + height;
@@ -437,7 +468,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06002DFA RID: 11770 RVA: 0x001844E4 File Offset: 0x001828E4
 		public void RestoreToDefaultSettings()
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.ConfigFolderPath);
@@ -455,6 +485,193 @@ namespace RimWorld
 			{
 				GenCommandLine.Restart();
 			}, null, null, null, false, null, null));
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Dialog_Options()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DoWindowContents>m__0(Resolution x)
+		{
+			return x.width >= 1024 && x.height >= 768;
+		}
+
+		[CompilerGenerated]
+		private static int <DoWindowContents>m__1(Resolution x)
+		{
+			return x.width;
+		}
+
+		[CompilerGenerated]
+		private static int <DoWindowContents>m__2(Resolution x)
+		{
+			return x.height;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__3()
+		{
+			Prefs.AutosaveIntervalDays = 0.125f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__4()
+		{
+			Prefs.AutosaveIntervalDays = 0.25f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__5()
+		{
+			Prefs.AutosaveIntervalDays = 0.5f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__6()
+		{
+			Prefs.AutosaveIntervalDays = 1f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__7()
+		{
+			Prefs.AutosaveIntervalDays = 3f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__8()
+		{
+			Prefs.AutosaveIntervalDays = 7f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__9()
+		{
+			Prefs.AutosaveIntervalDays = 14f;
+		}
+
+		[CompilerGenerated]
+		private static void <DoWindowContents>m__A()
+		{
+			DevModePermanentlyDisabledUtility.Disable();
+		}
+
+		[CompilerGenerated]
+		private static bool <DoWindowContents>m__B(string n)
+		{
+			return n.NullOrEmpty();
+		}
+
+		[CompilerGenerated]
+		private static void <RestoreToDefaultSettings>m__C()
+		{
+			GenCommandLine.Restart();
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey0
+		{
+			internal Resolution res;
+
+			public <DoWindowContents>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (!ResolutionUtility.UIScaleSafeWithResolution(Prefs.UIScale, this.res.width, this.res.height))
+				{
+					Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					ResolutionUtility.SafeSetResolution(this.res);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey1
+		{
+			internal float scale;
+
+			public <DoWindowContents>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (this.scale != 1f && !ResolutionUtility.UIScaleSafeWithResolution(this.scale, Screen.width, Screen.height))
+				{
+					Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					ResolutionUtility.SafeSetUIScale(this.scale);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey2
+		{
+			internal AnimalNameDisplayMode localMode;
+
+			public <DoWindowContents>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Prefs.AnimalNameMode = this.localMode;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey3
+		{
+			internal LoadedLanguage localLang;
+
+			public <DoWindowContents>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				LanguageDatabase.SelectLanguage(this.localLang);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey4
+		{
+			internal TemperatureDisplayMode localTmode;
+
+			public <DoWindowContents>c__AnonStorey4()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Prefs.TemperatureMode = this.localTmode;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey5
+		{
+			internal string name;
+
+			public <DoWindowContents>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(PawnBio b)
+			{
+				return b.name.ToString() == this.name;
+			}
 		}
 	}
 }

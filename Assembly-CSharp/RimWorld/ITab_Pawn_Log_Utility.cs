@@ -1,32 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000852 RID: 2130
 	public static class ITab_Pawn_Log_Utility
 	{
-		// Token: 0x04001A31 RID: 6705
 		[TweakValue("Interface", 0f, 1f)]
 		private static float AlternateAlpha = 0.03f;
 
-		// Token: 0x04001A32 RID: 6706
 		[TweakValue("Interface", 0f, 1f)]
 		private static float HighlightAlpha = 0.2f;
 
-		// Token: 0x04001A33 RID: 6707
 		[TweakValue("Interface", 0f, 10f)]
 		private static float HighlightDuration = 4f;
 
-		// Token: 0x04001A34 RID: 6708
 		[TweakValue("Interface", 0f, 30f)]
 		private static float BattleBottomPadding = 20f;
 
-		// Token: 0x06003046 RID: 12358 RVA: 0x001A4BDC File Offset: 0x001A2FDC
 		public static IEnumerable<ITab_Pawn_Log_Utility.LogLineDisplayable> GenerateLogLinesFor(Pawn pawn, bool showAll, bool showCombat, bool showSocial)
 		{
 			LogEntry[] nonCombatLines = (!showSocial) ? new LogEntry[0] : (from e in Find.PlayLog.AllEntries
@@ -89,32 +87,37 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x02000853 RID: 2131
+		// Note: this type is marked as 'beforefieldinit'.
+		static ITab_Pawn_Log_Utility()
+		{
+		}
+
 		public class LogDrawData
 		{
-			// Token: 0x04001A35 RID: 6709
 			public bool alternatingBackground = false;
 
-			// Token: 0x04001A36 RID: 6710
 			public LogEntry highlightEntry = null;
 
-			// Token: 0x04001A37 RID: 6711
 			public float highlightIntensity = 0f;
 
-			// Token: 0x06003049 RID: 12361 RVA: 0x001A4C66 File Offset: 0x001A3066
+			public LogDrawData()
+			{
+			}
+
 			public void StartNewDraw()
 			{
 				this.alternatingBackground = false;
 			}
 		}
 
-		// Token: 0x02000854 RID: 2132
 		public abstract class LogLineDisplayable
 		{
-			// Token: 0x04001A38 RID: 6712
 			private float cachedHeight = -1f;
 
-			// Token: 0x0600304B RID: 12363 RVA: 0x001A4C84 File Offset: 0x001A3084
+			protected LogLineDisplayable()
+			{
+			}
+
 			public float GetHeight(float width)
 			{
 				if (this.cachedHeight == -1f)
@@ -124,35 +127,27 @@ namespace RimWorld
 				return this.cachedHeight;
 			}
 
-			// Token: 0x0600304C RID: 12364
 			public abstract float GetHeight_Worker(float width);
 
-			// Token: 0x0600304D RID: 12365
 			public abstract void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data);
 
-			// Token: 0x0600304E RID: 12366
 			public abstract void AppendTo(StringBuilder sb);
 
-			// Token: 0x0600304F RID: 12367 RVA: 0x001A4CBC File Offset: 0x001A30BC
 			public virtual bool Matches(LogEntry log)
 			{
 				return false;
 			}
 		}
 
-		// Token: 0x02000855 RID: 2133
 		public class LogLineDisplayableHeader : ITab_Pawn_Log_Utility.LogLineDisplayable
 		{
-			// Token: 0x04001A39 RID: 6713
 			private string text;
 
-			// Token: 0x06003050 RID: 12368 RVA: 0x001A4CD2 File Offset: 0x001A30D2
 			public LogLineDisplayableHeader(string text)
 			{
 				this.text = text;
 			}
 
-			// Token: 0x06003051 RID: 12369 RVA: 0x001A4CE4 File Offset: 0x001A30E4
 			public override float GetHeight_Worker(float width)
 			{
 				GameFont font = Text.Font;
@@ -162,7 +157,6 @@ namespace RimWorld
 				return result;
 			}
 
-			// Token: 0x06003052 RID: 12370 RVA: 0x001A4D19 File Offset: 0x001A3119
 			public override void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data)
 			{
 				Text.Font = GameFont.Medium;
@@ -170,37 +164,30 @@ namespace RimWorld
 				Text.Font = GameFont.Small;
 			}
 
-			// Token: 0x06003053 RID: 12371 RVA: 0x001A4D46 File Offset: 0x001A3146
 			public override void AppendTo(StringBuilder sb)
 			{
 				sb.AppendLine("--    " + this.text);
 			}
 		}
 
-		// Token: 0x02000856 RID: 2134
 		public class LogLineDisplayableLog : ITab_Pawn_Log_Utility.LogLineDisplayable
 		{
-			// Token: 0x04001A3A RID: 6714
 			private LogEntry log;
 
-			// Token: 0x04001A3B RID: 6715
 			private Pawn pawn;
 
-			// Token: 0x06003054 RID: 12372 RVA: 0x001A4D60 File Offset: 0x001A3160
 			public LogLineDisplayableLog(LogEntry log, Pawn pawn)
 			{
 				this.log = log;
 				this.pawn = pawn;
 			}
 
-			// Token: 0x06003055 RID: 12373 RVA: 0x001A4D78 File Offset: 0x001A3178
 			public override float GetHeight_Worker(float width)
 			{
 				float width2 = width - 29f;
 				return Mathf.Max(26f, this.log.GetTextHeight(this.pawn, width2));
 			}
 
-			// Token: 0x06003056 RID: 12374 RVA: 0x001A4DB4 File Offset: 0x001A31B4
 			public override void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data)
 			{
 				float height = base.GetHeight(width);
@@ -235,46 +222,361 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x06003057 RID: 12375 RVA: 0x001A4F61 File Offset: 0x001A3361
 			public override void AppendTo(StringBuilder sb)
 			{
 				sb.AppendLine(this.log.ToGameStringFromPOV(this.pawn, false));
 			}
 
-			// Token: 0x06003058 RID: 12376 RVA: 0x001A4F80 File Offset: 0x001A3380
 			public override bool Matches(LogEntry log)
 			{
 				return log == this.log;
 			}
+
+			[CompilerGenerated]
+			private string <Draw>m__0()
+			{
+				return this.log.GetTipString();
+			}
 		}
 
-		// Token: 0x02000857 RID: 2135
 		public class LogLineDisplayableGap : ITab_Pawn_Log_Utility.LogLineDisplayable
 		{
-			// Token: 0x04001A3C RID: 6716
 			private float height;
 
-			// Token: 0x0600305A RID: 12378 RVA: 0x001A4FBF File Offset: 0x001A33BF
 			public LogLineDisplayableGap(float height)
 			{
 				this.height = height;
 			}
 
-			// Token: 0x0600305B RID: 12379 RVA: 0x001A4FD0 File Offset: 0x001A33D0
 			public override float GetHeight_Worker(float width)
 			{
 				return this.height;
 			}
 
-			// Token: 0x0600305C RID: 12380 RVA: 0x001A4FEB File Offset: 0x001A33EB
 			public override void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data)
 			{
 			}
 
-			// Token: 0x0600305D RID: 12381 RVA: 0x001A4FEE File Offset: 0x001A33EE
 			public override void AppendTo(StringBuilder sb)
 			{
 				sb.AppendLine();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateLogLinesFor>c__Iterator0 : IEnumerable, IEnumerable<ITab_Pawn_Log_Utility.LogLineDisplayable>, IEnumerator, IDisposable, IEnumerator<ITab_Pawn_Log_Utility.LogLineDisplayable>
+		{
+			internal bool showSocial;
+
+			internal Pawn pawn;
+
+			internal LogEntry[] <nonCombatLines>__0;
+
+			internal int <nonCombatIndex>__0;
+
+			internal Battle <currentBattle>__0;
+
+			internal bool showCombat;
+
+			internal bool <atTop>__1;
+
+			internal List<Battle>.Enumerator $locvar0;
+
+			internal Battle <battle>__2;
+
+			internal List<LogEntry>.Enumerator $locvar1;
+
+			internal LogEntry <entry>__3;
+
+			internal bool showAll;
+
+			internal ITab_Pawn_Log_Utility.LogLineDisplayable $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private ITab_Pawn_Log_Utility.<GenerateLogLinesFor>c__Iterator0.<GenerateLogLinesFor>c__AnonStorey1 $locvar2;
+
+			[DebuggerHidden]
+			public <GenerateLogLinesFor>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					nonCombatLines = ((!showSocial) ? new LogEntry[0] : (from e in Find.PlayLog.AllEntries
+					where e.Concerns(pawn)
+					select e).ToArray<LogEntry>());
+					nonCombatIndex = 0;
+					currentBattle = null;
+					if (!showCombat)
+					{
+						goto IL_39A;
+					}
+					atTop = true;
+					enumerator = Find.BattleLog.Battles.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+				case 2u:
+				case 3u:
+				case 4u:
+				case 5u:
+					break;
+				case 6u:
+					currentBattle = null;
+					goto IL_3D8;
+				case 7u:
+					goto IL_41B;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+					case 2u:
+					case 3u:
+					case 4u:
+					case 5u:
+						Block_11:
+						try
+						{
+							switch (num)
+							{
+							case 1u:
+								currentBattle = null;
+								goto IL_20B;
+							case 2u:
+								atTop = false;
+								goto IL_257;
+							case 3u:
+								IL_2CF:
+								this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableHeader(battle.GetName());
+								if (!this.$disposing)
+								{
+									this.$PC = 4;
+								}
+								flag = true;
+								return true;
+							case 4u:
+								currentBattle = battle;
+								atTop = false;
+								goto IL_30F;
+							}
+							while (enumerator2.MoveNext())
+							{
+								entry = enumerator2.Current;
+								if (entry.Concerns(<GenerateLogLinesFor>c__AnonStorey.pawn) && (showAll || entry.ShowInCompactView()))
+								{
+									goto IL_257;
+								}
+							}
+							break;
+							IL_20B:
+							this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableLog(nonCombatLines[nonCombatIndex++], <GenerateLogLinesFor>c__AnonStorey.pawn);
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+							IL_257:
+							if (nonCombatIndex >= nonCombatLines.Length || nonCombatLines[nonCombatIndex].Age >= entry.Age)
+							{
+								if (currentBattle != battle)
+								{
+									if (!atTop)
+									{
+										this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableGap(ITab_Pawn_Log_Utility.BattleBottomPadding);
+										if (!this.$disposing)
+										{
+											this.$PC = 3;
+										}
+										flag = true;
+										return true;
+									}
+									goto IL_2CF;
+								}
+							}
+							else
+							{
+								if (currentBattle != null && currentBattle != battle)
+								{
+									this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableGap(ITab_Pawn_Log_Utility.BattleBottomPadding);
+									if (!this.$disposing)
+									{
+										this.$PC = 1;
+									}
+									flag = true;
+									return true;
+								}
+								goto IL_20B;
+							}
+							IL_30F:
+							this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableLog(entry, <GenerateLogLinesFor>c__AnonStorey.pawn);
+							if (!this.$disposing)
+							{
+								this.$PC = 5;
+							}
+							flag = true;
+							return true;
+						}
+						finally
+						{
+							if (!flag)
+							{
+								((IDisposable)enumerator2).Dispose();
+							}
+						}
+						break;
+					}
+					while (enumerator.MoveNext())
+					{
+						battle = enumerator.Current;
+						if (battle.Concerns(<GenerateLogLinesFor>c__AnonStorey.pawn))
+						{
+							enumerator2 = battle.Entries.GetEnumerator();
+							num = 4294967293u;
+							goto Block_11;
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				IL_39A:
+				goto IL_41B;
+				IL_3D8:
+				this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableLog(nonCombatLines[nonCombatIndex++], <GenerateLogLinesFor>c__AnonStorey.pawn);
+				if (!this.$disposing)
+				{
+					this.$PC = 7;
+				}
+				return true;
+				IL_41B:
+				if (nonCombatIndex >= nonCombatLines.Length)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (currentBattle != null)
+					{
+						this.$current = new ITab_Pawn_Log_Utility.LogLineDisplayableGap(ITab_Pawn_Log_Utility.BattleBottomPadding);
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						return true;
+					}
+					goto IL_3D8;
+				}
+				return false;
+			}
+
+			ITab_Pawn_Log_Utility.LogLineDisplayable IEnumerator<ITab_Pawn_Log_Utility.LogLineDisplayable>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+				case 2u:
+				case 3u:
+				case 4u:
+				case 5u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							((IDisposable)enumerator2).Dispose();
+						}
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.ITab_Pawn_Log_Utility.LogLineDisplayable>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ITab_Pawn_Log_Utility.LogLineDisplayable> IEnumerable<ITab_Pawn_Log_Utility.LogLineDisplayable>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ITab_Pawn_Log_Utility.<GenerateLogLinesFor>c__Iterator0 <GenerateLogLinesFor>c__Iterator = new ITab_Pawn_Log_Utility.<GenerateLogLinesFor>c__Iterator0();
+				<GenerateLogLinesFor>c__Iterator.showSocial = showSocial;
+				<GenerateLogLinesFor>c__Iterator.pawn = pawn;
+				<GenerateLogLinesFor>c__Iterator.showCombat = showCombat;
+				<GenerateLogLinesFor>c__Iterator.showAll = showAll;
+				return <GenerateLogLinesFor>c__Iterator;
+			}
+
+			private sealed class <GenerateLogLinesFor>c__AnonStorey1
+			{
+				internal Pawn pawn;
+
+				internal ITab_Pawn_Log_Utility.<GenerateLogLinesFor>c__Iterator0 <>f__ref$0;
+
+				public <GenerateLogLinesFor>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(LogEntry e)
+				{
+					return e.Concerns(this.pawn);
+				}
 			}
 		}
 	}

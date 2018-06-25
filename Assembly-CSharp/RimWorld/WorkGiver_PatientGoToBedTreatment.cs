@@ -5,10 +5,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000154 RID: 340
 	public class WorkGiver_PatientGoToBedTreatment : WorkGiver_PatientGoToBedRecuperate
 	{
-		// Token: 0x060006FF RID: 1791 RVA: 0x000475FC File Offset: 0x000459FC
+		public WorkGiver_PatientGoToBedTreatment()
+		{
+		}
+
 		public override Job NonScanJob(Pawn pawn)
 		{
 			Job result;
@@ -27,7 +29,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000700 RID: 1792 RVA: 0x00047640 File Offset: 0x00045A40
 		private bool AnyAvailableDoctorFor(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;

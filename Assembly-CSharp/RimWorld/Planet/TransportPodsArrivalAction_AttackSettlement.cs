@@ -1,31 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000611 RID: 1553
 	public class TransportPodsArrivalAction_AttackSettlement : TransportPodsArrivalAction
 	{
-		// Token: 0x04001246 RID: 4678
 		private Settlement settlement;
 
-		// Token: 0x04001247 RID: 4679
 		private PawnsArrivalModeDef arrivalMode;
 
-		// Token: 0x06001F41 RID: 8001 RVA: 0x0010F84B File Offset: 0x0010DC4B
 		public TransportPodsArrivalAction_AttackSettlement()
 		{
 		}
 
-		// Token: 0x06001F42 RID: 8002 RVA: 0x0010F854 File Offset: 0x0010DC54
 		public TransportPodsArrivalAction_AttackSettlement(Settlement settlement, PawnsArrivalModeDef arrivalMode)
 		{
 			this.settlement = settlement;
 			this.arrivalMode = arrivalMode;
 		}
 
-		// Token: 0x06001F43 RID: 8003 RVA: 0x0010F86B File Offset: 0x0010DC6B
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -33,7 +31,6 @@ namespace RimWorld.Planet
 			Scribe_Defs.Look<PawnsArrivalModeDef>(ref this.arrivalMode, "arrivalMode");
 		}
 
-		// Token: 0x06001F44 RID: 8004 RVA: 0x0010F898 File Offset: 0x0010DC98
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
@@ -53,13 +50,11 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F45 RID: 8005 RVA: 0x0010F8FC File Offset: 0x0010DCFC
 		public override bool ShouldUseLongEvent(List<ActiveDropPodInfo> pods, int tile)
 		{
 			return !this.settlement.HasMap;
 		}
 
-		// Token: 0x06001F46 RID: 8006 RVA: 0x0010F920 File Offset: 0x0010DD20
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)
 		{
 			Thing lookTarget = TransportPodsArrivalActionUtility.GetLookTarget(pods);
@@ -83,7 +78,6 @@ namespace RimWorld.Planet
 			this.arrivalMode.Worker.TravelingTransportPodsArrived(pods, orGenerateMap);
 		}
 
-		// Token: 0x06001F47 RID: 8007 RVA: 0x0010FA14 File Offset: 0x0010DE14
 		public static FloatMenuAcceptanceReport CanAttack(IEnumerable<IThingHolder> pods, Settlement settlement)
 		{
 			FloatMenuAcceptanceReport result;
@@ -109,7 +103,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F48 RID: 8008 RVA: 0x0010FAAC File Offset: 0x0010DEAC
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Settlement settlement)
 		{
 			foreach (FloatMenuOption f in TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_AttackSettlement>(() => TransportPodsArrivalAction_AttackSettlement.CanAttack(pods, settlement), () => new TransportPodsArrivalAction_AttackSettlement(settlement, PawnsArrivalModeDefOf.EdgeDrop), "AttackAndDropAtEdge".Translate(new object[]
@@ -127,6 +120,232 @@ namespace RimWorld.Planet
 				yield return f2;
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal Settlement settlement;
+
+			internal CompLaunchable representative;
+
+			internal IEnumerable<IThingHolder> pods;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <f>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <f>__2;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private TransportPodsArrivalAction_AttackSettlement.<GetFloatMenuOptions>c__Iterator0.<GetFloatMenuOptions>c__AnonStorey1 $locvar2;
+
+			[DebuggerHidden]
+			public <GetFloatMenuOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_AttackSettlement>(() => TransportPodsArrivalAction_AttackSettlement.CanAttack(pods, settlement), () => new TransportPodsArrivalAction_AttackSettlement(settlement, PawnsArrivalModeDefOf.EdgeDrop), "AttackAndDropAtEdge".Translate(new object[]
+					{
+						settlement.Label
+					}), representative, settlement.Tile).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_1A9;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						f = enumerator.Current;
+						this.$current = f;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_AttackSettlement>(() => TransportPodsArrivalAction_AttackSettlement.CanAttack(<GetFloatMenuOptions>c__AnonStorey.pods, <GetFloatMenuOptions>c__AnonStorey.settlement), () => new TransportPodsArrivalAction_AttackSettlement(<GetFloatMenuOptions>c__AnonStorey.settlement, PawnsArrivalModeDefOf.CenterDrop), "AttackAndDropInCenter".Translate(new object[]
+				{
+					<GetFloatMenuOptions>c__AnonStorey.settlement.Label
+				}), representative, <GetFloatMenuOptions>c__AnonStorey.settlement.Tile).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_1A9:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						f2 = enumerator2.Current;
+						this.$current = f2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TransportPodsArrivalAction_AttackSettlement.<GetFloatMenuOptions>c__Iterator0 <GetFloatMenuOptions>c__Iterator = new TransportPodsArrivalAction_AttackSettlement.<GetFloatMenuOptions>c__Iterator0();
+				<GetFloatMenuOptions>c__Iterator.settlement = settlement;
+				<GetFloatMenuOptions>c__Iterator.representative = representative;
+				<GetFloatMenuOptions>c__Iterator.pods = pods;
+				return <GetFloatMenuOptions>c__Iterator;
+			}
+
+			private sealed class <GetFloatMenuOptions>c__AnonStorey1
+			{
+				internal IEnumerable<IThingHolder> pods;
+
+				internal Settlement settlement;
+
+				public <GetFloatMenuOptions>c__AnonStorey1()
+				{
+				}
+
+				internal FloatMenuAcceptanceReport <>m__0()
+				{
+					return TransportPodsArrivalAction_AttackSettlement.CanAttack(this.pods, this.settlement);
+				}
+
+				internal TransportPodsArrivalAction_AttackSettlement <>m__1()
+				{
+					return new TransportPodsArrivalAction_AttackSettlement(this.settlement, PawnsArrivalModeDefOf.EdgeDrop);
+				}
+
+				internal FloatMenuAcceptanceReport <>m__2()
+				{
+					return TransportPodsArrivalAction_AttackSettlement.CanAttack(this.pods, this.settlement);
+				}
+
+				internal TransportPodsArrivalAction_AttackSettlement <>m__3()
+				{
+					return new TransportPodsArrivalAction_AttackSettlement(this.settlement, PawnsArrivalModeDefOf.CenterDrop);
+				}
+			}
 		}
 	}
 }

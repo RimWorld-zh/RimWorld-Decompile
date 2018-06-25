@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000071 RID: 113
 	public class JobDriver_Kidnap : JobDriver_TakeAndExitMap
 	{
-		// Token: 0x170000A0 RID: 160
-		// (get) Token: 0x06000317 RID: 791 RVA: 0x00021A4C File Offset: 0x0001FE4C
+		public JobDriver_Kidnap()
+		{
+		}
+
 		protected Pawn Takee
 		{
 			get
@@ -18,7 +23,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x00021A6C File Offset: 0x0001FE6C
 		public override string GetReport()
 		{
 			string result;
@@ -33,7 +37,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x00021AD0 File Offset: 0x0001FED0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => this.Takee == null || (!this.Takee.Downed && this.Takee.Awake()));
@@ -42,6 +45,152 @@ namespace RimWorld
 				yield return t;
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Toil> <MakeNewToils>__BaseCallProxy0()
+		{
+			return base.MakeNewToils();
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal IEnumerator<Toil> $locvar0;
+
+			internal Toil <t>__1;
+
+			internal JobDriver_Kidnap $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.FailOn(() => base.Takee == null || (!base.Takee.Downed && base.Takee.Awake()));
+					enumerator = base.<MakeNewToils>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Kidnap.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Kidnap.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return base.Takee == null || (!base.Takee.Downed && base.Takee.Awake());
+			}
 		}
 	}
 }

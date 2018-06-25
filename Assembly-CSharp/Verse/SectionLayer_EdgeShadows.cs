@@ -1,31 +1,24 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C47 RID: 3143
 	internal class SectionLayer_EdgeShadows : SectionLayer
 	{
-		// Token: 0x04002F62 RID: 12130
 		private const float InDist = 0.45f;
 
-		// Token: 0x04002F63 RID: 12131
 		private const byte ShadowBrightness = 195;
 
-		// Token: 0x04002F64 RID: 12132
 		private static readonly Color32 Shadowed = new Color32(195, 195, 195, byte.MaxValue);
 
-		// Token: 0x04002F65 RID: 12133
 		private static readonly Color32 Lit = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
-		// Token: 0x06004545 RID: 17733 RVA: 0x00248726 File Offset: 0x00246B26
 		public SectionLayer_EdgeShadows(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
 
-		// Token: 0x17000AEA RID: 2794
-		// (get) Token: 0x06004546 RID: 17734 RVA: 0x00248738 File Offset: 0x00246B38
 		public override bool Visible
 		{
 			get
@@ -34,7 +27,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004547 RID: 17735 RVA: 0x00248754 File Offset: 0x00246B54
 		public override void Regenerate()
 		{
 			Building[] innerArray = base.Map.edificeGrid.InnerArray;
@@ -269,6 +261,41 @@ namespace Verse
 			if (sm.verts.Count > 0)
 			{
 				sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris | MeshParts.Colors);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SectionLayer_EdgeShadows()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <Regenerate>c__AnonStorey0
+		{
+			internal LayerSubMesh sm;
+
+			public <Regenerate>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0(int idx)
+			{
+				this.sm.tris.Add(this.sm.verts.Count - 2);
+				this.sm.tris.Add(idx);
+				this.sm.tris.Add(this.sm.verts.Count - 1);
+				this.sm.tris.Add(this.sm.verts.Count - 1);
+				this.sm.tris.Add(idx);
+				this.sm.tris.Add(idx + 1);
+			}
+
+			internal void <>m__1()
+			{
+				this.sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
+				this.sm.colors.Add(SectionLayer_EdgeShadows.Lit);
+				this.sm.colors.Add(SectionLayer_EdgeShadows.Lit);
+				this.sm.tris.Add(this.sm.verts.Count - 3);
+				this.sm.tris.Add(this.sm.verts.Count - 2);
+				this.sm.tris.Add(this.sm.verts.Count - 1);
 			}
 		}
 	}

@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000105 RID: 261
 	public class JoyGiver_VisitSickPawn : JoyGiver
 	{
-		// Token: 0x06000577 RID: 1399 RVA: 0x0003B684 File Offset: 0x00039A84
+		public JoyGiver_VisitSickPawn()
+		{
+		}
+
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

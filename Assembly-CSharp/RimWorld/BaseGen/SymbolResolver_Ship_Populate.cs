@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003DF RID: 991
 	public class SymbolResolver_Ship_Populate : SymbolResolver
 	{
-		// Token: 0x060010FA RID: 4346 RVA: 0x00090A88 File Offset: 0x0008EE88
+		public SymbolResolver_Ship_Populate()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.thrustAxis == null)
@@ -29,7 +32,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010FB RID: 4347 RVA: 0x00090B70 File Offset: 0x0008EF70
 		public void AttemptToPlace(ThingDef thingDef, CellRect rect, Rot4 rotation, Faction faction)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -59,6 +61,58 @@ namespace RimWorld.BaseGen
 					compHibernatable.State = HibernatableStateDefOf.Hibernating;
 				}
 				GenSpawn.Spawn(thing, loc, BaseGen.globalSettings.map, rotation, WipeMode.Vanish, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AttemptToPlace>c__AnonStorey0
+		{
+			internal ThingDef thingDef;
+
+			internal Rot4 rotation;
+
+			internal Map map;
+
+			private static Predicate<Thing> <>f__am$cache0;
+
+			public <AttemptToPlace>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 cell)
+			{
+				return GenConstruct.CanPlaceBlueprintAt(this.thingDef, cell, this.rotation, this.map, false, null).Accepted && GenAdj.OccupiedRect(cell, this.rotation, this.thingDef.Size).AdjacentCellsCardinal.Any(delegate(IntVec3 edgeCell)
+				{
+					bool result;
+					if (edgeCell.InBounds(this.map))
+					{
+						result = edgeCell.GetThingList(this.map).Any((Thing thing) => thing.def == ThingDefOf.Ship_Beam);
+					}
+					else
+					{
+						result = false;
+					}
+					return result;
+				});
+			}
+
+			internal bool <>m__1(IntVec3 edgeCell)
+			{
+				bool result;
+				if (edgeCell.InBounds(this.map))
+				{
+					result = edgeCell.GetThingList(this.map).Any((Thing thing) => thing.def == ThingDefOf.Ship_Beam);
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
+
+			private static bool <>m__2(Thing thing)
+			{
+				return thing.def == ThingDefOf.Ship_Beam;
 			}
 		}
 	}

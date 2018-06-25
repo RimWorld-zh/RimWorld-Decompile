@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C04 RID: 3076
 	public static class CompressibilityDeciderUtility
 	{
-		// Token: 0x06004345 RID: 17221 RVA: 0x00239308 File Offset: 0x00237708
 		public static bool IsSaveCompressible(this Thing t)
 		{
 			bool result;

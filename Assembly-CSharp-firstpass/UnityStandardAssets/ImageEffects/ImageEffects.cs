@@ -3,11 +3,13 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x0200019C RID: 412
 	[AddComponentMenu("")]
 	public class ImageEffects
 	{
-		// Token: 0x0600092A RID: 2346 RVA: 0x00016B00 File Offset: 0x00014D00
+		public ImageEffects()
+		{
+		}
+
 		public static void RenderDistortion(Material material, RenderTexture source, RenderTexture destination, float angle, Vector2 center, Vector2 radius)
 		{
 			bool flag = source.texelSize.y < 0f;
@@ -23,14 +25,12 @@ namespace UnityStandardAssets.ImageEffects
 			Graphics.Blit(source, destination, material);
 		}
 
-		// Token: 0x0600092B RID: 2347 RVA: 0x00016BB6 File Offset: 0x00014DB6
 		[Obsolete("Use Graphics.Blit(source,dest) instead")]
 		public static void Blit(RenderTexture source, RenderTexture dest)
 		{
 			Graphics.Blit(source, dest);
 		}
 
-		// Token: 0x0600092C RID: 2348 RVA: 0x00016BC0 File Offset: 0x00014DC0
 		[Obsolete("Use Graphics.Blit(source, destination, material) instead")]
 		public static void BlitWithMaterial(Material material, RenderTexture source, RenderTexture dest)
 		{

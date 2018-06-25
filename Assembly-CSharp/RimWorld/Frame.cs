@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
@@ -9,55 +13,39 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200067A RID: 1658
 	[StaticConstructorOnStartup]
 	public class Frame : Building, IThingHolder, IConstructible
 	{
-		// Token: 0x04001397 RID: 5015
 		public ThingOwner resourceContainer;
 
-		// Token: 0x04001398 RID: 5016
 		public float workDone;
 
-		// Token: 0x04001399 RID: 5017
 		private Material cachedCornerMat;
 
-		// Token: 0x0400139A RID: 5018
 		private Material cachedTileMat;
 
-		// Token: 0x0400139B RID: 5019
 		protected const float UnderfieldOverdrawFactor = 1.15f;
 
-		// Token: 0x0400139C RID: 5020
 		protected const float CenterOverdrawFactor = 0.5f;
 
-		// Token: 0x0400139D RID: 5021
 		private const int LongConstructionProjectThreshold = 10000;
 
-		// Token: 0x0400139E RID: 5022
 		private static readonly Material UnderfieldMat = MaterialPool.MatFrom("Things/Building/BuildingFrame/Underfield", ShaderDatabase.Transparent);
 
-		// Token: 0x0400139F RID: 5023
 		private static readonly Texture2D CornerTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Corner", true);
 
-		// Token: 0x040013A0 RID: 5024
 		private static readonly Texture2D TileTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Tile", true);
 
-		// Token: 0x040013A1 RID: 5025
 		[TweakValue("Pathfinding", 0f, 1000f)]
 		public static ushort AvoidUnderConstructionPathFindCost = 800;
 
-		// Token: 0x040013A2 RID: 5026
 		private List<ThingDefCountClass> cachedMaterialsNeeded = new List<ThingDefCountClass>();
 
-		// Token: 0x060022D6 RID: 8918 RVA: 0x0012C18A File Offset: 0x0012A58A
 		public Frame()
 		{
 			this.resourceContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
 		}
 
-		// Token: 0x1700051B RID: 1307
-		// (get) Token: 0x060022D7 RID: 8919 RVA: 0x0012C1AC File Offset: 0x0012A5AC
 		public float WorkToMake
 		{
 			get
@@ -66,8 +54,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700051C RID: 1308
-		// (get) Token: 0x060022D8 RID: 8920 RVA: 0x0012C1DC File Offset: 0x0012A5DC
 		public float WorkLeft
 		{
 			get
@@ -76,8 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700051D RID: 1309
-		// (get) Token: 0x060022D9 RID: 8921 RVA: 0x0012C200 File Offset: 0x0012A600
 		public float PercentComplete
 		{
 			get
@@ -86,8 +70,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700051E RID: 1310
-		// (get) Token: 0x060022DA RID: 8922 RVA: 0x0012C224 File Offset: 0x0012A624
 		public override string Label
 		{
 			get
@@ -96,8 +78,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700051F RID: 1311
-		// (get) Token: 0x060022DB RID: 8923 RVA: 0x0012C250 File Offset: 0x0012A650
 		public string LabelEntityToBuild
 		{
 			get
@@ -116,8 +96,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000520 RID: 1312
-		// (get) Token: 0x060022DC RID: 8924 RVA: 0x0012C2A0 File Offset: 0x0012A6A0
 		public override Color DrawColor
 		{
 			get
@@ -147,8 +125,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000521 RID: 1313
-		// (get) Token: 0x060022DD RID: 8925 RVA: 0x0012C35C File Offset: 0x0012A75C
 		public EffecterDef ConstructionEffect
 		{
 			get
@@ -170,8 +146,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000522 RID: 1314
-		// (get) Token: 0x060022DE RID: 8926 RVA: 0x0012C3D8 File Offset: 0x0012A7D8
 		private Material CornerMat
 		{
 			get
@@ -184,8 +158,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000523 RID: 1315
-		// (get) Token: 0x060022DF RID: 8927 RVA: 0x0012C424 File Offset: 0x0012A824
 		private Material TileMat
 		{
 			get
@@ -198,19 +170,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022E0 RID: 8928 RVA: 0x0012C470 File Offset: 0x0012A870
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.resourceContainer;
 		}
 
-		// Token: 0x060022E1 RID: 8929 RVA: 0x0012C48B File Offset: 0x0012A88B
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x060022E2 RID: 8930 RVA: 0x0012C49A File Offset: 0x0012A89A
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -221,13 +190,11 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060022E3 RID: 8931 RVA: 0x0012C4D4 File Offset: 0x0012A8D4
 		public ThingDef UIStuff()
 		{
 			return base.Stuff;
 		}
 
-		// Token: 0x060022E4 RID: 8932 RVA: 0x0012C4F0 File Offset: 0x0012A8F0
 		public List<ThingDefCountClass> MaterialsNeeded()
 		{
 			this.cachedMaterialsNeeded.Clear();
@@ -245,7 +212,6 @@ namespace RimWorld
 			return this.cachedMaterialsNeeded;
 		}
 
-		// Token: 0x060022E5 RID: 8933 RVA: 0x0012C590 File Offset: 0x0012A990
 		public void CompleteConstruction(Pawn worker)
 		{
 			this.resourceContainer.ClearAndDestroyContents(DestroyMode.Vanish);
@@ -296,7 +262,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022E6 RID: 8934 RVA: 0x0012C758 File Offset: 0x0012AB58
 		public void FailConstruction(Pawn worker)
 		{
 			Map map = base.Map;
@@ -325,7 +290,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022E7 RID: 8935 RVA: 0x0012C86C File Offset: 0x0012AC6C
 		public override void Draw()
 		{
 			Vector2 vector = new Vector2((float)this.def.size.x, (float)this.def.size.z);
@@ -386,7 +350,6 @@ namespace RimWorld
 			base.Comps_PostDraw();
 		}
 
-		// Token: 0x060022E8 RID: 8936 RVA: 0x0012CC0C File Offset: 0x0012B00C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -408,7 +371,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022E9 RID: 8937 RVA: 0x0012CC38 File Offset: 0x0012B038
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -438,7 +400,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060022EA RID: 8938 RVA: 0x0012CDB8 File Offset: 0x0012B1B8
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			ushort result;
@@ -459,6 +420,234 @@ namespace RimWorld
 				result = 0;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Frame()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command <buildCopy>__0;
+
+			internal IEnumerator<Command> $locvar1;
+
+			internal Command <facility>__2;
+
+			internal Frame $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_10D;
+				case 3u:
+					goto IL_147;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				buildCopy = BuildCopyCommandUtility.BuildCopyCommand(this.def.entityDefToBuild, base.Stuff);
+				if (buildCopy != null)
+				{
+					this.$current = buildCopy;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_10D:
+				if (base.Faction != Faction.OfPlayer)
+				{
+					goto IL_1BE;
+				}
+				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(this.def.entityDefToBuild).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_147:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						facility = enumerator2.Current;
+						this.$current = facility;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_1BE:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Frame.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Frame.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetInspectString>c__AnonStorey1
+		{
+			internal ThingDefCountClass need;
+
+			public <GetInspectString>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingDefCountClass needed)
+			{
+				return needed.thingDef == this.need.thingDef;
+			}
 		}
 	}
 }

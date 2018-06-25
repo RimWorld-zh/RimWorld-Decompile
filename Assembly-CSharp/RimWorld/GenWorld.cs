@@ -6,28 +6,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000986 RID: 2438
 	public static class GenWorld
 	{
-		// Token: 0x04002378 RID: 9080
 		private static int cachedTile_noSnap = -1;
 
-		// Token: 0x04002379 RID: 9081
 		private static int cachedFrame_noSnap = -1;
 
-		// Token: 0x0400237A RID: 9082
 		private static int cachedTile_snap = -1;
 
-		// Token: 0x0400237B RID: 9083
 		private static int cachedFrame_snap = -1;
 
-		// Token: 0x0400237C RID: 9084
 		public const float MaxRayLength = 1500f;
 
-		// Token: 0x0400237D RID: 9085
 		private static List<WorldObject> tmpWorldObjectsUnderMouse = new List<WorldObject>();
 
-		// Token: 0x060036EC RID: 14060 RVA: 0x001D600C File Offset: 0x001D440C
 		public static int MouseTile(bool snapToExpandableWorldObjects = false)
 		{
 			int result;
@@ -57,7 +49,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036ED RID: 14061 RVA: 0x001D60A4 File Offset: 0x001D44A4
 		public static int TileAt(Vector2 clickPos, bool snapToExpandableWorldObjects = false)
 		{
 			Camera worldCamera = Find.WorldCamera;
@@ -91,6 +82,11 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenWorld()
+		{
 		}
 	}
 }

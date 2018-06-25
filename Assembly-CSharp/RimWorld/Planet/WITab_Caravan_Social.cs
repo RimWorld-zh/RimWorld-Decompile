@@ -1,43 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E6 RID: 2278
 	public class WITab_Caravan_Social : WITab
 	{
-		// Token: 0x04001C5C RID: 7260
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001C5D RID: 7261
 		private float scrollViewHeight;
 
-		// Token: 0x04001C5E RID: 7262
 		private Pawn specificSocialTabForPawn;
 
-		// Token: 0x04001C5F RID: 7263
 		private const float RowHeight = 50f;
 
-		// Token: 0x04001C60 RID: 7264
 		private const float PawnLabelHeight = 18f;
 
-		// Token: 0x04001C61 RID: 7265
 		private const float PawnLabelColumnWidth = 100f;
 
-		// Token: 0x04001C62 RID: 7266
 		private const float SpaceAroundIcon = 4f;
 
-		// Token: 0x06003460 RID: 13408 RVA: 0x001C05C2 File Offset: 0x001BE9C2
 		public WITab_Caravan_Social()
 		{
 			this.labelKey = "TabCaravanSocial";
 		}
 
-		// Token: 0x17000864 RID: 2148
-		// (get) Token: 0x06003461 RID: 13409 RVA: 0x001C05D8 File Offset: 0x001BE9D8
 		private List<Pawn> Pawns
 		{
 			get
@@ -46,8 +36,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000865 RID: 2149
-		// (get) Token: 0x06003462 RID: 13410 RVA: 0x001C05F8 File Offset: 0x001BE9F8
 		private float SpecificSocialTabWidth
 		{
 			get
@@ -65,7 +53,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003463 RID: 13411 RVA: 0x001C0628 File Offset: 0x001BEA28
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
@@ -81,7 +68,6 @@ namespace RimWorld.Planet
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06003464 RID: 13412 RVA: 0x001C06D2 File Offset: 0x001BEAD2
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -89,7 +75,6 @@ namespace RimWorld.Planet
 			this.size.y = Mathf.Min(550f, this.PaneTopY - 30f);
 		}
 
-		// Token: 0x06003465 RID: 13413 RVA: 0x001C070C File Offset: 0x001BEB0C
 		protected override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -114,7 +99,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003466 RID: 13414 RVA: 0x001C07B4 File Offset: 0x001BEBB4
 		public override void OnOpen()
 		{
 			base.OnOpen();
@@ -124,7 +108,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003467 RID: 13415 RVA: 0x001C080C File Offset: 0x001BEC0C
 		private void DoRows(ref float curY, Rect scrollViewRect, Rect scrollOutRect)
 		{
 			List<Pawn> pawns = this.Pawns;
@@ -172,7 +155,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003468 RID: 13416 RVA: 0x001C09B8 File Offset: 0x001BEDB8
 		private void DoRow(ref float curY, Rect viewRect, Rect scrollOutRect, Pawn p)
 		{
 			float num = this.scrollPosition.y - 50f;
@@ -184,7 +166,6 @@ namespace RimWorld.Planet
 			curY += 50f;
 		}
 
-		// Token: 0x06003469 RID: 13417 RVA: 0x001C0A28 File Offset: 0x001BEE28
 		private void DoRow(Rect rect, Pawn p)
 		{
 			GUI.BeginGroup(rect);
@@ -210,6 +191,43 @@ namespace RimWorld.Planet
 				GUI.color = Color.white;
 			}
 			GUI.EndGroup();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ExtraOnGUI>c__AnonStorey0
+		{
+			internal Pawn localSpecificSocialTabForPawn;
+
+			internal WITab_Caravan_Social $this;
+
+			public <ExtraOnGUI>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ExtraOnGUI>c__AnonStorey1
+		{
+			internal Rect rect;
+
+			internal WITab_Caravan_Social.<ExtraOnGUI>c__AnonStorey0 <>f__ref$0;
+
+			public <ExtraOnGUI>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (!this.<>f__ref$0.localSpecificSocialTabForPawn.DestroyedOrNull())
+				{
+					SocialCardUtility.DrawSocialCard(this.rect.AtZero(), this.<>f__ref$0.localSpecificSocialTabForPawn);
+					if (Widgets.CloseButtonFor(this.rect.AtZero()))
+					{
+						this.<>f__ref$0.$this.specificSocialTabForPawn = null;
+						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+					}
+				}
+			}
 		}
 	}
 }

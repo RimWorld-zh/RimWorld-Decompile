@@ -1,44 +1,49 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200062B RID: 1579
 	public class WorldPawnGC : IExposable
 	{
-		// Token: 0x0400128D RID: 4749
 		private int lastSuccessfulGCTick = 0;
 
-		// Token: 0x0400128E RID: 4750
 		private int currentGCRate = 1;
 
-		// Token: 0x0400128F RID: 4751
 		private const float PctOfHumanlikesAlwaysKept = 0.1f;
 
-		// Token: 0x04001290 RID: 4752
 		private const float PctOfUnnamedColonyAnimalsAlwaysKept = 0.05f;
 
-		// Token: 0x04001291 RID: 4753
 		private const int AdditionalStoryRelevantPawns = 20;
 
-		// Token: 0x04001292 RID: 4754
 		private const int GCUpdateInterval = 15000;
 
-		// Token: 0x04001293 RID: 4755
 		private IEnumerator activeGCProcess = null;
 
-		// Token: 0x04001294 RID: 4756
 		private StringBuilder logDotgraph = null;
 
-		// Token: 0x04001295 RID: 4757
 		private HashSet<string> logDotgraphUniqueLinks = null;
 
-		// Token: 0x0600205E RID: 8286 RVA: 0x0011511C File Offset: 0x0011351C
+		[CompilerGenerated]
+		private static Func<KeyValuePair<string, int>, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<string, int>, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<char, bool> <>f__am$cache2;
+
+		public WorldPawnGC()
+		{
+		}
+
 		public void WorldPawnGCTick()
 		{
 			if (this.lastSuccessfulGCTick < Find.TickManager.TicksGame / 15000 * 15000)
@@ -74,7 +79,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600205F RID: 8287 RVA: 0x00115208 File Offset: 0x00113608
 		public void CancelGCPass()
 		{
 			if (this.activeGCProcess != null)
@@ -88,7 +92,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002060 RID: 8288 RVA: 0x00115258 File Offset: 0x00113658
 		private IEnumerable AccumulatePawnGCData(Dictionary<Pawn, string> keptPawns)
 		{
 			foreach (Pawn pawn2 in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
@@ -133,7 +136,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06002061 RID: 8289 RVA: 0x0011528C File Offset: 0x0011368C
 		private Dictionary<Pawn, string> AccumulatePawnGCDataImmediate()
 		{
 			Dictionary<Pawn, string> dictionary = new Dictionary<Pawn, string>();
@@ -141,7 +143,6 @@ namespace RimWorld.Planet
 			return dictionary;
 		}
 
-		// Token: 0x06002062 RID: 8290 RVA: 0x001152B4 File Offset: 0x001136B4
 		public string PawnGCDebugResults()
 		{
 			Dictionary<Pawn, string> dictionary = this.AccumulatePawnGCDataImmediate();
@@ -166,7 +167,6 @@ namespace RimWorld.Planet
 			select string.Format("{0}: {1}", kvp.Value, kvp.Key), "\n");
 		}
 
-		// Token: 0x06002063 RID: 8291 RVA: 0x001153C0 File Offset: 0x001137C0
 		public IEnumerable PawnGCPass()
 		{
 			Dictionary<Pawn, string> keptPawns = new Dictionary<Pawn, string>();
@@ -198,7 +198,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06002064 RID: 8292 RVA: 0x001153EC File Offset: 0x001137EC
 		private string GetCriticalPawnReason(Pawn pawn)
 		{
 			string result;
@@ -271,13 +270,11 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06002065 RID: 8293 RVA: 0x00115588 File Offset: 0x00113988
 		private bool AllowedAsStoryPawn(Pawn pawn)
 		{
 			return pawn.RaceProps.Humanlike;
 		}
 
-		// Token: 0x06002066 RID: 8294 RVA: 0x001155B8 File Offset: 0x001139B8
 		public void AddAllRelationships(Pawn pawn, Dictionary<Pawn, string> keptPawns)
 		{
 			if (pawn.relations != null)
@@ -301,7 +298,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002067 RID: 8295 RVA: 0x001156A4 File Offset: 0x00113AA4
 		public void AddAllMemories(Pawn pawn, Dictionary<Pawn, string> keptPawns)
 		{
 			if (pawn.needs != null && pawn.needs.mood != null && pawn.needs.mood.thoughts != null && pawn.needs.mood.thoughts.memories != null)
@@ -328,14 +324,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002068 RID: 8296 RVA: 0x001157F4 File Offset: 0x00113BF4
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastSuccessfulGCTick, "lastSuccessfulGCTick", 0, false);
 			Scribe_Values.Look<int>(ref this.currentGCRate, "nextGCRate", 1, false);
 		}
 
-		// Token: 0x06002069 RID: 8297 RVA: 0x0011581C File Offset: 0x00113C1C
 		public void LogGC()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -344,7 +338,6 @@ namespace RimWorld.Planet
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600206A RID: 8298 RVA: 0x00115858 File Offset: 0x00113C58
 		public void RunGC()
 		{
 			this.CancelGCPass();
@@ -370,7 +363,6 @@ namespace RimWorld.Planet
 			Log.Message(string.Format("World pawn GC run complete in {0} ms", num), false);
 		}
 
-		// Token: 0x0600206B RID: 8299 RVA: 0x001158E8 File Offset: 0x00113CE8
 		public void LogDotgraph()
 		{
 			this.logDotgraph = new StringBuilder();
@@ -384,12 +376,379 @@ namespace RimWorld.Planet
 			this.logDotgraphUniqueLinks = null;
 		}
 
-		// Token: 0x0600206C RID: 8300 RVA: 0x00115960 File Offset: 0x00113D60
 		public static string DotgraphIdentifier(Pawn pawn)
 		{
 			return new string((from ch in pawn.LabelShort
 			where char.IsLetter(ch)
 			select ch).ToArray<char>()) + "_" + pawn.thingIDNumber.ToString();
+		}
+
+		[CompilerGenerated]
+		private static int <PawnGCDebugResults>m__0(KeyValuePair<string, int> kvp)
+		{
+			return kvp.Value;
+		}
+
+		[CompilerGenerated]
+		private static string <PawnGCDebugResults>m__1(KeyValuePair<string, int> kvp)
+		{
+			return string.Format("{0}: {1}", kvp.Value, kvp.Key);
+		}
+
+		[CompilerGenerated]
+		private static bool <DotgraphIdentifier>m__2(char ch)
+		{
+			return char.IsLetter(ch);
+		}
+
+		[CompilerGenerated]
+		private sealed class <AccumulatePawnGCData>c__Iterator0 : IEnumerable, IEnumerable<object>, IEnumerator, IDisposable, IEnumerator<object>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Dictionary<Pawn, string> keptPawns;
+
+			internal IEnumerator<Pawn> $locvar1;
+
+			internal Pawn[] <criticalPawns>__0;
+
+			internal Pawn[] $locvar2;
+
+			internal int $locvar3;
+
+			internal Pawn <pawn>__1;
+
+			internal Pawn[] $locvar4;
+
+			internal int $locvar5;
+
+			internal WorldPawnGC $this;
+
+			internal object $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private WorldPawnGC.<AccumulatePawnGCData>c__Iterator0.<AccumulatePawnGCData>c__AnonStorey2 $locvar6;
+
+			private static Func<Pawn, float> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <AccumulatePawnGCData>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							Pawn pawn2 = enumerator.Current;
+							string criticalPawnReason = base.GetCriticalPawnReason(pawn2);
+							if (!criticalPawnReason.NullOrEmpty())
+							{
+								keptPawns[pawn2] = criticalPawnReason;
+								if (this.logDotgraph != null)
+								{
+									this.logDotgraph.AppendLine(string.Format("{0} [label=<{0}<br/><font point-size=\"10\">{1}</font>> color=\"{2}\" shape=\"{3}\"];", new object[]
+									{
+										WorldPawnGC.DotgraphIdentifier(pawn2),
+										criticalPawnReason,
+										(pawn2.relations == null || !pawn2.relations.everSeenByPlayer) ? "grey" : "black",
+										(!pawn2.RaceProps.Humanlike) ? "box" : "oval"
+									}));
+								}
+							}
+							else if (this.logDotgraph != null)
+							{
+								this.logDotgraph.AppendLine(string.Format("{0} [color=\"{1}\" shape=\"{2}\"];", WorldPawnGC.DotgraphIdentifier(pawn2), (pawn2.relations == null || !pawn2.relations.everSeenByPlayer) ? "grey" : "black", (!pawn2.RaceProps.Humanlike) ? "box" : "oval"));
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					enumerator2 = (from pawn in PawnsFinder.AllMapsWorldAndTemporary_Alive
+					where this.AllowedAsStoryPawn(pawn) && !keptPawns.ContainsKey(pawn)
+					orderby pawn.records.StoryRelevance descending
+					select pawn).Take(20).GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							Pawn key = enumerator2.Current;
+							keptPawns[key] = "StoryRelevant";
+						}
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					criticalPawns = keptPawns.Keys.ToArray<Pawn>();
+					array = criticalPawns;
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < array.Length)
+				{
+					pawn = array[i];
+					base.AddAllRelationships(pawn, <AccumulatePawnGCData>c__AnonStorey.keptPawns);
+					this.$current = null;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				array2 = criticalPawns;
+				for (j = 0; j < array2.Length; j++)
+				{
+					Pawn pawn3 = array2[j];
+					base.AddAllMemories(pawn3, <AccumulatePawnGCData>c__AnonStorey.keptPawns);
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			object IEnumerator<object>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<object>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<object> IEnumerable<object>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldPawnGC.<AccumulatePawnGCData>c__Iterator0 <AccumulatePawnGCData>c__Iterator = new WorldPawnGC.<AccumulatePawnGCData>c__Iterator0();
+				<AccumulatePawnGCData>c__Iterator.$this = this;
+				<AccumulatePawnGCData>c__Iterator.keptPawns = keptPawns;
+				return <AccumulatePawnGCData>c__Iterator;
+			}
+
+			private static float <>m__0(Pawn pawn)
+			{
+				return pawn.records.StoryRelevance;
+			}
+
+			private sealed class <AccumulatePawnGCData>c__AnonStorey2
+			{
+				internal Dictionary<Pawn, string> keptPawns;
+
+				internal WorldPawnGC.<AccumulatePawnGCData>c__Iterator0 <>f__ref$0;
+
+				public <AccumulatePawnGCData>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(Pawn pawn)
+				{
+					return this.<>f__ref$0.$this.AllowedAsStoryPawn(pawn) && !this.keptPawns.ContainsKey(pawn);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnGCPass>c__Iterator1 : IEnumerable, IEnumerable<object>, IEnumerator, IDisposable, IEnumerator<object>
+		{
+			internal Dictionary<Pawn, string> <keptPawns>__0;
+
+			internal Pawn[] <worldPawnsSnapshot>__0;
+
+			internal IEnumerator $locvar0;
+
+			internal object <_>__1;
+
+			internal IDisposable $locvar1;
+
+			internal WorldPawnGC $this;
+
+			internal object $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PawnGCPass>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					keptPawns = new Dictionary<Pawn, string>();
+					worldPawnsSnapshot = Find.WorldPawns.AllPawnsAliveOrDead.ToArray<Pawn>();
+					enumerator = base.AccumulatePawnGCData(keptPawns).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						_ = enumerator.Current;
+						this.$current = null;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+				}
+				for (int i = 0; i < worldPawnsSnapshot.Length; i++)
+				{
+					Pawn pawn = worldPawnsSnapshot[i];
+					if (pawn.IsWorldPawn() && !keptPawns.ContainsKey(pawn))
+					{
+						Find.WorldPawns.RemoveAndDiscardPawnViaGC(pawn);
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			object IEnumerator<object>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<object>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<object> IEnumerable<object>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldPawnGC.<PawnGCPass>c__Iterator1 <PawnGCPass>c__Iterator = new WorldPawnGC.<PawnGCPass>c__Iterator1();
+				<PawnGCPass>c__Iterator.$this = this;
+				return <PawnGCPass>c__Iterator;
+			}
 		}
 	}
 }

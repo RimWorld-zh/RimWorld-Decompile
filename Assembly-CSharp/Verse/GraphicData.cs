@@ -1,65 +1,54 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B1B RID: 2843
 	public class GraphicData
 	{
-		// Token: 0x0400283C RID: 10300
 		[NoTranslate]
 		public string texPath = null;
 
-		// Token: 0x0400283D RID: 10301
 		public Type graphicClass = null;
 
-		// Token: 0x0400283E RID: 10302
 		public ShaderTypeDef shaderType = null;
 
-		// Token: 0x0400283F RID: 10303
 		public List<ShaderParameter> shaderParameters = null;
 
-		// Token: 0x04002840 RID: 10304
 		public Color color = Color.white;
 
-		// Token: 0x04002841 RID: 10305
 		public Color colorTwo = Color.white;
 
-		// Token: 0x04002842 RID: 10306
 		public Vector2 drawSize = Vector2.one;
 
-		// Token: 0x04002843 RID: 10307
 		public float onGroundRandomRotateAngle = 0f;
 
-		// Token: 0x04002844 RID: 10308
 		public bool drawRotated = true;
 
-		// Token: 0x04002845 RID: 10309
 		public bool allowFlip = true;
 
-		// Token: 0x04002846 RID: 10310
 		public float flipExtraRotation = 0f;
 
-		// Token: 0x04002847 RID: 10311
 		public ShadowData shadowData = null;
 
-		// Token: 0x04002848 RID: 10312
 		public DamageGraphicData damageData = null;
 
-		// Token: 0x04002849 RID: 10313
 		public LinkDrawerType linkType = LinkDrawerType.None;
 
-		// Token: 0x0400284A RID: 10314
 		public LinkFlags linkFlags = LinkFlags.None;
 
-		// Token: 0x0400284B RID: 10315
 		[Unsaved]
 		private Graphic cachedGraphic = null;
 
-		// Token: 0x17000974 RID: 2420
-		// (get) Token: 0x06003EB9 RID: 16057 RVA: 0x00210B74 File Offset: 0x0020EF74
+		public GraphicData()
+		{
+		}
+
 		public bool Linked
 		{
 			get
@@ -68,8 +57,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000975 RID: 2421
-		// (get) Token: 0x06003EBA RID: 16058 RVA: 0x00210B98 File Offset: 0x0020EF98
 		public Graphic Graphic
 		{
 			get
@@ -82,7 +69,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBB RID: 16059 RVA: 0x00210BC4 File Offset: 0x0020EFC4
 		public void CopyFrom(GraphicData other)
 		{
 			this.texPath = other.texPath;
@@ -101,7 +87,6 @@ namespace Verse
 			this.linkFlags = other.linkFlags;
 		}
 
-		// Token: 0x06003EBC RID: 16060 RVA: 0x00210C7C File Offset: 0x0020F07C
 		private void Init()
 		{
 			if (this.graphicClass == null)
@@ -128,7 +113,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBD RID: 16061 RVA: 0x00210D36 File Offset: 0x0020F136
 		public void ResolveReferencesSpecial()
 		{
 			if (this.damageData != null)
@@ -137,7 +121,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBE RID: 16062 RVA: 0x00210D50 File Offset: 0x0020F150
 		public Graphic GraphicColoredFor(Thing t)
 		{
 			Graphic result;
@@ -152,7 +135,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EBF RID: 16063 RVA: 0x00210DCC File Offset: 0x0020F1CC
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
 		{
 			if (this.graphicClass == null)
@@ -175,6 +157,140 @@ namespace Verse
 				yield return "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef thingDef;
+
+			internal GraphicData $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.graphicClass == null)
+					{
+						this.$current = "graphicClass is null";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_91;
+				case 3u:
+					goto IL_DD;
+				case 4u:
+					IL_16B:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				if (this.texPath.NullOrEmpty())
+				{
+					this.$current = "texPath is null or empty";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_91:
+				if (thingDef != null)
+				{
+					if (thingDef.drawerType == DrawerType.RealtimeOnly && base.Linked)
+					{
+						this.$current = "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+				}
+				IL_DD:
+				if ((this.shaderType == ShaderTypeDefOf.Cutout || this.shaderType == ShaderTypeDefOf.CutoutComplex) && thingDef.mote != null && (thingDef.mote.fadeInTime > 0f || thingDef.mote.fadeOutTime > 0f))
+				{
+					this.$current = "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				goto IL_16B;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GraphicData.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new GraphicData.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.thingDef = thingDef;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

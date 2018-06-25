@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E27 RID: 3623
 	public class DebugHistogram
 	{
-		// Token: 0x04003818 RID: 14360
 		private float[] buckets;
 
-		// Token: 0x04003819 RID: 14361
 		private int[] counts;
 
-		// Token: 0x06005509 RID: 21769 RVA: 0x002BA83A File Offset: 0x002B8C3A
+		[CompilerGenerated]
+		private static Func<int, int, int> <>f__am$cache0;
+
 		public DebugHistogram(float[] buckets)
 		{
 			this.buckets = buckets.Concat(float.PositiveInfinity).ToArray<float>();
 			this.counts = new int[this.buckets.Length];
 		}
 
-		// Token: 0x0600550A RID: 21770 RVA: 0x002BA86C File Offset: 0x002B8C6C
 		public void Add(float val)
 		{
 			for (int i = 0; i < this.buckets.Length; i++)
@@ -34,7 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600550B RID: 21771 RVA: 0x002BA8BC File Offset: 0x002B8CBC
 		public void Display()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -42,7 +40,6 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600550C RID: 21772 RVA: 0x002BA8E4 File Offset: 0x002B8CE4
 		public void Display(StringBuilder sb)
 		{
 			int num = Mathf.Max(this.counts.Max(), 1);
@@ -57,6 +54,12 @@ namespace Verse
 					(double)this.counts[i] * 100.0 / (double)num2
 				}));
 			}
+		}
+
+		[CompilerGenerated]
+		private static int <Display>m__0(int a, int b)
+		{
+			return a + b;
 		}
 	}
 }

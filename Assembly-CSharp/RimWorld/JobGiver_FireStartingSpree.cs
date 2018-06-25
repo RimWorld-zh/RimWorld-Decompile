@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200010C RID: 268
 	internal class JobGiver_FireStartingSpree : ThinkNode_JobGiver
 	{
-		// Token: 0x040002F0 RID: 752
 		private IntRange waitTicks = new IntRange(80, 140);
 
-		// Token: 0x040002F1 RID: 753
 		private const float FireStartChance = 0.75f;
 
-		// Token: 0x040002F2 RID: 754
 		private static List<Thing> potentialTargets = new List<Thing>();
 
-		// Token: 0x0600058D RID: 1421 RVA: 0x0003C20C File Offset: 0x0003A60C
+		public JobGiver_FireStartingSpree()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_FireStartingSpree jobGiver_FireStartingSpree = (JobGiver_FireStartingSpree)base.DeepCopy(resolve);
@@ -25,7 +25,6 @@ namespace RimWorld
 			return jobGiver_FireStartingSpree;
 		}
 
-		// Token: 0x0600058E RID: 1422 RVA: 0x0003C23C File Offset: 0x0003A63C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -61,7 +60,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600058F RID: 1423 RVA: 0x0003C318 File Offset: 0x0003A718
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
 			Region region;
@@ -92,6 +90,26 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_FireStartingSpree()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomIgniteTarget>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryFindRandomIgniteTarget>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region candidateRegion)
+			{
+				return !candidateRegion.IsForbiddenEntirely(this.pawn);
+			}
 		}
 	}
 }

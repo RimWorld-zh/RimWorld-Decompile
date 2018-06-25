@@ -1,29 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200024E RID: 590
 	public class CompProperties_OrbitalBeam : CompProperties
 	{
-		// Token: 0x0400049B RID: 1179
 		public float width = 8f;
 
-		// Token: 0x0400049C RID: 1180
 		public Color color = Color.white;
 
-		// Token: 0x0400049D RID: 1181
 		public SoundDef sound;
 
-		// Token: 0x06000A83 RID: 2691 RVA: 0x0005F4FA File Offset: 0x0005D8FA
 		public CompProperties_OrbitalBeam()
 		{
 			this.compClass = typeof(CompOrbitalBeam);
 		}
 
-		// Token: 0x06000A84 RID: 2692 RVA: 0x0005F52C File Offset: 0x0005D92C
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -35,6 +33,162 @@ namespace RimWorld
 				yield return "orbital beam requires realtime drawer";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0(ThingDef parentDef)
+		{
+			return base.ConfigErrors(parentDef);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef parentDef;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal CompProperties_OrbitalBeam $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0(parentDef).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FF;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (parentDef.drawerType == DrawerType.RealtimeOnly || parentDef.drawerType == DrawerType.MapMeshAndRealTime)
+				{
+					goto IL_FF;
+				}
+				this.$current = "orbital beam requires realtime drawer";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_FF:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompProperties_OrbitalBeam.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new CompProperties_OrbitalBeam.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.parentDef = parentDef;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200061B RID: 1563
 	public class DebugArena : WorldObjectComp
 	{
-		// Token: 0x04001261 RID: 4705
 		public List<Pawn> lhs;
 
-		// Token: 0x04001262 RID: 4706
 		public List<Pawn> rhs;
 
-		// Token: 0x04001263 RID: 4707
 		public Action<ArenaUtility.ArenaResult> callback;
 
-		// Token: 0x04001264 RID: 4708
 		private int tickCreated = 0;
 
-		// Token: 0x04001265 RID: 4709
 		private int tickFightStarted = 0;
 
-		// Token: 0x06001FB7 RID: 8119 RVA: 0x00111EEC File Offset: 0x001102EC
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache1;
+
 		public DebugArena()
 		{
 			this.tickCreated = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06001FB8 RID: 8120 RVA: 0x00111F14 File Offset: 0x00110314
 		public override void CompTick()
 		{
 			if (this.lhs == null || this.rhs == null)
@@ -90,6 +89,18 @@ namespace RimWorld.Planet
 					}
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <CompTick>m__0(Pawn pawn)
+		{
+			return !pawn.Dead && !pawn.Downed && pawn.Spawned;
+		}
+
+		[CompilerGenerated]
+		private static bool <CompTick>m__1(Pawn pawn)
+		{
+			return !pawn.Dead && !pawn.Downed && pawn.Spawned;
 		}
 	}
 }

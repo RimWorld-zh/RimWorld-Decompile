@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006EF RID: 1775
 	public class ThingSetMaker_Sum : ThingSetMaker
 	{
-		// Token: 0x04001584 RID: 5508
 		public List<ThingSetMaker_Sum.Option> options;
 
-		// Token: 0x04001585 RID: 5509
 		private List<ThingSetMaker_Sum.Option> optionsInRandomOrder = new List<ThingSetMaker_Sum.Option>();
 
-		// Token: 0x060026A1 RID: 9889 RVA: 0x0014AEE8 File Offset: 0x001492E8
+		public ThingSetMaker_Sum()
+		{
+		}
+
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -26,7 +30,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060026A2 RID: 9890 RVA: 0x0014AF5C File Offset: 0x0014935C
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			int num = 0;
@@ -81,7 +84,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A3 RID: 9891 RVA: 0x0014B230 File Offset: 0x00149630
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -91,7 +93,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A4 RID: 9892 RVA: 0x0014B278 File Offset: 0x00149678
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -107,14 +108,169 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x020006F0 RID: 1776
 		public class Option
 		{
-			// Token: 0x04001586 RID: 5510
 			public ThingSetMaker thingSetMaker;
 
-			// Token: 0x04001587 RID: 5511
 			public float chance = 1f;
+
+			public Option()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal int <i>__1;
+
+			internal ThingSetMakerParams parms;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__2;
+
+			internal ThingSetMaker_Sum $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_115;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							t = enumerator.Current;
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					break;
+				default:
+					return false;
+				}
+				IL_107:
+				i++;
+				IL_115:
+				if (i >= this.options.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.options[i].chance <= 0f)
+					{
+						goto IL_107;
+					}
+					enumerator = this.options[i].thingSetMaker.AllGeneratableThingsDebug(parms).GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker_Sum.<AllGeneratableThingsDebugSub>c__Iterator0 <AllGeneratableThingsDebugSub>c__Iterator = new ThingSetMaker_Sum.<AllGeneratableThingsDebugSub>c__Iterator0();
+				<AllGeneratableThingsDebugSub>c__Iterator.$this = this;
+				<AllGeneratableThingsDebugSub>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebugSub>c__Iterator;
+			}
 		}
 	}
 }

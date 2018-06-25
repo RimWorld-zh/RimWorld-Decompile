@@ -3,20 +3,15 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4C RID: 3148
 	internal class SectionLayer_SunShadows : SectionLayer
 	{
-		// Token: 0x04002F6F RID: 12143
 		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 
-		// Token: 0x0600455C RID: 17756 RVA: 0x0024A7FF File Offset: 0x00248BFF
 		public SectionLayer_SunShadows(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
 
-		// Token: 0x17000AEF RID: 2799
-		// (get) Token: 0x0600455D RID: 17757 RVA: 0x0024A810 File Offset: 0x00248C10
 		public override bool Visible
 		{
 			get
@@ -25,7 +20,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600455E RID: 17758 RVA: 0x0024A82C File Offset: 0x00248C2C
 		public override void Regenerate()
 		{
 			if (MatBases.SunShadow.shader.isSupported)
@@ -132,6 +126,11 @@ namespace Verse
 					subMesh.mesh.bounds = new Bounds(subMesh.mesh.bounds.center, size);
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SectionLayer_SunShadows()
+		{
 		}
 	}
 }

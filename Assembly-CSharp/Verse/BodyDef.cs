@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000AFD RID: 2813
 	public class BodyDef : Def
 	{
-		// Token: 0x0400276E RID: 10094
 		public BodyPartRecord corePart = null;
 
-		// Token: 0x0400276F RID: 10095
 		[Unsaved]
 		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
 
-		// Token: 0x04002770 RID: 10096
 		[Unsaved]
 		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
 
-		// Token: 0x1700095F RID: 2399
-		// (get) Token: 0x06003E55 RID: 15957 RVA: 0x0020DBD8 File Offset: 0x0020BFD8
+		public BodyDef()
+		{
+		}
+
 		public List<BodyPartRecord> AllParts
 		{
 			get
@@ -27,8 +29,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000960 RID: 2400
-		// (get) Token: 0x06003E56 RID: 15958 RVA: 0x0020DBF4 File Offset: 0x0020BFF4
 		public List<BodyPartRecord> AllPartsVulnerableToFrostbite
 		{
 			get
@@ -37,7 +37,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E57 RID: 15959 RVA: 0x0020DC10 File Offset: 0x0020C010
 		public IEnumerable<BodyPartRecord> GetPartsWithTag(BodyPartTagDef tag)
 		{
 			for (int i = 0; i < this.AllParts.Count; i++)
@@ -51,7 +50,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E58 RID: 15960 RVA: 0x0020DC44 File Offset: 0x0020C044
 		public IEnumerable<BodyPartRecord> GetPartsWithDef(BodyPartDef def)
 		{
 			for (int i = 0; i < this.AllParts.Count; i++)
@@ -65,7 +63,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E59 RID: 15961 RVA: 0x0020DC78 File Offset: 0x0020C078
 		public bool HasPartWithTag(BodyPartTagDef tag)
 		{
 			for (int i = 0; i < this.AllParts.Count; i++)
@@ -79,7 +76,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003E5A RID: 15962 RVA: 0x0020DCD8 File Offset: 0x0020C0D8
 		public BodyPartRecord GetPartAtIndex(int index)
 		{
 			BodyPartRecord result;
@@ -94,7 +90,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E5B RID: 15963 RVA: 0x0020DD18 File Offset: 0x0020C118
 		public int GetIndexOfPart(BodyPartRecord rec)
 		{
 			for (int i = 0; i < this.cachedAllParts.Count; i++)
@@ -107,7 +102,6 @@ namespace Verse
 			return -1;
 		}
 
-		// Token: 0x06003E5C RID: 15964 RVA: 0x0020DD68 File Offset: 0x0020C168
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -128,7 +122,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E5D RID: 15965 RVA: 0x0020DD94 File Offset: 0x0020C194
 		public override void ResolveReferences()
 		{
 			if (this.corePart != null)
@@ -146,7 +139,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E5E RID: 15966 RVA: 0x0020DE18 File Offset: 0x0020C218
 		private void CacheDataRecursive(BodyPartRecord node)
 		{
 			if (node.def == null)
@@ -210,6 +202,427 @@ namespace Verse
 				{
 					this.CacheDataRecursive(node.parts[l]);
 				}
+			}
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetPartsWithTag>c__Iterator0 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal int <i>__1;
+
+			internal BodyPartRecord <part>__2;
+
+			internal BodyPartTagDef tag;
+
+			internal BodyDef $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetPartsWithTag>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_8B:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= base.AllParts.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					part = base.AllParts[i];
+					if (part.def.tags.Contains(tag))
+					{
+						this.$current = part;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_8B;
+				}
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyDef.<GetPartsWithTag>c__Iterator0 <GetPartsWithTag>c__Iterator = new BodyDef.<GetPartsWithTag>c__Iterator0();
+				<GetPartsWithTag>c__Iterator.$this = this;
+				<GetPartsWithTag>c__Iterator.tag = tag;
+				return <GetPartsWithTag>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetPartsWithDef>c__Iterator1 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal int <i>__1;
+
+			internal BodyPartRecord <part>__2;
+
+			internal BodyPartDef def;
+
+			internal BodyDef $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetPartsWithDef>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_81:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= base.AllParts.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					part = base.AllParts[i];
+					if (part.def == def)
+					{
+						this.$current = part;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_81;
+				}
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyDef.<GetPartsWithDef>c__Iterator1 <GetPartsWithDef>c__Iterator = new BodyDef.<GetPartsWithDef>c__Iterator1();
+				<GetPartsWithDef>c__Iterator.$this = this;
+				<GetPartsWithDef>c__Iterator.def = def;
+				return <GetPartsWithDef>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator2 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal List<BodyPartRecord>.Enumerator $locvar1;
+
+			internal BodyPartRecord <part>__2;
+
+			internal BodyDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_F0;
+				case 3u:
+					goto IL_10A;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.cachedPartsVulnerableToFrostbite.NullOrEmpty<BodyPartRecord>())
+				{
+					this.$current = "no parts vulnerable to frostbite";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_F0:
+				enumerator2 = base.AllParts.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_10A:
+					switch (num)
+					{
+					case 3u:
+						IL_183:
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						part = enumerator2.Current;
+						if (part.def.conceptual && part.coverageAbs != 0f)
+						{
+							this.$current = string.Format("part {0} is tagged conceptual, but has nonzero coverage", part);
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_183;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyDef.<ConfigErrors>c__Iterator2 <ConfigErrors>c__Iterator = new BodyDef.<ConfigErrors>c__Iterator2();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
 			}
 		}
 	}

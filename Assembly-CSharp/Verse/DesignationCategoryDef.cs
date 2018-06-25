@@ -1,36 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B35 RID: 2869
 	public class DesignationCategoryDef : Def
 	{
-		// Token: 0x04002939 RID: 10553
 		public List<Type> specialDesignatorClasses = new List<Type>();
 
-		// Token: 0x0400293A RID: 10554
 		public int order = 0;
 
-		// Token: 0x0400293B RID: 10555
 		public bool showPowerGrid = false;
 
-		// Token: 0x0400293C RID: 10556
 		[Unsaved]
 		private List<Designator> resolvedDesignators = new List<Designator>();
 
-		// Token: 0x0400293D RID: 10557
 		[Unsaved]
 		public KeyBindingCategoryDef bindingCatDef;
 
-		// Token: 0x0400293E RID: 10558
 		[Unsaved]
 		public string cachedHighlightClosedTag;
 
-		// Token: 0x1700098F RID: 2447
-		// (get) Token: 0x06003F21 RID: 16161 RVA: 0x002142A0 File Offset: 0x002126A0
+		public DesignationCategoryDef()
+		{
+		}
+
 		public IEnumerable<Designator> ResolvedAllowedDesignators
 		{
 			get
@@ -48,8 +47,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000990 RID: 2448
-		// (get) Token: 0x06003F22 RID: 16162 RVA: 0x002142CC File Offset: 0x002126CC
 		public List<Designator> AllResolvedDesignators
 		{
 			get
@@ -58,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F23 RID: 16163 RVA: 0x002142E7 File Offset: 0x002126E7
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -69,7 +65,6 @@ namespace Verse
 			this.cachedHighlightClosedTag = "DesignationCategoryButton-" + this.defName + "-Closed";
 		}
 
-		// Token: 0x06003F24 RID: 16164 RVA: 0x0021431C File Offset: 0x0021271C
 		private void ResolveDesignators()
 		{
 			this.resolvedDesignators.Clear();
@@ -116,6 +111,128 @@ namespace Verse
 				{
 					this.resolvedDesignators.Add(new Designator_Build(buildableDef));
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private void <ResolveReferences>m__0()
+		{
+			this.ResolveDesignators();
+		}
+
+		[CompilerGenerated]
+		private bool <ResolveDesignators>m__1(BuildableDef tDef)
+		{
+			return tDef.designationCategory == this;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Designator>, IEnumerator, IDisposable, IEnumerator<Designator>
+		{
+			internal GameRules <rules>__0;
+
+			internal int <i>__1;
+
+			internal Designator <des>__2;
+
+			internal DesignationCategoryDef $this;
+
+			internal Designator $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					rules = Current.Game.Rules;
+					i = 0;
+					break;
+				case 1u:
+					IL_91:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= this.resolvedDesignators.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					des = this.resolvedDesignators[i];
+					if (rules.DesignatorAllowed(des))
+					{
+						this.$current = des;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_91;
+				}
+				return false;
+			}
+
+			Designator IEnumerator<Designator>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Designator>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Designator> IEnumerable<Designator>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DesignationCategoryDef.<>c__Iterator0 <>c__Iterator = new DesignationCategoryDef.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
 			}
 		}
 	}

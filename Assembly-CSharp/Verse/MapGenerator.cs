@@ -1,43 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000C62 RID: 3170
 	public static class MapGenerator
 	{
-		// Token: 0x04002FAB RID: 12203
 		public static Map mapBeingGenerated;
 
-		// Token: 0x04002FAC RID: 12204
 		private static Dictionary<string, object> data = new Dictionary<string, object>();
 
-		// Token: 0x04002FAD RID: 12205
 		private static IntVec3 playerStartSpotInt = IntVec3.Invalid;
 
-		// Token: 0x04002FAE RID: 12206
 		public static List<IntVec3> rootsToUnfog = new List<IntVec3>();
 
-		// Token: 0x04002FAF RID: 12207
 		private static List<GenStepDef> tmpGenSteps = new List<GenStepDef>();
 
-		// Token: 0x04002FB0 RID: 12208
 		public const string ElevationName = "Elevation";
 
-		// Token: 0x04002FB1 RID: 12209
 		public const string FertilityName = "Fertility";
 
-		// Token: 0x04002FB2 RID: 12210
 		public const string CavesName = "Caves";
 
-		// Token: 0x04002FB3 RID: 12211
 		public const string RectOfInterestName = "RectOfInterest";
 
-		// Token: 0x17000AFF RID: 2815
-		// (get) Token: 0x060045B0 RID: 17840 RVA: 0x0024D29C File Offset: 0x0024B69C
+		[CompilerGenerated]
+		private static Func<GenStepDef, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<GenStepDef, ushort> <>f__am$cache1;
+
 		public static MapGenFloatGrid Elevation
 		{
 			get
@@ -46,8 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B00 RID: 2816
-		// (get) Token: 0x060045B1 RID: 17841 RVA: 0x0024D2BC File Offset: 0x0024B6BC
 		public static MapGenFloatGrid Fertility
 		{
 			get
@@ -56,8 +49,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B01 RID: 2817
-		// (get) Token: 0x060045B2 RID: 17842 RVA: 0x0024D2DC File Offset: 0x0024B6DC
 		public static MapGenFloatGrid Caves
 		{
 			get
@@ -66,9 +57,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B02 RID: 2818
-		// (get) Token: 0x060045B3 RID: 17843 RVA: 0x0024D2FC File Offset: 0x0024B6FC
-		// (set) Token: 0x060045B4 RID: 17844 RVA: 0x0024D33C File Offset: 0x0024B73C
 		public static IntVec3 PlayerStartSpot
 		{
 			get
@@ -91,7 +79,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045B5 RID: 17845 RVA: 0x0024D348 File Offset: 0x0024B748
 		public static Map GenerateMap(IntVec3 mapSize, MapParent parent, MapGeneratorDef mapGenerator, IEnumerable<GenStepDef> extraGenStepDefs = null, Action<Map> extraInitBeforeContentGen = null)
 		{
 			ProgramState programState = Current.ProgramState;
@@ -163,7 +150,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045B6 RID: 17846 RVA: 0x0024D524 File Offset: 0x0024B924
 		public static void GenerateContentsIntoMap(IEnumerable<GenStepDef> genStepDefs, Map map, int seed)
 		{
 			MapGenerator.data.Clear();
@@ -202,7 +188,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045B7 RID: 17847 RVA: 0x0024D678 File Offset: 0x0024BA78
 		public static T GetVar<T>(string name)
 		{
 			object obj;
@@ -218,7 +203,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045B8 RID: 17848 RVA: 0x0024D6B4 File Offset: 0x0024BAB4
 		public static bool TryGetVar<T>(string name, out T var)
 		{
 			object obj;
@@ -236,13 +220,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045B9 RID: 17849 RVA: 0x0024D700 File Offset: 0x0024BB00
 		public static void SetVar<T>(string name, T var)
 		{
 			MapGenerator.data[name] = var;
 		}
 
-		// Token: 0x060045BA RID: 17850 RVA: 0x0024D714 File Offset: 0x0024BB14
 		public static MapGenFloatGrid FloatGridNamed(string name)
 		{
 			MapGenFloatGrid var = MapGenerator.GetVar<MapGenFloatGrid>(name);
@@ -260,7 +242,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045BB RID: 17851 RVA: 0x0024D754 File Offset: 0x0024BB54
 		private static int GetSeedPart(List<GenStepDef> genSteps, int index)
 		{
 			int seedPart = genSteps[index].genStep.SeedPart;
@@ -273,6 +254,23 @@ namespace Verse
 				}
 			}
 			return seedPart + num;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MapGenerator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateContentsIntoMap>m__0(GenStepDef x)
+		{
+			return x.order;
+		}
+
+		[CompilerGenerated]
+		private static ushort <GenerateContentsIntoMap>m__1(GenStepDef x)
+		{
+			return x.index;
 		}
 	}
 }

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000C9F RID: 3231
 	public static class RoofCollapseCellsFinder
 	{
-		// Token: 0x04003063 RID: 12387
 		private static List<IntVec3> roofsCollapsingBecauseTooFar = new List<IntVec3>();
 
-		// Token: 0x04003064 RID: 12388
 		private static HashSet<IntVec3> visitedCells = new HashSet<IntVec3>();
 
-		// Token: 0x06004723 RID: 18211 RVA: 0x00258B34 File Offset: 0x00256F34
 		public static void Notify_RoofHolderDespawned(Thing t, Map map)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -21,7 +18,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004724 RID: 18212 RVA: 0x00258B5C File Offset: 0x00256F5C
 		public static void ProcessRoofHolderDespawned(CellRect rect, IntVec3 position, Map map, bool removalMode = false)
 		{
 			RoofCollapseCellsFinder.CheckCollapseFlyingRoofs(rect, map);
@@ -56,7 +52,6 @@ namespace Verse
 			RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar.Clear();
 		}
 
-		// Token: 0x06004725 RID: 18213 RVA: 0x00258C50 File Offset: 0x00257050
 		public static void RemoveBulkCollapsingRoofs(List<IntVec3> nearCells, Map map)
 		{
 			for (int i = 0; i < nearCells.Count; i++)
@@ -65,7 +60,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004726 RID: 18214 RVA: 0x00258CAC File Offset: 0x002570AC
 		public static void CheckCollapseFlyingRoofs(List<IntVec3> nearCells, Map map, bool removalMode = false)
 		{
 			RoofCollapseCellsFinder.visitedCells.Clear();
@@ -76,7 +70,6 @@ namespace Verse
 			RoofCollapseCellsFinder.visitedCells.Clear();
 		}
 
-		// Token: 0x06004727 RID: 18215 RVA: 0x00258CF8 File Offset: 0x002570F8
 		public static void CheckCollapseFlyingRoofs(CellRect nearRect, Map map)
 		{
 			RoofCollapseCellsFinder.visitedCells.Clear();
@@ -89,7 +82,6 @@ namespace Verse
 			RoofCollapseCellsFinder.visitedCells.Clear();
 		}
 
-		// Token: 0x06004728 RID: 18216 RVA: 0x00258D4C File Offset: 0x0025714C
 		private static bool CheckCollapseFlyingRoofAtAndAdjInternal(IntVec3 root, Map map, bool removalMode)
 		{
 			RoofCollapseBuffer roofCollapseBuffer = map.roofCollapseBuffer;
@@ -136,7 +128,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004729 RID: 18217 RVA: 0x00258F00 File Offset: 0x00257300
 		public static bool ConnectsToRoofHolder(IntVec3 c, Map map, HashSet<IntVec3> visitedCells)
 		{
 			bool connected = false;
@@ -165,6 +156,77 @@ namespace Verse
 				}
 			}, int.MaxValue, false, null);
 			return connected;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static RoofCollapseCellsFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheckCollapseFlyingRoofAtAndAdjInternal>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal RoofCollapseBuffer roofCollapseBuffer;
+
+			public <CheckCollapseFlyingRoofAtAndAdjInternal>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Roofed(this.map);
+			}
+
+			internal void <>m__1(IntVec3 x)
+			{
+				this.roofCollapseBuffer.MarkToCollapse(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConnectsToRoofHolder>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal bool connected;
+
+			internal HashSet<IntVec3> visitedCells;
+
+			public <ConnectsToRoofHolder>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Roofed(this.map) && !this.connected;
+			}
+
+			internal void <>m__1(IntVec3 x)
+			{
+				if (this.visitedCells.Contains(x))
+				{
+					this.connected = true;
+				}
+				else
+				{
+					this.visitedCells.Add(x);
+					for (int i = 0; i < 5; i++)
+					{
+						IntVec3 c = x + GenAdj.CardinalDirectionsAndInside[i];
+						if (c.InBounds(this.map))
+						{
+							Building edifice = c.GetEdifice(this.map);
+							if (edifice != null && edifice.def.holdsRoof)
+							{
+								this.connected = true;
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

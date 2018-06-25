@@ -1,18 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CCB RID: 3275
 	public static class ModsConfig
 	{
-		// Token: 0x040030FE RID: 12542
 		private static ModsConfig.ModsConfigData data;
 
-		// Token: 0x0600486C RID: 18540 RVA: 0x002612B0 File Offset: 0x0025F6B0
+		[CompilerGenerated]
+		private static Func<string, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache1;
+
 		static ModsConfig()
 		{
 			bool flag = false;
@@ -39,8 +46,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B79 RID: 2937
-		// (get) Token: 0x0600486D RID: 18541 RVA: 0x0026137C File Offset: 0x0025F77C
 		public static IEnumerable<ModMetaData> ActiveModsInLoadOrder
 		{
 			get
@@ -54,7 +59,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600486E RID: 18542 RVA: 0x002613A0 File Offset: 0x0025F7A0
 		public static void DeactivateNotInstalledMods(Action<string> logCallback = null)
 		{
 			int i;
@@ -71,7 +75,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600486F RID: 18543 RVA: 0x00261449 File Offset: 0x0025F849
 		public static void Reset()
 		{
 			ModsConfig.data.activeMods.Clear();
@@ -79,7 +82,6 @@ namespace Verse
 			ModsConfig.Save();
 		}
 
-		// Token: 0x06004870 RID: 18544 RVA: 0x00261474 File Offset: 0x0025F874
 		internal static void Reorder(int modIndex, int newIndex)
 		{
 			if (modIndex != newIndex)
@@ -89,19 +91,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004871 RID: 18545 RVA: 0x002614D0 File Offset: 0x0025F8D0
 		public static bool IsActive(ModMetaData mod)
 		{
 			return ModsConfig.data.activeMods.Contains(mod.Identifier);
 		}
 
-		// Token: 0x06004872 RID: 18546 RVA: 0x002614FA File Offset: 0x0025F8FA
 		public static void SetActive(ModMetaData mod, bool active)
 		{
 			ModsConfig.SetActive(mod.Identifier, active);
 		}
 
-		// Token: 0x06004873 RID: 18547 RVA: 0x0026150C File Offset: 0x0025F90C
 		public static void SetActive(string modIdentifier, bool active)
 		{
 			if (active)
@@ -117,7 +116,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004874 RID: 18548 RVA: 0x00261574 File Offset: 0x0025F974
 		public static void SetActiveToList(List<string> mods)
 		{
 			ModsConfig.data.activeMods = (from mod in mods
@@ -125,13 +123,11 @@ namespace Verse
 			select mod).ToList<string>();
 		}
 
-		// Token: 0x06004875 RID: 18549 RVA: 0x002615A9 File Offset: 0x0025F9A9
 		public static void Save()
 		{
 			DirectXmlSaver.SaveDataObject(ModsConfig.data, GenFilePaths.ModsConfigFilePath);
 		}
 
-		// Token: 0x06004876 RID: 18550 RVA: 0x002615BC File Offset: 0x0025F9BC
 		public static void RestartFromChangedMods()
 		{
 			Find.WindowStack.Add(new Dialog_MessageBox("ModsChanged".Translate(), null, delegate()
@@ -140,14 +136,135 @@ namespace Verse
 			}, null, null, null, false, null, null));
 		}
 
-		// Token: 0x02000CCC RID: 3276
+		[CompilerGenerated]
+		private static bool <SetActiveToList>m__0(string mod)
+		{
+			return ModLister.GetModWithIdentifier(mod) != null;
+		}
+
+		[CompilerGenerated]
+		private static void <RestartFromChangedMods>m__1()
+		{
+			GenCommandLine.Restart();
+		}
+
 		private class ModsConfigData
 		{
-			// Token: 0x04003101 RID: 12545
 			public int buildNumber = -1;
 
-			// Token: 0x04003102 RID: 12546
 			public List<string> activeMods = new List<string>();
+
+			public ModsConfigData()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<ModMetaData>, IEnumerator, IDisposable, IEnumerator<ModMetaData>
+		{
+			internal int <i>__1;
+
+			internal ModMetaData $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					ModLister.EnsureInit();
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < ModsConfig.data.activeMods.Count)
+				{
+					this.$current = ModLister.GetModWithIdentifier(ModsConfig.data.activeMods[i]);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ModMetaData IEnumerator<ModMetaData>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ModMetaData>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ModMetaData> IEnumerable<ModMetaData>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ModsConfig.<>c__Iterator0();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DeactivateNotInstalledMods>c__AnonStorey1
+		{
+			internal int i;
+
+			public <DeactivateNotInstalledMods>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ModMetaData m)
+			{
+				return m.Identifier == ModsConfig.data.activeMods[this.i];
+			}
 		}
 	}
 }

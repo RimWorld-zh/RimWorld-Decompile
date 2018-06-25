@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006FD RID: 1789
 	public static class ThingSetMakerByTotalStatUtility
 	{
-		// Token: 0x040015B1 RID: 5553
 		private static List<ThingStuffPairWithQuality> allowedThingStuffPairs = new List<ThingStuffPairWithQuality>();
 
-		// Token: 0x060026FB RID: 9979 RVA: 0x0014F1C0 File Offset: 0x0014D5C0
 		public static List<ThingStuffPairWithQuality> GenerateDefsWithPossibleTotalValue(IntRange countRange, float totalValue, IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue, Func<ThingDef, float> weightSelector = null, int tries = 100, float maxMass = 3.40282347E+38f)
 		{
 			List<ThingStuffPairWithQuality> chosen = new List<ThingStuffPairWithQuality>();
@@ -167,7 +165,6 @@ namespace RimWorld
 			return chosen2;
 		}
 
-		// Token: 0x060026FC RID: 9980 RVA: 0x0014F5EC File Offset: 0x0014D9EC
 		public static void IncreaseStackCountsToTotalValue(List<Thing> things, float totalValue, Func<Thing, float> getValue, float maxMass = 3.40282347E+38f)
 		{
 			float num = 0f;
@@ -195,7 +192,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026FD RID: 9981 RVA: 0x0014F730 File Offset: 0x0014DB30
 		private static void DistributeEvenly(List<Thing> things, float totalValue, ref float currentTotalValue, ref float currentTotalMass, Func<Thing, float> getValue, float maxMass, bool useValueMassRatio = false)
 		{
 			float num = (totalValue - currentTotalValue) / (float)things.Count;
@@ -239,7 +235,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026FE RID: 9982 RVA: 0x0014F908 File Offset: 0x0014DD08
 		private static void GiveRemainingValueToAnything(List<Thing> things, float totalValue, ref float currentTotalValue, ref float currentTotalMass, Func<Thing, float> getValue, float maxMass)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -263,7 +258,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026FF RID: 9983 RVA: 0x0014FA04 File Offset: 0x0014DE04
 		private static void CalculateAllowedThingStuffPairs(IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator)
 		{
 			ThingSetMakerByTotalStatUtility.allowedThingStuffPairs.Clear();
@@ -281,7 +275,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002700 RID: 9984 RVA: 0x0014FABC File Offset: 0x0014DEBC
 		private static float GetTrashThreshold(IntRange countRange, float totalValue, Func<ThingStuffPairWithQuality, float> getMaxValue)
 		{
 			float num = GenMath.Median<ThingStuffPairWithQuality>(ThingSetMakerByTotalStatUtility.allowedThingStuffPairs, getMaxValue, 0f, 0.5f);
@@ -289,14 +282,12 @@ namespace RimWorld
 			return totalValue / (float)num2 * 0.2f;
 		}
 
-		// Token: 0x06002701 RID: 9985 RVA: 0x0014FB10 File Offset: 0x0014DF10
 		private static float GetNonTrashMass(ThingStuffPairWithQuality t, float trashThreshold, Func<ThingStuffPairWithQuality, float> getMinValue)
 		{
 			int num = Mathf.Clamp(Mathf.CeilToInt(trashThreshold / getMinValue(t)), 1, t.thing.stackLimit);
 			return t.GetStatValue(StatDefOf.Mass) * (float)num;
 		}
 
-		// Token: 0x06002702 RID: 9986 RVA: 0x0014FB58 File Offset: 0x0014DF58
 		private static float GetMaxValueWithMaxMass(ThingStuffPairWithQuality t, float massSoFar, float maxMass, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue)
 		{
 			float result;
@@ -310,6 +301,149 @@ namespace RimWorld
 				result = getMinValue(t) * (float)num;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingSetMakerByTotalStatUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateDefsWithPossibleTotalValue>c__AnonStorey0
+		{
+			internal Func<ThingStuffPairWithQuality, float> getMaxValue;
+
+			internal float trashThreshold;
+
+			internal float maxMass;
+
+			internal Func<ThingStuffPairWithQuality, float> getMinValue;
+
+			internal float minMassSoFar;
+
+			internal List<ThingStuffPairWithQuality> chosen;
+
+			internal IntRange countRange;
+
+			internal float minMassEver;
+
+			internal float totalMinValueSoFar;
+
+			internal float totalValue;
+
+			internal float minCandidateValueEver;
+
+			internal float totalMaxValueSoFar;
+
+			internal float maxCandidateValueEver;
+
+			internal Func<ThingDef, float> weightSelector;
+
+			internal TechLevel techLevel;
+
+			public <GenerateDefsWithPossibleTotalValue>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingStuffPairWithQuality x)
+			{
+				return this.getMaxValue(x) < this.trashThreshold;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateDefsWithPossibleTotalValue>c__AnonStorey1
+		{
+			internal float maxCandidateMinValue;
+
+			internal ThingSetMakerByTotalStatUtility.<GenerateDefsWithPossibleTotalValue>c__AnonStorey0 <>f__ref$0;
+
+			public <GenerateDefsWithPossibleTotalValue>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingStuffPairWithQuality x)
+			{
+				if (this.<>f__ref$0.maxMass != 3.40282347E+38f && x.thing.category != ThingCategory.Pawn)
+				{
+					float nonTrashMass = ThingSetMakerByTotalStatUtility.GetNonTrashMass(x, this.<>f__ref$0.trashThreshold, this.<>f__ref$0.getMinValue);
+					if (this.<>f__ref$0.minMassSoFar + nonTrashMass > this.<>f__ref$0.maxMass)
+					{
+						return false;
+					}
+					if (this.<>f__ref$0.chosen.Count < this.<>f__ref$0.countRange.min && this.<>f__ref$0.minMassSoFar + this.<>f__ref$0.minMassEver * (float)(this.<>f__ref$0.countRange.min - this.<>f__ref$0.chosen.Count - 1) + nonTrashMass > this.<>f__ref$0.maxMass)
+					{
+						return false;
+					}
+				}
+				return this.<>f__ref$0.totalMinValueSoFar + Mathf.Max(this.<>f__ref$0.getMinValue(x), this.<>f__ref$0.trashThreshold) <= this.<>f__ref$0.totalValue && (this.<>f__ref$0.chosen.Count >= this.<>f__ref$0.countRange.min || this.<>f__ref$0.totalMinValueSoFar + this.<>f__ref$0.minCandidateValueEver * (float)(this.<>f__ref$0.countRange.min - this.<>f__ref$0.chosen.Count - 1) + Mathf.Max(this.<>f__ref$0.getMinValue(x), this.<>f__ref$0.trashThreshold) <= this.<>f__ref$0.totalValue);
+			}
+
+			internal bool <>m__1(ThingStuffPairWithQuality x)
+			{
+				return this.<>f__ref$0.totalMaxValueSoFar + this.<>f__ref$0.maxCandidateValueEver * (float)(this.<>f__ref$0.countRange.max - this.<>f__ref$0.chosen.Count - 1) + this.<>f__ref$0.getMaxValue(x) >= this.<>f__ref$0.totalValue * 0.5f;
+			}
+
+			internal float <>m__2(ThingStuffPairWithQuality x)
+			{
+				float a = 1f;
+				if (this.<>f__ref$0.countRange.max != 2147483647 && this.<>f__ref$0.chosen.Count < this.<>f__ref$0.countRange.max && this.<>f__ref$0.totalValue >= this.<>f__ref$0.totalMaxValueSoFar)
+				{
+					int num = this.<>f__ref$0.countRange.max - this.<>f__ref$0.chosen.Count;
+					float b = (this.<>f__ref$0.totalValue - this.<>f__ref$0.totalMaxValueSoFar) / (float)num;
+					a = Mathf.InverseLerp(0f, b, this.<>f__ref$0.getMaxValue(x));
+				}
+				float b2 = 1f;
+				if (this.<>f__ref$0.chosen.Count < this.<>f__ref$0.countRange.min && this.<>f__ref$0.totalValue >= this.<>f__ref$0.totalMinValueSoFar)
+				{
+					int num2 = this.<>f__ref$0.countRange.min - this.<>f__ref$0.chosen.Count;
+					float num3 = (this.<>f__ref$0.totalValue - this.<>f__ref$0.totalMinValueSoFar) / (float)num2;
+					float num4 = Mathf.Max(this.<>f__ref$0.getMinValue(x), this.<>f__ref$0.trashThreshold);
+					if (num4 > num3)
+					{
+						b2 = num3 / num4;
+					}
+				}
+				float num5 = Mathf.Max(Mathf.Min(a, b2), 1E-05f);
+				if (this.<>f__ref$0.weightSelector != null)
+				{
+					num5 *= this.<>f__ref$0.weightSelector(x.thing);
+				}
+				if (this.<>f__ref$0.totalValue > this.<>f__ref$0.totalMaxValueSoFar)
+				{
+					int num6 = Mathf.Max(this.<>f__ref$0.countRange.min - this.<>f__ref$0.chosen.Count, 1);
+					float num7 = Mathf.InverseLerp(0f, this.maxCandidateMinValue * 0.85f, ThingSetMakerByTotalStatUtility.GetMaxValueWithMaxMass(x, this.<>f__ref$0.minMassSoFar, this.<>f__ref$0.maxMass, this.<>f__ref$0.getMinValue, this.<>f__ref$0.getMaxValue) * (float)num6);
+					num5 *= num7 * num7;
+				}
+				if (PawnWeaponGenerator.IsDerpWeapon(x.thing, x.stuff))
+				{
+					num5 *= 0.1f;
+				}
+				if (this.<>f__ref$0.techLevel != TechLevel.Undefined)
+				{
+					TechLevel techLevel = x.thing.techLevel;
+					if (techLevel < this.<>f__ref$0.techLevel && techLevel <= TechLevel.Neolithic && (x.thing.IsApparel || x.thing.IsWeapon))
+					{
+						num5 *= 0.1f;
+					}
+				}
+				return num5;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <IncreaseStackCountsToTotalValue>c__AnonStorey2
+		{
+			internal Func<Thing, float> getValue;
+
+			public <IncreaseStackCountsToTotalValue>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(Thing x)
+			{
+				return this.getValue(x) / x.GetStatValue(StatDefOf.Mass, true);
+			}
 		}
 	}
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000D4 RID: 212
 	public static class KidnapAIUtility
 	{
-		// Token: 0x060004BB RID: 1211 RVA: 0x0003544C File Offset: 0x0003384C
 		public static bool TryFindGoodKidnapVictim(Pawn kidnapper, float maxDist, out Pawn victim, List<Thing> disallowed = null)
 		{
 			bool result;
@@ -30,7 +29,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004BC RID: 1212 RVA: 0x00035524 File Offset: 0x00033924
 		public static Pawn ReachableWoundedGuest(Pawn searcher)
 		{
 			List<Pawn> list = searcher.Map.mapPawns.SpawnedPawnsInFaction(searcher.Faction);
@@ -43,6 +41,24 @@ namespace RimWorld
 				}
 			}
 			return null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindGoodKidnapVictim>c__AnonStorey0
+		{
+			internal Pawn kidnapper;
+
+			internal List<Thing> disallowed;
+
+			public <TryFindGoodKidnapVictim>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				Pawn pawn = t as Pawn;
+				return pawn.RaceProps.Humanlike && pawn.Downed && pawn.Faction == Faction.OfPlayer && pawn.Faction.HostileTo(this.kidnapper.Faction) && this.kidnapper.CanReserve(pawn, 1, -1, null, false) && (this.disallowed == null || !this.disallowed.Contains(pawn));
+			}
 		}
 	}
 }

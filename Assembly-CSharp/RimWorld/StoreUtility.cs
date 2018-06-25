@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000119 RID: 281
 	public static class StoreUtility
 	{
-		// Token: 0x060005BD RID: 1469 RVA: 0x0003E528 File Offset: 0x0003C928
 		public static IHaulDestination CurrentHaulDestinationOf(Thing t)
 		{
 			IHaulDestination result;
@@ -24,19 +23,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005BE RID: 1470 RVA: 0x0003E570 File Offset: 0x0003C970
 		public static StoragePriority CurrentStoragePriorityOf(Thing t)
 		{
 			return StoreUtility.StoragePriorityAtFor(StoreUtility.CurrentHaulDestinationOf(t), t);
 		}
 
-		// Token: 0x060005BF RID: 1471 RVA: 0x0003E594 File Offset: 0x0003C994
 		public static StoragePriority StoragePriorityAtFor(IntVec3 c, Thing t)
 		{
 			return StoreUtility.StoragePriorityAtFor(t.Map.haulDestinationManager.SlotGroupParentAt(c), t);
 		}
 
-		// Token: 0x060005C0 RID: 1472 RVA: 0x0003E5C0 File Offset: 0x0003C9C0
 		public static StoragePriority StoragePriorityAtFor(IHaulDestination at, Thing t)
 		{
 			StoragePriority result;
@@ -51,20 +47,17 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005C1 RID: 1473 RVA: 0x0003E5FC File Offset: 0x0003C9FC
 		public static bool IsInAnyStorage(this Thing t)
 		{
 			return StoreUtility.CurrentHaulDestinationOf(t) != null;
 		}
 
-		// Token: 0x060005C2 RID: 1474 RVA: 0x0003E620 File Offset: 0x0003CA20
 		public static bool IsInValidStorage(this Thing t)
 		{
 			IHaulDestination haulDestination = StoreUtility.CurrentHaulDestinationOf(t);
 			return haulDestination != null && haulDestination.Accepts(t);
 		}
 
-		// Token: 0x060005C3 RID: 1475 RVA: 0x0003E64C File Offset: 0x0003CA4C
 		public static bool IsInValidBestStorage(this Thing t)
 		{
 			IHaulDestination haulDestination = StoreUtility.CurrentHaulDestinationOf(t);
@@ -73,13 +66,11 @@ namespace RimWorld
 			return haulDestination != null && haulDestination.Accepts(t) && !StoreUtility.TryFindBestBetterStorageFor(t, null, t.Map, haulDestination.GetStoreSettings().Priority, Faction.OfPlayer, out intVec, out haulDestination2, false);
 		}
 
-		// Token: 0x060005C4 RID: 1476 RVA: 0x0003E6B0 File Offset: 0x0003CAB0
 		public static Thing StoringThing(this Thing t)
 		{
 			return StoreUtility.CurrentHaulDestinationOf(t) as Thing;
 		}
 
-		// Token: 0x060005C5 RID: 1477 RVA: 0x0003E6D0 File Offset: 0x0003CAD0
 		public static SlotGroup GetSlotGroup(this Thing thing)
 		{
 			SlotGroup result;
@@ -94,7 +85,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005C6 RID: 1478 RVA: 0x0003E708 File Offset: 0x0003CB08
 		public static SlotGroup GetSlotGroup(this IntVec3 c, Map map)
 		{
 			SlotGroup result;
@@ -109,7 +99,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005C7 RID: 1479 RVA: 0x0003E73C File Offset: 0x0003CB3C
 		public static bool IsValidStorageFor(this IntVec3 c, Map map, Thing storable)
 		{
 			bool result;
@@ -125,7 +114,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005C8 RID: 1480 RVA: 0x0003E78C File Offset: 0x0003CB8C
 		private static bool NoStorageBlockersIn(IntVec3 c, Map map, Thing thing)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -163,7 +151,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060005C9 RID: 1481 RVA: 0x0003E868 File Offset: 0x0003CC68
 		public static bool TryFindBestBetterStorageFor(Thing t, Pawn carrier, Map map, StoragePriority currentPriority, Faction faction, out IntVec3 foundCell, out IHaulDestination haulDestination, bool needAccurateResult = true)
 		{
 			IntVec3 invalid = IntVec3.Invalid;
@@ -199,7 +186,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005CA RID: 1482 RVA: 0x0003E934 File Offset: 0x0003CD34
 		public static bool TryFindBestBetterStoreCellFor(Thing t, Pawn carrier, Map map, StoragePriority currentPriority, Faction faction, out IntVec3 foundCell, bool needAccurateResult = true)
 		{
 			List<SlotGroup> allGroupsListInPriorityOrder = map.haulDestinationManager.AllGroupsListInPriorityOrder;
@@ -239,7 +225,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005CB RID: 1483 RVA: 0x0003EA10 File Offset: 0x0003CE10
 		public static bool TryFindBestBetterStoreCellForIn(Thing t, Pawn carrier, Map map, StoragePriority currentPriority, Faction faction, SlotGroup slotGroup, out IntVec3 foundCell, bool needAccurateResult = true)
 		{
 			foundCell = IntVec3.Invalid;
@@ -248,7 +233,6 @@ namespace RimWorld
 			return foundCell.IsValid;
 		}
 
-		// Token: 0x060005CC RID: 1484 RVA: 0x0003EA54 File Offset: 0x0003CE54
 		private static void TryFindBestBetterStoreCellForWorker(Thing t, Pawn carrier, Map map, Faction faction, SlotGroup slotGroup, bool needAccurateResult, ref IntVec3 closestSlot, ref float closestDistSquared, ref StoragePriority foundPriority)
 		{
 			if (slotGroup.parent.Accepts(t))
@@ -286,7 +270,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060005CD RID: 1485 RVA: 0x0003EB50 File Offset: 0x0003CF50
 		public static bool TryFindBestBetterNonSlotGroupStorageFor(Thing t, Pawn carrier, Map map, StoragePriority currentPriority, Faction faction, out IHaulDestination haulDestination)
 		{
 			List<IHaulDestination> allHaulDestinationsListInPriorityOrder = map.haulDestinationManager.AllHaulDestinationsListInPriorityOrder;
@@ -365,7 +348,6 @@ namespace RimWorld
 			return haulDestination != null;
 		}
 
-		// Token: 0x060005CE RID: 1486 RVA: 0x0003ED88 File Offset: 0x0003D188
 		public static bool IsGoodStoreCell(IntVec3 c, Map map, Thing t, Pawn carrier, Faction faction)
 		{
 			bool result;
@@ -410,7 +392,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005CF RID: 1487 RVA: 0x0003EEC4 File Offset: 0x0003D2C4
 		public static bool TryFindStoreCellNearColonyDesperate(Thing item, Pawn carrier, out IntVec3 storeCell)
 		{
 			bool result;
@@ -441,6 +422,23 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindStoreCellNearColonyDesperate>c__AnonStorey0
+		{
+			internal Pawn carrier;
+
+			internal Thing item;
+
+			public <TryFindStoreCellNearColonyDesperate>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.GetSlotGroup(this.carrier.Map) == null && StoreUtility.IsGoodStoreCell(x, this.carrier.Map, this.item, this.carrier, this.carrier.Faction);
+			}
 		}
 	}
 }

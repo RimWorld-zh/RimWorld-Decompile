@@ -1,125 +1,97 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002D8 RID: 728
 	public class StatDef : Def
 	{
-		// Token: 0x0400073D RID: 1853
 		public StatCategoryDef category = null;
 
-		// Token: 0x0400073E RID: 1854
 		public Type workerClass = typeof(StatWorker);
 
-		// Token: 0x0400073F RID: 1855
 		public float hideAtValue = -2.14748365E+09f;
 
-		// Token: 0x04000740 RID: 1856
 		public bool alwaysHide;
 
-		// Token: 0x04000741 RID: 1857
 		public bool showNonAbstract = true;
 
-		// Token: 0x04000742 RID: 1858
 		public bool showIfUndefined = true;
 
-		// Token: 0x04000743 RID: 1859
 		public bool showOnPawns = true;
 
-		// Token: 0x04000744 RID: 1860
 		public bool showOnHumanlikes = true;
 
-		// Token: 0x04000745 RID: 1861
 		public bool showOnNonWildManHumanlikes = true;
 
-		// Token: 0x04000746 RID: 1862
 		public bool showOnAnimals = true;
 
-		// Token: 0x04000747 RID: 1863
 		public bool showOnMechanoids = true;
 
-		// Token: 0x04000748 RID: 1864
 		public bool showOnNonWorkTables = true;
 
-		// Token: 0x04000749 RID: 1865
 		public bool neverDisabled = false;
 
-		// Token: 0x0400074A RID: 1866
 		public int displayPriorityInCategory = 0;
 
-		// Token: 0x0400074B RID: 1867
 		public ToStringNumberSense toStringNumberSense = ToStringNumberSense.Absolute;
 
-		// Token: 0x0400074C RID: 1868
 		public ToStringStyle toStringStyle = ToStringStyle.Integer;
 
-		// Token: 0x0400074D RID: 1869
 		public ToStringStyle? toStringStyleUnfinalized;
 
-		// Token: 0x0400074E RID: 1870
 		[MustTranslate]
 		public string formatString = null;
 
-		// Token: 0x0400074F RID: 1871
 		public float defaultBaseValue = 1f;
 
-		// Token: 0x04000750 RID: 1872
 		public List<SkillNeed> skillNeedOffsets = null;
 
-		// Token: 0x04000751 RID: 1873
 		public float noSkillOffset = 0f;
 
-		// Token: 0x04000752 RID: 1874
 		public List<PawnCapacityOffset> capacityOffsets = null;
 
-		// Token: 0x04000753 RID: 1875
 		public List<StatDef> statFactors = null;
 
-		// Token: 0x04000754 RID: 1876
 		public bool applyFactorsIfNegative = true;
 
-		// Token: 0x04000755 RID: 1877
 		public List<SkillNeed> skillNeedFactors = null;
 
-		// Token: 0x04000756 RID: 1878
 		public float noSkillFactor = 1f;
 
-		// Token: 0x04000757 RID: 1879
 		public List<PawnCapacityFactor> capacityFactors = null;
 
-		// Token: 0x04000758 RID: 1880
 		public SimpleCurve postProcessCurve = null;
 
-		// Token: 0x04000759 RID: 1881
 		public float minValue = -9999999f;
 
-		// Token: 0x0400075A RID: 1882
 		public float maxValue = 9999999f;
 
-		// Token: 0x0400075B RID: 1883
 		public bool roundValue = false;
 
-		// Token: 0x0400075C RID: 1884
 		public float roundToFiveOver = float.MaxValue;
 
-		// Token: 0x0400075D RID: 1885
 		public bool minifiedThingInherits;
 
-		// Token: 0x0400075E RID: 1886
 		public bool scenarioRandomizable = false;
 
-		// Token: 0x0400075F RID: 1887
 		public List<StatPart> parts = null;
 
-		// Token: 0x04000760 RID: 1888
 		[Unsaved]
 		private StatWorker workerInt = null;
 
-		// Token: 0x170001C9 RID: 457
-		// (get) Token: 0x06000C01 RID: 3073 RVA: 0x0006A934 File Offset: 0x00068D34
+		[CompilerGenerated]
+		private static Func<StatPart, float> <>f__am$cache0;
+
+		public StatDef()
+		{
+		}
+
 		public StatWorker Worker
 		{
 			get
@@ -140,8 +112,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001CA RID: 458
-		// (get) Token: 0x06000C02 RID: 3074 RVA: 0x0006A9BC File Offset: 0x00068DBC
 		public ToStringStyle ToStringStyleUnfinalized
 		{
 			get
@@ -151,7 +121,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C03 RID: 3075 RVA: 0x0006A9FC File Offset: 0x00068DFC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -188,19 +157,16 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C04 RID: 3076 RVA: 0x0006AA28 File Offset: 0x00068E28
 		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
 			return this.Worker.ValueToString(val, true, numberSense);
 		}
 
-		// Token: 0x06000C05 RID: 3077 RVA: 0x0006AA4C File Offset: 0x00068E4C
 		public static StatDef Named(string defName)
 		{
 			return DefDatabase<StatDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C06 RID: 3078 RVA: 0x0006AA68 File Offset: 0x00068E68
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -211,10 +177,293 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C07 RID: 3079 RVA: 0x0006AAD4 File Offset: 0x00068ED4
 		public T GetStatPart<T>() where T : StatPart
 		{
 			return this.parts.OfType<T>().FirstOrDefault<T>();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private static float <PostLoad>m__0(StatPart x)
+		{
+			return -x.priority;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal List<PawnCapacityFactor>.Enumerator $locvar1;
+
+			internal PawnCapacityFactor <afac>__2;
+
+			internal int <i>__3;
+
+			internal IEnumerator<string> $locvar2;
+
+			internal string <err>__4;
+
+			internal StatDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_E7;
+				case 3u:
+					Block_6:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator3.MoveNext())
+						{
+							err2 = enumerator3.Current;
+							this.$current = string.Concat(new string[]
+							{
+								this.defName,
+								" has error in StatPart ",
+								this.parts[i].ToString(),
+								": ",
+								err2
+							});
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					i++;
+					goto IL_294;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.capacityFactors == null)
+				{
+					goto IL_17D;
+				}
+				enumerator2 = this.capacityFactors.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_E7:
+					switch (num)
+					{
+					case 2u:
+						IL_150:
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						afac = enumerator2.Current;
+						if (afac.weight > 1f)
+						{
+							this.$current = this.defName + " has activity factor with weight > 1";
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_150;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				IL_17D:
+				if (this.parts == null)
+				{
+					goto IL_2B0;
+				}
+				i = 0;
+				IL_294:
+				if (i < this.parts.Count)
+				{
+					enumerator3 = this.parts[i].ConfigErrors().GetEnumerator();
+					num = 4294967293u;
+					goto Block_6;
+				}
+				IL_2B0:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new StatDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PostLoad>c__AnonStorey1
+		{
+			internal List<StatPart> partsCopy;
+
+			public <PostLoad>c__AnonStorey1()
+			{
+			}
+
+			internal int <>m__0(StatPart x)
+			{
+				return this.partsCopy.IndexOf(x);
+			}
 		}
 	}
 }

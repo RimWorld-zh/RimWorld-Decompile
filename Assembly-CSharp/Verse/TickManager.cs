@@ -1,62 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BD4 RID: 3028
 	public sealed class TickManager : IExposable
 	{
-		// Token: 0x04002D1F RID: 11551
 		private int ticksGameInt = 0;
 
-		// Token: 0x04002D20 RID: 11552
 		public int gameStartAbsTick = 0;
 
-		// Token: 0x04002D21 RID: 11553
 		private float realTimeToTickThrough = 0f;
 
-		// Token: 0x04002D22 RID: 11554
 		private TimeSpeed curTimeSpeed = TimeSpeed.Normal;
 
-		// Token: 0x04002D23 RID: 11555
 		public TimeSpeed prePauseTimeSpeed = TimeSpeed.Paused;
 
-		// Token: 0x04002D24 RID: 11556
 		private int startingYearInt = 5500;
 
-		// Token: 0x04002D25 RID: 11557
 		private Stopwatch clock = new Stopwatch();
 
-		// Token: 0x04002D26 RID: 11558
 		private TickList tickListNormal = new TickList(TickerType.Normal);
 
-		// Token: 0x04002D27 RID: 11559
 		private TickList tickListRare = new TickList(TickerType.Rare);
 
-		// Token: 0x04002D28 RID: 11560
 		private TickList tickListLong = new TickList(TickerType.Long);
 
-		// Token: 0x04002D29 RID: 11561
 		public TimeSlower slower = new TimeSlower();
 
-		// Token: 0x04002D2A RID: 11562
 		private int lastAutoScreenshot = 0;
 
-		// Token: 0x04002D2B RID: 11563
 		private float WorstAllowedFPS = 22f;
 
-		// Token: 0x04002D2C RID: 11564
 		private int lastNothingHappeningCheckTick = -1;
 
-		// Token: 0x04002D2D RID: 11565
 		private bool nothingHappeningCached = false;
 
-		// Token: 0x17000A4C RID: 2636
-		// (get) Token: 0x060041F7 RID: 16887 RVA: 0x0022C974 File Offset: 0x0022AD74
+		public TickManager()
+		{
+		}
+
 		public int TicksGame
 		{
 			get
@@ -65,8 +52,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4D RID: 2637
-		// (get) Token: 0x060041F8 RID: 16888 RVA: 0x0022C990 File Offset: 0x0022AD90
 		public int TicksAbs
 		{
 			get
@@ -85,8 +70,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4E RID: 2638
-		// (get) Token: 0x060041F9 RID: 16889 RVA: 0x0022C9DC File Offset: 0x0022ADDC
 		public int StartingYear
 		{
 			get
@@ -95,8 +78,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4F RID: 2639
-		// (get) Token: 0x060041FA RID: 16890 RVA: 0x0022C9F8 File Offset: 0x0022ADF8
 		public float TickRateMultiplier
 		{
 			get
@@ -159,8 +140,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A50 RID: 2640
-		// (get) Token: 0x060041FB RID: 16891 RVA: 0x0022CAEC File Offset: 0x0022AEEC
 		private float CurTimePerTick
 		{
 			get
@@ -178,8 +157,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A51 RID: 2641
-		// (get) Token: 0x060041FC RID: 16892 RVA: 0x0022CB30 File Offset: 0x0022AF30
 		public bool Paused
 		{
 			get
@@ -188,8 +165,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A52 RID: 2642
-		// (get) Token: 0x060041FD RID: 16893 RVA: 0x0022CB68 File Offset: 0x0022AF68
 		public bool NotPlaying
 		{
 			get
@@ -198,9 +173,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A53 RID: 2643
-		// (get) Token: 0x060041FE RID: 16894 RVA: 0x0022CB9C File Offset: 0x0022AF9C
-		// (set) Token: 0x060041FF RID: 16895 RVA: 0x0022CBB7 File Offset: 0x0022AFB7
 		public TimeSpeed CurTimeSpeed
 		{
 			get
@@ -213,7 +185,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004200 RID: 16896 RVA: 0x0022CBC4 File Offset: 0x0022AFC4
 		public void TogglePaused()
 		{
 			if (this.curTimeSpeed != TimeSpeed.Paused)
@@ -231,7 +202,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004201 RID: 16897 RVA: 0x0022CC24 File Offset: 0x0022B024
 		private bool NothingHappeningInGame()
 		{
 			if (this.lastNothingHappeningCheckTick != this.TicksGame)
@@ -271,7 +241,6 @@ namespace Verse
 			return this.nothingHappeningCached;
 		}
 
-		// Token: 0x06004202 RID: 16898 RVA: 0x0022CD66 File Offset: 0x0022B166
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksGameInt, "ticksGame", 0, false);
@@ -279,7 +248,6 @@ namespace Verse
 			Scribe_Values.Look<int>(ref this.startingYearInt, "startingYear", 0, false);
 		}
 
-		// Token: 0x06004203 RID: 16899 RVA: 0x0022CDA0 File Offset: 0x0022B1A0
 		public void RegisterAllTickabilityFor(Thing t)
 		{
 			TickList tickList = this.TickListFor(t);
@@ -289,7 +257,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004204 RID: 16900 RVA: 0x0022CDC4 File Offset: 0x0022B1C4
 		public void DeRegisterAllTickabilityFor(Thing t)
 		{
 			TickList tickList = this.TickListFor(t);
@@ -299,7 +266,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004205 RID: 16901 RVA: 0x0022CDE8 File Offset: 0x0022B1E8
 		private TickList TickListFor(Thing t)
 		{
 			TickList result;
@@ -323,7 +289,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004206 RID: 16902 RVA: 0x0022CE50 File Offset: 0x0022B250
 		public void TickManagerUpdate()
 		{
 			if (!this.Paused)
@@ -358,7 +323,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004207 RID: 16903 RVA: 0x0022CF54 File Offset: 0x0022B354
 		public void DoSingleTick()
 		{
 			List<Map> maps = Find.Maps;
@@ -527,7 +491,6 @@ namespace Verse
 			UnityEngine.Debug.developerConsoleVisible = false;
 		}
 
-		// Token: 0x06004208 RID: 16904 RVA: 0x0022D418 File Offset: 0x0022B818
 		public void RemoveAllFromMap(Map map)
 		{
 			this.tickListNormal.RemoveWhere((Thing x) => x.Map == map);
@@ -535,10 +498,34 @@ namespace Verse
 			this.tickListLong.RemoveWhere((Thing x) => x.Map == map);
 		}
 
-		// Token: 0x06004209 RID: 16905 RVA: 0x0022D478 File Offset: 0x0022B878
 		public void DebugSetTicksGame(int newTicksGame)
 		{
 			this.ticksGameInt = newTicksGame;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RemoveAllFromMap>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <RemoveAllFromMap>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x.Map == this.map;
+			}
+
+			internal bool <>m__1(Thing x)
+			{
+				return x.Map == this.map;
+			}
+
+			internal bool <>m__2(Thing x)
+			{
+				return x.Map == this.map;
+			}
 		}
 	}
 }

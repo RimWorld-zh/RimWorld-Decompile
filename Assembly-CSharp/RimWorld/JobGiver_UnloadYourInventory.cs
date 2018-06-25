@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000F1 RID: 241
 	public class JobGiver_UnloadYourInventory : ThinkNode_JobGiver
 	{
-		// Token: 0x06000519 RID: 1305 RVA: 0x000387AC File Offset: 0x00036BAC
+		public JobGiver_UnloadYourInventory()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

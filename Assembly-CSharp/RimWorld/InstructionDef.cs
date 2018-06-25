@@ -1,83 +1,68 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EF RID: 751
 	public class InstructionDef : Def
 	{
-		// Token: 0x04000803 RID: 2051
 		public Type instructionClass = typeof(Instruction_Basic);
 
-		// Token: 0x04000804 RID: 2052
 		[MustTranslate]
 		public string text;
 
-		// Token: 0x04000805 RID: 2053
 		public bool startCentered = false;
 
-		// Token: 0x04000806 RID: 2054
 		public bool tutorialModeOnly = true;
 
-		// Token: 0x04000807 RID: 2055
 		[NoTranslate]
 		public string eventTagInitiate;
 
-		// Token: 0x04000808 RID: 2056
 		public InstructionDef eventTagInitiateSource;
 
-		// Token: 0x04000809 RID: 2057
 		[NoTranslate]
 		public List<string> eventTagsEnd;
 
-		// Token: 0x0400080A RID: 2058
 		[NoTranslate]
 		public List<string> actionTagsAllowed = null;
 
-		// Token: 0x0400080B RID: 2059
 		[MustTranslate]
 		public string rejectInputMessage = null;
 
-		// Token: 0x0400080C RID: 2060
 		public ConceptDef concept = null;
 
-		// Token: 0x0400080D RID: 2061
 		[NoTranslate]
 		public List<string> highlightTags;
 
-		// Token: 0x0400080E RID: 2062
 		[MustTranslate]
 		public string onMapInstruction;
 
-		// Token: 0x0400080F RID: 2063
 		public int targetCount;
 
-		// Token: 0x04000810 RID: 2064
 		public ThingDef thingDef;
 
-		// Token: 0x04000811 RID: 2065
 		public RecipeDef recipeDef;
 
-		// Token: 0x04000812 RID: 2066
 		public int recipeTargetCount = 1;
 
-		// Token: 0x04000813 RID: 2067
 		public ThingDef giveOnActivateDef;
 
-		// Token: 0x04000814 RID: 2068
 		public int giveOnActivateCount;
 
-		// Token: 0x04000815 RID: 2069
 		public bool endTutorial = false;
 
-		// Token: 0x04000816 RID: 2070
 		public bool resetBuildDesignatorStuffs = false;
 
-		// Token: 0x04000817 RID: 2071
 		private static List<string> tmpParseErrors = new List<string>();
 
-		// Token: 0x06000C64 RID: 3172 RVA: 0x0006DF8C File Offset: 0x0006C38C
+		public InstructionDef()
+		{
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -103,6 +88,205 @@ namespace RimWorld
 				yield return "text error: " + InstructionDef.tmpParseErrors[i];
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static InstructionDef()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal int <i>__2;
+
+			internal InstructionDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_F3;
+				case 3u:
+					goto IL_127;
+				case 4u:
+					goto IL_15B;
+				case 5u:
+					i++;
+					goto IL_1CC;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.instructionClass == null)
+				{
+					this.$current = "no instruction class";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_F3:
+				if (this.text.NullOrEmpty())
+				{
+					this.$current = "no text";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_127:
+				if (this.eventTagInitiate.NullOrEmpty())
+				{
+					this.$current = "no eventTagInitiate";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_15B:
+				InstructionDef.tmpParseErrors.Clear();
+				this.text.AdjustedForKeys(InstructionDef.tmpParseErrors, false);
+				i = 0;
+				IL_1CC:
+				if (i < InstructionDef.tmpParseErrors.Count)
+				{
+					this.$current = "text error: " + InstructionDef.tmpParseErrors[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				InstructionDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new InstructionDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

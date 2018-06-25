@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000117 RID: 279
 	public class JobGiver_Work : ThinkNode
 	{
-		// Token: 0x040002FC RID: 764
 		public bool emergency = false;
 
-		// Token: 0x060005AD RID: 1453 RVA: 0x0003CF2C File Offset: 0x0003B32C
+		public JobGiver_Work()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_Work jobGiver_Work = (JobGiver_Work)base.DeepCopy(resolve);
@@ -20,7 +22,6 @@ namespace RimWorld
 			return jobGiver_Work;
 		}
 
-		// Token: 0x060005AE RID: 1454 RVA: 0x0003CF5C File Offset: 0x0003B35C
 		public override float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -55,7 +56,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005AF RID: 1455 RVA: 0x0003D010 File Offset: 0x0003B410
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			Profiler.BeginSample("JobGiver_Work");
@@ -254,13 +254,11 @@ namespace RimWorld
 			return ThinkResult.NoJob;
 		}
 
-		// Token: 0x060005B0 RID: 1456 RVA: 0x0003D858 File Offset: 0x0003BC58
 		private bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
 		{
 			return (giver.def.canBeDoneByNonColonists || pawn.IsColonist) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(giver.def.workTags)) && !giver.ShouldSkip(pawn, false) && giver.MissingRequiredCapacity(pawn) == null;
 		}
 
-		// Token: 0x060005B1 RID: 1457 RVA: 0x0003D8E4 File Offset: 0x0003BCE4
 		private Job GiverTryGiveJobPrioritized(Pawn pawn, WorkGiver giver, IntVec3 cell)
 		{
 			Job result;
@@ -318,6 +316,70 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryIssueJobPackage>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryIssueJobPackage>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryIssueJobPackage>c__AnonStorey1
+		{
+			internal WorkGiver_Scanner scanner;
+
+			internal JobGiver_Work.<TryIssueJobPackage>c__AnonStorey0 <>f__ref$0;
+
+			public <TryIssueJobPackage>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return !t.IsForbidden(this.<>f__ref$0.pawn) && this.scanner.HasJobOnThing(this.<>f__ref$0.pawn, t, false);
+			}
+
+			internal float <>m__1(Thing x)
+			{
+				return this.scanner.GetPriority(this.<>f__ref$0.pawn, x);
+			}
+
+			internal float <>m__2(Thing x)
+			{
+				return this.scanner.GetPriority(this.<>f__ref$0.pawn, x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GiverTryGiveJobPrioritized>c__AnonStorey2
+		{
+			internal Pawn pawn;
+
+			public <GiverTryGiveJobPrioritized>c__AnonStorey2()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GiverTryGiveJobPrioritized>c__AnonStorey3
+		{
+			internal WorkGiver_Scanner scanner;
+
+			internal JobGiver_Work.<GiverTryGiveJobPrioritized>c__AnonStorey2 <>f__ref$2;
+
+			public <GiverTryGiveJobPrioritized>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return !t.IsForbidden(this.<>f__ref$2.pawn) && this.scanner.HasJobOnThing(this.<>f__ref$2.pawn, t, false);
+			}
 		}
 	}
 }

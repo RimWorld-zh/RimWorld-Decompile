@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B28 RID: 2856
 	public class RecipeWorkerCounter
 	{
-		// Token: 0x040028CD RID: 10445
 		public RecipeDef recipe;
 
-		// Token: 0x06003EF0 RID: 16112 RVA: 0x00212BAC File Offset: 0x00210FAC
+		public RecipeWorkerCounter()
+		{
+		}
+
 		public virtual bool CanCountProducts(Bill_Production bill)
 		{
 			return this.recipe.specialProducts == null && this.recipe.products != null && this.recipe.products.Count == 1;
 		}
 
-		// Token: 0x06003EF1 RID: 16113 RVA: 0x00212BF8 File Offset: 0x00210FF8
 		public virtual int CountProducts(Bill_Production bill)
 		{
 			ThingDefCountClass thingDefCountClass = this.recipe.products[0];
@@ -71,7 +72,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF2 RID: 16114 RVA: 0x00212F5C File Offset: 0x0021135C
 		public int CountValidThings(List<Thing> things, Bill_Production bill, ThingDef def)
 		{
 			int num = 0;
@@ -85,7 +85,6 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003EF3 RID: 16115 RVA: 0x00212FA8 File Offset: 0x002113A8
 		public bool CountValidThing(Thing thing, Bill_Production bill, ThingDef def)
 		{
 			ThingDef def2 = thing.def;
@@ -110,16 +109,43 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF4 RID: 16116 RVA: 0x00213078 File Offset: 0x00211478
 		public virtual string ProductsDescription(Bill_Production bill)
 		{
 			return null;
 		}
 
-		// Token: 0x06003EF5 RID: 16117 RVA: 0x00213090 File Offset: 0x00211490
 		public virtual bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			return !this.CanCountProducts(bill) || stockpile.GetStoreSettings().AllowedToAccept(this.recipe.products[0].thingDef);
+		}
+
+		[CompilerGenerated]
+		private sealed class <CountProducts>c__AnonStorey0
+		{
+			internal Bill_Production bill;
+
+			internal ThingDef prodDef;
+
+			internal RecipeWorkerCounter $this;
+
+			public <CountProducts>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingWithComps thing)
+			{
+				return this.$this.CountValidThing(thing, this.bill, this.prodDef);
+			}
+
+			internal bool <>m__1(Apparel thing)
+			{
+				return this.$this.CountValidThing(thing, this.bill, this.prodDef);
+			}
+
+			internal bool <>m__2(Thing thing)
+			{
+				return this.$this.CountValidThing(thing, this.bill, this.prodDef);
+			}
 		}
 	}
 }

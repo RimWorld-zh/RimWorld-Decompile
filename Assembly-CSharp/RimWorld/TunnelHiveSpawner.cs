@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
@@ -8,47 +9,41 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006C0 RID: 1728
 	[StaticConstructorOnStartup]
 	public class TunnelHiveSpawner : ThingWithComps
 	{
-		// Token: 0x040014B1 RID: 5297
 		private int secondarySpawnTick;
 
-		// Token: 0x040014B2 RID: 5298
 		public bool spawnHive = true;
 
-		// Token: 0x040014B3 RID: 5299
 		public float insectsPoints;
 
-		// Token: 0x040014B4 RID: 5300
 		private Sustainer sustainer;
 
-		// Token: 0x040014B5 RID: 5301
 		private static MaterialPropertyBlock matPropertyBlock = new MaterialPropertyBlock();
 
-		// Token: 0x040014B6 RID: 5302
 		private readonly FloatRange ResultSpawnDelay = new FloatRange(12f, 16f);
 
-		// Token: 0x040014B7 RID: 5303
 		[TweakValue("Gameplay", 0f, 1f)]
 		private static float DustMoteSpawnMTB = 0.2f;
 
-		// Token: 0x040014B8 RID: 5304
 		[TweakValue("Gameplay", 0f, 1f)]
 		private static float FilthSpawnMTB = 0.3f;
 
-		// Token: 0x040014B9 RID: 5305
 		[TweakValue("Gameplay", 0f, 10f)]
 		private static float FilthSpawnRadius = 3f;
 
-		// Token: 0x040014BA RID: 5306
 		private static readonly Material TunnelMaterial = MaterialPool.MatFrom("Things/Filth/Grainy/GrainyA", ShaderDatabase.Transparent);
 
-		// Token: 0x040014BB RID: 5307
 		private static List<ThingDef> filthTypes = new List<ThingDef>();
 
-		// Token: 0x0600253B RID: 9531 RVA: 0x0013FB64 File Offset: 0x0013DF64
+		[CompilerGenerated]
+		private static Func<PawnKindDef, float> <>f__am$cache0;
+
+		public TunnelHiveSpawner()
+		{
+		}
+
 		public static void ResetStaticData()
 		{
 			TunnelHiveSpawner.filthTypes.Clear();
@@ -58,7 +53,6 @@ namespace RimWorld
 			TunnelHiveSpawner.filthTypes.Add(ThingDefOf.Filth_RubbleRock);
 		}
 
-		// Token: 0x0600253C RID: 9532 RVA: 0x0013FBB8 File Offset: 0x0013DFB8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -67,7 +61,6 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.insectsPoints, "insectsPoints", 0f, false);
 		}
 
-		// Token: 0x0600253D RID: 9533 RVA: 0x0013FC08 File Offset: 0x0013E008
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -78,7 +71,6 @@ namespace RimWorld
 			this.CreateSustainer();
 		}
 
-		// Token: 0x0600253E RID: 9534 RVA: 0x0013FC50 File Offset: 0x0013E050
 		public override void Tick()
 		{
 			if (base.Spawned)
@@ -155,7 +147,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600253F RID: 9535 RVA: 0x0013FF7C File Offset: 0x0013E37C
 		public override void Draw()
 		{
 			Rand.PushState();
@@ -167,7 +158,6 @@ namespace RimWorld
 			Rand.PopState();
 		}
 
-		// Token: 0x06002540 RID: 9536 RVA: 0x0013FFF4 File Offset: 0x0013E3F4
 		private void DrawDustPart(float initialAngle, float speedMultiplier, float scale)
 		{
 			float num = (Find.TickManager.TicksGame - this.secondarySpawnTick).TicksToSeconds();
@@ -179,7 +169,6 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane10, matrix, TunnelHiveSpawner.TunnelMaterial, 0, null, 0, TunnelHiveSpawner.matPropertyBlock);
 		}
 
-		// Token: 0x06002541 RID: 9537 RVA: 0x001400B7 File Offset: 0x0013E4B7
 		private void CreateSustainer()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -187,6 +176,39 @@ namespace RimWorld
 				SoundDef tunnel = SoundDefOf.Tunnel;
 				this.sustainer = tunnel.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
 			});
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TunnelHiveSpawner()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <Tick>m__0(PawnKindDef x)
+		{
+			return x.combatPower;
+		}
+
+		[CompilerGenerated]
+		private void <CreateSustainer>m__1()
+		{
+			SoundDef tunnel = SoundDefOf.Tunnel;
+			this.sustainer = tunnel.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
+		}
+
+		[CompilerGenerated]
+		private sealed class <Tick>c__AnonStorey0
+		{
+			internal float pointsLeft;
+
+			public <Tick>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(PawnKindDef x)
+			{
+				return x.combatPower <= this.pointsLeft;
+			}
 		}
 	}
 }

@@ -4,11 +4,12 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200058F RID: 1423
 	public class WorldLayer_MouseTile : WorldLayer_SingleTile
 	{
-		// Token: 0x170003F8 RID: 1016
-		// (get) Token: 0x06001B2C RID: 6956 RVA: 0x000E9C14 File Offset: 0x000E8014
+		public WorldLayer_MouseTile()
+		{
+		}
+
 		protected override int Tile
 		{
 			get
@@ -35,8 +36,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003F9 RID: 1017
-		// (get) Token: 0x06001B2D RID: 6957 RVA: 0x000E9C84 File Offset: 0x000E8084
 		protected override Material Material
 		{
 			get

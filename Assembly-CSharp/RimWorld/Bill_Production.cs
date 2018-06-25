@@ -6,63 +6,44 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006B1 RID: 1713
 	public class Bill_Production : Bill, IExposable
 	{
-		// Token: 0x04001445 RID: 5189
 		public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
 
-		// Token: 0x04001446 RID: 5190
 		public int repeatCount = 1;
 
-		// Token: 0x04001447 RID: 5191
 		private BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
 
-		// Token: 0x04001448 RID: 5192
 		private Zone_Stockpile storeZone = null;
 
-		// Token: 0x04001449 RID: 5193
 		public int targetCount = 10;
 
-		// Token: 0x0400144A RID: 5194
 		public bool pauseWhenSatisfied = false;
 
-		// Token: 0x0400144B RID: 5195
 		public int unpauseWhenYouHave = 5;
 
-		// Token: 0x0400144C RID: 5196
 		public bool includeEquipped = false;
 
-		// Token: 0x0400144D RID: 5197
 		public bool includeTainted = false;
 
-		// Token: 0x0400144E RID: 5198
 		public Zone_Stockpile includeFromZone = null;
 
-		// Token: 0x0400144F RID: 5199
 		public FloatRange hpRange = FloatRange.ZeroToOne;
 
-		// Token: 0x04001450 RID: 5200
 		public QualityRange qualityRange = QualityRange.All;
 
-		// Token: 0x04001451 RID: 5201
 		public bool limitToAllowedStuff = false;
 
-		// Token: 0x04001452 RID: 5202
 		public bool paused = false;
 
-		// Token: 0x060024BF RID: 9407 RVA: 0x0013ADE0 File Offset: 0x001391E0
 		public Bill_Production()
 		{
 		}
 
-		// Token: 0x060024C0 RID: 9408 RVA: 0x0013AE68 File Offset: 0x00139268
 		public Bill_Production(RecipeDef recipe) : base(recipe)
 		{
 		}
 
-		// Token: 0x1700058C RID: 1420
-		// (get) Token: 0x060024C1 RID: 9409 RVA: 0x0013AEF0 File Offset: 0x001392F0
 		protected override string StatusString
 		{
 			get
@@ -80,8 +61,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700058D RID: 1421
-		// (get) Token: 0x060024C2 RID: 9410 RVA: 0x0013AF30 File Offset: 0x00139330
 		protected override float StatusLineMinHeight
 		{
 			get
@@ -90,8 +69,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700058E RID: 1422
-		// (get) Token: 0x060024C3 RID: 9411 RVA: 0x0013AF60 File Offset: 0x00139360
 		public string RepeatInfoText
 		{
 			get
@@ -117,7 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024C4 RID: 9412 RVA: 0x0013B018 File Offset: 0x00139418
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -145,19 +121,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024C5 RID: 9413 RVA: 0x0013B158 File Offset: 0x00139558
 		public override BillStoreModeDef GetStoreMode()
 		{
 			return this.storeMode;
 		}
 
-		// Token: 0x060024C6 RID: 9414 RVA: 0x0013B174 File Offset: 0x00139574
 		public override Zone_Stockpile GetStoreZone()
 		{
 			return this.storeZone;
 		}
 
-		// Token: 0x060024C7 RID: 9415 RVA: 0x0013B18F File Offset: 0x0013958F
 		public override void SetStoreMode(BillStoreModeDef mode, Zone_Stockpile zone = null)
 		{
 			this.storeMode = mode;
@@ -168,7 +141,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024C8 RID: 9416 RVA: 0x0013B1D0 File Offset: 0x001395D0
 		public override bool ShouldDoNow()
 		{
 			if (this.repeatMode != BillRepeatModeDefOf.TargetCount)
@@ -208,7 +180,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060024C9 RID: 9417 RVA: 0x0013B2C8 File Offset: 0x001396C8
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
 		{
 			if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
@@ -227,7 +198,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024CA RID: 9418 RVA: 0x0013B348 File Offset: 0x00139748
 		protected override void DoConfigInterface(Rect baseRect, Color baseColor)
 		{
 			Rect rect = new Rect(28f, 32f, 100f, 30f);
@@ -291,13 +261,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024CB RID: 9419 RVA: 0x0013B640 File Offset: 0x00139A40
 		private bool CanUnpause()
 		{
 			return this.repeatMode == BillRepeatModeDefOf.TargetCount && this.paused && this.pauseWhenSatisfied && this.recipe.WorkerCounter.CountProducts(this) < this.targetCount;
 		}
 
-		// Token: 0x060024CC RID: 9420 RVA: 0x0013B698 File Offset: 0x00139A98
 		public override void DoStatusLineInterface(Rect rect)
 		{
 			if (this.paused)
@@ -310,7 +278,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024CD RID: 9421 RVA: 0x0013B6F4 File Offset: 0x00139AF4
 		public override void ValidateSettings()
 		{
 			base.ValidateSettings();
@@ -379,7 +346,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024CE RID: 9422 RVA: 0x0013B9CC File Offset: 0x00139DCC
 		public override Bill Clone()
 		{
 			Bill_Production bill_Production = (Bill_Production)base.Clone();

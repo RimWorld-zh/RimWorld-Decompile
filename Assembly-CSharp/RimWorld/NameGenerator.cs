@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200098F RID: 2447
 	public static class NameGenerator
 	{
-		// Token: 0x06003709 RID: 14089 RVA: 0x001D6A2C File Offset: 0x001D4E2C
 		public static string GenerateName(RulePackDef rootPack, IEnumerable<string> extantNames, bool appendNumberIfNameUsed = false, string rootKeyword = null)
 		{
 			return NameGenerator.GenerateName(rootPack, (string x) => !extantNames.Contains(x), appendNumberIfNameUsed, rootKeyword, null);
 		}
 
-		// Token: 0x0600370A RID: 14090 RVA: 0x001D6A64 File Offset: 0x001D4E64
 		public static string GenerateName(RulePackDef rootPack, Predicate<string> validator = null, bool appendNumberIfNameUsed = false, string rootKeyword = null, string testPawnNameSymbol = null)
 		{
 			GrammarRequest request = default(GrammarRequest);
@@ -60,6 +58,21 @@ namespace RimWorld
 				result = "Errorname";
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateName>c__AnonStorey0
+		{
+			internal IEnumerable<string> extantNames;
+
+			public <GenerateName>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(string x)
+			{
+				return !this.extantNames.Contains(x);
+			}
 		}
 	}
 }

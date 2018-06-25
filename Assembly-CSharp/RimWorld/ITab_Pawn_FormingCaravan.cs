@@ -7,60 +7,42 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200084B RID: 2123
 	public class ITab_Pawn_FormingCaravan : ITab
 	{
-		// Token: 0x04001A00 RID: 6656
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001A01 RID: 6657
 		private float lastDrawnHeight;
 
-		// Token: 0x04001A02 RID: 6658
 		private List<Thing> thingsToSelect = new List<Thing>();
 
-		// Token: 0x04001A03 RID: 6659
 		private static List<Thing> tmpSingleThing = new List<Thing>();
 
-		// Token: 0x04001A04 RID: 6660
 		private const float TopPadding = 20f;
 
-		// Token: 0x04001A05 RID: 6661
 		private const float StandardLineHeight = 22f;
 
-		// Token: 0x04001A06 RID: 6662
 		private const float ExtraSpaceBetweenSections = 4f;
 
-		// Token: 0x04001A07 RID: 6663
 		private const float SpaceBetweenItemsLists = 10f;
 
-		// Token: 0x04001A08 RID: 6664
 		private const float ThingRowHeight = 28f;
 
-		// Token: 0x04001A09 RID: 6665
 		private const float ThingIconSize = 28f;
 
-		// Token: 0x04001A0A RID: 6666
 		private const float ThingLeftX = 36f;
 
-		// Token: 0x04001A0B RID: 6667
 		private static readonly Color ThingLabelColor = ITab_Pawn_Gear.ThingLabelColor;
 
-		// Token: 0x04001A0C RID: 6668
 		private static readonly Color ThingHighlightColor = ITab_Pawn_Gear.HighlightColor;
 
-		// Token: 0x04001A0D RID: 6669
 		private static List<Thing> tmpPawns = new List<Thing>();
 
-		// Token: 0x0600300F RID: 12303 RVA: 0x001A2275 File Offset: 0x001A0675
 		public ITab_Pawn_FormingCaravan()
 		{
 			this.size = new Vector2(480f, 450f);
 			this.labelKey = "TabFormingCaravan";
 		}
 
-		// Token: 0x170007AB RID: 1963
-		// (get) Token: 0x06003010 RID: 12304 RVA: 0x001A22AC File Offset: 0x001A06AC
 		public override bool IsVisible
 		{
 			get
@@ -69,7 +51,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003011 RID: 12305 RVA: 0x001A22CC File Offset: 0x001A06CC
 		protected override void FillTab()
 		{
 			this.thingsToSelect.Clear();
@@ -94,7 +75,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003012 RID: 12306 RVA: 0x001A23F8 File Offset: 0x001A07F8
 		public override void TabUpdate()
 		{
 			base.TabUpdate();
@@ -108,7 +88,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003013 RID: 12307 RVA: 0x001A246C File Offset: 0x001A086C
 		private void DoPeopleAndAnimals(Rect inRect, ref float curY)
 		{
 			Widgets.ListSeparator(ref curY, inRect.width, "CaravanMembers".Translate());
@@ -202,7 +181,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003014 RID: 12308 RVA: 0x001A26DC File Offset: 0x001A0ADC
 		private void DoPeopleAndAnimalsEntry(Rect inRect, string leftLabel, string rightLabel, ref float curY, out float drawnWidth)
 		{
 			Rect rect = new Rect(0f, curY, inRect.width, 100f);
@@ -213,7 +191,6 @@ namespace RimWorld
 			drawnWidth = 120f + Text.CalcSize(rightLabel).x;
 		}
 
-		// Token: 0x06003015 RID: 12309 RVA: 0x001A274C File Offset: 0x001A0B4C
 		private void DoItemsLists(Rect inRect, ref float curY)
 		{
 			LordJob_FormAndSendCaravan lordJob_FormAndSendCaravan = (LordJob_FormAndSendCaravan)base.SelPawn.GetLord().LordJob;
@@ -265,7 +242,6 @@ namespace RimWorld
 			curY += Mathf.Max(a, b);
 		}
 
-		// Token: 0x06003016 RID: 12310 RVA: 0x001A29A8 File Offset: 0x001A0DA8
 		private void SelectColonistsLater()
 		{
 			Lord lord = base.SelPawn.GetLord();
@@ -281,7 +257,6 @@ namespace RimWorld
 			ITab_Pawn_FormingCaravan.tmpPawns.Clear();
 		}
 
-		// Token: 0x06003017 RID: 12311 RVA: 0x001A2A2C File Offset: 0x001A0E2C
 		private void HighlightColonists()
 		{
 			Lord lord = base.SelPawn.GetLord();
@@ -294,7 +269,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003018 RID: 12312 RVA: 0x001A2A94 File Offset: 0x001A0E94
 		private void SelectPrisonersLater()
 		{
 			Lord lord = base.SelPawn.GetLord();
@@ -310,7 +284,6 @@ namespace RimWorld
 			ITab_Pawn_FormingCaravan.tmpPawns.Clear();
 		}
 
-		// Token: 0x06003019 RID: 12313 RVA: 0x001A2B18 File Offset: 0x001A0F18
 		private void HighlightPrisoners()
 		{
 			Lord lord = base.SelPawn.GetLord();
@@ -323,7 +296,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600301A RID: 12314 RVA: 0x001A2B80 File Offset: 0x001A0F80
 		private void SelectAnimalsLater()
 		{
 			Lord lord = base.SelPawn.GetLord();
@@ -339,7 +311,6 @@ namespace RimWorld
 			ITab_Pawn_FormingCaravan.tmpPawns.Clear();
 		}
 
-		// Token: 0x0600301B RID: 12315 RVA: 0x001A2C08 File Offset: 0x001A1008
 		private void HighlightAnimals()
 		{
 			Lord lord = base.SelPawn.GetLord();
@@ -352,14 +323,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600301C RID: 12316 RVA: 0x001A2C74 File Offset: 0x001A1074
 		private void SelectLater(List<Thing> things)
 		{
 			this.thingsToSelect.Clear();
 			this.thingsToSelect.AddRange(things);
 		}
 
-		// Token: 0x0600301D RID: 12317 RVA: 0x001A2C90 File Offset: 0x001A1090
 		private void SelectNow(List<Thing> things)
 		{
 			if (things.Any<Thing>())
@@ -385,7 +354,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600301E RID: 12318 RVA: 0x001A2D2C File Offset: 0x001A112C
 		private string GetPawnsCountLabel(int count, int countInMentalState, int countPackAnimals)
 		{
 			string text = count.ToString();
@@ -411,7 +379,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600301F RID: 12319 RVA: 0x001A2DF4 File Offset: 0x001A11F4
 		private void DoThingRow(ThingDef thingDef, int count, List<Thing> things, float width, ref float curY)
 		{
 			Rect rect = new Rect(0f, curY, width, 28f);
@@ -470,6 +437,11 @@ namespace RimWorld
 				}
 			}
 			curY += 28f;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ITab_Pawn_FormingCaravan()
+		{
 		}
 	}
 }

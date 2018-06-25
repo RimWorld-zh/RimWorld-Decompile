@@ -1,49 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FBA RID: 4026
 	public struct ShotReport
 	{
-		// Token: 0x04003FB4 RID: 16308
 		private TargetInfo target;
 
-		// Token: 0x04003FB5 RID: 16309
 		private float distance;
 
-		// Token: 0x04003FB6 RID: 16310
 		private List<CoverInfo> covers;
 
-		// Token: 0x04003FB7 RID: 16311
 		private float coversOverallBlockChance;
 
-		// Token: 0x04003FB8 RID: 16312
 		private ThingDef coveringGas;
 
-		// Token: 0x04003FB9 RID: 16313
 		private float factorFromShooterAndDist;
 
-		// Token: 0x04003FBA RID: 16314
 		private float factorFromEquipment;
 
-		// Token: 0x04003FBB RID: 16315
 		private float factorFromTargetSize;
 
-		// Token: 0x04003FBC RID: 16316
 		private float factorFromWeather;
 
-		// Token: 0x04003FBD RID: 16317
 		private float forcedMissRadius;
 
-		// Token: 0x04003FBE RID: 16318
 		private ShootLine shootLine;
 
-		// Token: 0x17000FB9 RID: 4025
-		// (get) Token: 0x06006157 RID: 24919 RVA: 0x0031306C File Offset: 0x0031146C
+		[CompilerGenerated]
+		private static Func<CoverInfo, float> <>f__am$cache0;
+
 		private float FactorFromPosture
 		{
 			get
@@ -63,8 +53,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBA RID: 4026
-		// (get) Token: 0x06006158 RID: 24920 RVA: 0x003130D8 File Offset: 0x003114D8
 		private float FactorFromExecution
 		{
 			get
@@ -84,8 +72,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBB RID: 4027
-		// (get) Token: 0x06006159 RID: 24921 RVA: 0x00313144 File Offset: 0x00311544
 		private float FactorFromCoveringGas
 		{
 			get
@@ -103,8 +89,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBC RID: 4028
-		// (get) Token: 0x0600615A RID: 24922 RVA: 0x00313188 File Offset: 0x00311588
 		public float AimOnTargetChance_StandardTarget
 		{
 			get
@@ -118,8 +102,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBD RID: 4029
-		// (get) Token: 0x0600615B RID: 24923 RVA: 0x003131D4 File Offset: 0x003115D4
 		public float AimOnTargetChance_IgnoringPosture
 		{
 			get
@@ -128,8 +110,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBE RID: 4030
-		// (get) Token: 0x0600615C RID: 24924 RVA: 0x003131F8 File Offset: 0x003115F8
 		public float AimOnTargetChance
 		{
 			get
@@ -138,8 +118,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBF RID: 4031
-		// (get) Token: 0x0600615D RID: 24925 RVA: 0x0031321C File Offset: 0x0031161C
 		public float PassCoverChance
 		{
 			get
@@ -148,8 +126,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FC0 RID: 4032
-		// (get) Token: 0x0600615E RID: 24926 RVA: 0x00313240 File Offset: 0x00311640
 		public float TotalEstimatedHitChance
 		{
 			get
@@ -159,8 +135,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FC1 RID: 4033
-		// (get) Token: 0x0600615F RID: 24927 RVA: 0x0031326C File Offset: 0x0031166C
 		public ShootLine ShootLine
 		{
 			get
@@ -169,7 +143,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006160 RID: 24928 RVA: 0x00313288 File Offset: 0x00311688
 		public static ShotReport HitReportFor(Thing caster, Verb verb, LocalTargetInfo target)
 		{
 			Pawn pawn = caster as Pawn;
@@ -239,7 +212,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006161 RID: 24929 RVA: 0x00313588 File Offset: 0x00311988
 		public string GetTextReadout()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -298,7 +270,6 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06006162 RID: 24930 RVA: 0x003138A4 File Offset: 0x00311CA4
 		public Thing GetRandomCoverToMissInto()
 		{
 			CoverInfo coverInfo;
@@ -312,6 +283,12 @@ namespace Verse
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static float <GetRandomCoverToMissInto>m__0(CoverInfo c)
+		{
+			return c.BlockChance;
 		}
 	}
 }

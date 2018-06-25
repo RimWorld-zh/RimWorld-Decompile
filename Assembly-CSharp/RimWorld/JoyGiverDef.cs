@@ -1,47 +1,41 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002AB RID: 683
 	public class JoyGiverDef : Def
 	{
-		// Token: 0x0400065B RID: 1627
 		public Type giverClass = null;
 
-		// Token: 0x0400065C RID: 1628
 		public float baseChance = 0f;
 
-		// Token: 0x0400065D RID: 1629
 		public List<ThingDef> thingDefs = null;
 
-		// Token: 0x0400065E RID: 1630
 		public JobDef jobDef;
 
-		// Token: 0x0400065F RID: 1631
 		public bool desireSit = true;
 
-		// Token: 0x04000660 RID: 1632
 		public float pctPawnsEverDo = 1f;
 
-		// Token: 0x04000661 RID: 1633
 		public bool unroofedOnly = false;
 
-		// Token: 0x04000662 RID: 1634
 		public JoyKindDef joyKind;
 
-		// Token: 0x04000663 RID: 1635
 		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
 
-		// Token: 0x04000664 RID: 1636
 		public bool canDoWhileInBed;
 
-		// Token: 0x04000665 RID: 1637
 		private JoyGiver workerInt = null;
 
-		// Token: 0x170001AB RID: 427
-		// (get) Token: 0x06000B6A RID: 2922 RVA: 0x00066F64 File Offset: 0x00065364
+		public JoyGiverDef()
+		{
+		}
+
 		public JoyGiver Worker
 		{
 			get
@@ -55,7 +49,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B6B RID: 2923 RVA: 0x00066FB0 File Offset: 0x000653B0
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -75,6 +68,167 @@ namespace RimWorld
 				});
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal JoyGiverDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_154;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.jobDef == null || this.jobDef.joyKind == this.joyKind)
+				{
+					goto IL_154;
+				}
+				this.$current = string.Concat(new object[]
+				{
+					"jobDef ",
+					this.jobDef,
+					" has joyKind ",
+					this.jobDef.joyKind,
+					" which does not match our joyKind ",
+					this.joyKind
+				});
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_154:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JoyGiverDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new JoyGiverDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

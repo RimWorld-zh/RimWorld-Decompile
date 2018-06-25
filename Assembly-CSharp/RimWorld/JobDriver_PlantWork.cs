@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -7,20 +11,18 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200008C RID: 140
 	public abstract class JobDriver_PlantWork : JobDriver
 	{
-		// Token: 0x0400024C RID: 588
 		private float workDone = 0f;
 
-		// Token: 0x0400024D RID: 589
 		protected float xpPerTick = 0f;
 
-		// Token: 0x0400024E RID: 590
 		protected const TargetIndex PlantInd = TargetIndex.A;
 
-		// Token: 0x170000B9 RID: 185
-		// (get) Token: 0x06000395 RID: 917 RVA: 0x000288D0 File Offset: 0x00026CD0
+		protected JobDriver_PlantWork()
+		{
+		}
+
 		protected Plant Plant
 		{
 			get
@@ -29,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000BA RID: 186
-		// (get) Token: 0x06000396 RID: 918 RVA: 0x000288FC File Offset: 0x00026CFC
 		protected virtual DesignationDef RequiredDesignation
 		{
 			get
@@ -39,7 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000397 RID: 919 RVA: 0x00028914 File Offset: 0x00026D14
 		public override bool TryMakePreToilReservations()
 		{
 			LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
@@ -54,7 +53,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000398 RID: 920 RVA: 0x00028988 File Offset: 0x00026D88
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.Init();
@@ -134,22 +132,308 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000399 RID: 921 RVA: 0x000289B2 File Offset: 0x00026DB2
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workDone, "workDone", 0f, false);
 		}
 
-		// Token: 0x0600039A RID: 922 RVA: 0x000289D1 File Offset: 0x00026DD1
 		protected virtual void Init()
 		{
 		}
 
-		// Token: 0x0600039B RID: 923 RVA: 0x000289D4 File Offset: 0x00026DD4
 		protected virtual Toil PlantWorkDoneToil()
 		{
 			return null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <initExtractTargetFromQueue>__0;
+
+			internal Toil <gotoThing>__1;
+
+			internal Toil <plantWorkDoneToil>__0;
+
+			internal JobDriver_PlantWork $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_PlantWork.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			private static Func<SkillDef> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.Init();
+					this.$current = Toils_JobTransforms.MoveCurrentTargetIntoQueue(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					initExtractTargetFromQueue = Toils_JobTransforms.ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex.A, (this.RequiredDesignation == null) ? null : new Func<Thing, bool>((Thing t) => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map.designationManager.DesignationOn(t, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.RequiredDesignation) != null));
+					this.$current = initExtractTargetFromQueue;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_JobTransforms.SucceedOnNoTargetInQueue(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.A, true);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					gotoThing = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).JumpIfDespawnedOrNullOrForbidden(TargetIndex.A, initExtractTargetFromQueue);
+					if (this.RequiredDesignation != null)
+					{
+						gotoThing.FailOnThingMissingDesignation(TargetIndex.A, this.RequiredDesignation);
+					}
+					this.$current = gotoThing;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					<MakeNewToils>c__AnonStorey.cut = new Toil();
+					<MakeNewToils>c__AnonStorey.cut.tickAction = delegate()
+					{
+						Pawn actor = <MakeNewToils>c__AnonStorey.cut.actor;
+						if (actor.skills != null)
+						{
+							actor.skills.Learn(SkillDefOf.Plants, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.xpPerTick, false);
+						}
+						float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
+						float num2 = statValue;
+						Plant plant = <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Plant;
+						num2 *= Mathf.Lerp(3.3f, 1f, plant.Growth);
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone += num2;
+						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone >= plant.def.plant.harvestWork)
+						{
+							if (plant.def.plant.harvestedThingDef != null)
+							{
+								if (actor.RaceProps.Humanlike && plant.def.plant.harvestFailable && Rand.Value > actor.GetStatValue(StatDefOf.PlantHarvestYield, true))
+								{
+									Vector3 loc = (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.DrawPos + plant.DrawPos) / 2f;
+									MoteMaker.ThrowText(loc, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map, "TextMote_HarvestFailed".Translate(), 3.65f);
+								}
+								else
+								{
+									int num3 = plant.YieldNow();
+									if (num3 > 0)
+									{
+										Thing thing = ThingMaker.MakeThing(plant.def.plant.harvestedThingDef, null);
+										thing.stackCount = num3;
+										if (actor.Faction != Faction.OfPlayer)
+										{
+											thing.SetForbidden(true, true);
+										}
+										GenPlace.TryPlaceThing(thing, actor.Position, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map, ThingPlaceMode.Near, null, null);
+										actor.records.Increment(RecordDefOf.PlantsHarvested);
+									}
+								}
+							}
+							plant.def.plant.soundHarvestFinish.PlayOneShot(actor);
+							plant.PlantCollected();
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone = 0f;
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+						}
+					};
+					<MakeNewToils>c__AnonStorey.cut.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					if (this.RequiredDesignation != null)
+					{
+						<MakeNewToils>c__AnonStorey.cut.FailOnThingMissingDesignation(TargetIndex.A, this.RequiredDesignation);
+					}
+					<MakeNewToils>c__AnonStorey.cut.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					<MakeNewToils>c__AnonStorey.cut.defaultCompleteMode = ToilCompleteMode.Never;
+					<MakeNewToils>c__AnonStorey.cut.WithEffect(EffecterDefOf.Harvest, TargetIndex.A);
+					<MakeNewToils>c__AnonStorey.cut.WithProgressBar(TargetIndex.A, () => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workDone / <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Plant.def.plant.harvestWork, true, -0.5f);
+					<MakeNewToils>c__AnonStorey.cut.PlaySustainerOrSound(() => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Plant.def.plant.soundHarvesting);
+					<MakeNewToils>c__AnonStorey.cut.activeSkill = (() => SkillDefOf.Plants);
+					this.$current = <MakeNewToils>c__AnonStorey.cut;
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					plantWorkDoneToil = this.PlantWorkDoneToil();
+					if (plantWorkDoneToil != null)
+					{
+						this.$current = plantWorkDoneToil;
+						if (!this.$disposing)
+						{
+							this.$PC = 7;
+						}
+						return true;
+					}
+					break;
+				case 7u:
+					break;
+				case 8u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				this.$current = Toils_Jump.Jump(initExtractTargetFromQueue);
+				if (!this.$disposing)
+				{
+					this.$PC = 8;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_PlantWork.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_PlantWork.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private static SkillDef <>m__0()
+			{
+				return SkillDefOf.Plants;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil cut;
+
+				internal JobDriver_PlantWork.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(Thing t)
+				{
+					return this.<>f__ref$0.$this.Map.designationManager.DesignationOn(t, this.<>f__ref$0.$this.RequiredDesignation) != null;
+				}
+
+				internal void <>m__1()
+				{
+					Pawn actor = this.cut.actor;
+					if (actor.skills != null)
+					{
+						actor.skills.Learn(SkillDefOf.Plants, this.<>f__ref$0.$this.xpPerTick, false);
+					}
+					float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
+					float num = statValue;
+					Plant plant = this.<>f__ref$0.$this.Plant;
+					num *= Mathf.Lerp(3.3f, 1f, plant.Growth);
+					this.<>f__ref$0.$this.workDone += num;
+					if (this.<>f__ref$0.$this.workDone >= plant.def.plant.harvestWork)
+					{
+						if (plant.def.plant.harvestedThingDef != null)
+						{
+							if (actor.RaceProps.Humanlike && plant.def.plant.harvestFailable && Rand.Value > actor.GetStatValue(StatDefOf.PlantHarvestYield, true))
+							{
+								Vector3 loc = (this.<>f__ref$0.$this.pawn.DrawPos + plant.DrawPos) / 2f;
+								MoteMaker.ThrowText(loc, this.<>f__ref$0.$this.Map, "TextMote_HarvestFailed".Translate(), 3.65f);
+							}
+							else
+							{
+								int num2 = plant.YieldNow();
+								if (num2 > 0)
+								{
+									Thing thing = ThingMaker.MakeThing(plant.def.plant.harvestedThingDef, null);
+									thing.stackCount = num2;
+									if (actor.Faction != Faction.OfPlayer)
+									{
+										thing.SetForbidden(true, true);
+									}
+									GenPlace.TryPlaceThing(thing, actor.Position, this.<>f__ref$0.$this.Map, ThingPlaceMode.Near, null, null);
+									actor.records.Increment(RecordDefOf.PlantsHarvested);
+								}
+							}
+						}
+						plant.def.plant.soundHarvestFinish.PlayOneShot(actor);
+						plant.PlantCollected();
+						this.<>f__ref$0.$this.workDone = 0f;
+						this.<>f__ref$0.$this.ReadyForNextToil();
+					}
+				}
+
+				internal float <>m__2()
+				{
+					return this.<>f__ref$0.$this.workDone / this.<>f__ref$0.$this.Plant.def.plant.harvestWork;
+				}
+
+				internal SoundDef <>m__3()
+				{
+					return this.<>f__ref$0.$this.Plant.def.plant.soundHarvesting;
+				}
+			}
 		}
 	}
 }

@@ -1,18 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A51 RID: 2641
 	public static class Toils_Goto
 	{
-		// Token: 0x06003AD2 RID: 15058 RVA: 0x001F3E14 File Offset: 0x001F2214
 		public static Toil Goto(TargetIndex ind, PathEndMode peMode)
 		{
 			return Toils_Goto.GotoThing(ind, peMode);
 		}
 
-		// Token: 0x06003AD3 RID: 15059 RVA: 0x001F3E30 File Offset: 0x001F2230
 		public static Toil GotoThing(TargetIndex ind, PathEndMode peMode)
 		{
 			Toil toil = new Toil();
@@ -26,7 +24,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD4 RID: 15060 RVA: 0x001F3EA0 File Offset: 0x001F22A0
 		public static Toil GotoThing(TargetIndex ind, IntVec3 exactCell)
 		{
 			Toil toil = new Toil();
@@ -40,7 +37,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD5 RID: 15061 RVA: 0x001F3F04 File Offset: 0x001F2304
 		public static Toil GotoCell(TargetIndex ind, PathEndMode peMode)
 		{
 			Toil toil = new Toil();
@@ -53,7 +49,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD6 RID: 15062 RVA: 0x001F3F64 File Offset: 0x001F2364
 		public static Toil GotoCell(IntVec3 cell, PathEndMode peMode)
 		{
 			Toil toil = new Toil();
@@ -66,7 +61,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD7 RID: 15063 RVA: 0x001F3FC4 File Offset: 0x001F23C4
 		public static Toil MoveOffTargetBlueprint(TargetIndex targetInd)
 		{
 			Toil toil = new Toil();
@@ -90,6 +84,115 @@ namespace Verse.AI
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			return toil;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GotoThing>c__AnonStorey0
+		{
+			internal Toil toil;
+
+			internal TargetIndex ind;
+
+			internal PathEndMode peMode;
+
+			public <GotoThing>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				actor.pather.StartPath(actor.jobs.curJob.GetTarget(this.ind), this.peMode);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GotoThing>c__AnonStorey1
+		{
+			internal Toil toil;
+
+			internal IntVec3 exactCell;
+
+			public <GotoThing>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				actor.pather.StartPath(this.exactCell, PathEndMode.OnCell);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GotoCell>c__AnonStorey2
+		{
+			internal Toil toil;
+
+			internal TargetIndex ind;
+
+			internal PathEndMode peMode;
+
+			public <GotoCell>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				actor.pather.StartPath(actor.jobs.curJob.GetTarget(this.ind), this.peMode);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GotoCell>c__AnonStorey3
+		{
+			internal Toil toil;
+
+			internal IntVec3 cell;
+
+			internal PathEndMode peMode;
+
+			public <GotoCell>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				actor.pather.StartPath(this.cell, this.peMode);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MoveOffTargetBlueprint>c__AnonStorey4
+		{
+			internal Toil toil;
+
+			internal TargetIndex targetInd;
+
+			public <MoveOffTargetBlueprint>c__AnonStorey4()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Thing thing = actor.jobs.curJob.GetTarget(this.targetInd).Thing as Blueprint;
+				IntVec3 c;
+				if (thing == null || !actor.Position.IsInside(thing))
+				{
+					actor.jobs.curDriver.ReadyForNextToil();
+				}
+				else if (RCellFinder.TryFindGoodAdjacentSpotToTouch(actor, thing, out c))
+				{
+					actor.pather.StartPath(c, PathEndMode.OnCell);
+				}
+				else
+				{
+					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+				}
+			}
 		}
 	}
 }

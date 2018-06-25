@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DDC RID: 3548
 	[StaticConstructorOnStartup]
 	public class Graphic_Mote : Graphic_Single
 	{
-		// Token: 0x040034C9 RID: 13513
 		protected static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 
-		// Token: 0x17000CD8 RID: 3288
-		// (get) Token: 0x06004F6F RID: 20335 RVA: 0x002963E4 File Offset: 0x002947E4
+		public Graphic_Mote()
+		{
+		}
+
 		protected virtual bool ForcePropertyBlock
 		{
 			get
@@ -20,13 +20,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F70 RID: 20336 RVA: 0x002963FA File Offset: 0x002947FA
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			this.DrawMoteInternal(loc, rot, thingDef, thing, 0);
 		}
 
-		// Token: 0x06004F71 RID: 20337 RVA: 0x0029640C File Offset: 0x0029480C
 		public void DrawMoteInternal(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, int layer)
 		{
 			Mote mote = (Mote)thing;
@@ -53,7 +51,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F72 RID: 20338 RVA: 0x00296528 File Offset: 0x00294928
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -66,6 +63,11 @@ namespace Verse
 				this.color,
 				", colorTwo=unsupported)"
 			});
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Graphic_Mote()
+		{
 		}
 	}
 }

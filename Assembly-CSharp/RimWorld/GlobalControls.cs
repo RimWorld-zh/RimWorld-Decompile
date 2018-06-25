@@ -6,16 +6,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000840 RID: 2112
 	public class GlobalControls
 	{
-		// Token: 0x040019D7 RID: 6615
 		public const float Width = 200f;
 
-		// Token: 0x040019D8 RID: 6616
 		private WidgetRow rowVisibility = new WidgetRow();
 
-		// Token: 0x06002FCB RID: 12235 RVA: 0x0019E980 File Offset: 0x0019CD80
+		public GlobalControls()
+		{
+		}
+
 		public void GlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -79,7 +79,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FCC RID: 12236 RVA: 0x0019EC10 File Offset: 0x0019D010
 		private static string TemperatureString()
 		{
 			IntVec3 intVec = UI.MouseCell();
@@ -143,7 +142,6 @@ namespace RimWorld
 			return str + " " + celsiusTemp.ToStringTemperature("F0");
 		}
 
-		// Token: 0x06002FCD RID: 12237 RVA: 0x0019EE64 File Offset: 0x0019D264
 		private static void DoCountdownTimer(Rect rect, TimedForcedExit timedForcedExit)
 		{
 			string forceExitAndRemoveMapCountdownTimeLeftString = timedForcedExit.ForceExitAndRemoveMapCountdownTimeLeftString;

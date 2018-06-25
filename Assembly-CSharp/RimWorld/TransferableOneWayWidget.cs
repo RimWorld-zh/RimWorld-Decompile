@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
@@ -9,154 +10,114 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000826 RID: 2086
 	[StaticConstructorOnStartup]
 	public class TransferableOneWayWidget
 	{
-		// Token: 0x0400190F RID: 6415
 		private List<TransferableOneWayWidget.Section> sections = new List<TransferableOneWayWidget.Section>();
 
-		// Token: 0x04001910 RID: 6416
 		private string sourceLabel;
 
-		// Token: 0x04001911 RID: 6417
 		private string destinationLabel;
 
-		// Token: 0x04001912 RID: 6418
 		private string sourceCountDesc;
 
-		// Token: 0x04001913 RID: 6419
 		private bool drawMass;
 
-		// Token: 0x04001914 RID: 6420
 		private IgnorePawnsInventoryMode ignorePawnInventoryMass = IgnorePawnsInventoryMode.DontIgnore;
 
-		// Token: 0x04001915 RID: 6421
 		private bool includePawnsMassInMassUsage;
 
-		// Token: 0x04001916 RID: 6422
 		private Func<float> availableMassGetter;
 
-		// Token: 0x04001917 RID: 6423
 		private float extraHeaderSpace;
 
-		// Token: 0x04001918 RID: 6424
 		private bool ignoreSpawnedCorpseGearAndInventoryMass;
 
-		// Token: 0x04001919 RID: 6425
 		private int tile;
 
-		// Token: 0x0400191A RID: 6426
 		private bool drawMarketValue;
 
-		// Token: 0x0400191B RID: 6427
 		private bool drawEquippedWeapon;
 
-		// Token: 0x0400191C RID: 6428
 		private bool drawNutritionEatenPerDay;
 
-		// Token: 0x0400191D RID: 6429
 		private bool drawItemNutrition;
 
-		// Token: 0x0400191E RID: 6430
 		private bool drawForagedFoodPerDay;
 
-		// Token: 0x0400191F RID: 6431
 		private bool drawDaysUntilRot;
 
-		// Token: 0x04001920 RID: 6432
 		private bool playerPawnsReadOnly;
 
-		// Token: 0x04001921 RID: 6433
 		private bool transferablesCached;
 
-		// Token: 0x04001922 RID: 6434
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001923 RID: 6435
 		private TransferableSorterDef sorter1;
 
-		// Token: 0x04001924 RID: 6436
 		private TransferableSorterDef sorter2;
 
-		// Token: 0x04001925 RID: 6437
 		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
 
-		// Token: 0x04001926 RID: 6438
 		private const float TopAreaHeight = 37f;
 
-		// Token: 0x04001927 RID: 6439
 		protected readonly Vector2 AcceptButtonSize = new Vector2(160f, 40f);
 
-		// Token: 0x04001928 RID: 6440
 		protected readonly Vector2 OtherBottomButtonSize = new Vector2(160f, 40f);
 
-		// Token: 0x04001929 RID: 6441
 		private const float ColumnWidth = 120f;
 
-		// Token: 0x0400192A RID: 6442
 		private const float FirstTransferableY = 6f;
 
-		// Token: 0x0400192B RID: 6443
 		private const float RowInterval = 30f;
 
-		// Token: 0x0400192C RID: 6444
 		public const float CountColumnWidth = 75f;
 
-		// Token: 0x0400192D RID: 6445
 		public const float AdjustColumnWidth = 240f;
 
-		// Token: 0x0400192E RID: 6446
 		public const float MassColumnWidth = 100f;
 
-		// Token: 0x0400192F RID: 6447
 		public static readonly Color ItemMassColor = new Color(0.7f, 0.7f, 0.7f);
 
-		// Token: 0x04001930 RID: 6448
 		private const float MarketValueColumnWidth = 100f;
 
-		// Token: 0x04001931 RID: 6449
 		private const float ExtraSpaceAfterSectionTitle = 5f;
 
-		// Token: 0x04001932 RID: 6450
 		private const float DaysUntilRotColumnWidth = 75f;
 
-		// Token: 0x04001933 RID: 6451
 		private const float NutritionEatenPerDayColumnWidth = 75f;
 
-		// Token: 0x04001934 RID: 6452
 		private const float ItemNutritionColumnWidth = 75f;
 
-		// Token: 0x04001935 RID: 6453
 		private const float ForagedFoodPerDayColumnWidth = 75f;
 
-		// Token: 0x04001936 RID: 6454
 		private const float GrazeabilityInnerColumnWidth = 40f;
 
-		// Token: 0x04001937 RID: 6455
 		private const float EquippedWeaponIconSize = 30f;
 
-		// Token: 0x04001938 RID: 6456
 		public const float TopAreaWidth = 515f;
 
-		// Token: 0x04001939 RID: 6457
 		private static readonly Texture2D CanGrazeIcon = ContentFinder<Texture2D>.Get("UI/Icons/CanGraze", true);
 
-		// Token: 0x0400193A RID: 6458
 		private static readonly Texture2D PregnantIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Pregnant", true);
 
-		// Token: 0x0400193B RID: 6459
 		private static readonly Texture2D BondIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Bond", true);
 
-		// Token: 0x0400193C RID: 6460
 		[TweakValue("Interface", 0f, 50f)]
 		private static float PregnancyIconWidth = 30f;
 
-		// Token: 0x0400193D RID: 6461
 		[TweakValue("Interface", 0f, 50f)]
 		private static float BondIconWidth = 30f;
 
-		// Token: 0x06002EE3 RID: 12003 RVA: 0x0018FB38 File Offset: 0x0018DF38
+		[CompilerGenerated]
+		private static Func<TransferableOneWay, Transferable> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<TransferableOneWay, Transferable> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<TransferableOneWay, float> <>f__am$cache2;
+
 		public TransferableOneWayWidget(IEnumerable<TransferableOneWay> transferables, string sourceLabel, string destinationLabel, string sourceCountDesc, bool drawMass = false, IgnorePawnsInventoryMode ignorePawnInventoryMass = IgnorePawnsInventoryMode.DontIgnore, bool includePawnsMassInMassUsage = false, Func<float> availableMassGetter = null, float extraHeaderSpace = 0f, bool ignoreSpawnedCorpseGearAndInventoryMass = false, int tile = -1, bool drawMarketValue = false, bool drawEquippedWeapon = false, bool drawNutritionEatenPerDay = false, bool drawItemNutrition = false, bool drawForagedFoodPerDay = false, bool drawDaysUntilRot = false, bool playerPawnsReadOnly = false)
 		{
 			if (transferables != null)
@@ -184,8 +145,6 @@ namespace RimWorld
 			this.sorter2 = TransferableSorterDefOf.MarketValue;
 		}
 
-		// Token: 0x1700077E RID: 1918
-		// (get) Token: 0x06002EE4 RID: 12004 RVA: 0x0018FC34 File Offset: 0x0018E034
 		public float TotalNumbersColumnsWidths
 		{
 			get
@@ -219,8 +178,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700077F RID: 1919
-		// (get) Token: 0x06002EE5 RID: 12005 RVA: 0x0018FCC4 File Offset: 0x0018E0C4
 		private bool AnyTransferable
 		{
 			get
@@ -240,7 +197,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EE6 RID: 12006 RVA: 0x0018FD30 File Offset: 0x0018E130
 		public void AddSection(string title, IEnumerable<TransferableOneWay> transferables)
 		{
 			TransferableOneWayWidget.Section item = default(TransferableOneWayWidget.Section);
@@ -251,7 +207,6 @@ namespace RimWorld
 			this.transferablesCached = false;
 		}
 
-		// Token: 0x06002EE7 RID: 12007 RVA: 0x0018FD78 File Offset: 0x0018E178
 		private void CacheTransferables()
 		{
 			this.transferablesCached = true;
@@ -263,14 +218,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EE8 RID: 12008 RVA: 0x0018FE64 File Offset: 0x0018E264
 		public void OnGUI(Rect inRect)
 		{
 			bool flag;
 			this.OnGUI(inRect, out flag);
 		}
 
-		// Token: 0x06002EE9 RID: 12009 RVA: 0x0018FE7C File Offset: 0x0018E27C
 		public void OnGUI(Rect inRect, out bool anythingChanged)
 		{
 			if (!this.transferablesCached)
@@ -314,7 +267,6 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06002EEA RID: 12010 RVA: 0x0019002C File Offset: 0x0018E42C
 		private void FillMainRect(Rect mainRect, out bool anythingChanged)
 		{
 			anythingChanged = false;
@@ -376,7 +328,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEB RID: 12011 RVA: 0x001902B0 File Offset: 0x0018E6B0
 		private void DoRow(Rect rect, TransferableOneWay trad, int index, float availableMass)
 		{
 			if (index % 2 == 1)
@@ -516,7 +467,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002EEC RID: 12012 RVA: 0x00190880 File Offset: 0x0018EC80
 		private bool ShouldShowCount(TransferableOneWay trad)
 		{
 			bool result;
@@ -532,7 +482,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EED RID: 12013 RVA: 0x001908D8 File Offset: 0x0018ECD8
 		private void DrawDaysUntilRot(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -561,7 +510,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEE RID: 12014 RVA: 0x001909B8 File Offset: 0x0018EDB8
 		private void DrawItemNutrition(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -580,7 +528,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEF RID: 12015 RVA: 0x00190A6C File Offset: 0x0018EE6C
 		private bool DrawGrazeability(Rect rect, TransferableOneWay trad)
 		{
 			bool result;
@@ -616,7 +563,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EF0 RID: 12016 RVA: 0x00190B40 File Offset: 0x0018EF40
 		private void DrawForagedFoodPerDay(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -641,7 +587,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF1 RID: 12017 RVA: 0x00190C18 File Offset: 0x0018F018
 		private void DrawNutritionEatenPerDay(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -683,7 +628,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF2 RID: 12018 RVA: 0x00190D40 File Offset: 0x0018F140
 		private void DrawMarketValue(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -694,7 +638,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF3 RID: 12019 RVA: 0x00190D94 File Offset: 0x0018F194
 		private void DrawMass(Rect rect, TransferableOneWay trad, float availableMass)
 		{
 			if (trad.HasAnyThing)
@@ -758,7 +701,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF4 RID: 12020 RVA: 0x00190FE8 File Offset: 0x0018F3E8
 		private void DrawEquippedWeapon(Rect rect, Rect iconRect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -774,7 +716,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF5 RID: 12021 RVA: 0x00191068 File Offset: 0x0018F468
 		private string GetPawnMassTip(TransferableOneWay trad, float capacity, float pawnMass, float gearMass, float invMass)
 		{
 			string result;
@@ -808,7 +749,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EF6 RID: 12022 RVA: 0x00191160 File Offset: 0x0018F560
 		private float GetMass(Thing thing)
 		{
 			float result;
@@ -840,17 +780,176 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x02000827 RID: 2087
+		// Note: this type is marked as 'beforefieldinit'.
+		static TransferableOneWayWidget()
+		{
+		}
+
+		[CompilerGenerated]
+		private static Transferable <CacheTransferables>m__0(TransferableOneWay tr)
+		{
+			return tr;
+		}
+
+		[CompilerGenerated]
+		private static Transferable <CacheTransferables>m__1(TransferableOneWay tr)
+		{
+			return tr;
+		}
+
+		[CompilerGenerated]
+		private static float <CacheTransferables>m__2(TransferableOneWay tr)
+		{
+			return TransferableUIUtility.DefaultListOrderPriority(tr);
+		}
+
+		[CompilerGenerated]
+		private void <OnGUI>m__3(TransferableSorterDef x)
+		{
+			this.sorter1 = x;
+			this.CacheTransferables();
+		}
+
+		[CompilerGenerated]
+		private void <OnGUI>m__4(TransferableSorterDef x)
+		{
+			this.sorter2 = x;
+			this.CacheTransferables();
+		}
+
+		[CompilerGenerated]
+		private string <DrawGrazeability>m__5()
+		{
+			string text = "AnimalCanGrazeTip".Translate();
+			if (this.tile != -1)
+			{
+				text = text + "\n\n" + VirtualPlantsUtility.GetVirtualPlantsStatusExplanationAt(this.tile, Find.TickManager.TicksAbs);
+			}
+			return text;
+		}
+
 		private struct Section
 		{
-			// Token: 0x04001941 RID: 6465
 			public string title;
 
-			// Token: 0x04001942 RID: 6466
 			public IEnumerable<TransferableOneWay> transferables;
 
-			// Token: 0x04001943 RID: 6467
 			public List<TransferableOneWay> cachedTransferables;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawForagedFoodPerDay>c__AnonStorey0
+		{
+			internal Pawn p;
+
+			internal float foragedNutritionPerDay;
+
+			public <DrawForagedFoodPerDay>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return "NutritionForagedPerDayTip".Translate(new object[]
+				{
+					StatDefOf.ForagedNutritionPerDay.Worker.GetExplanationFull(StatRequest.For(this.p), StatDefOf.ForagedNutritionPerDay.toStringNumberSense, this.foragedNutritionPerDay)
+				});
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawNutritionEatenPerDay>c__AnonStorey1
+		{
+			internal Pawn p;
+
+			public <DrawNutritionEatenPerDay>c__AnonStorey1()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.Append("NoDietCategoryLetter".Translate() + " - " + DietCategory.Omnivorous.ToStringHuman());
+				DietCategory[] array = (DietCategory[])Enum.GetValues(typeof(DietCategory));
+				for (int i = 0; i < array.Length; i++)
+				{
+					if (array[i] != DietCategory.NeverEats && array[i] != DietCategory.Omnivorous)
+					{
+						stringBuilder.AppendLine();
+						stringBuilder.Append(array[i].ToStringHumanShort() + " - " + array[i].ToStringHuman());
+					}
+				}
+				return "NutritionEatenPerDayTip".Translate(new object[]
+				{
+					ThingDefOf.MealSimple.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("0.##"),
+					stringBuilder.ToString(),
+					this.p.RaceProps.foodType.ToHumanString()
+				});
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawMass>c__AnonStorey2
+		{
+			internal TransferableOneWay trad;
+
+			internal TransferableOneWayWidget $this;
+
+			public <DrawMass>c__AnonStorey2()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawMass>c__AnonStorey3
+		{
+			internal float mass;
+
+			public <DrawMass>c__AnonStorey3()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawMass>c__AnonStorey4
+		{
+			internal float gearMass;
+
+			internal float invMass;
+
+			internal TransferableOneWayWidget.<DrawMass>c__AnonStorey2 <>f__ref$2;
+
+			internal TransferableOneWayWidget.<DrawMass>c__AnonStorey3 <>f__ref$3;
+
+			public <DrawMass>c__AnonStorey4()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.<>f__ref$2.$this.GetPawnMassTip(this.<>f__ref$2.trad, 0f, this.<>f__ref$3.mass - this.gearMass - this.invMass, this.gearMass, this.invMass);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawMass>c__AnonStorey5
+		{
+			internal float cap;
+
+			internal float gearMass;
+
+			internal float invMass;
+
+			internal TransferableOneWayWidget.<DrawMass>c__AnonStorey2 <>f__ref$2;
+
+			public <DrawMass>c__AnonStorey5()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.<>f__ref$2.$this.GetPawnMassTip(this.<>f__ref$2.trad, this.cap, 0f, this.gearMass, this.invMass);
+			}
 		}
 	}
 }

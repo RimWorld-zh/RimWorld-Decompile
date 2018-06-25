@@ -5,13 +5,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000CF RID: 207
 	public class JobGiver_EnterTransporter : ThinkNode_JobGiver
 	{
-		// Token: 0x0400029E RID: 670
 		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
 
-		// Token: 0x060004AE RID: 1198 RVA: 0x00034F40 File Offset: 0x00033340
+		public JobGiver_EnterTransporter()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			int transportersGroup = pawn.mindState.duty.transportersGroup;
@@ -29,7 +30,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004AF RID: 1199 RVA: 0x00034FC0 File Offset: 0x000333C0
 		private CompTransporter FindMyTransporter(List<CompTransporter> transporters, Pawn me)
 		{
 			for (int i = 0; i < transporters.Count; i++)
@@ -54,6 +54,11 @@ namespace RimWorld
 				}
 			}
 			return null;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_EnterTransporter()
+		{
 		}
 	}
 }

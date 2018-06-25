@@ -5,14 +5,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D7C RID: 3452
 	public static class DirectXmlCrossRefLoader
 	{
-		// Token: 0x040033A4 RID: 13220
 		private static List<DirectXmlCrossRefLoader.WantedRef> wantedRefs = new List<DirectXmlCrossRefLoader.WantedRef>();
 
-		// Token: 0x17000C85 RID: 3205
-		// (get) Token: 0x06004D59 RID: 19801 RVA: 0x00284DA8 File Offset: 0x002831A8
 		public static bool LoadingInProgress
 		{
 			get
@@ -21,21 +17,18 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D5A RID: 19802 RVA: 0x00284DCC File Offset: 0x002831CC
 		public static void RegisterObjectWantsCrossRef(object wanter, FieldInfo fi, string targetDefName)
 		{
 			DirectXmlCrossRefLoader.WantedRefForObject item = new DirectXmlCrossRefLoader.WantedRefForObject(wanter, fi, targetDefName);
 			DirectXmlCrossRefLoader.wantedRefs.Add(item);
 		}
 
-		// Token: 0x06004D5B RID: 19803 RVA: 0x00284DF0 File Offset: 0x002831F0
 		public static void RegisterObjectWantsCrossRef(object wanter, string fieldName, string targetDefName)
 		{
 			DirectXmlCrossRefLoader.WantedRefForObject item = new DirectXmlCrossRefLoader.WantedRefForObject(wanter, wanter.GetType().GetField(fieldName), targetDefName);
 			DirectXmlCrossRefLoader.wantedRefs.Add(item);
 		}
 
-		// Token: 0x06004D5C RID: 19804 RVA: 0x00284E20 File Offset: 0x00283220
 		public static void RegisterListWantsCrossRef<T>(List<T> wanterList, string targetDefName, object debugWanterInfo = null) where T : new()
 		{
 			DirectXmlCrossRefLoader.WantedRefForList<T> wantedRefForList = null;
@@ -55,7 +48,6 @@ namespace Verse
 			wantedRefForList.AddWantedListEntry(targetDefName);
 		}
 
-		// Token: 0x06004D5D RID: 19805 RVA: 0x00284EB8 File Offset: 0x002832B8
 		public static void RegisterDictionaryWantsCrossRef<K, V>(Dictionary<K, V> wanterDict, XmlNode entryNode, object debugWanterInfo = null) where K : new() where V : new()
 		{
 			DirectXmlCrossRefLoader.WantedRefForDictionary<K, V> wantedRefForDictionary = null;
@@ -75,7 +67,6 @@ namespace Verse
 			wantedRefForDictionary.AddWantedDictEntry(entryNode);
 		}
 
-		// Token: 0x06004D5E RID: 19806 RVA: 0x00284F50 File Offset: 0x00283350
 		public static T TryResolveDef<T>(string defName, FailMode failReportMode, object debugWanterInfo = null)
 		{
 			T t = (T)((object)GenDefDatabase.GetDefSilentFail(typeof(T), defName, true));
@@ -106,13 +97,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D5F RID: 19807 RVA: 0x00284FF1 File Offset: 0x002833F1
 		public static void Clear()
 		{
 			DirectXmlCrossRefLoader.wantedRefs.Clear();
 		}
 
-		// Token: 0x06004D60 RID: 19808 RVA: 0x00285000 File Offset: 0x00283400
 		public static void ResolveAllWantedCrossReferences(FailMode failReportMode)
 		{
 			foreach (DirectXmlCrossRefLoader.WantedRef wantedRef in DirectXmlCrossRefLoader.wantedRefs.ListFullCopy<DirectXmlCrossRefLoader.WantedRef>())
@@ -124,26 +113,28 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D7D RID: 3453
+		// Note: this type is marked as 'beforefieldinit'.
+		static DirectXmlCrossRefLoader()
+		{
+		}
+
 		private abstract class WantedRef
 		{
-			// Token: 0x040033A5 RID: 13221
 			public object wanter;
 
-			// Token: 0x06004D63 RID: 19811
+			protected WantedRef()
+			{
+			}
+
 			public abstract bool TryResolve(FailMode failReportMode);
 		}
 
-		// Token: 0x02000D7E RID: 3454
 		private class WantedRefForObject : DirectXmlCrossRefLoader.WantedRef
 		{
-			// Token: 0x040033A6 RID: 13222
 			public FieldInfo fi;
 
-			// Token: 0x040033A7 RID: 13223
 			public string defName;
 
-			// Token: 0x06004D64 RID: 19812 RVA: 0x0028508C File Offset: 0x0028348C
 			public WantedRefForObject(object wanter, FieldInfo fi, string targetDefName)
 			{
 				this.wanter = wanter;
@@ -151,7 +142,6 @@ namespace Verse
 				this.defName = targetDefName;
 			}
 
-			// Token: 0x06004D65 RID: 19813 RVA: 0x002850AC File Offset: 0x002834AC
 			public override bool TryResolve(FailMode failReportMode)
 			{
 				bool result;
@@ -207,29 +197,23 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D7F RID: 3455
 		private class WantedRefForList<T> : DirectXmlCrossRefLoader.WantedRef where T : new()
 		{
-			// Token: 0x040033A8 RID: 13224
 			private List<string> defNames = new List<string>();
 
-			// Token: 0x040033A9 RID: 13225
 			private object debugWanterInfo;
 
-			// Token: 0x06004D66 RID: 19814 RVA: 0x00285223 File Offset: 0x00283623
 			public WantedRefForList(object wanter, object debugWanterInfo)
 			{
 				this.wanter = wanter;
 				this.debugWanterInfo = debugWanterInfo;
 			}
 
-			// Token: 0x06004D67 RID: 19815 RVA: 0x00285245 File Offset: 0x00283645
 			public void AddWantedListEntry(string newTargetDefName)
 			{
 				this.defNames.Add(newTargetDefName);
 			}
 
-			// Token: 0x06004D68 RID: 19816 RVA: 0x00285254 File Offset: 0x00283654
 			public override bool TryResolve(FailMode failReportMode)
 			{
 				bool flag = false;
@@ -251,29 +235,23 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D80 RID: 3456
 		private class WantedRefForDictionary<K, V> : DirectXmlCrossRefLoader.WantedRef where K : new() where V : new()
 		{
-			// Token: 0x040033AA RID: 13226
 			private List<XmlNode> wantedDictRefs = new List<XmlNode>();
 
-			// Token: 0x040033AB RID: 13227
 			private object debugWanterInfo;
 
-			// Token: 0x06004D69 RID: 19817 RVA: 0x002852DB File Offset: 0x002836DB
 			public WantedRefForDictionary(object wanter, object debugWanterInfo)
 			{
 				this.wanter = wanter;
 				this.debugWanterInfo = debugWanterInfo;
 			}
 
-			// Token: 0x06004D6A RID: 19818 RVA: 0x002852FD File Offset: 0x002836FD
 			public void AddWantedDictEntry(XmlNode entryNode)
 			{
 				this.wantedDictRefs.Add(entryNode);
 			}
 
-			// Token: 0x06004D6B RID: 19819 RVA: 0x0028530C File Offset: 0x0028370C
 			public override bool TryResolve(FailMode failReportMode)
 			{
 				failReportMode = FailMode.LogErrors;

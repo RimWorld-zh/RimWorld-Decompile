@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003A3 RID: 931
 	public class SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant : SymbolResolver
 	{
-		// Token: 0x04000A11 RID: 2577
 		private static List<ThingDef> availablePowerPlants = new List<ThingDef>();
 
-		// Token: 0x04000A12 RID: 2578
 		private const float MaxCoverage = 0.09f;
 
-		// Token: 0x06001030 RID: 4144 RVA: 0x00088500 File Offset: 0x00086900
+		public SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant()
+		{
+		}
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -50,7 +50,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001031 RID: 4145 RVA: 0x00088610 File Offset: 0x00086A10
 		public override void Resolve(ResolveParams rp)
 		{
 			this.CalculateAvailablePowerPlants(rp.rect);
@@ -67,7 +66,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001032 RID: 4146 RVA: 0x000886E8 File Offset: 0x00086AE8
 		private void CalculateAvailablePowerPlants(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -93,6 +91,11 @@ namespace RimWorld.BaseGen
 			{
 				SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Add(ThingDefOf.WoodFiredGenerator);
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant()
+		{
 		}
 	}
 }

@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000328 RID: 808
 	public class IncidentWorker_DeepDrillInfestation : IncidentWorker
 	{
-		// Token: 0x040008C9 RID: 2249
 		private static List<Thing> tmpDrills = new List<Thing>();
 
-		// Token: 0x040008CA RID: 2250
 		private const float PointsFactor = 0.32f;
 
-		// Token: 0x040008CB RID: 2251
 		private const float MinPoints = 115f;
 
-		// Token: 0x040008CC RID: 2252
 		private const float MaxPoints = 530f;
 
-		// Token: 0x06000DCA RID: 3530 RVA: 0x00075FF4 File Offset: 0x000743F4
+		public IncidentWorker_DeepDrillInfestation()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -38,7 +37,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DCB RID: 3531 RVA: 0x00076048 File Offset: 0x00074448
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -69,6 +67,28 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_DeepDrillInfestation()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExecuteWorker>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal Thing deepDrill;
+
+			public <TryExecuteWorker>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Walkable(this.map) && x.GetFirstThing(this.map, this.deepDrill.def) == null && x.GetFirstThing(this.map) == null && x.GetFirstThing(this.map, ThingDefOf.Hive) == null && x.GetFirstThing(this.map, ThingDefOf.TunnelHiveSpawner) == null;
+			}
 		}
 	}
 }

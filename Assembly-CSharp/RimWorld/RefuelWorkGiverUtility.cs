@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000158 RID: 344
 	public static class RefuelWorkGiverUtility
 	{
-		// Token: 0x06000714 RID: 1812 RVA: 0x00047F6C File Offset: 0x0004636C
+		[CompilerGenerated]
+		private static Func<Thing, LocalTargetInfo> <>f__am$cache0;
+
 		public static bool CanRefuel(Pawn pawn, Thing t, bool forced = false)
 		{
 			CompRefuelable compRefuelable = t.TryGetComp<CompRefuelable>();
@@ -66,7 +68,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000715 RID: 1813 RVA: 0x000480B0 File Offset: 0x000464B0
 		public static Job RefuelJob(Pawn pawn, Thing t, bool forced = false, JobDef customRefuelJob = null, JobDef customAtomicRefuelJob = null)
 		{
 			Job result;
@@ -86,7 +87,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000716 RID: 1814 RVA: 0x0004815C File Offset: 0x0004655C
 		private static Thing FindBestFuel(Pawn pawn, Thing refuelable)
 		{
 			ThingFilter filter = refuelable.TryGetComp<CompRefuelable>().Props.fuelFilter;
@@ -100,7 +100,6 @@ namespace RimWorld
 			return GenClosest.ClosestThingReachable(position, map, bestThingRequest, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
-		// Token: 0x06000717 RID: 1815 RVA: 0x000481F8 File Offset: 0x000465F8
 		private static List<Thing> FindAllFuel(Pawn pawn, Thing refuelable)
 		{
 			int quantity = refuelable.TryGetComp<CompRefuelable>().GetFuelCountToFullyRefuel();
@@ -147,6 +146,86 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static LocalTargetInfo <RefuelJob>m__0(Thing f)
+		{
+			return new LocalTargetInfo(f);
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindBestFuel>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal ThingFilter filter;
+
+			public <FindBestFuel>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return !x.IsForbidden(this.pawn) && this.pawn.CanReserve(x, 1, -1, null, false) && this.filter.Allows(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindAllFuel>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			internal ThingFilter filter;
+
+			internal TraverseParms traverseParams;
+
+			internal Predicate<Thing> validator;
+
+			internal List<Thing> chosenThings;
+
+			internal int accumulatedQuantity;
+
+			internal int quantity;
+
+			public <FindAllFuel>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return !x.IsForbidden(this.pawn) && this.pawn.CanReserve(x, 1, -1, null, false) && this.filter.Allows(x);
+			}
+
+			internal bool <>m__1(Region from, Region r)
+			{
+				return r.Allows(this.traverseParams, false);
+			}
+
+			internal bool <>m__2(Region r)
+			{
+				List<Thing> list = r.ListerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.HaulableEver));
+				for (int i = 0; i < list.Count; i++)
+				{
+					Thing thing = list[i];
+					if (this.validator(thing))
+					{
+						if (!this.chosenThings.Contains(thing))
+						{
+							if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, PathEndMode.ClosestTouch, this.pawn))
+							{
+								this.chosenThings.Add(thing);
+								this.accumulatedQuantity += thing.stackCount;
+								if (this.accumulatedQuantity >= this.quantity)
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
 		}
 	}
 }

@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000621 RID: 1569
 	[StaticConstructorOnStartup]
 	public class FormCaravanComp : WorldObjectComp
 	{
-		// Token: 0x0400126E RID: 4718
 		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
 
-		// Token: 0x170004C1 RID: 1217
-		// (get) Token: 0x06001FDF RID: 8159 RVA: 0x00112EF0 File Offset: 0x001112F0
+		public FormCaravanComp()
+		{
+		}
+
 		public WorldObjectCompProperties_FormCaravan Props
 		{
 			get
@@ -22,8 +26,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004C2 RID: 1218
-		// (get) Token: 0x06001FE0 RID: 8160 RVA: 0x00112F10 File Offset: 0x00111310
 		private MapParent MapParent
 		{
 			get
@@ -32,8 +34,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004C3 RID: 1219
-		// (get) Token: 0x06001FE1 RID: 8161 RVA: 0x00112F30 File Offset: 0x00111330
 		public bool Reform
 		{
 			get
@@ -42,8 +42,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004C4 RID: 1220
-		// (get) Token: 0x06001FE2 RID: 8162 RVA: 0x00112F6C File Offset: 0x0011136C
 		public bool CanFormOrReformCaravanNow
 		{
 			get
@@ -53,7 +51,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FE3 RID: 8163 RVA: 0x00112FD4 File Offset: 0x001113D4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			MapParent mapParent = (MapParent)this.parent;
@@ -94,6 +91,174 @@ namespace RimWorld.Planet
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FormCaravanComp()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Action <formCaravan>__1;
+
+			internal Command_Action <reformCaravan>__2;
+
+			internal FormCaravanComp $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private FormCaravanComp.<GetGizmos>c__Iterator0.<GetGizmos>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					MapParent mapParent = (MapParent)this.parent;
+					if (mapParent.HasMap)
+					{
+						if (!base.Reform)
+						{
+							Command_Action formCaravan = new Command_Action();
+							formCaravan.defaultLabel = "CommandFormCaravan".Translate();
+							formCaravan.defaultDesc = "CommandFormCaravanDesc".Translate();
+							formCaravan.icon = FormCaravanComp.FormCaravanCommand;
+							formCaravan.hotKey = KeyBindingDefOf.Misc2;
+							formCaravan.tutorTag = "FormCaravan";
+							formCaravan.action = delegate()
+							{
+								Find.WindowStack.Add(new Dialog_FormCaravan(mapParent.Map, false, null, false));
+							};
+							this.$current = formCaravan;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+						}
+						else
+						{
+							if (mapParent.Map.mapPawns.FreeColonistsSpawnedCount == 0)
+							{
+								break;
+							}
+							reformCaravan = new Command_Action();
+							reformCaravan.defaultLabel = "CommandReformCaravan".Translate();
+							reformCaravan.defaultDesc = "CommandReformCaravanDesc".Translate();
+							reformCaravan.icon = FormCaravanComp.FormCaravanCommand;
+							reformCaravan.hotKey = KeyBindingDefOf.Misc2;
+							reformCaravan.tutorTag = "ReformCaravan";
+							reformCaravan.action = delegate()
+							{
+								Find.WindowStack.Add(new Dialog_FormCaravan(mapParent.Map, true, null, false));
+							};
+							if (GenHostility.AnyHostileActiveThreatToPlayer(mapParent.Map))
+							{
+								reformCaravan.Disable("CommandReformCaravanFailHostilePawns".Translate());
+							}
+							this.$current = reformCaravan;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+						}
+						return true;
+					}
+					break;
+				}
+				case 1u:
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				FormCaravanComp.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new FormCaravanComp.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			private sealed class <GetGizmos>c__AnonStorey1
+			{
+				internal MapParent mapParent;
+
+				internal FormCaravanComp.<GetGizmos>c__Iterator0 <>f__ref$0;
+
+				public <GetGizmos>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					Find.WindowStack.Add(new Dialog_FormCaravan(this.mapParent.Map, false, null, false));
+				}
+
+				internal void <>m__1()
+				{
+					Find.WindowStack.Add(new Dialog_FormCaravan(this.mapParent.Map, true, null, false));
+				}
+			}
 		}
 	}
 }

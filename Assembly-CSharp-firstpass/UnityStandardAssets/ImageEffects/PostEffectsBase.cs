@@ -3,21 +3,20 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001A0 RID: 416
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
 	public class PostEffectsBase : MonoBehaviour
 	{
-		// Token: 0x0400082F RID: 2095
 		protected bool supportHDRTextures = true;
 
-		// Token: 0x04000830 RID: 2096
 		protected bool supportDX11 = false;
 
-		// Token: 0x04000831 RID: 2097
 		protected bool isSupported = true;
 
-		// Token: 0x0600093C RID: 2364 RVA: 0x0000F5C0 File Offset: 0x0000D7C0
+		public PostEffectsBase()
+		{
+		}
+
 		protected Material CheckShaderAndCreateMaterial(Shader s, Material m2Create)
 		{
 			Material result;
@@ -60,7 +59,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x0600093D RID: 2365 RVA: 0x0000F6AC File Offset: 0x0000D8AC
 		protected Material CreateMaterial(Shader s, Material m2Create)
 		{
 			Material result;
@@ -93,32 +91,27 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x0600093E RID: 2366 RVA: 0x0000F74E File Offset: 0x0000D94E
 		private void OnEnable()
 		{
 			this.isSupported = true;
 		}
 
-		// Token: 0x0600093F RID: 2367 RVA: 0x0000F758 File Offset: 0x0000D958
 		protected bool CheckSupport()
 		{
 			return this.CheckSupport(false);
 		}
 
-		// Token: 0x06000940 RID: 2368 RVA: 0x0000F774 File Offset: 0x0000D974
 		public virtual bool CheckResources()
 		{
 			Debug.LogWarning("CheckResources () for " + this.ToString() + " should be overwritten.");
 			return this.isSupported;
 		}
 
-		// Token: 0x06000941 RID: 2369 RVA: 0x0000F7A9 File Offset: 0x0000D9A9
 		protected void Start()
 		{
 			this.CheckResources();
 		}
 
-		// Token: 0x06000942 RID: 2370 RVA: 0x0000F7B4 File Offset: 0x0000D9B4
 		protected bool CheckSupport(bool needDepth)
 		{
 			this.isSupported = true;
@@ -146,7 +139,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000943 RID: 2371 RVA: 0x0000F848 File Offset: 0x0000DA48
 		protected bool CheckSupport(bool needDepth, bool needHdr)
 		{
 			bool result;
@@ -166,19 +158,16 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000944 RID: 2372 RVA: 0x0000F890 File Offset: 0x0000DA90
 		public bool Dx11Support()
 		{
 			return this.supportDX11;
 		}
 
-		// Token: 0x06000945 RID: 2373 RVA: 0x0000F8AB File Offset: 0x0000DAAB
 		protected void ReportAutoDisable()
 		{
 			Debug.LogWarning("The image effect " + this.ToString() + " has been disabled as it's not supported on the current platform.");
 		}
 
-		// Token: 0x06000946 RID: 2374 RVA: 0x0000F8C8 File Offset: 0x0000DAC8
 		private bool CheckShader(Shader s)
 		{
 			Debug.Log(string.Concat(new string[]
@@ -202,14 +191,12 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000947 RID: 2375 RVA: 0x0000F932 File Offset: 0x0000DB32
 		protected void NotSupported()
 		{
 			base.enabled = false;
 			this.isSupported = false;
 		}
 
-		// Token: 0x06000948 RID: 2376 RVA: 0x0000F948 File Offset: 0x0000DB48
 		protected void DrawBorder(RenderTexture dest, Material material)
 		{
 			RenderTexture.active = dest;

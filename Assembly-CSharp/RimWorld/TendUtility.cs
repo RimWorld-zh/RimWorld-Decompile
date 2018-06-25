@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000052 RID: 82
 	public static class TendUtility
 	{
-		// Token: 0x040001E7 RID: 487
 		public const float NoMedicinePotency = 0.3f;
 
-		// Token: 0x040001E8 RID: 488
 		public const float NoMedicineQualityMax = 0.7f;
 
-		// Token: 0x040001E9 RID: 489
 		public const float NoDoctorTendQuality = 0.75f;
 
-		// Token: 0x040001EA RID: 490
 		public const float SelfTendQualityFactor = 0.7f;
 
-		// Token: 0x040001EB RID: 491
 		private const float ChanceToDevelopBondRelationOnTended = 0.004f;
 
-		// Token: 0x040001EC RID: 492
 		private static List<Hediff> tmpHediffsToTend = new List<Hediff>();
 
-		// Token: 0x040001ED RID: 493
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 
-		// Token: 0x040001EE RID: 494
 		private static List<Pair<Hediff, float>> tmpHediffsWithTendPriority = new List<Pair<Hediff, float>>();
 
-		// Token: 0x06000283 RID: 643 RVA: 0x0001ADC0 File Offset: 0x000191C0
+		[CompilerGenerated]
+		private static Func<Pair<Hediff, float>, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pair<Hediff, float>, float> <>f__am$cache1;
+
 		public static void DoTend(Pawn doctor, Pawn patient, Medicine medicine)
 		{
 			if (patient.health.HasHediffsNeedingTend(false))
@@ -97,7 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000284 RID: 644 RVA: 0x0001B01C File Offset: 0x0001941C
 		public static float CalculateBaseTendQuality(Pawn doctor, Pawn patient, ThingDef medicine)
 		{
 			float medicinePotency = (medicine == null) ? 0.3f : medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
@@ -105,7 +101,6 @@ namespace RimWorld
 			return TendUtility.CalculateBaseTendQuality(doctor, patient, medicinePotency, medicineQualityMax);
 		}
 
-		// Token: 0x06000285 RID: 645 RVA: 0x0001B074 File Offset: 0x00019474
 		public static float CalculateBaseTendQuality(Pawn doctor, Pawn patient, float medicinePotency, float medicineQualityMax)
 		{
 			float num;
@@ -130,7 +125,6 @@ namespace RimWorld
 			return Mathf.Clamp(num, 0f, medicineQualityMax);
 		}
 
-		// Token: 0x06000286 RID: 646 RVA: 0x0001B0F8 File Offset: 0x000194F8
 		public static void GetOptimalHediffsToTendWithSingleTreatment(Pawn patient, bool usingMedicine, List<Hediff> outHediffsToTend, List<Hediff> tendableHediffsInTendPriorityOrder = null)
 		{
 			outHediffsToTend.Clear();
@@ -190,7 +184,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000287 RID: 647 RVA: 0x0001B2D8 File Offset: 0x000196D8
 		public static void SortByTendPriority(List<Hediff> hediffs)
 		{
 			if (hediffs.Count > 1)
@@ -208,6 +201,23 @@ namespace RimWorld
 				}
 				TendUtility.tmpHediffsWithTendPriority.Clear();
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TendUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <SortByTendPriority>m__0(Pair<Hediff, float> x)
+		{
+			return x.Second;
+		}
+
+		[CompilerGenerated]
+		private static float <SortByTendPriority>m__1(Pair<Hediff, float> x)
+		{
+			return x.First.Severity;
 		}
 	}
 }

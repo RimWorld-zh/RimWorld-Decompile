@@ -2,43 +2,30 @@
 
 namespace Ionic.Zlib
 {
-	// Token: 0x02000010 RID: 16
 	internal sealed class InflateManager
 	{
-		// Token: 0x040000C5 RID: 197
 		private const int PRESET_DICT = 32;
 
-		// Token: 0x040000C6 RID: 198
 		private const int Z_DEFLATED = 8;
 
-		// Token: 0x040000C7 RID: 199
 		private InflateManager.InflateManagerMode mode;
 
-		// Token: 0x040000C8 RID: 200
 		internal ZlibCodec _codec;
 
-		// Token: 0x040000C9 RID: 201
 		internal int method;
 
-		// Token: 0x040000CA RID: 202
 		internal uint computedCheck;
 
-		// Token: 0x040000CB RID: 203
 		internal uint expectedCheck;
 
-		// Token: 0x040000CC RID: 204
 		internal int marker;
 
-		// Token: 0x040000CD RID: 205
 		private bool _handleRfc1950HeaderBytes = true;
 
-		// Token: 0x040000CE RID: 206
 		internal int wbits;
 
-		// Token: 0x040000CF RID: 207
 		internal InflateBlocks blocks;
 
-		// Token: 0x040000D0 RID: 208
 		private static readonly byte[] mark = new byte[]
 		{
 			0,
@@ -47,20 +34,15 @@ namespace Ionic.Zlib
 			byte.MaxValue
 		};
 
-		// Token: 0x060000AD RID: 173 RVA: 0x000093D2 File Offset: 0x000077D2
 		public InflateManager()
 		{
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x000093E2 File Offset: 0x000077E2
 		public InflateManager(bool expectRfc1950HeaderBytes)
 		{
 			this._handleRfc1950HeaderBytes = expectRfc1950HeaderBytes;
 		}
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x060000AF RID: 175 RVA: 0x000093FC File Offset: 0x000077FC
-		// (set) Token: 0x060000B0 RID: 176 RVA: 0x00009417 File Offset: 0x00007817
 		internal bool HandleRfc1950HeaderBytes
 		{
 			get
@@ -73,7 +55,6 @@ namespace Ionic.Zlib
 			}
 		}
 
-		// Token: 0x060000B1 RID: 177 RVA: 0x00009424 File Offset: 0x00007824
 		internal int Reset()
 		{
 			this._codec.TotalBytesIn = (this._codec.TotalBytesOut = 0L);
@@ -83,7 +64,6 @@ namespace Ionic.Zlib
 			return 0;
 		}
 
-		// Token: 0x060000B2 RID: 178 RVA: 0x00009488 File Offset: 0x00007888
 		internal int End()
 		{
 			if (this.blocks != null)
@@ -94,7 +74,6 @@ namespace Ionic.Zlib
 			return 0;
 		}
 
-		// Token: 0x060000B3 RID: 179 RVA: 0x000094BC File Offset: 0x000078BC
 		internal int Initialize(ZlibCodec codec, int w)
 		{
 			this._codec = codec;
@@ -111,7 +90,6 @@ namespace Ionic.Zlib
 			return 0;
 		}
 
-		// Token: 0x060000B4 RID: 180 RVA: 0x00009540 File Offset: 0x00007940
 		internal int Inflate(FlushType flush)
 		{
 			if (this._codec.InputBuffer == null)
@@ -335,7 +313,6 @@ namespace Ionic.Zlib
 			throw new ZlibException(string.Format("Bad state ({0})", this._codec.Message));
 		}
 
-		// Token: 0x060000B5 RID: 181 RVA: 0x00009CD4 File Offset: 0x000080D4
 		internal int SetDictionary(byte[] dictionary)
 		{
 			int start = 0;
@@ -364,7 +341,6 @@ namespace Ionic.Zlib
 			return result;
 		}
 
-		// Token: 0x060000B6 RID: 182 RVA: 0x00009D7C File Offset: 0x0000817C
 		internal int Sync()
 		{
 			if (this.mode != InflateManager.InflateManagerMode.BAD)
@@ -421,42 +397,31 @@ namespace Ionic.Zlib
 			return result;
 		}
 
-		// Token: 0x060000B7 RID: 183 RVA: 0x00009ED4 File Offset: 0x000082D4
 		internal int SyncPoint(ZlibCodec z)
 		{
 			return this.blocks.SyncPoint();
 		}
 
-		// Token: 0x02000011 RID: 17
+		// Note: this type is marked as 'beforefieldinit'.
+		static InflateManager()
+		{
+		}
+
 		private enum InflateManagerMode
 		{
-			// Token: 0x040000D2 RID: 210
 			METHOD,
-			// Token: 0x040000D3 RID: 211
 			FLAG,
-			// Token: 0x040000D4 RID: 212
 			DICT4,
-			// Token: 0x040000D5 RID: 213
 			DICT3,
-			// Token: 0x040000D6 RID: 214
 			DICT2,
-			// Token: 0x040000D7 RID: 215
 			DICT1,
-			// Token: 0x040000D8 RID: 216
 			DICT0,
-			// Token: 0x040000D9 RID: 217
 			BLOCKS,
-			// Token: 0x040000DA RID: 218
 			CHECK4,
-			// Token: 0x040000DB RID: 219
 			CHECK3,
-			// Token: 0x040000DC RID: 220
 			CHECK2,
-			// Token: 0x040000DD RID: 221
 			CHECK1,
-			// Token: 0x040000DE RID: 222
 			DONE,
-			// Token: 0x040000DF RID: 223
 			BAD
 		}
 	}

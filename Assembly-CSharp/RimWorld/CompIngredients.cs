@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000719 RID: 1817
 	public class CompIngredients : ThingComp
 	{
-		// Token: 0x040015EA RID: 5610
 		public List<ThingDef> ingredients = new List<ThingDef>();
 
-		// Token: 0x040015EB RID: 5611
 		private const int MaxNumIngredients = 3;
 
-		// Token: 0x060027F0 RID: 10224 RVA: 0x00155BBC File Offset: 0x00153FBC
+		public CompIngredients()
+		{
+		}
+
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -28,7 +28,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F1 RID: 10225 RVA: 0x00155C0A File Offset: 0x0015400A
 		public void RegisterIngredient(ThingDef def)
 		{
 			if (!this.ingredients.Contains(def))
@@ -37,7 +36,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F2 RID: 10226 RVA: 0x00155C2C File Offset: 0x0015402C
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -51,7 +49,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F3 RID: 10227 RVA: 0x00155C8C File Offset: 0x0015408C
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -74,7 +71,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F4 RID: 10228 RVA: 0x00155D4C File Offset: 0x0015414C
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

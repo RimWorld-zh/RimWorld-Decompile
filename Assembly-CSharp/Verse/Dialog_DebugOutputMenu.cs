@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000E34 RID: 3636
 	public class Dialog_DebugOutputMenu : Dialog_DebugOptionLister
 	{
-		// Token: 0x040038E0 RID: 14560
 		private List<Dialog_DebugOutputMenu.DebugOutputOption> debugOutputs = new List<Dialog_DebugOutputMenu.DebugOutputOption>();
 
-		// Token: 0x040038E1 RID: 14561
 		private const string DefaultCategory = "General";
 
-		// Token: 0x06005614 RID: 22036 RVA: 0x002C61FC File Offset: 0x002C45FC
+		[CompilerGenerated]
+		private static Func<Dialog_DebugOutputMenu.DebugOutputOption, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Dialog_DebugOutputMenu.DebugOutputOption, string> <>f__am$cache1;
+
 		public Dialog_DebugOutputMenu()
 		{
 			this.forcePause = true;
@@ -56,8 +59,6 @@ namespace Verse
 			select r).ToList<Dialog_DebugOutputMenu.DebugOutputOption>();
 		}
 
-		// Token: 0x17000D72 RID: 3442
-		// (get) Token: 0x06005615 RID: 22037 RVA: 0x002C6384 File Offset: 0x002C4784
 		public override bool IsDebug
 		{
 			get
@@ -66,7 +67,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005616 RID: 22038 RVA: 0x002C639C File Offset: 0x002C479C
 		protected override void DoListingItems()
 		{
 			string b = null;
@@ -89,17 +89,40 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000E35 RID: 3637
+		[CompilerGenerated]
+		private static string <Dialog_DebugOutputMenu>m__0(Dialog_DebugOutputMenu.DebugOutputOption r)
+		{
+			return r.category;
+		}
+
+		[CompilerGenerated]
+		private static string <Dialog_DebugOutputMenu>m__1(Dialog_DebugOutputMenu.DebugOutputOption r)
+		{
+			return r.label;
+		}
+
 		private struct DebugOutputOption
 		{
-			// Token: 0x040038E4 RID: 14564
 			public string label;
 
-			// Token: 0x040038E5 RID: 14565
 			public string category;
 
-			// Token: 0x040038E6 RID: 14566
 			public Action action;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Dialog_DebugOutputMenu>c__AnonStorey0
+		{
+			internal MethodInfo mi;
+
+			public <Dialog_DebugOutputMenu>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.mi.Invoke(null, null);
+			}
 		}
 	}
 }

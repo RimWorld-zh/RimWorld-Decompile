@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -8,25 +12,42 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000820 RID: 2080
 	public static class StatsReportUtility
 	{
-		// Token: 0x040018F1 RID: 6385
 		private static StatDrawEntry selectedEntry;
 
-		// Token: 0x040018F2 RID: 6386
 		private static StatDrawEntry mousedOverEntry;
 
-		// Token: 0x040018F3 RID: 6387
 		private static Vector2 scrollPosition;
 
-		// Token: 0x040018F4 RID: 6388
 		private static float listHeight;
 
-		// Token: 0x040018F5 RID: 6389
 		private static List<StatDrawEntry> cachedDrawEntries = new List<StatDrawEntry>();
 
-		// Token: 0x06002E86 RID: 11910 RVA: 0x0018DA74 File Offset: 0x0018BE74
+		[CompilerGenerated]
+		private static Func<StatDrawEntry, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<StatDrawEntry, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<StatDrawEntry> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<StatDrawEntry, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Predicate<StatDrawEntry> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<StatDrawEntry, int> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<StatDrawEntry, int> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<StatDrawEntry, string> <>f__am$cache7;
+
 		public static void Reset()
 		{
 			StatsReportUtility.scrollPosition = default(Vector2);
@@ -35,7 +56,6 @@ namespace RimWorld
 			StatsReportUtility.cachedDrawEntries.Clear();
 		}
 
-		// Token: 0x06002E87 RID: 11911 RVA: 0x0018DAA8 File Offset: 0x0018BEA8
 		public static void DrawStatsReport(Rect rect, Def def, ThingDef stuff)
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
@@ -49,7 +69,6 @@ namespace RimWorld
 			StatsReportUtility.DrawStatsWorker(rect, null, null);
 		}
 
-		// Token: 0x06002E88 RID: 11912 RVA: 0x0018DB1C File Offset: 0x0018BF1C
 		public static void DrawStatsReport(Rect rect, Thing thing)
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
@@ -64,7 +83,6 @@ namespace RimWorld
 			StatsReportUtility.DrawStatsWorker(rect, thing, null);
 		}
 
-		// Token: 0x06002E89 RID: 11913 RVA: 0x0018DBBC File Offset: 0x0018BFBC
 		public static void DrawStatsReport(Rect rect, WorldObject worldObject)
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
@@ -79,7 +97,6 @@ namespace RimWorld
 			StatsReportUtility.DrawStatsWorker(rect, null, worldObject);
 		}
 
-		// Token: 0x06002E8A RID: 11914 RVA: 0x0018DC5C File Offset: 0x0018C05C
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Def def, ThingDef stuff)
 		{
 			yield return StatsReportUtility.DescriptionEntry(def);
@@ -97,7 +114,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E8B RID: 11915 RVA: 0x0018DC90 File Offset: 0x0018C090
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Thing thing)
 		{
 			yield return StatsReportUtility.DescriptionEntry(thing);
@@ -166,7 +182,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E8C RID: 11916 RVA: 0x0018DCBC File Offset: 0x0018C0BC
 		private static IEnumerable<StatDrawEntry> StatsToDraw(WorldObject worldObject)
 		{
 			yield return StatsReportUtility.DescriptionEntry(worldObject);
@@ -177,7 +192,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E8D RID: 11917 RVA: 0x0018DCE8 File Offset: 0x0018C0E8
 		private static void FinalizeCachedDrawEntries(IEnumerable<StatDrawEntry> original)
 		{
 			StatsReportUtility.cachedDrawEntries = (from sd in original
@@ -185,7 +199,6 @@ namespace RimWorld
 			select sd).ToList<StatDrawEntry>();
 		}
 
-		// Token: 0x06002E8E RID: 11918 RVA: 0x0018DD68 File Offset: 0x0018C168
 		private static StatDrawEntry DescriptionEntry(Def def)
 		{
 			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
@@ -194,7 +207,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06002E8F RID: 11919 RVA: 0x0018DDB0 File Offset: 0x0018C1B0
 		private static StatDrawEntry DescriptionEntry(Thing thing)
 		{
 			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
@@ -203,7 +215,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06002E90 RID: 11920 RVA: 0x0018DDF8 File Offset: 0x0018C1F8
 		private static StatDrawEntry DescriptionEntry(WorldObject worldObject)
 		{
 			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
@@ -212,7 +223,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06002E91 RID: 11921 RVA: 0x0018DE40 File Offset: 0x0018C240
 		private static StatDrawEntry QualityEntry(Thing t)
 		{
 			QualityCategory cat;
@@ -231,7 +241,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E92 RID: 11922 RVA: 0x0018DEA4 File Offset: 0x0018C2A4
 		private static void SelectEntry(StatDrawEntry rec, bool playSound = true)
 		{
 			StatsReportUtility.selectedEntry = rec;
@@ -241,7 +250,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E93 RID: 11923 RVA: 0x0018DEC0 File Offset: 0x0018C2C0
 		private static void DrawStatsWorker(Rect rect, Thing optionalThing, WorldObject optionalWorldObject)
 		{
 			Rect rect2 = new Rect(rect);
@@ -301,6 +309,720 @@ namespace RimWorld
 				Widgets.Label(rect5, explanationText);
 			}
 			GUI.EndGroup();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static StatsReportUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawStatsReport>m__0(StatDrawEntry r)
+		{
+			return r.ShouldDisplay;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawStatsReport>m__1(StatDrawEntry r)
+		{
+			return r.ShouldDisplay;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawStatsReport>m__2(StatDrawEntry de)
+		{
+			return de.stat != null && !de.stat.showNonAbstract;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawStatsReport>m__3(StatDrawEntry r)
+		{
+			return r.ShouldDisplay;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawStatsReport>m__4(StatDrawEntry de)
+		{
+			return de.stat != null && !de.stat.showNonAbstract;
+		}
+
+		[CompilerGenerated]
+		private static int <FinalizeCachedDrawEntries>m__5(StatDrawEntry sd)
+		{
+			return sd.category.displayOrder;
+		}
+
+		[CompilerGenerated]
+		private static int <FinalizeCachedDrawEntries>m__6(StatDrawEntry sd)
+		{
+			return sd.DisplayPriorityWithinCategory;
+		}
+
+		[CompilerGenerated]
+		private static string <FinalizeCachedDrawEntries>m__7(StatDrawEntry sd)
+		{
+			return sd.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private sealed class <StatsToDraw>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal Def def;
+
+			internal BuildableDef <eDef>__0;
+
+			internal ThingDef stuff;
+
+			internal IEnumerator<StatDef> $locvar0;
+
+			internal StatDef <stat>__2;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private StatsReportUtility.<StatsToDraw>c__Iterator0.<StatsToDraw>c__AnonStorey3 $locvar1;
+
+			[DebuggerHidden]
+			public <StatsToDraw>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = StatsReportUtility.DescriptionEntry(def);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+				{
+					eDef = (def as BuildableDef);
+					if (eDef == null)
+					{
+						goto IL_179;
+					}
+					StatRequest statRequest = StatRequest.For(eDef, stuff, QualityCategory.Normal);
+					enumerator = (from st in DefDatabase<StatDef>.AllDefs
+					where st.Worker.ShouldShowFor(statRequest)
+					select st).GetEnumerator();
+					num = 4294967293u;
+					break;
+				}
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						stat = enumerator.Current;
+						this.$current = new StatDrawEntry(stat.category, stat, eDef.GetStatValueAbstract(stat, stuff), StatRequest.For(eDef, stuff, QualityCategory.Normal), ToStringNumberSense.Undefined);
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_179:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatsReportUtility.<StatsToDraw>c__Iterator0 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator0();
+				<StatsToDraw>c__Iterator.def = def;
+				<StatsToDraw>c__Iterator.stuff = stuff;
+				return <StatsToDraw>c__Iterator;
+			}
+
+			private sealed class <StatsToDraw>c__AnonStorey3
+			{
+				internal StatRequest statRequest;
+
+				internal StatsReportUtility.<StatsToDraw>c__Iterator0 <>f__ref$0;
+
+				public <StatsToDraw>c__AnonStorey3()
+				{
+				}
+
+				internal bool <>m__0(StatDef st)
+				{
+					return st.Worker.ShouldShowFor(this.statRequest);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <StatsToDraw>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal Thing thing;
+
+			internal StatDrawEntry <qe>__0;
+
+			internal IEnumerator<StatDef> $locvar0;
+
+			internal StatDef <stat>__1;
+
+			internal StatDrawEntry <hpe>__2;
+
+			internal IEnumerator<StatDrawEntry> $locvar1;
+
+			internal StatDrawEntry <stat>__3;
+
+			internal int <i>__4;
+
+			internal int <i>__5;
+
+			internal int <i>__6;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private StatsReportUtility.<StatsToDraw>c__Iterator1.<StatsToDraw>c__AnonStorey4 $locvar2;
+
+			[DebuggerHidden]
+			public <StatsToDraw>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = StatsReportUtility.DescriptionEntry(thing);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					qe = StatsReportUtility.QualityEntry(<StatsToDraw>c__AnonStorey.thing);
+					if (qe != null)
+					{
+						this.$current = qe;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					break;
+				case 2u:
+					break;
+				case 3u:
+				case 4u:
+					goto IL_F5;
+				case 5u:
+					goto IL_33B;
+				case 6u:
+					Block_8:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							stat2 = enumerator2.Current;
+							this.$current = stat2;
+							if (!this.$disposing)
+							{
+								this.$PC = 6;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					if (!<StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets.NullOrEmpty<StatModifier>())
+					{
+						i = 0;
+						goto IL_480;
+					}
+					goto IL_4A6;
+				case 7u:
+					i++;
+					goto IL_480;
+				case 8u:
+					j++;
+					goto IL_580;
+				case 9u:
+					k++;
+					goto IL_66B;
+				default:
+					return false;
+				}
+				enumerator = (from st in DefDatabase<StatDef>.AllDefs
+				where st.Worker.ShouldShowFor(StatRequest.For(<StatsToDraw>c__AnonStorey.thing))
+				select st).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_F5:
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						stat = enumerator.Current;
+						if (!stat.Worker.IsDisabledFor(<StatsToDraw>c__AnonStorey.thing))
+						{
+							this.$current = new StatDrawEntry(stat.category, stat, <StatsToDraw>c__AnonStorey.thing.GetStatValue(stat, true), StatRequest.For(<StatsToDraw>c__AnonStorey.thing), ToStringNumberSense.Undefined);
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+						this.$current = new StatDrawEntry(stat.category, stat);
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (<StatsToDraw>c__AnonStorey.thing.def.useHitPoints)
+				{
+					StatDrawEntry hpe = new StatDrawEntry(StatCategoryDefOf.BasicsNonPawn, "HitPointsBasic".Translate().CapitalizeFirst(), <StatsToDraw>c__AnonStorey.thing.HitPoints.ToString() + " / " + <StatsToDraw>c__AnonStorey.thing.MaxHitPoints.ToString(), 0, "");
+					hpe.overrideReportText = string.Concat(new string[]
+					{
+						"HitPointsBasic".Translate().CapitalizeFirst(),
+						":\n\n",
+						<StatsToDraw>c__AnonStorey.thing.HitPoints.ToString(),
+						"\n\n",
+						StatDefOf.MaxHitPoints.LabelCap,
+						":\n\n",
+						StatDefOf.MaxHitPoints.Worker.GetExplanationUnfinalized(StatRequest.For(<StatsToDraw>c__AnonStorey.thing), ToStringNumberSense.Absolute)
+					});
+					this.$current = hpe;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_33B:
+				enumerator2 = <StatsToDraw>c__AnonStorey.thing.SpecialDisplayStats.GetEnumerator();
+				num = 4294967293u;
+				goto Block_8;
+				IL_480:
+				if (i < <StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets.Count)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, <StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets[i].stat, <StatsToDraw>c__AnonStorey.thing.def.equippedStatOffsets[i].value, StatRequest.ForEmpty(), ToStringNumberSense.Offset);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				IL_4A6:
+				if (!<StatsToDraw>c__AnonStorey.thing.def.IsStuff)
+				{
+					goto IL_697;
+				}
+				if (<StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors.NullOrEmpty<StatModifier>())
+				{
+					goto IL_5AB;
+				}
+				j = 0;
+				IL_580:
+				if (j < <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors.Count)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.StuffStatFactors, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors[j].stat, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statFactors[j].value, StatRequest.ForEmpty(), ToStringNumberSense.Factor);
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				}
+				IL_5AB:
+				if (<StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets.NullOrEmpty<StatModifier>())
+				{
+					goto IL_696;
+				}
+				k = 0;
+				IL_66B:
+				if (k < <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets.Count)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.StuffStatOffsets, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets[k].stat, <StatsToDraw>c__AnonStorey.thing.def.stuffProps.statOffsets[k].value, StatRequest.ForEmpty(), ToStringNumberSense.Offset);
+					if (!this.$disposing)
+					{
+						this.$PC = 9;
+					}
+					return true;
+				}
+				IL_696:
+				IL_697:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 3u:
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 6u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatsReportUtility.<StatsToDraw>c__Iterator1 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator1();
+				<StatsToDraw>c__Iterator.thing = thing;
+				return <StatsToDraw>c__Iterator;
+			}
+
+			private sealed class <StatsToDraw>c__AnonStorey4
+			{
+				internal Thing thing;
+
+				public <StatsToDraw>c__AnonStorey4()
+				{
+				}
+
+				internal bool <>m__0(StatDef st)
+				{
+					return st.Worker.ShouldShowFor(StatRequest.For(this.thing));
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <StatsToDraw>c__Iterator2 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal WorldObject worldObject;
+
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <stat>__1;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <StatsToDraw>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = StatsReportUtility.DescriptionEntry(worldObject);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					enumerator = worldObject.SpecialDisplayStats.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						stat = enumerator.Current;
+						this.$current = stat;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatsReportUtility.<StatsToDraw>c__Iterator2 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator2();
+				<StatsToDraw>c__Iterator.worldObject = worldObject;
+				return <StatsToDraw>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawStatsWorker>c__AnonStorey5
+		{
+			internal StatDrawEntry ent;
+
+			public <DrawStatsWorker>c__AnonStorey5()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				StatsReportUtility.SelectEntry(this.ent, true);
+			}
+
+			internal void <>m__1()
+			{
+				StatsReportUtility.mousedOverEntry = this.ent;
+			}
 		}
 	}
 }

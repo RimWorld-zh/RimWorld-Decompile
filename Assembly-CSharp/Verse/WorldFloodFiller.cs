@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x020005AF RID: 1455
 	public class WorldFloodFiller
 	{
-		// Token: 0x04001097 RID: 4247
 		private bool working;
 
-		// Token: 0x04001098 RID: 4248
 		private Queue<int> openSet = new Queue<int>();
 
-		// Token: 0x04001099 RID: 4249
 		private List<int> traversalDistance = new List<int>();
 
-		// Token: 0x0400109A RID: 4250
 		private List<int> visited = new List<int>();
 
-		// Token: 0x06001BD5 RID: 7125 RVA: 0x000EFE98 File Offset: 0x000EE298
+		public WorldFloodFiller()
+		{
+		}
+
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -29,7 +28,6 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD6 RID: 7126 RVA: 0x000EFECC File Offset: 0x000EE2CC
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int, int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -39,13 +37,11 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD7 RID: 7127 RVA: 0x000EFF00 File Offset: 0x000EE300
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Predicate<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, (int tile, int traversalDistance) => processor(tile), maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD8 RID: 7128 RVA: 0x000EFF34 File Offset: 0x000EE334
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Func<int, int, bool> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			if (this.working)
@@ -138,7 +134,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06001BD9 RID: 7129 RVA: 0x000F0240 File Offset: 0x000EE640
 		private void ClearVisited()
 		{
 			int i = 0;
@@ -150,6 +145,53 @@ namespace Verse
 			}
 			this.visited.Clear();
 			this.openSet.Clear();
+		}
+
+		[CompilerGenerated]
+		private sealed class <FloodFill>c__AnonStorey0
+		{
+			internal Action<int> processor;
+
+			public <FloodFill>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int tile, int traversalDistance)
+			{
+				this.processor(tile);
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FloodFill>c__AnonStorey1
+		{
+			internal Action<int, int> processor;
+
+			public <FloodFill>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(int tile, int traversalDistance)
+			{
+				this.processor(tile, traversalDistance);
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FloodFill>c__AnonStorey2
+		{
+			internal Predicate<int> processor;
+
+			public <FloodFill>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(int tile, int traversalDistance)
+			{
+				return this.processor(tile);
+			}
 		}
 	}
 }

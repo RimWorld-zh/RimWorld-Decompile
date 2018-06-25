@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048E RID: 1166
 	public class PawnGroupKindWorker_Normal : PawnGroupKindWorker
 	{
-		// Token: 0x0600149F RID: 5279 RVA: 0x000B561C File Offset: 0x000B3A1C
+		[CompilerGenerated]
+		private static Func<PawnGenOption, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<PawnGenOption, float> <>f__am$cache1;
+
+		public PawnGroupKindWorker_Normal()
+		{
+		}
+
 		public override float MinPointsToGenerateAnything(PawnGroupMaker groupMaker)
 		{
 			return (from x in groupMaker.options
@@ -16,13 +25,11 @@ namespace RimWorld
 			select x).Min((PawnGenOption g) => g.Cost);
 		}
 
-		// Token: 0x060014A0 RID: 5280 RVA: 0x000B567C File Offset: 0x000B3A7C
 		public override bool CanGenerateFrom(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
 		{
 			return base.CanGenerateFrom(parms, groupMaker) && PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms).Any<PawnGenOption>();
 		}
 
-		// Token: 0x060014A1 RID: 5281 RVA: 0x000B56CC File Offset: 0x000B3ACC
 		protected override void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true)
 		{
 			if (!this.CanGenerateFrom(parms, groupMaker))
@@ -62,6 +69,35 @@ namespace RimWorld
 					}
 					outPawns.Add(pawn);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <MinPointsToGenerateAnything>m__0(PawnGenOption x)
+		{
+			return x.kind.isFighter;
+		}
+
+		[CompilerGenerated]
+		private static float <MinPointsToGenerateAnything>m__1(PawnGenOption g)
+		{
+			return g.Cost;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GeneratePawns>c__AnonStorey0
+		{
+			internal PawnGroupMakerParms parms;
+
+			internal List<Pawn> outPawns;
+
+			public <GeneratePawns>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn p)
+			{
+				return this.parms.raidStrategy.Worker.CanUsePawn(p, this.outPawns);
 			}
 		}
 	}

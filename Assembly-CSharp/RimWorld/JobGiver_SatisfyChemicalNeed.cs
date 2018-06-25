@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000AF RID: 175
 	public class JobGiver_SatisfyChemicalNeed : ThinkNode_JobGiver
 	{
-		// Token: 0x04000283 RID: 643
 		private static List<Need_Chemical> tmpChemicalNeeds = new List<Need_Chemical>();
 
-		// Token: 0x06000437 RID: 1079 RVA: 0x000320B4 File Offset: 0x000304B4
+		[CompilerGenerated]
+		private static Func<Need_Chemical, float> <>f__am$cache0;
+
+		public JobGiver_SatisfyChemicalNeed()
+		{
+		}
+
 		public override float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -27,7 +32,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000438 RID: 1080 RVA: 0x000320FC File Offset: 0x000304FC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Profiler.BeginSample("SatisfyChemicalNeed");
@@ -66,14 +70,12 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000439 RID: 1081 RVA: 0x0003221C File Offset: 0x0003061C
 		private bool ShouldSatisfy(Need need)
 		{
 			Need_Chemical need_Chemical = need as Need_Chemical;
 			return need_Chemical != null && need_Chemical.CurCategory <= DrugDesireCategory.Desire;
 		}
 
-		// Token: 0x0600043A RID: 1082 RVA: 0x00032254 File Offset: 0x00030654
 		private Thing FindDrugFor(Pawn pawn, Need_Chemical need)
 		{
 			Hediff_Addiction addictionHediff = need.AddictionHediff;
@@ -97,7 +99,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600043B RID: 1083 RVA: 0x00032338 File Offset: 0x00030738
 		private bool DrugValidator(Pawn pawn, Hediff_Addiction addiction, Thing drug)
 		{
 			bool result;
@@ -145,6 +146,42 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_SatisfyChemicalNeed()
+		{
+		}
+
+		[CompilerGenerated]
+		private bool <GetPriority>m__0(Need x)
+		{
+			return this.ShouldSatisfy(x);
+		}
+
+		[CompilerGenerated]
+		private static float <TryGiveJob>m__1(Need_Chemical x)
+		{
+			return x.CurLevel;
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindDrugFor>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal Hediff_Addiction addictionHediff;
+
+			internal JobGiver_SatisfyChemicalNeed $this;
+
+			public <FindDrugFor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return this.$this.DrugValidator(this.pawn, this.addictionHediff, x);
+			}
 		}
 	}
 }

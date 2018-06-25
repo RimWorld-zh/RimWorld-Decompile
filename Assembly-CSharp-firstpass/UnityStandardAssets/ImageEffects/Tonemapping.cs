@@ -3,52 +3,41 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001AF RID: 431
+	[AddComponentMenu("Image Effects/Color Adjustments/Tonemapping")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Color Adjustments/Tonemapping")]
 	public class Tonemapping : PostEffectsBase
 	{
-		// Token: 0x04000879 RID: 2169
 		public Tonemapping.TonemapperType type = Tonemapping.TonemapperType.Photographic;
 
-		// Token: 0x0400087A RID: 2170
 		public Tonemapping.AdaptiveTexSize adaptiveTextureSize = Tonemapping.AdaptiveTexSize.Square256;
 
-		// Token: 0x0400087B RID: 2171
 		public AnimationCurve remapCurve;
 
-		// Token: 0x0400087C RID: 2172
 		private Texture2D curveTex = null;
 
-		// Token: 0x0400087D RID: 2173
 		public float exposureAdjustment = 1.5f;
 
-		// Token: 0x0400087E RID: 2174
 		public float middleGrey = 0.4f;
 
-		// Token: 0x0400087F RID: 2175
 		public float white = 2f;
 
-		// Token: 0x04000880 RID: 2176
 		public float adaptionSpeed = 1.5f;
 
-		// Token: 0x04000881 RID: 2177
 		public Shader tonemapper = null;
 
-		// Token: 0x04000882 RID: 2178
 		public bool validRenderTextureFormat = true;
 
-		// Token: 0x04000883 RID: 2179
 		private Material tonemapMaterial = null;
 
-		// Token: 0x04000884 RID: 2180
 		private RenderTexture rt = null;
 
-		// Token: 0x04000885 RID: 2181
 		private RenderTextureFormat rtFormat = RenderTextureFormat.ARGBHalf;
 
-		// Token: 0x0600096C RID: 2412 RVA: 0x00019198 File Offset: 0x00017398
+		public Tonemapping()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(false, true);
@@ -67,7 +56,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x0600096D RID: 2413 RVA: 0x0001923C File Offset: 0x0001743C
 		public float UpdateCurve()
 		{
 			float num = 1f;
@@ -95,7 +83,6 @@ namespace UnityStandardAssets.ImageEffects
 			return 1f / num;
 		}
 
-		// Token: 0x0600096E RID: 2414 RVA: 0x0001935C File Offset: 0x0001755C
 		private void OnDisable()
 		{
 			if (this.rt)
@@ -115,7 +102,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x0600096F RID: 2415 RVA: 0x000193D8 File Offset: 0x000175D8
 		private bool CreateInternalRenderTexture()
 		{
 			bool result;
@@ -133,7 +119,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000970 RID: 2416 RVA: 0x00019444 File Offset: 0x00017644
 		[ImageEffectTransformsToLDR]
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
@@ -231,41 +216,25 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x020001B0 RID: 432
 		public enum TonemapperType
 		{
-			// Token: 0x04000887 RID: 2183
 			SimpleReinhard,
-			// Token: 0x04000888 RID: 2184
 			UserCurve,
-			// Token: 0x04000889 RID: 2185
 			Hable,
-			// Token: 0x0400088A RID: 2186
 			Photographic,
-			// Token: 0x0400088B RID: 2187
 			OptimizedHejiDawson,
-			// Token: 0x0400088C RID: 2188
 			AdaptiveReinhard,
-			// Token: 0x0400088D RID: 2189
 			AdaptiveReinhardAutoWhite
 		}
 
-		// Token: 0x020001B1 RID: 433
 		public enum AdaptiveTexSize
 		{
-			// Token: 0x0400088F RID: 2191
 			Square16 = 16,
-			// Token: 0x04000890 RID: 2192
 			Square32 = 32,
-			// Token: 0x04000891 RID: 2193
 			Square64 = 64,
-			// Token: 0x04000892 RID: 2194
 			Square128 = 128,
-			// Token: 0x04000893 RID: 2195
 			Square256 = 256,
-			// Token: 0x04000894 RID: 2196
 			Square512 = 512,
-			// Token: 0x04000895 RID: 2197
 			Square1024 = 1024
 		}
 	}

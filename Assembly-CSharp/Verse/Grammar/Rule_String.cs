@@ -3,27 +3,21 @@ using System.Text.RegularExpressions;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BEA RID: 3050
 	public class Rule_String : Rule
 	{
-		// Token: 0x04002D89 RID: 11657
 		[MustTranslate]
 		private string output;
 
-		// Token: 0x04002D8A RID: 11658
 		private float weight = 1f;
 
-		// Token: 0x04002D8B RID: 11659
 		private static Regex pattern = new Regex("\r\n\t\t# hold on to your butts, this is gonna get weird\r\n\r\n\t\t^\r\n\t\t(?<keyword>[a-zA-Z0-9_]+)\t\t\t\t\t# keyword; roughly limited to standard C# identifier rules\r\n\t\t(\t\t\t\t\t\t\t\t\t\t\t# parameter list is optional, open the capture group so we can keep it or ignore it\r\n\t\t\t\\(\t\t\t\t\t\t\t\t\t\t# this is the actual parameter list opening\r\n\t\t\t\t(\t\t\t\t\t\t\t\t\t# unlimited number of parameter groups\r\n\t\t\t\t\t(?<paramname>[a-zA-Z0-9_]+)\t# parameter name is similar\r\n\t\t\t\t\t(?<paramoperator>==|=|!=|)\t\t# operators; empty operator is allowed\r\n\t\t\t\t\t(?<paramvalue>[^\\,\\)]*)\t\t\t# parameter value, however, allows everything except comma and closeparen!\r\n\t\t\t\t\t,?\t\t\t\t\t\t\t\t# comma can be used to separate blocks; it is also silently ignored if it's a trailing comma\r\n\t\t\t\t)*\r\n\t\t\t\\)\r\n\t\t)?\r\n\t\t->(?<output>.*)\t\t\t\t\t\t\t\t# output is anything-goes\r\n\t\t$\r\n\r\n\t\t", RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace);
 
-		// Token: 0x06004288 RID: 17032 RVA: 0x00231108 File Offset: 0x0022F508
 		public Rule_String(string keyword, string output)
 		{
 			this.keyword = keyword;
 			this.output = output;
 		}
 
-		// Token: 0x06004289 RID: 17033 RVA: 0x0023112C File Offset: 0x0022F52C
 		public Rule_String(string rawString)
 		{
 			Match match = Rule_String.pattern.Match(rawString);
@@ -64,8 +58,6 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x17000A77 RID: 2679
-		// (get) Token: 0x0600428A RID: 17034 RVA: 0x002312F8 File Offset: 0x0022F6F8
 		public override float BaseSelectionWeight
 		{
 			get
@@ -74,16 +66,19 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x0600428B RID: 17035 RVA: 0x00231314 File Offset: 0x0022F714
 		public override string Generate()
 		{
 			return this.output;
 		}
 
-		// Token: 0x0600428C RID: 17036 RVA: 0x00231330 File Offset: 0x0022F730
 		public override string ToString()
 		{
 			return this.keyword + "->" + this.output;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Rule_String()
+		{
 		}
 	}
 }

@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000C11 RID: 3089
 	public static class FloodFillerFog
 	{
-		// Token: 0x04002E2A RID: 11818
 		private static bool testMode = false;
 
-		// Token: 0x04002E2B RID: 11819
 		private static List<IntVec3> cellsToUnfog = new List<IntVec3>(1024);
 
-		// Token: 0x04002E2C RID: 11820
 		private const int MaxNumTestUnfog = 500;
 
-		// Token: 0x06004387 RID: 17287 RVA: 0x0023B120 File Offset: 0x00239520
 		public static FloodUnfogResult FloodUnfog(IntVec3 root, Map map)
 		{
 			FloodFillerFog.cellsToUnfog.Clear();
@@ -98,7 +94,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004388 RID: 17288 RVA: 0x0023B31C File Offset: 0x0023971C
 		internal static void DebugFloodUnfog(IntVec3 root, Map map)
 		{
 			map.fogGrid.SetAllFogged();
@@ -111,7 +106,6 @@ namespace Verse
 			FloodFillerFog.testMode = false;
 		}
 
-		// Token: 0x06004389 RID: 17289 RVA: 0x0023B3A0 File Offset: 0x002397A0
 		internal static void DebugRefogMap(Map map)
 		{
 			map.fogGrid.SetAllFogged();
@@ -120,6 +114,79 @@ namespace Verse
 				map.mapDrawer.MapMeshDirty(loc, MapMeshFlag.FogOfWar);
 			}
 			FloodFillerFog.FloodUnfog(map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>().Position, map);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FloodFillerFog()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FloodUnfog>c__AnonStorey0
+		{
+			internal bool[] fogGridDirect;
+
+			internal Map map;
+
+			internal bool expanding;
+
+			internal int numUnfogged;
+
+			internal FogGrid fogGrid;
+
+			internal List<IntVec3> newlyUnfoggedCells;
+
+			internal FloodUnfogResult result;
+
+			internal CellRect viewRect;
+
+			public <FloodUnfog>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				bool flag;
+				if (!this.fogGridDirect[this.map.cellIndices.CellToIndex(c)])
+				{
+					flag = false;
+				}
+				else
+				{
+					Thing edifice = c.GetEdifice(this.map);
+					flag = ((edifice == null || !edifice.def.MakeFog) && (!FloodFillerFog.testMode || this.expanding || this.numUnfogged <= 500));
+				}
+				return flag;
+			}
+
+			internal void <>m__1(IntVec3 c)
+			{
+				this.fogGrid.Unfog(c);
+				this.newlyUnfoggedCells.Add(c);
+				List<Thing> thingList = c.GetThingList(this.map);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					Pawn pawn = thingList[i] as Pawn;
+					if (pawn != null)
+					{
+						pawn.mindState.Active = true;
+						if (pawn.def.race.IsMechanoid)
+						{
+							this.result.mechanoidFound = true;
+						}
+					}
+				}
+				if (!this.viewRect.Contains(c))
+				{
+					this.result.allOnScreen = false;
+				}
+				this.result.cellsUnfogged = this.result.cellsUnfogged + 1;
+				if (FloodFillerFog.testMode)
+				{
+					this.numUnfogged++;
+					this.map.debugDrawer.FlashCell(c, (float)this.numUnfogged / 200f, this.numUnfogged.ToStringCached(), 50);
+				}
+			}
 		}
 	}
 }

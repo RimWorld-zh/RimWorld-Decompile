@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A52 RID: 2642
 	public static class Toils_Reserve
 	{
-		// Token: 0x06003AD8 RID: 15064 RVA: 0x001F41D8 File Offset: 0x001F25D8
 		public static Toil Reserve(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
@@ -22,7 +21,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD9 RID: 15065 RVA: 0x001F4250 File Offset: 0x001F2650
 		public static Toil ReserveQueue(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
@@ -45,7 +43,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ADA RID: 15066 RVA: 0x001F42C8 File Offset: 0x001F26C8
 		public static Toil Release(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -56,6 +53,82 @@ namespace Verse.AI
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
 			toil.atomicWithPrevious = true;
 			return toil;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Reserve>c__AnonStorey0
+		{
+			internal Toil toil;
+
+			internal TargetIndex ind;
+
+			internal int maxPawns;
+
+			internal int stackCount;
+
+			internal ReservationLayerDef layer;
+
+			public <Reserve>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (!this.toil.actor.Reserve(this.toil.actor.jobs.curJob.GetTarget(this.ind), this.toil.actor.CurJob, this.maxPawns, this.stackCount, this.layer))
+				{
+					this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ReserveQueue>c__AnonStorey1
+		{
+			internal Toil toil;
+
+			internal TargetIndex ind;
+
+			internal int maxPawns;
+
+			internal int stackCount;
+
+			internal ReservationLayerDef layer;
+
+			public <ReserveQueue>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				List<LocalTargetInfo> targetQueue = this.toil.actor.jobs.curJob.GetTargetQueue(this.ind);
+				if (targetQueue != null)
+				{
+					for (int i = 0; i < targetQueue.Count; i++)
+					{
+						if (!this.toil.actor.Reserve(targetQueue[i], this.toil.actor.CurJob, this.maxPawns, this.stackCount, this.layer))
+						{
+							this.toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+						}
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Release>c__AnonStorey2
+		{
+			internal Toil toil;
+
+			internal TargetIndex ind;
+
+			public <Release>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.toil.actor.Map.reservationManager.Release(this.toil.actor.jobs.curJob.GetTarget(this.ind), this.toil.actor, this.toil.actor.CurJob);
+			}
 		}
 	}
 }

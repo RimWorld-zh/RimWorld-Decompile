@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E70 RID: 3696
 	public static class GizmoGridDrawer
 	{
-		// Token: 0x040039AB RID: 14763
 		public static HashSet<KeyCode> drawnHotKeys = new HashSet<KeyCode>();
 
-		// Token: 0x040039AC RID: 14764
 		private static float heightDrawn;
 
-		// Token: 0x040039AD RID: 14765
 		private static int heightDrawnFrame;
 
-		// Token: 0x040039AE RID: 14766
 		private static readonly Vector2 GizmoSpacing = new Vector2(5f, 14f);
 
-		// Token: 0x040039AF RID: 14767
 		private static List<List<Gizmo>> gizmoGroups = new List<List<Gizmo>>();
 
-		// Token: 0x040039B0 RID: 14768
 		private static List<Gizmo> firstGizmos = new List<Gizmo>();
 
-		// Token: 0x040039B1 RID: 14769
 		private static List<Gizmo> tmpAllGizmos = new List<Gizmo>();
 
-		// Token: 0x17000DAB RID: 3499
-		// (get) Token: 0x06005707 RID: 22279 RVA: 0x002CCC50 File Offset: 0x002CB050
+		[CompilerGenerated]
+		private static Func<Gizmo, Gizmo, int> <>f__am$cache0;
+
 		public static float HeightDrawnRecently
 		{
 			get
@@ -48,7 +42,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005708 RID: 22280 RVA: 0x002CCC88 File Offset: 0x002CB088
 		public static void DrawGizmoGrid(IEnumerable<Gizmo> gizmos, float startX, out Gizmo mouseoverGizmo)
 		{
 			GizmoGridDrawer.tmpAllGizmos.Clear();
@@ -206,6 +199,72 @@ namespace Verse
 			GizmoGridDrawer.gizmoGroups.Clear();
 			GizmoGridDrawer.firstGizmos.Clear();
 			GizmoGridDrawer.tmpAllGizmos.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GizmoGridDrawer()
+		{
+		}
+
+		[CompilerGenerated]
+		private static int <DrawGizmoGrid>m__0(Gizmo lhs, Gizmo rhs)
+		{
+			return lhs.order.CompareTo(rhs.order);
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawGizmoGrid>c__AnonStorey0
+		{
+			internal Gizmo interactedGiz;
+
+			internal Gizmo floatMenuGiz;
+
+			public <DrawGizmoGrid>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(List<Gizmo> group)
+			{
+				return group.Contains(this.interactedGiz);
+			}
+
+			internal bool <>m__1(List<Gizmo> group)
+			{
+				return group.Contains(this.floatMenuGiz);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawGizmoGrid>c__AnonStorey1
+		{
+			internal FloatMenuOption option;
+
+			public <DrawGizmoGrid>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(FloatMenuOption x)
+			{
+				return x.Label == this.option.Label;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawGizmoGrid>c__AnonStorey2
+		{
+			internal Action prevAction;
+
+			internal Action localOptionAction;
+
+			public <DrawGizmoGrid>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.prevAction();
+				this.localOptionAction();
+			}
 		}
 	}
 }

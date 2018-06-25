@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Xml.Linq;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BEE RID: 3054
 	public static class BackstoryTranslationUtility
 	{
-		// Token: 0x0600429C RID: 17052 RVA: 0x002316E8 File Offset: 0x0022FAE8
 		private static IEnumerable<XElement> BackstoryTranslationElements(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (string folderPath in folderPaths)
@@ -48,7 +50,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600429D RID: 17053 RVA: 0x0023171C File Offset: 0x0022FB1C
 		public static void LoadAndInjectBackstoryData(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (XElement xelement in BackstoryTranslationUtility.BackstoryTranslationElements(folderPaths, loadErrors))
@@ -107,7 +108,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600429E RID: 17054 RVA: 0x00231998 File Offset: 0x0022FD98
 		public static List<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
 			List<KeyValuePair<string, Backstory>> list = BackstoryDatabase.allBackstories.ToList<KeyValuePair<string, Backstory>>();
@@ -172,7 +172,6 @@ namespace Verse
 			return list2;
 		}
 
-		// Token: 0x0600429F RID: 17055 RVA: 0x00231CF0 File Offset: 0x002300F0
 		public static List<string> BackstoryTranslationsMatchingEnglish(LoadedLanguage lang)
 		{
 			List<string> list = new List<string>();
@@ -223,6 +222,239 @@ namespace Verse
 				}
 			}
 			return list;
+		}
+
+		[CompilerGenerated]
+		private sealed class <BackstoryTranslationElements>c__Iterator0 : IEnumerable, IEnumerable<XElement>, IEnumerator, IDisposable, IEnumerator<XElement>
+		{
+			internal IEnumerable<string> folderPaths;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <folderPath>__1;
+
+			internal string <localFolderPath>__2;
+
+			internal FileInfo <fi>__2;
+
+			internal XDocument <doc>__3;
+
+			internal List<string> loadErrors;
+
+			internal IEnumerator<XElement> $locvar1;
+
+			internal XElement <element>__4;
+
+			internal XElement $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <BackstoryTranslationElements>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = folderPaths.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_6:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								element = enumerator2.Current;
+								this.$current = element;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						folderPath = enumerator.Current;
+						localFolderPath = folderPath;
+						fi = new FileInfo(Path.Combine(localFolderPath.ToString(), "Backstories/Backstories.xml"));
+						if (!fi.Exists)
+						{
+							return false;
+						}
+						try
+						{
+							doc = XDocument.Load(fi.FullName);
+						}
+						catch (Exception ex)
+						{
+							if (loadErrors != null)
+							{
+								loadErrors.Add(string.Concat(new object[]
+								{
+									"Exception loading backstory translation data from file ",
+									fi,
+									": ",
+									ex
+								}));
+							}
+							return false;
+						}
+						enumerator2 = doc.Root.Elements().GetEnumerator();
+						num = 4294967293u;
+						goto Block_6;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			XElement IEnumerator<XElement>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<XElement> IEnumerable<XElement>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator0 <BackstoryTranslationElements>c__Iterator = new BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator0();
+				<BackstoryTranslationElements>c__Iterator.folderPaths = folderPaths;
+				<BackstoryTranslationElements>c__Iterator.loadErrors = loadErrors;
+				return <BackstoryTranslationElements>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MissingBackstoryTranslations>c__AnonStorey1
+		{
+			internal string modifiedIdentifier;
+
+			internal KeyValuePair<string, Backstory> backstory;
+
+			public <MissingBackstoryTranslations>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(KeyValuePair<string, Backstory> x)
+			{
+				return x.Key == this.modifiedIdentifier;
+			}
+
+			internal bool <>m__1(KeyValuePair<string, Backstory> x)
+			{
+				return x.Key == this.modifiedIdentifier;
+			}
+
+			internal bool <>m__2(KeyValuePair<string, Backstory> x)
+			{
+				return x.Key == this.backstory.Key;
+			}
 		}
 	}
 }

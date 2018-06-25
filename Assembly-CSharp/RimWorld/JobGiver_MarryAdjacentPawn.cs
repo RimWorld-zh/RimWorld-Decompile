@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000CB RID: 203
 	public class JobGiver_MarryAdjacentPawn : ThinkNode_JobGiver
 	{
-		// Token: 0x060004A3 RID: 1187 RVA: 0x00034C34 File Offset: 0x00033034
+		public JobGiver_MarryAdjacentPawn()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -34,10 +37,26 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004A4 RID: 1188 RVA: 0x00034D0C File Offset: 0x0003310C
 		private bool CanMarry(Pawn pawn, Pawn toMarry)
 		{
 			return !toMarry.Drafted && pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, toMarry);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal JobGiver_MarryAdjacentPawn $this;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x is Pawn && this.$this.CanMarry(this.pawn, (Pawn)x);
+			}
 		}
 	}
 }

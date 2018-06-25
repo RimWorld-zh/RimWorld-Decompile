@@ -1,33 +1,41 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200063A RID: 1594
 	public class ScenPart_DisallowBuilding : ScenPart_Rule
 	{
-		// Token: 0x040012D8 RID: 4824
 		private ThingDef building;
 
-		// Token: 0x040012D9 RID: 4825
 		private const string DisallowBuildingTag = "DisallowBuilding";
 
-		// Token: 0x060020EB RID: 8427 RVA: 0x00119507 File Offset: 0x00117907
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache1;
+
+		public ScenPart_DisallowBuilding()
+		{
+		}
+
 		protected override void ApplyRule()
 		{
 			Current.Game.Rules.SetAllowBuilding(this.building, false);
 		}
 
-		// Token: 0x060020EC RID: 8428 RVA: 0x00119520 File Offset: 0x00117920
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "DisallowBuilding", "ScenPart_DisallowBuilding".Translate());
 		}
 
-		// Token: 0x060020ED RID: 8429 RVA: 0x0011954C File Offset: 0x0011794C
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "DisallowBuilding")
@@ -37,20 +45,17 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060020EE RID: 8430 RVA: 0x0011957D File Offset: 0x0011797D
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.building, "building");
 		}
 
-		// Token: 0x060020EF RID: 8431 RVA: 0x00119596 File Offset: 0x00117996
 		public override void Randomize()
 		{
 			this.building = this.RandomizableBuildingDefs().RandomElement<ThingDef>();
 		}
 
-		// Token: 0x060020F0 RID: 8432 RVA: 0x001195AC File Offset: 0x001179AC
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -71,14 +76,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020F1 RID: 8433 RVA: 0x001196A8 File Offset: 0x00117AA8
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_DisallowBuilding scenPart_DisallowBuilding = other as ScenPart_DisallowBuilding;
 			return scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building;
 		}
 
-		// Token: 0x060020F2 RID: 8434 RVA: 0x001196E4 File Offset: 0x00117AE4
 		protected virtual IEnumerable<ThingDef> PossibleBuildingDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs
@@ -86,7 +89,6 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060020F3 RID: 8435 RVA: 0x00119720 File Offset: 0x00117B20
 		private IEnumerable<ThingDef> RandomizableBuildingDefs()
 		{
 			yield return ThingDefOf.Wall;
@@ -97,6 +99,254 @@ namespace RimWorld
 			yield return ThingDefOf.Cooler;
 			yield return ThingDefOf.Heater;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static string <DoEditInterface>m__0(ThingDef t)
+		{
+			return t.label;
+		}
+
+		[CompilerGenerated]
+		private static bool <PossibleBuildingDefs>m__1(ThingDef d)
+		{
+			return d.category == ThingCategory.Building && d.BuildableByPlayer;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetSummaryListEntries>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal string tag;
+
+			internal ScenPart_DisallowBuilding $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetSummaryListEntries>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (tag == "DisallowBuilding")
+					{
+						this.$current = this.building.LabelCap;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator0 <GetSummaryListEntries>c__Iterator = new ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator0();
+				<GetSummaryListEntries>c__Iterator.$this = this;
+				<GetSummaryListEntries>c__Iterator.tag = tag;
+				return <GetSummaryListEntries>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoEditInterface>c__AnonStorey2
+		{
+			internal ThingDef localTd;
+
+			internal ScenPart_DisallowBuilding $this;
+
+			public <DoEditInterface>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.building = this.localTd;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomizableBuildingDefs>c__Iterator1 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RandomizableBuildingDefs>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = ThingDefOf.Wall;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = ThingDefOf.Turret_MiniTurret;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = ThingDefOf.OrbitalTradeBeacon;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = ThingDefOf.Battery;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = ThingDefOf.TrapDeadfall;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = ThingDefOf.Cooler;
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = ThingDefOf.Heater;
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator1();
+			}
 		}
 	}
 }

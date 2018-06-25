@@ -4,59 +4,42 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A9E RID: 2718
 	public class RegionCostCalculatorWrapper
 	{
-		// Token: 0x04002649 RID: 9801
 		private Map map;
 
-		// Token: 0x0400264A RID: 9802
 		private IntVec3 endCell;
 
-		// Token: 0x0400264B RID: 9803
 		private HashSet<Region> destRegions = new HashSet<Region>();
 
-		// Token: 0x0400264C RID: 9804
 		private int moveTicksCardinal;
 
-		// Token: 0x0400264D RID: 9805
 		private int moveTicksDiagonal;
 
-		// Token: 0x0400264E RID: 9806
 		private RegionCostCalculator regionCostCalculator;
 
-		// Token: 0x0400264F RID: 9807
 		private Region cachedRegion;
 
-		// Token: 0x04002650 RID: 9808
 		private RegionLink cachedBestLink;
 
-		// Token: 0x04002651 RID: 9809
 		private RegionLink cachedSecondBestLink;
 
-		// Token: 0x04002652 RID: 9810
 		private int cachedBestLinkCost;
 
-		// Token: 0x04002653 RID: 9811
 		private int cachedSecondBestLinkCost;
 
-		// Token: 0x04002654 RID: 9812
 		private int cachedRegionCellPathCost;
 
-		// Token: 0x04002655 RID: 9813
 		private bool cachedRegionIsDestination;
 
-		// Token: 0x04002656 RID: 9814
 		private Region[] regionGrid;
 
-		// Token: 0x06003C83 RID: 15491 RVA: 0x00200036 File Offset: 0x001FE436
 		public RegionCostCalculatorWrapper(Map map)
 		{
 			this.map = map;
 			this.regionCostCalculator = new RegionCostCalculator(map);
 		}
 
-		// Token: 0x06003C84 RID: 15492 RVA: 0x00200060 File Offset: 0x001FE460
 		public void Init(CellRect end, TraverseParms traverseParms, int moveTicksCardinal, int moveTicksDiagonal, ByteGrid avoidGrid, Area allowedArea, bool drafted, List<int> disallowedCorners)
 		{
 			this.moveTicksCardinal = moveTicksCardinal;
@@ -106,7 +89,6 @@ namespace Verse.AI
 			this.regionCostCalculator.Init(end, this.destRegions, traverseParms, moveTicksCardinal, moveTicksDiagonal, avoidGrid, allowedArea, drafted);
 		}
 
-		// Token: 0x06003C85 RID: 15493 RVA: 0x002001F0 File Offset: 0x001FE5F0
 		public int GetPathCostFromDestToRegion(int cellIndex)
 		{
 			Region region = this.regionGrid[cellIndex];
@@ -150,7 +132,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C86 RID: 15494 RVA: 0x00200340 File Offset: 0x001FE740
 		private int OctileDistanceToEnd(IntVec3 cell)
 		{
 			int dx = Mathf.Abs(cell.x - this.endCell.x);
@@ -158,7 +139,6 @@ namespace Verse.AI
 			return GenMath.OctileDistance(dx, dz, this.moveTicksCardinal, this.moveTicksDiagonal);
 		}
 
-		// Token: 0x06003C87 RID: 15495 RVA: 0x0020039C File Offset: 0x001FE79C
 		private int OctileDistanceToEndEps(IntVec3 cell)
 		{
 			int dx = Mathf.Abs(cell.x - this.endCell.x);

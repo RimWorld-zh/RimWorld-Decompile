@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F39 RID: 3897
 	public static class GenColor
 	{
-		// Token: 0x06005DE8 RID: 24040 RVA: 0x002FC610 File Offset: 0x002FAA10
 		public static Color SaturationChanged(this Color col, float change)
 		{
 			float num = col.r;
@@ -20,20 +18,17 @@ namespace Verse
 			return new Color(num, num2, num3);
 		}
 
-		// Token: 0x06005DE9 RID: 24041 RVA: 0x002FC684 File Offset: 0x002FAA84
 		public static bool IndistinguishableFrom(this Color colA, Color colB)
 		{
 			Color color = colA - colB;
 			return Mathf.Abs(color.r) + Mathf.Abs(color.g) + Mathf.Abs(color.b) + Mathf.Abs(color.a) < 0.001f;
 		}
 
-		// Token: 0x06005DEA RID: 24042 RVA: 0x002FC6DC File Offset: 0x002FAADC
 		public static Color RandomColorOpaque()
 		{
 			return new Color(Rand.Value, Rand.Value, Rand.Value, 1f);
 		}
 
-		// Token: 0x06005DEB RID: 24043 RVA: 0x002FC70C File Offset: 0x002FAB0C
 		public static Color FromBytes(int r, int g, int b, int a = 255)
 		{
 			return new Color
@@ -45,7 +40,6 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06005DEC RID: 24044 RVA: 0x002FC768 File Offset: 0x002FAB68
 		public static Color FromHex(string hex)
 		{
 			if (hex.StartsWith("#"))

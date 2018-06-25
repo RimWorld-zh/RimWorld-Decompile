@@ -3,13 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000408 RID: 1032
 	public abstract class GenStep_Ambush : GenStep
 	{
-		// Token: 0x04000AD5 RID: 2773
 		public FloatRange pointsRange = new FloatRange(180f, 340f);
 
-		// Token: 0x060011BB RID: 4539 RVA: 0x0009A81C File Offset: 0x00098C1C
+		protected GenStep_Ambush()
+		{
+		}
+
 		public override void Generate(Map map)
 		{
 			CellRect rectToDefend;
@@ -20,7 +21,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011BC RID: 4540 RVA: 0x0009A848 File Offset: 0x00098C48
 		private void SpawnTrigger(CellRect rectToDefend, IntVec3 root, Map map)
 		{
 			int nextSignalTagID = Find.UniqueIDsManager.GetNextSignalTagID();
@@ -43,13 +43,11 @@ namespace RimWorld
 			GenSpawn.Spawn(rectTrigger, rect.CenterCell, map, WipeMode.Vanish);
 		}
 
-		// Token: 0x060011BD RID: 4541 RVA: 0x0009A8E4 File Offset: 0x00098CE4
 		protected virtual RectTrigger MakeRectTrigger()
 		{
 			return (RectTrigger)ThingMaker.MakeThing(ThingDefOf.RectTrigger, null);
 		}
 
-		// Token: 0x060011BE RID: 4542 RVA: 0x0009A90C File Offset: 0x00098D0C
 		protected virtual SignalAction_Ambush MakeAmbushSignalAction(CellRect rectToDefend, IntVec3 root)
 		{
 			SignalAction_Ambush signalAction_Ambush = (SignalAction_Ambush)ThingMaker.MakeThing(ThingDefOf.SignalAction_Ambush, null);

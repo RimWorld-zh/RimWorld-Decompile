@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000144 RID: 324
 	public class WorkGiver_FixBrokenDownBuilding : WorkGiver_Scanner
 	{
-		// Token: 0x04000328 RID: 808
 		public static string NotInHomeAreaTrans;
 
-		// Token: 0x04000329 RID: 809
 		private static string NoComponentsToRepairTrans;
 
-		// Token: 0x060006B3 RID: 1715 RVA: 0x000451B8 File Offset: 0x000435B8
+		public WorkGiver_FixBrokenDownBuilding()
+		{
+		}
+
 		public static void ResetStaticData()
 		{
 			WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans = "NotInHomeArea".Translate();
 			WorkGiver_FixBrokenDownBuilding.NoComponentsToRepairTrans = "NoComponentsToRepair".Translate();
 		}
 
-		// Token: 0x17000104 RID: 260
-		// (get) Token: 0x060006B4 RID: 1716 RVA: 0x000451DC File Offset: 0x000435DC
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -31,20 +30,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006B5 RID: 1717 RVA: 0x000451F8 File Offset: 0x000435F8
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.GetComponent<BreakdownManager>().brokenDownThings;
 		}
 
-		// Token: 0x060006B6 RID: 1718 RVA: 0x00045220 File Offset: 0x00043620
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			return pawn.Map.GetComponent<BreakdownManager>().brokenDownThings.Count == 0;
 		}
 
-		// Token: 0x17000105 RID: 261
-		// (get) Token: 0x060006B7 RID: 1719 RVA: 0x00045250 File Offset: 0x00043650
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -53,13 +48,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006B8 RID: 1720 RVA: 0x00045268 File Offset: 0x00043668
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006B9 RID: 1721 RVA: 0x00045280 File Offset: 0x00043680
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building building = t as Building;
@@ -117,7 +110,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006BA RID: 1722 RVA: 0x000453C4 File Offset: 0x000437C4
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Thing t2 = this.FindClosestComponent(pawn);
@@ -127,10 +119,24 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060006BB RID: 1723 RVA: 0x00045400 File Offset: 0x00043800
 		private Thing FindClosestComponent(Pawn pawn)
 		{
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.ComponentIndustrial), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false), null, 0, -1, false, RegionType.Set_Passable, false);
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindClosestComponent>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <FindClosestComponent>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return !x.IsForbidden(this.pawn) && this.pawn.CanReserve(x, 1, -1, null, false);
+			}
 		}
 	}
 }

@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000818 RID: 2072
 	public static class InteractionCardUtility
 	{
-		// Token: 0x040018BC RID: 6332
 		private static Vector2 logScrollPosition = Vector2.zero;
 
-		// Token: 0x040018BD RID: 6333
 		public const float ImageSize = 26f;
 
-		// Token: 0x040018BE RID: 6334
 		public const float ImagePadRight = 3f;
 
-		// Token: 0x040018BF RID: 6335
 		public const float TextOffset = 29f;
 
-		// Token: 0x040018C0 RID: 6336
 		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
 
-		// Token: 0x06002E4F RID: 11855 RVA: 0x0018A4B0 File Offset: 0x001888B0
 		public static void DrawInteractionsLog(Rect rect, Pawn pawn, List<LogEntry> entries, int maxEntries)
 		{
 			float width = rect.width - 29f - 16f - 10f;
@@ -74,6 +68,26 @@ namespace RimWorld
 				num3 += num4;
 			}
 			Widgets.EndScrollView();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static InteractionCardUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawInteractionsLog>c__AnonStorey0
+		{
+			internal LogEntry entry;
+
+			public <DrawInteractionsLog>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.entry.GetTipString();
+			}
 		}
 	}
 }

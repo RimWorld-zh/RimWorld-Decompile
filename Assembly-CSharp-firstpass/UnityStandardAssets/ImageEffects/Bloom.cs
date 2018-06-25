@@ -3,103 +3,75 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000174 RID: 372
+	[AddComponentMenu("Image Effects/Bloom and Glow/Bloom")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Bloom and Glow/Bloom")]
 	public class Bloom : PostEffectsBase
 	{
-		// Token: 0x040006B1 RID: 1713
 		public Bloom.TweakMode tweakMode = Bloom.TweakMode.Basic;
 
-		// Token: 0x040006B2 RID: 1714
 		public Bloom.BloomScreenBlendMode screenBlendMode = Bloom.BloomScreenBlendMode.Add;
 
-		// Token: 0x040006B3 RID: 1715
 		public Bloom.HDRBloomMode hdr = Bloom.HDRBloomMode.Auto;
 
-		// Token: 0x040006B4 RID: 1716
 		private bool doHdr = false;
 
-		// Token: 0x040006B5 RID: 1717
 		public float sepBlurSpread = 2.5f;
 
-		// Token: 0x040006B6 RID: 1718
 		public Bloom.BloomQuality quality = Bloom.BloomQuality.High;
 
-		// Token: 0x040006B7 RID: 1719
 		public float bloomIntensity = 0.5f;
 
-		// Token: 0x040006B8 RID: 1720
 		public float bloomThreshold = 0.5f;
 
-		// Token: 0x040006B9 RID: 1721
 		public Color bloomThresholdColor = Color.white;
 
-		// Token: 0x040006BA RID: 1722
 		public int bloomBlurIterations = 2;
 
-		// Token: 0x040006BB RID: 1723
 		public int hollywoodFlareBlurIterations = 2;
 
-		// Token: 0x040006BC RID: 1724
 		public float flareRotation = 0f;
 
-		// Token: 0x040006BD RID: 1725
 		public Bloom.LensFlareStyle lensflareMode = Bloom.LensFlareStyle.Anamorphic;
 
-		// Token: 0x040006BE RID: 1726
 		public float hollyStretchWidth = 2.5f;
 
-		// Token: 0x040006BF RID: 1727
 		public float lensflareIntensity = 0f;
 
-		// Token: 0x040006C0 RID: 1728
 		public float lensflareThreshold = 0.3f;
 
-		// Token: 0x040006C1 RID: 1729
 		public float lensFlareSaturation = 0.75f;
 
-		// Token: 0x040006C2 RID: 1730
 		public Color flareColorA = new Color(0.4f, 0.4f, 0.8f, 0.75f);
 
-		// Token: 0x040006C3 RID: 1731
 		public Color flareColorB = new Color(0.4f, 0.8f, 0.8f, 0.75f);
 
-		// Token: 0x040006C4 RID: 1732
 		public Color flareColorC = new Color(0.8f, 0.4f, 0.8f, 0.75f);
 
-		// Token: 0x040006C5 RID: 1733
 		public Color flareColorD = new Color(0.8f, 0.4f, 0f, 0.75f);
 
-		// Token: 0x040006C6 RID: 1734
 		public Texture2D lensFlareVignetteMask;
 
-		// Token: 0x040006C7 RID: 1735
 		public Shader lensFlareShader;
 
-		// Token: 0x040006C8 RID: 1736
 		private Material lensFlareMaterial;
 
-		// Token: 0x040006C9 RID: 1737
 		public Shader screenBlendShader;
 
-		// Token: 0x040006CA RID: 1738
 		private Material screenBlend;
 
-		// Token: 0x040006CB RID: 1739
 		public Shader blurAndFlaresShader;
 
-		// Token: 0x040006CC RID: 1740
 		private Material blurAndFlaresMaterial;
 
-		// Token: 0x040006CD RID: 1741
 		public Shader brightPassFilterShader;
 
-		// Token: 0x040006CE RID: 1742
 		private Material brightPassFilterMaterial;
 
-		// Token: 0x060008B1 RID: 2225 RVA: 0x00010168 File Offset: 0x0000E368
+		public Bloom()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(false);
@@ -114,7 +86,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x060008B2 RID: 2226 RVA: 0x000101FC File Offset: 0x0000E3FC
 		public void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources())
@@ -290,7 +261,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008B3 RID: 2227 RVA: 0x000109C1 File Offset: 0x0000EBC1
 		private void AddTo(float intensity_, RenderTexture from, RenderTexture to)
 		{
 			this.screenBlend.SetFloat("_Intensity", intensity_);
@@ -298,7 +268,6 @@ namespace UnityStandardAssets.ImageEffects
 			Graphics.Blit(from, to, this.screenBlend, 9);
 		}
 
-		// Token: 0x060008B4 RID: 2228 RVA: 0x000109EC File Offset: 0x0000EBEC
 		private void BlendFlares(RenderTexture from, RenderTexture to)
 		{
 			this.lensFlareMaterial.SetVector("colorA", new Vector4(this.flareColorA.r, this.flareColorA.g, this.flareColorA.b, this.flareColorA.a) * this.lensflareIntensity);
@@ -309,21 +278,18 @@ namespace UnityStandardAssets.ImageEffects
 			Graphics.Blit(from, to, this.lensFlareMaterial);
 		}
 
-		// Token: 0x060008B5 RID: 2229 RVA: 0x00010B3D File Offset: 0x0000ED3D
 		private void BrightFilter(float thresh, RenderTexture from, RenderTexture to)
 		{
 			this.brightPassFilterMaterial.SetVector("_Threshhold", new Vector4(thresh, thresh, thresh, thresh));
 			Graphics.Blit(from, to, this.brightPassFilterMaterial, 0);
 		}
 
-		// Token: 0x060008B6 RID: 2230 RVA: 0x00010B67 File Offset: 0x0000ED67
 		private void BrightFilter(Color threshColor, RenderTexture from, RenderTexture to)
 		{
 			this.brightPassFilterMaterial.SetVector("_Threshhold", threshColor);
 			Graphics.Blit(from, to, this.brightPassFilterMaterial, 1);
 		}
 
-		// Token: 0x060008B7 RID: 2231 RVA: 0x00010B90 File Offset: 0x0000ED90
 		private void Vignette(float amount, RenderTexture from, RenderTexture to)
 		{
 			if (this.lensFlareVignetteMask)
@@ -340,52 +306,35 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x02000175 RID: 373
 		public enum LensFlareStyle
 		{
-			// Token: 0x040006D0 RID: 1744
 			Ghosting,
-			// Token: 0x040006D1 RID: 1745
 			Anamorphic,
-			// Token: 0x040006D2 RID: 1746
 			Combined
 		}
 
-		// Token: 0x02000176 RID: 374
 		public enum TweakMode
 		{
-			// Token: 0x040006D4 RID: 1748
 			Basic,
-			// Token: 0x040006D5 RID: 1749
 			Complex
 		}
 
-		// Token: 0x02000177 RID: 375
 		public enum HDRBloomMode
 		{
-			// Token: 0x040006D7 RID: 1751
 			Auto,
-			// Token: 0x040006D8 RID: 1752
 			On,
-			// Token: 0x040006D9 RID: 1753
 			Off
 		}
 
-		// Token: 0x02000178 RID: 376
 		public enum BloomScreenBlendMode
 		{
-			// Token: 0x040006DB RID: 1755
 			Screen,
-			// Token: 0x040006DC RID: 1756
 			Add
 		}
 
-		// Token: 0x02000179 RID: 377
 		public enum BloomQuality
 		{
-			// Token: 0x040006DE RID: 1758
 			Cheap,
-			// Token: 0x040006DF RID: 1759
 			High
 		}
 	}

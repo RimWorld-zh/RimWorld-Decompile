@@ -5,37 +5,26 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000816 RID: 2070
 	public static class FactionUIUtility
 	{
-		// Token: 0x04001892 RID: 6290
 		private static bool showAll;
 
-		// Token: 0x04001893 RID: 6291
 		private const float FactionColorRectSize = 15f;
 
-		// Token: 0x04001894 RID: 6292
 		private const float FactionColorRectGap = 10f;
 
-		// Token: 0x04001895 RID: 6293
 		private const float RowMinHeight = 80f;
 
-		// Token: 0x04001896 RID: 6294
 		private const float LabelRowHeight = 50f;
 
-		// Token: 0x04001897 RID: 6295
 		private const float TypeColumnWidth = 100f;
 
-		// Token: 0x04001898 RID: 6296
 		private const float NameColumnWidth = 250f;
 
-		// Token: 0x04001899 RID: 6297
 		private const float RelationsColumnWidth = 90f;
 
-		// Token: 0x0400189A RID: 6298
 		private const float NameLeftMargin = 15f;
 
-		// Token: 0x06002E2C RID: 11820 RVA: 0x00186168 File Offset: 0x00184568
 		public static void DoWindowContents(Rect fillRect, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
 			Rect position = new Rect(0f, 0f, fillRect.width, fillRect.height);
@@ -72,7 +61,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E2D RID: 11821 RVA: 0x00186330 File Offset: 0x00184730
 		private static float DrawFactionRow(Faction faction, float rowY, Rect fillRect)
 		{
 			Rect rect = new Rect(35f, rowY, 250f, 80f);

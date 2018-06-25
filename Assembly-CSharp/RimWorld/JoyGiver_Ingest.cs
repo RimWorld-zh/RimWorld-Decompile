@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000FF RID: 255
 	public class JoyGiver_Ingest : JoyGiver
 	{
-		// Token: 0x06000557 RID: 1367 RVA: 0x0003A358 File Offset: 0x00038758
+		public JoyGiver_Ingest()
+		{
+		}
+
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			return this.TryGiveJobInternal(pawn, null);
 		}
 
-		// Token: 0x06000558 RID: 1368 RVA: 0x0003A378 File Offset: 0x00038778
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			return this.TryGiveJobInternal(pawn, (Thing x) => !x.Spawned || PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map));
 		}
 
-		// Token: 0x06000559 RID: 1369 RVA: 0x0003A3BC File Offset: 0x000387BC
 		private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing thing = this.BestIngestItem(pawn, extraValidator);
@@ -37,7 +38,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600055A RID: 1370 RVA: 0x0003A3F0 File Offset: 0x000387F0
 		protected virtual Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Predicate<Thing> predicate = (Thing t) => this.CanIngestForJoy(pawn, t) && (extraValidator == null || extraValidator(t));
@@ -63,7 +63,6 @@ namespace RimWorld
 			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
 		}
 
-		// Token: 0x0600055B RID: 1371 RVA: 0x0003A4F8 File Offset: 0x000388F8
 		protected virtual bool CanIngestForJoy(Pawn pawn, Thing t)
 		{
 			bool result;
@@ -105,19 +104,53 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600055C RID: 1372 RVA: 0x0003A630 File Offset: 0x00038A30
 		protected virtual bool SearchSetWouldInclude(Thing thing)
 		{
 			return this.def.thingDefs != null && this.def.thingDefs.Contains(thing.def);
 		}
 
-		// Token: 0x0600055D RID: 1373 RVA: 0x0003A674 File Offset: 0x00038A74
 		protected virtual Job CreateIngestJob(Thing ingestible, Pawn pawn)
 		{
 			return new Job(JobDefOf.Ingest, ingestible)
 			{
 				count = Mathf.Min(ingestible.stackCount, ingestible.def.ingestible.maxNumToIngestAtOnce)
 			};
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJobInPartyArea>c__AnonStorey0
+		{
+			internal IntVec3 partySpot;
+
+			internal Pawn pawn;
+
+			public <TryGiveJobInPartyArea>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return !x.Spawned || PartyUtility.InPartyArea(x.Position, this.partySpot, this.pawn.Map);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <BestIngestItem>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			internal Predicate<Thing> extraValidator;
+
+			internal JoyGiver_Ingest $this;
+
+			public <BestIngestItem>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return this.$this.CanIngestForJoy(this.pawn, t) && (this.extraValidator == null || this.extraValidator(t));
+			}
 		}
 	}
 }

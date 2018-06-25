@@ -1,32 +1,44 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008F1 RID: 2289
 	public class WorldSelector
 	{
-		// Token: 0x04001C91 RID: 7313
 		public WorldDragBox dragBox = new WorldDragBox();
 
-		// Token: 0x04001C92 RID: 7314
 		private List<WorldObject> selected = new List<WorldObject>();
 
-		// Token: 0x04001C93 RID: 7315
 		public int selectedTile = -1;
 
-		// Token: 0x04001C94 RID: 7316
 		private const int MaxNumSelected = 80;
 
-		// Token: 0x04001C95 RID: 7317
 		private const float MaxDragBoxDiagonalToSelectTile = 30f;
 
-		// Token: 0x17000886 RID: 2182
-		// (get) Token: 0x060034D1 RID: 13521 RVA: 0x001C3D44 File Offset: 0x001C2144
+		[CompilerGenerated]
+		private static Predicate<WorldObject> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<WorldObject> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<WorldObject> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Predicate<WorldObject> <>f__am$cache3;
+
+		public WorldSelector()
+		{
+		}
+
 		private bool ShiftIsHeld
 		{
 			get
@@ -35,8 +47,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000887 RID: 2183
-		// (get) Token: 0x060034D2 RID: 13522 RVA: 0x001C3D78 File Offset: 0x001C2178
 		public List<WorldObject> SelectedObjects
 		{
 			get
@@ -45,8 +55,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000888 RID: 2184
-		// (get) Token: 0x060034D3 RID: 13523 RVA: 0x001C3D94 File Offset: 0x001C2194
 		public WorldObject SingleSelectedObject
 		{
 			get
@@ -64,8 +72,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000889 RID: 2185
-		// (get) Token: 0x060034D4 RID: 13524 RVA: 0x001C3DD0 File Offset: 0x001C21D0
 		public WorldObject FirstSelectedObject
 		{
 			get
@@ -83,8 +89,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700088A RID: 2186
-		// (get) Token: 0x060034D5 RID: 13525 RVA: 0x001C3E08 File Offset: 0x001C2208
 		public int NumSelectedObjects
 		{
 			get
@@ -93,8 +97,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700088B RID: 2187
-		// (get) Token: 0x060034D6 RID: 13526 RVA: 0x001C3E28 File Offset: 0x001C2228
 		public bool AnyObjectOrTileSelected
 		{
 			get
@@ -103,7 +105,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D7 RID: 13527 RVA: 0x001C3E57 File Offset: 0x001C2257
 		public void WorldSelectorOnGUI()
 		{
 			this.HandleWorldClicks();
@@ -117,7 +118,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D8 RID: 13528 RVA: 0x001C3E94 File Offset: 0x001C2294
 		private void HandleWorldClicks()
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -186,13 +186,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D9 RID: 13529 RVA: 0x001C4064 File Offset: 0x001C2464
 		public bool IsSelected(WorldObject obj)
 		{
 			return this.selected.Contains(obj);
 		}
 
-		// Token: 0x060034DA RID: 13530 RVA: 0x001C4085 File Offset: 0x001C2485
 		public void ClearSelection()
 		{
 			WorldSelectionDrawer.Clear();
@@ -200,7 +198,6 @@ namespace RimWorld.Planet
 			this.selectedTile = -1;
 		}
 
-		// Token: 0x060034DB RID: 13531 RVA: 0x001C409F File Offset: 0x001C249F
 		public void Deselect(WorldObject obj)
 		{
 			if (this.selected.Contains(obj))
@@ -209,7 +206,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034DC RID: 13532 RVA: 0x001C40C0 File Offset: 0x001C24C0
 		public void Select(WorldObject obj, bool playSound = true)
 		{
 			if (obj == null)
@@ -234,19 +230,16 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034DD RID: 13533 RVA: 0x001C4130 File Offset: 0x001C2530
 		public void Notify_DialogOpened()
 		{
 			this.dragBox.active = false;
 		}
 
-		// Token: 0x060034DE RID: 13534 RVA: 0x001C413F File Offset: 0x001C253F
 		private void PlaySelectionSoundFor(WorldObject obj)
 		{
 			SoundDefOf.ThingSelected.PlayOneShotOnCamera(null);
 		}
 
-		// Token: 0x060034DF RID: 13535 RVA: 0x001C4150 File Offset: 0x001C2550
 		private void SelectInsideDragBox()
 		{
 			if (!this.ShiftIsHeld)
@@ -303,14 +296,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E0 RID: 13536 RVA: 0x001C434C File Offset: 0x001C274C
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse()
 		{
 			bool flag;
 			return this.SelectableObjectsUnderMouse(out flag, out flag);
 		}
 
-		// Token: 0x060034E1 RID: 13537 RVA: 0x001C436C File Offset: 0x001C276C
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse(out bool clickedDirectlyOnCaravan, out bool usedColonistBar)
 		{
 			Vector2 mousePositionOnUIInverted = UI.MousePositionOnUIInverted;
@@ -345,7 +336,6 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x060034E2 RID: 13538 RVA: 0x001C4460 File Offset: 0x001C2860
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
 			foreach (WorldObject o in Find.WorldObjects.ObjectsAt(tileID))
@@ -358,7 +348,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x060034E3 RID: 13539 RVA: 0x001C448C File Offset: 0x001C288C
 		private void SelectUnderMouse(bool canSelectTile = true)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -430,13 +419,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E4 RID: 13540 RVA: 0x001C4648 File Offset: 0x001C2A48
 		public void SelectFirstOrNextAt(int tileID)
 		{
 			this.SelectFirstOrNextFrom(WorldSelector.SelectableObjectsAt(tileID).ToList<WorldObject>(), tileID);
 		}
 
-		// Token: 0x060034E5 RID: 13541 RVA: 0x001C4660 File Offset: 0x001C2A60
 		private void SelectAllMatchingObjectUnderMouseOnScreen()
 		{
 			List<WorldObject> list = this.SelectableObjectsUnderMouse().ToList<WorldObject>();
@@ -460,7 +447,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E6 RID: 13542 RVA: 0x001C4728 File Offset: 0x001C2B28
 		private void AutoOrderToTile(Caravan c, int tile)
 		{
 			if (tile >= 0)
@@ -479,7 +465,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E7 RID: 13543 RVA: 0x001C47B0 File Offset: 0x001C2BB0
 		private void AutoOrderToTileNow(Caravan c, int tile)
 		{
 			if (tile >= 0 && (tile != c.Tile || c.pather.Moving))
@@ -494,7 +479,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E8 RID: 13544 RVA: 0x001C4820 File Offset: 0x001C2C20
 		private void SelectFirstOrNextFrom(List<WorldObject> objects, int tile)
 		{
 			int num = objects.FindIndex((WorldObject x) => this.selected.Contains(x));
@@ -536,6 +520,201 @@ namespace RimWorld.Planet
 				this.Select(objects[num3], true);
 			}
 			this.selectedTile = num2;
+		}
+
+		[CompilerGenerated]
+		private static bool <SelectInsideDragBox>m__0(WorldObject x)
+		{
+			return x is Caravan;
+		}
+
+		[CompilerGenerated]
+		private static bool <SelectInsideDragBox>m__1(WorldObject x)
+		{
+			return !(x is Caravan);
+		}
+
+		[CompilerGenerated]
+		private static bool <SelectInsideDragBox>m__2(WorldObject x)
+		{
+			return x.Faction == Faction.OfPlayer;
+		}
+
+		[CompilerGenerated]
+		private static bool <SelectInsideDragBox>m__3(WorldObject x)
+		{
+			return x.Faction != Faction.OfPlayer;
+		}
+
+		[CompilerGenerated]
+		private bool <SelectUnderMouse>m__4(WorldObject obj)
+		{
+			return this.selected.Contains(obj);
+		}
+
+		[CompilerGenerated]
+		private bool <SelectFirstOrNextFrom>m__5(WorldObject x)
+		{
+			return this.selected.Contains(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <SelectableObjectsAt>c__Iterator0 : IEnumerable, IEnumerable<WorldObject>, IEnumerator, IDisposable, IEnumerator<WorldObject>
+		{
+			internal int tileID;
+
+			internal IEnumerator<WorldObject> $locvar0;
+
+			internal WorldObject <o>__1;
+
+			internal WorldObject $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SelectableObjectsAt>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = Find.WorldObjects.ObjectsAt(tileID).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_98:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						if (o.SelectableNow)
+						{
+							this.$current = o;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_98;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			WorldObject IEnumerator<WorldObject>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Planet.WorldObject>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<WorldObject> IEnumerable<WorldObject>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldSelector.<SelectableObjectsAt>c__Iterator0 <SelectableObjectsAt>c__Iterator = new WorldSelector.<SelectableObjectsAt>c__Iterator0();
+				<SelectableObjectsAt>c__Iterator.tileID = tileID;
+				return <SelectableObjectsAt>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AutoOrderToTile>c__AnonStorey1
+		{
+			internal Caravan c;
+
+			internal int tile;
+
+			internal WorldSelector $this;
+
+			public <AutoOrderToTile>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.AutoOrderToTileNow(this.c, this.tile);
+			}
 		}
 	}
 }

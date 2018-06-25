@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048A RID: 1162
 	public static class PawnHairChooser
 	{
-		// Token: 0x06001483 RID: 5251 RVA: 0x000B4410 File Offset: 0x000B2810
 		public static HairDef RandomHairDefFor(Pawn pawn, FactionDef factionType)
 		{
 			IEnumerable<HairDef> source = from hair in DefDatabase<HairDef>.AllDefs
@@ -17,7 +16,6 @@ namespace RimWorld
 			return source.RandomElementByWeight((HairDef hair) => PawnHairChooser.HairChoiceLikelihoodFor(hair, pawn));
 		}
 
-		// Token: 0x06001484 RID: 5252 RVA: 0x000B4464 File Offset: 0x000B2864
 		private static float HairChoiceLikelihoodFor(HairDef hair, Pawn pawn)
 		{
 			float result;
@@ -69,6 +67,28 @@ namespace RimWorld
 				result = 0f;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomHairDefFor>c__AnonStorey0
+		{
+			internal FactionDef factionType;
+
+			internal Pawn pawn;
+
+			public <RandomHairDefFor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(HairDef hair)
+			{
+				return hair.hairTags.SharesElementWith(this.factionType.hairTags);
+			}
+
+			internal float <>m__1(HairDef hair)
+			{
+				return PawnHairChooser.HairChoiceLikelihoodFor(hair, this.pawn);
+			}
 		}
 	}
 }

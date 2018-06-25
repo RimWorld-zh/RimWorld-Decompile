@@ -1,42 +1,51 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using RimWorld.Planet;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C34 RID: 3124
 	public sealed class MapPawns
 	{
-		// Token: 0x04002EBB RID: 11963
 		private Map map;
 
-		// Token: 0x04002EBC RID: 11964
 		private List<Pawn> pawnsSpawned = new List<Pawn>();
 
-		// Token: 0x04002EBD RID: 11965
 		private Dictionary<Faction, List<Pawn>> pawnsInFactionSpawned = new Dictionary<Faction, List<Pawn>>();
 
-		// Token: 0x04002EBE RID: 11966
 		private List<Pawn> prisonersOfColonySpawned = new List<Pawn>();
 
-		// Token: 0x04002EBF RID: 11967
 		private List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04002EC0 RID: 11968
 		private List<Pawn> tmpUnspawnedPawns = new List<Pawn>();
 
-		// Token: 0x0600449D RID: 17565 RVA: 0x002419AC File Offset: 0x0023FDAC
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Comparison<Pawn> <>f__am$cache4;
+
 		public MapPawns(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000ABA RID: 2746
-		// (get) Token: 0x0600449E RID: 17566 RVA: 0x00241A00 File Offset: 0x0023FE00
 		public IEnumerable<Pawn> AllPawns
 		{
 			get
@@ -53,8 +62,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ABB RID: 2747
-		// (get) Token: 0x0600449F RID: 17567 RVA: 0x00241A2C File Offset: 0x0023FE2C
 		public IEnumerable<Pawn> AllPawnsUnspawned
 		{
 			get
@@ -76,8 +83,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ABC RID: 2748
-		// (get) Token: 0x060044A0 RID: 17568 RVA: 0x00241A58 File Offset: 0x0023FE58
 		public IEnumerable<Pawn> FreeColonists
 		{
 			get
@@ -86,8 +91,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ABD RID: 2749
-		// (get) Token: 0x060044A1 RID: 17569 RVA: 0x00241A78 File Offset: 0x0023FE78
 		public IEnumerable<Pawn> PrisonersOfColony
 		{
 			get
@@ -98,8 +101,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ABE RID: 2750
-		// (get) Token: 0x060044A2 RID: 17570 RVA: 0x00241AB8 File Offset: 0x0023FEB8
 		public IEnumerable<Pawn> FreeColonistsAndPrisoners
 		{
 			get
@@ -108,8 +109,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ABF RID: 2751
-		// (get) Token: 0x060044A3 RID: 17571 RVA: 0x00241AE0 File Offset: 0x0023FEE0
 		public int ColonistCount
 		{
 			get
@@ -128,8 +127,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC0 RID: 2752
-		// (get) Token: 0x060044A4 RID: 17572 RVA: 0x00241B3C File Offset: 0x0023FF3C
 		public int AllPawnsCount
 		{
 			get
@@ -138,8 +135,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC1 RID: 2753
-		// (get) Token: 0x060044A5 RID: 17573 RVA: 0x00241B5C File Offset: 0x0023FF5C
 		public int AllPawnsUnspawnedCount
 		{
 			get
@@ -148,8 +143,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC2 RID: 2754
-		// (get) Token: 0x060044A6 RID: 17574 RVA: 0x00241B7C File Offset: 0x0023FF7C
 		public int FreeColonistsCount
 		{
 			get
@@ -158,8 +151,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC3 RID: 2755
-		// (get) Token: 0x060044A7 RID: 17575 RVA: 0x00241B9C File Offset: 0x0023FF9C
 		public int PrisonersOfColonyCount
 		{
 			get
@@ -168,8 +159,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC4 RID: 2756
-		// (get) Token: 0x060044A8 RID: 17576 RVA: 0x00241BBC File Offset: 0x0023FFBC
 		public int FreeColonistsAndPrisonersCount
 		{
 			get
@@ -178,8 +167,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC5 RID: 2757
-		// (get) Token: 0x060044A9 RID: 17577 RVA: 0x00241BDC File Offset: 0x0023FFDC
 		public bool AnyPawnBlockingMapRemoval
 		{
 			get
@@ -240,8 +227,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC6 RID: 2758
-		// (get) Token: 0x060044AA RID: 17578 RVA: 0x00241E28 File Offset: 0x00240228
 		public List<Pawn> AllPawnsSpawned
 		{
 			get
@@ -250,8 +235,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC7 RID: 2759
-		// (get) Token: 0x060044AB RID: 17579 RVA: 0x00241E44 File Offset: 0x00240244
 		public IEnumerable<Pawn> FreeColonistsSpawned
 		{
 			get
@@ -260,8 +243,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC8 RID: 2760
-		// (get) Token: 0x060044AC RID: 17580 RVA: 0x00241E64 File Offset: 0x00240264
 		public List<Pawn> PrisonersOfColonySpawned
 		{
 			get
@@ -270,8 +251,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AC9 RID: 2761
-		// (get) Token: 0x060044AD RID: 17581 RVA: 0x00241E80 File Offset: 0x00240280
 		public IEnumerable<Pawn> FreeColonistsAndPrisonersSpawned
 		{
 			get
@@ -280,8 +259,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ACA RID: 2762
-		// (get) Token: 0x060044AE RID: 17582 RVA: 0x00241EA8 File Offset: 0x002402A8
 		public int AllPawnsSpawnedCount
 		{
 			get
@@ -290,8 +267,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ACB RID: 2763
-		// (get) Token: 0x060044AF RID: 17583 RVA: 0x00241EC8 File Offset: 0x002402C8
 		public int FreeColonistsSpawnedCount
 		{
 			get
@@ -300,8 +275,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ACC RID: 2764
-		// (get) Token: 0x060044B0 RID: 17584 RVA: 0x00241EE8 File Offset: 0x002402E8
 		public int PrisonersOfColonySpawnedCount
 		{
 			get
@@ -310,8 +283,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ACD RID: 2765
-		// (get) Token: 0x060044B1 RID: 17585 RVA: 0x00241F08 File Offset: 0x00240308
 		public int FreeColonistsAndPrisonersSpawnedCount
 		{
 			get
@@ -320,8 +291,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ACE RID: 2766
-		// (get) Token: 0x060044B2 RID: 17586 RVA: 0x00241F28 File Offset: 0x00240328
 		public int ColonistsSpawnedCount
 		{
 			get
@@ -339,8 +308,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ACF RID: 2767
-		// (get) Token: 0x060044B3 RID: 17587 RVA: 0x00241F80 File Offset: 0x00240380
 		public int FreeColonistsSpawnedOrInPlayerEjectablePodsCount
 		{
 			get
@@ -377,8 +344,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD0 RID: 2768
-		// (get) Token: 0x060044B4 RID: 17588 RVA: 0x002420F0 File Offset: 0x002404F0
 		public bool AnyColonistSpawned
 		{
 			get
@@ -395,8 +360,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD1 RID: 2769
-		// (get) Token: 0x060044B5 RID: 17589 RVA: 0x00242144 File Offset: 0x00240544
 		public bool AnyFreeColonistSpawned
 		{
 			get
@@ -413,7 +376,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044B6 RID: 17590 RVA: 0x00242198 File Offset: 0x00240598
 		private void EnsureFactionsListsInit()
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -426,7 +388,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044B7 RID: 17591 RVA: 0x002421F8 File Offset: 0x002405F8
 		public IEnumerable<Pawn> PawnsInFaction(Faction faction)
 		{
 			IEnumerable<Pawn> result;
@@ -444,7 +405,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060044B8 RID: 17592 RVA: 0x00242254 File Offset: 0x00240654
 		public List<Pawn> SpawnedPawnsInFaction(Faction faction)
 		{
 			this.EnsureFactionsListsInit();
@@ -461,7 +421,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060044B9 RID: 17593 RVA: 0x00242298 File Offset: 0x00240698
 		public IEnumerable<Pawn> FreeHumanlikesOfFaction(Faction faction)
 		{
 			return from p in this.PawnsInFaction(faction)
@@ -469,7 +428,6 @@ namespace Verse
 			select p;
 		}
 
-		// Token: 0x060044BA RID: 17594 RVA: 0x002422D8 File Offset: 0x002406D8
 		public IEnumerable<Pawn> FreeHumanlikesSpawnedOfFaction(Faction faction)
 		{
 			return from p in this.SpawnedPawnsInFaction(faction)
@@ -477,7 +435,6 @@ namespace Verse
 			select p;
 		}
 
-		// Token: 0x060044BB RID: 17595 RVA: 0x00242318 File Offset: 0x00240718
 		public void RegisterPawn(Pawn p)
 		{
 			if (p.Dead)
@@ -540,7 +497,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044BC RID: 17596 RVA: 0x002424D0 File Offset: 0x002408D0
 		public void DeRegisterPawn(Pawn p)
 		{
 			this.EnsureFactionsListsInit();
@@ -555,7 +511,6 @@ namespace Verse
 			this.DoListChangedNotifications();
 		}
 
-		// Token: 0x060044BD RID: 17597 RVA: 0x00242543 File Offset: 0x00240943
 		public void UpdateRegistryForPawn(Pawn p)
 		{
 			this.DeRegisterPawn(p);
@@ -566,7 +521,6 @@ namespace Verse
 			this.DoListChangedNotifications();
 		}
 
-		// Token: 0x060044BE RID: 17598 RVA: 0x00242576 File Offset: 0x00240976
 		private void DoListChangedNotifications()
 		{
 			MainTabWindowUtility.NotifyAllPawnTables_PawnsChanged();
@@ -576,7 +530,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044BF RID: 17599 RVA: 0x00242594 File Offset: 0x00240994
 		public void LogListedPawns()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -605,6 +558,307 @@ namespace Verse
 				stringBuilder.AppendLine("    " + pawn4.ToString());
 			}
 			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		[CompilerGenerated]
+		private static bool <get_PrisonersOfColony>m__0(Pawn x)
+		{
+			return x.IsPrisonerOfColony;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_ColonistCount>m__1(Pawn x)
+		{
+			return x.IsColonist;
+		}
+
+		[CompilerGenerated]
+		private static bool <FreeHumanlikesOfFaction>m__2(Pawn p)
+		{
+			return p.HostFaction == null && p.RaceProps.Humanlike;
+		}
+
+		[CompilerGenerated]
+		private static bool <FreeHumanlikesSpawnedOfFaction>m__3(Pawn p)
+		{
+			return p.HostFaction == null && p.RaceProps.Humanlike;
+		}
+
+		[CompilerGenerated]
+		private static int <RegisterPawn>m__4(Pawn a, Pawn b)
+		{
+			int num = (a.playerSettings == null) ? 0 : a.playerSettings.joinTick;
+			int value = (b.playerSettings == null) ? 0 : b.playerSettings.joinTick;
+			return num.CompareTo(value);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal int <i>__1;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__2;
+
+			internal MapPawns $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				case 2u:
+					Block_4:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				if (i >= this.pawnsSpawned.Count)
+				{
+					enumerator = base.AllPawnsUnspawned.GetEnumerator();
+					num = 4294967293u;
+					goto Block_4;
+				}
+				this.$current = this.pawnsSpawned[i];
+				if (!this.$disposing)
+				{
+					this.$PC = 1;
+				}
+				return true;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MapPawns.<>c__Iterator0 <>c__Iterator = new MapPawns.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal int <i>__1;
+
+			internal MapPawns $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.tmpUnspawnedPawns.Clear();
+					ThingOwnerUtility.GetAllThingsRecursively<Pawn>(this.map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), this.tmpUnspawnedPawns, true, null, false);
+					for (int j = this.tmpUnspawnedPawns.Count - 1; j >= 0; j--)
+					{
+						if (this.tmpUnspawnedPawns[j].Dead)
+						{
+							this.tmpUnspawnedPawns.RemoveAt(j);
+						}
+					}
+					i = this.tmpUnspawnedPawns.Count - 1;
+					break;
+				case 1u:
+					i--;
+					break;
+				default:
+					return false;
+				}
+				if (i >= 0)
+				{
+					this.$current = this.tmpUnspawnedPawns[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MapPawns.<>c__Iterator1 <>c__Iterator = new MapPawns.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnsInFaction>c__AnonStorey2
+		{
+			internal Faction faction;
+
+			public <PawnsInFaction>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return x.Faction == this.faction;
+			}
 		}
 	}
 }

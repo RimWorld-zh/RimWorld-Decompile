@@ -1,47 +1,43 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EB RID: 747
 	public class TraitDef : Def
 	{
-		// Token: 0x040007F0 RID: 2032
 		public List<TraitDegreeData> degreeDatas = new List<TraitDegreeData>();
 
-		// Token: 0x040007F1 RID: 2033
 		public List<TraitDef> conflictingTraits = new List<TraitDef>();
 
-		// Token: 0x040007F2 RID: 2034
 		public List<WorkTypeDef> requiredWorkTypes = new List<WorkTypeDef>();
 
-		// Token: 0x040007F3 RID: 2035
 		public WorkTags requiredWorkTags;
 
-		// Token: 0x040007F4 RID: 2036
 		public List<WorkTypeDef> disabledWorkTypes = new List<WorkTypeDef>();
 
-		// Token: 0x040007F5 RID: 2037
 		public WorkTags disabledWorkTags;
 
-		// Token: 0x040007F6 RID: 2038
 		private float commonality = 1f;
 
-		// Token: 0x040007F7 RID: 2039
 		private float commonalityFemale = -1f;
 
-		// Token: 0x040007F8 RID: 2040
 		public bool allowOnHostileSpawn = true;
 
-		// Token: 0x06000C50 RID: 3152 RVA: 0x0006D4FC File Offset: 0x0006B8FC
+		public TraitDef()
+		{
+		}
+
 		public static TraitDef Named(string defName)
 		{
 			return DefDatabase<TraitDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C51 RID: 3153 RVA: 0x0006D518 File Offset: 0x0006B918
 		public TraitDegreeData DataAtDegree(int degree)
 		{
 			for (int i = 0; i < this.degreeDatas.Count; i++)
@@ -61,7 +57,6 @@ namespace RimWorld
 			return this.degreeDatas[0];
 		}
 
-		// Token: 0x06000C52 RID: 3154 RVA: 0x0006D5B4 File Offset: 0x0006B9B4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -89,7 +84,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C53 RID: 3155 RVA: 0x0006D5E0 File Offset: 0x0006B9E0
 		public bool ConflictsWith(Trait other)
 		{
 			if (other.def.conflictingTraits != null)
@@ -105,7 +99,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C54 RID: 3156 RVA: 0x0006D64C File Offset: 0x0006BA4C
 		public float GetGenderSpecificCommonality(Gender gender)
 		{
 			float result;
@@ -118,6 +111,215 @@ namespace RimWorld
 				result = this.commonality;
 			}
 			return result;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal int <i>__2;
+
+			internal TraitDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private TraitDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey1 $locvar1;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_11E;
+				case 3u:
+					goto IL_162;
+				case 4u:
+					IL_20C:
+					i++;
+					goto IL_21B;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.commonality < 0.001f && this.commonalityFemale < 0.001f)
+				{
+					this.$current = "TraitDef " + this.defName + " has 0 commonality.";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_11E:
+				if (!this.degreeDatas.Any<TraitDegreeData>())
+				{
+					this.$current = this.defName + " has no degree datas.";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_162:
+				i = 0;
+				IL_21B:
+				if (i >= this.degreeDatas.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					TraitDegreeData dd = this.degreeDatas[i];
+					if ((from dd2 in this.degreeDatas
+					where dd2.degree == dd.degree
+					select dd2).Count<TraitDegreeData>() > 1)
+					{
+						this.$current = ">1 datas for degree " + dd.degree;
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						return true;
+					}
+					goto IL_20C;
+				}
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TraitDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new TraitDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+
+			private sealed class <ConfigErrors>c__AnonStorey1
+			{
+				internal TraitDegreeData dd;
+
+				internal TraitDef.<ConfigErrors>c__Iterator0 <>f__ref$0;
+
+				public <ConfigErrors>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(TraitDegreeData dd2)
+				{
+					return dd2.degree == this.dd.degree;
+				}
+			}
 		}
 	}
 }

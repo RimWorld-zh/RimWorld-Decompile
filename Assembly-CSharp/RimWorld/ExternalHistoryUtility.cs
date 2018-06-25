@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F9 RID: 761
 	public static class ExternalHistoryUtility
 	{
-		// Token: 0x04000849 RID: 2121
 		private static List<FileInfo> cachedFiles;
 
-		// Token: 0x0400084A RID: 2122
 		private static int gameplayIDLength = 20;
 
-		// Token: 0x0400084B RID: 2123
 		private static string gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-		// Token: 0x06000CAA RID: 3242 RVA: 0x0006F994 File Offset: 0x0006DD94
 		static ExternalHistoryUtility()
 		{
 			try
@@ -32,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001ED RID: 493
-		// (get) Token: 0x06000CAB RID: 3243 RVA: 0x0006F9F8 File Offset: 0x0006DDF8
 		public static IEnumerable<FileInfo> Files
 		{
 			get
@@ -46,7 +43,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CAC RID: 3244 RVA: 0x0006FA1C File Offset: 0x0006DE1C
 		public static ExternalHistory Load(string path)
 		{
 			ExternalHistory result = null;
@@ -73,7 +69,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000CAD RID: 3245 RVA: 0x0006FABC File Offset: 0x0006DEBC
 		public static string GetRandomGameplayID()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -85,7 +80,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06000CAE RID: 3246 RVA: 0x0006FB18 File Offset: 0x0006DF18
 		public static bool IsValidGameplayID(string ID)
 		{
 			bool result;
@@ -116,16 +110,106 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000CAF RID: 3247 RVA: 0x0006FBB4 File Offset: 0x0006DFB4
 		public static string GetCurrentUploadDate()
 		{
 			return DateTime.UtcNow.ToString("yyMMdd");
 		}
 
-		// Token: 0x06000CB0 RID: 3248 RVA: 0x0006FBDC File Offset: 0x0006DFDC
 		public static int GetCurrentUploadTime()
 		{
 			return (int)(DateTime.UtcNow.TimeOfDay.TotalSeconds / 2.0);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<FileInfo>, IEnumerator, IDisposable, IEnumerator<FileInfo>
+		{
+			internal int <i>__1;
+
+			internal FileInfo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < ExternalHistoryUtility.cachedFiles.Count)
+				{
+					this.$current = ExternalHistoryUtility.cachedFiles[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FileInfo IEnumerator<FileInfo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.IO.FileInfo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FileInfo> IEnumerable<FileInfo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ExternalHistoryUtility.<>c__Iterator0();
+			}
 		}
 	}
 }

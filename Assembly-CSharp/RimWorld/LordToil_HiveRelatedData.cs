@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000192 RID: 402
 	public class LordToil_HiveRelatedData : LordToilData
 	{
-		// Token: 0x04000388 RID: 904
 		public Dictionary<Pawn, Hive> assignedHives = new Dictionary<Pawn, Hive>();
 
-		// Token: 0x06000854 RID: 2132 RVA: 0x0004FC34 File Offset: 0x0004E034
+		[CompilerGenerated]
+		private static Predicate<KeyValuePair<Pawn, Hive>> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<KeyValuePair<Pawn, Hive>> <>f__am$cache1;
+
+		public LordToil_HiveRelatedData()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -23,6 +31,18 @@ namespace RimWorld
 			{
 				this.assignedHives.RemoveAll((KeyValuePair<Pawn, Hive> x) => x.Value == null);
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(KeyValuePair<Pawn, Hive> x)
+		{
+			return x.Key.Destroyed;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__1(KeyValuePair<Pawn, Hive> x)
+		{
+			return x.Value == null;
 		}
 	}
 }

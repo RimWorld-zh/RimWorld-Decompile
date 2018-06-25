@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000BE2 RID: 3042
 	public static class StartingPawnUtility
 	{
-		// Token: 0x17000A6F RID: 2671
-		// (get) Token: 0x0600425F RID: 16991 RVA: 0x0022EE0C File Offset: 0x0022D20C
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
 		private static List<Pawn> StartingAndOptionalPawns
 		{
 			get
@@ -19,7 +23,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004260 RID: 16992 RVA: 0x0022EE2C File Offset: 0x0022D22C
 		public static void ClearAllStartingPawns()
 		{
 			for (int i = StartingPawnUtility.StartingAndOptionalPawns.Count - 1; i >= 0; i--)
@@ -35,14 +38,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004261 RID: 16993 RVA: 0x0022EEBC File Offset: 0x0022D2BC
 		public static Pawn RandomizeInPlace(Pawn p)
 		{
 			int index = StartingPawnUtility.StartingAndOptionalPawns.IndexOf(p);
 			return StartingPawnUtility.RegenerateStartingPawnInPlace(index);
 		}
 
-		// Token: 0x06004262 RID: 16994 RVA: 0x0022EEE8 File Offset: 0x0022D2E8
 		private static Pawn RegenerateStartingPawnInPlace(int index)
 		{
 			Pawn pawn = StartingPawnUtility.StartingAndOptionalPawns[index];
@@ -63,7 +64,6 @@ namespace Verse
 			return pawn2;
 		}
 
-		// Token: 0x06004263 RID: 16995 RVA: 0x0022EF88 File Offset: 0x0022D388
 		public static Pawn NewGeneratedStartingPawn()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, TutorSystem.TutorialMode, 20f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
@@ -82,7 +82,6 @@ namespace Verse
 			return pawn;
 		}
 
-		// Token: 0x06004264 RID: 16996 RVA: 0x0022F058 File Offset: 0x0022D458
 		public static bool WorkTypeRequirementsSatisfied()
 		{
 			bool result;
@@ -125,7 +124,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004265 RID: 16997 RVA: 0x0022F164 File Offset: 0x0022D564
 		public static IEnumerable<WorkTypeDef> RequiredWorkTypesDisabledForEveryone()
 		{
 			List<WorkTypeDef> workTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
@@ -151,6 +149,138 @@ namespace Verse
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static bool <WorkTypeRequirementsSatisfied>m__0(Pawn p)
+		{
+			return p.story.WorkTagIsDisabled(WorkTags.Violent);
+		}
+
+		[CompilerGenerated]
+		private sealed class <RequiredWorkTypesDisabledForEveryone>c__Iterator0 : IEnumerable, IEnumerable<WorkTypeDef>, IEnumerator, IDisposable, IEnumerator<WorkTypeDef>
+		{
+			internal List<WorkTypeDef> <workTypes>__0;
+
+			internal int <i>__1;
+
+			internal WorkTypeDef <wt>__2;
+
+			internal bool <oneCanDoWt>__2;
+
+			internal List<Pawn> <startingPawns>__2;
+
+			internal WorkTypeDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RequiredWorkTypesDisabledForEveryone>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					workTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+					i = 0;
+					goto IL_FD;
+				case 1u:
+					IL_EE:
+					break;
+				default:
+					return false;
+				}
+				IL_EF:
+				i++;
+				IL_FD:
+				if (i >= workTypes.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					wt = workTypes[i];
+					if (!wt.requireCapableColonist)
+					{
+						goto IL_EF;
+					}
+					oneCanDoWt = false;
+					startingPawns = StartingPawnUtility.StartingAndOptionalPawns;
+					for (int j = 0; j < Find.GameInitData.startingPawnCount; j++)
+					{
+						if (!startingPawns[j].story.WorkTypeIsDisabled(wt))
+						{
+							oneCanDoWt = true;
+							break;
+						}
+					}
+					if (!oneCanDoWt)
+					{
+						this.$current = wt;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_EE;
+				}
+				return false;
+			}
+
+			WorkTypeDef IEnumerator<WorkTypeDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.WorkTypeDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<WorkTypeDef> IEnumerable<WorkTypeDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new StartingPawnUtility.<RequiredWorkTypesDisabledForEveryone>c__Iterator0();
+			}
 		}
 	}
 }

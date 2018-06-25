@@ -4,32 +4,23 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C23 RID: 3107
 	public sealed class ExitMapGrid : ICellBoolGiver
 	{
-		// Token: 0x04002E66 RID: 11878
 		private Map map;
 
-		// Token: 0x04002E67 RID: 11879
 		private bool dirty = true;
 
-		// Token: 0x04002E68 RID: 11880
 		private BoolGrid exitMapGrid;
 
-		// Token: 0x04002E69 RID: 11881
 		private CellBoolDrawer drawerInt;
 
-		// Token: 0x04002E6A RID: 11882
 		private const int MaxDistToEdge = 2;
 
-		// Token: 0x060043FC RID: 17404 RVA: 0x0023DCC4 File Offset: 0x0023C0C4
 		public ExitMapGrid(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AAA RID: 2730
-		// (get) Token: 0x060043FD RID: 17405 RVA: 0x0023DCDC File Offset: 0x0023C0DC
 		public bool MapUsesExitGrid
 		{
 			get
@@ -56,8 +47,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAB RID: 2731
-		// (get) Token: 0x060043FE RID: 17406 RVA: 0x0023DD6C File Offset: 0x0023C16C
 		public CellBoolDrawer Drawer
 		{
 			get
@@ -83,8 +72,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAC RID: 2732
-		// (get) Token: 0x060043FF RID: 17407 RVA: 0x0023DDEC File Offset: 0x0023C1EC
 		public BoolGrid Grid
 		{
 			get
@@ -106,8 +93,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAD RID: 2733
-		// (get) Token: 0x06004400 RID: 17408 RVA: 0x0023DE2C File Offset: 0x0023C22C
 		public Color Color
 		{
 			get
@@ -116,25 +101,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004401 RID: 17409 RVA: 0x0023DE5C File Offset: 0x0023C25C
 		public bool GetCellBool(int index)
 		{
 			return this.Grid[index] && !this.map.fogGrid.IsFogged(index);
 		}
 
-		// Token: 0x06004402 RID: 17410 RVA: 0x0023DE9C File Offset: 0x0023C29C
 		public Color GetCellExtraColor(int index)
 		{
 			return Color.white;
 		}
 
-		// Token: 0x06004403 RID: 17411 RVA: 0x0023DEB8 File Offset: 0x0023C2B8
 		public bool IsExitCell(IntVec3 c)
 		{
 			return this.MapUsesExitGrid && this.Grid[c];
 		}
 
-		// Token: 0x06004404 RID: 17412 RVA: 0x0023DEEB File Offset: 0x0023C2EB
 		public void ExitMapGridUpdate()
 		{
 			if (this.MapUsesExitGrid)
@@ -144,19 +125,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004405 RID: 17413 RVA: 0x0023DF14 File Offset: 0x0023C314
 		public void Notify_LOSBlockerSpawned()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06004406 RID: 17414 RVA: 0x0023DF1E File Offset: 0x0023C31E
 		public void Notify_LOSBlockerDespawned()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06004407 RID: 17415 RVA: 0x0023DF28 File Offset: 0x0023C328
 		private void Rebuild()
 		{
 			this.dirty = false;
@@ -190,7 +168,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004408 RID: 17416 RVA: 0x0023E02C File Offset: 0x0023C42C
 		private bool IsGoodExitCell(IntVec3 cell)
 		{
 			bool result;

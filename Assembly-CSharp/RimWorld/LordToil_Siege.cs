@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -8,46 +12,41 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200019A RID: 410
 	public class LordToil_Siege : LordToil
 	{
-		// Token: 0x0400038E RID: 910
 		public Dictionary<Pawn, DutyDef> rememberedDuties = new Dictionary<Pawn, DutyDef>();
 
-		// Token: 0x0400038F RID: 911
 		private const float BaseRadiusMin = 14f;
 
-		// Token: 0x04000390 RID: 912
 		private const float BaseRadiusMax = 25f;
 
-		// Token: 0x04000391 RID: 913
 		private static readonly FloatRange MealCountRangePerRaider = new FloatRange(1f, 3f);
 
-		// Token: 0x04000392 RID: 914
 		private const int StartBuildingDelay = 450;
 
-		// Token: 0x04000393 RID: 915
 		private static readonly FloatRange BuilderCountFraction = new FloatRange(0.25f, 0.4f);
 
-		// Token: 0x04000394 RID: 916
 		private const float FractionLossesToAssault = 0.4f;
 
-		// Token: 0x04000395 RID: 917
 		private const int InitalShellsPerCannon = 5;
 
-		// Token: 0x04000396 RID: 918
 		private const int ReplenishAtShells = 4;
 
-		// Token: 0x04000397 RID: 919
 		private const int ShellReplenishCount = 10;
 
-		// Token: 0x04000398 RID: 920
 		private const int ReplenishAtMeals = 5;
 
-		// Token: 0x04000399 RID: 921
 		private const int MealReplenishCount = 12;
 
-		// Token: 0x06000876 RID: 2166 RVA: 0x00050687 File Offset: 0x0004EA87
+		[CompilerGenerated]
+		private static Func<Frame, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Blueprint, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<Blueprint> <>f__am$cache2;
+
 		public LordToil_Siege(IntVec3 siegeCenter, float blueprintPoints)
 		{
 			this.data = new LordToilData_Siege();
@@ -55,8 +54,6 @@ namespace RimWorld
 			this.Data.blueprintPoints = blueprintPoints;
 		}
 
-		// Token: 0x1700015E RID: 350
-		// (get) Token: 0x06000877 RID: 2167 RVA: 0x000506C0 File Offset: 0x0004EAC0
 		public override IntVec3 FlagLoc
 		{
 			get
@@ -65,8 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700015F RID: 351
-		// (get) Token: 0x06000878 RID: 2168 RVA: 0x000506E0 File Offset: 0x0004EAE0
 		private LordToilData_Siege Data
 		{
 			get
@@ -75,8 +70,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000160 RID: 352
-		// (get) Token: 0x06000879 RID: 2169 RVA: 0x00050700 File Offset: 0x0004EB00
 		private IEnumerable<Frame> Frames
 		{
 			get
@@ -100,8 +93,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000161 RID: 353
-		// (get) Token: 0x0600087A RID: 2170 RVA: 0x0005072C File Offset: 0x0004EB2C
 		public override bool ForceHighStoryDanger
 		{
 			get
@@ -110,7 +101,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600087B RID: 2171 RVA: 0x00050744 File Offset: 0x0004EB44
 		public override void Init()
 		{
 			base.Init();
@@ -192,7 +182,6 @@ namespace RimWorld
 			data.desiredBuilderFraction = LordToil_Siege.BuilderCountFraction.RandomInRange;
 		}
 
-		// Token: 0x0600087C RID: 2172 RVA: 0x00050B5C File Offset: 0x0004EF5C
 		public override void UpdateAllDuties()
 		{
 			LordToilData_Siege data = this.Data;
@@ -258,14 +247,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600087D RID: 2173 RVA: 0x00050DAE File Offset: 0x0004F1AE
 		public override void Notify_PawnLost(Pawn victim, PawnLostCondition cond)
 		{
 			this.UpdateAllDuties();
 			base.Notify_PawnLost(victim, cond);
 		}
 
-		// Token: 0x0600087E RID: 2174 RVA: 0x00050DBF File Offset: 0x0004F1BF
 		public override void Notify_ConstructionFailed(Pawn pawn, Frame frame, Blueprint_Build newBlueprint)
 		{
 			base.Notify_ConstructionFailed(pawn, frame, newBlueprint);
@@ -275,13 +262,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600087F RID: 2175 RVA: 0x00050DF8 File Offset: 0x0004F1F8
 		private bool CanBeBuilder(Pawn p)
 		{
 			return !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter);
 		}
 
-		// Token: 0x06000880 RID: 2176 RVA: 0x00050E40 File Offset: 0x0004F240
 		private void SetAsBuilder(Pawn p)
 		{
 			LordToilData_Siege data = this.Data;
@@ -305,7 +290,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000881 RID: 2177 RVA: 0x00050F20 File Offset: 0x0004F320
 		private void SetAsDefender(Pawn p)
 		{
 			LordToilData_Siege data = this.Data;
@@ -313,7 +297,6 @@ namespace RimWorld
 			p.mindState.duty.radius = data.baseRadius;
 		}
 
-		// Token: 0x06000882 RID: 2178 RVA: 0x00050F70 File Offset: 0x0004F370
 		public override void LordToilTick()
 		{
 			base.LordToilTick();
@@ -386,7 +369,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000883 RID: 2179 RVA: 0x000511DC File Offset: 0x0004F5DC
 		private void DropSupplies(ThingDef thingDef, int count)
 		{
 			List<Thing> list = new List<Thing>();
@@ -396,7 +378,6 @@ namespace RimWorld
 			DropPodUtility.DropThingsNear(this.Data.siegeCenter, base.Map, list, 110, false, false, true, false);
 		}
 
-		// Token: 0x06000884 RID: 2180 RVA: 0x00051224 File Offset: 0x0004F624
 		public override void Cleanup()
 		{
 			LordToilData_Siege data = this.Data;
@@ -408,6 +389,192 @@ namespace RimWorld
 			foreach (Frame frame in this.Frames.ToList<Frame>())
 			{
 				frame.Destroy(DestroyMode.Cancel);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static LordToil_Siege()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <LordToilTick>m__0(Frame frame)
+		{
+			return !frame.Destroyed;
+		}
+
+		[CompilerGenerated]
+		private static bool <LordToilTick>m__1(Blueprint blue)
+		{
+			return !blue.Destroyed;
+		}
+
+		[CompilerGenerated]
+		private bool <LordToilTick>m__2(Thing b)
+		{
+			return b.Faction == this.lord.faction && b.def.building.buildingTags.Contains("Artillery");
+		}
+
+		[CompilerGenerated]
+		private static bool <Cleanup>m__3(Blueprint blue)
+		{
+			return blue.Destroyed;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Frame>, IEnumerator, IDisposable, IEnumerator<Frame>
+		{
+			internal LordToilData_Siege <data>__0;
+
+			internal float <radSquared>__0;
+
+			internal List<Thing> <framesList>__0;
+
+			internal int <i>__1;
+
+			internal Frame <frame>__2;
+
+			internal LordToil_Siege $this;
+
+			internal Frame $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					data = base.Data;
+					radSquared = (data.baseRadius + 10f) * (data.baseRadius + 10f);
+					framesList = base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame);
+					if (framesList.Count == 0)
+					{
+						return false;
+					}
+					i = 0;
+					break;
+				case 1u:
+					IL_126:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= framesList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					frame = (Frame)framesList[i];
+					if (frame.Faction == this.lord.faction && (float)(frame.Position - data.siegeCenter).LengthHorizontalSquared < radSquared)
+					{
+						this.$current = frame;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_126;
+				}
+				return false;
+			}
+
+			Frame IEnumerator<Frame>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Frame>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Frame> IEnumerable<Frame>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				LordToil_Siege.<>c__Iterator0 <>c__Iterator = new LordToil_Siege.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Init>c__AnonStorey1
+		{
+			internal ThingDefCountClass cost;
+
+			public <Init>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return t.def == this.cost.thingDef;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <UpdateAllDuties>c__AnonStorey2
+		{
+			internal LordToilData_Siege data;
+
+			internal LordToil_Siege $this;
+
+			public <UpdateAllDuties>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Thing b)
+			{
+				return b.def.hasInteractionCell && b.Faction == this.$this.lord.faction && b.Position.InHorDistOf(this.$this.FlagLoc, this.data.baseRadius);
+			}
+
+			internal bool <>m__1(Pawn pa)
+			{
+				return !this.$this.rememberedDuties.ContainsKey(pa) && this.$this.CanBeBuilder(pa);
 			}
 		}
 	}

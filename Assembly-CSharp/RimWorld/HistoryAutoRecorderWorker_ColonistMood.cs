@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002FD RID: 765
 	public class HistoryAutoRecorderWorker_ColonistMood : HistoryAutoRecorderWorker
 	{
-		// Token: 0x06000CBF RID: 3263 RVA: 0x00070424 File Offset: 0x0006E824
+		[CompilerGenerated]
+		private static Func<Pawn, float> <>f__am$cache0;
+
+		public HistoryAutoRecorderWorker_ColonistMood()
+		{
+		}
+
 		public override float PullRecord()
 		{
 			IEnumerable<Pawn> allMaps_FreeColonists = PawnsFinder.AllMaps_FreeColonists;
@@ -22,6 +28,12 @@ namespace RimWorld
 				result = allMaps_FreeColonists.Average((Pawn x) => x.needs.mood.CurLevel * 100f);
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static float <PullRecord>m__0(Pawn x)
+		{
+			return x.needs.mood.CurLevel * 100f;
 		}
 	}
 }

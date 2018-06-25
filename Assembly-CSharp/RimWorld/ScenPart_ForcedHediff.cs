@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000632 RID: 1586
 	public class ScenPart_ForcedHediff : ScenPart_PawnModifier
 	{
-		// Token: 0x040012C1 RID: 4801
 		private HediffDef hediff;
 
-		// Token: 0x040012C2 RID: 4802
 		private FloatRange severityRange;
 
-		// Token: 0x170004E4 RID: 1252
-		// (get) Token: 0x060020AD RID: 8365 RVA: 0x00118190 File Offset: 0x00116590
+		[CompilerGenerated]
+		private static Func<HediffDef, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<HediffDef, bool> <>f__am$cache1;
+
+		public ScenPart_ForcedHediff()
+		{
+		}
+
 		private float MaxSeverity
 		{
 			get
@@ -25,7 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020AE RID: 8366 RVA: 0x001181D8 File Offset: 0x001165D8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f + 31f);
@@ -48,7 +53,6 @@ namespace RimWorld
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels(ScenPart.RowHeight * 2f));
 		}
 
-		// Token: 0x060020AF RID: 8367 RVA: 0x001182C4 File Offset: 0x001166C4
 		private IEnumerable<HediffDef> PossibleHediffs()
 		{
 			return from x in DefDatabase<HediffDef>.AllDefsListForReading
@@ -56,7 +60,6 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x060020B0 RID: 8368 RVA: 0x00118300 File Offset: 0x00116700
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -64,7 +67,6 @@ namespace RimWorld
 			Scribe_Values.Look<FloatRange>(ref this.severityRange, "severityRange", default(FloatRange), false);
 		}
 
-		// Token: 0x060020B1 RID: 8369 RVA: 0x00118340 File Offset: 0x00116740
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_PawnsHaveHediff".Translate(new object[]
@@ -75,7 +77,6 @@ namespace RimWorld
 			}).CapitalizeFirst();
 		}
 
-		// Token: 0x060020B2 RID: 8370 RVA: 0x00118394 File Offset: 0x00116794
 		public override void Randomize()
 		{
 			base.Randomize();
@@ -84,7 +85,6 @@ namespace RimWorld
 			this.severityRange.min = this.severityRange.max * Rand.Range(0f, 0.95f);
 		}
 
-		// Token: 0x060020B3 RID: 8371 RVA: 0x00118408 File Offset: 0x00116808
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ForcedHediff scenPart_ForcedHediff = other as ScenPart_ForcedHediff;
@@ -101,7 +101,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060020B4 RID: 8372 RVA: 0x0011845C File Offset: 0x0011685C
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			bool result;
@@ -127,24 +126,75 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060020B5 RID: 8373 RVA: 0x001184FE File Offset: 0x001168FE
 		protected override void ModifyNewPawn(Pawn p)
 		{
 			this.AddHediff(p);
 		}
 
-		// Token: 0x060020B6 RID: 8374 RVA: 0x00118508 File Offset: 0x00116908
 		protected override void ModifyHideOffMapStartingPawnPostMapGenerate(Pawn p)
 		{
 			this.AddHediff(p);
 		}
 
-		// Token: 0x060020B7 RID: 8375 RVA: 0x00118514 File Offset: 0x00116914
 		private void AddHediff(Pawn p)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediff, p, null);
 			hediff.Severity = this.severityRange.RandomInRange;
 			p.health.AddHediff(hediff, null, null, null);
+		}
+
+		[CompilerGenerated]
+		private static string <DoEditInterface>m__0(HediffDef hd)
+		{
+			return hd.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private Action <DoEditInterface>m__1(HediffDef hd)
+		{
+			return delegate()
+			{
+				this.hediff = hd;
+				if (this.severityRange.max > this.MaxSeverity)
+				{
+					this.severityRange.max = this.MaxSeverity;
+				}
+				if (this.severityRange.min > this.MaxSeverity)
+				{
+					this.severityRange.min = this.MaxSeverity;
+				}
+			};
+		}
+
+		[CompilerGenerated]
+		private static bool <PossibleHediffs>m__2(HediffDef x)
+		{
+			return x.scenarioCanAdd;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoEditInterface>c__AnonStorey0
+		{
+			internal HediffDef hd;
+
+			internal ScenPart_ForcedHediff $this;
+
+			public <DoEditInterface>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.hediff = this.hd;
+				if (this.$this.severityRange.max > this.$this.MaxSeverity)
+				{
+					this.$this.severityRange.max = this.$this.MaxSeverity;
+				}
+				if (this.$this.severityRange.min > this.$this.MaxSeverity)
+				{
+					this.$this.severityRange.min = this.$this.MaxSeverity;
+				}
+			}
 		}
 	}
 }

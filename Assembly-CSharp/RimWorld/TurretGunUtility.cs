@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000689 RID: 1673
 	public static class TurretGunUtility
 	{
-		// Token: 0x0600236B RID: 9067 RVA: 0x00130994 File Offset: 0x0012ED94
 		public static bool NeedsShells(ThingDef turret)
 		{
 			return turret.category == ThingCategory.Building && turret.building.IsTurret && turret.building.turretGunDef.HasComp(typeof(CompChangeableProjectile));
 		}
 
-		// Token: 0x0600236C RID: 9068 RVA: 0x001309E4 File Offset: 0x0012EDE4
 		public static ThingDef TryFindRandomShellDef(ThingDef turret, bool allowEMP = true, bool mustHarmHealth = true, TechLevel techLevel = TechLevel.Undefined, bool allowAntigrainWarhead = false, float maxMarketValue = -1f)
 		{
 			ThingDef result;
@@ -37,6 +35,31 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomShellDef>c__AnonStorey0
+		{
+			internal ThingFilter fixedFilter;
+
+			internal bool allowEMP;
+
+			internal bool mustHarmHealth;
+
+			internal TechLevel techLevel;
+
+			internal bool allowAntigrainWarhead;
+
+			internal float maxMarketValue;
+
+			public <TryFindRandomShellDef>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return this.fixedFilter.Allows(x) && (this.allowEMP || x.projectileWhenLoaded.projectile.damageDef != DamageDefOf.EMP) && (!this.mustHarmHealth || x.projectileWhenLoaded.projectile.damageDef.harmsHealth) && (this.techLevel == TechLevel.Undefined || x.techLevel <= this.techLevel) && (this.allowAntigrainWarhead || x != ThingDefOf.Shell_AntigrainWarhead) && (this.maxMarketValue < 0f || x.BaseMarketValue <= this.maxMarketValue);
+			}
 		}
 	}
 }

@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000379 RID: 889
 	public class StorytellerComp_ThreatCycle : StorytellerComp
 	{
-		// Token: 0x17000227 RID: 551
-		// (get) Token: 0x06000F53 RID: 3923 RVA: 0x00081B70 File Offset: 0x0007FF70
+		public StorytellerComp_ThreatCycle()
+		{
+		}
+
 		protected StorytellerCompProperties_ThreatCycle Props
 		{
 			get
@@ -18,8 +23,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000228 RID: 552
-		// (get) Token: 0x06000F54 RID: 3924 RVA: 0x00081B90 File Offset: 0x0007FF90
 		protected int QueueIntervalsPassed
 		{
 			get
@@ -28,7 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F55 RID: 3925 RVA: 0x00081BB8 File Offset: 0x0007FFB8
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			float curCycleDays = (GenDate.DaysPassedFloat - this.Props.minDaysPassed) % this.Props.ThreatCycleTotalDays;
@@ -58,7 +60,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F56 RID: 3926 RVA: 0x00081BEC File Offset: 0x0007FFEC
 		private FiringIncident GenerateQueuedThreatSmall(IIncidentTarget target)
 		{
 			IncidentDef incidentDef;
@@ -77,7 +78,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F57 RID: 3927 RVA: 0x00081C50 File Offset: 0x00080050
 		private FiringIncident GenerateQueuedThreatBig(IIncidentTarget target)
 		{
 			IncidentParms parms = this.GenerateParms(this.Props.threatBigCategory, target);
@@ -100,6 +100,157 @@ namespace RimWorld
 			{
 				parms = parms
 			};
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal float <curCycleDays>__0;
+
+			internal IIncidentTarget target;
+
+			internal float <daysSinceThreatBig>__1;
+
+			internal bool <mustThreat>__2;
+
+			internal FiringIncident <bt>__3;
+
+			internal FiringIncident <st>__4;
+
+			internal StorytellerComp_ThreatCycle $this;
+
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeIntervalIncidents>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					curCycleDays = (GenDate.DaysPassedFloat - base.Props.minDaysPassed) % base.Props.ThreatCycleTotalDays;
+					if (curCycleDays <= base.Props.threatOffDays)
+					{
+						goto IL_1D8;
+					}
+					daysSinceThreatBig = (float)(Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick) / 60000f;
+					if (daysSinceThreatBig > base.Props.minDaysBetweenThreatBigs)
+					{
+						bool mustThreat = daysSinceThreatBig > base.Props.ThreatCycleTotalDays * 0.9f && curCycleDays > base.Props.ThreatCycleTotalDays * 0.95f;
+						if (mustThreat || Rand.MTBEventOccurs(base.Props.mtbDaysThreatBig, 60000f, 1000f))
+						{
+							bt = base.GenerateQueuedThreatBig(target);
+							if (bt != null)
+							{
+								this.$current = bt;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								return true;
+							}
+						}
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_1D7;
+				default:
+					return false;
+				}
+				if (Rand.MTBEventOccurs(base.Props.mtbDaysThreatSmall, 60000f, 1000f))
+				{
+					st = base.GenerateQueuedThreatSmall(target);
+					if (st != null)
+					{
+						this.$current = st;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+				}
+				IL_1D7:
+				IL_1D8:
+				this.$PC = -1;
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__Iterator0 <MakeIntervalIncidents>c__Iterator = new StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__Iterator0();
+				<MakeIntervalIncidents>c__Iterator.$this = this;
+				<MakeIntervalIncidents>c__Iterator.target = target;
+				return <MakeIntervalIncidents>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateQueuedThreatBig>c__AnonStorey1
+		{
+			internal IncidentParms parms;
+
+			public <GenerateQueuedThreatBig>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IncidentDef def)
+			{
+				return this.parms.points >= def.minThreatPoints;
+			}
 		}
 	}
 }

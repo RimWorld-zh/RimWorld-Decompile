@@ -1,22 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000661 RID: 1633
 	public sealed class TaleManager : IExposable
 	{
-		// Token: 0x04001369 RID: 4969
 		private List<Tale> tales = new List<Tale>();
 
-		// Token: 0x0400136A RID: 4970
 		private const int MaxUnusedVolatileTales = 350;
 
-		// Token: 0x17000501 RID: 1281
-		// (get) Token: 0x0600221B RID: 8731 RVA: 0x00121BB8 File Offset: 0x0011FFB8
+		[CompilerGenerated]
+		private static Func<Tale, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Tale, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Tale, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Tale, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<Tale, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<Tale, bool> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<Tale, bool> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<Tale, bool> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<Tale, float> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<TaleDef, bool> <>f__am$cache9;
+
+		public TaleManager()
+		{
+		}
+
 		public List<Tale> AllTalesListForReading
 		{
 			get
@@ -25,26 +55,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600221C RID: 8732 RVA: 0x00121BD3 File Offset: 0x0011FFD3
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Tale>(ref this.tales, "tales", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600221D RID: 8733 RVA: 0x00121BED File Offset: 0x0011FFED
 		public void TaleManagerTick()
 		{
 			this.RemoveExpiredTales();
 		}
 
-		// Token: 0x0600221E RID: 8734 RVA: 0x00121BF6 File Offset: 0x0011FFF6
 		public void Add(Tale tale)
 		{
 			this.tales.Add(tale);
 			this.CheckCullTales(tale);
 		}
 
-		// Token: 0x0600221F RID: 8735 RVA: 0x00121C0C File Offset: 0x0012000C
 		private void RemoveTale(Tale tale)
 		{
 			if (!tale.Unused)
@@ -57,14 +83,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002220 RID: 8736 RVA: 0x00121C3E File Offset: 0x0012003E
 		private void CheckCullTales(Tale addedTale)
 		{
 			this.CheckCullUnusedVolatileTales();
 			this.CheckCullUnusedTalesWithMaxPerPawnLimit(addedTale);
 		}
 
-		// Token: 0x06002221 RID: 8737 RVA: 0x00121C50 File Offset: 0x00120050
 		private void CheckCullUnusedVolatileTales()
 		{
 			int i = 0;
@@ -92,7 +116,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002222 RID: 8738 RVA: 0x00121D68 File Offset: 0x00120168
 		private void CheckCullUnusedTalesWithMaxPerPawnLimit(Tale addedTale)
 		{
 			if (addedTale.def.maxPerPawn >= 0)
@@ -126,7 +149,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002223 RID: 8739 RVA: 0x00121EE4 File Offset: 0x001202E4
 		private void RemoveExpiredTales()
 		{
 			for (int i = this.tales.Count - 1; i >= 0; i--)
@@ -138,7 +160,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002224 RID: 8740 RVA: 0x00121F3C File Offset: 0x0012033C
 		public TaleReference GetRandomTaleReferenceForArt(ArtGenerationContext source)
 		{
 			TaleReference result;
@@ -169,7 +190,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002225 RID: 8741 RVA: 0x00122000 File Offset: 0x00120400
 		public TaleReference GetRandomTaleReferenceForArtConcerning(Thing th)
 		{
 			TaleReference result;
@@ -192,7 +212,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002226 RID: 8742 RVA: 0x00122094 File Offset: 0x00120494
 		public Tale GetLatestTale(TaleDef def, Pawn pawn)
 		{
 			Tale tale = null;
@@ -208,7 +227,6 @@ namespace RimWorld
 			return tale;
 		}
 
-		// Token: 0x06002227 RID: 8743 RVA: 0x00122138 File Offset: 0x00120538
 		public void Notify_PawnDestroyed(Pawn pawn)
 		{
 			for (int i = this.tales.Count - 1; i >= 0; i--)
@@ -229,7 +247,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002228 RID: 8744 RVA: 0x001221EC File Offset: 0x001205EC
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int i = this.tales.Count - 1; i >= 0; i--)
@@ -263,7 +280,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002229 RID: 8745 RVA: 0x001222E0 File Offset: 0x001206E0
 		public bool AnyActiveTaleConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.tales.Count; i++)
@@ -276,7 +292,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600222A RID: 8746 RVA: 0x00122348 File Offset: 0x00120748
 		public bool AnyTaleConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.tales.Count; i++)
@@ -289,7 +304,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600222B RID: 8747 RVA: 0x0012239C File Offset: 0x0012079C
 		public float GetMaxHistoricalTaleDay()
 		{
 			float num = 0f;
@@ -308,7 +322,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600222C RID: 8748 RVA: 0x00122418 File Offset: 0x00120818
 		public void LogTales()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -360,7 +373,6 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600222D RID: 8749 RVA: 0x00122720 File Offset: 0x00120B20
 		public void LogTaleInterestSummary()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -391,6 +403,143 @@ namespace RimWorld
 				}
 			}
 			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		[CompilerGenerated]
+		private static bool <GetRandomTaleReferenceForArt>m__0(Tale x)
+		{
+			return x.def.usableForArt;
+		}
+
+		[CompilerGenerated]
+		private static float <GetRandomTaleReferenceForArt>m__1(Tale ta)
+		{
+			return ta.InterestLevel;
+		}
+
+		[CompilerGenerated]
+		private static float <GetRandomTaleReferenceForArtConcerning>m__2(Tale x)
+		{
+			return x.InterestLevel;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogTales>m__3(Tale x)
+		{
+			return !x.Unused;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogTales>m__4(Tale x)
+		{
+			return x.def.type == TaleType.Volatile && x.Unused;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogTales>m__5(Tale x)
+		{
+			return x.def.type == TaleType.PermanentHistorical && x.Unused;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogTales>m__6(Tale x)
+		{
+			return x.def.type == TaleType.Expirable && x.Unused;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogTaleInterestSummary>m__7(Tale t)
+		{
+			return t.def.usableForArt;
+		}
+
+		[CompilerGenerated]
+		private static float <LogTaleInterestSummary>m__8(Tale t)
+		{
+			return t.InterestLevel;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogTaleInterestSummary>m__9(TaleDef def)
+		{
+			return def.usableForArt;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRandomTaleReferenceForArtConcerning>c__AnonStorey0
+		{
+			internal Thing th;
+
+			public <GetRandomTaleReferenceForArtConcerning>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Tale x)
+			{
+				return x.def.usableForArt && x.Concerns(this.th);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LogTaleInterestSummary>c__AnonStorey2
+		{
+			internal Func<TaleDef, float> defInterest;
+
+			internal TaleManager $this;
+
+			private static Func<Tale, float> <>f__am$cache0;
+
+			public <LogTaleInterestSummary>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(TaleDef def)
+			{
+				return (from t in this.$this.tales
+				where t.def == def
+				select t).Sum((Tale t) => t.InterestLevel);
+			}
+
+			internal float <>m__1(TaleDef def)
+			{
+				return this.defInterest(def);
+			}
+
+			private static float <>m__2(Tale t)
+			{
+				return t.InterestLevel;
+			}
+
+			private sealed class <LogTaleInterestSummary>c__AnonStorey1
+			{
+				internal TaleDef def;
+
+				internal TaleManager.<LogTaleInterestSummary>c__AnonStorey2 <>f__ref$2;
+
+				public <LogTaleInterestSummary>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(Tale t)
+				{
+					return t.def == this.def;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LogTaleInterestSummary>c__AnonStorey3
+		{
+			internal TaleDef def;
+
+			public <LogTaleInterestSummary>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Tale t)
+			{
+				return t.def == this.def;
+			}
 		}
 	}
 }

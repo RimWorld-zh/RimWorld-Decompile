@@ -3,13 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006EB RID: 1771
 	public class SmokepopBelt : Apparel
 	{
-		// Token: 0x0400157E RID: 5502
 		private float ApparelScorePerBeltRadius = 0.046f;
 
-		// Token: 0x06002693 RID: 9875 RVA: 0x0014A8B8 File Offset: 0x00148CB8
+		public SmokepopBelt()
+		{
+		}
+
 		public override bool CheckPreAbsorbDamage(DamageInfo dinfo)
 		{
 			if (!dinfo.Def.isExplosive && dinfo.Def.harmsHealth && dinfo.Def.externalViolence && dinfo.Weapon != null && dinfo.Weapon.IsRangedWeapon)
@@ -26,7 +27,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002694 RID: 9876 RVA: 0x0014A984 File Offset: 0x00148D84
 		public override float GetSpecialApparelScoreOffset()
 		{
 			return this.GetStatValue(StatDefOf.SmokepopBeltRadius, true) * this.ApparelScorePerBeltRadius;

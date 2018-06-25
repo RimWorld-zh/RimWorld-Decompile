@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003CE RID: 974
 	public class SymbolResolver_MannedMortar : SymbolResolver
 	{
-		// Token: 0x04000A3B RID: 2619
 		private const float MaxShellDefMarketValue = 250f;
 
-		// Token: 0x060010C5 RID: 4293 RVA: 0x0008EB38 File Offset: 0x0008CF38
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		public SymbolResolver_MannedMortar()
+		{
+		}
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -38,7 +43,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x060010C6 RID: 4294 RVA: 0x0008EBBC File Offset: 0x0008CFBC
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -97,7 +101,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010C7 RID: 4295 RVA: 0x0008EE1C File Offset: 0x0008D21C
 		private bool TryFindMortarSpawnCell(CellRect rect, Rot4 rot, ThingDef mortarDef, out IntVec3 cell)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -123,6 +126,76 @@ namespace RimWorld.BaseGen
 				CellRect obj = GenAdj.OccupiedRect(x, rot, mortarDef.size);
 				return ThingUtility.InteractionCellWhenAt(mortarDef, x, rot, map).Standable(map) && obj.FullyContainedWithin(rect) && edgeTouchCheck(obj);
 			}, out cell);
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(ThingDef x)
+		{
+			return x.category == ThingCategory.Building && x.building.IsMortar;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindMortarSpawnCell>c__AnonStorey0
+		{
+			internal CellRect rect;
+
+			internal Rot4 rot;
+
+			internal ThingDef mortarDef;
+
+			internal Map map;
+
+			internal Predicate<CellRect> edgeTouchCheck;
+
+			public <TryFindMortarSpawnCell>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(CellRect x)
+			{
+				return x.Cells.Any((IntVec3 y) => y.z == this.rect.maxZ);
+			}
+
+			internal bool <>m__1(CellRect x)
+			{
+				return x.Cells.Any((IntVec3 y) => y.z == this.rect.minZ);
+			}
+
+			internal bool <>m__2(CellRect x)
+			{
+				return x.Cells.Any((IntVec3 y) => y.x == this.rect.minX);
+			}
+
+			internal bool <>m__3(CellRect x)
+			{
+				return x.Cells.Any((IntVec3 y) => y.x == this.rect.maxX);
+			}
+
+			internal bool <>m__4(IntVec3 x)
+			{
+				CellRect obj = GenAdj.OccupiedRect(x, this.rot, this.mortarDef.size);
+				return ThingUtility.InteractionCellWhenAt(this.mortarDef, x, this.rot, this.map).Standable(this.map) && obj.FullyContainedWithin(this.rect) && this.edgeTouchCheck(obj);
+			}
+
+			internal bool <>m__5(IntVec3 y)
+			{
+				return y.z == this.rect.maxZ;
+			}
+
+			internal bool <>m__6(IntVec3 y)
+			{
+				return y.z == this.rect.minZ;
+			}
+
+			internal bool <>m__7(IntVec3 y)
+			{
+				return y.x == this.rect.minX;
+			}
+
+			internal bool <>m__8(IntVec3 y)
+			{
+				return y.x == this.rect.maxX;
+			}
 		}
 	}
 }

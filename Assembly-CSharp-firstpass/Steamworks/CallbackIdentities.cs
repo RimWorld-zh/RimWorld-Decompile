@@ -2,10 +2,12 @@
 
 namespace Steamworks
 {
-	// Token: 0x0200000C RID: 12
 	internal class CallbackIdentities
 	{
-		// Token: 0x06000034 RID: 52 RVA: 0x0000283C File Offset: 0x00000A3C
+		public CallbackIdentities()
+		{
+		}
+
 		public static int GetCallbackIdentity(Type callbackStruct)
 		{
 			object[] customAttributes = callbackStruct.GetCustomAttributes(typeof(CallbackIdentityAttribute), false);

@@ -1,40 +1,39 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000031 RID: 49
 	public abstract class JobDriver_GatherAnimalBodyResources : JobDriver
 	{
-		// Token: 0x040001B6 RID: 438
 		private float gatherProgress = 0f;
 
-		// Token: 0x040001B7 RID: 439
 		protected const TargetIndex AnimalInd = TargetIndex.A;
 
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x060001C0 RID: 448
+		protected JobDriver_GatherAnimalBodyResources()
+		{
+		}
+
 		protected abstract float WorkTotal { get; }
 
-		// Token: 0x060001C1 RID: 449
 		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
 
-		// Token: 0x060001C2 RID: 450 RVA: 0x00012FF1 File Offset: 0x000113F1
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.gatherProgress, "gatherProgress", 0f, false);
 		}
 
-		// Token: 0x060001C3 RID: 451 RVA: 0x00013010 File Offset: 0x00011410
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x060001C4 RID: 452 RVA: 0x00013048 File Offset: 0x00011448
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -88,6 +87,215 @@ namespace RimWorld
 			wait.activeSkill = (() => SkillDefOf.Animals);
 			yield return wait;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_GatherAnimalBodyResources $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			private static Func<SkillDef> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					this.FailOnDowned(TargetIndex.A);
+					this.FailOnNotCasualInterruptible(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					<MakeNewToils>c__AnonStorey.wait = new Toil();
+					<MakeNewToils>c__AnonStorey.wait.initAction = delegate()
+					{
+						Pawn actor = <MakeNewToils>c__AnonStorey.wait.actor;
+						Pawn pawn = (Pawn)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A).Thing;
+						actor.pather.StopDead();
+						PawnUtility.ForceWait(pawn, 15000, null, true);
+					};
+					<MakeNewToils>c__AnonStorey.wait.tickAction = delegate()
+					{
+						Pawn actor = <MakeNewToils>c__AnonStorey.wait.actor;
+						actor.skills.Learn(SkillDefOf.Animals, 0.142999992f, false);
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.gatherProgress += actor.GetStatValue(StatDefOf.AnimalGatherSpeed, true);
+						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.gatherProgress >= <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.WorkTotal)
+						{
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.GetComp((Pawn)((Thing)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A))).Gathered(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn);
+							actor.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+						}
+					};
+					<MakeNewToils>c__AnonStorey.wait.AddFinishAction(delegate
+					{
+						Pawn pawn = (Pawn)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A).Thing;
+						if (pawn != null && pawn.CurJobDef == JobDefOf.Wait_MaintainPosture)
+						{
+							pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						}
+					});
+					<MakeNewToils>c__AnonStorey.wait.FailOnDespawnedOrNull(TargetIndex.A);
+					<MakeNewToils>c__AnonStorey.wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					<MakeNewToils>c__AnonStorey.wait.AddEndCondition(delegate
+					{
+						JobCondition result;
+						if (!<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.GetComp((Pawn)((Thing)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A))).ActiveAndFull)
+						{
+							result = JobCondition.Incompletable;
+						}
+						else
+						{
+							result = JobCondition.Ongoing;
+						}
+						return result;
+					});
+					<MakeNewToils>c__AnonStorey.wait.defaultCompleteMode = ToilCompleteMode.Never;
+					<MakeNewToils>c__AnonStorey.wait.WithProgressBar(TargetIndex.A, () => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.gatherProgress / <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.WorkTotal, false, -0.5f);
+					<MakeNewToils>c__AnonStorey.wait.activeSkill = (() => SkillDefOf.Animals);
+					this.$current = <MakeNewToils>c__AnonStorey.wait;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private static SkillDef <>m__0()
+			{
+				return SkillDefOf.Animals;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil wait;
+
+				internal JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					Pawn actor = this.wait.actor;
+					Pawn pawn = (Pawn)this.<>f__ref$0.$this.job.GetTarget(TargetIndex.A).Thing;
+					actor.pather.StopDead();
+					PawnUtility.ForceWait(pawn, 15000, null, true);
+				}
+
+				internal void <>m__1()
+				{
+					Pawn actor = this.wait.actor;
+					actor.skills.Learn(SkillDefOf.Animals, 0.142999992f, false);
+					this.<>f__ref$0.$this.gatherProgress += actor.GetStatValue(StatDefOf.AnimalGatherSpeed, true);
+					if (this.<>f__ref$0.$this.gatherProgress >= this.<>f__ref$0.$this.WorkTotal)
+					{
+						this.<>f__ref$0.$this.GetComp((Pawn)((Thing)this.<>f__ref$0.$this.job.GetTarget(TargetIndex.A))).Gathered(this.<>f__ref$0.$this.pawn);
+						actor.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+					}
+				}
+
+				internal void <>m__2()
+				{
+					Pawn pawn = (Pawn)this.<>f__ref$0.$this.job.GetTarget(TargetIndex.A).Thing;
+					if (pawn != null && pawn.CurJobDef == JobDefOf.Wait_MaintainPosture)
+					{
+						pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
+				}
+
+				internal JobCondition <>m__3()
+				{
+					JobCondition result;
+					if (!this.<>f__ref$0.$this.GetComp((Pawn)((Thing)this.<>f__ref$0.$this.job.GetTarget(TargetIndex.A))).ActiveAndFull)
+					{
+						result = JobCondition.Incompletable;
+					}
+					else
+					{
+						result = JobCondition.Ongoing;
+					}
+					return result;
+				}
+
+				internal float <>m__4()
+				{
+					return this.<>f__ref$0.$this.gatherProgress / this.<>f__ref$0.$this.WorkTotal;
+				}
+			}
 		}
 	}
 }

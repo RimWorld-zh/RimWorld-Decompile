@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000F37 RID: 3895
 	public static class GenCollection
 	{
-		// Token: 0x06005DBA RID: 23994 RVA: 0x002FA414 File Offset: 0x002F8814
 		public static bool SharesElementWith<T>(this IEnumerable<T> source, IEnumerable<T> other)
 		{
 			return source.Any((T item) => other.Contains(item));
 		}
 
-		// Token: 0x06005DBB RID: 23995 RVA: 0x002FA448 File Offset: 0x002F8848
 		public static IEnumerable<T> InRandomOrder<T>(this IEnumerable<T> source, IList<T> workingList = null)
 		{
 			if (source == null)
@@ -47,7 +47,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005DBC RID: 23996 RVA: 0x002FA480 File Offset: 0x002F8880
 		public static T RandomElement<T>(this IEnumerable<T> source)
 		{
 			if (source == null)
@@ -72,7 +71,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DBD RID: 23997 RVA: 0x002FA4F4 File Offset: 0x002F88F4
 		public static T RandomElementWithFallback<T>(this IEnumerable<T> source, T fallback = default(T))
 		{
 			T t;
@@ -88,7 +86,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DBE RID: 23998 RVA: 0x002FA520 File Offset: 0x002F8920
 		public static bool TryRandomElement<T>(this IEnumerable<T> source, out T result)
 		{
 			if (source == null)
@@ -117,7 +114,6 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x06005DBF RID: 23999 RVA: 0x002FA5B4 File Offset: 0x002F89B4
 		public static T RandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector)
 		{
 			float num = 0f;
@@ -215,7 +211,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DC0 RID: 24000 RVA: 0x002FA888 File Offset: 0x002F8C88
 		public static T RandomElementByWeightWithFallback<T>(this IEnumerable<T> source, Func<T, float> weightSelector, T fallback = default(T))
 		{
 			T t;
@@ -231,7 +226,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DC1 RID: 24001 RVA: 0x002FA8B4 File Offset: 0x002F8CB4
 		public static bool TryRandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector, out T result)
 		{
 			IList<T> list = source as IList<T>;
@@ -332,7 +326,6 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06005DC2 RID: 24002 RVA: 0x002FAB78 File Offset: 0x002F8F78
 		public static T RandomElementByWeightWithDefault<T>(this IEnumerable<T> source, Func<T, float> weightSelector, float defaultValueWeight)
 		{
 			if (defaultValueWeight < 0f)
@@ -375,7 +368,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DC3 RID: 24003 RVA: 0x002FACB4 File Offset: 0x002F90B4
 		public static T FirstOrFallback<T>(this IEnumerable<T> source, T fallback = default(T))
 		{
 			using (IEnumerator<T> enumerator = source.GetEnumerator())
@@ -388,19 +380,16 @@ namespace Verse
 			return fallback;
 		}
 
-		// Token: 0x06005DC4 RID: 24004 RVA: 0x002FAD14 File Offset: 0x002F9114
 		public static T FirstOrFallback<T>(this IEnumerable<T> source, Func<T, bool> predicate, T fallback = default(T))
 		{
 			return source.Where(predicate).FirstOrFallback(fallback);
 		}
 
-		// Token: 0x06005DC5 RID: 24005 RVA: 0x002FAD38 File Offset: 0x002F9138
 		public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
 		{
 			return source.MaxBy(selector, Comparer<TKey>.Default);
 		}
 
-		// Token: 0x06005DC6 RID: 24006 RVA: 0x002FAD5C File Offset: 0x002F915C
 		public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
 		{
 			if (source == null)
@@ -439,13 +428,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DC7 RID: 24007 RVA: 0x002FAE2C File Offset: 0x002F922C
 		public static TSource MaxByWithFallback<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, TSource fallback = default(TSource))
 		{
 			return source.MaxByWithFallback(selector, Comparer<TKey>.Default, fallback);
 		}
 
-		// Token: 0x06005DC8 RID: 24008 RVA: 0x002FAE50 File Offset: 0x002F9250
 		public static TSource MaxByWithFallback<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer, TSource fallback = default(TSource))
 		{
 			if (source == null)
@@ -487,13 +474,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DC9 RID: 24009 RVA: 0x002FAF1C File Offset: 0x002F931C
 		public static bool TryMaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, out TSource value)
 		{
 			return source.TryMaxBy(selector, Comparer<TKey>.Default, out value);
 		}
 
-		// Token: 0x06005DCA RID: 24010 RVA: 0x002FAF40 File Offset: 0x002F9340
 		public static bool TryMaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer, out TSource value)
 		{
 			if (source == null)
@@ -537,13 +522,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DCB RID: 24011 RVA: 0x002FB024 File Offset: 0x002F9424
 		public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
 		{
 			return source.MinBy(selector, Comparer<TKey>.Default);
 		}
 
-		// Token: 0x06005DCC RID: 24012 RVA: 0x002FB048 File Offset: 0x002F9448
 		public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
 		{
 			if (source == null)
@@ -582,13 +565,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DCD RID: 24013 RVA: 0x002FB118 File Offset: 0x002F9518
 		public static bool TryMinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, out TSource value)
 		{
 			return source.TryMinBy(selector, Comparer<TKey>.Default, out value);
 		}
 
-		// Token: 0x06005DCE RID: 24014 RVA: 0x002FB13C File Offset: 0x002F953C
 		public static bool TryMinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer, out TSource value)
 		{
 			if (source == null)
@@ -632,7 +613,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DCF RID: 24015 RVA: 0x002FB220 File Offset: 0x002F9620
 		public static void SortBy<T, TSortBy>(this List<T> list, Func<T, TSortBy> selector) where TSortBy : IComparable<TSortBy>
 		{
 			if (list.Count > 1)
@@ -645,7 +625,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DD0 RID: 24016 RVA: 0x002FB260 File Offset: 0x002F9660
 		public static void SortBy<T, TSortBy, TThenBy>(this List<T> list, Func<T, TSortBy> selector, Func<T, TThenBy> thenBySelector) where TSortBy : IComparable<TSortBy>, IEquatable<TSortBy> where TThenBy : IComparable<TThenBy>
 		{
 			if (list.Count > 1)
@@ -669,7 +648,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DD1 RID: 24017 RVA: 0x002FB2A8 File Offset: 0x002F96A8
 		public static void SortByDescending<T, TSortByDescending>(this List<T> list, Func<T, TSortByDescending> selector) where TSortByDescending : IComparable<TSortByDescending>
 		{
 			if (list.Count > 1)
@@ -682,7 +660,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DD2 RID: 24018 RVA: 0x002FB2E8 File Offset: 0x002F96E8
 		public static void SortByDescending<T, TSortByDescending, TThenByDescending>(this List<T> list, Func<T, TSortByDescending> selector, Func<T, TThenByDescending> thenByDescendingSelector) where TSortByDescending : IComparable<TSortByDescending>, IEquatable<TSortByDescending> where TThenByDescending : IComparable<TThenByDescending>
 		{
 			if (list.Count > 1)
@@ -706,7 +683,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DD3 RID: 24019 RVA: 0x002FB330 File Offset: 0x002F9730
 		public static void SortStable<T>(this IList<T> list, Func<T, T, int> comparator)
 		{
 			if (list.Count > 1)
@@ -762,7 +738,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DD4 RID: 24020 RVA: 0x002FB430 File Offset: 0x002F9830
 		public static int RemoveAll<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, Predicate<KeyValuePair<TKey, TValue>> predicate)
 		{
 			List<TKey> list = null;
@@ -807,7 +782,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DD5 RID: 24021 RVA: 0x002FB51C File Offset: 0x002F991C
 		public static void RemoveAll<T>(this List<T> list, Func<T, int, bool> predicate)
 		{
 			int num = 0;
@@ -833,13 +807,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DD6 RID: 24022 RVA: 0x002FB5B8 File Offset: 0x002F99B8
 		public static void RemoveLast<T>(this List<T> list)
 		{
 			list.RemoveAt(list.Count - 1);
 		}
 
-		// Token: 0x06005DD7 RID: 24023 RVA: 0x002FB5CC File Offset: 0x002F99CC
 		public static T Pop<T>(this List<T> list)
 		{
 			T result = list[list.Count - 1];
@@ -847,19 +819,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DD8 RID: 24024 RVA: 0x002FB600 File Offset: 0x002F9A00
 		public static bool Any<T>(this List<T> list, Predicate<T> predicate)
 		{
 			return list.FindIndex(predicate) != -1;
 		}
 
-		// Token: 0x06005DD9 RID: 24025 RVA: 0x002FB624 File Offset: 0x002F9A24
 		public static bool Any<T>(this List<T> list)
 		{
 			return list.Count != 0;
 		}
 
-		// Token: 0x06005DDA RID: 24026 RVA: 0x002FB648 File Offset: 0x002F9A48
 		public static void AddRange<T>(this HashSet<T> set, List<T> list)
 		{
 			for (int i = 0; i < list.Count; i++)
@@ -868,7 +837,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DDB RID: 24027 RVA: 0x002FB680 File Offset: 0x002F9A80
 		public static void AddRange<T>(this HashSet<T> set, HashSet<T> other)
 		{
 			foreach (T item in other)
@@ -877,7 +845,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DDC RID: 24028 RVA: 0x002FB6DC File Offset: 0x002F9ADC
 		public static float AverageWeighted<T>(this IEnumerable<T> list, Func<T, float> weight, Func<T, float> value)
 		{
 			float num = 0f;
@@ -891,7 +858,6 @@ namespace Verse
 			return num2 / num;
 		}
 
-		// Token: 0x06005DDD RID: 24029 RVA: 0x002FB760 File Offset: 0x002F9B60
 		public static void ExecuteEnumerable(this IEnumerable enumerable)
 		{
 			IEnumerator enumerator = enumerable.GetEnumerator();
@@ -912,7 +878,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DDE RID: 24030 RVA: 0x002FB7B8 File Offset: 0x002F9BB8
 		public static int FirstIndexOf<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
 		{
 			int num = 0;
@@ -927,7 +892,6 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005DDF RID: 24031 RVA: 0x002FB828 File Offset: 0x002F9C28
 		public static V TryGetValue<T, V>(this IDictionary<T, V> dict, T key, V fallback = default(V))
 		{
 			V result;
@@ -938,7 +902,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DE0 RID: 24032 RVA: 0x002FB850 File Offset: 0x002F9C50
 		public static IEnumerable<Pair<T, V>> Cross<T, V>(this IEnumerable<T> lhs, IEnumerable<V> rhs)
 		{
 			T[] lhsv = lhs.ToArray<T>();
@@ -953,7 +916,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005DE1 RID: 24033 RVA: 0x002FB884 File Offset: 0x002F9C84
 		public static IEnumerable<T> Concat<T>(this IEnumerable<T> lhs, T rhs)
 		{
 			foreach (T t in lhs)
@@ -964,7 +926,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005DE2 RID: 24034 RVA: 0x002FB8B8 File Offset: 0x002F9CB8
 		public static LocalTargetInfo FirstValid(this List<LocalTargetInfo> source)
 		{
 			LocalTargetInfo invalid;
@@ -986,7 +947,6 @@ namespace Verse
 			return invalid;
 		}
 
-		// Token: 0x06005DE3 RID: 24035 RVA: 0x002FB920 File Offset: 0x002F9D20
 		public static IEnumerable<T> Except<T>(this IEnumerable<T> lhs, T rhs) where T : class
 		{
 			foreach (T t in lhs)
@@ -999,7 +959,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005DE4 RID: 24036 RVA: 0x002FB954 File Offset: 0x002F9D54
 		public static bool ListsEqual<T>(List<T> a, List<T> b) where T : class
 		{
 			bool result;
@@ -1033,7 +992,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DE5 RID: 24037 RVA: 0x002FBA08 File Offset: 0x002F9E08
 		public static IEnumerable<T> TakeRandom<T>(this List<T> list, int count)
 		{
 			for (int i = 0; i < count; i++)
@@ -1043,7 +1001,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005DE6 RID: 24038 RVA: 0x002FBA3C File Offset: 0x002F9E3C
 		public static void AddDistinct<T>(this List<T> list, T element) where T : class
 		{
 			for (int i = 0; i < list.Count; i++)
@@ -1056,14 +1013,772 @@ namespace Verse
 			list.Add(element);
 		}
 
-		// Token: 0x02000F38 RID: 3896
 		private static class SortStableTempList<T>
 		{
-			// Token: 0x04003DD9 RID: 15833
 			public static List<Pair<T, int>> list = new List<Pair<T, int>>();
 
-			// Token: 0x04003DDA RID: 15834
 			public static bool working;
+
+			// Note: this type is marked as 'beforefieldinit'.
+			static SortStableTempList()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SharesElementWith>c__AnonStorey5<T>
+		{
+			internal IEnumerable<T> other;
+
+			public <SharesElementWith>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(T item)
+			{
+				return this.other.Contains(item);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <InRandomOrder>c__Iterator0<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T>
+		{
+			internal IEnumerable<T> source;
+
+			internal IList<T> workingList;
+
+			internal int <countUnChosen>__0;
+
+			internal int <rand>__0;
+
+			internal T <temp>__1;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal IList<T> <$>workingList;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <InRandomOrder>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (source == null)
+					{
+						throw new ArgumentNullException("source");
+					}
+					if (workingList == null)
+					{
+						workingList = source.ToList<T>();
+					}
+					else
+					{
+						workingList.Clear();
+						foreach (T item in source)
+						{
+							workingList.Add(item);
+						}
+					}
+					countUnChosen = workingList.Count;
+					rand = 0;
+					break;
+				case 1u:
+					temp = workingList[rand];
+					workingList[rand] = workingList[countUnChosen - 1];
+					workingList[countUnChosen - 1] = temp;
+					countUnChosen--;
+					break;
+				default:
+					return false;
+				}
+				if (countUnChosen > 0)
+				{
+					rand = Rand.Range(0, countUnChosen);
+					this.$current = workingList[rand];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenCollection.<InRandomOrder>c__Iterator0<T> <InRandomOrder>c__Iterator = new GenCollection.<InRandomOrder>c__Iterator0<T>();
+				<InRandomOrder>c__Iterator.source = source;
+				<InRandomOrder>c__Iterator.workingList = workingList;
+				return <InRandomOrder>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SortBy>c__AnonStorey6<T, TSortBy> where TSortBy : IComparable<TSortBy>
+		{
+			internal Func<T, TSortBy> selector;
+
+			public <SortBy>c__AnonStorey6()
+			{
+			}
+
+			internal int <>m__0(T a, T b)
+			{
+				TSortBy tsortBy = this.selector(a);
+				return tsortBy.CompareTo(this.selector(b));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SortBy>c__AnonStorey7<T, TSortBy, TThenBy> where TSortBy : IComparable<TSortBy>, IEquatable<TSortBy> where TThenBy : IComparable<TThenBy>
+		{
+			internal Func<T, TSortBy> selector;
+
+			internal Func<T, TThenBy> thenBySelector;
+
+			public <SortBy>c__AnonStorey7()
+			{
+			}
+
+			internal int <>m__0(T a, T b)
+			{
+				TSortBy tsortBy = this.selector(a);
+				TSortBy other = this.selector(b);
+				int result;
+				if (!tsortBy.Equals(other))
+				{
+					result = tsortBy.CompareTo(other);
+				}
+				else
+				{
+					TThenBy tthenBy = this.thenBySelector(a);
+					result = tthenBy.CompareTo(this.thenBySelector(b));
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SortByDescending>c__AnonStorey8<T, TSortByDescending> where TSortByDescending : IComparable<TSortByDescending>
+		{
+			internal Func<T, TSortByDescending> selector;
+
+			public <SortByDescending>c__AnonStorey8()
+			{
+			}
+
+			internal int <>m__0(T a, T b)
+			{
+				TSortByDescending tsortByDescending = this.selector(b);
+				return tsortByDescending.CompareTo(this.selector(a));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SortByDescending>c__AnonStorey9<T, TSortByDescending, TThenByDescending> where TSortByDescending : IComparable<TSortByDescending>, IEquatable<TSortByDescending> where TThenByDescending : IComparable<TThenByDescending>
+		{
+			internal Func<T, TSortByDescending> selector;
+
+			internal Func<T, TThenByDescending> thenByDescendingSelector;
+
+			public <SortByDescending>c__AnonStorey9()
+			{
+			}
+
+			internal int <>m__0(T a, T b)
+			{
+				TSortByDescending other = this.selector(a);
+				TSortByDescending other2 = this.selector(b);
+				int result;
+				if (!other.Equals(other2))
+				{
+					result = other2.CompareTo(other);
+				}
+				else
+				{
+					TThenByDescending tthenByDescending = this.thenByDescendingSelector(b);
+					result = tthenByDescending.CompareTo(this.thenByDescendingSelector(a));
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SortStable>c__AnonStoreyA<T>
+		{
+			internal Func<T, T, int> comparator;
+
+			public <SortStable>c__AnonStoreyA()
+			{
+			}
+
+			internal int <>m__0(Pair<T, int> lhs, Pair<T, int> rhs)
+			{
+				int num = this.comparator(lhs.First, rhs.First);
+				int result;
+				if (num != 0)
+				{
+					result = num;
+				}
+				else
+				{
+					result = lhs.Second.CompareTo(rhs.Second);
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Cross>c__Iterator1<T, V> : IEnumerable, IEnumerable<Pair<T, V>>, IEnumerator, IDisposable, IEnumerator<Pair<T, V>>
+		{
+			internal IEnumerable<T> lhs;
+
+			internal T[] <lhsv>__0;
+
+			internal IEnumerable<V> rhs;
+
+			internal V[] <rhsv>__0;
+
+			internal int <i>__1;
+
+			internal int <j>__2;
+
+			internal Pair<T, V> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <Cross>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					lhsv = lhs.ToArray<T>();
+					rhsv = rhs.ToArray<V>();
+					i = 0;
+					goto IL_D0;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_AE:
+				if (j < rhsv.Length)
+				{
+					this.$current = new Pair<T, V>(lhsv[i], rhsv[j]);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_D0:
+				if (i < lhsv.Length)
+				{
+					j = 0;
+					goto IL_AE;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pair<T, V> IEnumerator<Pair<T, V>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pair<T,V>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pair<T, V>> IEnumerable<Pair<T, V>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenCollection.<Cross>c__Iterator1<T, V> <Cross>c__Iterator = new GenCollection.<Cross>c__Iterator1<T, V>();
+				<Cross>c__Iterator.lhs = lhs;
+				<Cross>c__Iterator.rhs = rhs;
+				return <Cross>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Concat>c__Iterator2<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T>
+		{
+			internal IEnumerable<T> lhs;
+
+			internal IEnumerator<T> $locvar0;
+
+			internal T <t>__1;
+
+			internal T rhs;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <Concat>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = lhs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$current = rhs;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenCollection.<Concat>c__Iterator2<T> <Concat>c__Iterator = new GenCollection.<Concat>c__Iterator2<T>();
+				<Concat>c__Iterator.lhs = lhs;
+				<Concat>c__Iterator.rhs = rhs;
+				return <Concat>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Except>c__Iterator3<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T> where T : class
+		{
+			internal IEnumerable<T> lhs;
+
+			internal IEnumerator<T> $locvar0;
+
+			internal T <t>__1;
+
+			internal T rhs;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <Except>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = lhs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_99:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						if (t != rhs)
+						{
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_99;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenCollection.<Except>c__Iterator3<T> <Except>c__Iterator = new GenCollection.<Except>c__Iterator3<T>();
+				<Except>c__Iterator.lhs = lhs;
+				<Except>c__Iterator.rhs = rhs;
+				return <Except>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TakeRandom>c__Iterator4<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T>
+		{
+			internal int <i>__1;
+
+			internal int count;
+
+			internal List<T> list;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <TakeRandom>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < count)
+				{
+					this.$current = list[Rand.Range(0, list.Count)];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenCollection.<TakeRandom>c__Iterator4<T> <TakeRandom>c__Iterator = new GenCollection.<TakeRandom>c__Iterator4<T>();
+				<TakeRandom>c__Iterator.count = count;
+				<TakeRandom>c__Iterator.list = list;
+				return <TakeRandom>c__Iterator;
+			}
 		}
 	}
 }

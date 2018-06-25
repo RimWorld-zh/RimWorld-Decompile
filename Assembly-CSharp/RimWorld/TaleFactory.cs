@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000660 RID: 1632
 	public static class TaleFactory
 	{
-		// Token: 0x06002216 RID: 8726 RVA: 0x00121A68 File Offset: 0x0011FE68
+		[CompilerGenerated]
+		private static Func<object, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<TaleDef, bool> <>f__am$cache1;
+
 		public static Tale MakeRawTale(TaleDef def, params object[] args)
 		{
 			Tale result;
@@ -29,7 +34,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002217 RID: 8727 RVA: 0x00121B0C File Offset: 0x0011FF0C
 		public static Tale MakeRandomTestTale(TaleDef def = null)
 		{
 			if (def == null)
@@ -41,6 +45,18 @@ namespace RimWorld
 			Tale tale = TaleFactory.MakeRawTale(def, new object[0]);
 			tale.GenerateTestData();
 			return tale;
+		}
+
+		[CompilerGenerated]
+		private static string <MakeRawTale>m__0(object arg)
+		{
+			return arg.ToStringSafe<object>();
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeRandomTestTale>m__1(TaleDef d)
+		{
+			return d.usableForArt;
 		}
 	}
 }

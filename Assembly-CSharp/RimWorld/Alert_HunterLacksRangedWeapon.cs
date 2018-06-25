@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079B RID: 1947
 	public class Alert_HunterLacksRangedWeapon : Alert
 	{
-		// Token: 0x06002B25 RID: 11045 RVA: 0x0016CD58 File Offset: 0x0016B158
 		public Alert_HunterLacksRangedWeapon()
 		{
 			this.defaultLabel = "HunterLacksWeapon".Translate();
@@ -15,8 +17,6 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x170006B3 RID: 1715
-		// (get) Token: 0x06002B26 RID: 11046 RVA: 0x0016CD88 File Offset: 0x0016B188
 		private IEnumerable<Pawn> HuntersWithoutRangedWeapon
 		{
 			get
@@ -32,10 +32,143 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B27 RID: 11047 RVA: 0x0016CDAC File Offset: 0x0016B1AC
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.HuntersWithoutRangedWeapon);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					IL_B9:
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && !WorkGiver_HunterHunt.HasHuntingWeapon(p) && !p.Downed)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_B9;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Alert_HunterLacksRangedWeapon.<>c__Iterator0();
+			}
 		}
 	}
 }

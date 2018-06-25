@@ -1,40 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020001AA RID: 426
 	public static class SiegeBlueprintPlacer
 	{
-		// Token: 0x040003B1 RID: 945
 		private static IntVec3 center;
 
-		// Token: 0x040003B2 RID: 946
 		private static Faction faction;
 
-		// Token: 0x040003B3 RID: 947
 		private static List<IntVec3> placedSandbagLocs = new List<IntVec3>();
 
-		// Token: 0x040003B4 RID: 948
 		private const int MaxArtyCount = 2;
 
-		// Token: 0x040003B5 RID: 949
 		public const float ArtyCost = 60f;
 
-		// Token: 0x040003B6 RID: 950
 		private const int MinSandbagDistSquared = 36;
 
-		// Token: 0x040003B7 RID: 951
 		private static readonly IntRange NumSandbagRange = new IntRange(2, 4);
 
-		// Token: 0x040003B8 RID: 952
 		private static readonly IntRange SandbagLengthRange = new IntRange(2, 7);
 
-		// Token: 0x060008CA RID: 2250 RVA: 0x000528E4 File Offset: 0x00050CE4
 		public static IEnumerable<Blueprint_Build> PlaceBlueprints(IntVec3 placeCenter, Map map, Faction placeFaction, float points)
 		{
 			SiegeBlueprintPlacer.center = placeCenter;
@@ -50,13 +44,11 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008CB RID: 2251 RVA: 0x00052924 File Offset: 0x00050D24
 		private static bool CanPlaceBlueprintAt(IntVec3 root, Rot4 rot, ThingDef buildingDef, Map map)
 		{
 			return GenConstruct.CanPlaceBlueprintAt(buildingDef, root, rot, map, false, null).Accepted;
 		}
 
-		// Token: 0x060008CC RID: 2252 RVA: 0x0005294C File Offset: 0x00050D4C
 		private static IEnumerable<Blueprint_Build> PlaceSandbagBlueprints(Map map)
 		{
 			SiegeBlueprintPlacer.placedSandbagLocs.Clear();
@@ -99,7 +91,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008CD RID: 2253 RVA: 0x00052978 File Offset: 0x00050D78
 		private static IEnumerable<Blueprint_Build> MakeSandbagLine(IntVec3 root, Map map, Rot4 growDir, int maxLength)
 		{
 			IntVec3 cur = root;
@@ -116,7 +107,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008CE RID: 2254 RVA: 0x000529B8 File Offset: 0x00050DB8
 		private static IEnumerable<Blueprint_Build> PlaceArtilleryBlueprints(float points, Map map)
 		{
 			IEnumerable<ThingDef> artyDefs = from def in DefDatabase<ThingDef>.AllDefs
@@ -139,7 +129,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008CF RID: 2255 RVA: 0x000529F0 File Offset: 0x00050DF0
 		private static IntVec3 FindSandbagRoot(Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 13);
@@ -184,7 +173,6 @@ namespace RimWorld
 			return randomCell;
 		}
 
-		// Token: 0x060008D0 RID: 2256 RVA: 0x00052B10 File Offset: 0x00050F10
 		private static IntVec3 FindArtySpot(ThingDef artyDef, Rot4 rot, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
@@ -213,6 +201,673 @@ namespace RimWorld
 			return IntVec3.Invalid;
 			IL_83:
 			return randomCell;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SiegeBlueprintPlacer()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <PlaceBlueprints>c__Iterator0 : IEnumerable, IEnumerable<Blueprint_Build>, IEnumerator, IDisposable, IEnumerator<Blueprint_Build>
+		{
+			internal IntVec3 placeCenter;
+
+			internal Faction placeFaction;
+
+			internal Map map;
+
+			internal IEnumerator<Blueprint_Build> $locvar0;
+
+			internal Blueprint_Build <blue>__1;
+
+			internal float points;
+
+			internal IEnumerator<Blueprint_Build> $locvar1;
+
+			internal Blueprint_Build <blue>__2;
+
+			internal Blueprint_Build $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PlaceBlueprints>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					SiegeBlueprintPlacer.center = placeCenter;
+					SiegeBlueprintPlacer.faction = placeFaction;
+					enumerator = SiegeBlueprintPlacer.PlaceSandbagBlueprints(map).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_EE;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						blue = enumerator.Current;
+						this.$current = blue;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = SiegeBlueprintPlacer.PlaceArtilleryBlueprints(points, map).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_EE:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						blue2 = enumerator2.Current;
+						this.$current = blue2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Blueprint_Build IEnumerator<Blueprint_Build>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Blueprint_Build>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Blueprint_Build> IEnumerable<Blueprint_Build>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SiegeBlueprintPlacer.<PlaceBlueprints>c__Iterator0 <PlaceBlueprints>c__Iterator = new SiegeBlueprintPlacer.<PlaceBlueprints>c__Iterator0();
+				<PlaceBlueprints>c__Iterator.placeCenter = placeCenter;
+				<PlaceBlueprints>c__Iterator.placeFaction = placeFaction;
+				<PlaceBlueprints>c__Iterator.map = map;
+				<PlaceBlueprints>c__Iterator.points = points;
+				return <PlaceBlueprints>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PlaceSandbagBlueprints>c__Iterator1 : IEnumerable, IEnumerable<Blueprint_Build>, IEnumerator, IDisposable, IEnumerator<Blueprint_Build>
+		{
+			internal int <numSandbags>__0;
+
+			internal int <i>__1;
+
+			internal Map map;
+
+			internal IntVec3 <bagRoot>__2;
+
+			internal Rot4 <growDirA>__2;
+
+			internal Rot4 <growDirB>__2;
+
+			internal IEnumerator<Blueprint_Build> $locvar0;
+
+			internal Blueprint_Build <bag>__3;
+
+			internal IEnumerator<Blueprint_Build> $locvar1;
+
+			internal Blueprint_Build <bag>__4;
+
+			internal Blueprint_Build $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PlaceSandbagBlueprints>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					SiegeBlueprintPlacer.placedSandbagLocs.Clear();
+					numSandbags = SiegeBlueprintPlacer.NumSandbagRange.RandomInRange;
+					i = 0;
+					goto IL_260;
+				case 1u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							bag = enumerator.Current;
+							this.$current = bag;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					bagRoot += growDirB.FacingCell;
+					enumerator2 = SiegeBlueprintPlacer.MakeSandbagLine(bagRoot, map, growDirB, SiegeBlueprintPlacer.SandbagLengthRange.RandomInRange).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						bag2 = enumerator2.Current;
+						this.$current = bag2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				i++;
+				IL_260:
+				if (i >= numSandbags)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					bagRoot = SiegeBlueprintPlacer.FindSandbagRoot(map);
+					if (bagRoot.IsValid)
+					{
+						if (bagRoot.x > SiegeBlueprintPlacer.center.x)
+						{
+							growDirA = Rot4.West;
+						}
+						else
+						{
+							growDirA = Rot4.East;
+						}
+						if (bagRoot.z > SiegeBlueprintPlacer.center.z)
+						{
+							growDirB = Rot4.South;
+						}
+						else
+						{
+							growDirB = Rot4.North;
+						}
+						enumerator = SiegeBlueprintPlacer.MakeSandbagLine(bagRoot, map, growDirA, SiegeBlueprintPlacer.SandbagLengthRange.RandomInRange).GetEnumerator();
+						num = 4294967293u;
+						goto Block_5;
+					}
+				}
+				return false;
+			}
+
+			Blueprint_Build IEnumerator<Blueprint_Build>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Blueprint_Build>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Blueprint_Build> IEnumerable<Blueprint_Build>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SiegeBlueprintPlacer.<PlaceSandbagBlueprints>c__Iterator1 <PlaceSandbagBlueprints>c__Iterator = new SiegeBlueprintPlacer.<PlaceSandbagBlueprints>c__Iterator1();
+				<PlaceSandbagBlueprints>c__Iterator.map = map;
+				return <PlaceSandbagBlueprints>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeSandbagLine>c__Iterator2 : IEnumerable, IEnumerable<Blueprint_Build>, IEnumerator, IDisposable, IEnumerator<Blueprint_Build>
+		{
+			internal IntVec3 root;
+
+			internal IntVec3 <cur>__0;
+
+			internal int <j>__1;
+
+			internal int maxLength;
+
+			internal Map map;
+
+			internal Rot4 growDir;
+
+			internal Blueprint_Build $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeSandbagLine>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					cur = root;
+					i = 0;
+					break;
+				case 1u:
+					SiegeBlueprintPlacer.placedSandbagLocs.Add(cur);
+					cur += growDir.FacingCell;
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maxLength)
+				{
+					if (SiegeBlueprintPlacer.CanPlaceBlueprintAt(cur, Rot4.North, ThingDefOf.Sandbags, map))
+					{
+						this.$current = GenConstruct.PlaceBlueprintForBuild(ThingDefOf.Sandbags, cur, map, Rot4.North, SiegeBlueprintPlacer.faction, null);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Blueprint_Build IEnumerator<Blueprint_Build>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Blueprint_Build>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Blueprint_Build> IEnumerable<Blueprint_Build>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SiegeBlueprintPlacer.<MakeSandbagLine>c__Iterator2 <MakeSandbagLine>c__Iterator = new SiegeBlueprintPlacer.<MakeSandbagLine>c__Iterator2();
+				<MakeSandbagLine>c__Iterator.root = root;
+				<MakeSandbagLine>c__Iterator.maxLength = maxLength;
+				<MakeSandbagLine>c__Iterator.map = map;
+				<MakeSandbagLine>c__Iterator.growDir = growDir;
+				return <MakeSandbagLine>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PlaceArtilleryBlueprints>c__Iterator3 : IEnumerable, IEnumerable<Blueprint_Build>, IEnumerator, IDisposable, IEnumerator<Blueprint_Build>
+		{
+			internal IEnumerable<ThingDef> <artyDefs>__0;
+
+			internal float points;
+
+			internal int <numArtillery>__0;
+
+			internal int <i>__1;
+
+			internal Rot4 <rot>__2;
+
+			internal ThingDef <artyDef>__2;
+
+			internal Map map;
+
+			internal IntVec3 <artySpot>__2;
+
+			internal Blueprint_Build $current;
+
+			internal bool $disposing;
+
+			internal float <$>points;
+
+			internal int $PC;
+
+			private static Func<ThingDef, bool> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <PlaceArtilleryBlueprints>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					artyDefs = from def in DefDatabase<ThingDef>.AllDefs
+					where def.building != null && def.building.buildingTags.Contains("Artillery_BaseDestroyer")
+					select def;
+					numArtillery = Mathf.RoundToInt(points / 60f);
+					numArtillery = Mathf.Clamp(numArtillery, 1, 2);
+					i = 0;
+					break;
+				case 1u:
+					points -= 60f;
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= numArtillery)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					rot = Rot4.Random;
+					artyDef = artyDefs.RandomElement<ThingDef>();
+					artySpot = SiegeBlueprintPlacer.FindArtySpot(artyDef, rot, map);
+					if (artySpot.IsValid)
+					{
+						this.$current = GenConstruct.PlaceBlueprintForBuild(artyDef, artySpot, map, rot, SiegeBlueprintPlacer.faction, ThingDefOf.Steel);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+				}
+				return false;
+			}
+
+			Blueprint_Build IEnumerator<Blueprint_Build>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Blueprint_Build>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Blueprint_Build> IEnumerable<Blueprint_Build>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SiegeBlueprintPlacer.<PlaceArtilleryBlueprints>c__Iterator3 <PlaceArtilleryBlueprints>c__Iterator = new SiegeBlueprintPlacer.<PlaceArtilleryBlueprints>c__Iterator3();
+				<PlaceArtilleryBlueprints>c__Iterator.points = points;
+				<PlaceArtilleryBlueprints>c__Iterator.map = map;
+				return <PlaceArtilleryBlueprints>c__Iterator;
+			}
+
+			private static bool <>m__0(ThingDef def)
+			{
+				return def.building != null && def.building.buildingTags.Contains("Artillery_BaseDestroyer");
+			}
 		}
 	}
 }

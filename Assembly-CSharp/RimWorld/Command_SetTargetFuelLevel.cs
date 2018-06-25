@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200072D RID: 1837
 	[StaticConstructorOnStartup]
 	public class Command_SetTargetFuelLevel : Command
 	{
-		// Token: 0x0400163D RID: 5693
 		public CompRefuelable refuelable;
 
-		// Token: 0x0400163E RID: 5694
 		private List<CompRefuelable> refuelables;
 
-		// Token: 0x0600288B RID: 10379 RVA: 0x0015AB94 File Offset: 0x00158F94
+		[CompilerGenerated]
+		private static Func<int, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<int, string> <>f__am$cache1;
+
+		public Command_SetTargetFuelLevel()
+		{
+		}
+
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -70,7 +77,6 @@ namespace RimWorld
 			Find.WindowStack.Add(window);
 		}
 
-		// Token: 0x0600288C RID: 10380 RVA: 0x0015AD18 File Offset: 0x00159118
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.refuelables == null)
@@ -79,6 +85,34 @@ namespace RimWorld
 			}
 			this.refuelables.Add(((Command_SetTargetFuelLevel)other).refuelable);
 			return false;
+		}
+
+		[CompilerGenerated]
+		private static string <ProcessInput>m__0(int x)
+		{
+			return "SetPodLauncherTargetFuelLevel".Translate(new object[]
+			{
+				x,
+				CompLaunchable.MaxLaunchDistanceAtFuelLevel((float)x)
+			});
+		}
+
+		[CompilerGenerated]
+		private static string <ProcessInput>m__1(int x)
+		{
+			return "SetTargetFuelLevel".Translate(new object[]
+			{
+				x
+			});
+		}
+
+		[CompilerGenerated]
+		private void <ProcessInput>m__2(int value)
+		{
+			for (int i = 0; i < this.refuelables.Count; i++)
+			{
+				this.refuelables[i].TargetFuelLevel = (float)value;
+			}
 		}
 	}
 }

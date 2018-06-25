@@ -1,39 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000360 RID: 864
 	public abstract class StorytellerComp
 	{
-		// Token: 0x04000942 RID: 2370
 		public StorytellerCompProperties props;
 
-		// Token: 0x06000F05 RID: 3845
+		[CompilerGenerated]
+		private static Func<IncidentTargetTypeDef, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache5;
+
+		protected StorytellerComp()
+		{
+		}
+
 		public abstract IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target);
 
-		// Token: 0x06000F06 RID: 3846 RVA: 0x0007F014 File Offset: 0x0007D414
 		public virtual IncidentParms GenerateParms(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			return StorytellerUtility.DefaultParmsNow(incCat, target);
 		}
 
-		// Token: 0x06000F07 RID: 3847 RVA: 0x0007F030 File Offset: 0x0007D430
 		protected IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, IIncidentTarget target)
 		{
 			return this.UsableIncidentsInCategory(cat, (IncidentDef x) => this.GenerateParms(cat, target));
 		}
 
-		// Token: 0x06000F08 RID: 3848 RVA: 0x0007F078 File Offset: 0x0007D478
 		protected IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, IncidentParms parms)
 		{
 			return this.UsableIncidentsInCategory(cat, (IncidentDef x) => parms);
 		}
 
-		// Token: 0x06000F09 RID: 3849 RVA: 0x0007F0B0 File Offset: 0x0007D4B0
 		protected virtual IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, Func<IncidentDef, IncidentParms> parmsGetter)
 		{
 			return from x in DefDatabase<IncidentDef>.AllDefsListForReading
@@ -41,7 +57,6 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x06000F0A RID: 3850 RVA: 0x0007F0F0 File Offset: 0x0007D4F0
 		protected float IncidentChanceFactor_CurrentPopulation(IncidentDef def)
 		{
 			float result;
@@ -57,7 +72,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F0B RID: 3851 RVA: 0x0007F134 File Offset: 0x0007D534
 		protected float IncidentChanceFactor_PopulationIntent(IncidentDef def)
 		{
 			IncidentPopulationEffect populationEffect = def.populationEffect;
@@ -77,7 +91,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F0C RID: 3852 RVA: 0x0007F194 File Offset: 0x0007D594
 		protected float IncidentChanceFinal(IncidentDef def)
 		{
 			float num = def.Worker.AdjustedChance;
@@ -86,7 +99,6 @@ namespace RimWorld
 			return Mathf.Max(0f, num);
 		}
 
-		// Token: 0x06000F0D RID: 3853 RVA: 0x0007F1D4 File Offset: 0x0007D5D4
 		public override string ToString()
 		{
 			string text = base.GetType().Name;
@@ -103,7 +115,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06000F0E RID: 3854 RVA: 0x0007F284 File Offset: 0x0007D684
 		public virtual void DebugTablesIncidentChances(IncidentCategoryDef cat)
 		{
 			IEnumerable<IncidentDef> dataSources = from d in DefDatabase<IncidentDef>.AllDefs
@@ -122,6 +133,140 @@ namespace RimWorld
 			array[8] = new TableDataGetter<IncidentDef>("pop-current", (IncidentDef d) => PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count<Pawn>().ToString());
 			array[9] = new TableDataGetter<IncidentDef>("pop-intent", (IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"));
 			DebugTables.MakeTablesDialog<IncidentDef>(dataSources, array);
+		}
+
+		[CompilerGenerated]
+		private static string <ToString>m__0(IncidentTargetTypeDef x)
+		{
+			return x.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <DebugTablesIncidentChances>m__1(IncidentDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <DebugTablesIncidentChances>m__2(IncidentDef d)
+		{
+			return d.baseChance.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <DebugTablesIncidentChances>m__3(IncidentDef d)
+		{
+			return d.Worker.AdjustedChance.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <DebugTablesIncidentChances>m__4(IncidentDef d)
+		{
+			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count<Pawn>().ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <DebugTablesIncidentChances>m__5(IncidentDef d)
+		{
+			return Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3");
+		}
+
+		[CompilerGenerated]
+		private sealed class <UsableIncidentsInCategory>c__AnonStorey0
+		{
+			internal IncidentCategoryDef cat;
+
+			internal IIncidentTarget target;
+
+			internal StorytellerComp $this;
+
+			public <UsableIncidentsInCategory>c__AnonStorey0()
+			{
+			}
+
+			internal IncidentParms <>m__0(IncidentDef x)
+			{
+				return this.$this.GenerateParms(this.cat, this.target);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <UsableIncidentsInCategory>c__AnonStorey1
+		{
+			internal IncidentParms parms;
+
+			public <UsableIncidentsInCategory>c__AnonStorey1()
+			{
+			}
+
+			internal IncidentParms <>m__0(IncidentDef x)
+			{
+				return this.parms;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <UsableIncidentsInCategory>c__AnonStorey2
+		{
+			internal IncidentCategoryDef cat;
+
+			internal Func<IncidentDef, IncidentParms> parmsGetter;
+
+			public <UsableIncidentsInCategory>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IncidentDef x)
+			{
+				return x.category == this.cat && x.Worker.CanFireNow(this.parmsGetter(x));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DebugTablesIncidentChances>c__AnonStorey3
+		{
+			internal IncidentCategoryDef cat;
+
+			internal StorytellerComp $this;
+
+			public <DebugTablesIncidentChances>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(IncidentDef d)
+			{
+				return d.category == this.cat;
+			}
+
+			internal float <>m__1(IncidentDef d)
+			{
+				return this.$this.IncidentChanceFinal(d);
+			}
+
+			internal string <>m__2(IncidentDef d)
+			{
+				return this.$this.IncidentChanceFactor_CurrentPopulation(d).ToString();
+			}
+
+			internal string <>m__3(IncidentDef d)
+			{
+				return this.$this.IncidentChanceFactor_PopulationIntent(d).ToString();
+			}
+
+			internal string <>m__4(IncidentDef d)
+			{
+				return this.$this.IncidentChanceFinal(d).ToString();
+			}
+
+			internal string <>m__5(IncidentDef d)
+			{
+				return (Find.CurrentMap != null) ? ((!this.$this.UsableIncidentsInCategory(this.cat, Find.CurrentMap).Contains(d)) ? "" : "V") : "-";
+			}
+
+			internal string <>m__6(IncidentDef d)
+			{
+				return (!this.$this.UsableIncidentsInCategory(this.cat, Find.World).Contains(d)) ? "" : "W";
+			}
 		}
 	}
 }

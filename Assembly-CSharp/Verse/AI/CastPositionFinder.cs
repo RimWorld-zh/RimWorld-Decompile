@@ -1,75 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AE3 RID: 2787
 	public static class CastPositionFinder
 	{
-		// Token: 0x040026F3 RID: 9971
 		private static CastPositionRequest req;
 
-		// Token: 0x040026F4 RID: 9972
 		private static IntVec3 casterLoc;
 
-		// Token: 0x040026F5 RID: 9973
 		private static IntVec3 targetLoc;
 
-		// Token: 0x040026F6 RID: 9974
 		private static Verb verb;
 
-		// Token: 0x040026F7 RID: 9975
 		private static float rangeFromTarget;
 
-		// Token: 0x040026F8 RID: 9976
 		private static float rangeFromTargetSquared;
 
-		// Token: 0x040026F9 RID: 9977
 		private static float optimalRangeSquared;
 
-		// Token: 0x040026FA RID: 9978
 		private static float rangeFromCasterToCellSquared;
 
-		// Token: 0x040026FB RID: 9979
 		private static float rangeFromTargetToCellSquared;
 
-		// Token: 0x040026FC RID: 9980
 		private static int inRadiusMark;
 
-		// Token: 0x040026FD RID: 9981
 		private static ByteGrid avoidGrid;
 
-		// Token: 0x040026FE RID: 9982
 		private static float maxRangeFromCasterSquared;
 
-		// Token: 0x040026FF RID: 9983
 		private static float maxRangeFromTargetSquared;
 
-		// Token: 0x04002700 RID: 9984
 		private static float maxRangeFromLocusSquared;
 
-		// Token: 0x04002701 RID: 9985
 		private static IntVec3 bestSpot = IntVec3.Invalid;
 
-		// Token: 0x04002702 RID: 9986
 		private static float bestSpotPref = 0.001f;
 
-		// Token: 0x04002703 RID: 9987
 		private const float BaseAIPreference = 0.3f;
 
-		// Token: 0x04002704 RID: 9988
 		private const float MinimumPreferredRange = 5f;
 
-		// Token: 0x04002705 RID: 9989
 		private const float OptimalRangeFactor = 0.8f;
 
-		// Token: 0x04002706 RID: 9990
 		private const float OptimalRangeFactorImportance = 0.3f;
 
-		// Token: 0x06003DB9 RID: 15801 RVA: 0x00208864 File Offset: 0x00206C64
 		public static bool TryFindCastPosition(CastPositionRequest newReq, out IntVec3 dest)
 		{
 			CastPositionFinder.req = newReq;
@@ -200,7 +179,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DBA RID: 15802 RVA: 0x00208E0C File Offset: 0x0020720C
 		private static void EvaluateCell(IntVec3 c)
 		{
 			if (CastPositionFinder.maxRangeFromTargetSquared > 0.01f && CastPositionFinder.maxRangeFromTargetSquared < 250000f)
@@ -298,7 +276,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003DBB RID: 15803 RVA: 0x00209228 File Offset: 0x00207628
 		private static float CastPositionPreference(IntVec3 c)
 		{
 			bool flag = true;
@@ -355,6 +332,28 @@ namespace Verse.AI
 				num *= 0.2f;
 			}
 			return num;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CastPositionFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindCastPosition>c__AnonStorey0
+		{
+			internal Region locusReg;
+
+			public <TryFindCastPosition>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region r)
+			{
+				r.mark = CastPositionFinder.inRadiusMark;
+				CastPositionFinder.req.maxRegions = CastPositionFinder.req.maxRegions + 1;
+				return r == this.locusReg;
+			}
 		}
 	}
 }

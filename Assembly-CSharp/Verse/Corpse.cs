@@ -1,43 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DC9 RID: 3529
 	public class Corpse : ThingWithComps, IThingHolder, IThoughtGiver, IStrippable, IBillGiver
 	{
-		// Token: 0x04003475 RID: 13429
 		private ThingOwner<Pawn> innerContainer;
 
-		// Token: 0x04003476 RID: 13430
 		public int timeOfDeath = -1;
 
-		// Token: 0x04003477 RID: 13431
 		private int vanishAfterTimestamp = -1;
 
-		// Token: 0x04003478 RID: 13432
 		private BillStack operationsBillStack = null;
 
-		// Token: 0x04003479 RID: 13433
 		public bool everBuriedInSarcophagus;
 
-		// Token: 0x0400347A RID: 13434
 		private const int VanishAfterTicksSinceDessicated = 6000000;
 
-		// Token: 0x06004ED7 RID: 20183 RVA: 0x0029253E File Offset: 0x0029093E
 		public Corpse()
 		{
 			this.operationsBillStack = new BillStack(this);
 			this.innerContainer = new ThingOwner<Pawn>(this, true, LookMode.Reference);
 		}
 
-		// Token: 0x17000CBC RID: 3260
-		// (get) Token: 0x06004ED8 RID: 20184 RVA: 0x00292578 File Offset: 0x00290978
-		// (set) Token: 0x06004ED9 RID: 20185 RVA: 0x002925B4 File Offset: 0x002909B4
 		public Pawn InnerPawn
 		{
 			get
@@ -71,9 +64,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBD RID: 3261
-		// (get) Token: 0x06004EDA RID: 20186 RVA: 0x00292614 File Offset: 0x00290A14
-		// (set) Token: 0x06004EDB RID: 20187 RVA: 0x0029263A File Offset: 0x00290A3A
 		public int Age
 		{
 			get
@@ -86,8 +76,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBE RID: 3262
-		// (get) Token: 0x06004EDC RID: 20188 RVA: 0x00292650 File Offset: 0x00290A50
 		public override string Label
 		{
 			get
@@ -109,8 +97,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBF RID: 3263
-		// (get) Token: 0x06004EDD RID: 20189 RVA: 0x002926AC File Offset: 0x00290AAC
 		public override bool IngestibleNow
 		{
 			get
@@ -129,8 +115,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC0 RID: 3264
-		// (get) Token: 0x06004EDE RID: 20190 RVA: 0x00292720 File Offset: 0x00290B20
 		public RotDrawMode CurRotDrawMode
 		{
 			get
@@ -151,8 +135,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC1 RID: 3265
-		// (get) Token: 0x06004EDF RID: 20191 RVA: 0x0029276C File Offset: 0x00290B6C
 		private bool ShouldVanish
 		{
 			get
@@ -161,8 +143,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC2 RID: 3266
-		// (get) Token: 0x06004EE0 RID: 20192 RVA: 0x002927F8 File Offset: 0x00290BF8
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
 		{
 			get
@@ -182,8 +162,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC3 RID: 3267
-		// (get) Token: 0x06004EE1 RID: 20193 RVA: 0x00292824 File Offset: 0x00290C24
 		public BillStack BillStack
 		{
 			get
@@ -192,8 +170,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC4 RID: 3268
-		// (get) Token: 0x06004EE2 RID: 20194 RVA: 0x00292840 File Offset: 0x00290C40
 		public IEnumerable<IntVec3> IngredientStackCells
 		{
 			get
@@ -203,8 +179,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC5 RID: 3269
-		// (get) Token: 0x06004EE3 RID: 20195 RVA: 0x0029286C File Offset: 0x00290C6C
 		public bool Bugged
 		{
 			get
@@ -213,44 +187,37 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EE4 RID: 20196 RVA: 0x002928D0 File Offset: 0x00290CD0
 		public bool CurrentlyUsableForBills()
 		{
 			return this.InteractionCell.IsValid;
 		}
 
-		// Token: 0x06004EE5 RID: 20197 RVA: 0x002928F4 File Offset: 0x00290CF4
 		public bool UsableForBillsAfterFueling()
 		{
 			return this.CurrentlyUsableForBills();
 		}
 
-		// Token: 0x06004EE6 RID: 20198 RVA: 0x00292910 File Offset: 0x00290D10
 		public bool AnythingToStrip()
 		{
 			return this.InnerPawn.AnythingToStrip();
 		}
 
-		// Token: 0x06004EE7 RID: 20199 RVA: 0x00292930 File Offset: 0x00290D30
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06004EE8 RID: 20200 RVA: 0x0029294B File Offset: 0x00290D4B
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06004EE9 RID: 20201 RVA: 0x0029295A File Offset: 0x00290D5A
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.timeOfDeath = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06004EEA RID: 20202 RVA: 0x00292974 File Offset: 0x00290D74
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			if (this.Bugged)
@@ -265,7 +232,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEB RID: 20203 RVA: 0x002929C2 File Offset: 0x00290DC2
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.DeSpawn(mode);
@@ -275,7 +241,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEC RID: 20204 RVA: 0x002929E0 File Offset: 0x00290DE0
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Pawn pawn = null;
@@ -292,7 +257,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EED RID: 20205 RVA: 0x00292A28 File Offset: 0x00290E28
 		public static void PostCorpseDestroy(Pawn pawn)
 		{
 			if (pawn.ownership != null)
@@ -310,7 +274,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEE RID: 20206 RVA: 0x00292A88 File Offset: 0x00290E88
 		public override void TickRare()
 		{
 			base.TickRare();
@@ -336,7 +299,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEF RID: 20207 RVA: 0x00292B1C File Offset: 0x00290F1C
 		protected override void IngestedCalculateAmounts(Pawn ingester, float nutritionWanted, out int numTaken, out float nutritionIngested)
 		{
 			BodyPartRecord bodyPartRecord = this.GetBestBodyPartToEat(ingester, nutritionWanted);
@@ -375,7 +337,6 @@ namespace Verse
 			nutritionIngested = bodyPartNutrition;
 		}
 
-		// Token: 0x06004EF0 RID: 20208 RVA: 0x00292C58 File Offset: 0x00291058
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
 			foreach (Thing t in this.InnerPawn.ButcherProducts(butcher, efficiency))
@@ -404,7 +365,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004EF1 RID: 20209 RVA: 0x00292C90 File Offset: 0x00291090
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -421,19 +381,16 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004EF2 RID: 20210 RVA: 0x00292D0E File Offset: 0x0029110E
 		public void Strip()
 		{
 			this.InnerPawn.Strip();
 		}
 
-		// Token: 0x06004EF3 RID: 20211 RVA: 0x00292D1C File Offset: 0x0029111C
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			this.InnerPawn.Drawer.renderer.RenderPawnAt(drawLoc);
 		}
 
-		// Token: 0x06004EF4 RID: 20212 RVA: 0x00292D38 File Offset: 0x00291138
 		public Thought_Memory GiveObservedThought()
 		{
 			Thought_Memory result;
@@ -462,7 +419,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004EF5 RID: 20213 RVA: 0x00292DB8 File Offset: 0x002911B8
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -483,14 +439,12 @@ namespace Verse
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06004EF6 RID: 20214 RVA: 0x00292EAC File Offset: 0x002912AC
 		public void RotStageChanged()
 		{
 			PortraitsCache.SetDirty(this.InnerPawn);
 			this.NotifyColonistBar();
 		}
 
-		// Token: 0x06004EF7 RID: 20215 RVA: 0x00292EC0 File Offset: 0x002912C0
 		private BodyPartRecord GetBestBodyPartToEat(Pawn ingester, float nutritionWanted)
 		{
 			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
@@ -508,12 +462,442 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004EF8 RID: 20216 RVA: 0x00292F37 File Offset: 0x00291337
 		private void NotifyColonistBar()
 		{
 			if (this.InnerPawn.Faction == Faction.OfPlayer && Current.ProgramState == ProgramState.Playing)
 			{
 				Find.ColonistBar.MarkColonistsDirty();
+			}
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<StatDrawEntry> <get_SpecialDisplayStats>__BaseCallProxy0()
+		{
+			return base.SpecialDisplayStats;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <s>__1;
+
+			internal StatDef <meatAmount>__2;
+
+			internal StatDef <leatherAmount>__2;
+
+			internal Corpse $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<get_SpecialDisplayStats>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					leatherAmount = StatDefOf.LeatherAmount;
+					this.$current = new StatDrawEntry(leatherAmount.category, leatherAmount, base.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(base.InnerPawn), ToStringNumberSense.Undefined);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					goto IL_194;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						s = enumerator.Current;
+						this.$current = s;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.GetRotStage() == RotStage.Fresh)
+				{
+					meatAmount = StatDefOf.MeatAmount;
+					this.$current = new StatDrawEntry(meatAmount.category, meatAmount, base.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(base.InnerPawn), ToStringNumberSense.Undefined);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_194:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Corpse.<>c__Iterator0 <>c__Iterator = new Corpse.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal Corpse $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = this.InteractionCell;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Corpse.<>c__Iterator1 <>c__Iterator = new Corpse.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ButcherProducts>c__Iterator2 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn butcher;
+
+			internal float efficiency;
+
+			internal IEnumerator<Thing> $locvar0;
+
+			internal Thing <t>__1;
+
+			internal Corpse $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ButcherProducts>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.InnerPawn.ButcherProducts(butcher, efficiency).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (base.InnerPawn.RaceProps.BloodDef != null)
+				{
+					FilthMaker.MakeFilth(butcher.Position, butcher.Map, base.InnerPawn.RaceProps.BloodDef, base.InnerPawn.LabelIndefinite(), 1);
+				}
+				if (base.InnerPawn.RaceProps.Humanlike)
+				{
+					butcher.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.ButcheredHumanlikeCorpse, null);
+					foreach (Pawn pawn in butcher.Map.mapPawns.SpawnedPawnsInFaction(butcher.Faction))
+					{
+						if (pawn != butcher && pawn.needs != null && pawn.needs.mood != null && pawn.needs.mood.thoughts != null)
+						{
+							pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowButcheredHumanlikeCorpse, null);
+						}
+					}
+					TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, new object[]
+					{
+						butcher
+					});
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Corpse.<ButcherProducts>c__Iterator2 <ButcherProducts>c__Iterator = new Corpse.<ButcherProducts>c__Iterator2();
+				<ButcherProducts>c__Iterator.$this = this;
+				<ButcherProducts>c__Iterator.butcher = butcher;
+				<ButcherProducts>c__Iterator.efficiency = efficiency;
+				return <ButcherProducts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetBestBodyPartToEat>c__AnonStorey3
+		{
+			internal float nutritionWanted;
+
+			internal Corpse $this;
+
+			public <GetBestBodyPartToEat>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord x)
+			{
+				return x.depth == BodyPartDepth.Outside && FoodUtility.GetBodyPartNutrition(this.$this, x) > 0.001f;
+			}
+
+			internal float <>m__1(BodyPartRecord x)
+			{
+				return Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.$this, x) - this.nutritionWanted);
 			}
 		}
 	}

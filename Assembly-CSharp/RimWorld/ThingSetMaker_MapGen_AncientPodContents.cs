@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F6 RID: 1782
 	public class ThingSetMaker_MapGen_AncientPodContents : ThingSetMaker
 	{
-		// Token: 0x060026C7 RID: 9927 RVA: 0x0014D050 File Offset: 0x0014B450
+		public ThingSetMaker_MapGen_AncientPodContents()
+		{
+		}
+
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			PodContentsType? podContentsType = parms.podContentsType;
@@ -38,7 +44,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026C8 RID: 9928 RVA: 0x0014D12C File Offset: 0x0014B52C
 		private Pawn GenerateFriendlyAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -47,7 +52,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026C9 RID: 9929 RVA: 0x0014D1A8 File Offset: 0x0014B5A8
 		private Pawn GenerateIncappedAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -57,7 +61,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CA RID: 9930 RVA: 0x0014D22C File Offset: 0x0014B62C
 		private Pawn GenerateSlave()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Slave, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -71,7 +74,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CB RID: 9931 RVA: 0x0014D2C4 File Offset: 0x0014B6C4
 		private Pawn GenerateAngryAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncientsHostile, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -80,7 +82,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CC RID: 9932 RVA: 0x0014D340 File Offset: 0x0014B740
 		private Pawn GenerateHalfEatenAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -98,7 +99,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CD RID: 9933 RVA: 0x0014D410 File Offset: 0x0014B810
 		private List<Thing> GenerateScarabs()
 		{
 			List<Thing> list = new List<Thing>();
@@ -112,7 +112,6 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x060026CE RID: 9934 RVA: 0x0014D478 File Offset: 0x0014B878
 		private void GiveRandomLootInventoryForTombPawn(Pawn p)
 		{
 			if (Rand.Value < 0.65f)
@@ -133,7 +132,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026CF RID: 9935 RVA: 0x0014D528 File Offset: 0x0014B928
 		private void MakeIntoContainer(ThingOwner container, ThingDef def, int count)
 		{
 			if (count > 0)
@@ -144,7 +142,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026D0 RID: 9936 RVA: 0x0014D55C File Offset: 0x0014B95C
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			yield return PawnKindDefOf.AncientSoldier.race;
@@ -155,6 +152,130 @@ namespace RimWorld
 			yield return ThingDefOf.ComponentIndustrial;
 			yield return ThingDefOf.ComponentSpacer;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = PawnKindDefOf.AncientSoldier.race;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = PawnKindDefOf.Slave.race;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = PawnKindDefOf.Megascarab.race;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = ThingDefOf.Gold;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = ThingDefOf.Plasteel;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = ThingDefOf.ComponentIndustrial;
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = ThingDefOf.ComponentSpacer;
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ThingSetMaker_MapGen_AncientPodContents.<AllGeneratableThingsDebugSub>c__Iterator0();
+			}
 		}
 	}
 }

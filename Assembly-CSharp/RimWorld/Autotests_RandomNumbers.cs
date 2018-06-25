@@ -1,14 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008F7 RID: 2295
 	public static class Autotests_RandomNumbers
 	{
-		// Token: 0x0600351E RID: 13598 RVA: 0x001C6B2A File Offset: 0x001C4F2A
+		[CompilerGenerated]
+		private static Predicate<float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Predicate<float> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<float, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<float, bool> <>f__am$cache5;
+
 		public static void Run()
 		{
 			Log.Message("Running random numbers tests.", false);
@@ -19,7 +39,6 @@ namespace RimWorld
 			Log.Message("Finished.", false);
 		}
 
-		// Token: 0x0600351F RID: 13599 RVA: 0x001C6B58 File Offset: 0x001C4F58
 		private static void CheckSimpleFloats()
 		{
 			List<float> list = Autotests_RandomNumbers.RandomFloats(500).ToList<float>();
@@ -46,7 +65,6 @@ namespace RimWorld
 			Log.Message("< 0.0001 count (should be ~0.01%): " + (float)num / (float)list.Count<float>() * 100f + "%", false);
 		}
 
-		// Token: 0x06003520 RID: 13600 RVA: 0x001C6CD8 File Offset: 0x001C50D8
 		private static IEnumerable<float> RandomFloats(int count)
 		{
 			for (int i = 0; i < count; i++)
@@ -56,7 +74,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003521 RID: 13601 RVA: 0x001C6D04 File Offset: 0x001C5104
 		private static void CheckIntsRange()
 		{
 			int num = -7;
@@ -116,7 +133,6 @@ namespace RimWorld
 			Log.Error("Failed to find all numbers in a range.", false);
 		}
 
-		// Token: 0x06003522 RID: 13602 RVA: 0x001C6E54 File Offset: 0x001C5254
 		private static void CheckIntsDistribution()
 		{
 			List<int> list = new List<int>();
@@ -139,7 +155,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003523 RID: 13603 RVA: 0x001C6F24 File Offset: 0x001C5324
 		private static void CheckSeed()
 		{
 			int seed = 10;
@@ -161,7 +176,6 @@ namespace RimWorld
 			Autotests_RandomNumbers.TestPushSeed(455, 648023);
 		}
 
-		// Token: 0x06003524 RID: 13604 RVA: 0x001C6FC4 File Offset: 0x001C53C4
 		private static void TestPushSeed(int seed1, int seed2)
 		{
 			Rand.Seed = seed1;
@@ -181,6 +195,153 @@ namespace RimWorld
 			if (@int != int4 || int2 != int6 || int3 != int5)
 			{
 				Log.Error("PushSeed broken.", false);
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckSimpleFloats>m__0(float x)
+		{
+			return x < 0f || x > 1f;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckSimpleFloats>m__1(float x)
+		{
+			return x < 0.1f;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckSimpleFloats>m__2(float x)
+		{
+			return (double)x > 0.5 && (double)x < 0.6;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckSimpleFloats>m__3(float x)
+		{
+			return (double)x > 0.9;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckSimpleFloats>m__4(float x)
+		{
+			return (double)x < 0.1;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckSimpleFloats>m__5(float x)
+		{
+			return (double)x < 0.0001;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomFloats>c__Iterator0 : IEnumerable, IEnumerable<float>, IEnumerator, IDisposable, IEnumerator<float>
+		{
+			internal int <i>__1;
+
+			internal int count;
+
+			internal float $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RandomFloats>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < count)
+				{
+					this.$current = Rand.Value;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			float IEnumerator<float>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<float>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<float> IEnumerable<float>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Autotests_RandomNumbers.<RandomFloats>c__Iterator0 <RandomFloats>c__Iterator = new Autotests_RandomNumbers.<RandomFloats>c__Iterator0();
+				<RandomFloats>c__Iterator.count = count;
+				return <RandomFloats>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheckIntsDistribution>c__AnonStorey1
+		{
+			internal int i;
+
+			public <CheckIntsDistribution>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return x == this.i;
 			}
 		}
 	}

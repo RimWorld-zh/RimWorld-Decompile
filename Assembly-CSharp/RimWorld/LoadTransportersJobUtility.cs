@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200014E RID: 334
 	public static class LoadTransportersJobUtility
 	{
-		// Token: 0x0400032D RID: 813
 		private static HashSet<Thing> neededThings = new HashSet<Thing>();
 
-		// Token: 0x060006E6 RID: 1766 RVA: 0x00046804 File Offset: 0x00044C04
 		public static bool HasJobOnTransporter(Pawn pawn, CompTransporter transporter)
 		{
 			return !transporter.parent.IsForbidden(pawn) && transporter.AnythingLeftToLoad && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && pawn.CanReserveAndReach(transporter.parent, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false) && LoadTransportersJobUtility.FindThingToLoad(pawn, transporter) != null;
 		}
 
-		// Token: 0x060006E7 RID: 1767 RVA: 0x000468A4 File Offset: 0x00044CA4
 		public static Job JobOnTransporter(Pawn p, CompTransporter transporter)
 		{
 			Thing thing = LoadTransportersJobUtility.FindThingToLoad(p, transporter);
@@ -30,7 +27,6 @@ namespace RimWorld
 			return job;
 		}
 
-		// Token: 0x060006E8 RID: 1768 RVA: 0x0004690C File Offset: 0x00044D0C
 		private static Thing FindThingToLoad(Pawn p, CompTransporter transporter)
 		{
 			LoadTransportersJobUtility.neededThings.Clear();
@@ -72,6 +68,26 @@ namespace RimWorld
 				result = thing;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static LoadTransportersJobUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindThingToLoad>c__AnonStorey0
+		{
+			internal Pawn p;
+
+			public <FindThingToLoad>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return LoadTransportersJobUtility.neededThings.Contains(x) && this.p.CanReserve(x, 1, -1, null, false);
+			}
 		}
 	}
 }

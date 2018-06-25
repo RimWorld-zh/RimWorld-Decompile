@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D72 RID: 3442
 	public static class MaterialLoader
 	{
-		// Token: 0x06004D25 RID: 19749 RVA: 0x002836C0 File Offset: 0x00281AC0
+		[CompilerGenerated]
+		private static Func<Texture2D, Material> <>f__am$cache0;
+
 		public static List<Material> MatsFromTexturesInFolder(string dirPath)
 		{
 			string path = "Textures/" + dirPath;
@@ -16,7 +18,6 @@ namespace Verse
 			select MaterialPool.MatFrom(tex)).ToList<Material>();
 		}
 
-		// Token: 0x06004D26 RID: 19750 RVA: 0x00283720 File Offset: 0x00281B20
 		public static Material MatWithEnding(string dirPath, string ending)
 		{
 			Material material = (from mat in MaterialLoader.MatsFromTexturesInFolder(dirPath)
@@ -33,6 +34,27 @@ namespace Verse
 				result = material;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static Material <MatsFromTexturesInFolder>m__0(Texture2D tex)
+		{
+			return MaterialPool.MatFrom(tex);
+		}
+
+		[CompilerGenerated]
+		private sealed class <MatWithEnding>c__AnonStorey0
+		{
+			internal string ending;
+
+			public <MatWithEnding>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Material mat)
+			{
+				return mat.mainTexture.name.ToLower().EndsWith(this.ending);
+			}
 		}
 	}
 }

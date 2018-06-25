@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E8 RID: 1256
 	public class DrugPolicy : IExposable, ILoadReferenceable
 	{
-		// Token: 0x04000D19 RID: 3353
 		public int uniqueId;
 
-		// Token: 0x04000D1A RID: 3354
 		public string label;
 
-		// Token: 0x04000D1B RID: 3355
 		private List<DrugPolicyEntry> entriesInt;
 
-		// Token: 0x06001667 RID: 5735 RVA: 0x000C7238 File Offset: 0x000C5638
+		[CompilerGenerated]
+		private static Func<DrugPolicyEntry, float> <>f__am$cache0;
+
 		public DrugPolicy()
 		{
 		}
 
-		// Token: 0x06001668 RID: 5736 RVA: 0x000C7241 File Offset: 0x000C5641
 		public DrugPolicy(int uniqueId, string label)
 		{
 			this.uniqueId = uniqueId;
@@ -29,8 +27,6 @@ namespace RimWorld
 			this.InitializeIfNeeded();
 		}
 
-		// Token: 0x170002EC RID: 748
-		// (get) Token: 0x06001669 RID: 5737 RVA: 0x000C7260 File Offset: 0x000C5660
 		public int Count
 		{
 			get
@@ -39,7 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002ED RID: 749
 		public DrugPolicyEntry this[int index]
 		{
 			get
@@ -52,7 +47,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002EE RID: 750
 		public DrugPolicyEntry this[ThingDef drugDef]
 		{
 			get
@@ -68,7 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600166D RID: 5741 RVA: 0x000C7310 File Offset: 0x000C5710
 		public void InitializeIfNeeded()
 		{
 			if (this.entriesInt == null)
@@ -89,7 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600166E RID: 5742 RVA: 0x000C73CE File Offset: 0x000C57CE
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
@@ -97,10 +89,15 @@ namespace RimWorld
 			Scribe_Collections.Look<DrugPolicyEntry>(ref this.entriesInt, "drugs", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600166F RID: 5743 RVA: 0x000C740C File Offset: 0x000C580C
 		public string GetUniqueLoadID()
 		{
 			return "DrugPolicy_" + this.label + this.uniqueId.ToString();
+		}
+
+		[CompilerGenerated]
+		private static float <InitializeIfNeeded>m__0(DrugPolicyEntry e)
+		{
+			return e.drug.GetCompProperties<CompProperties_Drug>().listOrder;
 		}
 	}
 }

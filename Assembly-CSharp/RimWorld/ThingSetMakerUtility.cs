@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006FE RID: 1790
 	public static class ThingSetMakerUtility
 	{
-		// Token: 0x040015B2 RID: 5554
 		public static List<ThingDef> allGeneratableItems = new List<ThingDef>();
 
-		// Token: 0x06002704 RID: 9988 RVA: 0x00150180 File Offset: 0x0014E580
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache0;
+
 		public static void Reset()
 		{
 			ThingSetMakerUtility.allGeneratableItems.Clear();
@@ -26,13 +27,11 @@ namespace RimWorld
 			ThingSetMaker_Meteorite.Reset();
 		}
 
-		// Token: 0x06002705 RID: 9989 RVA: 0x00150200 File Offset: 0x0014E600
 		public static bool CanGenerate(ThingDef thingDef)
 		{
 			return (thingDef.category == ThingCategory.Item || thingDef.Minifiable) && (thingDef.category != ThingCategory.Item || thingDef.EverHaulable) && !thingDef.isUnfinishedThing && !thingDef.IsCorpse && thingDef.PlayerAcquirable && thingDef.graphicData != null && !typeof(MinifiedThing).IsAssignableFrom(thingDef.thingClass);
 		}
 
-		// Token: 0x06002706 RID: 9990 RVA: 0x00150294 File Offset: 0x0014E694
 		public static IEnumerable<ThingDef> GetAllowedThingDefs(ThingSetMakerParams parms)
 		{
 			ThingSetMakerUtility.<GetAllowedThingDefs>c__AnonStorey0 <GetAllowedThingDefs>c__AnonStorey = new ThingSetMakerUtility.<GetAllowedThingDefs>c__AnonStorey0();
@@ -67,7 +66,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002707 RID: 9991 RVA: 0x00150324 File Offset: 0x0014E724
 		public static void AssignQuality(Thing thing, QualityGenerator? qualityGenerator)
 		{
 			CompQuality compQuality = thing.TryGetComp<CompQuality>();
@@ -79,7 +77,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002708 RID: 9992 RVA: 0x0015036C File Offset: 0x0014E76C
 		public static float AdjustedBigCategoriesSelectionWeight(ThingDef d, int numMeats, int numLeathers)
 		{
 			float num = 1f;
@@ -94,7 +91,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002709 RID: 9993 RVA: 0x001503C8 File Offset: 0x0014E7C8
 		public static bool PossibleToWeighNoMoreThan(ThingDef t, float maxMass, IEnumerable<ThingDef> allowedStuff)
 		{
 			bool result;
@@ -124,7 +120,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600270A RID: 9994 RVA: 0x00150490 File Offset: 0x0014E890
 		public static bool TryGetRandomThingWhichCanWeighNoMoreThan(IEnumerable<ThingDef> candidates, TechLevel stuffTechLevel, float maxMass, out ThingStuffPair thingStuffPair)
 		{
 			ThingDef thingDef;
@@ -159,7 +154,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600270B RID: 9995 RVA: 0x00150570 File Offset: 0x0014E970
 		public static bool PossibleToWeighNoMoreThan(IEnumerable<ThingDef> candidates, TechLevel stuffTechLevel, float maxMass, int count)
 		{
 			bool result;
@@ -183,7 +177,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600270C RID: 9996 RVA: 0x00150614 File Offset: 0x0014EA14
 		public static float GetMinMass(ThingDef thingDef, TechLevel stuffTechLevel)
 		{
 			float num = float.MaxValue;
@@ -204,7 +197,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600270D RID: 9997 RVA: 0x001506C8 File Offset: 0x0014EAC8
 		public static float GetMinMarketValue(ThingDef thingDef, TechLevel stuffTechLevel)
 		{
 			float num = float.MaxValue;
@@ -223,6 +215,77 @@ namespace RimWorld
 				num = Mathf.Min(num, StatDefOf.MarketValue.Worker.GetValue(StatRequest.For(thingDef, null, QualityCategory.Awful), true));
 			}
 			return num;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingSetMakerUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <TryGetRandomThingWhichCanWeighNoMoreThan>m__0(ThingDef x)
+		{
+			return x.stuffProps.commonality;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetAllowedThingDefs>c__AnonStorey0
+		{
+			internal TechLevel techLevel;
+
+			internal ThingSetMakerParams parms;
+
+			public <GetAllowedThingDefs>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return x.techLevel <= this.techLevel;
+			}
+
+			internal bool <>m__1(ThingDef x)
+			{
+				if (ThingSetMakerUtility.CanGenerate(x))
+				{
+					float? maxThingMarketValue = this.parms.maxThingMarketValue;
+					if (maxThingMarketValue != null)
+					{
+						float? maxThingMarketValue2 = this.parms.maxThingMarketValue;
+						if (!(x.BaseMarketValue <= maxThingMarketValue2))
+						{
+							goto IL_7E;
+						}
+					}
+					return this.parms.validator == null || this.parms.validator(x);
+				}
+				IL_7E:
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGetRandomThingWhichCanWeighNoMoreThan>c__AnonStorey1
+		{
+			internal float maxMass;
+
+			internal TechLevel stuffTechLevel;
+
+			internal ThingDef thingDef;
+
+			public <TryGetRandomThingWhichCanWeighNoMoreThan>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return ThingSetMakerUtility.PossibleToWeighNoMoreThan(x, this.maxMass, GenStuff.AllowedStuffsFor(x, this.stuffTechLevel));
+			}
+
+			internal bool <>m__1(ThingDef x)
+			{
+				return this.thingDef.GetStatValueAbstract(StatDefOf.Mass, x) <= this.maxMass;
+			}
 		}
 	}
 }

@@ -1,30 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005DD RID: 1501
 	public static class CaravanIncidentUtility
 	{
-		// Token: 0x04001194 RID: 4500
 		private const int MapCellsPerPawn = 900;
 
-		// Token: 0x04001195 RID: 4501
 		private const int MinMapSize = 75;
 
-		// Token: 0x04001196 RID: 4502
 		private const int MaxMapSize = 110;
 
-		// Token: 0x06001D97 RID: 7575 RVA: 0x000FF56C File Offset: 0x000FD96C
 		public static int CalculateIncidentMapSize(List<Pawn> caravanPawns, List<Pawn> enemies)
 		{
 			int num = Mathf.RoundToInt((float)((caravanPawns.Count + enemies.Count) * 900));
 			return Mathf.Clamp(Mathf.RoundToInt(Mathf.Sqrt((float)num)), 75, 110);
 		}
 
-		// Token: 0x06001D98 RID: 7576 RVA: 0x000FF5B0 File Offset: 0x000FD9B0
 		public static bool CanFireIncidentWhichWantsToGenerateMapAt(int tile)
 		{
 			bool result;
@@ -51,7 +46,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D99 RID: 7577 RVA: 0x000FF654 File Offset: 0x000FDA54
 		public static Map SetupCaravanAttackMap(Caravan caravan, List<Pawn> enemies, bool sendLetterIfRelatedPawns)
 		{
 			int num = CaravanIncidentUtility.CalculateIncidentMapSize(caravan.PawnsListForReading, enemies);
@@ -75,7 +69,6 @@ namespace RimWorld.Planet
 			return map;
 		}
 
-		// Token: 0x06001D9A RID: 7578 RVA: 0x000FF748 File Offset: 0x000FDB48
 		public static Map GetOrGenerateMapForIncident(Caravan caravan, IntVec3 size, WorldObjectDef suggestedMapParentDef)
 		{
 			int tile = caravan.Tile;
@@ -86,6 +79,23 @@ namespace RimWorld.Planet
 				orGenerateMap.retainedCaravanData.Notify_GeneratedTempIncidentMapFor(caravan);
 			}
 			return orGenerateMap;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SetupCaravanAttackMap>c__AnonStorey0
+		{
+			internal IntVec3 playerStartingSpot;
+
+			internal Map map;
+
+			public <SetupCaravanAttackMap>c__AnonStorey0()
+			{
+			}
+
+			internal IntVec3 <>m__0(Pawn x)
+			{
+				return CellFinder.RandomSpawnCellForPawnNear(this.playerStartingSpot, this.map, 4);
+			}
 		}
 	}
 }

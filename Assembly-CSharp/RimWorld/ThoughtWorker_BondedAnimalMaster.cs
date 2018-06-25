@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020001F6 RID: 502
 	public class ThoughtWorker_BondedAnimalMaster : ThoughtWorker
 	{
-		// Token: 0x060009B5 RID: 2485 RVA: 0x00057A18 File Offset: 0x00055E18
+		public ThoughtWorker_BondedAnimalMaster()
+		{
+		}
+
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
@@ -23,7 +25,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060009B6 RID: 2486 RVA: 0x00057AF4 File Offset: 0x00055EF4
 		protected virtual bool AnimalMasterCheck(Pawn p, Pawn animal)
 		{
 			return animal.playerSettings.RespectedMaster == p;

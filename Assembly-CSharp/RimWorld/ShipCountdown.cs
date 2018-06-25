@@ -8,20 +8,14 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200074D RID: 1869
 	public static class ShipCountdown
 	{
-		// Token: 0x04001695 RID: 5781
 		private static float timeLeft = -1000f;
 
-		// Token: 0x04001696 RID: 5782
 		private static Building shipRoot;
 
-		// Token: 0x04001697 RID: 5783
 		private const float InitialTime = 7.2f;
 
-		// Token: 0x17000669 RID: 1641
-		// (get) Token: 0x06002973 RID: 10611 RVA: 0x0016091C File Offset: 0x0015ED1C
 		public static bool CountingDown
 		{
 			get
@@ -30,7 +24,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002974 RID: 10612 RVA: 0x00160940 File Offset: 0x0015ED40
 		public static void InitiateCountdown(Building launchingShipRoot)
 		{
 			SoundDefOf.ShipTakeoff.PlayOneShotOnCamera(null);
@@ -39,7 +32,6 @@ namespace RimWorld
 			ScreenFader.StartFade(Color.white, 7.2f);
 		}
 
-		// Token: 0x06002975 RID: 10613 RVA: 0x0016096D File Offset: 0x0015ED6D
 		public static void ShipCountdownUpdate()
 		{
 			if (ShipCountdown.timeLeft > 0f)
@@ -52,13 +44,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002976 RID: 10614 RVA: 0x001609A7 File Offset: 0x0015EDA7
 		public static void CancelCountdown()
 		{
 			ShipCountdown.timeLeft = -1000f;
 		}
 
-		// Token: 0x06002977 RID: 10615 RVA: 0x001609B4 File Offset: 0x0015EDB4
 		private static void CountdownEnded()
 		{
 			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(ShipCountdown.shipRoot).ToList<Building>();
@@ -83,6 +73,11 @@ namespace RimWorld
 				GameVictoryUtility.PawnsLeftBehind()
 			});
 			GameVictoryUtility.ShowCredits(victoryText);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ShipCountdown()
+		{
 		}
 	}
 }

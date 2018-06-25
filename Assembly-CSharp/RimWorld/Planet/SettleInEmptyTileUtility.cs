@@ -6,24 +6,18 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F7 RID: 1527
 	public static class SettleInEmptyTileUtility
 	{
-		// Token: 0x0400120E RID: 4622
 		private const int MinStartingLocCellsCount = 600;
 
-		// Token: 0x0400120F RID: 4623
 		private static StringBuilder tmpSettleFailReason = new StringBuilder();
 
-		// Token: 0x04001210 RID: 4624
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache0;
 
-		// Token: 0x04001211 RID: 4625
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache1;
 
-		// Token: 0x06001E63 RID: 7779 RVA: 0x001074E0 File Offset: 0x001058E0
 		public static void Settle(Caravan caravan)
 		{
 			Faction faction = caravan.Faction;
@@ -62,7 +56,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E64 RID: 7780 RVA: 0x001075A4 File Offset: 0x001059A4
 		public static Command SettleCommand(Caravan caravan)
 		{
 			Command_Settle command_Settle = new Command_Settle();
@@ -94,6 +87,76 @@ namespace RimWorld.Planet
 				}
 			}
 			return command_Settle;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SettleInEmptyTileUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <Settle>c__AnonStorey0
+		{
+			internal Caravan caravan;
+
+			internal FactionBase newHome;
+
+			public <Settle>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				GetOrGenerateMapUtility.GetOrGenerateMap(this.caravan.Tile, Find.World.info.initialMapSize, null);
+			}
+
+			internal void <>m__1()
+			{
+				Map map = this.newHome.Map;
+				Pawn t = this.caravan.PawnsListForReading[0];
+				CaravanEnterMapUtility.Enter(this.caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, (IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600);
+				CameraJumper.TryJump(t);
+			}
+
+			private sealed class <Settle>c__AnonStorey1
+			{
+				internal Map map;
+
+				internal SettleInEmptyTileUtility.<Settle>c__AnonStorey0 <>f__ref$0;
+
+				public <Settle>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(IntVec3 x)
+				{
+					return x.GetRoom(this.map, RegionType.Set_Passable).CellCount >= 600;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SettleCommand>c__AnonStorey2
+		{
+			internal Caravan caravan;
+
+			public <SettleCommand>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+				FactionBaseProximityGoodwillUtility.CheckConfirmSettle(this.caravan.Tile, delegate
+				{
+					SettleInEmptyTileUtility.Settle(this.caravan);
+				});
+			}
+
+			internal void <>m__1()
+			{
+				SettleInEmptyTileUtility.Settle(this.caravan);
+			}
 		}
 	}
 }

@@ -5,10 +5,8 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004BE RID: 1214
 	public static class ParentRelationUtility
 	{
-		// Token: 0x060015B4 RID: 5556 RVA: 0x000C16F4 File Offset: 0x000BFAF4
 		public static Pawn GetFather(this Pawn pawn)
 		{
 			Pawn result;
@@ -32,7 +30,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015B5 RID: 5557 RVA: 0x000C177C File Offset: 0x000BFB7C
 		public static Pawn GetMother(this Pawn pawn)
 		{
 			Pawn result;
@@ -56,7 +53,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015B6 RID: 5558 RVA: 0x000C1804 File Offset: 0x000BFC04
 		public static void SetFather(this Pawn pawn, Pawn newFather)
 		{
 			if (newFather != null && newFather.gender == Gender.Female)
@@ -89,7 +85,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015B7 RID: 5559 RVA: 0x000C18B0 File Offset: 0x000BFCB0
 		public static void SetMother(this Pawn pawn, Pawn newMother)
 		{
 			if (newMother != null && newMother.gender != Gender.Female)
@@ -122,7 +117,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015B8 RID: 5560 RVA: 0x000C195C File Offset: 0x000BFD5C
 		public static float GetRandomSecondParentSkinColor(float otherParentSkin, float childSkin, float? secondChildSkin = null)
 		{
 			float mirror;

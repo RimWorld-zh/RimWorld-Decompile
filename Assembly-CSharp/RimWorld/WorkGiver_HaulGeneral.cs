@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000149 RID: 329
 	public class WorkGiver_HaulGeneral : WorkGiver_Haul
 	{
-		// Token: 0x060006D1 RID: 1745 RVA: 0x00046170 File Offset: 0x00044570
+		public WorkGiver_HaulGeneral()
+		{
+		}
+
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

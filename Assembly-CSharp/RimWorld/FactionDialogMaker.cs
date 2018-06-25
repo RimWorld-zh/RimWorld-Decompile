@@ -1,15 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000558 RID: 1368
 	public static class FactionDialogMaker
 	{
-		// Token: 0x060019A9 RID: 6569 RVA: 0x000DF0F4 File Offset: 0x000DD4F4
+		[CompilerGenerated]
+		private static Predicate<ResearchProjectDef> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Thing, int> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<TraderKindDef, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<IAttackTarget, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<IAttackTarget, Faction> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<Faction, string> <>f__am$cache6;
+
 		public static DiaNode FactionDialogFor(Pawn negotiator, Faction faction)
 		{
 			Map map = negotiator.Map;
@@ -81,7 +104,6 @@ namespace RimWorld
 			return diaNode;
 		}
 
-		// Token: 0x060019AA RID: 6570 RVA: 0x000DF348 File Offset: 0x000DD748
 		private static IEnumerable<DiaOption> DebugOptions(Faction faction, Pawn negotiator)
 		{
 			yield return new DiaOption("(Debug) Goodwill +10")
@@ -103,7 +125,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060019AB RID: 6571 RVA: 0x000DF37C File Offset: 0x000DD77C
 		private static int AmountSendableSilver(Map map)
 		{
 			return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
@@ -111,7 +132,6 @@ namespace RimWorld
 			select t).Sum((Thing t) => t.stackCount);
 		}
 
-		// Token: 0x060019AC RID: 6572 RVA: 0x000DF3DC File Offset: 0x000DD7DC
 		private static DiaOption RequestAICoreQuest(Map map, Faction faction, Pawn negotiator)
 		{
 			string text = "RequestAICoreInformation".Translate(new object[]
@@ -182,7 +202,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019AD RID: 6573 RVA: 0x000DF5C0 File Offset: 0x000DD9C0
 		private static DiaOption RequestTraderOption(Map map, Faction faction, Pawn negotiator)
 		{
 			string text = "RequestTrader".Translate(new object[]
@@ -261,7 +280,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019AE RID: 6574 RVA: 0x000DF86C File Offset: 0x000DDC6C
 		private static DiaOption RequestMilitaryAidOption(Map map, Faction faction, Pawn negotiator)
 		{
 			string text = "RequestMilitaryAid".Translate(new object[]
@@ -329,7 +347,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019AF RID: 6575 RVA: 0x000DFAF0 File Offset: 0x000DDEF0
 		private static DiaNode CantMakeItInTime(Faction faction, Pawn negotiator)
 		{
 			return new DiaNode("CantSendMilitaryAidInTime".Translate(new object[]
@@ -344,7 +361,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060019B0 RID: 6576 RVA: 0x000DFB44 File Offset: 0x000DDF44
 		private static DiaNode FightersSent(Faction faction, Pawn negotiator)
 		{
 			return new DiaNode("MilitaryAidSent".Translate(new object[]
@@ -359,7 +375,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060019B1 RID: 6577 RVA: 0x000DFB98 File Offset: 0x000DDF98
 		private static void CallForAid(Map map, Faction faction)
 		{
 			Faction ofPlayer = Faction.OfPlayer;
@@ -375,7 +390,6 @@ namespace RimWorld
 			IncidentDefOf.RaidFriendly.Worker.TryExecute(incidentParms);
 		}
 
-		// Token: 0x060019B2 RID: 6578 RVA: 0x000DFC1C File Offset: 0x000DE01C
 		private static DiaOption OKToRoot(Faction faction, Pawn negotiator)
 		{
 			return new DiaOption("OK".Translate())
@@ -384,10 +398,308 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060019B3 RID: 6579 RVA: 0x000DFC50 File Offset: 0x000DE050
 		private static Func<DiaNode> ResetToRoot(Faction faction, Pawn negotiator)
 		{
 			return () => FactionDialogMaker.FactionDialogFor(negotiator, faction);
+		}
+
+		[CompilerGenerated]
+		private static bool <FactionDialogFor>m__0(ResearchProjectDef rp)
+		{
+			return rp.HasTag(ResearchProjectTagDefOf.ShipRelated) && rp.IsFinished;
+		}
+
+		[CompilerGenerated]
+		private static bool <AmountSendableSilver>m__1(Thing t)
+		{
+			return t.def == ThingDefOf.Silver;
+		}
+
+		[CompilerGenerated]
+		private static int <AmountSendableSilver>m__2(Thing t)
+		{
+			return t.stackCount;
+		}
+
+		[CompilerGenerated]
+		private static bool <RequestTraderOption>m__3(TraderKindDef x)
+		{
+			return x.requestable;
+		}
+
+		[CompilerGenerated]
+		private static bool <RequestMilitaryAidOption>m__4(IAttackTarget x)
+		{
+			return GenHostility.IsActiveThreatToPlayer(x);
+		}
+
+		[CompilerGenerated]
+		private static Faction <RequestMilitaryAidOption>m__5(IAttackTarget x)
+		{
+			return ((Thing)x).Faction;
+		}
+
+		[CompilerGenerated]
+		private static string <RequestMilitaryAidOption>m__6(Faction fa)
+		{
+			return fa.Name;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DebugOptions>c__Iterator0 : IEnumerable, IEnumerable<DiaOption>, IEnumerator, IDisposable, IEnumerator<DiaOption>
+		{
+			internal DiaOption <opt>__1;
+
+			internal Faction faction;
+
+			internal Pawn negotiator;
+
+			internal DiaOption <opt>__2;
+
+			internal DiaOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private FactionDialogMaker.<DebugOptions>c__Iterator0.<DebugOptions>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <DebugOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					DiaOption opt = new DiaOption("(Debug) Goodwill +10");
+					opt.action = delegate()
+					{
+						faction.TryAffectGoodwillWith(Faction.OfPlayer, 10, false, true, null, null);
+					};
+					opt.linkLateBind = (() => FactionDialogMaker.FactionDialogFor(negotiator, faction));
+					this.$current = opt;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				case 1u:
+				{
+					DiaOption opt2 = new DiaOption("(Debug) Goodwill -10");
+					opt2.action = delegate()
+					{
+						<DebugOptions>c__AnonStorey.faction.TryAffectGoodwillWith(Faction.OfPlayer, -10, false, true, null, null);
+					};
+					opt2.linkLateBind = (() => FactionDialogMaker.FactionDialogFor(<DebugOptions>c__AnonStorey.negotiator, <DebugOptions>c__AnonStorey.faction));
+					this.$current = opt2;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			DiaOption IEnumerator<DiaOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.DiaOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<DiaOption> IEnumerable<DiaOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				FactionDialogMaker.<DebugOptions>c__Iterator0 <DebugOptions>c__Iterator = new FactionDialogMaker.<DebugOptions>c__Iterator0();
+				<DebugOptions>c__Iterator.faction = faction;
+				<DebugOptions>c__Iterator.negotiator = negotiator;
+				return <DebugOptions>c__Iterator;
+			}
+
+			private sealed class <DebugOptions>c__AnonStorey1
+			{
+				internal Faction faction;
+
+				internal Pawn negotiator;
+
+				public <DebugOptions>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.faction.TryAffectGoodwillWith(Faction.OfPlayer, 10, false, true, null, null);
+				}
+
+				internal DiaNode <>m__1()
+				{
+					return FactionDialogMaker.FactionDialogFor(this.negotiator, this.faction);
+				}
+
+				internal void <>m__2()
+				{
+					this.faction.TryAffectGoodwillWith(Faction.OfPlayer, -10, false, true, null, null);
+				}
+
+				internal DiaNode <>m__3()
+				{
+					return FactionDialogMaker.FactionDialogFor(this.negotiator, this.faction);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RequestAICoreQuest>c__AnonStorey2
+		{
+			internal IncidentDef def;
+
+			internal IncidentParms coreIncidentParms;
+
+			internal Map map;
+
+			public <RequestAICoreQuest>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (this.def.Worker.TryExecute(this.coreIncidentParms))
+				{
+					TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, 1500, this.map, null);
+				}
+				Current.Game.GetComponent<GameComponent_OnetimeNotification>().sendAICoreRequestReminder = false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RequestTraderOption>c__AnonStorey3
+		{
+			internal Map map;
+
+			internal Faction faction;
+
+			public <RequestTraderOption>c__AnonStorey3()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RequestTraderOption>c__AnonStorey4
+		{
+			internal TraderKindDef localTk;
+
+			internal FactionDialogMaker.<RequestTraderOption>c__AnonStorey3 <>f__ref$3;
+
+			public <RequestTraderOption>c__AnonStorey4()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				IncidentParms incidentParms = new IncidentParms();
+				incidentParms.target = this.<>f__ref$3.map;
+				incidentParms.faction = this.<>f__ref$3.faction;
+				incidentParms.traderKind = this.localTk;
+				incidentParms.forced = true;
+				Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms);
+				this.<>f__ref$3.faction.lastTraderRequestTick = Find.TickManager.TicksGame;
+				Faction faction = this.<>f__ref$3.faction;
+				Faction ofPlayer = Faction.OfPlayer;
+				int goodwillChange = -15;
+				bool canSendMessage = false;
+				string reason = "GoodwillChangedReason_RequestedTrader".Translate();
+				faction.TryAffectGoodwillWith(ofPlayer, goodwillChange, canSendMessage, true, reason, null);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RequestMilitaryAidOption>c__AnonStorey5
+		{
+			internal Faction faction;
+
+			internal Map map;
+
+			public <RequestMilitaryAidOption>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(Faction x)
+			{
+				return x != null && !x.HostileTo(this.faction);
+			}
+
+			internal void <>m__1()
+			{
+				FactionDialogMaker.CallForAid(this.map, this.faction);
+			}
+
+			internal void <>m__2()
+			{
+				FactionDialogMaker.CallForAid(this.map, this.faction);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ResetToRoot>c__AnonStorey6
+		{
+			internal Pawn negotiator;
+
+			internal Faction faction;
+
+			public <ResetToRoot>c__AnonStorey6()
+			{
+			}
+
+			internal DiaNode <>m__0()
+			{
+				return FactionDialogMaker.FactionDialogFor(this.negotiator, this.faction);
+			}
 		}
 	}
 }

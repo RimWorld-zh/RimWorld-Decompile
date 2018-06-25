@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D37 RID: 3383
 	public class HediffGiver_Hypothermia : HediffGiver
 	{
-		// Token: 0x0400325C RID: 12892
 		public HediffDef hediffInsectoid;
 
-		// Token: 0x06004A8D RID: 19085 RVA: 0x0026E434 File Offset: 0x0026C834
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, float> <>f__am$cache0;
+
+		public HediffGiver_Hypothermia()
+		{
+		}
+
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			float ambientTemperature = pawn.AmbientTemperature;
@@ -61,6 +66,27 @@ namespace Verse
 						}
 					}
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static float <OnIntervalPassed>m__0(BodyPartRecord x)
+		{
+			return x.def.frostbiteVulnerability;
+		}
+
+		[CompilerGenerated]
+		private sealed class <OnIntervalPassed>c__AnonStorey0
+		{
+			internal HediffSet hediffSet;
+
+			public <OnIntervalPassed>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord x)
+			{
+				return !this.hediffSet.PartIsMissing(x);
 			}
 		}
 	}

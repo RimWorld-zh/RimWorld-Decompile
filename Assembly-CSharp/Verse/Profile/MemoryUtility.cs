@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D6A RID: 3434
 	public static class MemoryUtility
 	{
-		// Token: 0x06004CFE RID: 19710 RVA: 0x00282B6C File Offset: 0x00280F6C
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
 		public static void UnloadUnusedUnityAssets()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -19,7 +21,6 @@ namespace Verse.Profile
 			});
 		}
 
-		// Token: 0x06004CFF RID: 19711 RVA: 0x00282B94 File Offset: 0x00280F94
 		public static void ClearAllMapsAndWorld()
 		{
 			if (Current.Game != null && Current.Game.Maps != null)
@@ -52,6 +53,12 @@ namespace Verse.Profile
 				}
 			}
 			BillUtility.Clipboard = null;
+		}
+
+		[CompilerGenerated]
+		private static void <UnloadUnusedUnityAssets>m__0()
+		{
+			Resources.UnloadUnusedAssets();
 		}
 	}
 }

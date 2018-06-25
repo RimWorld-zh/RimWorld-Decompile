@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000E3 RID: 227
 	public class JobGiver_Haul : ThinkNode_JobGiver
 	{
-		// Token: 0x060004EE RID: 1262 RVA: 0x00036E00 File Offset: 0x00035200
+		public JobGiver_Haul()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)
@@ -26,6 +29,22 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				IntVec3 intVec;
+				return !t.IsForbidden(this.pawn) && HaulAIUtility.PawnCanAutomaticallyHaulFast(this.pawn, t, false) && this.pawn.carryTracker.MaxStackSpaceEver(t.def) > 0 && StoreUtility.TryFindBestBetterStoreCellFor(t, this.pawn, this.pawn.Map, StoreUtility.CurrentStoragePriorityOf(t), this.pawn.Faction, out intVec, true);
+			}
 		}
 	}
 }

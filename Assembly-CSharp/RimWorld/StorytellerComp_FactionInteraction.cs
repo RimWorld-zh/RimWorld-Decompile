@@ -1,17 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200036D RID: 877
 	public class StorytellerComp_FactionInteraction : StorytellerComp
 	{
-		// Token: 0x04000952 RID: 2386
 		private const int ForceChooseTraderAfterTicks = 780000;
 
-		// Token: 0x17000221 RID: 545
-		// (get) Token: 0x06000F33 RID: 3891 RVA: 0x00080C8C File Offset: 0x0007F08C
+		[CompilerGenerated]
+		private static Func<IncidentDef, float> <>f__am$cache0;
+
+		public StorytellerComp_FactionInteraction()
+		{
+		}
+
 		private StorytellerCompProperties_FactionInteraction Props
 		{
 			get
@@ -20,7 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F34 RID: 3892 RVA: 0x00080CAC File Offset: 0x0007F0AC
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			float mtb = this.Props.baseMtbDays * StorytellerUtility.AllyIncidentMTBMultiplier(true);
@@ -39,7 +45,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F35 RID: 3893 RVA: 0x00080CE0 File Offset: 0x0007F0E0
 		private bool TryChooseIncident(IIncidentTarget target, out IncidentDef result)
 		{
 			if (IncidentDefOf.TraderCaravanArrival.TargetAllowed(target))
@@ -56,6 +61,119 @@ namespace RimWorld
 				}
 			}
 			return base.UsableIncidentsInCategory(IncidentCategoryDefOf.FactionArrival, target).TryRandomElementByWeight((IncidentDef d) => d.baseChance, out result);
+		}
+
+		[CompilerGenerated]
+		private static float <TryChooseIncident>m__0(IncidentDef d)
+		{
+			return d.baseChance;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal float <mtb>__0;
+
+			internal IIncidentTarget target;
+
+			internal IncidentDef <incDef>__1;
+
+			internal StorytellerComp_FactionInteraction $this;
+
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeIntervalIncidents>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					mtb = base.Props.baseMtbDays * StorytellerUtility.AllyIncidentMTBMultiplier(true);
+					if (mtb < 0f)
+					{
+						return false;
+					}
+					if (Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+					{
+						if (base.TryChooseIncident(target, out incDef))
+						{
+							this.$current = new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StorytellerComp_FactionInteraction.<MakeIntervalIncidents>c__Iterator0 <MakeIntervalIncidents>c__Iterator = new StorytellerComp_FactionInteraction.<MakeIntervalIncidents>c__Iterator0();
+				<MakeIntervalIncidents>c__Iterator.$this = this;
+				<MakeIntervalIncidents>c__Iterator.target = target;
+				return <MakeIntervalIncidents>c__Iterator;
+			}
 		}
 	}
 }

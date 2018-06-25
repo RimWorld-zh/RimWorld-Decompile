@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld;
 using RimWorld.Planet;
@@ -9,96 +10,74 @@ using Verse.Profile;
 
 namespace Verse
 {
-	// Token: 0x02000BC4 RID: 3012
 	public class Game : IExposable
 	{
-		// Token: 0x04002CBE RID: 11454
 		private GameInitData initData;
 
-		// Token: 0x04002CBF RID: 11455
 		public sbyte currentMapIndex = -1;
 
-		// Token: 0x04002CC0 RID: 11456
 		private GameInfo info = new GameInfo();
 
-		// Token: 0x04002CC1 RID: 11457
 		public List<GameComponent> components = new List<GameComponent>();
 
-		// Token: 0x04002CC2 RID: 11458
 		private GameRules rules = new GameRules();
 
-		// Token: 0x04002CC3 RID: 11459
 		private Scenario scenarioInt;
 
-		// Token: 0x04002CC4 RID: 11460
 		private World worldInt;
 
-		// Token: 0x04002CC5 RID: 11461
 		private List<Map> maps = new List<Map>();
 
-		// Token: 0x04002CC6 RID: 11462
 		public PlaySettings playSettings = new PlaySettings();
 
-		// Token: 0x04002CC7 RID: 11463
 		public StoryWatcher storyWatcher = new StoryWatcher();
 
-		// Token: 0x04002CC8 RID: 11464
 		public LetterStack letterStack = new LetterStack();
 
-		// Token: 0x04002CC9 RID: 11465
 		public ResearchManager researchManager = new ResearchManager();
 
-		// Token: 0x04002CCA RID: 11466
 		public GameEnder gameEnder = new GameEnder();
 
-		// Token: 0x04002CCB RID: 11467
 		public Storyteller storyteller = new Storyteller();
 
-		// Token: 0x04002CCC RID: 11468
 		public History history = new History();
 
-		// Token: 0x04002CCD RID: 11469
 		public TaleManager taleManager = new TaleManager();
 
-		// Token: 0x04002CCE RID: 11470
 		public PlayLog playLog = new PlayLog();
 
-		// Token: 0x04002CCF RID: 11471
 		public BattleLog battleLog = new BattleLog();
 
-		// Token: 0x04002CD0 RID: 11472
 		public OutfitDatabase outfitDatabase = new OutfitDatabase();
 
-		// Token: 0x04002CD1 RID: 11473
 		public DrugPolicyDatabase drugPolicyDatabase = new DrugPolicyDatabase();
 
-		// Token: 0x04002CD2 RID: 11474
 		public TickManager tickManager = new TickManager();
 
-		// Token: 0x04002CD3 RID: 11475
 		public Tutor tutor = new Tutor();
 
-		// Token: 0x04002CD4 RID: 11476
 		public Autosaver autosaver = new Autosaver();
 
-		// Token: 0x04002CD5 RID: 11477
 		public DateNotifier dateNotifier = new DateNotifier();
 
-		// Token: 0x04002CD6 RID: 11478
 		public SignalManager signalManager = new SignalManager();
 
-		// Token: 0x04002CD7 RID: 11479
 		public UniqueIDsManager uniqueIDsManager = new UniqueIDsManager();
 
-		// Token: 0x06004179 RID: 16761 RVA: 0x002292A8 File Offset: 0x002276A8
+		[CompilerGenerated]
+		private static Predicate<GameComponent> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ModContentPack, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache2;
+
 		public Game()
 		{
 			this.FillComponents();
 		}
 
-		// Token: 0x17000A39 RID: 2617
-		// (get) Token: 0x0600417A RID: 16762 RVA: 0x002293BC File Offset: 0x002277BC
-		// (set) Token: 0x0600417B RID: 16763 RVA: 0x002293D7 File Offset: 0x002277D7
 		public Scenario Scenario
 		{
 			get
@@ -111,9 +90,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A3A RID: 2618
-		// (get) Token: 0x0600417C RID: 16764 RVA: 0x002293E4 File Offset: 0x002277E4
-		// (set) Token: 0x0600417D RID: 16765 RVA: 0x002293FF File Offset: 0x002277FF
 		public World World
 		{
 			get
@@ -129,9 +105,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A3B RID: 2619
-		// (get) Token: 0x0600417E RID: 16766 RVA: 0x0022941C File Offset: 0x0022781C
-		// (set) Token: 0x0600417F RID: 16767 RVA: 0x00229458 File Offset: 0x00227858
 		public Map CurrentMap
 		{
 			get
@@ -172,8 +145,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A3C RID: 2620
-		// (get) Token: 0x06004180 RID: 16768 RVA: 0x002294C0 File Offset: 0x002278C0
 		public Map AnyPlayerHomeMap
 		{
 			get
@@ -199,8 +170,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A3D RID: 2621
-		// (get) Token: 0x06004181 RID: 16769 RVA: 0x00229524 File Offset: 0x00227924
 		public List<Map> Maps
 		{
 			get
@@ -209,9 +178,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A3E RID: 2622
-		// (get) Token: 0x06004182 RID: 16770 RVA: 0x00229540 File Offset: 0x00227940
-		// (set) Token: 0x06004183 RID: 16771 RVA: 0x0022955B File Offset: 0x0022795B
 		public GameInitData InitData
 		{
 			get
@@ -224,8 +190,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A3F RID: 2623
-		// (get) Token: 0x06004184 RID: 16772 RVA: 0x00229568 File Offset: 0x00227968
 		public GameInfo Info
 		{
 			get
@@ -234,8 +198,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A40 RID: 2624
-		// (get) Token: 0x06004185 RID: 16773 RVA: 0x00229584 File Offset: 0x00227984
 		public GameRules Rules
 		{
 			get
@@ -244,7 +206,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004186 RID: 16774 RVA: 0x002295A0 File Offset: 0x002279A0
 		public void AddMap(Map map)
 		{
 			if (map == null)
@@ -266,7 +227,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004187 RID: 16775 RVA: 0x00229634 File Offset: 0x00227A34
 		public Map FindMap(MapParent mapParent)
 		{
 			for (int i = 0; i < this.maps.Count; i++)
@@ -279,7 +239,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004188 RID: 16776 RVA: 0x00229698 File Offset: 0x00227A98
 		public Map FindMap(int tile)
 		{
 			for (int i = 0; i < this.maps.Count; i++)
@@ -292,7 +251,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004189 RID: 16777 RVA: 0x002296F8 File Offset: 0x00227AF8
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -309,7 +267,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600418A RID: 16778 RVA: 0x00229774 File Offset: 0x00227B74
 		private void ExposeSmallComponents()
 		{
 			Scribe_Deep.Look<GameInfo>(ref this.info, "info", new object[0]);
@@ -342,7 +299,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600418B RID: 16779 RVA: 0x00229958 File Offset: 0x00227D58
 		private void FillComponents()
 		{
 			this.components.RemoveAll((GameComponent component) => component == null);
@@ -359,7 +315,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600418C RID: 16780 RVA: 0x00229A10 File Offset: 0x00227E10
 		public void InitNewGame()
 		{
 			string str = (from mod in LoadedModManager.RunningMods
@@ -440,7 +395,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600418D RID: 16781 RVA: 0x00229D1C File Offset: 0x0022811C
 		public void LoadGame()
 		{
 			if (this.maps.Any<Map>())
@@ -517,13 +471,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600418E RID: 16782 RVA: 0x00229F50 File Offset: 0x00228350
 		public void UpdateEntry()
 		{
 			GameComponentUtility.GameComponentUpdate();
 		}
 
-		// Token: 0x0600418F RID: 16783 RVA: 0x00229F58 File Offset: 0x00228358
 		public void UpdatePlay()
 		{
 			Profiler.BeginSample("tickManager.TickManagerUpdate()");
@@ -551,7 +503,6 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06004190 RID: 16784 RVA: 0x0022A03C File Offset: 0x0022843C
 		public T GetComponent<T>() where T : GameComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -565,7 +516,6 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x06004191 RID: 16785 RVA: 0x0022A0A0 File Offset: 0x002284A0
 		public GameComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -578,7 +528,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004192 RID: 16786 RVA: 0x0022A102 File Offset: 0x00228502
 		public void FinalizeInit()
 		{
 			LogSimple.FlushToFileAndOpen();
@@ -588,7 +537,6 @@ namespace Verse
 			Current.ProgramState = ProgramState.Playing;
 		}
 
-		// Token: 0x06004193 RID: 16787 RVA: 0x0022A128 File Offset: 0x00228528
 		public void DeinitAndRemoveMap(Map map)
 		{
 			if (map == null)
@@ -636,7 +584,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004194 RID: 16788 RVA: 0x0022A230 File Offset: 0x00228630
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -675,6 +622,32 @@ namespace Verse
 				stringBuilder.AppendLine("      tile: " + this.maps[i].TileInfo);
 			}
 			return stringBuilder.ToString();
+		}
+
+		[CompilerGenerated]
+		private static bool <FillComponents>m__0(GameComponent component)
+		{
+			return component == null;
+		}
+
+		[CompilerGenerated]
+		private static string <InitNewGame>m__1(ModContentPack mod)
+		{
+			return mod.ToString();
+		}
+
+		[CompilerGenerated]
+		private void <InitNewGame>m__2()
+		{
+			this.tickManager.DoSingleTick();
+			this.tickManager.CurTimeSpeed = TimeSpeed.Paused;
+		}
+
+		[CompilerGenerated]
+		private static void <LoadGame>m__3()
+		{
+			Find.TickManager.DoSingleTick();
+			Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
 		}
 	}
 }

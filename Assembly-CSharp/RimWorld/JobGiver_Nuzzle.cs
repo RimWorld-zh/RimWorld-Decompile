@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000A7 RID: 167
 	public class JobGiver_Nuzzle : ThinkNode_JobGiver
 	{
-		// Token: 0x04000271 RID: 625
 		private const float MaxNuzzleDistance = 40f;
 
-		// Token: 0x06000416 RID: 1046 RVA: 0x00030DBC File Offset: 0x0002F1BC
+		public JobGiver_Nuzzle()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -40,6 +42,21 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn p)
+			{
+				return !p.NonHumanlikeOrWildMan() && p != this.pawn && p.Position.InHorDistOf(this.pawn.Position, 40f) && this.pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(this.pawn) && p.CanCasuallyInteractNow(false);
+			}
 		}
 	}
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007E1 RID: 2017
 	public class Designator_Uninstall : Designator
 	{
-		// Token: 0x06002CB9 RID: 11449 RVA: 0x00178CC4 File Offset: 0x001770C4
+		[CompilerGenerated]
+		private static Func<Thing, AltitudeLayer> <>f__am$cache0;
+
 		public Designator_Uninstall()
 		{
 			this.defaultLabel = "DesignatorUninstall".Translate();
@@ -21,8 +23,6 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc12;
 		}
 
-		// Token: 0x1700070A RID: 1802
-		// (get) Token: 0x06002CBA RID: 11450 RVA: 0x00178D3C File Offset: 0x0017713C
 		public override int DraggableDimensions
 		{
 			get
@@ -31,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700070B RID: 1803
-		// (get) Token: 0x06002CBB RID: 11451 RVA: 0x00178D54 File Offset: 0x00177154
 		protected override DesignationDef Designation
 		{
 			get
@@ -41,7 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CBC RID: 11452 RVA: 0x00178D70 File Offset: 0x00177170
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -64,13 +61,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CBD RID: 11453 RVA: 0x00178DE9 File Offset: 0x001771E9
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
 			this.DesignateThing(this.TopUninstallableInCell(loc));
 		}
 
-		// Token: 0x06002CBE RID: 11454 RVA: 0x00178DFC File Offset: 0x001771FC
 		private Thing TopUninstallableInCell(IntVec3 loc)
 		{
 			foreach (Thing thing in from t in base.Map.thingGrid.ThingsAt(loc)
@@ -85,7 +80,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002CBF RID: 11455 RVA: 0x00178EA4 File Offset: 0x001772A4
 		public override void DesignateThing(Thing t)
 		{
 			if (t.Faction != Faction.OfPlayer)
@@ -102,7 +96,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CC0 RID: 11456 RVA: 0x00178F30 File Offset: 0x00177330
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t as Building;
@@ -151,10 +144,15 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CC1 RID: 11457 RVA: 0x0017903D File Offset: 0x0017743D
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
+		}
+
+		[CompilerGenerated]
+		private static AltitudeLayer <TopUninstallableInCell>m__0(Thing t)
+		{
+			return t.def.altitudeLayer;
 		}
 	}
 }

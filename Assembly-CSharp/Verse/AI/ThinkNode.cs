@@ -1,36 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ACE RID: 2766
 	public abstract class ThinkNode
 	{
-		// Token: 0x040026B9 RID: 9913
 		public List<ThinkNode> subNodes = new List<ThinkNode>();
 
-		// Token: 0x040026BA RID: 9914
 		public bool leaveJoinableLordIfIssuesJob;
 
-		// Token: 0x040026BB RID: 9915
 		protected float priority = -1f;
 
-		// Token: 0x040026BC RID: 9916
 		[Unsaved]
 		private int uniqueSaveKeyInt = -2;
 
-		// Token: 0x040026BD RID: 9917
 		[Unsaved]
 		public ThinkNode parent;
 
-		// Token: 0x040026BE RID: 9918
 		public const int InvalidSaveKey = -1;
 
-		// Token: 0x040026BF RID: 9919
 		protected const int UnresolvedSaveKey = -2;
 
-		// Token: 0x17000942 RID: 2370
-		// (get) Token: 0x06003D6C RID: 15724 RVA: 0x0002F8A0 File Offset: 0x0002DCA0
+		protected ThinkNode()
+		{
+		}
+
 		public int UniqueSaveKey
 		{
 			get
@@ -39,8 +37,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000943 RID: 2371
-		// (get) Token: 0x06003D6D RID: 15725 RVA: 0x0002F8BC File Offset: 0x0002DCBC
 		public IEnumerable<ThinkNode> ThisAndChildrenRecursive
 		{
 			get
@@ -54,8 +50,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000944 RID: 2372
-		// (get) Token: 0x06003D6E RID: 15726 RVA: 0x0002F8E8 File Offset: 0x0002DCE8
 		public IEnumerable<ThinkNode> ChildrenRecursive
 		{
 			get
@@ -71,7 +65,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003D6F RID: 15727 RVA: 0x0002F914 File Offset: 0x0002DD14
 		public virtual float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -87,15 +80,12 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D70 RID: 15728
 		public abstract ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams);
 
-		// Token: 0x06003D71 RID: 15729 RVA: 0x0002F962 File Offset: 0x0002DD62
 		protected virtual void ResolveSubnodes()
 		{
 		}
 
-		// Token: 0x06003D72 RID: 15730 RVA: 0x0002F968 File Offset: 0x0002DD68
 		public void ResolveSubnodesAndRecur()
 		{
 			if (this.uniqueSaveKeyInt == -2)
@@ -108,12 +98,10 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003D73 RID: 15731 RVA: 0x0002F9BE File Offset: 0x0002DDBE
 		public virtual void ResolveReferences()
 		{
 		}
 
-		// Token: 0x06003D74 RID: 15732 RVA: 0x0002F9C4 File Offset: 0x0002DDC4
 		public virtual ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode thinkNode = (ThinkNode)Activator.CreateInstance(base.GetType());
@@ -132,16 +120,296 @@ namespace Verse.AI
 			return thinkNode;
 		}
 
-		// Token: 0x06003D75 RID: 15733 RVA: 0x0002FA5F File Offset: 0x0002DE5F
 		internal void SetUniqueSaveKey(int key)
 		{
 			this.uniqueSaveKeyInt = key;
 		}
 
-		// Token: 0x06003D76 RID: 15734 RVA: 0x0002FA6C File Offset: 0x0002DE6C
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineInt(this.uniqueSaveKeyInt, 1157295731);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<ThinkNode>, IEnumerator, IDisposable, IEnumerator<ThinkNode>
+		{
+			internal IEnumerator<ThinkNode> $locvar0;
+
+			internal ThinkNode <c>__1;
+
+			internal ThinkNode $this;
+
+			internal ThinkNode $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = this;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					enumerator = base.ChildrenRecursive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThinkNode IEnumerator<ThinkNode>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.ThinkNode>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThinkNode> IEnumerable<ThinkNode>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThinkNode.<>c__Iterator0 <>c__Iterator = new ThinkNode.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<ThinkNode>, IEnumerator, IDisposable, IEnumerator<ThinkNode>
+		{
+			internal int <i>__1;
+
+			internal IEnumerator<ThinkNode> $locvar0;
+
+			internal ThinkNode <subSubNode>__2;
+
+			internal ThinkNode $this;
+
+			internal ThinkNode $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							subSubNode = enumerator.Current;
+							this.$current = subSubNode;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.subNodes.Count)
+				{
+					enumerator = this.subNodes[i].ThisAndChildrenRecursive.GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThinkNode IEnumerator<ThinkNode>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.ThinkNode>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThinkNode> IEnumerable<ThinkNode>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThinkNode.<>c__Iterator1 <>c__Iterator = new ThinkNode.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

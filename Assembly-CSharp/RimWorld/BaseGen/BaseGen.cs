@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x02000390 RID: 912
 	public static class BaseGen
 	{
-		// Token: 0x040009AA RID: 2474
 		public static GlobalSettings globalSettings = new GlobalSettings();
 
-		// Token: 0x040009AB RID: 2475
 		public static SymbolStack symbolStack = new SymbolStack();
 
-		// Token: 0x040009AC RID: 2476
 		private static Dictionary<string, List<RuleDef>> rulesBySymbol = new Dictionary<string, List<RuleDef>>();
 
-		// Token: 0x040009AD RID: 2477
 		private static bool working;
 
-		// Token: 0x040009AE RID: 2478
 		private const int MaxResolvedSymbols = 100000;
 
-		// Token: 0x040009AF RID: 2479
 		private static List<SymbolResolver> tmpResolvers = new List<SymbolResolver>();
 
-		// Token: 0x06000FE3 RID: 4067 RVA: 0x00085588 File Offset: 0x00083988
+		[CompilerGenerated]
+		private static Func<SymbolResolver, float> <>f__am$cache0;
+
 		public static void Reset()
 		{
 			BaseGen.rulesBySymbol.Clear();
@@ -42,7 +38,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FE4 RID: 4068 RVA: 0x00085608 File Offset: 0x00083A08
 		public static void Generate()
 		{
 			if (BaseGen.working)
@@ -112,7 +107,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FE5 RID: 4069 RVA: 0x000857E0 File Offset: 0x00083BE0
 		private static void Resolve(Pair<string, ResolveParams> toResolve)
 		{
 			string first = toResolve.First;
@@ -149,6 +143,17 @@ namespace RimWorld.BaseGen
 				SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((SymbolResolver x) => x.selectionWeight);
 				symbolResolver2.Resolve(second);
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static BaseGen()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <Resolve>m__0(SymbolResolver x)
+		{
+			return x.selectionWeight;
 		}
 	}
 }

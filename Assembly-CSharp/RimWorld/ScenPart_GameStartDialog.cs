@@ -1,29 +1,31 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000640 RID: 1600
 	public class ScenPart_GameStartDialog : ScenPart
 	{
-		// Token: 0x040012E7 RID: 4839
 		private string text;
 
-		// Token: 0x040012E8 RID: 4840
 		private string textKey;
 
-		// Token: 0x040012E9 RID: 4841
 		private SoundDef closeSound;
 
-		// Token: 0x06002123 RID: 8483 RVA: 0x0011A534 File Offset: 0x00118934
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
+		public ScenPart_GameStartDialog()
+		{
+		}
+
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 5f);
 			this.text = Widgets.TextArea(scenPartRect, this.text, false);
 		}
 
-		// Token: 0x06002124 RID: 8484 RVA: 0x0011A568 File Offset: 0x00118968
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -32,7 +34,6 @@ namespace RimWorld
 			Scribe_Defs.Look<SoundDef>(ref this.closeSound, "closeSound");
 		}
 
-		// Token: 0x06002125 RID: 8485 RVA: 0x0011A5A8 File Offset: 0x001189A8
 		public override void PostGameStart()
 		{
 			if (Find.GameInitData.startedFromEntry)
@@ -57,6 +58,16 @@ namespace RimWorld
 				Find.WindowStack.Add(dialog_NodeTree);
 				Find.Archive.Add(new ArchivedDialog(diaNode.text, null, null));
 			}
+		}
+
+		[CompilerGenerated]
+		private static void <PostGameStart>m__0()
+		{
+			Find.MusicManagerPlay.ForceSilenceFor(7f);
+			Find.MusicManagerPlay.disabled = false;
+			Find.WindowStack.Notify_GameStartDialogClosed();
+			Find.TickManager.CurTimeSpeed = TimeSpeed.Normal;
+			TutorSystem.Notify_Event("GameStartDialogClosed");
 		}
 	}
 }

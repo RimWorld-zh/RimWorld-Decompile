@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000400 RID: 1024
 	public static class GridShapeMaker
 	{
-		// Token: 0x06001196 RID: 4502 RVA: 0x00098660 File Offset: 0x00096A60
 		public static IEnumerable<IntVec3> IrregularLump(IntVec3 center, Map map, int numCells)
 		{
 			List<IntVec3> lumpCells = new List<IntVec3>();
@@ -51,6 +50,49 @@ namespace RimWorld
 				lumpCells.Remove(source.RandomElement<IntVec3>());
 			}
 			return lumpCells;
+		}
+
+		[CompilerGenerated]
+		private sealed class <IrregularLump>c__AnonStorey0
+		{
+			internal List<IntVec3> lumpCells;
+
+			internal Func<IntVec3, int> NumNeighbors;
+
+			public <IrregularLump>c__AnonStorey0()
+			{
+			}
+
+			internal int <>m__0(IntVec3 sq)
+			{
+				int num = 0;
+				for (int i = 0; i < 4; i++)
+				{
+					IntVec3 item = sq + GenAdj.CardinalDirections[i];
+					if (this.lumpCells.Contains(item))
+					{
+						num++;
+					}
+				}
+				return num;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <IrregularLump>c__AnonStorey1
+		{
+			internal int fewestNeighbors;
+
+			internal GridShapeMaker.<IrregularLump>c__AnonStorey0 <>f__ref$0;
+
+			public <IrregularLump>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 sq)
+			{
+				return this.<>f__ref$0.NumNeighbors(sq) == this.fewestNeighbors;
+			}
 		}
 	}
 }

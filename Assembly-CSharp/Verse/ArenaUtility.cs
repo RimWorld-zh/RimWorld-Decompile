@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -8,13 +9,10 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000F0E RID: 3854
 	public static class ArenaUtility
 	{
-		// Token: 0x04003D06 RID: 15622
 		private const int liveSimultaneous = 15;
 
-		// Token: 0x06005C8E RID: 23694 RVA: 0x002EFE04 File Offset: 0x002EE204
 		public static bool ValidateArenaCapability()
 		{
 			bool result;
@@ -30,7 +28,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005C8F RID: 23695 RVA: 0x002EFE48 File Offset: 0x002EE248
 		public static void BeginArenaFight(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback)
 		{
 			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Debug_Arena);
@@ -49,7 +46,6 @@ namespace Verse
 			component.callback = callback;
 		}
 
-		// Token: 0x06005C90 RID: 23696 RVA: 0x002EFF1C File Offset: 0x002EE31C
 		public static List<Pawn> SpawnPawnSet(Map map, List<PawnKindDef> kinds, IntVec3 spot, Faction faction)
 		{
 			List<Pawn> list = new List<Pawn>();
@@ -64,7 +60,6 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005C91 RID: 23697 RVA: 0x002EFF98 File Offset: 0x002EE398
 		private static bool ArenaFightQueue(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback, ArenaUtility.ArenaSetState state)
 		{
 			bool result2;
@@ -89,7 +84,6 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06005C92 RID: 23698 RVA: 0x002F0014 File Offset: 0x002EE414
 		public static void BeginArenaFightSet(int count, List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback, Action report)
 		{
 			if (ArenaUtility.ValidateArenaCapability())
@@ -111,7 +105,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C93 RID: 23699 RVA: 0x002F0098 File Offset: 0x002EE498
 		public static void PerformBattleRoyale(IEnumerable<PawnKindDef> kindsEnumerable)
 		{
 			if (ArenaUtility.ValidateArenaCapability())
@@ -186,32 +179,254 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F0F RID: 3855
 		public struct ArenaResult
 		{
-			// Token: 0x04003D07 RID: 15623
 			public ArenaUtility.ArenaResult.Winner winner;
 
-			// Token: 0x04003D08 RID: 15624
 			public int tickDuration;
 
-			// Token: 0x02000F10 RID: 3856
 			public enum Winner
 			{
-				// Token: 0x04003D0A RID: 15626
 				Other,
-				// Token: 0x04003D0B RID: 15627
 				Lhs,
-				// Token: 0x04003D0C RID: 15628
 				Rhs
 			}
 		}
 
-		// Token: 0x02000F11 RID: 3857
 		private class ArenaSetState
 		{
-			// Token: 0x04003D0D RID: 15629
 			public int live = 0;
+
+			public ArenaSetState()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <BeginArenaFight>c__AnonStorey0
+		{
+			internal List<PawnKindDef> lhs;
+
+			internal List<PawnKindDef> rhs;
+
+			public <BeginArenaFight>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int tile)
+			{
+				return this.lhs.Concat(this.rhs).Any((PawnKindDef pawnkind) => Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, pawnkind.race));
+			}
+
+			private sealed class <BeginArenaFight>c__AnonStorey1
+			{
+				internal int tile;
+
+				internal ArenaUtility.<BeginArenaFight>c__AnonStorey0 <>f__ref$0;
+
+				public <BeginArenaFight>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(PawnKindDef pawnkind)
+				{
+					return Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(this.tile, pawnkind.race);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ArenaFightQueue>c__AnonStorey2
+		{
+			internal ArenaUtility.ArenaSetState state;
+
+			internal Action<ArenaUtility.ArenaResult> callback;
+
+			public <ArenaFightQueue>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0(ArenaUtility.ArenaResult result)
+			{
+				this.state.live--;
+				this.callback(result);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <BeginArenaFightSet>c__AnonStorey3
+		{
+			internal List<PawnKindDef> lhs;
+
+			internal List<PawnKindDef> rhs;
+
+			internal ArenaUtility.ArenaSetState state;
+
+			internal Action<ArenaUtility.ArenaResult> callback;
+
+			internal int remaining;
+
+			internal Action report;
+
+			public <BeginArenaFightSet>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0()
+			{
+				return ArenaUtility.ArenaFightQueue(this.lhs, this.rhs, delegate(ArenaUtility.ArenaResult result)
+				{
+					this.callback(result);
+					this.remaining--;
+					if (this.remaining % 10 == 0)
+					{
+						this.report();
+					}
+				}, this.state);
+			}
+
+			internal void <>m__1(ArenaUtility.ArenaResult result)
+			{
+				this.callback(result);
+				this.remaining--;
+				if (this.remaining % 10 == 0)
+				{
+					this.report();
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PerformBattleRoyale>c__AnonStorey4
+		{
+			internal int currentFights;
+
+			internal List<PawnKindDef> kinds;
+
+			internal Dictionary<PawnKindDef, float> ratings;
+
+			internal int completeFights;
+
+			public <PerformBattleRoyale>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0()
+			{
+				bool result2;
+				if (this.currentFights >= 15)
+				{
+					result2 = false;
+				}
+				else
+				{
+					PawnKindDef lhsDef = this.kinds.RandomElement<PawnKindDef>();
+					PawnKindDef rhsDef = this.kinds.RandomElement<PawnKindDef>();
+					float num = EloUtility.CalculateExpectation(this.ratings[lhsDef], this.ratings[rhsDef]);
+					float num2 = 1f - num;
+					float num3 = num;
+					float num4 = Mathf.Min(num2, num3);
+					num2 /= num4;
+					num3 /= num4;
+					float num5 = Mathf.Max(num2, num3);
+					if (num5 > 40f)
+					{
+						result2 = false;
+					}
+					else
+					{
+						float num6 = 40f / num5;
+						float num7 = (float)Math.Exp((double)Rand.Range(0f, (float)Math.Log((double)num6)));
+						num2 *= num7;
+						num3 *= num7;
+						List<PawnKindDef> lhs = Enumerable.Repeat<PawnKindDef>(lhsDef, GenMath.RoundRandom(num2)).ToList<PawnKindDef>();
+						List<PawnKindDef> rhs = Enumerable.Repeat<PawnKindDef>(rhsDef, GenMath.RoundRandom(num3)).ToList<PawnKindDef>();
+						this.currentFights++;
+						ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaUtility.ArenaResult result)
+						{
+							this.currentFights--;
+							this.completeFights++;
+							if (result.winner != ArenaUtility.ArenaResult.Winner.Other)
+							{
+								float value = this.ratings[lhsDef];
+								float value2 = this.ratings[rhsDef];
+								float kfactor = 8f * Mathf.Pow(0.5f, Time.realtimeSinceStartup / 900f);
+								EloUtility.Update(ref value, ref value2, 0.5f, (float)((result.winner != ArenaUtility.ArenaResult.Winner.Lhs) ? 0 : 1), kfactor);
+								this.ratings[lhsDef] = value;
+								this.ratings[rhsDef] = value2;
+								Log.Message(string.Format("Scores after {0} trials:\n\n{1}", this.completeFights, (from v in this.ratings
+								orderby v.Value
+								select string.Format("  {0}: {1}->{2} (rating {2})", new object[]
+								{
+									v.Key.label,
+									v.Key.combatPower,
+									EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
+									v.Value.ToString("F0")
+								})).ToLineList("")), false);
+							}
+						});
+						result2 = false;
+					}
+				}
+				return result2;
+			}
+
+			private sealed class <PerformBattleRoyale>c__AnonStorey5
+			{
+				internal PawnKindDef lhsDef;
+
+				internal PawnKindDef rhsDef;
+
+				internal ArenaUtility.<PerformBattleRoyale>c__AnonStorey4 <>f__ref$4;
+
+				private static Func<KeyValuePair<PawnKindDef, float>, float> <>f__am$cache0;
+
+				private static Func<KeyValuePair<PawnKindDef, float>, string> <>f__am$cache1;
+
+				public <PerformBattleRoyale>c__AnonStorey5()
+				{
+				}
+
+				internal void <>m__0(ArenaUtility.ArenaResult result)
+				{
+					this.<>f__ref$4.currentFights = this.<>f__ref$4.currentFights - 1;
+					this.<>f__ref$4.completeFights = this.<>f__ref$4.completeFights + 1;
+					if (result.winner != ArenaUtility.ArenaResult.Winner.Other)
+					{
+						float value = this.<>f__ref$4.ratings[this.lhsDef];
+						float value2 = this.<>f__ref$4.ratings[this.rhsDef];
+						float kfactor = 8f * Mathf.Pow(0.5f, Time.realtimeSinceStartup / 900f);
+						EloUtility.Update(ref value, ref value2, 0.5f, (float)((result.winner != ArenaUtility.ArenaResult.Winner.Lhs) ? 0 : 1), kfactor);
+						this.<>f__ref$4.ratings[this.lhsDef] = value;
+						this.<>f__ref$4.ratings[this.rhsDef] = value2;
+						Log.Message(string.Format("Scores after {0} trials:\n\n{1}", this.<>f__ref$4.completeFights, (from v in this.<>f__ref$4.ratings
+						orderby v.Value
+						select string.Format("  {0}: {1}->{2} (rating {2})", new object[]
+						{
+							v.Key.label,
+							v.Key.combatPower,
+							EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
+							v.Value.ToString("F0")
+						})).ToLineList("")), false);
+					}
+				}
+
+				private static float <>m__1(KeyValuePair<PawnKindDef, float> v)
+				{
+					return v.Value;
+				}
+
+				private static string <>m__2(KeyValuePair<PawnKindDef, float> v)
+				{
+					return string.Format("  {0}: {1}->{2} (rating {2})", new object[]
+					{
+						v.Key.label,
+						v.Key.combatPower,
+						EloUtility.CalculateLinearScore(v.Value, 1500f, 60f).ToString("F0"),
+						v.Value.ToString("F0")
+					});
+				}
+			}
 		}
 	}
 }

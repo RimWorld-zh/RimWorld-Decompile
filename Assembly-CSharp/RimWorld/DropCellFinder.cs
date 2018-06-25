@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020008FB RID: 2299
 	public static class DropCellFinder
 	{
-		// Token: 0x06003536 RID: 13622 RVA: 0x001C7B9C File Offset: 0x001C5F9C
+		[CompilerGenerated]
+		private static Func<Building, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Building, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<Building> <>f__am$cache2;
+
 		public static IntVec3 RandomDropSpot(Map map)
 		{
 			return CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(map) && !c.Roofed(map) && !c.Fogged(map), map, 1000);
 		}
 
-		// Token: 0x06003537 RID: 13623 RVA: 0x001C7BDC File Offset: 0x001C5FDC
 		public static IntVec3 TradeDropSpot(Map map)
 		{
 			IEnumerable<Building> collection = from b in map.listerBuildings.allBuildingsColonist
@@ -85,7 +92,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003538 RID: 13624 RVA: 0x001C7E2C File Offset: 0x001C622C
 		public static bool TryFindDropSpotNear(IntVec3 center, Map map, out IntVec3 result, bool allowFogged, bool canRoofPunch, bool willExplode)
 		{
 			if (DebugViewSettings.drawDestSearch)
@@ -106,7 +112,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003539 RID: 13625 RVA: 0x001C7EEC File Offset: 0x001C62EC
 		public static bool IsGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
 		{
 			bool result;
@@ -149,13 +154,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600353A RID: 13626 RVA: 0x001C7FF4 File Offset: 0x001C63F4
 		private static bool AnyAdjacentGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
 		{
 			return DropCellFinder.IsGoodDropSpot(c + IntVec3.North, map, allowFogged, canRoofPunch) || DropCellFinder.IsGoodDropSpot(c + IntVec3.East, map, allowFogged, canRoofPunch) || DropCellFinder.IsGoodDropSpot(c + IntVec3.South, map, allowFogged, canRoofPunch) || DropCellFinder.IsGoodDropSpot(c + IntVec3.West, map, allowFogged, canRoofPunch);
 		}
 
-		// Token: 0x0600353B RID: 13627 RVA: 0x001C8068 File Offset: 0x001C6468
 		public static IntVec3 FindRaidDropCenterDistant(Map map)
 		{
 			Faction hostFaction = map.ParentFaction ?? Faction.OfPlayer;
@@ -207,7 +210,6 @@ namespace RimWorld
 			return intVec;
 		}
 
-		// Token: 0x0600353C RID: 13628 RVA: 0x001C81FC File Offset: 0x001C65FC
 		public static bool TryFindRaidDropCenterClose(out IntVec3 spot, Map map)
 		{
 			Faction faction = map.ParentFaction ?? Faction.OfPlayer;
@@ -265,7 +267,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600353D RID: 13629 RVA: 0x001C83E0 File Offset: 0x001C67E0
 		private static bool CanPhysicallyDropInto(IntVec3 c, Map map, bool canRoofPunch)
 		{
 			bool result;
@@ -290,6 +291,118 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <TradeDropSpot>m__0(Building b)
+		{
+			return b.def.IsCommsConsole;
+		}
+
+		[CompilerGenerated]
+		private static bool <TradeDropSpot>m__1(Building b)
+		{
+			return b.def.IsOrbitalTradeBeacon;
+		}
+
+		[CompilerGenerated]
+		private static bool <TradeDropSpot>m__2(Building b)
+		{
+			CompPowerTrader compPowerTrader = b.TryGetComp<CompPowerTrader>();
+			return compPowerTrader != null && !compPowerTrader.PowerOn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomDropSpot>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <RandomDropSpot>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return c.Standable(this.map) && !c.Roofed(this.map) && !c.Fogged(this.map);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TradeDropSpot>c__AnonStorey1
+		{
+			internal Map map;
+
+			public <TradeDropSpot>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Building b)
+			{
+				return !this.map.roofGrid.Roofed(b.Position) && DropCellFinder.AnyAdjacentGoodDropSpot(b.Position, this.map, false, false);
+			}
+
+			internal bool <>m__1(IntVec3 c)
+			{
+				return DropCellFinder.IsGoodDropSpot(c, this.map, false, false);
+			}
+
+			internal bool <>m__2(IntVec3 c)
+			{
+				return c.Standable(this.map) && !c.Fogged(this.map);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindDropSpotNear>c__AnonStorey2
+		{
+			internal Map map;
+
+			internal bool allowFogged;
+
+			internal bool canRoofPunch;
+
+			internal IntVec3 center;
+
+			internal bool willExplode;
+
+			public <TryFindDropSpotNear>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return DropCellFinder.IsGoodDropSpot(c, this.map, this.allowFogged, this.canRoofPunch) && this.map.reachability.CanReach(this.center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly) && (!this.willExplode || !SkyfallerUtility.CanPossiblyFallOnColonist(ThingDefOf.ExplosiveDropPodIncoming, c, this.map));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRaidDropCenterDistant>c__AnonStorey3
+		{
+			internal Faction hostFaction;
+
+			public <FindRaidDropCenterDistant>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x.Faction == this.hostFaction;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRaidDropCenterClose>c__AnonStorey4
+		{
+			internal Map map;
+
+			public <TryFindRaidDropCenterClose>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return DropCellFinder.CanPhysicallyDropInto(c, this.map, true);
+			}
 		}
 	}
 }

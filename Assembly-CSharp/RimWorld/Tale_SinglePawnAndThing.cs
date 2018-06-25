@@ -1,41 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200066E RID: 1646
 	public class Tale_SinglePawnAndThing : Tale_SinglePawn
 	{
-		// Token: 0x0400138B RID: 5003
 		public TaleData_Thing thingData;
 
-		// Token: 0x0600227C RID: 8828 RVA: 0x001252C4 File Offset: 0x001236C4
 		public Tale_SinglePawnAndThing()
 		{
 		}
 
-		// Token: 0x0600227D RID: 8829 RVA: 0x001252CD File Offset: 0x001236CD
 		public Tale_SinglePawnAndThing(Pawn pawn, Thing item) : base(pawn)
 		{
 			this.thingData = TaleData_Thing.GenerateFrom(item);
 		}
 
-		// Token: 0x0600227E RID: 8830 RVA: 0x001252E4 File Offset: 0x001236E4
 		public override bool Concerns(Thing th)
 		{
 			return base.Concerns(th) || th.thingIDNumber == this.thingData.thingID;
 		}
 
-		// Token: 0x0600227F RID: 8831 RVA: 0x0012531B File Offset: 0x0012371B
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Thing>(ref this.thingData, "thingData", new object[0]);
 		}
 
-		// Token: 0x06002280 RID: 8832 RVA: 0x0012533C File Offset: 0x0012373C
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			foreach (Rule r in this.<SpecialTextGenerationRules>__BaseCallProxy0())
@@ -49,11 +46,198 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002281 RID: 8833 RVA: 0x00125366 File Offset: 0x00123766
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();
 			this.thingData = TaleData_Thing.GenerateRandom();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Rule> <SpecialTextGenerationRules>__BaseCallProxy0()
+		{
+			return base.SpecialTextGenerationRules();
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialTextGenerationRules>c__Iterator0 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal IEnumerator<Rule> $locvar0;
+
+			internal Rule <r>__1;
+
+			internal IEnumerator<Rule> $locvar1;
+
+			internal Rule <r>__2;
+
+			internal Tale_SinglePawnAndThing $this;
+
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialTextGenerationRules>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<SpecialTextGenerationRules>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_DC;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						r = enumerator.Current;
+						this.$current = r;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = this.thingData.GetRules("THING").GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_DC:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						r2 = enumerator2.Current;
+						this.$current = r2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Tale_SinglePawnAndThing.<SpecialTextGenerationRules>c__Iterator0 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawnAndThing.<SpecialTextGenerationRules>c__Iterator0();
+				<SpecialTextGenerationRules>c__Iterator.$this = this;
+				return <SpecialTextGenerationRules>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200060E RID: 1550
 	public class SitePartWorker_Turrets : SitePartWorker
 	{
-		// Token: 0x06001F33 RID: 7987 RVA: 0x0010F11C File Offset: 0x0010D51C
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache1;
+
+		public SitePartWorker_Turrets()
+		{
+		}
+
 		public override string GetArrivedLetterPart(Map map, out string preferredLabel, out LetterDef preferredLetterDef, out LookTargets lookTargets)
 		{
 			string arrivedLetterPart = base.GetArrivedLetterPart(map, out preferredLabel, out preferredLetterDef, out lookTargets);
@@ -18,6 +27,18 @@ namespace RimWorld
 			}
 			lookTargets = t;
 			return arrivedLetterPart;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetArrivedLetterPart>m__0(Thing x)
+		{
+			return x is Building_TurretGun && x.HostileTo(Faction.OfPlayer);
+		}
+
+		[CompilerGenerated]
+		private static bool <GetArrivedLetterPart>m__1(Thing x)
+		{
+			return x is Building_TurretGun;
 		}
 	}
 }

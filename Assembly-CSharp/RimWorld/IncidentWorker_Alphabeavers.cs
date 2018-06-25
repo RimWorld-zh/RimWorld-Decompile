@@ -4,19 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000323 RID: 803
 	internal class IncidentWorker_Alphabeavers : IncidentWorker
 	{
-		// Token: 0x040008BF RID: 2239
 		private static readonly FloatRange CountPerColonistRange = new FloatRange(1.7f, 3f);
 
-		// Token: 0x040008C0 RID: 2240
 		private const int MinCount = 6;
 
-		// Token: 0x040008C1 RID: 2241
 		private const int MaxCount = 25;
 
-		// Token: 0x06000DB2 RID: 3506 RVA: 0x000753FC File Offset: 0x000737FC
+		public IncidentWorker_Alphabeavers()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -33,7 +32,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB3 RID: 3507 RVA: 0x00075440 File Offset: 0x00073840
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -59,6 +57,11 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_Alphabeavers()
+		{
 		}
 	}
 }

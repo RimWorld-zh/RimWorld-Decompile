@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048C RID: 1164
 	public static class PawnTechHediffsGenerator
 	{
-		// Token: 0x04000C56 RID: 3158
 		private static List<Thing> emptyIngredientsList = new List<Thing>();
 
-		// Token: 0x06001489 RID: 5257 RVA: 0x000B4B20 File Offset: 0x000B2F20
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache0;
+
 		public static void GenerateTechHediffsFor(Pawn pawn)
 		{
 			if (pawn.kindDef.techHediffsTags != null)
@@ -38,6 +39,67 @@ namespace RimWorld
 						}
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnTechHediffsGenerator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateTechHediffsFor>m__0(ThingDef w)
+		{
+			return w.BaseMarketValue;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateTechHediffsFor>c__AnonStorey0
+		{
+			internal float partsMoney;
+
+			internal Pawn pawn;
+
+			public <GenerateTechHediffsFor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return x.isTechHediff && x.BaseMarketValue <= this.partsMoney && x.techHediffsTags != null && this.pawn.kindDef.techHediffsTags.Any((string tag) => x.techHediffsTags.Contains(tag));
+			}
+
+			private sealed class <GenerateTechHediffsFor>c__AnonStorey1
+			{
+				internal ThingDef x;
+
+				internal PawnTechHediffsGenerator.<GenerateTechHediffsFor>c__AnonStorey0 <>f__ref$0;
+
+				public <GenerateTechHediffsFor>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(string tag)
+				{
+					return this.x.techHediffsTags.Contains(tag);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateTechHediffsFor>c__AnonStorey2
+		{
+			internal ThingDef partDef;
+
+			internal PawnTechHediffsGenerator.<GenerateTechHediffsFor>c__AnonStorey0 <>f__ref$0;
+
+			public <GenerateTechHediffsFor>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(RecipeDef x)
+			{
+				return x.IsIngredient(this.partDef) && this.<>f__ref$0.pawn.def.AllRecipes.Contains(x);
 			}
 		}
 	}

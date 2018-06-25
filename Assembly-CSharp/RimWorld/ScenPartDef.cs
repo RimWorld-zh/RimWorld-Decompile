@@ -1,44 +1,39 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002CD RID: 717
 	public class ScenPartDef : Def
 	{
-		// Token: 0x04000711 RID: 1809
 		public ScenPartCategory category = ScenPartCategory.Undefined;
 
-		// Token: 0x04000712 RID: 1810
 		public Type scenPartClass = null;
 
-		// Token: 0x04000713 RID: 1811
 		public float summaryPriority = -1f;
 
-		// Token: 0x04000714 RID: 1812
 		public float selectionWeight = 1f;
 
-		// Token: 0x04000715 RID: 1813
 		public int maxUses = 999999;
 
-		// Token: 0x04000716 RID: 1814
 		public Type pageClass;
 
-		// Token: 0x04000717 RID: 1815
 		public GameConditionDef gameCondition;
 
-		// Token: 0x04000718 RID: 1816
 		public bool gameConditionTargetsWorld;
 
-		// Token: 0x04000719 RID: 1817
 		public FloatRange durationRandomRange = new FloatRange(30f, 100f);
 
-		// Token: 0x0400071A RID: 1818
 		public Type designatorType;
 
-		// Token: 0x170001C1 RID: 449
-		// (get) Token: 0x06000BD8 RID: 3032 RVA: 0x00069814 File Offset: 0x00067C14
+		public ScenPartDef()
+		{
+		}
+
 		public bool PlayerAddRemovable
 		{
 			get
@@ -47,7 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BD9 RID: 3033 RVA: 0x00069838 File Offset: 0x00067C38
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -59,6 +53,159 @@ namespace RimWorld
 				yield return "scenPartClass is null";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal ScenPartDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_E7;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.scenPartClass != null)
+				{
+					goto IL_E7;
+				}
+				this.$current = "scenPartClass is null";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_E7:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenPartDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ScenPartDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

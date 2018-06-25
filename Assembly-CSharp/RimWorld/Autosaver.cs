@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Verse;
@@ -9,20 +13,24 @@ using Verse.Profile;
 
 namespace RimWorld
 {
-	// Token: 0x020008F4 RID: 2292
 	public sealed class Autosaver
 	{
-		// Token: 0x04001CA2 RID: 7330
 		private int ticksSinceSave = 0;
 
-		// Token: 0x04001CA3 RID: 7331
 		private const int NumAutosaves = 5;
 
-		// Token: 0x04001CA4 RID: 7332
 		public const float MaxPermadeathModeAutosaveInterval = 1f;
 
-		// Token: 0x1700088D RID: 2189
-		// (get) Token: 0x060034FE RID: 13566 RVA: 0x001C5234 File Offset: 0x001C3634
+		[CompilerGenerated]
+		private static Func<string, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<string, DateTime> <>f__am$cache1;
+
+		public Autosaver()
+		{
+		}
+
 		private float AutosaveIntervalDays
 		{
 			get
@@ -36,8 +44,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700088E RID: 2190
-		// (get) Token: 0x060034FF RID: 13567 RVA: 0x001C5278 File Offset: 0x001C3678
 		private int AutosaveIntervalTicks
 		{
 			get
@@ -46,7 +52,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003500 RID: 13568 RVA: 0x001C52A0 File Offset: 0x001C36A0
 		public void AutosaverTick()
 		{
 			this.ticksSinceSave++;
@@ -57,7 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003501 RID: 13569 RVA: 0x001C52F0 File Offset: 0x001C36F0
 		public void DoAutosave()
 		{
 			string fileName;
@@ -72,7 +76,6 @@ namespace RimWorld
 			GameDataSaveLoader.SaveGame(fileName);
 		}
 
-		// Token: 0x06003502 RID: 13570 RVA: 0x001C5334 File Offset: 0x001C3734
 		private void DoMemoryCleanup()
 		{
 			Profiler.BeginSample("UnloadUnusedAssets");
@@ -80,7 +83,6 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06003503 RID: 13571 RVA: 0x001C534C File Offset: 0x001C374C
 		private string NewAutosaveFileName()
 		{
 			string text = (from name in this.AutoSaveNames()
@@ -99,7 +101,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003504 RID: 13572 RVA: 0x001C53C8 File Offset: 0x001C37C8
 		private IEnumerable<string> AutoSaveNames()
 		{
 			for (int i = 1; i <= 5; i++)
@@ -107,6 +108,110 @@ namespace RimWorld
 				yield return "Autosave-" + i;
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static bool <NewAutosaveFileName>m__0(string name)
+		{
+			return !SaveGameFilesUtility.SavedGameNamedExists(name);
+		}
+
+		[CompilerGenerated]
+		private static DateTime <NewAutosaveFileName>m__1(string name)
+		{
+			return new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AutoSaveNames>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal int <i>__1;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AutoSaveNames>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 1;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i <= 5)
+				{
+					this.$current = "Autosave-" + i;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Autosaver.<AutoSaveNames>c__Iterator0();
+			}
 		}
 	}
 }

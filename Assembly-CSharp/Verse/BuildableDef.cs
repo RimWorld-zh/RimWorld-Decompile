@@ -1,136 +1,104 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B04 RID: 2820
 	public abstract class BuildableDef : Def
 	{
-		// Token: 0x04002791 RID: 10129
 		public List<StatModifier> statBases = null;
 
-		// Token: 0x04002792 RID: 10130
 		public Traversability passability = Traversability.Standable;
 
-		// Token: 0x04002793 RID: 10131
 		public int pathCost = 0;
 
-		// Token: 0x04002794 RID: 10132
 		public bool pathCostIgnoreRepeat = true;
 
-		// Token: 0x04002795 RID: 10133
 		public float fertility = -1f;
 
-		// Token: 0x04002796 RID: 10134
 		public List<ThingDefCountClass> costList = null;
 
-		// Token: 0x04002797 RID: 10135
 		public int costStuffCount = 0;
 
-		// Token: 0x04002798 RID: 10136
 		public List<StuffCategoryDef> stuffCategories = null;
 
-		// Token: 0x04002799 RID: 10137
 		public int placingDraggableDimensions = 0;
 
-		// Token: 0x0400279A RID: 10138
 		public bool clearBuildingArea = true;
 
-		// Token: 0x0400279B RID: 10139
 		public Rot4 defaultPlacingRot = Rot4.North;
 
-		// Token: 0x0400279C RID: 10140
 		public float resourcesFractionWhenDeconstructed = 0.75f;
 
-		// Token: 0x0400279D RID: 10141
 		public TerrainAffordanceDef terrainAffordanceNeeded = null;
 
-		// Token: 0x0400279E RID: 10142
 		public List<ThingDef> buildingPrerequisites = null;
 
-		// Token: 0x0400279F RID: 10143
 		public List<ResearchProjectDef> researchPrerequisites = null;
 
-		// Token: 0x040027A0 RID: 10144
 		public int constructionSkillPrerequisite = 0;
 
-		// Token: 0x040027A1 RID: 10145
 		public TechLevel minTechLevelToBuild = TechLevel.Undefined;
 
-		// Token: 0x040027A2 RID: 10146
 		public TechLevel maxTechLevelToBuild = TechLevel.Undefined;
 
-		// Token: 0x040027A3 RID: 10147
 		public AltitudeLayer altitudeLayer = AltitudeLayer.Item;
 
-		// Token: 0x040027A4 RID: 10148
 		public EffecterDef repairEffect = null;
 
-		// Token: 0x040027A5 RID: 10149
 		public EffecterDef constructEffect = null;
 
-		// Token: 0x040027A6 RID: 10150
 		public bool menuHidden = false;
 
-		// Token: 0x040027A7 RID: 10151
 		public float specialDisplayRadius = 0f;
 
-		// Token: 0x040027A8 RID: 10152
 		public List<Type> placeWorkers = null;
 
-		// Token: 0x040027A9 RID: 10153
 		public DesignationCategoryDef designationCategory = null;
 
-		// Token: 0x040027AA RID: 10154
 		public DesignatorDropdownGroupDef designatorDropdown = null;
 
-		// Token: 0x040027AB RID: 10155
 		public KeyBindingDef designationHotKey = null;
 
-		// Token: 0x040027AC RID: 10156
 		[NoTranslate]
 		public string uiIconPath;
 
-		// Token: 0x040027AD RID: 10157
 		public Vector2 uiIconOffset;
 
-		// Token: 0x040027AE RID: 10158
 		[Unsaved]
 		public ThingDef blueprintDef;
 
-		// Token: 0x040027AF RID: 10159
 		[Unsaved]
 		public ThingDef installBlueprintDef;
 
-		// Token: 0x040027B0 RID: 10160
 		[Unsaved]
 		public ThingDef frameDef;
 
-		// Token: 0x040027B1 RID: 10161
 		[Unsaved]
 		private List<PlaceWorker> placeWorkersInstantiatedInt = null;
 
-		// Token: 0x040027B2 RID: 10162
 		[Unsaved]
 		public Graphic graphic = BaseContent.BadGraphic;
 
-		// Token: 0x040027B3 RID: 10163
 		[Unsaved]
 		public Texture2D uiIcon = BaseContent.BadTex;
 
-		// Token: 0x040027B4 RID: 10164
 		[Unsaved]
 		public float uiIconAngle;
 
-		// Token: 0x040027B5 RID: 10165
 		[Unsaved]
 		public Color uiIconColor = Color.white;
 
-		// Token: 0x17000968 RID: 2408
-		// (get) Token: 0x06003E71 RID: 15985 RVA: 0x0020ED94 File Offset: 0x0020D194
+		protected BuildableDef()
+		{
+		}
+
 		public virtual IntVec2 Size
 		{
 			get
@@ -139,8 +107,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000969 RID: 2409
-		// (get) Token: 0x06003E72 RID: 15986 RVA: 0x0020EDB0 File Offset: 0x0020D1B0
 		public bool MadeFromStuff
 		{
 			get
@@ -149,8 +115,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700096A RID: 2410
-		// (get) Token: 0x06003E73 RID: 15987 RVA: 0x0020EDD4 File Offset: 0x0020D1D4
 		public bool BuildableByPlayer
 		{
 			get
@@ -159,8 +123,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700096B RID: 2411
-		// (get) Token: 0x06003E74 RID: 15988 RVA: 0x0020EDF8 File Offset: 0x0020D1F8
 		public Material DrawMatSingle
 		{
 			get
@@ -178,8 +140,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700096C RID: 2412
-		// (get) Token: 0x06003E75 RID: 15989 RVA: 0x0020EE2C File Offset: 0x0020D22C
 		public float Altitude
 		{
 			get
@@ -188,8 +148,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700096D RID: 2413
-		// (get) Token: 0x06003E76 RID: 15990 RVA: 0x0020EE4C File Offset: 0x0020D24C
 		public List<PlaceWorker> PlaceWorkers
 		{
 			get
@@ -212,8 +170,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700096E RID: 2414
-		// (get) Token: 0x06003E77 RID: 15991 RVA: 0x0020EEE8 File Offset: 0x0020D2E8
 		public bool IsResearchFinished
 		{
 			get
@@ -232,7 +188,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E78 RID: 15992 RVA: 0x0020EF48 File Offset: 0x0020D348
 		public bool ForceAllowPlaceOver(BuildableDef other)
 		{
 			bool result;
@@ -254,7 +209,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E79 RID: 15993 RVA: 0x0020EFAC File Offset: 0x0020D3AC
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -271,7 +225,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E7A RID: 15994 RVA: 0x0020EFC8 File Offset: 0x0020D3C8
 		protected virtual void ResolveIcon()
 		{
 			if (this.graphic != null && this.graphic != BaseContent.BadGraphic)
@@ -282,13 +235,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E7B RID: 15995 RVA: 0x0020F029 File Offset: 0x0020D429
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
 		}
 
-		// Token: 0x06003E7C RID: 15996 RVA: 0x0020F034 File Offset: 0x0020D434
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -298,7 +249,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E7D RID: 15997 RVA: 0x0020F060 File Offset: 0x0020D460
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1())
@@ -324,16 +274,357 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E7E RID: 15998 RVA: 0x0020F08C File Offset: 0x0020D48C
 		public override string ToString()
 		{
 			return this.defName;
 		}
 
-		// Token: 0x06003E7F RID: 15999 RVA: 0x0020F0A8 File Offset: 0x0020D4A8
 		public override int GetHashCode()
 		{
 			return this.defName.GetHashCode();
+		}
+
+		[CompilerGenerated]
+		private void <PostLoad>m__0()
+		{
+			if (!this.uiIconPath.NullOrEmpty())
+			{
+				this.uiIcon = ContentFinder<Texture2D>.Get(this.uiIconPath, true);
+			}
+			else
+			{
+				this.ResolveIcon();
+			}
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<StatDrawEntry> <SpecialDisplayStats>__BaseCallProxy1()
+		{
+			return base.SpecialDisplayStats();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <error>__1;
+
+			internal BuildableDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						error = enumerator.Current;
+						this.$current = error;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BuildableDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new BuildableDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <stat>__1;
+
+			internal IEnumerable<TerrainAffordanceDef> <affdefs>__2;
+
+			internal string[] <affordances>__2;
+
+			internal BuildableDef $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<PlaceWorker, IEnumerable<TerrainAffordanceDef>> <>f__am$cache0;
+
+			private static Func<TerrainAffordanceDef, int> <>f__am$cache1;
+
+			private static Func<TerrainAffordanceDef, string> <>f__am$cache2;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<SpecialDisplayStats>__BaseCallProxy1().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_1EB;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						stat = enumerator.Current;
+						this.$current = stat;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				affdefs = Enumerable.Empty<TerrainAffordanceDef>();
+				if (base.PlaceWorkers != null)
+				{
+					affdefs = affdefs.Concat(base.PlaceWorkers.SelectMany((PlaceWorker pw) => pw.DisplayAffordances()));
+				}
+				if (this.terrainAffordanceNeeded != null)
+				{
+					affdefs = affdefs.Concat(this.terrainAffordanceNeeded);
+				}
+				affordances = (from ta in affdefs.Distinct<TerrainAffordanceDef>()
+				orderby ta.order
+				select ta.label).ToArray<string>();
+				if (affordances.Length <= 0)
+				{
+					goto IL_1EB;
+				}
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TerrainRequirement".Translate(), affordances.ToCommaList(false).CapitalizeFirst(), 0, "");
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_1EB:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BuildableDef.<SpecialDisplayStats>c__Iterator1 <SpecialDisplayStats>c__Iterator = new BuildableDef.<SpecialDisplayStats>c__Iterator1();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
+			}
+
+			private static IEnumerable<TerrainAffordanceDef> <>m__0(PlaceWorker pw)
+			{
+				return pw.DisplayAffordances();
+			}
+
+			private static int <>m__1(TerrainAffordanceDef ta)
+			{
+				return ta.order;
+			}
+
+			private static string <>m__2(TerrainAffordanceDef ta)
+			{
+				return ta.label;
+			}
 		}
 	}
 }

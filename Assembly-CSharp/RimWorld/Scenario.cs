@@ -1,66 +1,75 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Steamworks;
 using Verse;
 using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000652 RID: 1618
 	public class Scenario : IExposable, WorkshopUploadable
 	{
-		// Token: 0x04001318 RID: 4888
 		[MustTranslate]
 		public string name;
 
-		// Token: 0x04001319 RID: 4889
 		[MustTranslate]
 		public string summary;
 
-		// Token: 0x0400131A RID: 4890
 		[MustTranslate]
 		public string description;
 
-		// Token: 0x0400131B RID: 4891
 		internal ScenPart_PlayerFaction playerFaction;
 
-		// Token: 0x0400131C RID: 4892
 		internal List<ScenPart> parts = new List<ScenPart>();
 
-		// Token: 0x0400131D RID: 4893
 		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
 
-		// Token: 0x0400131E RID: 4894
 		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
 
-		// Token: 0x0400131F RID: 4895
 		[NoTranslate]
 		public string fileName;
 
-		// Token: 0x04001320 RID: 4896
 		private WorkshopItemHook workshopHookInt;
 
-		// Token: 0x04001321 RID: 4897
 		[NoTranslate]
 		private string tempUploadDir;
 
-		// Token: 0x04001322 RID: 4898
 		public bool enabled = true;
 
-		// Token: 0x04001323 RID: 4899
 		public const int NameMaxLength = 55;
 
-		// Token: 0x04001324 RID: 4900
 		public const int SummaryMaxLength = 300;
 
-		// Token: 0x04001325 RID: 4901
 		public const int DescriptionMaxLength = 1000;
 
-		// Token: 0x170004F0 RID: 1264
-		// (get) Token: 0x06002197 RID: 8599 RVA: 0x0011D1CC File Offset: 0x0011B5CC
+		[CompilerGenerated]
+		private static Func<ScenPart, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ScenPart, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ScenPart, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ScenPart, ScenPart> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ScenPart, IEnumerable<Page>> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache5;
+
+		public Scenario()
+		{
+		}
+
 		public FileInfo File
 		{
 			get
@@ -69,8 +78,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170004F1 RID: 1265
-		// (get) Token: 0x06002198 RID: 8600 RVA: 0x0011D1F4 File Offset: 0x0011B5F4
 		public IEnumerable<ScenPart> AllParts
 		{
 			get
@@ -84,9 +91,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170004F2 RID: 1266
-		// (get) Token: 0x06002199 RID: 8601 RVA: 0x0011D220 File Offset: 0x0011B620
-		// (set) Token: 0x0600219A RID: 8602 RVA: 0x0011D257 File Offset: 0x0011B657
 		public ScenarioCategory Category
 		{
 			get
@@ -103,7 +107,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600219B RID: 8603 RVA: 0x0011D264 File Offset: 0x0011B664
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
@@ -114,7 +117,6 @@ namespace RimWorld
 			Scribe_Collections.Look<ScenPart>(ref this.parts, "parts", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600219C RID: 8604 RVA: 0x0011D2EC File Offset: 0x0011B6EC
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.name.NullOrEmpty())
@@ -139,7 +141,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600219D RID: 8605 RVA: 0x0011D318 File Offset: 0x0011B718
 		public string GetFullInformationText()
 		{
 			string result;
@@ -173,13 +174,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600219E RID: 8606 RVA: 0x0011D4CC File Offset: 0x0011B8CC
 		public string GetSummary()
 		{
 			return this.summary;
 		}
 
-		// Token: 0x0600219F RID: 8607 RVA: 0x0011D4E8 File Offset: 0x0011B8E8
 		public Scenario CopyForEditing()
 		{
 			Scenario scenario = new Scenario();
@@ -193,7 +192,6 @@ namespace RimWorld
 			return scenario;
 		}
 
-		// Token: 0x060021A0 RID: 8608 RVA: 0x0011D578 File Offset: 0x0011B978
 		public void PreConfigure()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -202,7 +200,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A1 RID: 8609 RVA: 0x0011D5D4 File Offset: 0x0011B9D4
 		public Page GetFirstConfigPage()
 		{
 			List<Page> list = new List<Page>();
@@ -229,7 +226,6 @@ namespace RimWorld
 			return page;
 		}
 
-		// Token: 0x060021A2 RID: 8610 RVA: 0x0011D6D8 File Offset: 0x0011BAD8
 		public bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -242,7 +238,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060021A3 RID: 8611 RVA: 0x0011D74C File Offset: 0x0011BB4C
 		public void Notify_NewPawnGenerating(Pawn pawn, PawnGenerationContext context)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -251,7 +246,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A4 RID: 8612 RVA: 0x0011D7AC File Offset: 0x0011BBAC
 		public void Notify_PawnGenerated(Pawn pawn, PawnGenerationContext context, bool redressed)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -260,7 +254,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A5 RID: 8613 RVA: 0x0011D80C File Offset: 0x0011BC0C
 		public void Notify_PawnDied(Corpse corpse)
 		{
 			for (int i = 0; i < this.parts.Count; i++)
@@ -269,7 +262,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A6 RID: 8614 RVA: 0x0011D84C File Offset: 0x0011BC4C
 		public void PostWorldGenerate()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -278,7 +270,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A7 RID: 8615 RVA: 0x0011D8A8 File Offset: 0x0011BCA8
 		public void PreMapGenerate()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -287,7 +278,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A8 RID: 8616 RVA: 0x0011D904 File Offset: 0x0011BD04
 		public void GenerateIntoMap(Map map)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -296,7 +286,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A9 RID: 8617 RVA: 0x0011D964 File Offset: 0x0011BD64
 		public void PostMapGenerate(Map map)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -305,7 +294,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AA RID: 8618 RVA: 0x0011D9C4 File Offset: 0x0011BDC4
 		public void PostGameStart()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -314,7 +302,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AB RID: 8619 RVA: 0x0011DA20 File Offset: 0x0011BE20
 		public float GetStatFactor(StatDef stat)
 		{
 			float num = 1f;
@@ -329,7 +316,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060021AC RID: 8620 RVA: 0x0011DA7C File Offset: 0x0011BE7C
 		public void TickScenario()
 		{
 			for (int i = 0; i < this.parts.Count; i++)
@@ -338,7 +324,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AD RID: 8621 RVA: 0x0011DAB9 File Offset: 0x0011BEB9
 		public void RemovePart(ScenPart part)
 		{
 			if (!this.parts.Contains(part))
@@ -348,7 +333,6 @@ namespace RimWorld
 			this.parts.Remove(part);
 		}
 
-		// Token: 0x060021AE RID: 8622 RVA: 0x0011DAEC File Offset: 0x0011BEEC
 		public bool CanReorder(ScenPart part, ReorderDirection dir)
 		{
 			bool result;
@@ -375,7 +359,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021AF RID: 8623 RVA: 0x0011DB8C File Offset: 0x0011BF8C
 		public void Reorder(ScenPart part, ReorderDirection dir)
 		{
 			int num = this.parts.IndexOf(part);
@@ -390,13 +373,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021B0 RID: 8624 RVA: 0x0011DBE0 File Offset: 0x0011BFE0
 		public bool CanToUploadToWorkshop()
 		{
 			return this.Category != ScenarioCategory.FromDef && this.TryUploadReport().Accepted && !this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser;
 		}
 
-		// Token: 0x060021B1 RID: 8625 RVA: 0x0011DC3C File Offset: 0x0011C03C
 		public void PrepareForWorkshopUpload()
 		{
 			string path = this.name + Rand.RangeInclusive(100, 999).ToString();
@@ -412,7 +393,6 @@ namespace RimWorld
 			GameDataSaveLoader.SaveScenario(this, text);
 		}
 
-		// Token: 0x060021B2 RID: 8626 RVA: 0x0011DCCC File Offset: 0x0011C0CC
 		public AcceptanceReport TryUploadReport()
 		{
 			AcceptanceReport result;
@@ -427,13 +407,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021B3 RID: 8627 RVA: 0x0011DD50 File Offset: 0x0011C150
 		public PublishedFileId_t GetPublishedFileId()
 		{
 			return this.publishedFileIdInt;
 		}
 
-		// Token: 0x060021B4 RID: 8628 RVA: 0x0011DD6B File Offset: 0x0011C16B
 		public void SetPublishedFileId(PublishedFileId_t newPfid)
 		{
 			this.publishedFileIdInt = newPfid;
@@ -443,25 +421,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021B5 RID: 8629 RVA: 0x0011DDA4 File Offset: 0x0011C1A4
 		public string GetWorkshopName()
 		{
 			return this.name;
 		}
 
-		// Token: 0x060021B6 RID: 8630 RVA: 0x0011DDC0 File Offset: 0x0011C1C0
 		public string GetWorkshopDescription()
 		{
 			return this.GetFullInformationText();
 		}
 
-		// Token: 0x060021B7 RID: 8631 RVA: 0x0011DDDC File Offset: 0x0011C1DC
 		public string GetWorkshopPreviewImagePath()
 		{
 			return GenFilePaths.ScenarioPreviewImagePath;
 		}
 
-		// Token: 0x060021B8 RID: 8632 RVA: 0x0011DDF8 File Offset: 0x0011C1F8
 		public IList<string> GetWorkshopTags()
 		{
 			return new List<string>
@@ -470,13 +444,11 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060021B9 RID: 8633 RVA: 0x0011DE20 File Offset: 0x0011C220
 		public DirectoryInfo GetWorkshopUploadDirectory()
 		{
 			return new DirectoryInfo(this.tempUploadDir);
 		}
 
-		// Token: 0x060021BA RID: 8634 RVA: 0x0011DE40 File Offset: 0x0011C240
 		public WorkshopItemHook GetWorkshopItemHook()
 		{
 			if (this.workshopHookInt == null)
@@ -486,13 +458,11 @@ namespace RimWorld
 			return this.workshopHookInt;
 		}
 
-		// Token: 0x060021BB RID: 8635 RVA: 0x0011DE74 File Offset: 0x0011C274
 		public override string ToString()
 		{
 			return this.name.NullOrEmpty() ? "LabellessScenario" : this.name;
 		}
 
-		// Token: 0x060021BC RID: 8636 RVA: 0x0011DEAC File Offset: 0x0011C2AC
 		public override int GetHashCode()
 		{
 			int num = 6126121;
@@ -509,6 +479,354 @@ namespace RimWorld
 				num ^= this.description.GetHashCode();
 			}
 			return num ^ this.publishedFileIdInt.GetHashCode();
+		}
+
+		[CompilerGenerated]
+		private static float <GetFullInformationText>m__0(ScenPart p)
+		{
+			return p.def.summaryPriority;
+		}
+
+		[CompilerGenerated]
+		private static string <GetFullInformationText>m__1(ScenPart p)
+		{
+			return p.def.defName;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetFullInformationText>m__2(ScenPart p)
+		{
+			return p.visible;
+		}
+
+		[CompilerGenerated]
+		private static ScenPart <CopyForEditing>m__3(ScenPart p)
+		{
+			return p.CopyForEditing();
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<Page> <GetFirstConfigPage>m__4(ScenPart p)
+		{
+			return p.GetConfigPages();
+		}
+
+		[CompilerGenerated]
+		private static void <GetFirstConfigPage>m__5()
+		{
+			PageUtility.InitGameStart();
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<ScenPart>, IEnumerator, IDisposable, IEnumerator<ScenPart>
+		{
+			internal int <i>__1;
+
+			internal Scenario $this;
+
+			internal ScenPart $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = this.playerFaction;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					i = 0;
+					break;
+				case 2u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.parts.Count)
+				{
+					this.$current = this.parts[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ScenPart IEnumerator<ScenPart>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.ScenPart>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ScenPart> IEnumerable<ScenPart>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Scenario.<>c__Iterator0 <>c__Iterator = new Scenario.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator1 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<ScenPart> $locvar0;
+
+			internal ScenPart <part>__1;
+
+			internal IEnumerator<string> $locvar1;
+
+			internal string <e>__2;
+
+			internal Scenario $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.name.NullOrEmpty())
+					{
+						this.$current = "no title";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_98;
+				case 3u:
+					goto IL_C7;
+				case 4u:
+					goto IL_E1;
+				default:
+					return false;
+				}
+				if (this.parts.NullOrEmpty<ScenPart>())
+				{
+					this.$current = "no parts";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_98:
+				if (this.playerFaction == null)
+				{
+					this.$current = "no playerFaction";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_C7:
+				enumerator = base.AllParts.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_E1:
+					switch (num)
+					{
+					case 4u:
+						Block_10:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								e = enumerator2.Current;
+								this.$current = e;
+								if (!this.$disposing)
+								{
+									this.$PC = 4;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						part = enumerator.Current;
+						enumerator2 = part.ConfigErrors().GetEnumerator();
+						num = 4294967293u;
+						goto Block_10;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 4u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Scenario.<ConfigErrors>c__Iterator1 <ConfigErrors>c__Iterator = new Scenario.<ConfigErrors>c__Iterator1();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,22 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFD RID: 3581
 	public class ThingWithComps : Thing
 	{
-		// Token: 0x04003544 RID: 13636
 		private List<ThingComp> comps;
 
-		// Token: 0x04003545 RID: 13637
 		private static readonly List<ThingComp> EmptyCompsList = new List<ThingComp>();
 
-		// Token: 0x17000D3C RID: 3388
-		// (get) Token: 0x060050F4 RID: 20724 RVA: 0x001285CC File Offset: 0x001269CC
+		public ThingWithComps()
+		{
+		}
+
 		public List<ThingComp> AllComps
 		{
 			get
@@ -34,9 +37,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D3D RID: 3389
-		// (get) Token: 0x060050F5 RID: 20725 RVA: 0x00128600 File Offset: 0x00126A00
-		// (set) Token: 0x060050F6 RID: 20726 RVA: 0x0012863F File Offset: 0x00126A3F
 		public override Color DrawColor
 		{
 			get
@@ -59,8 +59,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D3E RID: 3390
-		// (get) Token: 0x060050F7 RID: 20727 RVA: 0x0012864C File Offset: 0x00126A4C
 		public override string LabelNoCount
 		{
 			get
@@ -80,8 +78,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D3F RID: 3391
-		// (get) Token: 0x060050F8 RID: 20728 RVA: 0x001286AC File Offset: 0x00126AAC
 		public override string DescriptionFlavor
 		{
 			get
@@ -108,14 +104,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050F9 RID: 20729 RVA: 0x00128748 File Offset: 0x00126B48
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.InitializeComps();
 		}
 
-		// Token: 0x060050FA RID: 20730 RVA: 0x00128758 File Offset: 0x00126B58
 		public T GetComp<T>() where T : ThingComp
 		{
 			if (this.comps != null)
@@ -135,7 +129,6 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x060050FB RID: 20731 RVA: 0x001287CC File Offset: 0x00126BCC
 		public IEnumerable<T> GetComps<T>() where T : ThingComp
 		{
 			if (this.comps != null)
@@ -152,7 +145,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060050FC RID: 20732 RVA: 0x001287F8 File Offset: 0x00126BF8
 		public ThingComp GetCompByDef(CompProperties def)
 		{
 			if (this.comps != null)
@@ -171,7 +163,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x060050FD RID: 20733 RVA: 0x00128864 File Offset: 0x00126C64
 		public void InitializeComps()
 		{
 			if (this.def.comps.Any<CompProperties>())
@@ -187,7 +178,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050FE RID: 20734 RVA: 0x00128904 File Offset: 0x00126D04
 		public override string GetCustomLabelNoCount(bool includeHp = true)
 		{
 			string text = base.GetCustomLabelNoCount(includeHp);
@@ -204,7 +194,6 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x060050FF RID: 20735 RVA: 0x00128964 File Offset: 0x00126D64
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -221,7 +210,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005100 RID: 20736 RVA: 0x001289C8 File Offset: 0x00126DC8
 		public void BroadcastCompSignal(string signal)
 		{
 			this.ReceiveCompSignal(signal);
@@ -237,12 +225,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005101 RID: 20737 RVA: 0x00128A1C File Offset: 0x00126E1C
 		protected virtual void ReceiveCompSignal(string signal)
 		{
 		}
 
-		// Token: 0x06005102 RID: 20738 RVA: 0x00128A20 File Offset: 0x00126E20
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -255,7 +241,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005103 RID: 20739 RVA: 0x00128A74 File Offset: 0x00126E74
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -269,7 +254,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005104 RID: 20740 RVA: 0x00128AD0 File Offset: 0x00126ED0
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -283,7 +267,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005105 RID: 20741 RVA: 0x00128B2C File Offset: 0x00126F2C
 		public override void Tick()
 		{
 			if (this.comps != null)
@@ -298,7 +281,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005106 RID: 20742 RVA: 0x00128B78 File Offset: 0x00126F78
 		public override void TickRare()
 		{
 			if (this.comps != null)
@@ -313,7 +295,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005107 RID: 20743 RVA: 0x00128BC4 File Offset: 0x00126FC4
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -333,7 +314,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005108 RID: 20744 RVA: 0x00128C38 File Offset: 0x00127038
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -346,14 +326,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005109 RID: 20745 RVA: 0x00128C8C File Offset: 0x0012708C
 		public override void Draw()
 		{
 			base.Draw();
 			this.Comps_PostDraw();
 		}
 
-		// Token: 0x0600510A RID: 20746 RVA: 0x00128C9C File Offset: 0x0012709C
 		protected void Comps_PostDraw()
 		{
 			if (this.comps != null)
@@ -365,7 +343,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600510B RID: 20747 RVA: 0x00128CE8 File Offset: 0x001270E8
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -378,7 +355,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600510C RID: 20748 RVA: 0x00128D38 File Offset: 0x00127138
 		public override void Print(SectionLayer layer)
 		{
 			base.Print(layer);
@@ -391,7 +367,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600510D RID: 20749 RVA: 0x00128D8C File Offset: 0x0012718C
 		public virtual void PrintForPowerGrid(SectionLayer layer)
 		{
 			if (this.comps != null)
@@ -403,7 +378,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600510E RID: 20750 RVA: 0x00128DD8 File Offset: 0x001271D8
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			if (this.comps != null)
@@ -419,7 +393,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600510F RID: 20751 RVA: 0x00128E04 File Offset: 0x00127204
 		public override bool TryAbsorbStack(Thing other, bool respectStackLimit)
 		{
 			bool result;
@@ -442,7 +415,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005110 RID: 20752 RVA: 0x00128E7C File Offset: 0x0012727C
 		public override Thing SplitOff(int count)
 		{
 			Thing thing = base.SplitOff(count);
@@ -456,7 +428,6 @@ namespace Verse
 			return thing;
 		}
 
-		// Token: 0x06005111 RID: 20753 RVA: 0x00128EE0 File Offset: 0x001272E0
 		public override bool CanStackWith(Thing other)
 		{
 			bool result;
@@ -481,7 +452,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005112 RID: 20754 RVA: 0x00128F54 File Offset: 0x00127354
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -498,7 +468,6 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06005113 RID: 20755 RVA: 0x00128FB4 File Offset: 0x001273B4
 		protected string InspectStringPartsFromComps()
 		{
 			string result;
@@ -531,7 +500,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005114 RID: 20756 RVA: 0x00129090 File Offset: 0x00127490
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(selPawn))
@@ -551,7 +519,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005115 RID: 20757 RVA: 0x001290C4 File Offset: 0x001274C4
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
 			if (this.comps != null)
@@ -564,7 +531,6 @@ namespace Verse
 			base.PreTraded(action, playerNegotiator, trader);
 		}
 
-		// Token: 0x06005116 RID: 20758 RVA: 0x0012911C File Offset: 0x0012751C
 		public override void PostGeneratedForTrader(TraderKindDef trader, int forTile, Faction forFaction)
 		{
 			base.PostGeneratedForTrader(trader, forTile, forFaction);
@@ -577,7 +543,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005117 RID: 20759 RVA: 0x00129174 File Offset: 0x00127574
 		protected override void PostIngested(Pawn ingester)
 		{
 			base.PostIngested(ingester);
@@ -590,7 +555,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005118 RID: 20760 RVA: 0x001291C8 File Offset: 0x001275C8
 		public override void Notify_SignalReceived(Signal signal)
 		{
 			base.Notify_SignalReceived(signal);
@@ -600,6 +564,472 @@ namespace Verse
 				{
 					this.comps[i].Notify_SignalReceived(signal);
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingWithComps()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<FloatMenuOption> <GetFloatMenuOptions>__BaseCallProxy0(Pawn selPawn)
+		{
+			return base.GetFloatMenuOptions(selPawn);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetComps>c__Iterator0<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T> where T : ThingComp
+		{
+			internal int <i>__1;
+
+			internal T <cT>__2;
+
+			internal ThingWithComps $this;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetComps>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.comps == null)
+					{
+						goto IL_C1;
+					}
+					i = 0;
+					break;
+				case 1u:
+					IL_96:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.comps.Count)
+				{
+					cT = (this.comps[i] as T);
+					if (cT != null)
+					{
+						this.$current = cT;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_96;
+				}
+				IL_C1:
+				this.$PC = -1;
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingWithComps.<GetComps>c__Iterator0<T> <GetComps>c__Iterator = new ThingWithComps.<GetComps>c__Iterator0<T>();
+				<GetComps>c__Iterator.$this = this;
+				return <GetComps>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal int <i>__1;
+
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <com>__2;
+
+			internal ThingWithComps $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.comps == null)
+					{
+						goto IL_10D;
+					}
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							com = enumerator.Current;
+							this.$current = com;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.comps.Count)
+				{
+					enumerator = this.comps[i].CompGetGizmosExtra().GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				IL_10D:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingWithComps.<GetGizmos>c__Iterator1 <GetGizmos>c__Iterator = new ThingWithComps.<GetGizmos>c__Iterator1();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFloatMenuOptions>c__Iterator2 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal Pawn selPawn;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <o>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <o>__3;
+
+			internal ThingWithComps $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetFloatMenuOptions>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetFloatMenuOptions>__BaseCallProxy0(selPawn).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_4:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							o2 = enumerator2.Current;
+							this.$current = o2;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					i++;
+					goto IL_191;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						this.$current = o;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.comps == null)
+				{
+					goto IL_1AD;
+				}
+				i = 0;
+				IL_191:
+				if (i < this.comps.Count)
+				{
+					enumerator2 = this.comps[i].CompFloatMenuOptions(selPawn).GetEnumerator();
+					num = 4294967293u;
+					goto Block_4;
+				}
+				IL_1AD:
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingWithComps.<GetFloatMenuOptions>c__Iterator2 <GetFloatMenuOptions>c__Iterator = new ThingWithComps.<GetFloatMenuOptions>c__Iterator2();
+				<GetFloatMenuOptions>c__Iterator.$this = this;
+				<GetFloatMenuOptions>c__Iterator.selPawn = selPawn;
+				return <GetFloatMenuOptions>c__Iterator;
 			}
 		}
 	}

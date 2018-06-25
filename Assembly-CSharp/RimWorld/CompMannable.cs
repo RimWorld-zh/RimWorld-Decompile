@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200071F RID: 1823
 	public class CompMannable : ThingComp
 	{
-		// Token: 0x040015FD RID: 5629
 		private int lastManTick = -1;
 
-		// Token: 0x040015FE RID: 5630
 		private Pawn lastManPawn = null;
 
-		// Token: 0x17000622 RID: 1570
-		// (get) Token: 0x0600282F RID: 10287 RVA: 0x001579DC File Offset: 0x00155DDC
+		public CompMannable()
+		{
+		}
+
 		public bool MannedNow
 		{
 			get
@@ -24,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000623 RID: 1571
-		// (get) Token: 0x06002830 RID: 10288 RVA: 0x00157A24 File Offset: 0x00155E24
 		public Pawn ManningPawn
 		{
 			get
@@ -43,8 +44,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000624 RID: 1572
-		// (get) Token: 0x06002831 RID: 10289 RVA: 0x00157A54 File Offset: 0x00155E54
 		public CompProperties_Mannable Props
 		{
 			get
@@ -53,7 +52,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002832 RID: 10290 RVA: 0x00157A74 File Offset: 0x00155E74
 		public void ManForATick(Pawn pawn)
 		{
 			this.lastManTick = Find.TickManager.TicksGame;
@@ -61,7 +59,6 @@ namespace RimWorld
 			pawn.mindState.lastMannedThing = this.parent;
 		}
 
-		// Token: 0x06002833 RID: 10291 RVA: 0x00157AA0 File Offset: 0x00155EA0
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn pawn)
 		{
 			if (!pawn.RaceProps.ToolUser)
@@ -96,6 +93,152 @@ namespace RimWorld
 			}, MenuOptionPriority.Default, null, null, 0f, null, null);
 			yield return opt;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal Pawn pawn;
+
+			internal FloatMenuOption <opt>__0;
+
+			internal CompMannable $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private CompMannable.<CompFloatMenuOptions>c__Iterator0.<CompFloatMenuOptions>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <CompFloatMenuOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (pawn.RaceProps.ToolUser)
+					{
+						if (pawn.CanReserveAndReach(this.parent, PathEndMode.InteractionCell, Danger.Deadly, 1, -1, null, false))
+						{
+							if (base.Props.manWorkType != WorkTags.None && pawn.story != null && pawn.story.WorkTagIsDisabled(base.Props.manWorkType))
+							{
+								if (base.Props.manWorkType != WorkTags.Violent)
+								{
+									break;
+								}
+								this.$current = new FloatMenuOption("CannotManThing".Translate(new object[]
+								{
+									this.parent.LabelShort
+								}) + " (" + "IsIncapableOfViolenceLower".Translate(new object[]
+								{
+									pawn.LabelShort
+								}) + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null);
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+							}
+							else
+							{
+								opt = new FloatMenuOption("OrderManThing".Translate(new object[]
+								{
+									this.parent.LabelShort
+								}), delegate()
+								{
+									Job job = new Job(JobDefOf.ManTurret, this.parent);
+									pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+								}, MenuOptionPriority.Default, null, null, 0f, null, null);
+								this.$current = opt;
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+							}
+							return true;
+						}
+					}
+					break;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompMannable.<CompFloatMenuOptions>c__Iterator0 <CompFloatMenuOptions>c__Iterator = new CompMannable.<CompFloatMenuOptions>c__Iterator0();
+				<CompFloatMenuOptions>c__Iterator.$this = this;
+				<CompFloatMenuOptions>c__Iterator.pawn = pawn;
+				return <CompFloatMenuOptions>c__Iterator;
+			}
+
+			private sealed class <CompFloatMenuOptions>c__AnonStorey1
+			{
+				internal Pawn pawn;
+
+				internal CompMannable.<CompFloatMenuOptions>c__Iterator0 <>f__ref$0;
+
+				public <CompFloatMenuOptions>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					Job job = new Job(JobDefOf.ManTurret, this.<>f__ref$0.$this.parent);
+					this.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				}
+			}
 		}
 	}
 }

@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003C9 RID: 969
 	public class SymbolResolver_FillWithThings : SymbolResolver
 	{
-		// Token: 0x060010B4 RID: 4276 RVA: 0x0008E35C File Offset: 0x0008C75C
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		public SymbolResolver_FillWithThings()
+		{
+		}
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -38,7 +44,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x060010B5 RID: 4277 RVA: 0x0008E424 File Offset: 0x0008C824
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef;
@@ -79,6 +84,12 @@ namespace RimWorld.BaseGen
 				}
 				BaseGen.symbolStack.Push("clear", rp);
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(ThingDef x)
+		{
+			return x.IsWeapon || x.IsMedicine || x.IsDrug;
 		}
 	}
 }

@@ -1,19 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000641 RID: 1601
 	public abstract class ScenPart_IncidentBase : ScenPart
 	{
-		// Token: 0x040012EB RID: 4843
 		protected IncidentDef incident;
 
-		// Token: 0x170004EA RID: 1258
-		// (get) Token: 0x06002128 RID: 8488 RVA: 0x00119ABC File Offset: 0x00117EBC
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache0;
+
+		protected ScenPart_IncidentBase()
+		{
+		}
+
 		public IncidentDef Incident
 		{
 			get
@@ -22,11 +29,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170004EB RID: 1259
-		// (get) Token: 0x06002129 RID: 8489
 		protected abstract string IncidentTag { get; }
 
-		// Token: 0x0600212A RID: 8490 RVA: 0x00119AD8 File Offset: 0x00117ED8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -41,21 +45,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600212B RID: 8491 RVA: 0x00119B44 File Offset: 0x00117F44
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			this.DoIncidentEditInterface(scenPartRect);
 		}
 
-		// Token: 0x0600212C RID: 8492 RVA: 0x00119B68 File Offset: 0x00117F68
 		public override string Summary(Scenario scen)
 		{
 			string key = "ScenPart_" + this.IncidentTag;
 			return ScenSummaryList.SummaryWithList(scen, this.IncidentTag, key.Translate());
 		}
 
-		// Token: 0x0600212D RID: 8493 RVA: 0x00119BA0 File Offset: 0x00117FA0
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == this.IncidentTag)
@@ -65,33 +66,28 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600212E RID: 8494 RVA: 0x00119BD1 File Offset: 0x00117FD1
 		public override void Randomize()
 		{
 			this.incident = this.RandomizableIncidents().RandomElement<IncidentDef>();
 		}
 
-		// Token: 0x0600212F RID: 8495 RVA: 0x00119BE8 File Offset: 0x00117FE8
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
 			return scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident;
 		}
 
-		// Token: 0x06002130 RID: 8496 RVA: 0x00119C24 File Offset: 0x00118024
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
 			return scenPart_IncidentBase == null || scenPart_IncidentBase.Incident != this.incident;
 		}
 
-		// Token: 0x06002131 RID: 8497 RVA: 0x00119C60 File Offset: 0x00118060
 		protected virtual IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			return Enumerable.Empty<IncidentDef>();
 		}
 
-		// Token: 0x06002132 RID: 8498 RVA: 0x00119C7C File Offset: 0x0011807C
 		protected void DoIncidentEditInterface(Rect rect)
 		{
 			if (Widgets.ButtonText(rect, this.incident.LabelCap, true, false, true))
@@ -100,6 +96,133 @@ namespace RimWorld
 				{
 					this.incident = id;
 				});
+			}
+		}
+
+		[CompilerGenerated]
+		private static string <DoIncidentEditInterface>m__0(IncidentDef id)
+		{
+			return id.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private Action <DoIncidentEditInterface>m__1(IncidentDef id)
+		{
+			return delegate()
+			{
+				this.incident = id;
+			};
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetSummaryListEntries>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal string tag;
+
+			internal ScenPart_IncidentBase $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetSummaryListEntries>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (tag == this.IncidentTag)
+					{
+						this.$current = this.incident.LabelCap;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator0 <GetSummaryListEntries>c__Iterator = new ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator0();
+				<GetSummaryListEntries>c__Iterator.$this = this;
+				<GetSummaryListEntries>c__Iterator.tag = tag;
+				return <GetSummaryListEntries>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoIncidentEditInterface>c__AnonStorey1
+		{
+			internal IncidentDef id;
+
+			internal ScenPart_IncidentBase $this;
+
+			public <DoIncidentEditInterface>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.incident = this.id;
 			}
 		}
 	}

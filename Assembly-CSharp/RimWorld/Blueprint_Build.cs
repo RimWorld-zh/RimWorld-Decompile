@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000675 RID: 1653
 	public class Blueprint_Build : Blueprint
 	{
-		// Token: 0x04001394 RID: 5012
 		public ThingDef stuffToUse = null;
 
-		// Token: 0x17000515 RID: 1301
-		// (get) Token: 0x060022B8 RID: 8888 RVA: 0x0012B568 File Offset: 0x00129968
+		public Blueprint_Build()
+		{
+		}
+
 		public override string Label
 		{
 			get
@@ -35,8 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000516 RID: 1302
-		// (get) Token: 0x060022B9 RID: 8889 RVA: 0x0012B5B8 File Offset: 0x001299B8
 		protected override float WorkTotal
 		{
 			get
@@ -45,32 +47,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022BA RID: 8890 RVA: 0x0012B5E8 File Offset: 0x001299E8
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.stuffToUse, "stuffToUse");
 		}
 
-		// Token: 0x060022BB RID: 8891 RVA: 0x0012B604 File Offset: 0x00129A04
 		public override ThingDef UIStuff()
 		{
 			return this.stuffToUse;
 		}
 
-		// Token: 0x060022BC RID: 8892 RVA: 0x0012B620 File Offset: 0x00129A20
 		public override List<ThingDefCountClass> MaterialsNeeded()
 		{
 			return this.def.entityDefToBuild.CostListAdjusted(this.stuffToUse, true);
 		}
 
-		// Token: 0x060022BD RID: 8893 RVA: 0x0012B64C File Offset: 0x00129A4C
 		protected override Thing MakeSolidThing()
 		{
 			return ThingMaker.MakeThing(this.def.entityDefToBuild.frameDef, this.stuffToUse);
 		}
 
-		// Token: 0x060022BE RID: 8894 RVA: 0x0012B67C File Offset: 0x00129A7C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -92,7 +89,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022BF RID: 8895 RVA: 0x0012B6A8 File Offset: 0x00129AA8
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -113,6 +109,214 @@ namespace RimWorld
 				flag = false;
 			}
 			return stringBuilder.ToString().Trim();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command <buildCopy>__0;
+
+			internal IEnumerator<Command> $locvar1;
+
+			internal Command <facility>__2;
+
+			internal Blueprint_Build $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_10D;
+				case 3u:
+					goto IL_147;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				buildCopy = BuildCopyCommandUtility.BuildCopyCommand(this.def.entityDefToBuild, this.stuffToUse);
+				if (buildCopy != null)
+				{
+					this.$current = buildCopy;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_10D:
+				if (base.Faction != Faction.OfPlayer)
+				{
+					goto IL_1BE;
+				}
+				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(this.def.entityDefToBuild).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_147:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						facility = enumerator2.Current;
+						this.$current = facility;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_1BE:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Blueprint_Build.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Blueprint_Build.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
 		}
 	}
 }

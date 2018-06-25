@@ -3,55 +3,43 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001A9 RID: 425
+	[AddComponentMenu("Image Effects/Rendering/Sun Shafts")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Rendering/Sun Shafts")]
 	public class SunShafts : PostEffectsBase
 	{
-		// Token: 0x04000856 RID: 2134
 		public SunShafts.SunShaftsResolution resolution = SunShafts.SunShaftsResolution.Normal;
 
-		// Token: 0x04000857 RID: 2135
 		public SunShafts.ShaftsScreenBlendMode screenBlendMode = SunShafts.ShaftsScreenBlendMode.Screen;
 
-		// Token: 0x04000858 RID: 2136
 		public Transform sunTransform;
 
-		// Token: 0x04000859 RID: 2137
 		public int radialBlurIterations = 2;
 
-		// Token: 0x0400085A RID: 2138
 		public Color sunColor = Color.white;
 
-		// Token: 0x0400085B RID: 2139
 		public Color sunThreshold = new Color(0.87f, 0.74f, 0.65f);
 
-		// Token: 0x0400085C RID: 2140
 		public float sunShaftBlurRadius = 2.5f;
 
-		// Token: 0x0400085D RID: 2141
 		public float sunShaftIntensity = 1.15f;
 
-		// Token: 0x0400085E RID: 2142
 		public float maxRadius = 0.75f;
 
-		// Token: 0x0400085F RID: 2143
 		public bool useDepthTexture = true;
 
-		// Token: 0x04000860 RID: 2144
 		public Shader sunShaftsShader;
 
-		// Token: 0x04000861 RID: 2145
 		private Material sunShaftsMaterial;
 
-		// Token: 0x04000862 RID: 2146
 		public Shader simpleClearShader;
 
-		// Token: 0x04000863 RID: 2147
 		private Material simpleClearMaterial;
 
-		// Token: 0x06000966 RID: 2406 RVA: 0x00018AF0 File Offset: 0x00016CF0
+		public SunShafts()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(this.useDepthTexture);
@@ -64,7 +52,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x06000967 RID: 2407 RVA: 0x00018B5C File Offset: 0x00016D5C
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources())
@@ -147,23 +134,16 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x020001AA RID: 426
 		public enum SunShaftsResolution
 		{
-			// Token: 0x04000865 RID: 2149
 			Low,
-			// Token: 0x04000866 RID: 2150
 			Normal,
-			// Token: 0x04000867 RID: 2151
 			High
 		}
 
-		// Token: 0x020001AB RID: 427
 		public enum ShaftsScreenBlendMode
 		{
-			// Token: 0x04000869 RID: 2153
 			Screen,
-			// Token: 0x0400086A RID: 2154
 			Add
 		}
 	}

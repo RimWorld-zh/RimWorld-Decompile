@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using Verse.AI;
 using Verse.AI.Group;
@@ -7,17 +11,16 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000DC8 RID: 3528
 	public class Building : ThingWithComps
 	{
-		// Token: 0x04003473 RID: 13427
 		private Sustainer sustainerAmbient = null;
 
-		// Token: 0x04003474 RID: 13428
 		public bool canChangeTerrainOnDestroyed = true;
 
-		// Token: 0x17000CB9 RID: 3257
-		// (get) Token: 0x06004EC4 RID: 20164 RVA: 0x00129928 File Offset: 0x00127D28
+		public Building()
+		{
+		}
+
 		public CompPower PowerComp
 		{
 			get
@@ -26,8 +29,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBA RID: 3258
-		// (get) Token: 0x06004EC5 RID: 20165 RVA: 0x00129944 File Offset: 0x00127D44
 		public virtual bool TransmitsPowerNow
 		{
 			get
@@ -37,8 +38,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBB RID: 3259
-		// (set) Token: 0x06004EC6 RID: 20166 RVA: 0x00129974 File Offset: 0x00127D74
 		public override int HitPoints
 		{
 			set
@@ -49,14 +48,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EC7 RID: 20167 RVA: 0x00129997 File Offset: 0x00127D97
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.canChangeTerrainOnDestroyed, "canChangeTerrainOnDestroyed", true, false);
 		}
 
-		// Token: 0x06004EC8 RID: 20168 RVA: 0x001299B4 File Offset: 0x00127DB4
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			if (this.def.IsEdifice())
@@ -107,7 +104,6 @@ namespace Verse
 			SmoothSurfaceDesignatorUtility.Notify_BuildingSpawned(this);
 		}
 
-		// Token: 0x06004EC9 RID: 20169 RVA: 0x00129B80 File Offset: 0x00127F80
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -186,7 +182,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ECA RID: 20170 RVA: 0x00129DE0 File Offset: 0x001281E0
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -203,7 +198,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ECB RID: 20171 RVA: 0x00129EA1 File Offset: 0x001282A1
 		public override void Draw()
 		{
 			if (this.def.drawerType == DrawerType.RealtimeOnly)
@@ -216,7 +210,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ECC RID: 20172 RVA: 0x00129EC8 File Offset: 0x001282C8
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
 		{
 			if (base.Spawned)
@@ -237,7 +230,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ECD RID: 20173 RVA: 0x00129F6C File Offset: 0x0012836C
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			if (base.Faction != null && base.Spawned && base.Faction != Faction.OfPlayer)
@@ -254,7 +246,6 @@ namespace Verse
 			base.PreApplyDamage(ref dinfo, out absorbed);
 		}
 
-		// Token: 0x06004ECE RID: 20174 RVA: 0x0012A007 File Offset: 0x00128407
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -264,7 +255,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ECF RID: 20175 RVA: 0x0012A030 File Offset: 0x00128430
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -275,7 +265,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ED0 RID: 20176 RVA: 0x0012A064 File Offset: 0x00128464
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -301,7 +290,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004ED1 RID: 20177 RVA: 0x0012A090 File Offset: 0x00128490
 		public virtual bool ClaimableBy(Faction by)
 		{
 			bool result;
@@ -337,22 +325,246 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ED2 RID: 20178 RVA: 0x0012A158 File Offset: 0x00128558
 		public virtual bool DeconstructibleBy(Faction faction)
 		{
 			return DebugSettings.godMode || (this.def.building.IsDeconstructible && (base.Faction == faction || this.ClaimableBy(faction) || this.def.building.alwaysDeconstructible));
 		}
 
-		// Token: 0x06004ED3 RID: 20179 RVA: 0x0012A1C8 File Offset: 0x001285C8
 		public virtual ushort PathWalkCostFor(Pawn p)
 		{
 			return 0;
 		}
 
-		// Token: 0x06004ED4 RID: 20180 RVA: 0x0012A1E0 File Offset: 0x001285E0
 		public virtual bool IsDangerousFor(Pawn p)
 		{
 			return false;
+		}
+
+		[CompilerGenerated]
+		private void <SpawnSetup>m__0()
+		{
+			SoundInfo info = SoundInfo.InMap(this, MaintenanceType.None);
+			this.sustainerAmbient = this.def.building.soundAmbient.TrySpawnSustainer(info);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command <buildCopy>__0;
+
+			internal IEnumerator<Command> $locvar1;
+
+			internal Command <facility>__2;
+
+			internal Building $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_114;
+				case 3u:
+					goto IL_160;
+				case 4u:
+					goto IL_195;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.def.Minifiable && base.Faction == Faction.OfPlayer)
+				{
+					this.$current = InstallationDesignatorDatabase.DesignatorFor(this.def);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_114:
+				buildCopy = BuildCopyCommandUtility.BuildCopyCommand(this.def, base.Stuff);
+				if (buildCopy != null)
+				{
+					this.$current = buildCopy;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_160:
+				if (base.Faction != Faction.OfPlayer)
+				{
+					goto IL_20C;
+				}
+				enumerator2 = BuildFacilityCommandUtility.BuildFacilityCommands(this.def).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_195:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						facility = enumerator2.Current;
+						this.$current = facility;
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_20C:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Building.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
 		}
 	}
 }

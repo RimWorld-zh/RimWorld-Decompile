@@ -1,30 +1,32 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200047F RID: 1151
 	[HasDebugOutput]
 	internal static class AgeInjuryUtility
 	{
-		// Token: 0x04000C0F RID: 3087
 		private const int MaxPermanentInjuryAge = 100;
 
-		// Token: 0x04000C10 RID: 3088
 		private static List<Thing> emptyIngredientsList = new List<Thing>();
 
-		// Token: 0x06001433 RID: 5171 RVA: 0x000B0870 File Offset: 0x000AEC70
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, float> <>f__am$cache0;
+
 		public static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(Pawn pawn, int age)
 		{
 			return AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn.def, age);
 		}
 
-		// Token: 0x06001434 RID: 5172 RVA: 0x000B0894 File Offset: 0x000AEC94
 		private static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(ThingDef raceDef, int age)
 		{
 			List<HediffGiverSetDef> sets = raceDef.race.hediffGiverSets;
@@ -51,7 +53,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001435 RID: 5173 RVA: 0x000B08C8 File Offset: 0x000AECC8
 		public static void GenerateRandomOldAgeInjuries(Pawn pawn, bool tryNotToKillPawn)
 		{
 			float num = (!pawn.RaceProps.IsMechanoid) ? pawn.RaceProps.lifeExpectancy : 2500f;
@@ -121,7 +122,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001436 RID: 5174 RVA: 0x000B0C90 File Offset: 0x000AF090
 		private static DamageDef RandomPermanentInjuryDamageType(bool allowFrostbite)
 		{
 			DamageDef result;
@@ -148,7 +148,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001437 RID: 5175 RVA: 0x000B0D14 File Offset: 0x000AF114
 		[DebugOutput]
 		public static void PermanentInjuryCalculations()
 		{
@@ -193,6 +192,170 @@ namespace RimWorld
 				Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
 			}
 			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static AgeInjuryUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateRandomOldAgeInjuries>m__0(BodyPartRecord x)
+		{
+			return x.coverageAbs;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomHediffsToGainOnBirthday>c__Iterator0 : IEnumerable, IEnumerable<HediffGiver_Birthday>, IEnumerator, IDisposable, IEnumerator<HediffGiver_Birthday>
+		{
+			internal ThingDef raceDef;
+
+			internal List<HediffGiverSetDef> <sets>__0;
+
+			internal int <i>__1;
+
+			internal List<HediffGiver> <givers>__2;
+
+			internal int <j>__3;
+
+			internal HediffGiver_Birthday <agb>__4;
+
+			internal int age;
+
+			internal float <ageFractionOfLifeExpectancy>__5;
+
+			internal HediffGiver_Birthday $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RandomHediffsToGainOnBirthday>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					sets = raceDef.race.hediffGiverSets;
+					if (sets == null)
+					{
+						return false;
+					}
+					i = 0;
+					goto IL_139;
+				case 1u:
+					IL_104:
+					break;
+				default:
+					return false;
+				}
+				IL_105:
+				j++;
+				IL_114:
+				if (j >= givers.Count)
+				{
+					i++;
+				}
+				else
+				{
+					agb = (givers[j] as HediffGiver_Birthday);
+					if (agb == null)
+					{
+						goto IL_105;
+					}
+					ageFractionOfLifeExpectancy = (float)age / raceDef.race.lifeExpectancy;
+					if (Rand.Value < agb.ageFractionChanceCurve.Evaluate(ageFractionOfLifeExpectancy))
+					{
+						this.$current = agb;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_104;
+				}
+				IL_139:
+				if (i < sets.Count)
+				{
+					givers = sets[i].hediffGivers;
+					j = 0;
+					goto IL_114;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			HediffGiver_Birthday IEnumerator<HediffGiver_Birthday>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.HediffGiver_Birthday>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<HediffGiver_Birthday> IEnumerable<HediffGiver_Birthday>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__Iterator0 <RandomHediffsToGainOnBirthday>c__Iterator = new AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__Iterator0();
+				<RandomHediffsToGainOnBirthday>c__Iterator.raceDef = raceDef;
+				<RandomHediffsToGainOnBirthday>c__Iterator.age = age;
+				return <RandomHediffsToGainOnBirthday>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateRandomOldAgeInjuries>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			public <GenerateRandomOldAgeInjuries>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord x)
+			{
+				return x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryBaseChance != 0f || x.def.pawnGeneratorCanAmputate) && !this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x);
+			}
 		}
 	}
 }

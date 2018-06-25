@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020001E6 RID: 486
 	public class ThinkNode_ConditionalAnyUndownedColonistSpawnedNearby : ThinkNode_Conditional
 	{
-		// Token: 0x06000985 RID: 2437 RVA: 0x00056B28 File Offset: 0x00054F28
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		public ThinkNode_ConditionalAnyUndownedColonistSpawnedNearby()
+		{
+		}
+
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;
@@ -21,6 +27,12 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <Satisfied>m__0(Pawn x)
+		{
+			return !x.Downed;
 		}
 	}
 }

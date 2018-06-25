@@ -1,29 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200053B RID: 1339
 	public class Trait : IExposable
 	{
-		// Token: 0x04000EAC RID: 3756
 		public TraitDef def;
 
-		// Token: 0x04000EAD RID: 3757
 		private int degree;
 
-		// Token: 0x04000EAE RID: 3758
 		private bool scenForced;
 
-		// Token: 0x060018E4 RID: 6372 RVA: 0x000D8CE2 File Offset: 0x000D70E2
 		public Trait()
 		{
 		}
 
-		// Token: 0x060018E5 RID: 6373 RVA: 0x000D8CEB File Offset: 0x000D70EB
 		public Trait(TraitDef def, int degree = 0, bool forced = false)
 		{
 			this.def = def;
@@ -31,8 +29,6 @@ namespace RimWorld
 			this.scenForced = forced;
 		}
 
-		// Token: 0x17000381 RID: 897
-		// (get) Token: 0x060018E6 RID: 6374 RVA: 0x000D8D0C File Offset: 0x000D710C
 		public int Degree
 		{
 			get
@@ -41,8 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000382 RID: 898
-		// (get) Token: 0x060018E7 RID: 6375 RVA: 0x000D8D28 File Offset: 0x000D7128
 		public TraitDegreeData CurrentData
 		{
 			get
@@ -51,8 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000383 RID: 899
-		// (get) Token: 0x060018E8 RID: 6376 RVA: 0x000D8D50 File Offset: 0x000D7150
 		public string Label
 		{
 			get
@@ -61,8 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000384 RID: 900
-		// (get) Token: 0x060018E9 RID: 6377 RVA: 0x000D8D70 File Offset: 0x000D7170
 		public string LabelCap
 		{
 			get
@@ -71,8 +61,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000385 RID: 901
-		// (get) Token: 0x060018EA RID: 6378 RVA: 0x000D8D90 File Offset: 0x000D7190
 		public bool ScenForced
 		{
 			get
@@ -81,7 +69,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018EB RID: 6379 RVA: 0x000D8DAC File Offset: 0x000D71AC
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraitDef>(ref this.def, "def");
@@ -94,7 +81,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018EC RID: 6380 RVA: 0x000D8E24 File Offset: 0x000D7224
 		public float OffsetOfStat(StatDef stat)
 		{
 			float num = 0f;
@@ -112,7 +98,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060018ED RID: 6381 RVA: 0x000D8EA0 File Offset: 0x000D72A0
 		public float MultiplierOfStat(StatDef stat)
 		{
 			float num = 1f;
@@ -130,7 +115,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060018EE RID: 6382 RVA: 0x000D8F1C File Offset: 0x000D731C
 		public string TipString(Pawn pawn)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -209,7 +193,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060018EF RID: 6383 RVA: 0x000D9228 File Offset: 0x000D7628
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -222,7 +205,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060018F0 RID: 6384 RVA: 0x000D927C File Offset: 0x000D767C
 		private IEnumerable<ThoughtDef> GetPermaThoughts()
 		{
 			TraitDegreeData degree = this.CurrentData;
@@ -246,13 +228,11 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060018F1 RID: 6385 RVA: 0x000D92A8 File Offset: 0x000D76A8
 		private bool AllowsWorkType(WorkTypeDef workDef)
 		{
 			return (this.def.disabledWorkTags & workDef.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x060018F2 RID: 6386 RVA: 0x000D92D4 File Offset: 0x000D76D4
 		public IEnumerable<WorkTypeDef> GetDisabledWorkTypes()
 		{
 			for (int i = 0; i < this.def.disabledWorkTypes.Count; i++)
@@ -269,6 +249,255 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetPermaThoughts>c__Iterator0 : IEnumerable, IEnumerable<ThoughtDef>, IEnumerator, IDisposable, IEnumerator<ThoughtDef>
+		{
+			internal TraitDegreeData <degree>__0;
+
+			internal List<ThoughtDef> <allThoughts>__0;
+
+			internal int <i>__1;
+
+			internal Trait $this;
+
+			internal ThoughtDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetPermaThoughts>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					degree = base.CurrentData;
+					allThoughts = DefDatabase<ThoughtDef>.AllDefsListForReading;
+					i = 0;
+					goto IL_15B;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_14D:
+				i++;
+				IL_15B:
+				if (i >= allThoughts.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (!allThoughts[i].IsSituational)
+					{
+						goto IL_14D;
+					}
+					if (!(allThoughts[i].Worker is ThoughtWorker_AlwaysActive))
+					{
+						goto IL_14D;
+					}
+					if (allThoughts[i].requiredTraits == null || !allThoughts[i].requiredTraits.Contains(this.def))
+					{
+						goto IL_14D;
+					}
+					if (allThoughts[i].RequiresSpecificTraitsDegree && allThoughts[i].requiredTraitsDegree != degree.degree)
+					{
+						goto IL_14D;
+					}
+					this.$current = allThoughts[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			ThoughtDef IEnumerator<ThoughtDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.ThoughtDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThoughtDef> IEnumerable<ThoughtDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Trait.<GetPermaThoughts>c__Iterator0 <GetPermaThoughts>c__Iterator = new Trait.<GetPermaThoughts>c__Iterator0();
+				<GetPermaThoughts>c__Iterator.$this = this;
+				return <GetPermaThoughts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetDisabledWorkTypes>c__Iterator1 : IEnumerable, IEnumerable<WorkTypeDef>, IEnumerator, IDisposable, IEnumerator<WorkTypeDef>
+		{
+			internal int <i>__1;
+
+			internal List<WorkTypeDef> <workTypeDefList>__0;
+
+			internal int <i>__2;
+
+			internal WorkTypeDef <w>__3;
+
+			internal Trait $this;
+
+			internal WorkTypeDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetDisabledWorkTypes>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				case 2u:
+					IL_FC:
+					j++;
+					goto IL_10B;
+				default:
+					return false;
+				}
+				if (i < this.def.disabledWorkTypes.Count)
+				{
+					this.$current = this.def.disabledWorkTypes[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				workTypeDefList = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+				j = 0;
+				IL_10B:
+				if (j >= workTypeDefList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					w = workTypeDefList[j];
+					if (!base.AllowsWorkType(w))
+					{
+						this.$current = w;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					goto IL_FC;
+				}
+				return false;
+			}
+
+			WorkTypeDef IEnumerator<WorkTypeDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.WorkTypeDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<WorkTypeDef> IEnumerable<WorkTypeDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Trait.<GetDisabledWorkTypes>c__Iterator1 <GetDisabledWorkTypes>c__Iterator = new Trait.<GetDisabledWorkTypes>c__Iterator1();
+				<GetDisabledWorkTypes>c__Iterator.$this = this;
+				return <GetDisabledWorkTypes>c__Iterator;
+			}
 		}
 	}
 }

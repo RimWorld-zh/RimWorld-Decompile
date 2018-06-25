@@ -1,22 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000E86 RID: 3718
 	public class TreeNode_ThingCategory : TreeNode
 	{
-		// Token: 0x04003A03 RID: 14851
 		public ThingCategoryDef catDef;
 
-		// Token: 0x060057BD RID: 22461 RVA: 0x002D0D00 File Offset: 0x002CF100
 		public TreeNode_ThingCategory(ThingCategoryDef def)
 		{
 			this.catDef = def;
 		}
 
-		// Token: 0x17000DD5 RID: 3541
-		// (get) Token: 0x060057BE RID: 22462 RVA: 0x002D0D10 File Offset: 0x002CF110
 		public string Label
 		{
 			get
@@ -25,8 +24,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD6 RID: 3542
-		// (get) Token: 0x060057BF RID: 22463 RVA: 0x002D0D30 File Offset: 0x002CF130
 		public string LabelCap
 		{
 			get
@@ -35,8 +32,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD7 RID: 3543
-		// (get) Token: 0x060057C0 RID: 22464 RVA: 0x002D0D50 File Offset: 0x002CF150
 		public IEnumerable<TreeNode_ThingCategory> ChildCategoryNodesAndThis
 		{
 			get
@@ -49,8 +44,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD8 RID: 3544
-		// (get) Token: 0x060057C1 RID: 22465 RVA: 0x002D0D7C File Offset: 0x002CF17C
 		public IEnumerable<TreeNode_ThingCategory> ChildCategoryNodes
 		{
 			get
@@ -63,10 +56,269 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057C2 RID: 22466 RVA: 0x002D0DA8 File Offset: 0x002CF1A8
 		public override string ToString()
 		{
 			return this.catDef.defName;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<TreeNode_ThingCategory>, IEnumerator, IDisposable, IEnumerator<TreeNode_ThingCategory>
+		{
+			internal IEnumerator<ThingCategoryDef> $locvar0;
+
+			internal ThingCategoryDef <other>__1;
+
+			internal TreeNode_ThingCategory $this;
+
+			internal TreeNode_ThingCategory $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = this.catDef.ThisAndChildCategoryDefs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						other = enumerator.Current;
+						this.$current = other.treeNode;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			TreeNode_ThingCategory IEnumerator<TreeNode_ThingCategory>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.TreeNode_ThingCategory>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<TreeNode_ThingCategory> IEnumerable<TreeNode_ThingCategory>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TreeNode_ThingCategory.<>c__Iterator0 <>c__Iterator = new TreeNode_ThingCategory.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<TreeNode_ThingCategory>, IEnumerator, IDisposable, IEnumerator<TreeNode_ThingCategory>
+		{
+			internal List<ThingCategoryDef>.Enumerator $locvar0;
+
+			internal ThingCategoryDef <other>__1;
+
+			internal TreeNode_ThingCategory $this;
+
+			internal TreeNode_ThingCategory $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = this.catDef.childCategories.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						other = enumerator.Current;
+						this.$current = other.treeNode;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			TreeNode_ThingCategory IEnumerator<TreeNode_ThingCategory>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.TreeNode_ThingCategory>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<TreeNode_ThingCategory> IEnumerable<TreeNode_ThingCategory>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TreeNode_ThingCategory.<>c__Iterator1 <>c__Iterator = new TreeNode_ThingCategory.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

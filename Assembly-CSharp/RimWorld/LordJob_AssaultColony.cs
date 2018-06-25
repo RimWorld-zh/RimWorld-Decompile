@@ -5,39 +5,28 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000169 RID: 361
 	public class LordJob_AssaultColony : LordJob
 	{
-		// Token: 0x04000332 RID: 818
 		private Faction assaulterFaction;
 
-		// Token: 0x04000333 RID: 819
 		private bool canKidnap = true;
 
-		// Token: 0x04000334 RID: 820
 		private bool canTimeoutOrFlee = true;
 
-		// Token: 0x04000335 RID: 821
 		private bool sappers = false;
 
-		// Token: 0x04000336 RID: 822
 		private bool useAvoidGridSmart = false;
 
-		// Token: 0x04000337 RID: 823
 		private bool canSteal = true;
 
-		// Token: 0x04000338 RID: 824
 		private static readonly IntRange AssaultTimeBeforeGiveUp = new IntRange(26000, 38000);
 
-		// Token: 0x04000339 RID: 825
 		private static readonly IntRange SapTimeBeforeGiveUp = new IntRange(33000, 38000);
 
-		// Token: 0x06000767 RID: 1895 RVA: 0x0004996E File Offset: 0x00047D6E
 		public LordJob_AssaultColony()
 		{
 		}
 
-		// Token: 0x06000768 RID: 1896 RVA: 0x0004999C File Offset: 0x00047D9C
 		public LordJob_AssaultColony(Faction assaulterFaction, bool canKidnap = true, bool canTimeoutOrFlee = true, bool sappers = false, bool useAvoidGridSmart = false, bool canSteal = true)
 		{
 			this.assaulterFaction = assaulterFaction;
@@ -48,8 +37,6 @@ namespace RimWorld
 			this.canSteal = canSteal;
 		}
 
-		// Token: 0x17000129 RID: 297
-		// (get) Token: 0x06000769 RID: 1897 RVA: 0x00049A00 File Offset: 0x00047E00
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -58,7 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600076A RID: 1898 RVA: 0x00049A18 File Offset: 0x00047E18
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -173,7 +159,6 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x0600076B RID: 1899 RVA: 0x00049E2C File Offset: 0x0004822C
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.assaulterFaction, "assaulterFaction", false);
@@ -182,6 +167,11 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.sappers, "sappers", false, false);
 			Scribe_Values.Look<bool>(ref this.useAvoidGridSmart, "useAvoidGridSmart", false, false);
 			Scribe_Values.Look<bool>(ref this.canSteal, "canSteal", true, false);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static LordJob_AssaultColony()
+		{
 		}
 	}
 }

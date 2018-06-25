@@ -1,26 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CF5 RID: 3317
 	[HasDebugOutput]
 	public class DamageWorker_Blunt : DamageWorker_AddInjury
 	{
-		// Token: 0x04003194 RID: 12692
 		private const float StunDuration = 3.5f;
 
-		// Token: 0x06004917 RID: 18711 RVA: 0x002669E4 File Offset: 0x00264DE4
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float, bool, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache7;
+
+		public DamageWorker_Blunt()
+		{
+		}
+
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, BodyPartDepth.Outside);
 		}
 
-		// Token: 0x06004918 RID: 18712 RVA: 0x00266A18 File Offset: 0x00264E18
 		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			bool flag = Rand.Chance(this.def.bluntInnerHitChance);
@@ -91,7 +116,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004919 RID: 18713 RVA: 0x00266D34 File Offset: 0x00265134
 		[DebugOutput]
 		public static void StunChances()
 		{
@@ -130,7 +154,6 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x0600491A RID: 18714 RVA: 0x00266F64 File Offset: 0x00265364
 		private bool InSameBranch(BodyPartRecord lhs, BodyPartRecord rhs)
 		{
 			while (lhs.parent != null && lhs.parent.parent != null)
@@ -142,6 +165,130 @@ namespace Verse
 				rhs = rhs.parent;
 			}
 			return lhs == rhs;
+		}
+
+		[CompilerGenerated]
+		private static float <ApplySpecialEffectsToPart>m__0(BodyPartRecord x)
+		{
+			return x.coverageAbs;
+		}
+
+		[CompilerGenerated]
+		private static string <StunChances>m__1(ThingDef d, float dam, bool onHead)
+		{
+			SimpleCurve simpleCurve = (!onHead) ? DamageDefOf.Blunt.bluntStunChancePerDamagePctOfCorePartToBodyCurve : DamageDefOf.Blunt.bluntStunChancePerDamagePctOfCorePartToHeadCurve;
+			PawnGenerationRequest request = new PawnGenerationRequest(d.race.AnyPawnKind, Find.FactionManager.FirstFactionOfDef(d.race.AnyPawnKind.defaultFactionType), PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+			Pawn pawn = PawnGenerator.GeneratePawn(request);
+			float x = dam / d.race.body.corePart.def.GetMaxHealth(pawn);
+			Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
+			return Mathf.Clamp01(simpleCurve.Evaluate(x)).ToStringPercent();
+		}
+
+		[CompilerGenerated]
+		private static string <StunChances>m__2(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <StunChances>m__3(ThingDef d)
+		{
+			return d.race.baseBodySize.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <StunChances>m__4(ThingDef d)
+		{
+			return d.race.baseHealthScale.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <StunChances>m__5(ThingDef d)
+		{
+			return (d.race.baseHealthScale * d.race.baseBodySize).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static float <StunChances>m__6(ThingDef d)
+		{
+			PawnGenerationRequest request = new PawnGenerationRequest(d.race.AnyPawnKind, Find.FactionManager.FirstFactionOfDef(d.race.AnyPawnKind.defaultFactionType), PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+			Pawn pawn = PawnGenerator.GeneratePawn(request);
+			float maxHealth = d.race.body.corePart.def.GetMaxHealth(pawn);
+			Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
+			return maxHealth;
+		}
+
+		[CompilerGenerated]
+		private static bool <StunChances>m__7(ThingDef d)
+		{
+			return d.category == ThingCategory.Pawn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ApplySpecialEffectsToPart>c__AnonStorey0
+		{
+			internal DamageInfo lastInfo;
+
+			internal Pawn pawn;
+
+			public <ApplySpecialEffectsToPart>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord x)
+			{
+				return x.parent == this.lastInfo.HitPart && x.def.IsSolid(x, this.pawn.health.hediffSet.hediffs) && x.depth == BodyPartDepth.Inside;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <StunChances>c__AnonStorey1
+		{
+			internal Func<ThingDef, float, bool, string> bluntBodyStunChance;
+
+			public <StunChances>c__AnonStorey1()
+			{
+			}
+
+			internal string <>m__0(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 5f, false);
+			}
+
+			internal string <>m__1(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 10f, false);
+			}
+
+			internal string <>m__2(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 15f, false);
+			}
+
+			internal string <>m__3(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 20f, false);
+			}
+
+			internal string <>m__4(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 5f, true);
+			}
+
+			internal string <>m__5(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 10f, true);
+			}
+
+			internal string <>m__6(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 15f, true);
+			}
+
+			internal string <>m__7(ThingDef d)
+			{
+				return this.bluntBodyStunChance(d, 20f, true);
+			}
 		}
 	}
 }

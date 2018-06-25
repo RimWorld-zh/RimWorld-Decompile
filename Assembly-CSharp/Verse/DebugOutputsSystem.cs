@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E21 RID: 3617
 	[HasDebugOutput]
 	internal static class DebugOutputsSystem
 	{
-		// Token: 0x060054C1 RID: 21697 RVA: 0x002B8234 File Offset: 0x002B6634
-		[DebugOutput]
+		[CompilerGenerated]
+		private static Func<int, float> <>f__am$cache0;
+
 		[Category("System")]
+		[DebugOutput]
 		public static void LoadedAssets()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -67,7 +69,6 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060054C2 RID: 21698 RVA: 0x002B8444 File Offset: 0x002B6844
 		private static long TotalBytes(UnityEngine.Object[] arr)
 		{
 			long num = 0L;
@@ -78,18 +79,16 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060054C3 RID: 21699 RVA: 0x002B8485 File Offset: 0x002B6885
+		[Category("System")]
 		[DebugOutput]
 		[ModeRestrictionPlay]
-		[Category("System")]
 		public static void DynamicDrawThingsList()
 		{
 			Find.CurrentMap.dynamicDrawManager.LogDynamicDrawThings();
 		}
 
-		// Token: 0x060054C4 RID: 21700 RVA: 0x002B8498 File Offset: 0x002B6898
-		[DebugOutput]
 		[Category("System")]
+		[DebugOutput]
 		public static void RandByCurveTests()
 		{
 			DebugHistogram debugHistogram = new DebugHistogram((from x in Enumerable.Range(0, 30)
@@ -130,6 +129,12 @@ namespace Verse
 			}
 			debugHistogram.Display();
 			Log.Message(string.Format("Average {0}, calculated as {1}", num / 1000000f, Rand.ByCurveAverage(curve)), false);
+		}
+
+		[CompilerGenerated]
+		private static float <RandByCurveTests>m__0(int x)
+		{
+			return (float)x;
 		}
 	}
 }

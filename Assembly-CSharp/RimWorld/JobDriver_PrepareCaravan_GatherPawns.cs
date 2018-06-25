@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200003B RID: 59
 	public class JobDriver_PrepareCaravan_GatherPawns : JobDriver
 	{
-		// Token: 0x040001C9 RID: 457
 		private const TargetIndex AnimalOrSlaveInd = TargetIndex.A;
 
-		// Token: 0x17000067 RID: 103
-		// (get) Token: 0x06000204 RID: 516 RVA: 0x00015A7C File Offset: 0x00013E7C
+		public JobDriver_PrepareCaravan_GatherPawns()
+		{
+		}
+
 		private Pawn AnimalOrSlave
 		{
 			get
@@ -22,13 +26,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000205 RID: 517 RVA: 0x00015AAC File Offset: 0x00013EAC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.AnimalOrSlave, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000206 RID: 518 RVA: 0x00015AE0 File Offset: 0x00013EE0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !base.Map.lordManager.lords.Contains(this.job.lord));
@@ -38,7 +40,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000207 RID: 519 RVA: 0x00015B0C File Offset: 0x00013F0C
 		private Toil SetFollowerToil()
 		{
 			return new Toil
@@ -50,6 +51,123 @@ namespace RimWorld
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant
 			};
+		}
+
+		[CompilerGenerated]
+		private void <SetFollowerToil>m__0()
+		{
+			GatherAnimalsAndSlavesForCaravanUtility.SetFollower(this.AnimalOrSlave, this.pawn);
+			RestUtility.WakeUp(this.pawn);
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_PrepareCaravan_GatherPawns $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOn(() => !base.Map.lordManager.lords.Contains(this.job.lord));
+					this.FailOn(() => base.AnimalOrSlave == null || base.AnimalOrSlave.GetLord() != this.job.lord);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A).FailOn(() => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(base.AnimalOrSlave));
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = base.SetFollowerToil();
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_PrepareCaravan_GatherPawns.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_PrepareCaravan_GatherPawns.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !base.Map.lordManager.lords.Contains(this.job.lord);
+			}
+
+			internal bool <>m__1()
+			{
+				return base.AnimalOrSlave == null || base.AnimalOrSlave.GetLord() != this.job.lord;
+			}
+
+			internal bool <>m__2()
+			{
+				return GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(base.AnimalOrSlave);
+			}
 		}
 	}
 }

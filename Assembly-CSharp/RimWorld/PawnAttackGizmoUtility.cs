@@ -1,14 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200046E RID: 1134
 	public static class PawnAttackGizmoUtility
 	{
-		// Token: 0x060013E6 RID: 5094 RVA: 0x000ADC7C File Offset: 0x000AC07C
+		[CompilerGenerated]
+		private static Action<Thing> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action<Thing> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<object, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<object, bool> <>f__am$cache3;
+
 		public static IEnumerable<Gizmo> GetAttackGizmos(Pawn pawn)
 		{
 			if (PawnAttackGizmoUtility.ShouldUseMeleeAttackGizmo(pawn))
@@ -22,19 +36,16 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013E7 RID: 5095 RVA: 0x000ADCA8 File Offset: 0x000AC0A8
 		public static bool CanShowEquipmentGizmos()
 		{
 			return !PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
 		}
 
-		// Token: 0x060013E8 RID: 5096 RVA: 0x000ADCC8 File Offset: 0x000AC0C8
 		private static bool ShouldUseSquadAttackGizmo()
 		{
 			return PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() && PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
 		}
 
-		// Token: 0x060013E9 RID: 5097 RVA: 0x000ADCF0 File Offset: 0x000AC0F0
 		private static Gizmo GetSquadAttackGizmo(Pawn pawn)
 		{
 			Command_Target command_Target = new Command_Target();
@@ -68,13 +79,11 @@ namespace RimWorld
 			return command_Target;
 		}
 
-		// Token: 0x060013EA RID: 5098 RVA: 0x000ADD98 File Offset: 0x000AC198
 		private static bool ShouldUseMeleeAttackGizmo(Pawn pawn)
 		{
 			return pawn.Drafted && (PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() || PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasNoWeapon() || PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons());
 		}
 
-		// Token: 0x060013EB RID: 5099 RVA: 0x000ADDDC File Offset: 0x000AC1DC
 		private static Gizmo GetMeleeAttackGizmo(Pawn pawn)
 		{
 			Command_Target command_Target = new Command_Target();
@@ -108,7 +117,6 @@ namespace RimWorld
 			return command_Target;
 		}
 
-		// Token: 0x060013EC RID: 5100 RVA: 0x000ADE84 File Offset: 0x000AC284
 		private static bool AtLeastOneSelectedColonistHasRangedWeapon()
 		{
 			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
@@ -126,7 +134,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060013ED RID: 5101 RVA: 0x000ADF20 File Offset: 0x000AC320
 		private static bool AtLeastOneSelectedColonistHasNoWeapon()
 		{
 			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
@@ -144,7 +151,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060013EE RID: 5102 RVA: 0x000ADFA0 File Offset: 0x000AC3A0
 		private static bool AtLeastTwoSelectedColonistsHaveDifferentWeapons()
 		{
 			bool result;
@@ -185,6 +191,162 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static void <GetSquadAttackGizmo>m__0(Thing target)
+		{
+			IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where(delegate(object x)
+			{
+				Pawn pawn2 = x as Pawn;
+				return pawn2 != null && pawn2.IsColonistPlayerControlled && pawn2.Drafted;
+			}).Cast<Pawn>();
+			foreach (Pawn pawn in enumerable)
+			{
+				string text;
+				Action attackAction = FloatMenuUtility.GetAttackAction(pawn, target, out text);
+				if (attackAction != null)
+				{
+					attackAction();
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <GetMeleeAttackGizmo>m__1(Thing target)
+		{
+			IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where(delegate(object x)
+			{
+				Pawn pawn2 = x as Pawn;
+				return pawn2 != null && pawn2.IsColonistPlayerControlled && pawn2.Drafted;
+			}).Cast<Pawn>();
+			foreach (Pawn pawn in enumerable)
+			{
+				string text;
+				Action meleeAttackAction = FloatMenuUtility.GetMeleeAttackAction(pawn, target, out text);
+				if (meleeAttackAction != null)
+				{
+					meleeAttackAction();
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <GetSquadAttackGizmo>m__2(object x)
+		{
+			Pawn pawn = x as Pawn;
+			return pawn != null && pawn.IsColonistPlayerControlled && pawn.Drafted;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetMeleeAttackGizmo>m__3(object x)
+		{
+			Pawn pawn = x as Pawn;
+			return pawn != null && pawn.IsColonistPlayerControlled && pawn.Drafted;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetAttackGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Pawn pawn;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetAttackGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (PawnAttackGizmoUtility.ShouldUseMeleeAttackGizmo(pawn))
+					{
+						this.$current = PawnAttackGizmoUtility.GetMeleeAttackGizmo(pawn);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_8A;
+				default:
+					return false;
+				}
+				if (PawnAttackGizmoUtility.ShouldUseSquadAttackGizmo())
+				{
+					this.$current = PawnAttackGizmoUtility.GetSquadAttackGizmo(pawn);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_8A:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnAttackGizmoUtility.<GetAttackGizmos>c__Iterator0 <GetAttackGizmos>c__Iterator = new PawnAttackGizmoUtility.<GetAttackGizmos>c__Iterator0();
+				<GetAttackGizmos>c__Iterator.pawn = pawn;
+				return <GetAttackGizmos>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000324 RID: 804
 	public class IncidentWorker_AmbrosiaSprout : IncidentWorker
 	{
-		// Token: 0x040008C2 RID: 2242
 		private static readonly IntRange CountRange = new IntRange(10, 20);
 
-		// Token: 0x040008C3 RID: 2243
 		private const int MinRoomCells = 64;
 
-		// Token: 0x040008C4 RID: 2244
 		private const int SpawnRadius = 6;
 
-		// Token: 0x06000DB6 RID: 3510 RVA: 0x00075540 File Offset: 0x00073940
+		public IncidentWorker_AmbrosiaSprout()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -33,7 +33,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB7 RID: 3511 RVA: 0x0007559C File Offset: 0x0007399C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -78,13 +77,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB8 RID: 3512 RVA: 0x00075698 File Offset: 0x00073A98
 		private bool TryFindRootCell(Map map, out IntVec3 cell)
 		{
 			return CellFinderLoose.TryFindRandomNotEdgeCellWith(10, (IntVec3 x) => this.CanSpawnAt(x, map) && x.GetRoom(map, RegionType.Set_Passable).CellCount >= 64, map, out cell);
 		}
 
-		// Token: 0x06000DB9 RID: 3513 RVA: 0x000756DC File Offset: 0x00073ADC
 		private bool CanSpawnAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -113,6 +110,45 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_AmbrosiaSprout()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExecuteWorker>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal IncidentWorker_AmbrosiaSprout $this;
+
+			public <TryExecuteWorker>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.$this.CanSpawnAt(x, this.map);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRootCell>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal IncidentWorker_AmbrosiaSprout $this;
+
+			public <TryFindRootCell>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.$this.CanSpawnAt(x, this.map) && x.GetRoom(this.map, RegionType.Set_Passable).CellCount >= 64;
+			}
 		}
 	}
 }

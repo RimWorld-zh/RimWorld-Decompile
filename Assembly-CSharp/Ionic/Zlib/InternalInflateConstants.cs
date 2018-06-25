@@ -2,10 +2,8 @@
 
 namespace Ionic.Zlib
 {
-	// Token: 0x0200000E RID: 14
 	internal static class InternalInflateConstants
 	{
-		// Token: 0x040000AC RID: 172
 		internal static readonly int[] InflateMask = new int[]
 		{
 			0,
@@ -26,5 +24,10 @@ namespace Ionic.Zlib
 			32767,
 			65535
 		};
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static InternalInflateConstants()
+		{
+		}
 	}
 }

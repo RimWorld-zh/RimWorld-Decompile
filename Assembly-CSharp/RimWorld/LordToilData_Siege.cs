@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200019B RID: 411
 	public class LordToilData_Siege : LordToilData
 	{
-		// Token: 0x0400039D RID: 925
 		public IntVec3 siegeCenter;
 
-		// Token: 0x0400039E RID: 926
 		public float baseRadius = 16f;
 
-		// Token: 0x0400039F RID: 927
 		public float blueprintPoints;
 
-		// Token: 0x040003A0 RID: 928
 		public float desiredBuilderFraction = 0.5f;
 
-		// Token: 0x040003A1 RID: 929
 		public List<Blueprint> blueprints = new List<Blueprint>();
 
-		// Token: 0x0600088B RID: 2187 RVA: 0x000516CC File Offset: 0x0004FACC
+		[CompilerGenerated]
+		private static Predicate<Blueprint> <>f__am$cache0;
+
+		public LordToilData_Siege()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.siegeCenter, "siegeCenter", default(IntVec3), false);
@@ -35,6 +36,12 @@ namespace RimWorld
 				this.blueprints.RemoveAll((Blueprint blue) => blue.Destroyed);
 			}
 			Scribe_Collections.Look<Blueprint>(ref this.blueprints, "blueprints", LookMode.Reference, new object[0]);
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(Blueprint blue)
+		{
+			return blue.Destroyed;
 		}
 	}
 }

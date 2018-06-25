@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000993 RID: 2451
 	public static class PriceUtility
 	{
-		// Token: 0x04002390 RID: 9104
 		private const float MinFactor = 0.1f;
 
-		// Token: 0x04002391 RID: 9105
 		private const float SummaryHealthImpact = 0.8f;
 
-		// Token: 0x04002392 RID: 9106
 		private const float CapacityImpact = 0.5f;
 
-		// Token: 0x04002393 RID: 9107
 		private const float MissingCapacityFactor = 0.6f;
 
-		// Token: 0x04002394 RID: 9108
 		private static readonly SimpleCurve AverageSkillCurve = new SimpleCurve
 		{
 			{
@@ -38,7 +33,9 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06003715 RID: 14101 RVA: 0x001D7B1C File Offset: 0x001D5F1C
+		[CompilerGenerated]
+		private static Func<SkillRecord, float> <>f__am$cache0;
+
 		public static float PawnQualityPriceFactor(Pawn pawn)
 		{
 			float num = 1f;
@@ -73,6 +70,17 @@ namespace RimWorld
 				num = 0.1f;
 			}
 			return num;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PriceUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <PawnQualityPriceFactor>m__0(SkillRecord sk)
+		{
+			return (float)sk.Level;
 		}
 	}
 }

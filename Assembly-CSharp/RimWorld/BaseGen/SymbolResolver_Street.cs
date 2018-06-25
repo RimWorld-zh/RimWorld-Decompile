@@ -4,13 +4,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D5 RID: 981
 	public class SymbolResolver_Street : SymbolResolver
 	{
-		// Token: 0x04000A46 RID: 2630
 		private static List<bool> street = new List<bool>();
 
-		// Token: 0x060010DF RID: 4319 RVA: 0x0008FEA4 File Offset: 0x0008E2A4
+		public SymbolResolver_Street()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			bool? streetHorizontal = rp.streetHorizontal;
@@ -23,7 +24,6 @@ namespace RimWorld.BaseGen
 			this.SpawnFloor(rp.rect, flag, floorDef);
 		}
 
-		// Token: 0x060010E0 RID: 4320 RVA: 0x0008FF60 File Offset: 0x0008E360
 		private void CalculateStreet(CellRect rect, bool horizontal, TerrainDef floorDef)
 		{
 			SymbolResolver_Street.street.Clear();
@@ -41,7 +41,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E1 RID: 4321 RVA: 0x00090058 File Offset: 0x0008E458
 		private void FillStreetGaps(bool horizontal, int width)
 		{
 			int num = -1;
@@ -69,7 +68,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E2 RID: 4322 RVA: 0x00090108 File Offset: 0x0008E508
 		private void RemoveShortStreetParts(bool horizontal, int width)
 		{
 			for (int i = 0; i < SymbolResolver_Street.street.Count; i++)
@@ -103,7 +101,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E3 RID: 4323 RVA: 0x000901DC File Offset: 0x0008E5DC
 		private void SpawnFloor(CellRect rect, bool horizontal, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -120,7 +117,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E4 RID: 4324 RVA: 0x00090278 File Offset: 0x0008E678
 		private bool CausesStreet(IntVec3 c, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -135,6 +131,11 @@ namespace RimWorld.BaseGen
 				result = ((edifice != null && edifice.def == ThingDefOf.Wall) || c.GetDoor(map) != null || c.GetTerrain(map) == floorDef);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_Street()
+		{
 		}
 	}
 }

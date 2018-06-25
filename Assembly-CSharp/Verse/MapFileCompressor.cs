@@ -1,34 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C05 RID: 3077
 	public class MapFileCompressor : IExposable
 	{
-		// Token: 0x04002E04 RID: 11780
 		private Map map;
 
-		// Token: 0x04002E05 RID: 11781
 		private byte[] compressedData;
 
-		// Token: 0x04002E06 RID: 11782
 		public CompressibilityDecider compressibilityDecider;
 
-		// Token: 0x06004346 RID: 17222 RVA: 0x002393F6 File Offset: 0x002377F6
 		public MapFileCompressor(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004347 RID: 17223 RVA: 0x00239406 File Offset: 0x00237806
 		public void ExposeData()
 		{
 			DataExposeUtility.ByteArray(ref this.compressedData, "compressedThingMap");
 		}
 
-		// Token: 0x06004348 RID: 17224 RVA: 0x00239419 File Offset: 0x00237819
 		public void BuildCompressedString()
 		{
 			this.compressibilityDecider = new CompressibilityDecider(this.map);
@@ -36,7 +30,6 @@ namespace Verse
 			this.compressedData = MapSerializeUtility.SerializeUshort(this.map, new Func<IntVec3, ushort>(this.HashValueForSquare));
 		}
 
-		// Token: 0x06004349 RID: 17225 RVA: 0x00239458 File Offset: 0x00237858
 		private ushort HashValueForSquare(IntVec3 curSq)
 		{
 			ushort num = 0;
@@ -60,7 +53,6 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x0600434A RID: 17226 RVA: 0x00239510 File Offset: 0x00237910
 		public IEnumerable<Thing> ThingsToSpawnAfterLoad()
 		{
 			Dictionary<ushort, ThingDef> thingDefsByShortHash = new Dictionary<ushort, ThingDef>();
@@ -128,6 +120,64 @@ namespace Verse
 				}
 			});
 			return loadables;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ThingsToSpawnAfterLoad>c__AnonStorey0
+		{
+			internal int major;
+
+			internal int minor;
+
+			internal Dictionary<ushort, ThingDef> thingDefsByShortHash;
+
+			internal List<Thing> loadables;
+
+			public <ThingsToSpawnAfterLoad>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0(IntVec3 c, ushort val)
+			{
+				if (val != 0)
+				{
+					ThingDef thingDef = BackCompatibility.BackCompatibleThingDefWithShortHash_Force(val, this.major, this.minor);
+					if (thingDef == null)
+					{
+						try
+						{
+							thingDef = this.thingDefsByShortHash[val];
+						}
+						catch (KeyNotFoundException)
+						{
+							ThingDef thingDef2 = BackCompatibility.BackCompatibleThingDefWithShortHash(val);
+							if (thingDef2 != null)
+							{
+								thingDef = thingDef2;
+								this.thingDefsByShortHash.Add(val, thingDef2);
+							}
+							else
+							{
+								Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.", false);
+								this.thingDefsByShortHash.Add(val, null);
+							}
+						}
+					}
+					if (thingDef != null)
+					{
+						try
+						{
+							Thing thing = ThingMaker.MakeThing(thingDef, null);
+							thing.SetPositionDirect(c);
+							this.loadables.Add(thing);
+						}
+						catch (Exception arg)
+						{
+							Log.Error("Could not instantiate compressed thing: " + arg, false);
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -5,17 +5,16 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000147 RID: 327
 	public class WorkGiver_GrowerSow : WorkGiver_Grower
 	{
-		// Token: 0x0400032B RID: 811
 		protected static string CantSowCavePlantBecauseOfLightTrans;
 
-		// Token: 0x0400032C RID: 812
 		protected static string CantSowCavePlantBecauseUnroofedTrans;
 
-		// Token: 0x17000108 RID: 264
-		// (get) Token: 0x060006C7 RID: 1735 RVA: 0x00045BA8 File Offset: 0x00043FA8
+		public WorkGiver_GrowerSow()
+		{
+		}
+
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -24,14 +23,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006C8 RID: 1736 RVA: 0x00045BBE File Offset: 0x00043FBE
 		public static void ResetStaticData()
 		{
 			WorkGiver_GrowerSow.CantSowCavePlantBecauseOfLightTrans = "CantSowCavePlantBecauseOfLight".Translate();
 			WorkGiver_GrowerSow.CantSowCavePlantBecauseUnroofedTrans = "CantSowCavePlantBecauseUnroofed".Translate();
 		}
 
-		// Token: 0x060006C9 RID: 1737 RVA: 0x00045BE0 File Offset: 0x00043FE0
 		protected override bool ExtraRequirements(IPlantToGrowSettable settable, Pawn pawn)
 		{
 			bool result;
@@ -61,7 +58,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006CA RID: 1738 RVA: 0x00045C6C File Offset: 0x0004406C
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			Map map = pawn.Map;

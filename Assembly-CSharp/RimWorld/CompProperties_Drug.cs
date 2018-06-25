@@ -1,47 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000244 RID: 580
 	public class CompProperties_Drug : CompProperties
 	{
-		// Token: 0x04000461 RID: 1121
 		public ChemicalDef chemical = null;
 
-		// Token: 0x04000462 RID: 1122
 		public float addictiveness = 0f;
 
-		// Token: 0x04000463 RID: 1123
 		public float minToleranceToAddict = 0f;
 
-		// Token: 0x04000464 RID: 1124
 		public float existingAddictionSeverityOffset = 0.1f;
 
-		// Token: 0x04000465 RID: 1125
 		public float needLevelOffset = 1f;
 
-		// Token: 0x04000466 RID: 1126
 		public FloatRange overdoseSeverityOffset = FloatRange.Zero;
 
-		// Token: 0x04000467 RID: 1127
 		public float largeOverdoseChance = 0f;
 
-		// Token: 0x04000468 RID: 1128
 		public bool isCombatEnhancingDrug = false;
 
-		// Token: 0x04000469 RID: 1129
 		public float listOrder = 0f;
 
-		// Token: 0x06000A6E RID: 2670 RVA: 0x0005E96C File Offset: 0x0005CD6C
 		public CompProperties_Drug()
 		{
 			this.compClass = typeof(CompDrug);
 		}
 
-		// Token: 0x17000183 RID: 387
-		// (get) Token: 0x06000A6F RID: 2671 RVA: 0x0005E9EC File Offset: 0x0005CDEC
 		public bool Addictive
 		{
 			get
@@ -50,8 +41,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000184 RID: 388
-		// (get) Token: 0x06000A70 RID: 2672 RVA: 0x0005EA10 File Offset: 0x0005CE10
 		public bool CanCauseOverdose
 		{
 			get
@@ -60,7 +49,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A71 RID: 2673 RVA: 0x0005EA38 File Offset: 0x0005CE38
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -74,7 +62,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A72 RID: 2674 RVA: 0x0005EA6C File Offset: 0x0005CE6C
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy1())
@@ -86,6 +73,315 @@ namespace RimWorld
 				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, "");
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0(ThingDef parentDef)
+		{
+			return base.ConfigErrors(parentDef);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<StatDrawEntry> <SpecialDisplayStats>__BaseCallProxy1()
+		{
+			return base.SpecialDisplayStats();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef parentDef;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal CompProperties_Drug $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0(parentDef).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FD;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!base.Addictive || this.chemical != null)
+				{
+					goto IL_FD;
+				}
+				this.$current = "addictive but chemical is null";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_FD:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompProperties_Drug.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new CompProperties_Drug.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.parentDef = parentDef;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <s>__1;
+
+			internal CompProperties_Drug $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<SpecialDisplayStats>__BaseCallProxy1().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_10E;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						s = enumerator.Current;
+						this.$current = s;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!base.Addictive)
+				{
+					goto IL_10E;
+				}
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, "");
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_10E:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompProperties_Drug.<SpecialDisplayStats>c__Iterator1 <SpecialDisplayStats>c__Iterator = new CompProperties_Drug.<SpecialDisplayStats>c__Iterator1();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
+			}
 		}
 	}
 }

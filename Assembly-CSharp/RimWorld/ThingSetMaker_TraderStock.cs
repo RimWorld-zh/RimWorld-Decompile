@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006FC RID: 1788
 	public class ThingSetMaker_TraderStock : ThingSetMaker
 	{
-		// Token: 0x060026F7 RID: 9975 RVA: 0x0014EB98 File Offset: 0x0014CF98
+		public ThingSetMaker_TraderStock()
+		{
+		}
+
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			TraderKindDef traderKindDef = parms.traderDef ?? DefDatabase<TraderKindDef>.AllDefsListForReading.RandomElement<TraderKindDef>();
@@ -56,7 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026F8 RID: 9976 RVA: 0x0014ECFC File Offset: 0x0014D0FC
 		public float AverageTotalStockValue(TraderKindDef td)
 		{
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
@@ -73,7 +78,6 @@ namespace RimWorld
 			return num / 50f;
 		}
 
-		// Token: 0x060026F9 RID: 9977 RVA: 0x0014EDB0 File Offset: 0x0014D1B0
 		public string GenerationDataFor(TraderKindDef td)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -102,7 +106,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060026FA RID: 9978 RVA: 0x0014EEE0 File Offset: 0x0014D2E0
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			if (parms.traderDef == null)
@@ -120,6 +123,173 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingSetMakerParams parms;
+
+			internal int <i>__1;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__3;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private ThingSetMaker_TraderStock.<AllGeneratableThingsDebugSub>c__Iterator0.<AllGeneratableThingsDebugSub>c__AnonStorey1 $locvar1;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (parms.traderDef == null)
+					{
+						return false;
+					}
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							t = enumerator.Current;
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < parms.traderDef.stockGenerators.Count)
+				{
+					StockGenerator stock = parms.traderDef.stockGenerators[i];
+					enumerator = (from x in DefDatabase<ThingDef>.AllDefs
+					where x.tradeability.TraderCanSell() && stock.HandlesThingDef(x)
+					select x).GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker_TraderStock.<AllGeneratableThingsDebugSub>c__Iterator0 <AllGeneratableThingsDebugSub>c__Iterator = new ThingSetMaker_TraderStock.<AllGeneratableThingsDebugSub>c__Iterator0();
+				<AllGeneratableThingsDebugSub>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebugSub>c__Iterator;
+			}
+
+			private sealed class <AllGeneratableThingsDebugSub>c__AnonStorey1
+			{
+				internal StockGenerator stock;
+
+				internal ThingSetMaker_TraderStock.<AllGeneratableThingsDebugSub>c__Iterator0 <>f__ref$0;
+
+				public <AllGeneratableThingsDebugSub>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(ThingDef x)
+				{
+					return x.tradeability.TraderCanSell() && this.stock.HandlesThingDef(x);
+				}
+			}
 		}
 	}
 }

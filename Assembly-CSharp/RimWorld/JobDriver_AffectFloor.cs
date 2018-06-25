@@ -1,29 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200003C RID: 60
 	public abstract class JobDriver_AffectFloor : JobDriver
 	{
-		// Token: 0x040001CA RID: 458
 		private float workLeft = -1000f;
 
-		// Token: 0x040001CB RID: 459
 		protected bool clearSnow = false;
 
-		// Token: 0x17000068 RID: 104
-		// (get) Token: 0x0600020A RID: 522
+		protected JobDriver_AffectFloor()
+		{
+		}
+
 		protected abstract int BaseWorkAmount { get; }
 
-		// Token: 0x17000069 RID: 105
-		// (get) Token: 0x0600020B RID: 523
 		protected abstract DesignationDef DesDef { get; }
 
-		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x0600020C RID: 524 RVA: 0x00015DA4 File Offset: 0x000141A4
 		protected virtual StatDef SpeedStat
 		{
 			get
@@ -32,7 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600020D RID: 525 RVA: 0x00015DBC File Offset: 0x000141BC
 		public override bool TryMakePreToilReservations()
 		{
 			Pawn pawn = this.pawn;
@@ -42,7 +40,6 @@ namespace RimWorld
 			return pawn.Reserve(targetA, job, 1, -1, floor);
 		}
 
-		// Token: 0x0600020E RID: 526 RVA: 0x00015E00 File Offset: 0x00014200
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !this.job.ignoreDesignations && this.Map.designationManager.DesignationAt(this.TargetLocA, this.DesDef) == null);
@@ -83,14 +80,197 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600020F RID: 527
 		protected abstract void DoEffect(IntVec3 c);
 
-		// Token: 0x06000210 RID: 528 RVA: 0x00015E2A File Offset: 0x0001422A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_AffectFloor $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_AffectFloor.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			private static Func<SkillDef> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOn(() => !this.job.ignoreDesignations && this.Map.designationManager.DesignationAt(this.TargetLocA, this.DesDef) == null);
+					this.$current = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					<MakeNewToils>c__AnonStorey.doWork = new Toil();
+					<MakeNewToils>c__AnonStorey.doWork.initAction = delegate()
+					{
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft = (float)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.BaseWorkAmount;
+					};
+					<MakeNewToils>c__AnonStorey.doWork.tickAction = delegate()
+					{
+						float num2 = (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.SpeedStat == null) ? 1f : <MakeNewToils>c__AnonStorey.doWork.actor.GetStatValue(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.SpeedStat, true);
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft -= num2;
+						if (<MakeNewToils>c__AnonStorey.doWork.actor.skills != null)
+						{
+							<MakeNewToils>c__AnonStorey.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+						}
+						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.clearSnow)
+						{
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map.snowGrid.SetDepth(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetLocA, 0f);
+						}
+						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft <= 0f)
+						{
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.DoEffect(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetLocA);
+							Designation designation = <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map.designationManager.DesignationAt(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetLocA, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.DesDef);
+							if (designation != null)
+							{
+								designation.Delete();
+							}
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+						}
+					};
+					<MakeNewToils>c__AnonStorey.doWork.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					<MakeNewToils>c__AnonStorey.doWork.WithProgressBar(TargetIndex.A, () => 1f - <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft / (float)<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.BaseWorkAmount, false, -0.5f);
+					<MakeNewToils>c__AnonStorey.doWork.defaultCompleteMode = ToilCompleteMode.Never;
+					<MakeNewToils>c__AnonStorey.doWork.activeSkill = (() => SkillDefOf.Construction);
+					this.$current = <MakeNewToils>c__AnonStorey.doWork;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_AffectFloor.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_AffectFloor.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private static SkillDef <>m__0()
+			{
+				return SkillDefOf.Construction;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil doWork;
+
+				internal JobDriver_AffectFloor.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0()
+				{
+					return !this.<>f__ref$0.$this.job.ignoreDesignations && this.<>f__ref$0.$this.Map.designationManager.DesignationAt(this.<>f__ref$0.$this.TargetLocA, this.<>f__ref$0.$this.DesDef) == null;
+				}
+
+				internal void <>m__1()
+				{
+					this.<>f__ref$0.$this.workLeft = (float)this.<>f__ref$0.$this.BaseWorkAmount;
+				}
+
+				internal void <>m__2()
+				{
+					float num = (this.<>f__ref$0.$this.SpeedStat == null) ? 1f : this.doWork.actor.GetStatValue(this.<>f__ref$0.$this.SpeedStat, true);
+					this.<>f__ref$0.$this.workLeft -= num;
+					if (this.doWork.actor.skills != null)
+					{
+						this.doWork.actor.skills.Learn(SkillDefOf.Construction, 0.11f, false);
+					}
+					if (this.<>f__ref$0.$this.clearSnow)
+					{
+						this.<>f__ref$0.$this.Map.snowGrid.SetDepth(this.<>f__ref$0.$this.TargetLocA, 0f);
+					}
+					if (this.<>f__ref$0.$this.workLeft <= 0f)
+					{
+						this.<>f__ref$0.$this.DoEffect(this.<>f__ref$0.$this.TargetLocA);
+						Designation designation = this.<>f__ref$0.$this.Map.designationManager.DesignationAt(this.<>f__ref$0.$this.TargetLocA, this.<>f__ref$0.$this.DesDef);
+						if (designation != null)
+						{
+							designation.Delete();
+						}
+						this.<>f__ref$0.$this.ReadyForNextToil();
+					}
+				}
+
+				internal float <>m__3()
+				{
+					return 1f - this.<>f__ref$0.$this.workLeft / (float)this.<>f__ref$0.$this.BaseWorkAmount;
+				}
+			}
 		}
 	}
 }

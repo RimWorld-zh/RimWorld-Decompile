@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4E RID: 3150
 	public class SectionLayer_TerrainScatter : SectionLayer
 	{
-		// Token: 0x04002F72 RID: 12146
 		private List<SectionLayer_TerrainScatter.Scatterable> scats = new List<SectionLayer_TerrainScatter.Scatterable>();
 
-		// Token: 0x06004566 RID: 17766 RVA: 0x0024B50E File Offset: 0x0024990E
+		[CompilerGenerated]
+		private static Predicate<SectionLayer_TerrainScatter.Scatterable> <>f__am$cache0;
+
 		public SectionLayer_TerrainScatter(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
-		// Token: 0x17000AF1 RID: 2801
-		// (get) Token: 0x06004567 RID: 17767 RVA: 0x0024B52C File Offset: 0x0024992C
 		public override bool Visible
 		{
 			get
@@ -27,7 +26,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004568 RID: 17768 RVA: 0x0024B548 File Offset: 0x00249948
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -74,25 +72,24 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x02000C4F RID: 3151
+		[CompilerGenerated]
+		private static bool <Regenerate>m__0(SectionLayer_TerrainScatter.Scatterable scat)
+		{
+			return !scat.IsOnValidTerrain;
+		}
+
 		private class Scatterable
 		{
-			// Token: 0x04002F74 RID: 12148
 			private Map map;
 
-			// Token: 0x04002F75 RID: 12149
 			public ScatterableDef def;
 
-			// Token: 0x04002F76 RID: 12150
 			public Vector3 loc;
 
-			// Token: 0x04002F77 RID: 12151
 			public float size;
 
-			// Token: 0x04002F78 RID: 12152
 			public float rotation;
 
-			// Token: 0x0600456A RID: 17770 RVA: 0x0024B77C File Offset: 0x00249B7C
 			public Scatterable(ScatterableDef def, Vector3 loc, Map map)
 			{
 				this.def = def;
@@ -102,14 +99,11 @@ namespace Verse
 				this.rotation = Rand.Range(0f, 360f);
 			}
 
-			// Token: 0x0600456B RID: 17771 RVA: 0x0024B7D4 File Offset: 0x00249BD4
 			public void PrintOnto(SectionLayer layer)
 			{
 				Printer_Plane.PrintPlane(layer, this.loc, Vector2.one * this.size, this.def.mat, this.rotation, false, null, null, 0.01f, 0f);
 			}
 
-			// Token: 0x17000AF2 RID: 2802
-			// (get) Token: 0x0600456C RID: 17772 RVA: 0x0024B81C File Offset: 0x00249C1C
 			public bool IsOnValidTerrain
 			{
 				get
@@ -118,6 +112,21 @@ namespace Verse
 					TerrainDef terrainDef = this.map.terrainGrid.TerrainAt(c);
 					return this.def.scatterType == terrainDef.scatterType && !c.Filled(this.map);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Regenerate>c__AnonStorey0
+		{
+			internal string terrScatType;
+
+			public <Regenerate>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ScatterableDef def)
+			{
+				return def.scatterType == this.terrScatType;
 			}
 		}
 	}

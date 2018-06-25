@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C1 RID: 1473
 	public class WorldGenStep_Rivers : WorldGenStep
 	{
-		// Token: 0x040010ED RID: 4333
 		private static readonly SimpleCurve ElevationChangeCost = new SimpleCurve
 		{
 			{
@@ -38,26 +37,31 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x040010EE RID: 4334
 		private const float HillinessSmallHillsElevation = 15f;
 
-		// Token: 0x040010EF RID: 4335
 		private const float HillinessLargeHillsElevation = 250f;
 
-		// Token: 0x040010F0 RID: 4336
 		private const float HillinessMountainousElevation = 500f;
 
-		// Token: 0x040010F1 RID: 4337
 		private const float HillinessImpassableElevation = 1000f;
 
-		// Token: 0x040010F2 RID: 4338
 		private const float NonRiverEvaporation = 0f;
 
-		// Token: 0x040010F3 RID: 4339
 		private const float EvaporationMultiple = 250f;
 
-		// Token: 0x17000421 RID: 1057
-		// (get) Token: 0x06001C45 RID: 7237 RVA: 0x000F32BC File Offset: 0x000F16BC
+		[CompilerGenerated]
+		private static Func<int, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<RiverDef, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<RiverDef.Branch, int> <>f__am$cache2;
+
+		public WorldGenStep_Rivers()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -66,13 +70,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C46 RID: 7238 RVA: 0x000F32D6 File Offset: 0x000F16D6
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateRivers();
 		}
 
-		// Token: 0x06001C47 RID: 7239 RVA: 0x000F32E0 File Offset: 0x000F16E0
 		private void GenerateRivers()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts();
@@ -109,7 +111,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C48 RID: 7240 RVA: 0x000F339C File Offset: 0x000F179C
 		private static float GetImpliedElevation(Tile tile)
 		{
 			float num = 0f;
@@ -132,7 +133,6 @@ namespace RimWorld.Planet
 			return tile.elevation + num;
 		}
 
-		// Token: 0x06001C49 RID: 7241 RVA: 0x000F3418 File Offset: 0x000F1818
 		private List<int> GetCoastalWaterTiles()
 		{
 			List<int> list = new List<int>();
@@ -162,7 +162,6 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x06001C4A RID: 7242 RVA: 0x000F34E8 File Offset: 0x000F18E8
 		private void AccumulateFlow(float[] flow, List<int>[] riverPaths, int index)
 		{
 			Tile tile = Find.WorldGrid[index];
@@ -178,7 +177,6 @@ namespace RimWorld.Planet
 			flow[index] = Mathf.Max(0f, flow[index] - WorldGenStep_Rivers.CalculateTotalEvaporation(flow[index], tile.temperature));
 		}
 
-		// Token: 0x06001C4B RID: 7243 RVA: 0x000F3580 File Offset: 0x000F1980
 		private void CreateRivers(float[] flow, List<int>[] riverPaths, int index)
 		{
 			List<int> list = new List<int>();
@@ -197,7 +195,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C4C RID: 7244 RVA: 0x000F3644 File Offset: 0x000F1A44
 		private void ExtendRiver(float[] flow, List<int>[] riverPaths, int index, RiverDef incomingRiver)
 		{
 			if (riverPaths[index] != null)
@@ -236,29 +233,133 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C4D RID: 7245 RVA: 0x000F37E4 File Offset: 0x000F1BE4
 		public static float CalculateEvaporationConstant(float temperature)
 		{
 			float num = 0.61121f * Mathf.Exp((18.678f - temperature / 234.5f) * (temperature / (257.14f + temperature)));
 			return num / (temperature + 273f);
 		}
 
-		// Token: 0x06001C4E RID: 7246 RVA: 0x000F3828 File Offset: 0x000F1C28
 		public static float CalculateRiverSurfaceArea(float flow)
 		{
 			return Mathf.Pow(flow, 0.5f);
 		}
 
-		// Token: 0x06001C4F RID: 7247 RVA: 0x000F3848 File Offset: 0x000F1C48
 		public static float CalculateEvaporativeArea(float flow)
 		{
 			return WorldGenStep_Rivers.CalculateRiverSurfaceArea(flow);
 		}
 
-		// Token: 0x06001C50 RID: 7248 RVA: 0x000F3864 File Offset: 0x000F1C64
 		public static float CalculateTotalEvaporation(float flow, float temperature)
 		{
 			return WorldGenStep_Rivers.CalculateEvaporationConstant(temperature) * WorldGenStep_Rivers.CalculateEvaporativeArea(flow) * 250f;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WorldGenStep_Rivers()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateRivers>m__0(int tid)
+		{
+			return Find.WorldGrid[tid].WaterCovered;
+		}
+
+		[CompilerGenerated]
+		private static int <CreateRivers>m__1(RiverDef rd)
+		{
+			return rd.spawnFlowThreshold;
+		}
+
+		[CompilerGenerated]
+		private static int <ExtendRiver>m__2(RiverDef.Branch branch)
+		{
+			return branch.minFlow;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateRivers>c__AnonStorey0
+		{
+			internal List<int> neighbors;
+
+			public <GenerateRivers>c__AnonStorey0()
+			{
+			}
+
+			internal int <>m__0(int st, int ed)
+			{
+				Tile tile = Find.WorldGrid[ed];
+				Tile tile2 = Find.WorldGrid[st];
+				Find.WorldGrid.GetTileNeighbors(ed, this.neighbors);
+				int num = this.neighbors[0];
+				for (int i = 0; i < this.neighbors.Count; i++)
+				{
+					if (WorldGenStep_Rivers.GetImpliedElevation(Find.WorldGrid[this.neighbors[i]]) < WorldGenStep_Rivers.GetImpliedElevation(Find.WorldGrid[num]))
+					{
+						num = this.neighbors[i];
+					}
+				}
+				float num2 = 1f;
+				if (num != st)
+				{
+					num2 = 2f;
+				}
+				return Mathf.RoundToInt(num2 * WorldGenStep_Rivers.ElevationChangeCost.Evaluate(WorldGenStep_Rivers.GetImpliedElevation(tile2) - WorldGenStep_Rivers.GetImpliedElevation(tile)));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CreateRivers>c__AnonStorey1
+		{
+			internal float targetFlow;
+
+			public <CreateRivers>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(RiverDef rd)
+			{
+				return rd.spawnFlowThreshold > 0 && (float)rd.spawnFlowThreshold <= this.targetFlow;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ExtendRiver>c__AnonStorey2
+		{
+			internal float[] flow;
+
+			internal int bestOutput;
+
+			public <ExtendRiver>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(int ni)
+			{
+				return this.flow[ni];
+			}
+
+			internal bool <>m__1(int ni)
+			{
+				return ni != this.bestOutput;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ExtendRiver>c__AnonStorey3
+		{
+			internal int alternateRiver;
+
+			internal WorldGenStep_Rivers.<ExtendRiver>c__AnonStorey2 <>f__ref$2;
+
+			public <ExtendRiver>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(RiverDef.Branch branch)
+			{
+				return (float)branch.minFlow <= this.<>f__ref$2.flow[this.alternateRiver];
+			}
 		}
 	}
 }

@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000191 RID: 401
 	public abstract class LordToil_HiveRelated : LordToil
 	{
-		// Token: 0x0600084D RID: 2125 RVA: 0x0004ED20 File Offset: 0x0004D120
+		[CompilerGenerated]
+		private static Predicate<KeyValuePair<Pawn, Hive>> <>f__am$cache0;
+
 		public LordToil_HiveRelated()
 		{
 			this.data = new LordToil_HiveRelatedData();
 		}
 
-		// Token: 0x17000151 RID: 337
-		// (get) Token: 0x0600084E RID: 2126 RVA: 0x0004ED34 File Offset: 0x0004D134
 		private LordToil_HiveRelatedData Data
 		{
 			get
@@ -25,13 +25,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600084F RID: 2127 RVA: 0x0004ED54 File Offset: 0x0004D154
 		protected void FilterOutUnspawnedHives()
 		{
 			this.Data.assignedHives.RemoveAll((KeyValuePair<Pawn, Hive> x) => x.Value == null || !x.Value.Spawned);
 		}
 
-		// Token: 0x06000850 RID: 2128 RVA: 0x0004ED88 File Offset: 0x0004D188
 		protected Hive GetHiveFor(Pawn pawn)
 		{
 			Hive hive;
@@ -52,10 +50,30 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000851 RID: 2129 RVA: 0x0004EDE0 File Offset: 0x0004D1E0
 		private Hive FindClosestHive(Pawn pawn)
 		{
 			return (Hive)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Hive), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 30f, (Thing x) => x.Faction == pawn.Faction, null, 0, 30, false, RegionType.Set_Passable, false);
+		}
+
+		[CompilerGenerated]
+		private static bool <FilterOutUnspawnedHives>m__0(KeyValuePair<Pawn, Hive> x)
+		{
+			return x.Value == null || !x.Value.Spawned;
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindClosestHive>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <FindClosestHive>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x.Faction == this.pawn.Faction;
+			}
 		}
 	}
 }

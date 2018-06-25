@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A38 RID: 2616
 	public class JobDriver_Wait : JobDriver
 	{
-		// Token: 0x0400250E RID: 9486
 		private const int TargetSearchInterval = 4;
 
-		// Token: 0x06003A0C RID: 14860 RVA: 0x001EB4C4 File Offset: 0x001E98C4
+		public JobDriver_Wait()
+		{
+		}
+
 		public override string GetReport()
 		{
 			string result;
@@ -32,13 +37,11 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A0D RID: 14861 RVA: 0x001EB53C File Offset: 0x001E993C
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A0E RID: 14862 RVA: 0x001EB554 File Offset: 0x001E9954
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil wait = new Toil();
@@ -66,12 +69,10 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A0F RID: 14863 RVA: 0x001EB57E File Offset: 0x001E997E
 		public virtual void DecorateWaitToil(Toil wait)
 		{
 		}
 
-		// Token: 0x06003A10 RID: 14864 RVA: 0x001EB581 File Offset: 0x001E9981
 		public override void Notify_StanceChanged()
 		{
 			if (this.pawn.stances.curStance is Stance_Mobile)
@@ -80,7 +81,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A11 RID: 14865 RVA: 0x001EB5A4 File Offset: 0x001E99A4
 		private void CheckForAutoAttack()
 		{
 			if (!this.pawn.Downed)
@@ -146,6 +146,135 @@ namespace Verse.AI
 							}
 						}
 					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <wait>__0;
+
+			internal JobDriver_Wait $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					wait = new Toil();
+					wait.initAction = delegate()
+					{
+						base.Map.pawnDestinationReservationManager.Reserve(this.pawn, this.job, this.pawn.Position);
+						this.pawn.pather.StopDead();
+						base.CheckForAutoAttack();
+					};
+					wait.tickAction = delegate()
+					{
+						if (this.job.expiryInterval == -1 && this.job.def == JobDefOf.Wait_Combat && !this.pawn.Drafted)
+						{
+							Log.Error(this.pawn + " in eternal WaitCombat without being drafted.", false);
+							base.ReadyForNextToil();
+						}
+						else if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
+						{
+							base.CheckForAutoAttack();
+						}
+					};
+					this.DecorateWaitToil(wait);
+					wait.defaultCompleteMode = ToilCompleteMode.Never;
+					this.$current = wait;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Wait.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Wait.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.Map.pawnDestinationReservationManager.Reserve(this.pawn, this.job, this.pawn.Position);
+				this.pawn.pather.StopDead();
+				base.CheckForAutoAttack();
+			}
+
+			internal void <>m__1()
+			{
+				if (this.job.expiryInterval == -1 && this.job.def == JobDefOf.Wait_Combat && !this.pawn.Drafted)
+				{
+					Log.Error(this.pawn + " in eternal WaitCombat without being drafted.", false);
+					base.ReadyForNextToil();
+				}
+				else if ((Find.TickManager.TicksGame + this.pawn.thingIDNumber) % 4 == 0)
+				{
+					base.CheckForAutoAttack();
 				}
 			}
 		}

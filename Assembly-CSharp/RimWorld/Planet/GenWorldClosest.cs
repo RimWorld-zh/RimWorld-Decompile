@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005AE RID: 1454
 	public static class GenWorldClosest
 	{
-		// Token: 0x06001BD1 RID: 7121 RVA: 0x000EFD34 File Offset: 0x000EE134
+		[CompilerGenerated]
+		private static Predicate<int> <>f__am$cache0;
+
 		public static bool TryFindClosestTile(int rootTile, Predicate<int> predicate, out int foundTile, int maxTilesToScan = 2147483647, bool canSearchThroughImpassable = true)
 		{
 			int foundTileLocal = -1;
@@ -23,10 +25,44 @@ namespace RimWorld.Planet
 			return foundTileLocal >= 0;
 		}
 
-		// Token: 0x06001BD2 RID: 7122 RVA: 0x000EFDA0 File Offset: 0x000EE1A0
 		public static bool TryFindClosestPassableTile(int rootTile, out int foundTile)
 		{
 			return GenWorldClosest.TryFindClosestTile(rootTile, (int x) => !Find.World.Impassable(x), out foundTile, int.MaxValue, true);
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindClosestPassableTile>m__0(int x)
+		{
+			return !Find.World.Impassable(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindClosestTile>c__AnonStorey0
+		{
+			internal bool canSearchThroughImpassable;
+
+			internal Predicate<int> predicate;
+
+			internal int foundTileLocal;
+
+			public <TryFindClosestTile>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return this.canSearchThroughImpassable || !Find.World.Impassable(x);
+			}
+
+			internal bool <>m__1(int t)
+			{
+				bool flag = this.predicate(t);
+				if (flag)
+				{
+					this.foundTileLocal = t;
+				}
+				return flag;
+			}
 		}
 	}
 }

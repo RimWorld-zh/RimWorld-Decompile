@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A65 RID: 2661
 	public class MentalStateWorker_InsultingSpreeAll : MentalStateWorker
 	{
-		// Token: 0x04002568 RID: 9576
 		private static List<Pawn> candidates = new List<Pawn>();
 
-		// Token: 0x06003B36 RID: 15158 RVA: 0x001F6CEC File Offset: 0x001F50EC
+		public MentalStateWorker_InsultingSpreeAll()
+		{
+		}
+
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -25,6 +26,11 @@ namespace Verse.AI
 				result = flag;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MentalStateWorker_InsultingSpreeAll()
+		{
 		}
 	}
 }

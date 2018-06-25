@@ -4,17 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000342 RID: 834
 	internal abstract class IncidentWorker_ShipPartCrash : IncidentWorker
 	{
-		// Token: 0x040008EC RID: 2284
 		private const float ShipPointsFactor = 0.9f;
 
-		// Token: 0x040008ED RID: 2285
 		private const int IncidentMinimumPoints = 300;
 
-		// Token: 0x1700020D RID: 525
-		// (get) Token: 0x06000E3C RID: 3644 RVA: 0x00077E30 File Offset: 0x00076230
+		protected IncidentWorker_ShipPartCrash()
+		{
+		}
+
 		protected virtual int CountToSpawn
 		{
 			get
@@ -23,14 +22,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E3D RID: 3645 RVA: 0x00077E48 File Offset: 0x00076248
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return map.listerThings.ThingsOfDef(this.def.shipPart).Count <= 0;
 		}
 
-		// Token: 0x06000E3E RID: 3646 RVA: 0x00077E94 File Offset: 0x00076294
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A43 RID: 2627
 	public class Toils_Haul
 	{
-		// Token: 0x06003A47 RID: 14919 RVA: 0x001EED98 File Offset: 0x001ED198
+		public Toils_Haul()
+		{
+		}
+
 		public static bool ErrorCheckForCarry(Pawn pawn, Thing haulThing)
 		{
 			bool result;
@@ -56,7 +59,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A48 RID: 14920 RVA: 0x001EEEB0 File Offset: 0x001ED2B0
 		public static Toil StartCarryThing(TargetIndex haulableInd, bool putRemainderInQueue = false, bool subtractNumTakenFromJobCount = false, bool failIfStackCountLessThanJobCount = false)
 		{
 			Toil toil = new Toil();
@@ -141,7 +143,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A49 RID: 14921 RVA: 0x001EEF10 File Offset: 0x001ED310
 		public static Toil JumpIfAlsoCollectingNextTargetInQueue(Toil gotoGetTargetToil, TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -182,7 +183,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4A RID: 14922 RVA: 0x001EEF64 File Offset: 0x001ED364
 		public static Toil CheckForGetOpportunityDuplicate(Toil getHaulTargetToil, TargetIndex haulableInd, TargetIndex storeCellInd, bool takeFromValidStorage = false, Predicate<Thing> extraValidator = null)
 		{
 			Toil toil = new Toil();
@@ -210,7 +210,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4B RID: 14923 RVA: 0x001EEFCC File Offset: 0x001ED3CC
 		public static Toil CarryHauledThingToCell(TargetIndex squareIndex)
 		{
 			Toil toil = new Toil();
@@ -229,7 +228,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4C RID: 14924 RVA: 0x001EF03C File Offset: 0x001ED43C
 		public static Toil PlaceCarriedThingInCellFacing(TargetIndex facingTargetInd)
 		{
 			Toil toil = new Toil();
@@ -263,7 +261,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4D RID: 14925 RVA: 0x001EF088 File Offset: 0x001ED488
 		public static Toil PlaceHauledThingInCell(TargetIndex cellInd, Toil nextToilOnPlaceFailOrIncomplete, bool storageMode)
 		{
 			Toil toil = new Toil();
@@ -358,7 +355,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4E RID: 14926 RVA: 0x001EF0E0 File Offset: 0x001ED4E0
 		public static Toil CarryHauledThingToContainer()
 		{
 			Toil gotoDest = new Toil();
@@ -392,7 +388,6 @@ namespace Verse.AI
 			return gotoDest;
 		}
 
-		// Token: 0x06003A4F RID: 14927 RVA: 0x001EF148 File Offset: 0x001ED548
 		public static Toil DepositHauledThingInContainer(TargetIndex containerInd, TargetIndex reserveForContainerInd)
 		{
 			Toil toil = new Toil();
@@ -447,7 +442,6 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A50 RID: 14928 RVA: 0x001EF19C File Offset: 0x001ED59C
 		public static Toil JumpToCarryToNextContainerIfPossible(Toil carryToContainerToil, TargetIndex primaryTargetInd)
 		{
 			Toil toil = new Toil();
@@ -476,13 +470,11 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A51 RID: 14929 RVA: 0x001EF1F0 File Offset: 0x001ED5F0
 		public static Toil TakeToInventory(TargetIndex ind, int count)
 		{
 			return Toils_Haul.TakeToInventory(ind, () => count);
 		}
 
-		// Token: 0x06003A52 RID: 14930 RVA: 0x001EF224 File Offset: 0x001ED624
 		public static Toil TakeToInventory(TargetIndex ind, Func<int> countGetter)
 		{
 			Toil takeThing = new Toil();
@@ -513,6 +505,670 @@ namespace Verse.AI
 				}
 			};
 			return takeThing;
+		}
+
+		[CompilerGenerated]
+		private sealed class <StartCarryThing>c__AnonStorey0
+		{
+			internal Toil toil;
+
+			internal TargetIndex haulableInd;
+
+			internal bool failIfStackCountLessThanJobCount;
+
+			internal bool putRemainderInQueue;
+
+			internal bool subtractNumTakenFromJobCount;
+
+			public <StartCarryThing>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Job curJob = actor.jobs.curJob;
+				Thing thing = curJob.GetTarget(this.haulableInd).Thing;
+				if (!Toils_Haul.ErrorCheckForCarry(actor, thing))
+				{
+					if (curJob.count == 0)
+					{
+						throw new Exception(string.Concat(new object[]
+						{
+							"StartCarryThing job had count = ",
+							curJob.count,
+							". Job: ",
+							curJob
+						}));
+					}
+					int num = actor.carryTracker.AvailableStackSpace(thing.def);
+					if (num == 0)
+					{
+						throw new Exception(string.Concat(new object[]
+						{
+							"StartCarryThing got availableStackSpace ",
+							num,
+							" for haulTarg ",
+							thing,
+							". Job: ",
+							curJob
+						}));
+					}
+					if (this.failIfStackCountLessThanJobCount && thing.stackCount < curJob.count)
+					{
+						actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+					}
+					else
+					{
+						int num2 = Mathf.Min(new int[]
+						{
+							curJob.count,
+							num,
+							thing.stackCount
+						});
+						if (num2 <= 0)
+						{
+							throw new Exception("StartCarryThing desiredNumToTake = " + num2);
+						}
+						int stackCount = thing.stackCount;
+						int num3 = actor.carryTracker.TryStartCarry(thing, num2, true);
+						if (num3 == 0)
+						{
+							actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+						}
+						if (num3 < stackCount)
+						{
+							int num4 = curJob.count - num3;
+							if (this.putRemainderInQueue && num4 > 0)
+							{
+								curJob.GetTargetQueue(this.haulableInd).Insert(0, thing);
+								if (curJob.countQueue == null)
+								{
+									curJob.countQueue = new List<int>();
+								}
+								curJob.countQueue.Insert(0, num4);
+							}
+							else if (actor.Map.reservationManager.ReservedBy(thing, actor, curJob))
+							{
+								actor.Map.reservationManager.Release(thing, actor, curJob);
+							}
+						}
+						if (this.subtractNumTakenFromJobCount)
+						{
+							curJob.count -= num3;
+						}
+						curJob.SetTarget(this.haulableInd, actor.carryTracker.CarriedThing);
+						actor.records.Increment(RecordDefOf.ThingsHauled);
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <JumpIfAlsoCollectingNextTargetInQueue>c__AnonStorey1
+		{
+			internal Toil toil;
+
+			internal TargetIndex ind;
+
+			internal Toil gotoGetTargetToil;
+
+			public <JumpIfAlsoCollectingNextTargetInQueue>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Job curJob = actor.jobs.curJob;
+				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(this.ind);
+				if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+				{
+					if (curJob.count > 0)
+					{
+						if (actor.carryTracker.CarriedThing == null)
+						{
+							Log.Error("JumpToAlsoCollectTargetInQueue run on " + actor + " who is not carrying something.", false);
+						}
+						else if (actor.carryTracker.AvailableStackSpace(actor.carryTracker.CarriedThing.def) > 0)
+						{
+							for (int i = 0; i < targetQueue.Count; i++)
+							{
+								if (!GenAI.CanUseItemForWork(actor, targetQueue[i].Thing))
+								{
+									actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+									break;
+								}
+								if (targetQueue[i].Thing.def == actor.carryTracker.CarriedThing.def)
+								{
+									curJob.SetTarget(this.ind, targetQueue[i].Thing);
+									targetQueue.RemoveAt(i);
+									actor.jobs.curDriver.JumpToToil(this.gotoGetTargetToil);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheckForGetOpportunityDuplicate>c__AnonStorey2
+		{
+			internal Toil toil;
+
+			internal bool takeFromValidStorage;
+
+			internal TargetIndex storeCellInd;
+
+			internal Predicate<Thing> extraValidator;
+
+			internal TargetIndex haulableInd;
+
+			internal Toil getHaulTargetToil;
+
+			public <CheckForGetOpportunityDuplicate>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Job curJob = actor.jobs.curJob;
+				if (actor.carryTracker.CarriedThing.def.stackLimit != 1)
+				{
+					if (!actor.carryTracker.Full)
+					{
+						if (curJob.count > 0)
+						{
+							Predicate<Thing> validator = (Thing t) => t.Spawned && t.def == actor.carryTracker.CarriedThing.def && t.CanStackWith(actor.carryTracker.CarriedThing) && !t.IsForbidden(actor) && (this.takeFromValidStorage || !t.IsInValidStorage()) && (this.storeCellInd == TargetIndex.None || curJob.GetTarget(this.storeCellInd).Cell.IsValidStorageFor(actor.Map, t)) && actor.CanReserve(t, 1, -1, null, false) && (this.extraValidator == null || this.extraValidator(t));
+							Thing thing = GenClosest.ClosestThingReachable(actor.Position, actor.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways), PathEndMode.ClosestTouch, TraverseParms.For(actor, Danger.Deadly, TraverseMode.ByPawn, false), 8f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+							if (thing != null)
+							{
+								curJob.SetTarget(this.haulableInd, thing);
+								actor.jobs.curDriver.JumpToToil(this.getHaulTargetToil);
+							}
+						}
+					}
+				}
+			}
+
+			private sealed class <CheckForGetOpportunityDuplicate>c__AnonStorey3
+			{
+				internal Pawn actor;
+
+				internal Job curJob;
+
+				internal Toils_Haul.<CheckForGetOpportunityDuplicate>c__AnonStorey2 <>f__ref$2;
+
+				public <CheckForGetOpportunityDuplicate>c__AnonStorey3()
+				{
+				}
+
+				internal bool <>m__0(Thing t)
+				{
+					return t.Spawned && t.def == this.actor.carryTracker.CarriedThing.def && t.CanStackWith(this.actor.carryTracker.CarriedThing) && !t.IsForbidden(this.actor) && (this.<>f__ref$2.takeFromValidStorage || !t.IsInValidStorage()) && (this.<>f__ref$2.storeCellInd == TargetIndex.None || this.curJob.GetTarget(this.<>f__ref$2.storeCellInd).Cell.IsValidStorageFor(this.actor.Map, t)) && this.actor.CanReserve(t, 1, -1, null, false) && (this.<>f__ref$2.extraValidator == null || this.<>f__ref$2.extraValidator(t));
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CarryHauledThingToCell>c__AnonStorey4
+		{
+			internal Toil toil;
+
+			internal TargetIndex squareIndex;
+
+			public <CarryHauledThingToCell>c__AnonStorey4()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				IntVec3 cell = this.toil.actor.jobs.curJob.GetTarget(this.squareIndex).Cell;
+				this.toil.actor.pather.StartPath(cell, PathEndMode.ClosestTouch);
+			}
+
+			internal bool <>m__1()
+			{
+				Pawn actor = this.toil.actor;
+				IntVec3 cell = actor.jobs.curJob.GetTarget(this.squareIndex).Cell;
+				return actor.jobs.curJob.haulMode == HaulMode.ToCellStorage && !cell.IsValidStorageFor(actor.Map, actor.carryTracker.CarriedThing);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PlaceCarriedThingInCellFacing>c__AnonStorey5
+		{
+			internal Toil toil;
+
+			internal TargetIndex facingTargetInd;
+
+			public <PlaceCarriedThingInCellFacing>c__AnonStorey5()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				if (actor.carryTracker.CarriedThing == null)
+				{
+					Log.Error(actor + " tried to place hauled thing in facing cell but is not hauling anything.", false);
+				}
+				else
+				{
+					LocalTargetInfo target = actor.CurJob.GetTarget(this.facingTargetInd);
+					IntVec3 b;
+					if (target.HasThing)
+					{
+						b = target.Thing.OccupiedRect().ClosestCellTo(actor.Position);
+					}
+					else
+					{
+						b = target.Cell;
+					}
+					IntVec3 dropLoc = actor.Position + Pawn_RotationTracker.RotFromAngleBiased((actor.Position - b).AngleFlat).FacingCell;
+					Thing thing;
+					if (!actor.carryTracker.TryDropCarriedThing(dropLoc, ThingPlaceMode.Direct, out thing, null))
+					{
+						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PlaceHauledThingInCell>c__AnonStorey6
+		{
+			internal Toil toil;
+
+			internal TargetIndex cellInd;
+
+			internal bool storageMode;
+
+			internal Toil nextToilOnPlaceFailOrIncomplete;
+
+			public <PlaceHauledThingInCell>c__AnonStorey6()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Job curJob = actor.jobs.curJob;
+				IntVec3 cell = curJob.GetTarget(this.cellInd).Cell;
+				if (actor.carryTracker.CarriedThing == null)
+				{
+					Log.Error(actor + " tried to place hauled thing in cell but is not hauling anything.", false);
+				}
+				else
+				{
+					SlotGroup slotGroup = actor.Map.haulDestinationManager.SlotGroupAt(cell);
+					if (slotGroup != null && slotGroup.Settings.AllowedToAccept(actor.carryTracker.CarriedThing))
+					{
+						actor.Map.designationManager.TryRemoveDesignationOn(actor.carryTracker.CarriedThing, DesignationDefOf.Haul);
+					}
+					Action<Thing, int> placedAction = null;
+					if (curJob.def == JobDefOf.DoBill || curJob.def == JobDefOf.RefuelAtomic || curJob.def == JobDefOf.RearmTurretAtomic)
+					{
+						placedAction = delegate(Thing th, int added)
+						{
+							if (curJob.placedThings == null)
+							{
+								curJob.placedThings = new List<ThingCountClass>();
+							}
+							ThingCountClass thingCountClass = curJob.placedThings.Find((ThingCountClass x) => x.thing == th);
+							if (thingCountClass != null)
+							{
+								thingCountClass.Count += added;
+							}
+							else
+							{
+								curJob.placedThings.Add(new ThingCountClass(th, added));
+							}
+						};
+					}
+					Thing thing;
+					if (!actor.carryTracker.TryDropCarriedThing(cell, ThingPlaceMode.Direct, out thing, placedAction))
+					{
+						if (this.storageMode)
+						{
+							if (this.nextToilOnPlaceFailOrIncomplete != null)
+							{
+								IntVec3 c;
+								if (StoreUtility.TryFindBestBetterStoreCellFor(actor.carryTracker.CarriedThing, actor, actor.Map, StoragePriority.Unstored, actor.Faction, out c, true))
+								{
+									if (actor.CanReserve(c, 1, -1, null, false))
+									{
+										actor.Reserve(c, actor.CurJob, 1, -1, null);
+									}
+									actor.CurJob.SetTarget(this.cellInd, c);
+									actor.jobs.curDriver.JumpToToil(this.nextToilOnPlaceFailOrIncomplete);
+									return;
+								}
+							}
+							Job job = HaulAIUtility.HaulAsideJobFor(actor, actor.carryTracker.CarriedThing);
+							if (job != null)
+							{
+								curJob.targetA = job.targetA;
+								curJob.targetB = job.targetB;
+								curJob.targetC = job.targetC;
+								curJob.count = job.count;
+								curJob.haulOpportunisticDuplicates = job.haulOpportunisticDuplicates;
+								curJob.haulMode = job.haulMode;
+								actor.jobs.curDriver.JumpToToil(this.nextToilOnPlaceFailOrIncomplete);
+							}
+							else
+							{
+								Log.Error(string.Concat(new object[]
+								{
+									"Incomplete haul for ",
+									actor,
+									": Could not find anywhere to put ",
+									actor.carryTracker.CarriedThing,
+									" near ",
+									actor.Position,
+									". Destroying. This should never happen!"
+								}), false);
+								actor.carryTracker.CarriedThing.Destroy(DestroyMode.Vanish);
+							}
+						}
+						else if (this.nextToilOnPlaceFailOrIncomplete != null)
+						{
+							actor.jobs.curDriver.JumpToToil(this.nextToilOnPlaceFailOrIncomplete);
+						}
+					}
+				}
+			}
+
+			private sealed class <PlaceHauledThingInCell>c__AnonStorey7
+			{
+				internal Job curJob;
+
+				internal Toils_Haul.<PlaceHauledThingInCell>c__AnonStorey6 <>f__ref$6;
+
+				public <PlaceHauledThingInCell>c__AnonStorey7()
+				{
+				}
+
+				internal void <>m__0(Thing th, int added)
+				{
+					if (this.curJob.placedThings == null)
+					{
+						this.curJob.placedThings = new List<ThingCountClass>();
+					}
+					ThingCountClass thingCountClass = this.curJob.placedThings.Find((ThingCountClass x) => x.thing == th);
+					if (thingCountClass != null)
+					{
+						thingCountClass.Count += added;
+					}
+					else
+					{
+						this.curJob.placedThings.Add(new ThingCountClass(th, added));
+					}
+				}
+
+				private sealed class <PlaceHauledThingInCell>c__AnonStorey8
+				{
+					internal Thing th;
+
+					internal Toils_Haul.<PlaceHauledThingInCell>c__AnonStorey6.<PlaceHauledThingInCell>c__AnonStorey7 <>f__ref$7;
+
+					public <PlaceHauledThingInCell>c__AnonStorey8()
+					{
+					}
+
+					internal bool <>m__0(ThingCountClass x)
+					{
+						return x.thing == this.th;
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CarryHauledThingToContainer>c__AnonStorey9
+		{
+			internal Toil gotoDest;
+
+			public <CarryHauledThingToContainer>c__AnonStorey9()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.gotoDest.actor.pather.StartPath(this.gotoDest.actor.jobs.curJob.targetB.Thing, PathEndMode.Touch);
+			}
+
+			internal bool <>m__1()
+			{
+				Thing thing = this.gotoDest.actor.jobs.curJob.targetB.Thing;
+				bool result;
+				if (thing.Destroyed || thing.IsForbidden(this.gotoDest.actor))
+				{
+					result = true;
+				}
+				else
+				{
+					ThingOwner thingOwner = thing.TryGetInnerInteractableThingOwner();
+					if (thingOwner != null)
+					{
+						if (!thingOwner.CanAcceptAnyOf(this.gotoDest.actor.carryTracker.CarriedThing, true))
+						{
+							return true;
+						}
+					}
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DepositHauledThingInContainer>c__AnonStoreyA
+		{
+			internal Toil toil;
+
+			internal TargetIndex containerInd;
+
+			internal TargetIndex reserveForContainerInd;
+
+			public <DepositHauledThingInContainer>c__AnonStoreyA()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Job curJob = actor.jobs.curJob;
+				if (actor.carryTracker.CarriedThing == null)
+				{
+					Log.Error(actor + " tried to place hauled thing in container but is not hauling anything.", false);
+				}
+				else
+				{
+					Thing thing = curJob.GetTarget(this.containerInd).Thing;
+					ThingOwner thingOwner = thing.TryGetInnerInteractableThingOwner();
+					if (thingOwner != null)
+					{
+						int num = actor.carryTracker.CarriedThing.stackCount;
+						if (thing is IConstructible)
+						{
+							int a = GenConstruct.AmountNeededByOf((IConstructible)thing, actor.carryTracker.CarriedThing.def);
+							num = Mathf.Min(a, num);
+							if (this.reserveForContainerInd != TargetIndex.None)
+							{
+								Thing thing2 = curJob.GetTarget(this.reserveForContainerInd).Thing;
+								if (thing2 != null && thing2 != thing)
+								{
+									int num2 = GenConstruct.AmountNeededByOf((IConstructible)thing2, actor.carryTracker.CarriedThing.def);
+									num = Mathf.Min(num, actor.carryTracker.CarriedThing.stackCount - num2);
+								}
+							}
+						}
+						if (actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, thingOwner, num, true) != 0)
+						{
+							Building_Grave building_Grave = thing as Building_Grave;
+							if (building_Grave != null)
+							{
+								building_Grave.Notify_CorpseBuried(actor);
+							}
+						}
+					}
+					else if (curJob.GetTarget(this.containerInd).Thing.def.Minifiable)
+					{
+						actor.carryTracker.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
+					}
+					else
+					{
+						Log.Error("Could not deposit hauled thing in container: " + curJob.GetTarget(this.containerInd).Thing, false);
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <JumpToCarryToNextContainerIfPossible>c__AnonStoreyB
+		{
+			internal Toil toil;
+
+			internal TargetIndex primaryTargetInd;
+
+			internal Toil carryToContainerToil;
+
+			private static Func<LocalTargetInfo, Thing> <>f__am$cache0;
+
+			public <JumpToCarryToNextContainerIfPossible>c__AnonStoreyB()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.toil.actor;
+				Job curJob = actor.jobs.curJob;
+				if (actor.carryTracker.CarriedThing != null)
+				{
+					if (curJob.targetQueueB != null && curJob.targetQueueB.Count > 0)
+					{
+						Thing primaryTarget = curJob.GetTarget(this.primaryTargetInd).Thing;
+						bool hasSpareItems = actor.carryTracker.CarriedThing.stackCount > GenConstruct.AmountNeededByOf((IConstructible)primaryTarget, actor.carryTracker.CarriedThing.def);
+						Predicate<Thing> validator = (Thing th) => GenConstruct.CanConstruct(th, actor, false, false) && ((IConstructible)th).MaterialsNeeded().Any((ThingDefCountClass need) => need.thingDef == actor.carryTracker.CarriedThing.def) && (th == primaryTarget || hasSpareItems);
+						Thing nextTarget = GenClosest.ClosestThing_Global_Reachable(actor.Position, actor.Map, from targ in curJob.targetQueueB
+						select targ.Thing, PathEndMode.Touch, TraverseParms.For(actor, Danger.Deadly, TraverseMode.ByPawn, false), 99999f, validator, null);
+						if (nextTarget != null)
+						{
+							curJob.targetQueueB.RemoveAll((LocalTargetInfo targ) => targ.Thing == nextTarget);
+							curJob.targetB = nextTarget;
+							actor.jobs.curDriver.JumpToToil(this.carryToContainerToil);
+						}
+					}
+				}
+			}
+
+			private static Thing <>m__1(LocalTargetInfo targ)
+			{
+				return targ.Thing;
+			}
+
+			private sealed class <JumpToCarryToNextContainerIfPossible>c__AnonStoreyC
+			{
+				internal Pawn actor;
+
+				internal Toils_Haul.<JumpToCarryToNextContainerIfPossible>c__AnonStoreyB <>f__ref$11;
+
+				public <JumpToCarryToNextContainerIfPossible>c__AnonStoreyC()
+				{
+				}
+			}
+
+			private sealed class <JumpToCarryToNextContainerIfPossible>c__AnonStoreyD
+			{
+				internal Thing primaryTarget;
+
+				internal bool hasSpareItems;
+
+				internal Thing nextTarget;
+
+				internal Toils_Haul.<JumpToCarryToNextContainerIfPossible>c__AnonStoreyB <>f__ref$11;
+
+				internal Toils_Haul.<JumpToCarryToNextContainerIfPossible>c__AnonStoreyB.<JumpToCarryToNextContainerIfPossible>c__AnonStoreyC <>f__ref$12;
+
+				public <JumpToCarryToNextContainerIfPossible>c__AnonStoreyD()
+				{
+				}
+
+				internal bool <>m__0(Thing th)
+				{
+					return GenConstruct.CanConstruct(th, this.<>f__ref$12.actor, false, false) && ((IConstructible)th).MaterialsNeeded().Any((ThingDefCountClass need) => need.thingDef == this.<>f__ref$12.actor.carryTracker.CarriedThing.def) && (th == this.primaryTarget || this.hasSpareItems);
+				}
+
+				internal bool <>m__1(LocalTargetInfo targ)
+				{
+					return targ.Thing == this.nextTarget;
+				}
+
+				internal bool <>m__2(ThingDefCountClass need)
+				{
+					return need.thingDef == this.<>f__ref$12.actor.carryTracker.CarriedThing.def;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TakeToInventory>c__AnonStoreyE
+		{
+			internal int count;
+
+			public <TakeToInventory>c__AnonStoreyE()
+			{
+			}
+
+			internal int <>m__0()
+			{
+				return this.count;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TakeToInventory>c__AnonStoreyF
+		{
+			internal Toil takeThing;
+
+			internal TargetIndex ind;
+
+			internal Func<int> countGetter;
+
+			public <TakeToInventory>c__AnonStoreyF()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.takeThing.actor;
+				Thing thing = actor.CurJob.GetTarget(this.ind).Thing;
+				if (!Toils_Haul.ErrorCheckForCarry(actor, thing))
+				{
+					int num = Mathf.Min(this.countGetter(), thing.stackCount);
+					if (actor.CurJob.checkEncumbrance)
+					{
+						num = Math.Min(num, MassUtility.CountToPickUpUntilOverEncumbered(actor, thing));
+					}
+					if (num <= 0)
+					{
+						actor.jobs.curDriver.ReadyForNextToil();
+					}
+					else
+					{
+						actor.inventory.GetDirectlyHeldThings().TryAdd(thing.SplitOff(num), true);
+						if (thing.def.ingestible != null && thing.def.ingestible.preferability <= FoodPreferability.RawTasty)
+						{
+							actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
+						}
+						thing.def.soundPickup.PlayOneShot(new TargetInfo(actor.Position, actor.Map, false));
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000095 RID: 149
 	public class JobDriver_FoodDeliver : JobDriver
 	{
-		// Token: 0x04000255 RID: 597
 		private bool usingNutrientPasteDispenser;
 
-		// Token: 0x04000256 RID: 598
 		private bool eatingFromInventory;
 
-		// Token: 0x04000257 RID: 599
 		private const TargetIndex FoodSourceInd = TargetIndex.A;
 
-		// Token: 0x04000258 RID: 600
 		private const TargetIndex DelivereeInd = TargetIndex.B;
 
-		// Token: 0x170000BF RID: 191
-		// (get) Token: 0x060003BF RID: 959 RVA: 0x0002A930 File Offset: 0x00028D30
+		public JobDriver_FoodDeliver()
+		{
+		}
+
 		private Pawn Deliveree
 		{
 			get
@@ -30,7 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003C0 RID: 960 RVA: 0x0002A95A File Offset: 0x00028D5A
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -38,7 +38,6 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.eatingFromInventory, "eatingFromInventory", false, false);
 		}
 
-		// Token: 0x060003C1 RID: 961 RVA: 0x0002A988 File Offset: 0x00028D88
 		public override string GetReport()
 		{
 			string result;
@@ -53,7 +52,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003C2 RID: 962 RVA: 0x0002AA0C File Offset: 0x00028E0C
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -61,13 +59,11 @@ namespace RimWorld
 			this.eatingFromInventory = (this.pawn.inventory != null && this.pawn.inventory.Contains(base.TargetThingA));
 		}
 
-		// Token: 0x060003C3 RID: 963 RVA: 0x0002AA64 File Offset: 0x00028E64
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Deliveree, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060003C4 RID: 964 RVA: 0x0002AA98 File Offset: 0x00028E98
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.B);
@@ -110,6 +106,219 @@ namespace RimWorld
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
 			yield return toil;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_FoodDeliver $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_FoodDeliver.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			private JobDriver_FoodDeliver.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey2 $locvar1;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				Toil toil;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedOrNull(TargetIndex.B);
+					if (this.eatingFromInventory)
+					{
+						this.$current = Toils_Misc.TakeItemFromInventoryToCarrier(this.pawn, TargetIndex.A);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					if (this.usingNutrientPasteDispenser)
+					{
+						this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnForbidden(TargetIndex.A);
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					this.$current = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 1u:
+					break;
+				case 2u:
+					this.$current = Toils_Ingest.TakeMealFromDispenser(TargetIndex.A, this.pawn);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					break;
+				case 4u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = Toils_Ingest.PickupIngestible(TargetIndex.A, base.Deliveree);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					break;
+				case 7u:
+				{
+					Toil toil = new Toil();
+					toil.initAction = delegate()
+					{
+						Thing thing;
+						this.pawn.carryTracker.TryDropCarriedThing(toil.actor.jobs.curJob.targetC.Cell, ThingPlaceMode.Direct, out thing, null);
+					};
+					toil.defaultCompleteMode = ToilCompleteMode.Instant;
+					this.$current = toil;
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				}
+				case 8u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				toil = new Toil();
+				toil.initAction = delegate()
+				{
+					Pawn actor = toil.actor;
+					Job curJob = actor.jobs.curJob;
+					actor.pather.StartPath(curJob.targetC, PathEndMode.OnCell);
+				};
+				toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
+				toil.FailOnDestroyedNullOrForbidden(TargetIndex.B);
+				toil.AddFailCondition(delegate
+				{
+					Pawn pawn = (Pawn)toil.actor.jobs.curJob.targetB.Thing;
+					return !pawn.IsPrisonerOfColony || !pawn.guest.CanBeBroughtFood;
+				});
+				this.$current = toil;
+				if (!this.$disposing)
+				{
+					this.$PC = 7;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_FoodDeliver.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_FoodDeliver.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil toil;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					Pawn actor = this.toil.actor;
+					Job curJob = actor.jobs.curJob;
+					actor.pather.StartPath(curJob.targetC, PathEndMode.OnCell);
+				}
+
+				internal bool <>m__1()
+				{
+					Pawn pawn = (Pawn)this.toil.actor.jobs.curJob.targetB.Thing;
+					return !pawn.IsPrisonerOfColony || !pawn.guest.CanBeBroughtFood;
+				}
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey2
+			{
+				internal Toil toil;
+
+				internal JobDriver_FoodDeliver.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey2()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					Thing thing;
+					this.<>f__ref$0.$this.pawn.carryTracker.TryDropCarriedThing(this.toil.actor.jobs.curJob.targetC.Cell, ThingPlaceMode.Direct, out thing, null);
+				}
+			}
 		}
 	}
 }

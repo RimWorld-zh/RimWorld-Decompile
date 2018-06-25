@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000F12 RID: 3858
 	public class DebugLogsUtility
 	{
-		// Token: 0x06005C96 RID: 23702 RVA: 0x002F0610 File Offset: 0x002EEA10
+		[CompilerGenerated]
+		private static Func<KeyValuePair<ThingDef, int>, int> <>f__am$cache0;
+
+		public DebugLogsUtility()
+		{
+		}
+
 		public static string ThingListToUniqueCountString(IEnumerable<Thing> things)
 		{
 			string result;
@@ -40,6 +46,12 @@ namespace Verse
 				result = stringBuilder.ToString();
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static int <ThingListToUniqueCountString>m__0(KeyValuePair<ThingDef, int> k)
+		{
+			return k.Value;
 		}
 	}
 }

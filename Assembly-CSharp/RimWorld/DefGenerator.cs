@@ -5,10 +5,8 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000235 RID: 565
 	public static class DefGenerator
 	{
-		// Token: 0x06000A36 RID: 2614 RVA: 0x0005A1B8 File Offset: 0x000585B8
 		public static void GenerateImpliedDefs_PreResolve()
 		{
 			IEnumerable<ThingDef> enumerable = ThingDefGenerator_Buildings.ImpliedBlueprintAndFrameDefs().Concat(ThingDefGenerator_Meat.ImpliedMeatDefs()).Concat(ThingDefGenerator_Corpses.ImpliedCorpseDefs());
@@ -31,7 +29,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A37 RID: 2615 RVA: 0x0005A328 File Offset: 0x00058728
 		public static void GenerateImpliedDefs_PostResolve()
 		{
 			foreach (KeyBindingCategoryDef def in KeyBindingDefGenerator.ImpliedKeyBindingCategoryDefs())
@@ -44,7 +41,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A38 RID: 2616 RVA: 0x0005A3D0 File Offset: 0x000587D0
 		public static void AddImpliedDef<T>(T def) where T : Def, new()
 		{
 			def.generated = true;

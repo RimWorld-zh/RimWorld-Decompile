@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200040D RID: 1037
 	public class GenStep_ManhunterPack : GenStep
 	{
-		// Token: 0x04000AD8 RID: 2776
 		public FloatRange pointsRange = new FloatRange(300f, 500f);
 
-		// Token: 0x04000AD9 RID: 2777
 		private int MinRoomCells = 225;
 
-		// Token: 0x17000260 RID: 608
-		// (get) Token: 0x060011CF RID: 4559 RVA: 0x0009ACE0 File Offset: 0x000990E0
+		public GenStep_ManhunterPack()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -23,7 +23,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011D0 RID: 4560 RVA: 0x0009ACFC File Offset: 0x000990FC
 		public override void Generate(Map map)
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false);
@@ -42,6 +41,25 @@ namespace RimWorld
 						list[i].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null, false);
 					}
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Generate>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal TraverseParms traverseParams;
+
+			internal GenStep_ManhunterPack $this;
+
+			public <Generate>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Standable(this.map) && !x.Fogged(this.map) && this.map.reachability.CanReachMapEdge(x, this.traverseParams) && x.GetRoom(this.map, RegionType.Set_Passable).CellCount >= this.$this.MinRoomCells;
 			}
 		}
 	}

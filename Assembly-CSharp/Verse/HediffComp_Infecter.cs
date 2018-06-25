@@ -3,28 +3,20 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D17 RID: 3351
 	public class HediffComp_Infecter : HediffComp
 	{
-		// Token: 0x04003215 RID: 12821
 		private int ticksUntilInfect = -1;
 
-		// Token: 0x04003216 RID: 12822
 		private float infectionChanceFactorFromTendRoom = 1f;
 
-		// Token: 0x04003217 RID: 12823
 		private const int UninitializedValue = -1;
 
-		// Token: 0x04003218 RID: 12824
 		private const int WillNotInfectValue = -2;
 
-		// Token: 0x04003219 RID: 12825
 		private const int FailedToMakeInfectionValue = -3;
 
-		// Token: 0x0400321A RID: 12826
 		private const int AlreadyMadeInfectionValue = -4;
 
-		// Token: 0x0400321B RID: 12827
 		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
 		{
 			{
@@ -37,8 +29,10 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x17000BAF RID: 2991
-		// (get) Token: 0x060049DA RID: 18906 RVA: 0x0026A868 File Offset: 0x00268C68
+		public HediffComp_Infecter()
+		{
+		}
+
 		public HediffCompProperties_Infecter Props
 		{
 			get
@@ -47,7 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049DB RID: 18907 RVA: 0x0026A888 File Offset: 0x00268C88
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			if (this.parent.IsPermanent())
@@ -80,14 +73,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049DC RID: 18908 RVA: 0x0026A983 File Offset: 0x00268D83
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.infectionChanceFactorFromTendRoom, "infectionChanceFactor", 0f, false);
 			Scribe_Values.Look<int>(ref this.ticksUntilInfect, "ticksUntilInfect", -2, false);
 		}
 
-		// Token: 0x060049DD RID: 18909 RVA: 0x0026A9AF File Offset: 0x00268DAF
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			if (this.ticksUntilInfect > 0)
@@ -100,7 +91,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049DE RID: 18910 RVA: 0x0026A9E0 File Offset: 0x00268DE0
 		public override void CompTended(float quality, int batchPosition = 0)
 		{
 			if (base.Pawn.Spawned)
@@ -113,7 +103,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049DF RID: 18911 RVA: 0x0026AA24 File Offset: 0x00268E24
 		private void CheckMakeInfection()
 		{
 			if (base.Pawn.health.immunity.DiseaseContractChanceFactor(HediffDefOf.WoundInfection, this.parent.Part) <= 0.001f)
@@ -145,7 +134,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049E0 RID: 18912 RVA: 0x0026AB24 File Offset: 0x00268F24
 		public override string CompDebugString()
 		{
 			string result;
@@ -183,6 +171,11 @@ namespace Verse
 				});
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static HediffComp_Infecter()
+		{
 		}
 	}
 }

@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200026F RID: 623
 	public abstract class IngestionOutcomeDoer
 	{
-		// Token: 0x0400051D RID: 1309
 		public float chance = 1f;
 
-		// Token: 0x0400051E RID: 1310
 		public bool doToGeneratedPawnIfAddicted;
 
-		// Token: 0x06000AB4 RID: 2740 RVA: 0x00060ED7 File Offset: 0x0005F2D7
+		protected IngestionOutcomeDoer()
+		{
+		}
+
 		public void DoIngestionOutcome(Pawn pawn, Thing ingested)
 		{
 			if (Rand.Value < this.chance)
@@ -22,13 +26,81 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AB5 RID: 2741
 		protected abstract void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested);
 
-		// Token: 0x06000AB6 RID: 2742 RVA: 0x00060EF4 File Offset: 0x0005F2F4
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator0();
+			}
 		}
 	}
 }

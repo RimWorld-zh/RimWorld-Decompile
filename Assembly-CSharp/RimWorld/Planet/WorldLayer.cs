@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200058B RID: 1419
 	[StaticConstructorOnStartup]
 	public class WorldLayer
 	{
-		// Token: 0x04000FFA RID: 4090
 		protected List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
-		// Token: 0x04000FFB RID: 4091
 		private bool dirty = true;
 
-		// Token: 0x04000FFC RID: 4092
 		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 
-		// Token: 0x04000FFD RID: 4093
 		private const int MaxVerticesPerMesh = 40000;
 
-		// Token: 0x170003F1 RID: 1009
-		// (get) Token: 0x06001B13 RID: 6931 RVA: 0x000E8C1C File Offset: 0x000E701C
+		public WorldLayer()
+		{
+		}
+
 		public virtual bool ShouldRegenerate
 		{
 			get
@@ -32,8 +32,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003F2 RID: 1010
-		// (get) Token: 0x06001B14 RID: 6932 RVA: 0x000E8C38 File Offset: 0x000E7038
 		protected virtual int Layer
 		{
 			get
@@ -42,8 +40,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003F3 RID: 1011
-		// (get) Token: 0x06001B15 RID: 6933 RVA: 0x000E8C54 File Offset: 0x000E7054
 		protected virtual Quaternion Rotation
 		{
 			get
@@ -52,8 +48,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003F4 RID: 1012
-		// (get) Token: 0x06001B16 RID: 6934 RVA: 0x000E8C70 File Offset: 0x000E7070
 		protected virtual float Alpha
 		{
 			get
@@ -62,8 +56,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003F5 RID: 1013
-		// (get) Token: 0x06001B17 RID: 6935 RVA: 0x000E8C8C File Offset: 0x000E708C
 		public bool Dirty
 		{
 			get
@@ -72,14 +64,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B18 RID: 6936 RVA: 0x000E8CA8 File Offset: 0x000E70A8
 		protected LayerSubMesh GetSubMesh(Material material)
 		{
 			int num;
 			return this.GetSubMesh(material, out num);
 		}
 
-		// Token: 0x06001B19 RID: 6937 RVA: 0x000E8CC8 File Offset: 0x000E70C8
 		protected LayerSubMesh GetSubMesh(Material material, out int subMeshIndex)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
@@ -102,7 +92,6 @@ namespace RimWorld.Planet
 			return layerSubMesh2;
 		}
 
-		// Token: 0x06001B1A RID: 6938 RVA: 0x000E8DA0 File Offset: 0x000E71A0
 		protected void FinalizeMesh(MeshParts tags)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
@@ -114,14 +103,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B1B RID: 6939 RVA: 0x000E8DFA File Offset: 0x000E71FA
 		public void RegenerateNow()
 		{
 			this.dirty = false;
 			this.Regenerate().ExecuteEnumerable();
 		}
 
-		// Token: 0x06001B1C RID: 6940 RVA: 0x000E8E10 File Offset: 0x000E7210
 		public void Render()
 		{
 			if (this.ShouldRegenerate)
@@ -149,7 +136,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B1D RID: 6941 RVA: 0x000E8F3C File Offset: 0x000E733C
 		public virtual IEnumerable Regenerate()
 		{
 			this.dirty = false;
@@ -157,18 +143,97 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B1E RID: 6942 RVA: 0x000E8F66 File Offset: 0x000E7366
 		public void SetDirty()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06001B1F RID: 6943 RVA: 0x000E8F70 File Offset: 0x000E7370
 		private void ClearSubMeshes(MeshParts parts)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
 				this.subMeshes[i].Clear(parts);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WorldLayer()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <Regenerate>c__Iterator0 : IEnumerable, IEnumerable<object>, IEnumerator, IDisposable, IEnumerator<object>
+		{
+			internal WorldLayer $this;
+
+			internal object $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <Regenerate>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+					this.dirty = false;
+					base.ClearSubMeshes(MeshParts.All);
+				}
+				return false;
+			}
+
+			object IEnumerator<object>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<object>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<object> IEnumerable<object>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldLayer.<Regenerate>c__Iterator0 <Regenerate>c__Iterator = new WorldLayer.<Regenerate>c__Iterator0();
+				<Regenerate>c__Iterator.$this = this;
+				return <Regenerate>c__Iterator;
 			}
 		}
 	}

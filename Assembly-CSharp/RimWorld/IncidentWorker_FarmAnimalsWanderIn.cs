@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200032D RID: 813
 	public class IncidentWorker_FarmAnimalsWanderIn : IncidentWorker
 	{
-		// Token: 0x040008D2 RID: 2258
 		private const float MaxWildness = 0.35f;
 
-		// Token: 0x040008D3 RID: 2259
 		private const float TotalBodySizeToSpawn = 2.5f;
 
-		// Token: 0x06000DE3 RID: 3555 RVA: 0x00076A1C File Offset: 0x00074E1C
+		[CompilerGenerated]
+		private static Func<PawnKindDef, float> <>f__am$cache0;
+
+		public IncidentWorker_FarmAnimalsWanderIn()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -32,7 +36,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DE4 RID: 3556 RVA: 0x00076A70 File Offset: 0x00074E70
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -69,12 +72,32 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DE5 RID: 3557 RVA: 0x00076B88 File Offset: 0x00074F88
 		private bool TryFindRandomPawnKind(Map map, out PawnKindDef kind)
 		{
 			return (from x in DefDatabase<PawnKindDef>.AllDefs
 			where x.RaceProps.Animal && x.RaceProps.wildness < 0.35f && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(x.race)
 			select x).TryRandomElementByWeight((PawnKindDef k) => 0.420000017f - k.RaceProps.wildness, out kind);
+		}
+
+		[CompilerGenerated]
+		private static float <TryFindRandomPawnKind>m__0(PawnKindDef k)
+		{
+			return 0.420000017f - k.RaceProps.wildness;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomPawnKind>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <TryFindRandomPawnKind>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(PawnKindDef x)
+			{
+				return x.RaceProps.Animal && x.RaceProps.wildness < 0.35f && this.map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(x.race);
+			}
 		}
 	}
 }

@@ -1,22 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000050 RID: 80
 	public class JobDriver_TendPatient : JobDriver
 	{
-		// Token: 0x040001E4 RID: 484
 		private bool usesMedicine;
 
-		// Token: 0x040001E5 RID: 485
 		private const int BaseTendDuration = 600;
 
-		// Token: 0x17000087 RID: 135
-		// (get) Token: 0x06000278 RID: 632 RVA: 0x0001A1F0 File Offset: 0x000185F0
+		public JobDriver_TendPatient()
+		{
+		}
+
 		protected Thing MedicineUsed
 		{
 			get
@@ -25,8 +28,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000088 RID: 136
-		// (get) Token: 0x06000279 RID: 633 RVA: 0x0001A218 File Offset: 0x00018618
 		protected Pawn Deliveree
 		{
 			get
@@ -35,21 +36,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600027A RID: 634 RVA: 0x0001A242 File Offset: 0x00018642
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.usesMedicine, "usesMedicine", false, false);
 		}
 
-		// Token: 0x0600027B RID: 635 RVA: 0x0001A25D File Offset: 0x0001865D
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.usesMedicine = (this.MedicineUsed != null);
 		}
 
-		// Token: 0x0600027C RID: 636 RVA: 0x0001A278 File Offset: 0x00018678
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -72,7 +70,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600027D RID: 637 RVA: 0x0001A334 File Offset: 0x00018734
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -155,13 +152,306 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600027E RID: 638 RVA: 0x0001A360 File Offset: 0x00018760
 		public override void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			base.Notify_DamageTaken(dinfo);
 			if (dinfo.Def.externalViolence && this.pawn.Faction != Faction.OfPlayer && this.pawn == this.Deliveree)
 			{
 				this.pawn.jobs.CheckForJobOverride();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal PathEndMode <interactionCell>__0;
+
+			internal Toil <gotoToil>__0;
+
+			internal int <duration>__0;
+
+			internal Toil <tryToFindMoreMedicine>__1;
+
+			internal JobDriver_TendPatient $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_TendPatient.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					this.FailOn(delegate()
+					{
+						bool result;
+						if (!WorkGiver_Tend.GoodLayingStatusForTend(this.Deliveree, this.pawn))
+						{
+							result = true;
+						}
+						else
+						{
+							if (this.MedicineUsed != null && this.pawn.Faction == Faction.OfPlayer)
+							{
+								if (this.Deliveree.playerSettings == null)
+								{
+									return true;
+								}
+								if (!this.Deliveree.playerSettings.medCare.AllowsMedicine(this.MedicineUsed.def))
+								{
+									return true;
+								}
+							}
+							result = (this.pawn == this.Deliveree && this.pawn.Faction == Faction.OfPlayer && !this.pawn.playerSettings.selfTend);
+						}
+						return result;
+					});
+					base.AddEndCondition(delegate
+					{
+						JobCondition result;
+						if (this.pawn.Faction == Faction.OfPlayer && HealthAIUtility.ShouldBeTendedNowByPlayer(this.Deliveree))
+						{
+							result = JobCondition.Ongoing;
+						}
+						else if (this.pawn.Faction != Faction.OfPlayer && this.Deliveree.health.HasHediffsNeedingTend(false))
+						{
+							result = JobCondition.Ongoing;
+						}
+						else
+						{
+							result = JobCondition.Succeeded;
+						}
+						return result;
+					});
+					this.FailOnAggroMentalState(TargetIndex.A);
+					Toil reserveMedicine = null;
+					if (this.usesMedicine)
+					{
+						reserveMedicine = Toils_Tend.ReserveMedicine(TargetIndex.B, base.Deliveree).FailOnDespawnedNullOrForbidden(TargetIndex.B);
+						this.$current = reserveMedicine;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				}
+				case 1u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_Tend.PickupMedicine(TargetIndex.B, base.Deliveree).FailOnDestroyedOrNull(TargetIndex.B);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = Toils_Haul.CheckForGetOpportunityDuplicate(<MakeNewToils>c__AnonStorey.reserveMedicine, TargetIndex.B, TargetIndex.None, true, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					break;
+				case 5u:
+					duration = (int)(1f / this.pawn.GetStatValue(StatDefOf.MedicalTendSpeed, true) * 600f);
+					this.$current = Toils_General.Wait(duration).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = Toils_Tend.FinalizeTend(base.Deliveree);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					if (this.usesMedicine)
+					{
+						Toil tryToFindMoreMedicine = new Toil();
+						tryToFindMoreMedicine.initAction = delegate()
+						{
+							if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.MedicineUsed.DestroyedOrNull())
+							{
+								Thing thing = HealthAIUtility.FindBestMedicine(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Deliveree);
+								if (thing != null)
+								{
+									<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.targetB = thing;
+									<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.JumpToToil(<MakeNewToils>c__AnonStorey.reserveMedicine);
+								}
+							}
+						};
+						this.$current = tryToFindMoreMedicine;
+						if (!this.$disposing)
+						{
+							this.$PC = 8;
+						}
+						return true;
+					}
+					goto IL_2E4;
+				case 8u:
+					goto IL_2E4;
+				case 9u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				interactionCell = ((base.Deliveree != this.pawn) ? PathEndMode.InteractionCell : PathEndMode.OnCell);
+				gotoToil = Toils_Goto.GotoThing(TargetIndex.A, interactionCell);
+				this.$current = gotoToil;
+				if (!this.$disposing)
+				{
+					this.$PC = 5;
+				}
+				return true;
+				IL_2E4:
+				this.$current = Toils_Jump.Jump(gotoToil);
+				if (!this.$disposing)
+				{
+					this.$PC = 9;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_TendPatient.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_TendPatient.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil reserveMedicine;
+
+				internal JobDriver_TendPatient.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0()
+				{
+					bool result;
+					if (!WorkGiver_Tend.GoodLayingStatusForTend(this.<>f__ref$0.$this.Deliveree, this.<>f__ref$0.$this.pawn))
+					{
+						result = true;
+					}
+					else
+					{
+						if (this.<>f__ref$0.$this.MedicineUsed != null && this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer)
+						{
+							if (this.<>f__ref$0.$this.Deliveree.playerSettings == null)
+							{
+								return true;
+							}
+							if (!this.<>f__ref$0.$this.Deliveree.playerSettings.medCare.AllowsMedicine(this.<>f__ref$0.$this.MedicineUsed.def))
+							{
+								return true;
+							}
+						}
+						result = (this.<>f__ref$0.$this.pawn == this.<>f__ref$0.$this.Deliveree && this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer && !this.<>f__ref$0.$this.pawn.playerSettings.selfTend);
+					}
+					return result;
+				}
+
+				internal JobCondition <>m__1()
+				{
+					JobCondition result;
+					if (this.<>f__ref$0.$this.pawn.Faction == Faction.OfPlayer && HealthAIUtility.ShouldBeTendedNowByPlayer(this.<>f__ref$0.$this.Deliveree))
+					{
+						result = JobCondition.Ongoing;
+					}
+					else if (this.<>f__ref$0.$this.pawn.Faction != Faction.OfPlayer && this.<>f__ref$0.$this.Deliveree.health.HasHediffsNeedingTend(false))
+					{
+						result = JobCondition.Ongoing;
+					}
+					else
+					{
+						result = JobCondition.Succeeded;
+					}
+					return result;
+				}
+
+				internal void <>m__2()
+				{
+					if (this.<>f__ref$0.$this.MedicineUsed.DestroyedOrNull())
+					{
+						Thing thing = HealthAIUtility.FindBestMedicine(this.<>f__ref$0.$this.pawn, this.<>f__ref$0.$this.Deliveree);
+						if (thing != null)
+						{
+							this.<>f__ref$0.$this.job.targetB = thing;
+							this.<>f__ref$0.$this.JumpToToil(this.reserveMedicine);
+						}
+					}
+				}
 			}
 		}
 	}

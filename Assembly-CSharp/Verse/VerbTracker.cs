@@ -1,28 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FD7 RID: 4055
 	public class VerbTracker : IExposable
 	{
-		// Token: 0x0400402B RID: 16427
 		public IVerbOwner directOwner = null;
 
-		// Token: 0x0400402C RID: 16428
 		private List<Verb> verbs = null;
 
-		// Token: 0x06006221 RID: 25121 RVA: 0x003178B5 File Offset: 0x00315CB5
+		[CompilerGenerated]
+		private static Predicate<Verb> <>f__am$cache0;
+
 		public VerbTracker(IVerbOwner directOwner)
 		{
 			this.directOwner = directOwner;
 		}
 
-		// Token: 0x17000FE8 RID: 4072
-		// (get) Token: 0x06006222 RID: 25122 RVA: 0x003178D4 File Offset: 0x00315CD4
 		public List<Verb> AllVerbs
 		{
 			get
@@ -35,8 +36,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FE9 RID: 4073
-		// (get) Token: 0x06006223 RID: 25123 RVA: 0x00317900 File Offset: 0x00315D00
 		public Verb PrimaryVerb
 		{
 			get
@@ -56,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006224 RID: 25124 RVA: 0x00317974 File Offset: 0x00315D74
 		public void VerbsTick()
 		{
 			if (this.verbs != null)
@@ -68,7 +66,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006225 RID: 25125 RVA: 0x003179C4 File Offset: 0x00315DC4
 		public IEnumerable<Command> GetVerbsCommands(KeyCode hotKey = KeyCode.None)
 		{
 			CompEquippable ce = this.directOwner as CompEquippable;
@@ -96,7 +93,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06006226 RID: 25126 RVA: 0x003179F0 File Offset: 0x00315DF0
 		private Command_VerbTarget CreateVerbTargetCommand(Thing ownerThing, Verb verb)
 		{
 			Command_VerbTarget command_VerbTarget = new Command_VerbTarget();
@@ -130,7 +126,6 @@ namespace Verse
 			return command_VerbTarget;
 		}
 
-		// Token: 0x06006227 RID: 25127 RVA: 0x00317B28 File Offset: 0x00315F28
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Verb>(ref this.verbs, "verbs", LookMode.Deep, new object[0]);
@@ -159,7 +154,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006228 RID: 25128 RVA: 0x00317BE5 File Offset: 0x00315FE5
 		private void InitVerbsFromZero()
 		{
 			this.verbs = new List<Verb>();
@@ -171,7 +165,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06006229 RID: 25129 RVA: 0x00317C08 File Offset: 0x00316008
 		private void InitVerbs(Func<Type, string, Verb> creator)
 		{
 			List<VerbProperties> verbProperties = this.directOwner.VerbProperties;
@@ -257,7 +250,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600622A RID: 25130 RVA: 0x00317F70 File Offset: 0x00316370
 		private void InitVerb(Verb verb, VerbProperties properties, IVerbOwner owner, Tool tool, ManeuverDef maneuver, string id)
 		{
 			verb.loadID = id;
@@ -308,6 +300,235 @@ namespace Verse
 				{
 					verb.implementOwnerType = ImplementOwnerTypeDefOf.Bodypart;
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(Verb x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private Verb <InitVerbsFromZero>m__1(Type type, string id)
+		{
+			Verb verb = (Verb)Activator.CreateInstance(type);
+			this.verbs.Add(verb);
+			return verb;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetVerbsCommands>c__Iterator0 : IEnumerable, IEnumerable<Command>, IEnumerator, IDisposable, IEnumerator<Command>
+		{
+			internal CompEquippable <ce>__0;
+
+			internal Thing <ownerThing>__0;
+
+			internal List<Verb> <verbs>__0;
+
+			internal int <i>__1;
+
+			internal Verb <verb>__2;
+
+			internal CompEquippable <equippable>__0;
+
+			internal VerbTracker $this;
+
+			internal Command $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<Verb, bool> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <GetVerbsCommands>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					ce = (this.directOwner as CompEquippable);
+					if (ce == null)
+					{
+						return false;
+					}
+					ownerThing = ce.parent;
+					verbs = base.AllVerbs;
+					i = 0;
+					break;
+				case 1u:
+					IL_D8:
+					i++;
+					break;
+				case 2u:
+					IL_1AA:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				if (i >= verbs.Count)
+				{
+					equippable = (this.directOwner as CompEquippable);
+					if (this.directOwner.Tools.NullOrEmpty<Tool>() || equippable == null || !equippable.parent.def.IsMeleeWeapon)
+					{
+						goto IL_1AA;
+					}
+					this.$current = base.CreateVerbTargetCommand(ownerThing, (from v in verbs
+					where v.verbProps.IsMeleeAttack
+					select v).FirstOrDefault<Verb>());
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+				}
+				else
+				{
+					verb = verbs[i];
+					if (!verb.verbProps.hasStandardCommand)
+					{
+						goto IL_D8;
+					}
+					this.$current = base.CreateVerbTargetCommand(ownerThing, verb);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+				}
+				return true;
+			}
+
+			Command IEnumerator<Command>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Command>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Command> IEnumerable<Command>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				VerbTracker.<GetVerbsCommands>c__Iterator0 <GetVerbsCommands>c__Iterator = new VerbTracker.<GetVerbsCommands>c__Iterator0();
+				<GetVerbsCommands>c__Iterator.$this = this;
+				return <GetVerbsCommands>c__Iterator;
+			}
+
+			private static bool <>m__0(Verb v)
+			{
+				return v.verbProps.IsMeleeAttack;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ExposeData>c__AnonStorey1
+		{
+			internal List<Verb> sources;
+
+			internal VerbTracker $this;
+
+			public <ExposeData>c__AnonStorey1()
+			{
+			}
+
+			internal Verb <>m__0(Type type, string id)
+			{
+				Verb verb = this.sources.FirstOrDefault((Verb v) => v.loadID == id && v.GetType() == type);
+				if (verb == null)
+				{
+					Log.Warning(string.Format("Replaced verb {0}/{1}; may have been changed through a version update or a mod change", type, id), false);
+					verb = (Verb)Activator.CreateInstance(type);
+				}
+				this.$this.verbs.Add(verb);
+				return verb;
+			}
+
+			private sealed class <ExposeData>c__AnonStorey2
+			{
+				internal string id;
+
+				internal Type type;
+
+				internal VerbTracker.<ExposeData>c__AnonStorey1 <>f__ref$1;
+
+				public <ExposeData>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(Verb v)
+				{
+					return v.loadID == this.id && v.GetType() == this.type;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <InitVerbs>c__AnonStorey3
+		{
+			internal Tool tool;
+
+			public <InitVerbs>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(ManeuverDef maneuver)
+			{
+				return this.tool.capacities.Contains(maneuver.requiredCapacity);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <InitVerbs>c__AnonStorey4
+		{
+			internal Tool tool;
+
+			public <InitVerbs>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(ManeuverDef maneuver)
+			{
+				return this.tool.capacities.Contains(maneuver.requiredCapacity);
 			}
 		}
 	}

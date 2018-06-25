@@ -5,17 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000401 RID: 1025
 	public class GenStep_ScatterRuinsSimple : GenStep_Scatterer
 	{
-		// Token: 0x04000AB1 RID: 2737
 		public IntRange ShedSizeRange = new IntRange(3, 10);
 
-		// Token: 0x04000AB2 RID: 2738
 		public IntRange WallLengthRange = new IntRange(4, 14);
 
-		// Token: 0x17000259 RID: 601
-		// (get) Token: 0x06001198 RID: 4504 RVA: 0x00098854 File Offset: 0x00096C54
+		public GenStep_ScatterRuinsSimple()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -24,13 +23,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001199 RID: 4505 RVA: 0x00098870 File Offset: 0x00096C70
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			return base.CanScatterAt(c, map) && c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy);
 		}
 
-		// Token: 0x0600119A RID: 4506 RVA: 0x000988B4 File Offset: 0x00096CB4
 		protected bool CanPlaceAncientBuildingInRange(CellRect rect, Map map)
 		{
 			foreach (IntVec3 c in rect.Cells)
@@ -47,7 +44,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600119B RID: 4507 RVA: 0x00098958 File Offset: 0x00096D58
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef stuffDef = BaseGenUtility.RandomCheapWallStuff(null, true);
@@ -74,7 +70,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600119C RID: 4508 RVA: 0x00098A54 File Offset: 0x00096E54
 		private void TrySetCellAsWall(IntVec3 c, Map map, ThingDef stuffDef)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -94,7 +89,6 @@ namespace RimWorld
 			GenSpawn.Spawn(newThing, c, map, WipeMode.Vanish);
 		}
 
-		// Token: 0x0600119D RID: 4509 RVA: 0x00098AF0 File Offset: 0x00096EF0
 		private void MakeLongWall(IntVec3 start, Map map, int extendDist, bool horizontal, ThingDef stuffDef)
 		{
 			TerrainDef newTerr = BaseGenUtility.CorrespondingTerrainDef(stuffDef, true);

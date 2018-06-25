@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000714 RID: 1812
 	public class CompGatherSpot : ThingComp
 	{
-		// Token: 0x040015E1 RID: 5601
 		private bool active = true;
 
-		// Token: 0x170005FE RID: 1534
-		// (get) Token: 0x060027CE RID: 10190 RVA: 0x001551A0 File Offset: 0x001535A0
-		// (set) Token: 0x060027CF RID: 10191 RVA: 0x001551BC File Offset: 0x001535BC
+		public CompGatherSpot()
+		{
+		}
+
 		public bool Active
 		{
 			get
@@ -39,13 +42,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D0 RID: 10192 RVA: 0x00155230 File Offset: 0x00153630
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.active, "active", false, false);
 		}
 
-		// Token: 0x060027D1 RID: 10193 RVA: 0x00155245 File Offset: 0x00153645
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -55,7 +56,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D2 RID: 10194 RVA: 0x00155270 File Offset: 0x00153670
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -65,7 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D3 RID: 10195 RVA: 0x00155294 File Offset: 0x00153694
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			Command_Toggle com = new Command_Toggle();
@@ -87,6 +86,121 @@ namespace RimWorld
 			}
 			yield return com;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Toggle <com>__0;
+
+			internal CompGatherSpot $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					com = new Command_Toggle();
+					com.hotKey = KeyBindingDefOf.Command_TogglePower;
+					com.defaultLabel = "CommandGatherSpotToggleLabel".Translate();
+					com.icon = TexCommand.GatherSpotActive;
+					com.isActive = (() => base.Active);
+					com.toggleAction = delegate()
+					{
+						base.Active = !base.Active;
+					};
+					if (base.Active)
+					{
+						com.defaultDesc = "CommandGatherSpotToggleDescActive".Translate();
+					}
+					else
+					{
+						com.defaultDesc = "CommandGatherSpotToggleDescInactive".Translate();
+					}
+					this.$current = com;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompGatherSpot.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompGatherSpot.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return base.Active;
+			}
+
+			internal void <>m__1()
+			{
+				base.Active = !base.Active;
+			}
 		}
 	}
 }

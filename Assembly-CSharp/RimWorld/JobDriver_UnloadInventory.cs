@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000084 RID: 132
 	public class JobDriver_UnloadInventory : JobDriver
 	{
-		// Token: 0x04000241 RID: 577
 		private const TargetIndex OtherPawnInd = TargetIndex.A;
 
-		// Token: 0x04000242 RID: 578
 		private const TargetIndex ItemToHaulInd = TargetIndex.B;
 
-		// Token: 0x04000243 RID: 579
 		private const TargetIndex StoreCellInd = TargetIndex.C;
 
-		// Token: 0x04000244 RID: 580
 		private const int UnloadDuration = 10;
 
-		// Token: 0x170000B7 RID: 183
-		// (get) Token: 0x06000374 RID: 884 RVA: 0x00026900 File Offset: 0x00024D00
+		public JobDriver_UnloadInventory()
+		{
+		}
+
 		private Pawn OtherPawn
 		{
 			get
@@ -30,13 +31,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000375 RID: 885 RVA: 0x00026930 File Offset: 0x00024D30
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.OtherPawn, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000376 RID: 886 RVA: 0x00026964 File Offset: 0x00024D64
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -82,6 +81,201 @@ namespace RimWorld
 			yield return carryToCell;
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, carryToCell, true);
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <dropOrStartCarrying>__0;
+
+			internal Toil <carryToCell>__0;
+
+			internal JobDriver_UnloadInventory $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedOrNull(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_General.Wait(10);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+				{
+					Toil dropOrStartCarrying = new Toil();
+					dropOrStartCarrying.initAction = delegate()
+					{
+						Pawn otherPawn = base.OtherPawn;
+						if (!otherPawn.inventory.UnloadEverything)
+						{
+							base.EndJobWith(JobCondition.Succeeded);
+						}
+						else
+						{
+							ThingCount firstUnloadableThing = otherPawn.inventory.FirstUnloadableThing;
+							IntVec3 c;
+							if (!firstUnloadableThing.Thing.def.EverStorable(false) || !this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !StoreUtility.TryFindStoreCellNearColonyDesperate(firstUnloadableThing.Thing, this.pawn, out c))
+							{
+								Thing thing;
+								otherPawn.inventory.innerContainer.TryDrop(firstUnloadableThing.Thing, ThingPlaceMode.Near, firstUnloadableThing.Count, out thing, null, null);
+								base.EndJobWith(JobCondition.Succeeded);
+								if (thing != null)
+								{
+									thing.SetForbidden(false, false);
+								}
+							}
+							else
+							{
+								Thing thing2;
+								otherPawn.inventory.innerContainer.TryTransferToContainer(firstUnloadableThing.Thing, this.pawn.carryTracker.innerContainer, firstUnloadableThing.Count, out thing2, true);
+								this.job.count = thing2.stackCount;
+								this.job.SetTarget(TargetIndex.B, thing2);
+								this.job.SetTarget(TargetIndex.C, c);
+								firstUnloadableThing.Thing.SetForbidden(false, false);
+							}
+						}
+					};
+					this.$current = dropOrStartCarrying;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+					this.$current = Toils_Reserve.Reserve(TargetIndex.C, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.C);
+					this.$current = carryToCell;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, carryToCell, true);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_UnloadInventory.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_UnloadInventory.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				Pawn otherPawn = base.OtherPawn;
+				if (!otherPawn.inventory.UnloadEverything)
+				{
+					base.EndJobWith(JobCondition.Succeeded);
+				}
+				else
+				{
+					ThingCount firstUnloadableThing = otherPawn.inventory.FirstUnloadableThing;
+					IntVec3 c;
+					if (!firstUnloadableThing.Thing.def.EverStorable(false) || !this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !StoreUtility.TryFindStoreCellNearColonyDesperate(firstUnloadableThing.Thing, this.pawn, out c))
+					{
+						Thing thing;
+						otherPawn.inventory.innerContainer.TryDrop(firstUnloadableThing.Thing, ThingPlaceMode.Near, firstUnloadableThing.Count, out thing, null, null);
+						base.EndJobWith(JobCondition.Succeeded);
+						if (thing != null)
+						{
+							thing.SetForbidden(false, false);
+						}
+					}
+					else
+					{
+						Thing thing2;
+						otherPawn.inventory.innerContainer.TryTransferToContainer(firstUnloadableThing.Thing, this.pawn.carryTracker.innerContainer, firstUnloadableThing.Count, out thing2, true);
+						this.job.count = thing2.stackCount;
+						this.job.SetTarget(TargetIndex.B, thing2);
+						this.job.SetTarget(TargetIndex.C, c);
+						firstUnloadableThing.Thing.SetForbidden(false, false);
+					}
+				}
+			}
 		}
 	}
 }

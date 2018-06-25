@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000487 RID: 1159
 	public static class PawnAddictionHediffsGenerator
 	{
-		// Token: 0x04000C45 RID: 3141
 		private static List<ThingDef> allDrugs = new List<ThingDef>();
 
-		// Token: 0x04000C46 RID: 3142
 		private const int MaxAddictions = 3;
 
-		// Token: 0x04000C47 RID: 3143
 		private static readonly FloatRange GeneratedAddictionSeverityRange = new FloatRange(0.6f, 1f);
 
-		// Token: 0x04000C48 RID: 3144
 		private static readonly FloatRange GeneratedToleranceSeverityRange = new FloatRange(0.1f, 0.9f);
 
-		// Token: 0x06001472 RID: 5234 RVA: 0x000B34D8 File Offset: 0x000B18D8
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
 		public static void GenerateAddictionsAndTolerancesFor(Pawn pawn)
 		{
 			if (pawn.RaceProps.IsFlesh && pawn.RaceProps.Humanlike)
@@ -70,13 +68,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001473 RID: 5235 RVA: 0x000B3704 File Offset: 0x000B1B04
 		private static bool PossibleWithTechLevel(ChemicalDef chemical, Faction faction)
 		{
 			return faction == null || PawnAddictionHediffsGenerator.allDrugs.Any((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && x.techLevel <= faction.def.techLevel);
 		}
 
-		// Token: 0x06001474 RID: 5236 RVA: 0x000B3758 File Offset: 0x000B1B58
 		private static void DoIngestionOutcomeDoers(Pawn pawn, ChemicalDef chemical)
 		{
 			for (int i = 0; i < PawnAddictionHediffsGenerator.allDrugs.Count; i++)
@@ -93,6 +89,49 @@ namespace RimWorld
 						}
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnAddictionHediffsGenerator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateAddictionsAndTolerancesFor>m__0(ThingDef x)
+		{
+			return x.category == ThingCategory.Item && x.GetCompProperties<CompProperties_Drug>() != null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateAddictionsAndTolerancesFor>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <GenerateAddictionsAndTolerancesFor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ChemicalDef x)
+			{
+				return PawnAddictionHediffsGenerator.PossibleWithTechLevel(x, this.pawn.Faction) && !AddictionUtility.IsAddicted(this.pawn, x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PossibleWithTechLevel>c__AnonStorey1
+		{
+			internal ChemicalDef chemical;
+
+			internal Faction faction;
+
+			public <PossibleWithTechLevel>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return x.GetCompProperties<CompProperties_Drug>().chemical == this.chemical && x.techLevel <= this.faction.def.techLevel;
 			}
 		}
 	}

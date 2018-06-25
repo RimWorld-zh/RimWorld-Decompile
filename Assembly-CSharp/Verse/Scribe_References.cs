@@ -3,10 +3,8 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000DAA RID: 3498
 	public static class Scribe_References
 	{
-		// Token: 0x06004E21 RID: 20001 RVA: 0x0028E5D4 File Offset: 0x0028C9D4
 		public static void Look<T>(ref T refee, string label, bool saveDestroyedThings = false) where T : ILoadReferenceable
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -80,7 +78,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E22 RID: 20002 RVA: 0x0028E7F4 File Offset: 0x0028CBF4
 		public static void Look<T>(ref WeakReference<T> refee, string label, bool saveDestroyedThings = false) where T : class, ILoadReferenceable
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -104,7 +101,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E23 RID: 20003 RVA: 0x0028E88C File Offset: 0x0028CC8C
 		public static bool CheckSaveReferenceToDestroyedThing(Thing th, string label, bool saveDestroyedThings)
 		{
 			bool result;

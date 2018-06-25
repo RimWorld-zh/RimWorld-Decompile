@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
@@ -9,82 +10,71 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000556 RID: 1366
 	public class Faction : IExposable, ILoadReferenceable, ICommunicable
 	{
-		// Token: 0x04000EFF RID: 3839
 		public FactionDef def;
 
-		// Token: 0x04000F00 RID: 3840
 		private string name = null;
 
-		// Token: 0x04000F01 RID: 3841
 		public int loadID = -1;
 
-		// Token: 0x04000F02 RID: 3842
 		public int randomKey;
 
-		// Token: 0x04000F03 RID: 3843
 		public float colorFromSpectrum = -999f;
 
-		// Token: 0x04000F04 RID: 3844
 		public float centralMelanin = 0.5f;
 
-		// Token: 0x04000F05 RID: 3845
 		private List<FactionRelation> relations = new List<FactionRelation>();
 
-		// Token: 0x04000F06 RID: 3846
 		public Pawn leader = null;
 
-		// Token: 0x04000F07 RID: 3847
 		private FactionTacticalMemory tacticalMemoryInt = new FactionTacticalMemory();
 
-		// Token: 0x04000F08 RID: 3848
 		public KidnappedPawnsTracker kidnapped;
 
-		// Token: 0x04000F09 RID: 3849
 		private List<PredatorThreat> predatorThreats = new List<PredatorThreat>();
 
-		// Token: 0x04000F0A RID: 3850
 		public Dictionary<Map, ByteGrid> avoidGridsBasic = new Dictionary<Map, ByteGrid>();
 
-		// Token: 0x04000F0B RID: 3851
 		public Dictionary<Map, ByteGrid> avoidGridsSmart = new Dictionary<Map, ByteGrid>();
 
-		// Token: 0x04000F0C RID: 3852
 		public bool defeated;
 
-		// Token: 0x04000F0D RID: 3853
 		public int lastTraderRequestTick = -9999999;
 
-		// Token: 0x04000F0E RID: 3854
 		private int naturalGoodwillTimer;
 
-		// Token: 0x04000F0F RID: 3855
 		private List<Map> avoidGridsBasicKeysWorkingList;
 
-		// Token: 0x04000F10 RID: 3856
 		private List<ByteGrid> avoidGridsBasicValuesWorkingList;
 
-		// Token: 0x04000F11 RID: 3857
 		private List<Map> avoidGridsSmartKeysWorkingList;
 
-		// Token: 0x04000F12 RID: 3858
 		private List<ByteGrid> avoidGridsSmartValuesWorkingList;
 
-		// Token: 0x04000F13 RID: 3859
 		private static List<PawnKindDef> allPawnKinds = new List<PawnKindDef>();
 
-		// Token: 0x06001962 RID: 6498 RVA: 0x000DC60C File Offset: 0x000DAA0C
+		[CompilerGenerated]
+		private static Predicate<PredatorThreat> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<FactionBase> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<FactionBase> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Site, GlobalTargetInfo> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<PawnGroupMaker, bool> <>f__am$cache4;
+
 		public Faction()
 		{
 			this.randomKey = Rand.Range(0, int.MaxValue);
 			this.kidnapped = new KidnappedPawnsTracker(this);
 		}
 
-		// Token: 0x17000391 RID: 913
-		// (get) Token: 0x06001963 RID: 6499 RVA: 0x000DC6AC File Offset: 0x000DAAAC
-		// (set) Token: 0x06001964 RID: 6500 RVA: 0x000DC6E3 File Offset: 0x000DAAE3
 		public string Name
 		{
 			get
@@ -106,8 +96,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000392 RID: 914
-		// (get) Token: 0x06001965 RID: 6501 RVA: 0x000DC6F0 File Offset: 0x000DAAF0
 		public bool HasName
 		{
 			get
@@ -116,8 +104,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000393 RID: 915
-		// (get) Token: 0x06001966 RID: 6502 RVA: 0x000DC714 File Offset: 0x000DAB14
 		public bool IsPlayer
 		{
 			get
@@ -126,8 +112,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000394 RID: 916
-		// (get) Token: 0x06001967 RID: 6503 RVA: 0x000DC734 File Offset: 0x000DAB34
 		public int PlayerGoodwill
 		{
 			get
@@ -136,8 +120,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000395 RID: 917
-		// (get) Token: 0x06001968 RID: 6504 RVA: 0x000DC754 File Offset: 0x000DAB54
 		public FactionRelationKind PlayerRelationKind
 		{
 			get
@@ -146,8 +128,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000396 RID: 918
-		// (get) Token: 0x06001969 RID: 6505 RVA: 0x000DC774 File Offset: 0x000DAB74
 		public FactionTacticalMemory TacticalMemory
 		{
 			get
@@ -160,8 +140,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000397 RID: 919
-		// (get) Token: 0x0600196A RID: 6506 RVA: 0x000DC7A8 File Offset: 0x000DABA8
 		public Color Color
 		{
 			get
@@ -179,7 +157,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600196B RID: 6507 RVA: 0x000DC7F4 File Offset: 0x000DABF4
 		public void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.leader, "leader", false);
@@ -207,7 +184,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600196C RID: 6508 RVA: 0x000DC990 File Offset: 0x000DAD90
 		public void FactionTick()
 		{
 			this.CheckNaturalTendencyToReachGoodwillThreshold();
@@ -256,7 +232,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600196D RID: 6509 RVA: 0x000DCB18 File Offset: 0x000DAF18
 		private void CheckNaturalTendencyToReachGoodwillThreshold()
 		{
 			if (!this.IsPlayer)
@@ -309,7 +284,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600196E RID: 6510 RVA: 0x000DCD04 File Offset: 0x000DB104
 		public ByteGrid GetAvoidGridBasic(Map map)
 		{
 			ByteGrid byteGrid;
@@ -325,7 +299,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600196F RID: 6511 RVA: 0x000DCD34 File Offset: 0x000DB134
 		public ByteGrid GetAvoidGridSmart(Map map)
 		{
 			ByteGrid byteGrid;
@@ -341,7 +314,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001970 RID: 6512 RVA: 0x000DCD64 File Offset: 0x000DB164
 		public void Notify_MapRemoved(Map map)
 		{
 			this.avoidGridsBasic.Remove(map);
@@ -349,7 +321,6 @@ namespace RimWorld
 			this.tacticalMemoryInt.Notify_MapRemoved(map);
 		}
 
-		// Token: 0x06001971 RID: 6513 RVA: 0x000DCD90 File Offset: 0x000DB190
 		public void TryMakeInitialRelationsWith(Faction other)
 		{
 			if (this.RelationWith(other, true) == null)
@@ -391,7 +362,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001972 RID: 6514 RVA: 0x000DCEA0 File Offset: 0x000DB2A0
 		public PawnKindDef RandomPawnKind()
 		{
 			Faction.allPawnKinds.Clear();
@@ -420,7 +390,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001973 RID: 6515 RVA: 0x000DCF74 File Offset: 0x000DB374
 		public FactionRelation RelationWith(Faction other, bool allowNull = false)
 		{
 			FactionRelation result;
@@ -458,19 +427,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001974 RID: 6516 RVA: 0x000DD044 File Offset: 0x000DB444
 		public int GoodwillWith(Faction other)
 		{
 			return this.RelationWith(other, false).goodwill;
 		}
 
-		// Token: 0x06001975 RID: 6517 RVA: 0x000DD068 File Offset: 0x000DB468
 		public FactionRelationKind RelationKindWith(Faction other)
 		{
 			return this.RelationWith(other, false).kind;
 		}
 
-		// Token: 0x06001976 RID: 6518 RVA: 0x000DD08C File Offset: 0x000DB48C
 		public bool TryAffectGoodwillWith(Faction other, int goodwillChange, bool canSendMessage = true, bool canSendHostilityLetter = true, string reason = null, GlobalTargetInfo? lookTarget = null)
 		{
 			bool result;
@@ -544,7 +510,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001977 RID: 6519 RVA: 0x000DD348 File Offset: 0x000DB748
 		public bool TrySetNotHostileTo(Faction other, bool canSendLetter = true, string reason = null, GlobalTargetInfo? lookTarget = null)
 		{
 			if (this.RelationKindWith(other) == FactionRelationKind.Hostile)
@@ -554,7 +519,6 @@ namespace RimWorld
 			return this.RelationKindWith(other) != FactionRelationKind.Hostile;
 		}
 
-		// Token: 0x06001978 RID: 6520 RVA: 0x000DD384 File Offset: 0x000DB784
 		public bool TrySetNotAlly(Faction other, bool canSendLetter = true, string reason = null, GlobalTargetInfo? lookTarget = null)
 		{
 			if (this.RelationKindWith(other) == FactionRelationKind.Ally)
@@ -564,7 +528,6 @@ namespace RimWorld
 			return this.RelationKindWith(other) != FactionRelationKind.Ally;
 		}
 
-		// Token: 0x06001979 RID: 6521 RVA: 0x000DD3C0 File Offset: 0x000DB7C0
 		public bool TrySetRelationKind(Faction other, FactionRelationKind kind, bool canSendLetter = true, string reason = null, GlobalTargetInfo? lookTarget = null)
 		{
 			FactionRelation factionRelation = this.RelationWith(other, false);
@@ -596,7 +559,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600197A RID: 6522 RVA: 0x000DD488 File Offset: 0x000DB888
 		public void RemoveAllRelations()
 		{
 			foreach (Faction faction in Find.FactionManager.AllFactionsListForReading)
@@ -609,7 +571,6 @@ namespace RimWorld
 			this.relations.Clear();
 		}
 
-		// Token: 0x0600197B RID: 6523 RVA: 0x000DD514 File Offset: 0x000DB914
 		public void TryAppendRelationKindChangedInfo(StringBuilder text, FactionRelationKind previousKind, FactionRelationKind newKind, string reason = null)
 		{
 			string text2 = null;
@@ -622,7 +583,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600197C RID: 6524 RVA: 0x000DD554 File Offset: 0x000DB954
 		public void TryAppendRelationKindChangedInfo(ref string text, FactionRelationKind previousKind, FactionRelationKind newKind, string reason = null)
 		{
 			if (previousKind != newKind)
@@ -722,7 +682,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600197D RID: 6525 RVA: 0x000DD7E4 File Offset: 0x000DBBE4
 		public void Notify_MemberTookDamage(Pawn member, DamageInfo dinfo)
 		{
 			if (dinfo.Instigator != null)
@@ -766,7 +725,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600197E RID: 6526 RVA: 0x000DD9AC File Offset: 0x000DBDAC
 		public void Notify_MemberCaptured(Pawn member, Faction violator)
 		{
 			if (violator != this)
@@ -783,7 +741,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600197F RID: 6527 RVA: 0x000DDA08 File Offset: 0x000DBE08
 		public void Notify_MemberDied(Pawn member, DamageInfo? dinfo, bool wasWorldPawn, Map map)
 		{
 			if (!this.IsPlayer)
@@ -821,7 +778,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001980 RID: 6528 RVA: 0x000DDBB4 File Offset: 0x000DBFB4
 		public void Notify_LeaderDied()
 		{
 			Pawn pawn = this.leader;
@@ -839,7 +795,6 @@ namespace RimWorld
 			}).CapitalizeFirst(), LetterDefOf.NeutralEvent, GlobalTargetInfo.Invalid, this, null);
 		}
 
-		// Token: 0x06001981 RID: 6529 RVA: 0x000DDC64 File Offset: 0x000DC064
 		public void Notify_LeaderLost()
 		{
 			Pawn pawn = this.leader;
@@ -857,7 +812,6 @@ namespace RimWorld
 			}).CapitalizeFirst(), LetterDefOf.NeutralEvent, GlobalTargetInfo.Invalid, this, null);
 		}
 
-		// Token: 0x06001982 RID: 6530 RVA: 0x000DDD14 File Offset: 0x000DC114
 		public void Notify_RelationKindChanged(Faction other, FactionRelationKind previousKind, bool canSendLetter, string reason, GlobalTargetInfo lookTarget, out bool sentLetter)
 		{
 			if (Current.ProgramState != ProgramState.Playing || other != Faction.OfPlayer)
@@ -996,7 +950,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001983 RID: 6531 RVA: 0x000DE208 File Offset: 0x000DC608
 		public void Notify_PlayerTraded(float marketValueSentByPlayer, Pawn playerNegotiator)
 		{
 			Faction ofPlayer = Faction.OfPlayer;
@@ -1006,7 +959,6 @@ namespace RimWorld
 			this.TryAffectGoodwillWith(ofPlayer, goodwillChange, true, true, reason, lookTarget);
 		}
 
-		// Token: 0x06001984 RID: 6532 RVA: 0x000DE24C File Offset: 0x000DC64C
 		public void Notify_MemberExitedMap(Pawn member, bool free)
 		{
 			if (free && member.HostFaction != null && member.guest != null && (member.guest.Released || !member.IsPrisoner))
@@ -1037,7 +989,6 @@ namespace RimWorld
 			member.mindState.timesGuestTendedToByPlayer = 0;
 		}
 
-		// Token: 0x06001985 RID: 6533 RVA: 0x000DE368 File Offset: 0x000DC768
 		public void GenerateNewLeader()
 		{
 			this.leader = null;
@@ -1072,13 +1023,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001986 RID: 6534 RVA: 0x000DE4D4 File Offset: 0x000DC8D4
 		public string GetCallLabel()
 		{
 			return this.name;
 		}
 
-		// Token: 0x06001987 RID: 6535 RVA: 0x000DE4F0 File Offset: 0x000DC8F0
 		public string GetInfoText()
 		{
 			string labelCap = this.def.LabelCap;
@@ -1093,13 +1042,11 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001988 RID: 6536 RVA: 0x000DE554 File Offset: 0x000DC954
 		Faction ICommunicable.GetFaction()
 		{
 			return this;
 		}
 
-		// Token: 0x06001989 RID: 6537 RVA: 0x000DE56C File Offset: 0x000DC96C
 		public void TryOpenComms(Pawn negotiator)
 		{
 			Dialog_Negotiation dialog_Negotiation = new Dialog_Negotiation(negotiator, this, FactionDialogMaker.FactionDialogFor(negotiator, this), true);
@@ -1107,7 +1054,6 @@ namespace RimWorld
 			Find.WindowStack.Add(dialog_Negotiation);
 		}
 
-		// Token: 0x0600198A RID: 6538 RVA: 0x000DE5A0 File Offset: 0x000DC9A0
 		private bool LeaderIsAvailableToTalk()
 		{
 			bool result;
@@ -1129,7 +1075,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600198B RID: 6539 RVA: 0x000DE624 File Offset: 0x000DCA24
 		public FloatMenuOption CommFloatMenuOption(Building_CommsConsole console, Pawn negotiator)
 		{
 			FloatMenuOption result;
@@ -1180,7 +1125,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600198C RID: 6540 RVA: 0x000DE770 File Offset: 0x000DCB70
 		private void TookDamageFromPredator(Pawn predator)
 		{
 			for (int i = 0; i < this.predatorThreats.Count; i++)
@@ -1197,7 +1141,6 @@ namespace RimWorld
 			this.predatorThreats.Add(predatorThreat);
 		}
 
-		// Token: 0x0600198D RID: 6541 RVA: 0x000DE800 File Offset: 0x000DCC00
 		public bool HasPredatorRecentlyAttackedAnyone(Pawn predator)
 		{
 			for (int i = 0; i < this.predatorThreats.Count; i++)
@@ -1210,14 +1153,11 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600198E RID: 6542 RVA: 0x000DE854 File Offset: 0x000DCC54
 		private bool IsMutuallyHostileCrossfire(DamageInfo dinfo)
 		{
 			return dinfo.Instigator != null && dinfo.IntendedTarget != null && dinfo.IntendedTarget.HostileTo(dinfo.Instigator) && dinfo.IntendedTarget.HostileTo(this);
 		}
 
-		// Token: 0x17000398 RID: 920
-		// (get) Token: 0x0600198F RID: 6543 RVA: 0x000DE8AC File Offset: 0x000DCCAC
 		public static Faction OfPlayer
 		{
 			get
@@ -1231,8 +1171,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000399 RID: 921
-		// (get) Token: 0x06001990 RID: 6544 RVA: 0x000DE8DC File Offset: 0x000DCCDC
 		public static Faction OfMechanoids
 		{
 			get
@@ -1241,8 +1179,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700039A RID: 922
-		// (get) Token: 0x06001991 RID: 6545 RVA: 0x000DE8FC File Offset: 0x000DCCFC
 		public static Faction OfInsects
 		{
 			get
@@ -1251,8 +1187,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700039B RID: 923
-		// (get) Token: 0x06001992 RID: 6546 RVA: 0x000DE91C File Offset: 0x000DCD1C
 		public static Faction OfAncients
 		{
 			get
@@ -1261,8 +1195,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700039C RID: 924
-		// (get) Token: 0x06001993 RID: 6547 RVA: 0x000DE93C File Offset: 0x000DCD3C
 		public static Faction OfAncientsHostile
 		{
 			get
@@ -1271,8 +1203,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700039D RID: 925
-		// (get) Token: 0x06001994 RID: 6548 RVA: 0x000DE95C File Offset: 0x000DCD5C
 		public static Faction OfPlayerSilentFail
 		{
 			get
@@ -1289,13 +1219,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001995 RID: 6549 RVA: 0x000DE9AC File Offset: 0x000DCDAC
 		public string GetUniqueLoadID()
 		{
 			return "Faction_" + this.loadID;
 		}
 
-		// Token: 0x06001996 RID: 6550 RVA: 0x000DE9D8 File Offset: 0x000DCDD8
 		public override string ToString()
 		{
 			string result;
@@ -1314,7 +1242,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001997 RID: 6551 RVA: 0x000DEA28 File Offset: 0x000DCE28
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -1335,13 +1262,72 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001998 RID: 6552 RVA: 0x000DEAE4 File Offset: 0x000DCEE4
 		public void DebugDrawOnMap()
 		{
 			ByteGrid avoidGridSmart = this.GetAvoidGridSmart(Find.CurrentMap);
 			if (avoidGridSmart != null)
 			{
 				avoidGridSmart.DebugDraw();
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Faction()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(PredatorThreat x)
+		{
+			return x.predator == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <FactionTick>m__1(FactionBase x)
+		{
+			return NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x);
+		}
+
+		[CompilerGenerated]
+		private static bool <FactionTick>m__2(FactionBase x)
+		{
+			return NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x);
+		}
+
+		[CompilerGenerated]
+		private bool <RemoveAllRelations>m__3(FactionRelation x)
+		{
+			return x.other == this;
+		}
+
+		[CompilerGenerated]
+		private static GlobalTargetInfo <Notify_RelationKindChanged>m__4(Site x)
+		{
+			return new GlobalTargetInfo(x.Tile);
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateNewLeader>m__5(PawnGroupMaker x)
+		{
+			return x.kindDef == PawnGroupKindDefOf.Combat;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CommFloatMenuOption>c__AnonStorey0
+		{
+			internal Building_CommsConsole console;
+
+			internal Pawn negotiator;
+
+			internal Faction $this;
+
+			public <CommFloatMenuOption>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.console.GiveUseCommsJob(this.negotiator, this.$this);
 			}
 		}
 	}

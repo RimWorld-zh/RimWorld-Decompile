@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ADA RID: 2778
 	public class JobGiver_WanderNearMaster : JobGiver_Wander
 	{
-		// Token: 0x06003D93 RID: 15763 RVA: 0x0020687C File Offset: 0x00204C7C
 		public JobGiver_WanderNearMaster()
 		{
 			this.wanderRadius = 3f;
@@ -24,17 +23,29 @@ namespace Verse.AI
 			};
 		}
 
-		// Token: 0x06003D94 RID: 15764 RVA: 0x002068B4 File Offset: 0x00204CB4
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			return WanderUtility.BestCloseWanderRoot(pawn.playerSettings.Master.PositionHeld, pawn);
 		}
 
-		// Token: 0x06003D95 RID: 15765 RVA: 0x002068E0 File Offset: 0x00204CE0
 		private bool MustUseRootRoom(Pawn pawn)
 		{
 			Pawn master = pawn.playerSettings.Master;
 			return !master.playerSettings.animalsReleased;
+		}
+
+		[CompilerGenerated]
+		private bool <JobGiver_WanderNearMaster>m__0(Pawn p, IntVec3 c, IntVec3 root)
+		{
+			if (this.MustUseRootRoom(p))
+			{
+				Room room = root.GetRoom(p.Map, RegionType.Set_Passable);
+				if (room != null && !WanderRoomUtility.IsValidWanderDest(p, c, root))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

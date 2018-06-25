@@ -1,48 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200030D RID: 781
 	public class GameCondition_Aurora : GameCondition
 	{
-		// Token: 0x0400086A RID: 2154
 		private int curColorIndex = -1;
 
-		// Token: 0x0400086B RID: 2155
 		private int prevColorIndex = -1;
 
-		// Token: 0x0400086C RID: 2156
 		private float curColorTransition;
 
-		// Token: 0x0400086D RID: 2157
 		private const int LerpTicks = 200;
 
-		// Token: 0x0400086E RID: 2158
 		public const float MaxSunGlow = 0.5f;
 
-		// Token: 0x0400086F RID: 2159
 		private const float Glow = 0.25f;
 
-		// Token: 0x04000870 RID: 2160
 		private const float SkyColorStrength = 0.075f;
 
-		// Token: 0x04000871 RID: 2161
 		private const float OverlayColorStrength = 0.025f;
 
-		// Token: 0x04000872 RID: 2162
 		private const float BaseBrightness = 0.73f;
 
-		// Token: 0x04000873 RID: 2163
 		private const int TransitionDurationTicks_NotPermanent = 280;
 
-		// Token: 0x04000874 RID: 2164
 		private const int TransitionDurationTicks_Permanent = 3750;
 
-		// Token: 0x04000875 RID: 2165
 		private static readonly Color[] Colors = new Color[]
 		{
 			new Color(0f, 1f, 0f),
@@ -55,8 +43,10 @@ namespace RimWorld
 			new Color(0.75f, 0f, 1f)
 		};
 
-		// Token: 0x170001FC RID: 508
-		// (get) Token: 0x06000D24 RID: 3364 RVA: 0x000721F8 File Offset: 0x000705F8
+		public GameCondition_Aurora()
+		{
+		}
+
 		public Color CurrentColor
 		{
 			get
@@ -65,8 +55,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001FD RID: 509
-		// (get) Token: 0x06000D25 RID: 3365 RVA: 0x00072244 File Offset: 0x00070644
 		private int TransitionDurationTicks
 		{
 			get
@@ -75,8 +63,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001FE RID: 510
-		// (get) Token: 0x06000D26 RID: 3366 RVA: 0x00072274 File Offset: 0x00070674
 		private bool BrightInAllMaps
 		{
 			get
@@ -93,7 +79,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D27 RID: 3367 RVA: 0x000722C8 File Offset: 0x000706C8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -102,7 +87,6 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.curColorTransition, "curColorTransition", 0f, false);
 		}
 
-		// Token: 0x06000D28 RID: 3368 RVA: 0x00072316 File Offset: 0x00070716
 		public override void Init()
 		{
 			base.Init();
@@ -111,25 +95,21 @@ namespace RimWorld
 			this.curColorTransition = 1f;
 		}
 
-		// Token: 0x06000D29 RID: 3369 RVA: 0x0007234C File Offset: 0x0007074C
 		public override float SkyGazeChanceFactor(Map map)
 		{
 			return 8f;
 		}
 
-		// Token: 0x06000D2A RID: 3370 RVA: 0x00072368 File Offset: 0x00070768
 		public override float SkyGazeJoyGainFactor(Map map)
 		{
 			return 5f;
 		}
 
-		// Token: 0x06000D2B RID: 3371 RVA: 0x00072384 File Offset: 0x00070784
 		public override float SkyTargetLerpFactor(Map map)
 		{
 			return GameConditionUtility.LerpInOutValue(this, 200f, 1f);
 		}
 
-		// Token: 0x06000D2C RID: 3372 RVA: 0x000723AC File Offset: 0x000707AC
 		public override SkyTarget? SkyTarget(Map map)
 		{
 			Color currentColor = this.CurrentColor;
@@ -138,13 +118,11 @@ namespace RimWorld
 			return new SkyTarget?(new SkyTarget(glow, colorSet, 1f, 1f));
 		}
 
-		// Token: 0x06000D2D RID: 3373 RVA: 0x00072448 File Offset: 0x00070848
 		private float Brightness(Map map)
 		{
 			return Mathf.Max(0.73f, GenCelestial.CurCelestialSunGlow(map));
 		}
 
-		// Token: 0x06000D2E RID: 3374 RVA: 0x00072470 File Offset: 0x00070870
 		public override void GameConditionTick()
 		{
 			this.curColorTransition += 1f / (float)this.TransitionDurationTicks;
@@ -160,12 +138,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D2F RID: 3375 RVA: 0x00072500 File Offset: 0x00070900
 		private int GetNewColorIndex()
 		{
 			return (from x in Enumerable.Range(0, GameCondition_Aurora.Colors.Length)
 			where x != this.curColorIndex
 			select x).RandomElement<int>();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GameCondition_Aurora()
+		{
+		}
+
+		[CompilerGenerated]
+		private bool <GetNewColorIndex>m__0(int x)
+		{
+			return x != this.curColorIndex;
 		}
 	}
 }

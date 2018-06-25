@@ -2,10 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000202 RID: 514
 	public class Thought_TeetotalerVsChemicalInterest : Thought_SituationalSocial
 	{
-		// Token: 0x060009CF RID: 2511 RVA: 0x000582C0 File Offset: 0x000566C0
+		public Thought_TeetotalerVsChemicalInterest()
+		{
+		}
+
 		public override float OpinionOffset()
 		{
 			int num = this.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);

@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000046 RID: 70
 	public class JobDriver_RemoveRoof : JobDriver_AffectRoof
 	{
-		// Token: 0x040001D8 RID: 472
 		private static List<IntVec3> removedRoofs = new List<IntVec3>();
 
-		// Token: 0x1700007D RID: 125
-		// (get) Token: 0x06000248 RID: 584 RVA: 0x00017F5C File Offset: 0x0001635C
+		public JobDriver_RemoveRoof()
+		{
+		}
+
 		protected override PathEndMode PathEndMode
 		{
 			get
@@ -21,7 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000249 RID: 585 RVA: 0x00017F74 File Offset: 0x00016374
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !base.Map.areaManager.NoRoof[base.Cell]);
@@ -32,7 +35,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600024A RID: 586 RVA: 0x00017FA0 File Offset: 0x000163A0
 		protected override void DoEffect()
 		{
 			JobDriver_RemoveRoof.removedRoofs.Clear();
@@ -42,10 +44,160 @@ namespace RimWorld
 			JobDriver_RemoveRoof.removedRoofs.Clear();
 		}
 
-		// Token: 0x0600024B RID: 587 RVA: 0x00017FFC File Offset: 0x000163FC
 		protected override bool DoWorkFailOn()
 		{
 			return !base.Cell.Roofed(base.Map);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobDriver_RemoveRoof()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Toil> <MakeNewToils>__BaseCallProxy0()
+		{
+			return base.MakeNewToils();
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal IEnumerator<Toil> $locvar0;
+
+			internal Toil <t>__1;
+
+			internal JobDriver_RemoveRoof $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.FailOn(() => !base.Map.areaManager.NoRoof[base.Cell]);
+					enumerator = base.<MakeNewToils>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_RemoveRoof.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_RemoveRoof.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !base.Map.areaManager.NoRoof[base.Cell];
+			}
 		}
 	}
 }

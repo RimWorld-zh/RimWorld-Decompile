@@ -4,13 +4,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003A8 RID: 936
 	public class SymbolResolver_Clear : SymbolResolver
 	{
-		// Token: 0x04000A13 RID: 2579
 		private static List<Thing> tmpThingsToDestroy = new List<Thing>();
 
-		// Token: 0x0600103D RID: 4157 RVA: 0x00088B18 File Offset: 0x00086F18
+		public SymbolResolver_Clear()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
@@ -54,6 +55,11 @@ namespace RimWorld.BaseGen
 				}
 				iterator.MoveNext();
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_Clear()
+		{
 		}
 	}
 }

@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000340 RID: 832
 	public class IncidentWorker_SelfTame : IncidentWorker
 	{
-		// Token: 0x06000E2F RID: 3631 RVA: 0x00078C34 File Offset: 0x00077034
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		public IncidentWorker_SelfTame()
+		{
+		}
+
 		private IEnumerable<Pawn> Candidates(Map map)
 		{
 			return from x in map.mapPawns.AllPawnsSpawned
@@ -16,14 +22,12 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x06000E30 RID: 3632 RVA: 0x00078C78 File Offset: 0x00077078
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return this.Candidates(map).Any<Pawn>();
 		}
 
-		// Token: 0x06000E31 RID: 3633 RVA: 0x00078CA8 File Offset: 0x000770A8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -76,6 +80,12 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <Candidates>m__0(Pawn x)
+		{
+			return x.RaceProps.Animal && x.Faction == null && !x.Position.Fogged(x.Map) && !x.InMentalState && !x.Downed && x.RaceProps.wildness > 0f;
 		}
 	}
 }

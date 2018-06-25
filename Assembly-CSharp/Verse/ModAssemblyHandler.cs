@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000CC2 RID: 3266
 	public class ModAssemblyHandler
 	{
-		// Token: 0x040030D2 RID: 12498
 		private ModContentPack mod;
 
-		// Token: 0x040030D3 RID: 12499
 		public List<Assembly> loadedAssemblies = new List<Assembly>();
 
-		// Token: 0x040030D4 RID: 12500
 		private static bool globalResolverIsSet = false;
 
-		// Token: 0x0600480F RID: 18447 RVA: 0x0025F035 File Offset: 0x0025D435
+		[CompilerGenerated]
+		private static ResolveEventHandler <>f__am$cache0;
+
 		public ModAssemblyHandler(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
-		// Token: 0x06004810 RID: 18448 RVA: 0x0025F050 File Offset: 0x0025D450
 		public void ReloadAll()
 		{
 			if (!ModAssemblyHandler.globalResolverIsSet)
@@ -76,7 +74,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004811 RID: 18449 RVA: 0x0025F220 File Offset: 0x0025D620
 		private bool AssemblyIsUsable(Assembly asm)
 		{
 			try
@@ -117,6 +114,17 @@ namespace Verse
 				return false;
 			}
 			return true;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ModAssemblyHandler()
+		{
+		}
+
+		[CompilerGenerated]
+		private static Assembly <ReloadAll>m__0(object obj, ResolveEventArgs args)
+		{
+			return Assembly.GetExecutingAssembly();
 		}
 	}
 }

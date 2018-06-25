@@ -4,25 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000505 RID: 1285
 	public class Need_RoomSize : Need_Seeker
 	{
-		// Token: 0x04000DB1 RID: 3505
 		private static List<Room> tempScanRooms = new List<Room>();
 
-		// Token: 0x04000DB2 RID: 3506
 		private const float MinCramped = 0.01f;
 
-		// Token: 0x04000DB3 RID: 3507
 		private const float MinNormal = 0.3f;
 
-		// Token: 0x04000DB4 RID: 3508
 		private const float MinSpacious = 0.7f;
 
-		// Token: 0x04000DB5 RID: 3509
 		public static readonly int SampleNumCells = GenRadial.NumCellsInRadius(7.9f);
 
-		// Token: 0x04000DB6 RID: 3510
 		private static readonly SimpleCurve RoomCellCountSpaceCurve = new SimpleCurve
 		{
 			{
@@ -47,7 +40,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06001716 RID: 5910 RVA: 0x000CBB65 File Offset: 0x000C9F65
 		public Need_RoomSize(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -55,8 +47,6 @@ namespace RimWorld
 			this.threshPercents.Add(0.7f);
 		}
 
-		// Token: 0x1700032D RID: 813
-		// (get) Token: 0x06001717 RID: 5911 RVA: 0x000CBB9C File Offset: 0x000C9F9C
 		public override float CurInstantLevel
 		{
 			get
@@ -65,8 +55,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700032E RID: 814
-		// (get) Token: 0x06001718 RID: 5912 RVA: 0x000CBBB8 File Offset: 0x000C9FB8
 		public RoomSizeCategory CurCategory
 		{
 			get
@@ -92,7 +80,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001719 RID: 5913 RVA: 0x000CBC14 File Offset: 0x000CA014
 		public float SpacePerceptibleNow()
 		{
 			float result;
@@ -141,6 +128,11 @@ namespace RimWorld
 				result = Need_RoomSize.RoomCellCountSpaceCurve.Evaluate(num);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Need_RoomSize()
+		{
 		}
 	}
 }

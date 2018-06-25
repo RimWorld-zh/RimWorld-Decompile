@@ -6,17 +6,16 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E6C RID: 3692
 	internal class Command_VerbTarget : Command
 	{
-		// Token: 0x0400399D RID: 14749
 		public Verb verb;
 
-		// Token: 0x0400399E RID: 14750
 		private List<Verb> groupedVerbs;
 
-		// Token: 0x17000DA6 RID: 3494
-		// (get) Token: 0x060056F3 RID: 22259 RVA: 0x002CC9F8 File Offset: 0x002CADF8
+		public Command_VerbTarget()
+		{
+		}
+
 		public override Color IconDrawColor
 		{
 			get
@@ -34,7 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056F4 RID: 22260 RVA: 0x002CCA3C File Offset: 0x002CAE3C
 		public override void GizmoUpdateOnMouseover()
 		{
 			this.verb.verbProps.DrawRadiusRing(this.verb.caster.Position);
@@ -47,7 +45,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056F5 RID: 22261 RVA: 0x002CCAE0 File Offset: 0x002CAEE0
 		public override void MergeWith(Gizmo other)
 		{
 			base.MergeWith(other);
@@ -70,7 +67,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056F6 RID: 22262 RVA: 0x002CCB5C File Offset: 0x002CAF5C
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);

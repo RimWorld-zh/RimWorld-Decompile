@@ -1,41 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000AA4 RID: 2724
 	public class PriorityWork : IExposable
 	{
-		// Token: 0x04002675 RID: 9845
 		private Pawn pawn;
 
-		// Token: 0x04002676 RID: 9846
 		private IntVec3 prioritizedCell = IntVec3.Invalid;
 
-		// Token: 0x04002677 RID: 9847
 		private WorkTypeDef prioritizedWorkType = null;
 
-		// Token: 0x04002678 RID: 9848
 		private int prioritizeTick = Find.TickManager.TicksGame;
 
-		// Token: 0x04002679 RID: 9849
 		private const int Timeout = 30000;
 
-		// Token: 0x06003CB7 RID: 15543 RVA: 0x00202953 File Offset: 0x00200D53
 		public PriorityWork()
 		{
 		}
 
-		// Token: 0x06003CB8 RID: 15544 RVA: 0x0020297E File Offset: 0x00200D7E
 		public PriorityWork(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000932 RID: 2354
-		// (get) Token: 0x06003CB9 RID: 15545 RVA: 0x002029B0 File Offset: 0x00200DB0
 		public bool IsPrioritized
 		{
 			get
@@ -52,8 +46,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000933 RID: 2355
-		// (get) Token: 0x06003CBA RID: 15546 RVA: 0x00202A00 File Offset: 0x00200E00
 		public IntVec3 Cell
 		{
 			get
@@ -62,8 +54,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000934 RID: 2356
-		// (get) Token: 0x06003CBB RID: 15547 RVA: 0x00202A1C File Offset: 0x00200E1C
 		public WorkTypeDef WorkType
 		{
 			get
@@ -72,7 +62,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003CBC RID: 15548 RVA: 0x00202A38 File Offset: 0x00200E38
 		public void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.prioritizedCell, "prioritizedCell", default(IntVec3), false);
@@ -80,7 +69,6 @@ namespace Verse
 			Scribe_Values.Look<int>(ref this.prioritizeTick, "prioritizeTick", 0, false);
 		}
 
-		// Token: 0x06003CBD RID: 15549 RVA: 0x00202A82 File Offset: 0x00200E82
 		public void Set(IntVec3 prioritizedCell, WorkTypeDef prioritizedWorkType)
 		{
 			this.prioritizedCell = prioritizedCell;
@@ -88,7 +76,6 @@ namespace Verse
 			this.prioritizeTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003CBE RID: 15550 RVA: 0x00202AA3 File Offset: 0x00200EA3
 		public void Clear()
 		{
 			this.prioritizedCell = IntVec3.Invalid;
@@ -96,14 +83,12 @@ namespace Verse
 			this.prioritizeTick = 0;
 		}
 
-		// Token: 0x06003CBF RID: 15551 RVA: 0x00202ABF File Offset: 0x00200EBF
 		public void ClearPrioritizedWorkAndJobQueue()
 		{
 			this.Clear();
 			this.pawn.jobs.ClearQueuedJobs();
 		}
 
-		// Token: 0x06003CC0 RID: 15552 RVA: 0x00202AD8 File Offset: 0x00200ED8
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if ((this.IsPrioritized || (this.pawn.CurJob != null && this.pawn.CurJob.playerForced) || this.pawn.jobs.jobQueue.AnyPlayerForced) && !this.pawn.Drafted)
@@ -127,6 +112,124 @@ namespace Verse
 				};
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Action <c>__1;
+
+			internal PriorityWork $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if ((base.IsPrioritized || (this.pawn.CurJob != null && this.pawn.CurJob.playerForced) || this.pawn.jobs.jobQueue.AnyPlayerForced) && !this.pawn.Drafted)
+					{
+						Command_Action c = new Command_Action();
+						c.defaultLabel = "CommandClearPrioritizedWork".Translate();
+						c.defaultDesc = "CommandClearPrioritizedWorkDesc".Translate();
+						c.icon = TexCommand.ClearPrioritizedWork;
+						c.activateSound = SoundDefOf.Tick_Low;
+						c.action = delegate()
+						{
+							base.ClearPrioritizedWorkAndJobQueue();
+							if (this.pawn.CurJob.playerForced)
+							{
+								this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+							}
+						};
+						c.hotKey = KeyBindingDefOf.Designator_Cancel;
+						c.groupKey = 6165612;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PriorityWork.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new PriorityWork.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.ClearPrioritizedWorkAndJobQueue();
+				if (this.pawn.CurJob.playerForced)
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+				}
+			}
 		}
 	}
 }

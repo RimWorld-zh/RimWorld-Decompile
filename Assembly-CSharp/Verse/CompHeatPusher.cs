@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000E05 RID: 3589
 	public class CompHeatPusher : ThingComp
 	{
-		// Token: 0x04003556 RID: 13654
 		private const int HeatPushInterval = 60;
 
-		// Token: 0x17000D55 RID: 3413
-		// (get) Token: 0x06005155 RID: 20821 RVA: 0x0029C2A4 File Offset: 0x0029A6A4
+		public CompHeatPusher()
+		{
+		}
+
 		public CompProperties_HeatPusher Props
 		{
 			get
@@ -18,8 +18,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D56 RID: 3414
-		// (get) Token: 0x06005156 RID: 20822 RVA: 0x0029C2C4 File Offset: 0x0029A6C4
 		protected virtual bool ShouldPushHeatNow
 		{
 			get
@@ -39,7 +37,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005157 RID: 20823 RVA: 0x0029C31C File Offset: 0x0029A71C
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -49,7 +46,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005158 RID: 20824 RVA: 0x0029C374 File Offset: 0x0029A774
 		public override void CompTickRare()
 		{
 			base.CompTickRare();

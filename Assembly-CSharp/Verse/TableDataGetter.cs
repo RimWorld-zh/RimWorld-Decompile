@@ -1,38 +1,32 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000E54 RID: 3668
 	public class TableDataGetter<T>
 	{
-		// Token: 0x0400392E RID: 14638
 		public string label;
 
-		// Token: 0x0400392F RID: 14639
 		public Func<T, string> getter;
 
-		// Token: 0x0600566F RID: 22127 RVA: 0x002C95AB File Offset: 0x002C79AB
 		public TableDataGetter(string label, Func<T, string> getter)
 		{
 			this.label = label;
 			this.getter = getter;
 		}
 
-		// Token: 0x06005670 RID: 22128 RVA: 0x002C95C4 File Offset: 0x002C79C4
 		public TableDataGetter(string label, Func<T, float> getter)
 		{
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString("F0"));
 		}
 
-		// Token: 0x06005671 RID: 22129 RVA: 0x002C9600 File Offset: 0x002C7A00
 		public TableDataGetter(string label, Func<T, int> getter)
 		{
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString("F0"));
 		}
 
-		// Token: 0x06005672 RID: 22130 RVA: 0x002C963C File Offset: 0x002C7A3C
 		public TableDataGetter(string label, Func<T, ThingDef> getter)
 		{
 			this.label = label;
@@ -52,11 +46,80 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06005673 RID: 22131 RVA: 0x002C9678 File Offset: 0x002C7A78
 		public TableDataGetter(string label, Func<T, object> getter)
 		{
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString());
+		}
+
+		[CompilerGenerated]
+		private sealed class <TableDataGetter>c__AnonStorey0
+		{
+			internal Func<T, float> getter;
+
+			public <TableDataGetter>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0(T t)
+			{
+				return this.getter(t).ToString("F0");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TableDataGetter>c__AnonStorey1
+		{
+			internal Func<T, int> getter;
+
+			public <TableDataGetter>c__AnonStorey1()
+			{
+			}
+
+			internal string <>m__0(T t)
+			{
+				return this.getter(t).ToString("F0");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TableDataGetter>c__AnonStorey2
+		{
+			internal Func<T, ThingDef> getter;
+
+			public <TableDataGetter>c__AnonStorey2()
+			{
+			}
+
+			internal string <>m__0(T t)
+			{
+				ThingDef thingDef = this.getter(t);
+				string result;
+				if (thingDef == null)
+				{
+					result = "";
+				}
+				else
+				{
+					result = thingDef.defName;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TableDataGetter>c__AnonStorey3
+		{
+			internal Func<T, object> getter;
+
+			public <TableDataGetter>c__AnonStorey3()
+			{
+			}
+
+			internal string <>m__0(T t)
+			{
+				return this.getter(t).ToString();
+			}
 		}
 	}
 }

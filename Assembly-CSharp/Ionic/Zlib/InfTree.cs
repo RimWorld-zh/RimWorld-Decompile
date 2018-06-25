@@ -2,46 +2,32 @@
 
 namespace Ionic.Zlib
 {
-	// Token: 0x0200000B RID: 11
 	internal sealed class InfTree
 	{
-		// Token: 0x04000072 RID: 114
 		private const int MANY = 1440;
 
-		// Token: 0x04000073 RID: 115
 		private const int Z_OK = 0;
 
-		// Token: 0x04000074 RID: 116
 		private const int Z_STREAM_END = 1;
 
-		// Token: 0x04000075 RID: 117
 		private const int Z_NEED_DICT = 2;
 
-		// Token: 0x04000076 RID: 118
 		private const int Z_ERRNO = -1;
 
-		// Token: 0x04000077 RID: 119
 		private const int Z_STREAM_ERROR = -2;
 
-		// Token: 0x04000078 RID: 120
 		private const int Z_DATA_ERROR = -3;
 
-		// Token: 0x04000079 RID: 121
 		private const int Z_MEM_ERROR = -4;
 
-		// Token: 0x0400007A RID: 122
 		private const int Z_BUF_ERROR = -5;
 
-		// Token: 0x0400007B RID: 123
 		private const int Z_VERSION_ERROR = -6;
 
-		// Token: 0x0400007C RID: 124
 		internal const int fixed_bl = 9;
 
-		// Token: 0x0400007D RID: 125
 		internal const int fixed_bd = 5;
 
-		// Token: 0x0400007E RID: 126
 		internal static readonly int[] fixed_tl = new int[]
 		{
 			96,
@@ -1582,7 +1568,6 @@ namespace Ionic.Zlib
 			255
 		};
 
-		// Token: 0x0400007F RID: 127
 		internal static readonly int[] fixed_td = new int[]
 		{
 			80,
@@ -1683,7 +1668,6 @@ namespace Ionic.Zlib
 			24577
 		};
 
-		// Token: 0x04000080 RID: 128
 		internal static readonly int[] cplens = new int[]
 		{
 			3,
@@ -1719,7 +1703,6 @@ namespace Ionic.Zlib
 			0
 		};
 
-		// Token: 0x04000081 RID: 129
 		internal static readonly int[] cplext = new int[]
 		{
 			0,
@@ -1755,7 +1738,6 @@ namespace Ionic.Zlib
 			112
 		};
 
-		// Token: 0x04000082 RID: 130
 		internal static readonly int[] cpdist = new int[]
 		{
 			1,
@@ -1790,7 +1772,6 @@ namespace Ionic.Zlib
 			24577
 		};
 
-		// Token: 0x04000083 RID: 131
 		internal static readonly int[] cpdext = new int[]
 		{
 			0,
@@ -1825,28 +1806,24 @@ namespace Ionic.Zlib
 			13
 		};
 
-		// Token: 0x04000084 RID: 132
 		internal const int BMAX = 15;
 
-		// Token: 0x04000085 RID: 133
 		internal int[] hn = null;
 
-		// Token: 0x04000086 RID: 134
 		internal int[] v = null;
 
-		// Token: 0x04000087 RID: 135
 		internal int[] c = null;
 
-		// Token: 0x04000088 RID: 136
 		internal int[] r = null;
 
-		// Token: 0x04000089 RID: 137
 		internal int[] u = null;
 
-		// Token: 0x0400008A RID: 138
 		internal int[] x = null;
 
-		// Token: 0x0600009A RID: 154 RVA: 0x00006384 File Offset: 0x00004784
+		public InfTree()
+		{
+		}
+
 		private int huft_build(int[] b, int bindex, int n, int s, int[] d, int[] e, int[] t, int[] m, int[] hp, int[] hn, int[] v)
 		{
 			int num = 0;
@@ -2031,7 +2008,6 @@ namespace Ionic.Zlib
 			return result;
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x000068A4 File Offset: 0x00004CA4
 		internal int inflate_trees_bits(int[] c, int[] bb, int[] tb, int[] hp, ZlibCodec z)
 		{
 			this.initWorkArea(19);
@@ -2049,7 +2025,6 @@ namespace Ionic.Zlib
 			return num;
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00006928 File Offset: 0x00004D28
 		internal int inflate_trees_dynamic(int nl, int nd, int[] c, int[] bl, int[] bd, int[] tl, int[] td, int[] hp, ZlibCodec z)
 		{
 			this.initWorkArea(288);
@@ -2099,7 +2074,6 @@ namespace Ionic.Zlib
 			return result;
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x00006A70 File Offset: 0x00004E70
 		internal static int inflate_trees_fixed(int[] bl, int[] bd, int[][] tl, int[][] td, ZlibCodec z)
 		{
 			bl[0] = 9;
@@ -2109,7 +2083,6 @@ namespace Ionic.Zlib
 			return 0;
 		}
 
-		// Token: 0x0600009E RID: 158 RVA: 0x00006AA0 File Offset: 0x00004EA0
 		private void initWorkArea(int vsize)
 		{
 			if (this.hn == null)
@@ -2135,6 +2108,11 @@ namespace Ionic.Zlib
 				Array.Clear(this.u, 0, 15);
 				Array.Clear(this.x, 0, 16);
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static InfTree()
+		{
 		}
 	}
 }

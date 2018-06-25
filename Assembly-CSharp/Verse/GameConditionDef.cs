@@ -1,44 +1,42 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B3E RID: 2878
 	public class GameConditionDef : Def
 	{
-		// Token: 0x0400296B RID: 10603
 		public Type conditionClass = typeof(GameCondition);
 
-		// Token: 0x0400296C RID: 10604
 		private List<GameConditionDef> exclusiveConditions = null;
 
-		// Token: 0x0400296D RID: 10605
 		[MustTranslate]
 		public string endMessage = null;
 
-		// Token: 0x0400296E RID: 10606
 		public bool canBePermanent = false;
 
-		// Token: 0x0400296F RID: 10607
 		public PsychicDroneLevel droneLevel = PsychicDroneLevel.BadMedium;
 
-		// Token: 0x04002970 RID: 10608
 		public bool preventRain = false;
 
-		// Token: 0x06003F31 RID: 16177 RVA: 0x002148A8 File Offset: 0x00212CA8
+		public GameConditionDef()
+		{
+		}
+
 		public bool CanCoexistWith(GameConditionDef other)
 		{
 			return this != other && (this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other));
 		}
 
-		// Token: 0x06003F32 RID: 16178 RVA: 0x002148E8 File Offset: 0x00212CE8
 		public static GameConditionDef Named(string defName)
 		{
 			return DefDatabase<GameConditionDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06003F33 RID: 16179 RVA: 0x00214904 File Offset: 0x00212D04
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -50,6 +48,159 @@ namespace Verse
 				yield return "conditionClass is null";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal GameConditionDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_E7;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.conditionClass != null)
+				{
+					goto IL_E7;
+				}
+				this.$current = "conditionClass is null";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_E7:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GameConditionDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new GameConditionDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

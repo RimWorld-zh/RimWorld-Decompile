@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000ED RID: 237
 	public class JobGiver_RescueNearby : ThinkNode_JobGiver
 	{
-		// Token: 0x040002CC RID: 716
 		private float radius = 30f;
 
-		// Token: 0x040002CD RID: 717
 		private const float MinDistFromEnemy = 25f;
 
-		// Token: 0x0600050D RID: 1293 RVA: 0x00038138 File Offset: 0x00036538
+		public JobGiver_RescueNearby()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_RescueNearby jobGiver_RescueNearby = (JobGiver_RescueNearby)base.DeepCopy(resolve);
@@ -21,7 +22,6 @@ namespace RimWorld
 			return jobGiver_RescueNearby;
 		}
 
-		// Token: 0x0600050E RID: 1294 RVA: 0x00038168 File Offset: 0x00036568
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)
@@ -51,6 +51,22 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				Pawn pawn = (Pawn)t;
+				return pawn.Downed && pawn.Faction == this.pawn.Faction && !pawn.InBed() && this.pawn.CanReserve(pawn, 1, -1, null, false) && !pawn.IsForbidden(this.pawn) && !GenAI.EnemyIsNear(pawn, 25f);
+			}
 		}
 	}
 }

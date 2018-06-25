@@ -4,13 +4,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D3 RID: 979
 	public class SymbolResolver_Refuel : SymbolResolver
 	{
-		// Token: 0x04000A43 RID: 2627
 		private static List<CompRefuelable> refuelables = new List<CompRefuelable>();
 
-		// Token: 0x060010D9 RID: 4313 RVA: 0x0008F974 File Offset: 0x0008DD74
+		public SymbolResolver_Refuel()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -36,6 +37,11 @@ namespace RimWorld.BaseGen
 				SymbolResolver_Refuel.refuelables[j].Refuel(amount);
 			}
 			SymbolResolver_Refuel.refuelables.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_Refuel()
+		{
 		}
 	}
 }

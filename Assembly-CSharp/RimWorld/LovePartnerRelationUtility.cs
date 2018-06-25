@@ -1,60 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004BD RID: 1213
 	public static class LovePartnerRelationUtility
 	{
-		// Token: 0x04000CC6 RID: 3270
 		private const float MinAgeToGenerateWithLovePartnerRelation = 14f;
 
-		// Token: 0x06001599 RID: 5529 RVA: 0x000C072C File Offset: 0x000BEB2C
+		[CompilerGenerated]
+		private static Func<PawnRelationDef, bool> <>f__am$cache0;
+
 		public static bool HasAnyLovePartner(Pawn pawn)
 		{
 			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null) != null || pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, null) != null || pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Fiance, null) != null;
 		}
 
-		// Token: 0x0600159A RID: 5530 RVA: 0x000C0788 File Offset: 0x000BEB88
 		public static bool IsLovePartnerRelation(PawnRelationDef relation)
 		{
 			return relation == PawnRelationDefOf.Lover || relation == PawnRelationDefOf.Fiance || relation == PawnRelationDefOf.Spouse;
 		}
 
-		// Token: 0x0600159B RID: 5531 RVA: 0x000C07C0 File Offset: 0x000BEBC0
 		public static bool IsExLovePartnerRelation(PawnRelationDef relation)
 		{
 			return relation == PawnRelationDefOf.ExLover || relation == PawnRelationDefOf.ExSpouse;
 		}
 
-		// Token: 0x0600159C RID: 5532 RVA: 0x000C07EC File Offset: 0x000BEBEC
 		public static bool HasAnyLovePartnerOfTheSameGender(Pawn pawn)
 		{
 			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender == pawn.gender) != null;
 		}
 
-		// Token: 0x0600159D RID: 5533 RVA: 0x000C0838 File Offset: 0x000BEC38
 		public static bool HasAnyExLovePartnerOfTheSameGender(Pawn pawn)
 		{
 			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender == pawn.gender) != null;
 		}
 
-		// Token: 0x0600159E RID: 5534 RVA: 0x000C0884 File Offset: 0x000BEC84
 		public static bool HasAnyLovePartnerOfTheOppositeGender(Pawn pawn)
 		{
 			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender != pawn.gender) != null;
 		}
 
-		// Token: 0x0600159F RID: 5535 RVA: 0x000C08D0 File Offset: 0x000BECD0
 		public static bool HasAnyExLovePartnerOfTheOppositeGender(Pawn pawn)
 		{
 			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender != pawn.gender) != null;
 		}
 
-		// Token: 0x060015A0 RID: 5536 RVA: 0x000C091C File Offset: 0x000BED1C
 		public static Pawn ExistingLovePartner(Pawn pawn)
 		{
 			Pawn firstDirectRelationPawn = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
@@ -86,19 +80,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015A1 RID: 5537 RVA: 0x000C0990 File Offset: 0x000BED90
 		public static bool LovePartnerRelationExists(Pawn first, Pawn second)
 		{
 			return first.relations.DirectRelationExists(PawnRelationDefOf.Lover, second) || first.relations.DirectRelationExists(PawnRelationDefOf.Fiance, second) || first.relations.DirectRelationExists(PawnRelationDefOf.Spouse, second);
 		}
 
-		// Token: 0x060015A2 RID: 5538 RVA: 0x000C09E8 File Offset: 0x000BEDE8
 		public static bool ExLovePartnerRelationExists(Pawn first, Pawn second)
 		{
 			return first.relations.DirectRelationExists(PawnRelationDefOf.ExSpouse, second) || first.relations.DirectRelationExists(PawnRelationDefOf.ExLover, second);
 		}
 
-		// Token: 0x060015A3 RID: 5539 RVA: 0x000C0A28 File Offset: 0x000BEE28
 		public static void GiveRandomExLoverOrExSpouseRelation(Pawn first, Pawn second)
 		{
 			PawnRelationDef def;
@@ -113,7 +104,6 @@ namespace RimWorld
 			first.relations.AddDirectRelation(def, second);
 		}
 
-		// Token: 0x060015A4 RID: 5540 RVA: 0x000C0A64 File Offset: 0x000BEE64
 		public static Pawn GetPartnerInMyBed(Pawn pawn)
 		{
 			Building_Bed building_Bed = pawn.CurrentBed();
@@ -147,7 +137,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015A5 RID: 5541 RVA: 0x000C0B1C File Offset: 0x000BEF1C
 		public static Pawn ExistingMostLikedLovePartner(Pawn p, bool allowDead)
 		{
 			DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(p, allowDead);
@@ -163,7 +152,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015A6 RID: 5542 RVA: 0x000C0B4C File Offset: 0x000BEF4C
 		public static DirectPawnRelation ExistingMostLikedLovePartnerRel(Pawn p, bool allowDead)
 		{
 			DirectPawnRelation result;
@@ -196,7 +184,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015A7 RID: 5543 RVA: 0x000C0C1C File Offset: 0x000BF01C
 		public static float GetLovinMtbHours(Pawn pawn, Pawn partner)
 		{
 			float result;
@@ -246,7 +233,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015A8 RID: 5544 RVA: 0x000C0DA8 File Offset: 0x000BF1A8
 		private static float LovinMtbSinglePawnFactor(Pawn pawn)
 		{
 			float num = 1f;
@@ -259,7 +245,6 @@ namespace RimWorld
 			return num / GenMath.FlatHill(0f, 14f, 16f, 25f, 80f, 0.2f, pawn.ageTracker.AgeBiologicalYearsFloat);
 		}
 
-		// Token: 0x060015A9 RID: 5545 RVA: 0x000C0E39 File Offset: 0x000BF239
 		public static void TryToShareBed(Pawn first, Pawn second)
 		{
 			if (!LovePartnerRelationUtility.TryToShareBed_Int(first, second))
@@ -268,7 +253,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015AA RID: 5546 RVA: 0x000C0E58 File Offset: 0x000BF258
 		private static bool TryToShareBed_Int(Pawn bedOwner, Pawn otherPawn)
 		{
 			Building_Bed ownedBed = bedOwner.ownership.OwnedBed;
@@ -285,7 +269,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015AB RID: 5547 RVA: 0x000C0EA0 File Offset: 0x000BF2A0
 		public static float LovePartnerRelationGenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request, bool ex)
 		{
 			float result;
@@ -348,14 +331,12 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015AC RID: 5548 RVA: 0x000C10CC File Offset: 0x000BF4CC
 		private static float GetGenerationChanceAgeFactor(Pawn p)
 		{
 			float value = GenMath.LerpDouble(14f, 27f, 0f, 1f, p.ageTracker.AgeBiologicalYearsFloat);
 			return Mathf.Clamp(value, 0f, 1f);
 		}
 
-		// Token: 0x060015AD RID: 5549 RVA: 0x000C1118 File Offset: 0x000BF518
 		private static float GetGenerationChanceAgeGapFactor(Pawn p1, Pawn p2, bool ex)
 		{
 			float num = Mathf.Abs(p1.ageTracker.AgeBiologicalYearsFloat - p2.ageTracker.AgeBiologicalYearsFloat);
@@ -386,7 +367,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015AE RID: 5550 RVA: 0x000C11D4 File Offset: 0x000BF5D4
 		private static float MinPossibleAgeGapAtMinAgeToGenerateAsLovers(Pawn p1, Pawn p2)
 		{
 			float num = p1.ageTracker.AgeChronologicalYearsFloat - 14f;
@@ -420,7 +400,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015AF RID: 5551 RVA: 0x000C1298 File Offset: 0x000BF698
 		public static void TryToShareChildrenForGeneratedLovePartner(Pawn generated, Pawn other, PawnGenerationRequest request, float extraChanceFactor)
 		{
 			if (generated.gender != other.gender)
@@ -454,7 +433,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015B0 RID: 5552 RVA: 0x000C1394 File Offset: 0x000BF794
 		public static void ChangeSpouseRelationsToExSpouse(Pawn pawn)
 		{
 			for (;;)
@@ -469,7 +447,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015B1 RID: 5553 RVA: 0x000C13EC File Offset: 0x000BF7EC
 		public static Pawn GetMostDislikedNonPartnerBedOwner(Pawn p)
 		{
 			Building_Bed ownedBed = p.ownership.OwnedBed;
@@ -502,7 +479,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015B2 RID: 5554 RVA: 0x000C14B4 File Offset: 0x000BF8B4
 		public static float IncestOpinionOffsetFor(Pawn other, Pawn pawn)
 		{
 			float num = 0f;
@@ -528,6 +504,72 @@ namespace RimWorld
 				}
 			}
 			return num;
+		}
+
+		[CompilerGenerated]
+		private static bool <LovePartnerRelationGenerationChance>m__0(PawnRelationDef x)
+		{
+			return x.familyByBloodRelation;
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasAnyLovePartnerOfTheSameGender>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <HasAnyLovePartnerOfTheSameGender>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender == this.pawn.gender;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasAnyExLovePartnerOfTheSameGender>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			public <HasAnyExLovePartnerOfTheSameGender>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender == this.pawn.gender;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasAnyLovePartnerOfTheOppositeGender>c__AnonStorey2
+		{
+			internal Pawn pawn;
+
+			public <HasAnyLovePartnerOfTheOppositeGender>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender != this.pawn.gender;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasAnyExLovePartnerOfTheOppositeGender>c__AnonStorey3
+		{
+			internal Pawn pawn;
+
+			public <HasAnyExLovePartnerOfTheOppositeGender>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender != this.pawn.gender;
+			}
 		}
 	}
 }

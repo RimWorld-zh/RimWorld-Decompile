@@ -1,43 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000297 RID: 663
 	public abstract class FeatureWorker
 	{
-		// Token: 0x040005ED RID: 1517
 		public FeatureDef def;
 
-		// Token: 0x040005EE RID: 1518
 		protected static bool[] visited;
 
-		// Token: 0x040005EF RID: 1519
 		protected static int[] groupSize;
 
-		// Token: 0x040005F0 RID: 1520
 		protected static int[] groupID;
 
-		// Token: 0x040005F1 RID: 1521
 		private static List<int> tmpNeighbors = new List<int>();
 
-		// Token: 0x040005F2 RID: 1522
 		private static HashSet<int> tmpTilesForTextDrawPosCalculationSet = new HashSet<int>();
 
-		// Token: 0x040005F3 RID: 1523
 		private static List<int> tmpEdgeTiles = new List<int>();
 
-		// Token: 0x040005F4 RID: 1524
 		private static List<Pair<int, int>> tmpTraversedTiles = new List<Pair<int, int>>();
 
-		// Token: 0x06000B2D RID: 2861
+		[CompilerGenerated]
+		private static Func<WorldFeature, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<int> <>f__am$cache1;
+
+		protected FeatureWorker()
+		{
+		}
+
 		public abstract void GenerateWhereAppropriate();
 
-		// Token: 0x06000B2E RID: 2862 RVA: 0x000658DC File Offset: 0x00063CDC
 		protected void AddFeature(List<int> members, List<int> tilesForTextDrawPosCalculation)
 		{
 			WorldFeature worldFeature = new WorldFeature();
@@ -54,7 +54,6 @@ namespace RimWorld
 			Find.WorldFeatures.features.Add(worldFeature);
 		}
 
-		// Token: 0x06000B2F RID: 2863 RVA: 0x000659A0 File Offset: 0x00063DA0
 		private void AssignBestDrawPos(WorldFeature newFeature, List<int> tilesForTextDrawPosCalculation)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -122,25 +121,21 @@ namespace RimWorld
 			newFeature.maxDrawSizeInTiles = maxDrawSizeInTiles;
 		}
 
-		// Token: 0x06000B30 RID: 2864 RVA: 0x00065BED File Offset: 0x00063FED
 		protected static void ClearVisited()
 		{
 			FeatureWorker.ClearOrCreate<bool>(ref FeatureWorker.visited);
 		}
 
-		// Token: 0x06000B31 RID: 2865 RVA: 0x00065BFA File Offset: 0x00063FFA
 		protected static void ClearGroupSizes()
 		{
 			FeatureWorker.ClearOrCreate<int>(ref FeatureWorker.groupSize);
 		}
 
-		// Token: 0x06000B32 RID: 2866 RVA: 0x00065C07 File Offset: 0x00064007
 		protected static void ClearGroupIDs()
 		{
 			FeatureWorker.ClearOrCreate<int>(ref FeatureWorker.groupID);
 		}
 
-		// Token: 0x06000B33 RID: 2867 RVA: 0x00065C14 File Offset: 0x00064014
 		private static void ClearOrCreate<T>(ref T[] array)
 		{
 			int tilesCount = Find.WorldGrid.TilesCount;
@@ -151,6 +146,40 @@ namespace RimWorld
 			else
 			{
 				Array.Clear(array, 0, array.Length);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FeatureWorker()
+		{
+		}
+
+		[CompilerGenerated]
+		private static string <AddFeature>m__0(WorldFeature x)
+		{
+			return x.name;
+		}
+
+		[CompilerGenerated]
+		private static bool <AssignBestDrawPos>m__1(int x)
+		{
+			return FeatureWorker.tmpTilesForTextDrawPosCalculationSet.Contains(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <AssignBestDrawPos>c__AnonStorey0
+		{
+			internal int bestTileDist;
+
+			public <AssignBestDrawPos>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int tile, int traversalDist)
+			{
+				FeatureWorker.tmpTraversedTiles.Add(new Pair<int, int>(tile, traversalDist));
+				this.bestTileDist = traversalDist;
+				return false;
 			}
 		}
 	}

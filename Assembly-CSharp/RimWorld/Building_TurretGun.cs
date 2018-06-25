@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -9,48 +13,34 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000688 RID: 1672
 	[StaticConstructorOnStartup]
 	public class Building_TurretGun : Building_Turret
 	{
-		// Token: 0x040013D1 RID: 5073
 		protected int burstCooldownTicksLeft = 0;
 
-		// Token: 0x040013D2 RID: 5074
 		protected int burstWarmupTicksLeft = 0;
 
-		// Token: 0x040013D3 RID: 5075
 		protected LocalTargetInfo currentTargetInt = LocalTargetInfo.Invalid;
 
-		// Token: 0x040013D4 RID: 5076
 		private bool holdFire;
 
-		// Token: 0x040013D5 RID: 5077
 		public Thing gun;
 
-		// Token: 0x040013D6 RID: 5078
 		protected TurretTop top;
 
-		// Token: 0x040013D7 RID: 5079
 		protected CompPowerTrader powerComp;
 
-		// Token: 0x040013D8 RID: 5080
 		protected CompMannable mannableComp;
 
-		// Token: 0x040013D9 RID: 5081
 		private const int TryStartShootSomethingIntervalTicks = 10;
 
-		// Token: 0x040013DA RID: 5082
 		public static Material ForcedTargetLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
 
-		// Token: 0x06002346 RID: 9030 RVA: 0x0012F3DA File Offset: 0x0012D7DA
 		public Building_TurretGun()
 		{
 			this.top = new TurretTop(this);
 		}
 
-		// Token: 0x17000535 RID: 1333
-		// (get) Token: 0x06002347 RID: 9031 RVA: 0x0012F408 File Offset: 0x0012D808
 		public CompEquippable GunCompEq
 		{
 			get
@@ -59,8 +49,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000536 RID: 1334
-		// (get) Token: 0x06002348 RID: 9032 RVA: 0x0012F428 File Offset: 0x0012D828
 		public override LocalTargetInfo CurrentTarget
 		{
 			get
@@ -69,8 +57,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000537 RID: 1335
-		// (get) Token: 0x06002349 RID: 9033 RVA: 0x0012F444 File Offset: 0x0012D844
 		private bool WarmingUp
 		{
 			get
@@ -79,8 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000538 RID: 1336
-		// (get) Token: 0x0600234A RID: 9034 RVA: 0x0012F464 File Offset: 0x0012D864
 		public override Verb AttackVerb
 		{
 			get
@@ -89,8 +73,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000539 RID: 1337
-		// (get) Token: 0x0600234B RID: 9035 RVA: 0x0012F48C File Offset: 0x0012D88C
 		private bool PlayerControlled
 		{
 			get
@@ -99,8 +81,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700053A RID: 1338
-		// (get) Token: 0x0600234C RID: 9036 RVA: 0x0012F4C8 File Offset: 0x0012D8C8
 		private bool CanSetForcedTarget
 		{
 			get
@@ -109,8 +89,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700053B RID: 1339
-		// (get) Token: 0x0600234D RID: 9037 RVA: 0x0012F4F4 File Offset: 0x0012D8F4
 		private bool CanToggleHoldFire
 		{
 			get
@@ -119,8 +97,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700053C RID: 1340
-		// (get) Token: 0x0600234E RID: 9038 RVA: 0x0012F510 File Offset: 0x0012D910
 		private bool IsMortar
 		{
 			get
@@ -129,8 +105,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700053D RID: 1341
-		// (get) Token: 0x0600234F RID: 9039 RVA: 0x0012F538 File Offset: 0x0012D938
 		private bool IsMortarOrProjectileFliesOverhead
 		{
 			get
@@ -139,8 +113,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700053E RID: 1342
-		// (get) Token: 0x06002350 RID: 9040 RVA: 0x0012F56C File Offset: 0x0012D96C
 		private bool CanExtractShell
 		{
 			get
@@ -159,8 +131,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700053F RID: 1343
-		// (get) Token: 0x06002351 RID: 9041 RVA: 0x0012F5B0 File Offset: 0x0012D9B0
 		private bool MannedByColonist
 		{
 			get
@@ -169,8 +139,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000540 RID: 1344
-		// (get) Token: 0x06002352 RID: 9042 RVA: 0x0012F5FC File Offset: 0x0012D9FC
 		private bool MannedByNonColonist
 		{
 			get
@@ -179,7 +147,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002353 RID: 9043 RVA: 0x0012F649 File Offset: 0x0012DA49
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -187,21 +154,18 @@ namespace RimWorld
 			this.mannableComp = base.GetComp<CompMannable>();
 		}
 
-		// Token: 0x06002354 RID: 9044 RVA: 0x0012F66C File Offset: 0x0012DA6C
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.MakeGun();
 		}
 
-		// Token: 0x06002355 RID: 9045 RVA: 0x0012F67B File Offset: 0x0012DA7B
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.DeSpawn(mode);
 			this.ResetCurrentTarget();
 		}
 
-		// Token: 0x06002356 RID: 9046 RVA: 0x0012F68C File Offset: 0x0012DA8C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -217,13 +181,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002357 RID: 9047 RVA: 0x0012F718 File Offset: 0x0012DB18
 		public override bool ClaimableBy(Faction by)
 		{
 			return base.ClaimableBy(by) && (this.mannableComp == null || this.mannableComp.ManningPawn == null) && (this.powerComp == null || !this.powerComp.PowerOn);
 		}
 
-		// Token: 0x06002358 RID: 9048 RVA: 0x0012F788 File Offset: 0x0012DB88
 		public override void OrderAttack(LocalTargetInfo targ)
 		{
 			if (!targ.IsValid)
@@ -261,7 +223,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002359 RID: 9049 RVA: 0x0012F8D4 File Offset: 0x0012DCD4
 		public override void Tick()
 		{
 			base.Tick();
@@ -311,7 +272,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600235A RID: 9050 RVA: 0x0012FA38 File Offset: 0x0012DE38
 		protected void TryStartShootSomething(bool canBeginBurstImmediately)
 		{
 			if (!base.Spawned || (this.holdFire && this.CanToggleHoldFire) || (this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && base.Map.roofGrid.Roofed(base.Position)) || !this.GunCompEq.PrimaryVerb.Available())
@@ -355,7 +315,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600235B RID: 9051 RVA: 0x0012FB98 File Offset: 0x0012DF98
 		protected LocalTargetInfo TryFindNewTarget()
 		{
 			IAttackTargetSearcher attackTargetSearcher = this.TargSearcher();
@@ -387,7 +346,6 @@ namespace RimWorld
 			return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, new Predicate<Thing>(this.IsValidTarget), range, minRange, targetScanFlags);
 		}
 
-		// Token: 0x0600235C RID: 9052 RVA: 0x0012FCE8 File Offset: 0x0012E0E8
 		private IAttackTargetSearcher TargSearcher()
 		{
 			IAttackTargetSearcher result;
@@ -402,7 +360,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600235D RID: 9053 RVA: 0x0012FD2C File Offset: 0x0012E12C
 		private bool IsValidTarget(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -428,20 +385,17 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600235E RID: 9054 RVA: 0x0012FDDE File Offset: 0x0012E1DE
 		protected void BeginBurst()
 		{
 			this.GunCompEq.PrimaryVerb.TryStartCastOn(this.CurrentTarget, false, true);
 			base.OnAttackedTarget(this.CurrentTarget);
 		}
 
-		// Token: 0x0600235F RID: 9055 RVA: 0x0012FE06 File Offset: 0x0012E206
 		protected void BurstComplete()
 		{
 			this.burstCooldownTicksLeft = this.BurstCooldownTime().SecondsToTicks();
 		}
 
-		// Token: 0x06002360 RID: 9056 RVA: 0x0012FE1C File Offset: 0x0012E21C
 		protected float BurstCooldownTime()
 		{
 			float result;
@@ -456,7 +410,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002361 RID: 9057 RVA: 0x0012FE78 File Offset: 0x0012E278
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -495,14 +448,12 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06002362 RID: 9058 RVA: 0x00130013 File Offset: 0x0012E413
 		public override void Draw()
 		{
 			this.top.DrawTurret();
 			base.Draw();
 		}
 
-		// Token: 0x06002363 RID: 9059 RVA: 0x00130028 File Offset: 0x0012E428
 		public override void DrawExtraSelectionOverlays()
 		{
 			float range = this.GunCompEq.PrimaryVerb.verbProps.range;
@@ -538,7 +489,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002364 RID: 9060 RVA: 0x00130180 File Offset: 0x0012E580
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -617,7 +567,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002365 RID: 9061 RVA: 0x001301AA File Offset: 0x0012E5AA
 		private void ResetForcedTarget()
 		{
 			this.forcedTarget = LocalTargetInfo.Invalid;
@@ -628,21 +577,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002366 RID: 9062 RVA: 0x001301D2 File Offset: 0x0012E5D2
 		private void ResetCurrentTarget()
 		{
 			this.currentTargetInt = LocalTargetInfo.Invalid;
 			this.burstWarmupTicksLeft = 0;
 		}
 
-		// Token: 0x06002367 RID: 9063 RVA: 0x001301E7 File Offset: 0x0012E5E7
 		public void MakeGun()
 		{
 			this.gun = ThingMaker.MakeThing(this.def.building.turretGunDef, null);
 			this.UpdateGunVerbs();
 		}
 
-		// Token: 0x06002368 RID: 9064 RVA: 0x0013020C File Offset: 0x0012E60C
 		private void UpdateGunVerbs()
 		{
 			List<Verb> allVerbs = this.gun.TryGetComp<CompEquippable>().AllVerbs;
@@ -651,6 +597,316 @@ namespace RimWorld
 				Verb verb = allVerbs[i];
 				verb.caster = this;
 				verb.castCompleteCallback = new Action(this.BurstComplete);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Building_TurretGun()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindNewTarget>c__AnonStorey1
+		{
+			internal float minRange;
+
+			internal float range;
+
+			internal Building_TurretGun $this;
+
+			public <TryFindNewTarget>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Building x)
+			{
+				float num = (float)x.Position.DistanceToSquared(this.$this.Position);
+				return num > this.minRange * this.minRange && num < this.range * this.range;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command_Action <extract>__2;
+
+			internal Command_VerbTarget <attack>__3;
+
+			internal Command_Action <stop>__4;
+
+			internal Command_Toggle <toggleHoldFire>__5;
+
+			internal Building_TurretGun $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private Building_TurretGun.<GetGizmos>c__Iterator0.<GetGizmos>c__AnonStorey2 $locvar1;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_205;
+				case 3u:
+					goto IL_31B;
+				case 4u:
+					goto IL_3EE;
+				case 5u:
+					goto IL_4A9;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (base.CanExtractShell)
+				{
+					CompChangeableProjectile changeableProjectile = this.gun.TryGetComp<CompChangeableProjectile>();
+					Command_Action extract = new Command_Action();
+					extract.defaultLabel = "CommandExtractShell".Translate();
+					extract.defaultDesc = "CommandExtractShellDesc".Translate();
+					extract.icon = changeableProjectile.LoadedShell.uiIcon;
+					extract.iconAngle = changeableProjectile.LoadedShell.uiIconAngle;
+					extract.iconOffset = changeableProjectile.LoadedShell.uiIconOffset;
+					extract.iconDrawScale = GenUI.IconDrawScale(changeableProjectile.LoadedShell);
+					extract.alsoClickIfOtherInGroupClicked = false;
+					extract.action = delegate()
+					{
+						GenPlace.TryPlaceThing(changeableProjectile.RemoveShell(), this.Position, this.Map, ThingPlaceMode.Near, null, null);
+					};
+					this.$current = extract;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_205:
+				if (base.CanSetForcedTarget)
+				{
+					attack = new Command_VerbTarget();
+					attack.defaultLabel = "CommandSetForceAttackTarget".Translate();
+					attack.defaultDesc = "CommandSetForceAttackTargetDesc".Translate();
+					attack.icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", true);
+					attack.verb = base.GunCompEq.PrimaryVerb;
+					attack.hotKey = KeyBindingDefOf.Misc4;
+					if (base.Spawned && base.IsMortarOrProjectileFliesOverhead && base.Position.Roofed(base.Map))
+					{
+						attack.Disable("CannotFire".Translate() + ": " + "Roofed".Translate().CapitalizeFirst());
+					}
+					this.$current = attack;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_31B:
+				if (this.forcedTarget.IsValid)
+				{
+					stop = new Command_Action();
+					stop.defaultLabel = "CommandStopForceAttack".Translate();
+					stop.defaultDesc = "CommandStopForceAttackDesc".Translate();
+					stop.icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt", true);
+					stop.action = delegate()
+					{
+						base.ResetForcedTarget();
+						SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+					};
+					if (!this.forcedTarget.IsValid)
+					{
+						stop.Disable("CommandStopAttackFailNotForceAttacking".Translate());
+					}
+					stop.hotKey = KeyBindingDefOf.Misc5;
+					this.$current = stop;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_3EE:
+				if (base.CanToggleHoldFire)
+				{
+					Command_Toggle toggleHoldFire = new Command_Toggle();
+					toggleHoldFire.defaultLabel = "CommandHoldFire".Translate();
+					toggleHoldFire.defaultDesc = "CommandHoldFireDesc".Translate();
+					toggleHoldFire.icon = ContentFinder<Texture2D>.Get("UI/Commands/HoldFire", true);
+					toggleHoldFire.hotKey = KeyBindingDefOf.Misc6;
+					toggleHoldFire.toggleAction = delegate()
+					{
+						this.holdFire = !this.holdFire;
+						if (this.holdFire)
+						{
+							base.ResetForcedTarget();
+						}
+					};
+					toggleHoldFire.isActive = (() => this.holdFire);
+					this.$current = toggleHoldFire;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_4A9:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_TurretGun.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Building_TurretGun.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.ResetForcedTarget();
+				SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+			}
+
+			internal void <>m__1()
+			{
+				this.holdFire = !this.holdFire;
+				if (this.holdFire)
+				{
+					base.ResetForcedTarget();
+				}
+			}
+
+			internal bool <>m__2()
+			{
+				return this.holdFire;
+			}
+
+			private sealed class <GetGizmos>c__AnonStorey2
+			{
+				internal CompChangeableProjectile changeableProjectile;
+
+				internal Building_TurretGun.<GetGizmos>c__Iterator0 <>f__ref$0;
+
+				public <GetGizmos>c__AnonStorey2()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					GenPlace.TryPlaceThing(this.changeableProjectile.RemoveShell(), this.<>f__ref$0.$this.Position, this.<>f__ref$0.$this.Map, ThingPlaceMode.Near, null, null);
+				}
 			}
 		}
 	}

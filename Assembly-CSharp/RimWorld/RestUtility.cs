@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -8,17 +9,33 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020001B3 RID: 435
 	public static class RestUtility
 	{
-		// Token: 0x040003D0 RID: 976
 		private static List<ThingDef> bedDefsBestToWorst_RestEffectiveness;
 
-		// Token: 0x040003D1 RID: 977
 		private static List<ThingDef> bedDefsBestToWorst_Medical;
 
-		// Token: 0x17000172 RID: 370
-		// (get) Token: 0x060008FC RID: 2300 RVA: 0x000544A4 File Offset: 0x000528A4
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache6;
+
 		public static List<ThingDef> AllBedDefBestToWorst
 		{
 			get
@@ -27,7 +44,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008FD RID: 2301 RVA: 0x000544C0 File Offset: 0x000528C0
 		public static void Reset()
 		{
 			RestUtility.bedDefsBestToWorst_RestEffectiveness = (from d in DefDatabase<ThingDef>.AllDefs
@@ -40,7 +56,6 @@ namespace RimWorld
 			select d).ToList<ThingDef>();
 		}
 
-		// Token: 0x060008FE RID: 2302 RVA: 0x000545DC File Offset: 0x000529DC
 		public static bool IsValidBedFor(Thing bedThing, Pawn sleeper, Pawn traveler, bool sleeperWillBePrisoner, bool checkSocialProperness, bool allowMedBedEvenIfSetToNoCare = false, bool ignoreOtherReservations = false)
 		{
 			Building_Bed building_Bed = bedThing as Building_Bed;
@@ -145,7 +160,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060008FF RID: 2303 RVA: 0x0005482C File Offset: 0x00052C2C
 		private static bool IsAnyOwnerLovePartnerOf(Building_Bed bed, Pawn sleeper)
 		{
 			for (int i = 0; i < bed.owners.Count; i++)
@@ -158,13 +172,11 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000900 RID: 2304 RVA: 0x00054880 File Offset: 0x00052C80
 		public static Building_Bed FindBedFor(Pawn p)
 		{
 			return RestUtility.FindBedFor(p, p, p.IsPrisoner, true, false);
 		}
 
-		// Token: 0x06000901 RID: 2305 RVA: 0x000548A4 File Offset: 0x00052CA4
 		public static Building_Bed FindBedFor(Pawn sleeper, Pawn traveler, bool sleeperWillBePrisoner, bool checkSocialProperness, bool ignoreOtherReservations = false)
 		{
 			if (HealthAIUtility.ShouldSeekMedicalRest(sleeper))
@@ -283,7 +295,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000902 RID: 2306 RVA: 0x00054C3C File Offset: 0x0005303C
 		public static Building_Bed FindPatientBedFor(Pawn pawn)
 		{
 			Predicate<Thing> medBedValidator = delegate(Thing t)
@@ -312,7 +323,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000903 RID: 2307 RVA: 0x00054D4C File Offset: 0x0005314C
 		public static IntVec3 GetBedSleepingSlotPosFor(Pawn pawn, Building_Bed bed)
 		{
 			for (int i = 0; i < bed.owners.Count; i++)
@@ -342,37 +352,31 @@ namespace RimWorld
 			return bed.GetSleepingSlotPos(0);
 		}
 
-		// Token: 0x06000904 RID: 2308 RVA: 0x00054E74 File Offset: 0x00053274
 		public static bool CanUseBedEver(Pawn p, ThingDef bedDef)
 		{
 			return p.BodySize <= bedDef.building.bed_maxBodySize && p.RaceProps.Humanlike == bedDef.building.bed_humanlike;
 		}
 
-		// Token: 0x06000905 RID: 2309 RVA: 0x00054ECC File Offset: 0x000532CC
 		public static bool TimetablePreventsLayDown(Pawn pawn)
 		{
 			return pawn.timetable != null && !pawn.timetable.CurrentAssignment.allowRest && pawn.needs.rest.CurLevel >= 0.2f;
 		}
 
-		// Token: 0x06000906 RID: 2310 RVA: 0x00054F24 File Offset: 0x00053324
 		public static bool DisturbancePreventsLyingDown(Pawn pawn)
 		{
 			return !pawn.Downed && Find.TickManager.TicksGame - pawn.mindState.lastDisturbanceTick < 400;
 		}
 
-		// Token: 0x06000907 RID: 2311 RVA: 0x00054F68 File Offset: 0x00053368
 		public static float PawnHealthRestEffectivenessFactor(Pawn pawn)
 		{
 			return pawn.health.capacities.GetLevel(PawnCapacityDefOf.BloodPumping) * pawn.health.capacities.GetLevel(PawnCapacityDefOf.Metabolism) * pawn.health.capacities.GetLevel(PawnCapacityDefOf.Breathing);
 		}
 
-		// Token: 0x06000908 RID: 2312 RVA: 0x00054FC0 File Offset: 0x000533C0
 		public static bool Awake(this Pawn p)
 		{
 			return p.health.capacities.CanBeAwake && (!p.Spawned || p.CurJob == null || p.jobs.curDriver == null || !p.jobs.curDriver.asleep);
 		}
 
-		// Token: 0x06000909 RID: 2313 RVA: 0x00055034 File Offset: 0x00053434
 		public static Building_Bed CurrentBed(this Pawn p)
 		{
 			Building_Bed result;
@@ -411,13 +415,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600090A RID: 2314 RVA: 0x000550F8 File Offset: 0x000534F8
 		public static bool InBed(this Pawn p)
 		{
 			return p.CurrentBed() != null;
 		}
 
-		// Token: 0x0600090B RID: 2315 RVA: 0x00055119 File Offset: 0x00053519
 		public static void WakeUp(Pawn p)
 		{
 			if (p.CurJob != null && p.GetPosture().Laying() && !p.Downed)
@@ -426,7 +428,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600090C RID: 2316 RVA: 0x00055150 File Offset: 0x00053550
 		public static float WakeThreshold(Pawn p)
 		{
 			Lord lord = p.GetLord();
@@ -442,10 +443,166 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600090D RID: 2317 RVA: 0x000551B4 File Offset: 0x000535B4
 		public static float FallAsleepMaxLevel(Pawn p)
 		{
 			return Mathf.Min(0.75f, RestUtility.WakeThreshold(p) - 0.01f);
+		}
+
+		[CompilerGenerated]
+		private static bool <Reset>m__0(ThingDef d)
+		{
+			return d.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__1(ThingDef d)
+		{
+			return d.building.bed_maxBodySize;
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__2(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.BedRestEffectiveness, null);
+		}
+
+		[CompilerGenerated]
+		private static bool <Reset>m__3(ThingDef d)
+		{
+			return d.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__4(ThingDef d)
+		{
+			return d.building.bed_maxBodySize;
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__5(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.MedicalTendQualityOffset, null);
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__6(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.BedRestEffectiveness, null);
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindBedFor>c__AnonStorey0
+		{
+			internal Pawn sleeper;
+
+			internal Pawn traveler;
+
+			internal bool sleeperWillBePrisoner;
+
+			internal bool checkSocialProperness;
+
+			internal bool ignoreOtherReservations;
+
+			public <FindBedFor>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindBedFor>c__AnonStorey1
+		{
+			internal Danger maxDanger;
+
+			internal RestUtility.<FindBedFor>c__AnonStorey0 <>f__ref$0;
+
+			public <FindBedFor>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing b)
+			{
+				bool result;
+				if (((Building_Bed)b).Medical && b.Position.GetDangerFor(this.<>f__ref$0.sleeper, this.<>f__ref$0.sleeper.Map) <= this.maxDanger)
+				{
+					Pawn sleeper = this.<>f__ref$0.sleeper;
+					Pawn traveler = this.<>f__ref$0.traveler;
+					bool sleeperWillBePrisoner = this.<>f__ref$0.sleeperWillBePrisoner;
+					bool checkSocialProperness = this.<>f__ref$0.checkSocialProperness;
+					bool ignoreOtherReservations = this.<>f__ref$0.ignoreOtherReservations;
+					result = RestUtility.IsValidBedFor(b, sleeper, traveler, sleeperWillBePrisoner, checkSocialProperness, false, ignoreOtherReservations);
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindBedFor>c__AnonStorey2
+		{
+			internal Danger maxDanger;
+
+			internal RestUtility.<FindBedFor>c__AnonStorey0 <>f__ref$0;
+
+			public <FindBedFor>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Thing b)
+			{
+				bool result;
+				if (!((Building_Bed)b).Medical && b.Position.GetDangerFor(this.<>f__ref$0.sleeper, this.<>f__ref$0.sleeper.Map) <= this.maxDanger)
+				{
+					Pawn sleeper = this.<>f__ref$0.sleeper;
+					Pawn traveler = this.<>f__ref$0.traveler;
+					bool sleeperWillBePrisoner = this.<>f__ref$0.sleeperWillBePrisoner;
+					bool checkSocialProperness = this.<>f__ref$0.checkSocialProperness;
+					bool ignoreOtherReservations = this.<>f__ref$0.ignoreOtherReservations;
+					result = RestUtility.IsValidBedFor(b, sleeper, traveler, sleeperWillBePrisoner, checkSocialProperness, false, ignoreOtherReservations);
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindPatientBedFor>c__AnonStorey3
+		{
+			internal Pawn pawn;
+
+			internal Predicate<Thing> medBedValidator;
+
+			public <FindPatientBedFor>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				Building_Bed building_Bed = t as Building_Bed;
+				return building_Bed != null && (building_Bed.Medical || !building_Bed.def.building.bed_humanlike) && RestUtility.IsValidBedFor(building_Bed, this.pawn, this.pawn, this.pawn.IsPrisoner, false, true, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindPatientBedFor>c__AnonStorey4
+		{
+			internal Danger maxDanger;
+
+			internal RestUtility.<FindPatientBedFor>c__AnonStorey3 <>f__ref$3;
+
+			public <FindPatientBedFor>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(Thing b)
+			{
+				return b.Position.GetDangerFor(this.<>f__ref$3.pawn, this.<>f__ref$3.pawn.Map) <= this.maxDanger && this.<>f__ref$3.medBedValidator(b);
+			}
 		}
 	}
 }

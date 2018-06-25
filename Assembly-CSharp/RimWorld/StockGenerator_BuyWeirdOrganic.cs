@@ -1,22 +1,97 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200076C RID: 1900
 	public class StockGenerator_BuyWeirdOrganic : StockGenerator
 	{
-		// Token: 0x06002A03 RID: 10755 RVA: 0x00163F78 File Offset: 0x00162378
+		public StockGenerator_BuyWeirdOrganic()
+		{
+		}
+
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			yield break;
 		}
 
-		// Token: 0x06002A04 RID: 10756 RVA: 0x00163F9C File Offset: 0x0016239C
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef == ThingDefOf.InsectJelly;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateThings>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GenerateThings>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new StockGenerator_BuyWeirdOrganic.<GenerateThings>c__Iterator0();
+			}
 		}
 	}
 }

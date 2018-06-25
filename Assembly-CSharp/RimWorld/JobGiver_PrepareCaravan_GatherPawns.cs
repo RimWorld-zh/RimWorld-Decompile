@@ -5,10 +5,12 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000C5 RID: 197
 	public class JobGiver_PrepareCaravan_GatherPawns : ThinkNode_JobGiver
 	{
-		// Token: 0x06000491 RID: 1169 RVA: 0x00034094 File Offset: 0x00032494
+		public JobGiver_PrepareCaravan_GatherPawns()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn pawn2 = this.FindPawn(pawn);
@@ -27,7 +29,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000492 RID: 1170 RVA: 0x000340DC File Offset: 0x000324DC
 		private Pawn FindPawn(Pawn pawn)
 		{
 			Pawn result;

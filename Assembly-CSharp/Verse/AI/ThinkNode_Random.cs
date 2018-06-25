@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ABD RID: 2749
 	public class ThinkNode_Random : ThinkNode
 	{
-		// Token: 0x040026A4 RID: 9892
 		private static List<ThinkNode> tempList = new List<ThinkNode>();
 
-		// Token: 0x06003D36 RID: 15670 RVA: 0x002055D0 File Offset: 0x002039D0
+		public ThinkNode_Random()
+		{
+		}
+
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkNode_Random.tempList.Clear();
@@ -27,6 +28,11 @@ namespace Verse.AI
 				}
 			}
 			return ThinkResult.NoJob;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThinkNode_Random()
+		{
 		}
 	}
 }

@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003C6 RID: 966
 	public class SymbolResolver_FactionBase : SymbolResolver
 	{
-		// Token: 0x04000A33 RID: 2611
 		private static readonly FloatRange NeolithicPawnsPoints = new FloatRange(880f, 1250f);
 
-		// Token: 0x04000A34 RID: 2612
 		private static readonly FloatRange MedievalPawnsPoints = new FloatRange(1150f, 1600f);
 
-		// Token: 0x060010AB RID: 4267 RVA: 0x0008DB28 File Offset: 0x0008BF28
+		public SymbolResolver_FactionBase()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_FactionBase.<Resolve>c__AnonStorey0 <Resolve>c__AnonStorey = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey0();
@@ -80,6 +81,38 @@ namespace RimWorld.BaseGen
 			resolveParams5.rect = rp.rect.ContractedBy(num);
 			resolveParams5.faction = faction;
 			BaseGen.symbolStack.Push("basePart_outdoors", resolveParams5);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_FactionBase()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <Resolve>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey1
+		{
+			internal TraverseParms traverseParms;
+
+			internal SymbolResolver_FactionBase.<Resolve>c__AnonStorey0 <>f__ref$0;
+
+			public <Resolve>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.<>f__ref$0.map.reachability.CanReachMapEdge(x, this.traverseParms);
+			}
 		}
 	}
 }

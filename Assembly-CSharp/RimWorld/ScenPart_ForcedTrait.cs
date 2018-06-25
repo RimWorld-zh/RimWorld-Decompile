@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000633 RID: 1587
 	public class ScenPart_ForcedTrait : ScenPart_PawnModifier
 	{
-		// Token: 0x040012C5 RID: 4805
 		private TraitDef trait;
 
-		// Token: 0x040012C6 RID: 4806
 		private int degree = 0;
 
-		// Token: 0x060020BC RID: 8380 RVA: 0x00118670 File Offset: 0x00116A70
+		[CompilerGenerated]
+		private static Func<TraitDef, string> <>f__am$cache0;
+
+		public ScenPart_ForcedTrait()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -23,7 +27,6 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.degree, "degree", 0, false);
 		}
 
-		// Token: 0x060020BD RID: 8381 RVA: 0x0011869C File Offset: 0x00116A9C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
@@ -50,7 +53,6 @@ namespace RimWorld
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPart(0.666f));
 		}
 
-		// Token: 0x060020BE RID: 8382 RVA: 0x00118820 File Offset: 0x00116C20
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_PawnsHaveTrait".Translate(new object[]
@@ -61,7 +63,6 @@ namespace RimWorld
 			}).CapitalizeFirst();
 		}
 
-		// Token: 0x060020BF RID: 8383 RVA: 0x00118884 File Offset: 0x00116C84
 		public override void Randomize()
 		{
 			base.Randomize();
@@ -69,14 +70,12 @@ namespace RimWorld
 			this.degree = this.trait.degreeDatas.RandomElement<TraitDegreeData>().degree;
 		}
 
-		// Token: 0x060020C0 RID: 8384 RVA: 0x001188B4 File Offset: 0x00116CB4
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_ForcedTrait scenPart_ForcedTrait = other as ScenPart_ForcedTrait;
 			return scenPart_ForcedTrait == null || this.trait != scenPart_ForcedTrait.trait || !this.context.OverlapsWith(scenPart_ForcedTrait.context);
 		}
 
-		// Token: 0x060020C1 RID: 8385 RVA: 0x00118908 File Offset: 0x00116D08
 		protected override void ModifyPawnPostGenerate(Pawn pawn, bool redressed)
 		{
 			if (pawn.story != null && pawn.story.traits != null)
@@ -112,10 +111,82 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020C2 RID: 8386 RVA: 0x00118AAC File Offset: 0x00116EAC
 		private static bool PawnHasTraitForcedByBackstory(Pawn pawn, TraitDef trait)
 		{
 			return (pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((TraitEntry te) => te.def == trait)) || (pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((TraitEntry te) => te.def == trait));
+		}
+
+		[CompilerGenerated]
+		private static string <DoEditInterface>m__0(TraitDef td)
+		{
+			return td.label;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoEditInterface>c__AnonStorey0
+		{
+			internal TraitDef localDef;
+
+			internal TraitDegreeData localDeg;
+
+			internal ScenPart_ForcedTrait $this;
+
+			public <DoEditInterface>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.trait = this.localDef;
+				this.$this.degree = this.localDeg.degree;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ModifyPawnPostGenerate>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			internal ScenPart_ForcedTrait $this;
+
+			public <ModifyPawnPostGenerate>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Trait tr)
+			{
+				return tr.def == this.$this.trait;
+			}
+
+			internal bool <>m__1(Trait tr)
+			{
+				return !tr.ScenForced && !ScenPart_ForcedTrait.PawnHasTraitForcedByBackstory(this.pawn, tr.def);
+			}
+
+			internal bool <>m__2(Trait tr)
+			{
+				return tr.def.conflictingTraits.Contains(this.$this.trait);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnHasTraitForcedByBackstory>c__AnonStorey2
+		{
+			internal TraitDef trait;
+
+			public <PawnHasTraitForcedByBackstory>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(TraitEntry te)
+			{
+				return te.def == this.trait;
+			}
+
+			internal bool <>m__1(TraitEntry te)
+			{
+				return te.def == this.trait;
+			}
 		}
 	}
 }

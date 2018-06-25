@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000AF6 RID: 2806
 	public static class PlayDataLoader
 	{
-		// Token: 0x0400274B RID: 10059
 		private static bool loadedInt = false;
 
-		// Token: 0x17000957 RID: 2391
-		// (get) Token: 0x06003E23 RID: 15907 RVA: 0x0020C60C File Offset: 0x0020AA0C
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache2;
+
 		public static bool Loaded
 		{
 			get
@@ -23,7 +29,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E24 RID: 15908 RVA: 0x0020C628 File Offset: 0x0020AA28
 		public static void LoadAllPlayData(bool recovering = false)
 		{
 			if (PlayDataLoader.loadedInt)
@@ -80,7 +85,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E25 RID: 15909 RVA: 0x0020C75C File Offset: 0x0020AB5C
 		private static void DoPlayLoad()
 		{
 			GraphicDatabase.Clear();
@@ -317,7 +321,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E26 RID: 15910 RVA: 0x0020CC9C File Offset: 0x0020B09C
 		public static void ClearAllPlayData()
 		{
 			LanguageDatabase.Clear();
@@ -331,6 +334,50 @@ namespace Verse
 			SolidBioDatabase.Clear();
 			Current.Game = null;
 			PlayDataLoader.loadedInt = false;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PlayDataLoader()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <DoPlayLoad>m__0()
+		{
+			DeepProfiler.Start("Load backstories.");
+			try
+			{
+				BackstoryDatabase.ReloadAllBackstories();
+			}
+			finally
+			{
+				DeepProfiler.End();
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoPlayLoad>m__1()
+		{
+			DeepProfiler.Start("Inject selected language data into game data.");
+			try
+			{
+				LanguageDatabase.activeLanguage.InjectIntoData_AfterImpliedDefs();
+				GenLabel.ClearCache();
+			}
+			finally
+			{
+				DeepProfiler.End();
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoPlayLoad>m__2()
+		{
+			StaticConstructorOnStartupUtility.CallAll();
+			if (Prefs.DevMode)
+			{
+				StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
+			}
 		}
 	}
 }

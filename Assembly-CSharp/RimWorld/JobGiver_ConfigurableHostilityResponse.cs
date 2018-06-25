@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000A8 RID: 168
 	public class JobGiver_ConfigurableHostilityResponse : ThinkNode_JobGiver
 	{
-		// Token: 0x04000272 RID: 626
 		private static List<Thing> tmpThreats = new List<Thing>();
 
-		// Token: 0x06000418 RID: 1048 RVA: 0x00030F08 File Offset: 0x0002F308
+		[CompilerGenerated]
+		private static RegionEntryPredicate <>f__am$cache0;
+
+		public JobGiver_ConfigurableHostilityResponse()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -45,7 +50,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000419 RID: 1049 RVA: 0x00030F98 File Offset: 0x0002F398
 		private Job TryGetAttackNearbyEnemyJob(Pawn pawn)
 		{
 			Job result;
@@ -85,7 +89,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600041A RID: 1050 RVA: 0x000310D4 File Offset: 0x0002F4D4
 		private Job TryGetFleeJob(Pawn pawn)
 		{
 			Job result;
@@ -160,6 +163,48 @@ namespace RimWorld
 				result = new Job(JobDefOf.FleeAndCower, c);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_ConfigurableHostilityResponse()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <TryGetFleeJob>m__0(Region from, Region reg)
+		{
+			return reg.portal == null || reg.portal.Open;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGetFleeJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGetFleeJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region reg)
+			{
+				List<Thing> list = reg.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+				for (int i = 0; i < list.Count; i++)
+				{
+					Thing thing = list[i];
+					if (SelfDefenseUtility.ShouldFleeFrom(thing, this.pawn, false, false))
+					{
+						JobGiver_ConfigurableHostilityResponse.tmpThreats.Add(thing);
+						Log.Warning(string.Format("  Found a viable threat {0}; tests are {1}, {2}, {3}", new object[]
+						{
+							thing.LabelShort,
+							thing.Map.attackTargetsCache.Debug_CheckIfInAllTargets(thing as IAttackTarget),
+							thing.Map.attackTargetsCache.Debug_CheckIfHostileToFaction(this.pawn.Faction, thing as IAttackTarget),
+							thing is IAttackTarget
+						}), false);
+					}
+				}
+				return false;
+			}
 		}
 	}
 }

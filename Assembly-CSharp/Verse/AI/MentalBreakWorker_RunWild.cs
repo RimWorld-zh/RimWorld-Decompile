@@ -3,10 +3,12 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A5D RID: 2653
 	public class MentalBreakWorker_RunWild : MentalBreakWorker
 	{
-		// Token: 0x06003B03 RID: 15107 RVA: 0x001F5474 File Offset: 0x001F3874
+		public MentalBreakWorker_RunWild()
+		{
+		}
+
 		public override bool BreakCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -26,7 +28,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B04 RID: 15108 RVA: 0x001F553C File Offset: 0x001F393C
 		public override bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
 			base.TrySendLetter(pawn, "LetterRunWildMentalBreak", reason);

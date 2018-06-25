@@ -1,43 +1,77 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D65 RID: 3429
 	[HasDebugOutput]
 	public static class MemoryTracker
 	{
-		// Token: 0x04003348 RID: 13128
 		private static Dictionary<Type, HashSet<WeakReference>> tracked = new Dictionary<Type, HashSet<WeakReference>>();
 
-		// Token: 0x04003349 RID: 13129
 		private static List<WeakReference> foundCollections = new List<WeakReference>();
 
-		// Token: 0x0400334A RID: 13130
 		private static bool trackedLocked = false;
 
-		// Token: 0x0400334B RID: 13131
 		private static List<object> trackedQueue = new List<object>();
 
-		// Token: 0x0400334C RID: 13132
 		private static List<RuntimeTypeHandle> trackedTypeQueue = new List<RuntimeTypeHandle>();
 
-		// Token: 0x0400334D RID: 13133
 		private const int updatesPerCull = 10;
 
-		// Token: 0x0400334E RID: 13134
 		private static int updatesSinceLastCull = 0;
 
-		// Token: 0x0400334F RID: 13135
 		private static int cullTargetIndex = 0;
 
-		// Token: 0x17000C80 RID: 3200
-		// (get) Token: 0x06004CDA RID: 19674 RVA: 0x00280D60 File Offset: 0x0027F160
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Type, HashSet<WeakReference>>, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Type, HashSet<WeakReference>>, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Type, HashSet<WeakReference>>, Type> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Type, HashSet<WeakReference>>, IEnumerable<WeakReference>> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<WeakReference, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<WeakReference, object> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<object, MemoryTracker.ReferenceData>, bool> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<object, MemoryTracker.ReferenceData>, object> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<object, MemoryTracker.ReferenceData>, bool> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<object, MemoryTracker.ReferenceData>, object> <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<object, MemoryTracker.ReferenceData>, bool> <>f__am$cacheA;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<object, MemoryTracker.ReferenceData>, object> <>f__am$cacheB;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<string, int>, int> <>f__am$cacheC;
+
+		[CompilerGenerated]
+		private static Predicate<WeakReference> <>f__am$cacheD;
+
 		public static bool AnythingTracked
 		{
 			get
@@ -46,8 +80,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x17000C81 RID: 3201
-		// (get) Token: 0x06004CDB RID: 19675 RVA: 0x00280D84 File Offset: 0x0027F184
 		public static IEnumerable<WeakReference> FoundCollections
 		{
 			get
@@ -60,7 +92,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CDC RID: 19676 RVA: 0x00280DB4 File Offset: 0x0027F1B4
 		public static void RegisterObject(object obj)
 		{
 			if (MemoryTracker.trackedLocked)
@@ -80,7 +111,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CDD RID: 19677 RVA: 0x00280E1C File Offset: 0x0027F21C
 		public static void RegisterType(RuntimeTypeHandle typeHandle)
 		{
 			if (MemoryTracker.trackedLocked)
@@ -97,7 +127,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CDE RID: 19678 RVA: 0x00280E6E File Offset: 0x0027F26E
 		private static void LockTracking()
 		{
 			if (MemoryTracker.trackedLocked)
@@ -107,7 +136,6 @@ namespace Verse.Profile
 			MemoryTracker.trackedLocked = true;
 		}
 
-		// Token: 0x06004CDF RID: 19679 RVA: 0x00280E88 File Offset: 0x0027F288
 		private static void UnlockTracking()
 		{
 			if (!MemoryTracker.trackedLocked)
@@ -127,9 +155,8 @@ namespace Verse.Profile
 			MemoryTracker.trackedTypeQueue.Clear();
 		}
 
-		// Token: 0x06004CE0 RID: 19680 RVA: 0x00280F60 File Offset: 0x0027F360
-		[DebugOutput]
 		[Category("System")]
+		[DebugOutput]
 		private static void ObjectsLoaded()
 		{
 			if (MemoryTracker.tracked.Count == 0)
@@ -162,9 +189,8 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CE1 RID: 19681 RVA: 0x002810B0 File Offset: 0x0027F4B0
-		[DebugOutput]
 		[Category("System")]
+		[DebugOutput]
 		private static void ObjectHoldPaths()
 		{
 			if (MemoryTracker.tracked.Count == 0)
@@ -212,7 +238,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CE2 RID: 19682 RVA: 0x002812CC File Offset: 0x0027F6CC
 		public static void LogObjectHoldPathsFor(IEnumerable<WeakReference> elements, Func<WeakReference, int> weight)
 		{
 			GC.Collect();
@@ -248,7 +273,7 @@ namespace Verse.Profile
 				{
 					if (num % 10000 == 0)
 					{
-						Debug.LogFormat("{0} / {1} (to process: {2})", new object[]
+						UnityEngine.Debug.LogFormat("{0} / {1} (to process: {2})", new object[]
 						{
 							num,
 							num + queue.Count,
@@ -309,7 +334,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CE3 RID: 19683 RVA: 0x002817FC File Offset: 0x0027FBFC
 		private static void AccumulateReferences(object obj, Dictionary<object, MemoryTracker.ReferenceData> references, HashSet<object> seen, Queue<object> toProcess)
 		{
 			MemoryTracker.ReferenceData referenceData = null;
@@ -350,7 +374,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CE4 RID: 19684 RVA: 0x00281974 File Offset: 0x0027FD74
 		private static void AccumulateStaticMembers(Type type, Dictionary<object, MemoryTracker.ReferenceData> references, HashSet<object> seen, Queue<object> toProcess)
 		{
 			foreach (MemoryTracker.ChildReference childReference in MemoryTracker.GetAllReferencedClassesFromClassOrStruct(null, MemoryTracker.GetFields(type, BindingFlags.Static), null, type.ToString() + "."))
@@ -375,7 +398,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CE5 RID: 19685 RVA: 0x00281A70 File Offset: 0x0027FE70
 		private static IEnumerable<MemoryTracker.ChildReference> GetAllReferencedClassesFromClassOrStruct(object current, IEnumerable<FieldInfo> fields, object parent, string currentPath)
 		{
 			foreach (FieldInfo field in fields)
@@ -423,7 +445,6 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CE6 RID: 19686 RVA: 0x00281AB0 File Offset: 0x0027FEB0
 		private static IEnumerable<MemoryTracker.ChildReference> DistillChildReferencesFromObject(object current, object parent, string currentPath)
 		{
 			Type type = current.GetType();
@@ -453,7 +474,6 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CE7 RID: 19687 RVA: 0x00281AE8 File Offset: 0x0027FEE8
 		private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type type, BindingFlags bindingFlags)
 		{
 			while (type != null)
@@ -467,7 +487,6 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CE8 RID: 19688 RVA: 0x00281B20 File Offset: 0x0027FF20
 		private static IEnumerable<FieldInfo> GetFields(Type type, BindingFlags bindingFlags)
 		{
 			foreach (FieldInfo field in type.GetFields(bindingFlags | BindingFlags.Public | BindingFlags.NonPublic))
@@ -477,7 +496,6 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CE9 RID: 19689 RVA: 0x00281B54 File Offset: 0x0027FF54
 		private static void CalculateReferencePaths(Dictionary<object, MemoryTracker.ReferenceData> references, IEnumerable<object> objects, int pathCost)
 		{
 			Queue<object> queue = new Queue<object>(objects);
@@ -493,7 +511,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CEA RID: 19690 RVA: 0x00281BCC File Offset: 0x0027FFCC
 		private static void CalculateObjectReferencePath(object obj, Dictionary<object, MemoryTracker.ReferenceData> references, Queue<object> queue)
 		{
 			MemoryTracker.ReferenceData referenceData = references[obj];
@@ -519,7 +536,6 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CEB RID: 19691 RVA: 0x00281CD8 File Offset: 0x002800D8
 		public static void Update()
 		{
 			if (MemoryTracker.tracked.Count != 0)
@@ -540,54 +556,869 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CEC RID: 19692 RVA: 0x00281D56 File Offset: 0x00280156
 		private static void CullNulls(HashSet<WeakReference> table)
 		{
 			table.RemoveWhere((WeakReference element) => !element.IsAlive);
 		}
 
-		// Token: 0x02000D66 RID: 3430
+		// Note: this type is marked as 'beforefieldinit'.
+		static MemoryTracker()
+		{
+		}
+
+		[CompilerGenerated]
+		private static int <ObjectsLoaded>m__0(KeyValuePair<Type, HashSet<WeakReference>> kvp)
+		{
+			return -kvp.Value.Count;
+		}
+
+		[CompilerGenerated]
+		private static int <ObjectHoldPaths>m__1(KeyValuePair<Type, HashSet<WeakReference>> kvp)
+		{
+			return -kvp.Value.Count;
+		}
+
+		[CompilerGenerated]
+		private static Type <ObjectHoldPaths>m__2(KeyValuePair<Type, HashSet<WeakReference>> kvp)
+		{
+			return kvp.Key;
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<WeakReference> <LogObjectHoldPathsFor>m__3(KeyValuePair<Type, HashSet<WeakReference>> kvp)
+		{
+			return kvp.Value;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogObjectHoldPathsFor>m__4(WeakReference weakref)
+		{
+			return weakref.IsAlive;
+		}
+
+		[CompilerGenerated]
+		private static object <LogObjectHoldPathsFor>m__5(WeakReference weakref)
+		{
+			return weakref.Target;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogObjectHoldPathsFor>m__6(KeyValuePair<object, MemoryTracker.ReferenceData> kvp)
+		{
+			return !kvp.Value.path.NullOrEmpty();
+		}
+
+		[CompilerGenerated]
+		private static object <LogObjectHoldPathsFor>m__7(KeyValuePair<object, MemoryTracker.ReferenceData> kvp)
+		{
+			return kvp.Key;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogObjectHoldPathsFor>m__8(KeyValuePair<object, MemoryTracker.ReferenceData> kvp)
+		{
+			return kvp.Value.path.NullOrEmpty() && kvp.Value.referredBy.Count == 0;
+		}
+
+		[CompilerGenerated]
+		private static object <LogObjectHoldPathsFor>m__9(KeyValuePair<object, MemoryTracker.ReferenceData> kvp)
+		{
+			return kvp.Key;
+		}
+
+		[CompilerGenerated]
+		private static bool <LogObjectHoldPathsFor>m__A(KeyValuePair<object, MemoryTracker.ReferenceData> kvp)
+		{
+			return kvp.Value.path.NullOrEmpty();
+		}
+
+		[CompilerGenerated]
+		private static object <LogObjectHoldPathsFor>m__B(KeyValuePair<object, MemoryTracker.ReferenceData> kvp)
+		{
+			return kvp.Key;
+		}
+
+		[CompilerGenerated]
+		private static int <LogObjectHoldPathsFor>m__C(KeyValuePair<string, int> kvp)
+		{
+			return -kvp.Value;
+		}
+
+		[CompilerGenerated]
+		private static bool <CullNulls>m__D(WeakReference element)
+		{
+			return !element.IsAlive;
+		}
+
 		private class ReferenceData
 		{
-			// Token: 0x0400335E RID: 13150
 			public List<MemoryTracker.ReferenceData.Link> refers = new List<MemoryTracker.ReferenceData.Link>();
 
-			// Token: 0x0400335F RID: 13151
 			public List<MemoryTracker.ReferenceData.Link> referredBy = new List<MemoryTracker.ReferenceData.Link>();
 
-			// Token: 0x04003360 RID: 13152
 			public string path;
 
-			// Token: 0x04003361 RID: 13153
 			public int pathCost;
 
-			// Token: 0x02000D67 RID: 3431
+			public ReferenceData()
+			{
+			}
+
 			public struct Link
 			{
-				// Token: 0x04003362 RID: 13154
 				public object target;
 
-				// Token: 0x04003363 RID: 13155
 				public MemoryTracker.ReferenceData targetRef;
 
-				// Token: 0x04003364 RID: 13156
 				public string path;
 			}
 		}
 
-		// Token: 0x02000D68 RID: 3432
 		private struct ChildReference
 		{
-			// Token: 0x04003365 RID: 13157
 			public object child;
 
-			// Token: 0x04003366 RID: 13158
 			public string path;
 		}
 
-		// Token: 0x02000D69 RID: 3433
 		public class MarkupComplete : Attribute
 		{
+			public MarkupComplete()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ObjectHoldPaths>c__AnonStorey4
+		{
+			internal HashSet<WeakReference> trackedBatch;
+
+			private static Func<WeakReference, int> <>f__am$cache0;
+
+			public <ObjectHoldPaths>c__AnonStorey4()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				MemoryTracker.LogObjectHoldPathsFor(this.trackedBatch, (WeakReference _) => 1);
+			}
+
+			private static int <>m__1(WeakReference _)
+			{
+				return 1;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetAllReferencedClassesFromClassOrStruct>c__Iterator0 : IEnumerable, IEnumerable<MemoryTracker.ChildReference>, IEnumerator, IDisposable, IEnumerator<MemoryTracker.ChildReference>
+		{
+			internal IEnumerable<FieldInfo> fields;
+
+			internal IEnumerator<FieldInfo> $locvar0;
+
+			internal FieldInfo <field>__1;
+
+			internal object <referenced>__2;
+
+			internal object current;
+
+			internal object parent;
+
+			internal string currentPath;
+
+			internal IEnumerator<MemoryTracker.ChildReference> $locvar1;
+
+			internal MemoryTracker.ChildReference <child>__3;
+
+			internal IEnumerator $locvar2;
+
+			internal object <entry>__4;
+
+			internal IDisposable $locvar3;
+
+			internal IEnumerator<MemoryTracker.ChildReference> $locvar4;
+
+			internal MemoryTracker.ChildReference <child>__5;
+
+			internal MemoryTracker.ChildReference $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetAllReferencedClassesFromClassOrStruct>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = fields.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_1CE;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_9:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								child = enumerator2.Current;
+								this.$current = child;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					IL_153:
+					while (enumerator.MoveNext())
+					{
+						field = enumerator.Current;
+						if (!field.FieldType.IsPrimitive)
+						{
+							referenced = null;
+							referenced = field.GetValue(current);
+							if (referenced != null)
+							{
+								enumerator2 = MemoryTracker.DistillChildReferencesFromObject(referenced, parent, currentPath + field.Name).GetEnumerator();
+								num = 4294967293u;
+								goto Block_9;
+							}
+						}
+					}
+					goto IL_183;
+					goto IL_153;
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_183:
+				if (current == null || !(current is ICollection))
+				{
+					goto IL_2FD;
+				}
+				MemoryTracker.foundCollections.Add(new WeakReference(current));
+				enumerator3 = (current as IEnumerable).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_1CE:
+					switch (num)
+					{
+					case 2u:
+						Block_22:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator4.MoveNext())
+							{
+								child2 = enumerator4.Current;
+								this.$current = child2;
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator4 != null)
+								{
+									enumerator4.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					while (enumerator3.MoveNext())
+					{
+						entry = enumerator3.Current;
+						if (entry != null && !entry.GetType().IsPrimitive)
+						{
+							enumerator4 = MemoryTracker.DistillChildReferencesFromObject(entry, parent, currentPath + "[]").GetEnumerator();
+							num = 4294967293u;
+							goto Block_22;
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if ((disposable = (enumerator3 as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+				}
+				IL_2FD:
+				this.$PC = -1;
+				return false;
+			}
+
+			MemoryTracker.ChildReference IEnumerator<MemoryTracker.ChildReference>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator4 != null)
+							{
+								enumerator4.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if ((disposable = (enumerator3 as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Profile.MemoryTracker.ChildReference>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<MemoryTracker.ChildReference> IEnumerable<MemoryTracker.ChildReference>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator0 <GetAllReferencedClassesFromClassOrStruct>c__Iterator = new MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator0();
+				<GetAllReferencedClassesFromClassOrStruct>c__Iterator.fields = fields;
+				<GetAllReferencedClassesFromClassOrStruct>c__Iterator.current = current;
+				<GetAllReferencedClassesFromClassOrStruct>c__Iterator.parent = parent;
+				<GetAllReferencedClassesFromClassOrStruct>c__Iterator.currentPath = currentPath;
+				return <GetAllReferencedClassesFromClassOrStruct>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DistillChildReferencesFromObject>c__Iterator1 : IEnumerable, IEnumerable<MemoryTracker.ChildReference>, IEnumerator, IDisposable, IEnumerator<MemoryTracker.ChildReference>
+		{
+			internal object current;
+
+			internal Type <type>__0;
+
+			internal string currentPath;
+
+			internal string <structPath>__1;
+
+			internal object parent;
+
+			internal IEnumerator<MemoryTracker.ChildReference> $locvar0;
+
+			internal MemoryTracker.ChildReference <childReference>__2;
+
+			internal MemoryTracker.ChildReference $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <DistillChildReferencesFromObject>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					type = current.GetType();
+					if (type.IsClass)
+					{
+						this.$current = new MemoryTracker.ChildReference
+						{
+							child = current,
+							path = currentPath
+						};
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					if (type.IsPrimitive)
+					{
+						return false;
+					}
+					if (!type.IsValueType)
+					{
+						throw new NotImplementedException();
+					}
+					structPath = currentPath + ".";
+					enumerator = MemoryTracker.GetAllReferencedClassesFromClassOrStruct(current, MemoryTracker.GetFieldsFromHierarchy(type, BindingFlags.Instance), parent, structPath).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					return false;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						childReference = enumerator.Current;
+						this.$current = childReference;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				return false;
+			}
+
+			MemoryTracker.ChildReference IEnumerator<MemoryTracker.ChildReference>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Profile.MemoryTracker.ChildReference>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<MemoryTracker.ChildReference> IEnumerable<MemoryTracker.ChildReference>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MemoryTracker.<DistillChildReferencesFromObject>c__Iterator1 <DistillChildReferencesFromObject>c__Iterator = new MemoryTracker.<DistillChildReferencesFromObject>c__Iterator1();
+				<DistillChildReferencesFromObject>c__Iterator.current = current;
+				<DistillChildReferencesFromObject>c__Iterator.currentPath = currentPath;
+				<DistillChildReferencesFromObject>c__Iterator.parent = parent;
+				return <DistillChildReferencesFromObject>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFieldsFromHierarchy>c__Iterator2 : IEnumerable, IEnumerable<FieldInfo>, IEnumerator, IDisposable, IEnumerator<FieldInfo>
+		{
+			internal Type type;
+
+			internal BindingFlags bindingFlags;
+
+			internal IEnumerator<FieldInfo> $locvar0;
+
+			internal FieldInfo <field>__1;
+
+			internal FieldInfo $current;
+
+			internal bool $disposing;
+
+			internal Type <$>type;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetFieldsFromHierarchy>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					break;
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							field = enumerator.Current;
+							this.$current = field;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					type = type.BaseType;
+					break;
+				default:
+					return false;
+				}
+				if (type != null)
+				{
+					enumerator = MemoryTracker.GetFields(type, bindingFlags).GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FieldInfo IEnumerator<FieldInfo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.Reflection.FieldInfo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FieldInfo> IEnumerable<FieldInfo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MemoryTracker.<GetFieldsFromHierarchy>c__Iterator2 <GetFieldsFromHierarchy>c__Iterator = new MemoryTracker.<GetFieldsFromHierarchy>c__Iterator2();
+				<GetFieldsFromHierarchy>c__Iterator.type = type;
+				<GetFieldsFromHierarchy>c__Iterator.bindingFlags = bindingFlags;
+				return <GetFieldsFromHierarchy>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFields>c__Iterator3 : IEnumerable, IEnumerable<FieldInfo>, IEnumerator, IDisposable, IEnumerator<FieldInfo>
+		{
+			internal Type type;
+
+			internal BindingFlags bindingFlags;
+
+			internal FieldInfo[] $locvar0;
+
+			internal int $locvar1;
+
+			internal FieldInfo <field>__1;
+
+			internal FieldInfo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetFields>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					fields = type.GetFields(bindingFlags | BindingFlags.Public | BindingFlags.NonPublic);
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < fields.Length)
+				{
+					field = fields[i];
+					this.$current = field;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FieldInfo IEnumerator<FieldInfo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.Reflection.FieldInfo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FieldInfo> IEnumerable<FieldInfo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MemoryTracker.<GetFields>c__Iterator3 <GetFields>c__Iterator = new MemoryTracker.<GetFields>c__Iterator3();
+				<GetFields>c__Iterator.type = type;
+				<GetFields>c__Iterator.bindingFlags = bindingFlags;
+				return <GetFields>c__Iterator;
+			}
 		}
 	}
 }

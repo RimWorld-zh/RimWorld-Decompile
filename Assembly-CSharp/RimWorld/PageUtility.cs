@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200082F RID: 2095
 	public static class PageUtility
 	{
-		// Token: 0x06002F3A RID: 12090 RVA: 0x00194160 File Offset: 0x00192560
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
 		public static Page StitchedPages(IEnumerable<Page> pages)
 		{
 			List<Page> list = pages.ToList<Page>();
@@ -35,7 +37,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F3B RID: 12091 RVA: 0x001941F0 File Offset: 0x001925F0
 		public static void InitGameStart()
 		{
 			Action preLoadLevelAction = delegate()
@@ -45,6 +46,14 @@ namespace RimWorld
 				Find.Scenario.PreMapGenerate();
 			};
 			LongEventHandler.QueueLongEvent(preLoadLevelAction, "Play", "GeneratingMap", true, null);
+		}
+
+		[CompilerGenerated]
+		private static void <InitGameStart>m__0()
+		{
+			Find.GameInitData.PrepForMapGen();
+			Find.GameInitData.startedFromEntry = true;
+			Find.Scenario.PreMapGenerate();
 		}
 	}
 }

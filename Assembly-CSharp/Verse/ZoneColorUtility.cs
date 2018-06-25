@@ -1,28 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CBB RID: 3259
 	public static class ZoneColorUtility
 	{
-		// Token: 0x040030C5 RID: 12485
 		private static List<Color> growingZoneColors = new List<Color>();
 
-		// Token: 0x040030C6 RID: 12486
 		private static List<Color> storageZoneColors = new List<Color>();
 
-		// Token: 0x040030C7 RID: 12487
 		private static int nextGrowingZoneColorIndex = 0;
 
-		// Token: 0x040030C8 RID: 12488
 		private static int nextStorageZoneColorIndex = 0;
 
-		// Token: 0x040030C9 RID: 12489
 		private const float ZoneOpacity = 0.09f;
 
-		// Token: 0x060047DF RID: 18399 RVA: 0x0025D4DC File Offset: 0x0025B8DC
 		static ZoneColorUtility()
 		{
 			foreach (Color color in ZoneColorUtility.GrowingZoneColors())
@@ -37,7 +34,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047E0 RID: 18400 RVA: 0x0025D5F4 File Offset: 0x0025B9F4
 		public static Color NextGrowingZoneColor()
 		{
 			Color result = ZoneColorUtility.growingZoneColors[ZoneColorUtility.nextGrowingZoneColorIndex];
@@ -49,7 +45,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047E1 RID: 18401 RVA: 0x0025D640 File Offset: 0x0025BA40
 		public static Color NextStorageZoneColor()
 		{
 			Color result = ZoneColorUtility.storageZoneColors[ZoneColorUtility.nextStorageZoneColorIndex];
@@ -61,7 +56,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047E2 RID: 18402 RVA: 0x0025D68C File Offset: 0x0025BA8C
 		private static IEnumerable<Color> GrowingZoneColors()
 		{
 			yield return Color.Lerp(new Color(0f, 1f, 0f), Color.gray, 0.5f);
@@ -72,7 +66,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060047E3 RID: 18403 RVA: 0x0025D6B0 File Offset: 0x0025BAB0
 		private static IEnumerable<Color> StorageZoneColors()
 		{
 			yield return Color.Lerp(new Color(1f, 0f, 0f), Color.gray, 0.5f);
@@ -82,6 +75,233 @@ namespace Verse
 			yield return Color.Lerp(new Color(0f, 0.5f, 1f), Color.gray, 0.5f);
 			yield return Color.Lerp(new Color(0.5f, 0f, 1f), Color.gray, 0.5f);
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GrowingZoneColors>c__Iterator0 : IEnumerable, IEnumerable<Color>, IEnumerator, IDisposable, IEnumerator<Color>
+		{
+			internal Color $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GrowingZoneColors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = Color.Lerp(new Color(0f, 1f, 0f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Color.Lerp(new Color(1f, 1f, 0f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Color.Lerp(new Color(0.5f, 1f, 0f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = Color.Lerp(new Color(1f, 1f, 0.5f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = Color.Lerp(new Color(0.5f, 1f, 0.5f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Color IEnumerator<Color>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<UnityEngine.Color>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Color> IEnumerable<Color>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ZoneColorUtility.<GrowingZoneColors>c__Iterator0();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <StorageZoneColors>c__Iterator1 : IEnumerable, IEnumerable<Color>, IEnumerator, IDisposable, IEnumerator<Color>
+		{
+			internal Color $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <StorageZoneColors>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = Color.Lerp(new Color(1f, 0f, 0f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Color.Lerp(new Color(1f, 0f, 1f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Color.Lerp(new Color(0f, 0f, 1f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = Color.Lerp(new Color(1f, 0f, 0.5f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = Color.Lerp(new Color(0f, 0.5f, 1f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = Color.Lerp(new Color(0.5f, 0f, 1f), Color.gray, 0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Color IEnumerator<Color>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<UnityEngine.Color>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Color> IEnumerable<Color>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ZoneColorUtility.<StorageZoneColors>c__Iterator1();
+			}
 		}
 	}
 }

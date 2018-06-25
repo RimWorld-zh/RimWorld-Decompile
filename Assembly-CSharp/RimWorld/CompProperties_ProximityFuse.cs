@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000250 RID: 592
 	public class CompProperties_ProximityFuse : CompProperties
 	{
-		// Token: 0x040004A4 RID: 1188
 		public ThingDef target;
 
-		// Token: 0x040004A5 RID: 1189
 		public float radius;
 
-		// Token: 0x06000A87 RID: 2695 RVA: 0x0005F7B0 File Offset: 0x0005DBB0
 		public CompProperties_ProximityFuse()
 		{
 			this.compClass = typeof(CompProximityFuse);
 		}
 
-		// Token: 0x06000A88 RID: 2696 RVA: 0x0005F7CC File Offset: 0x0005DBCC
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -41,6 +40,179 @@ namespace RimWorld
 				yield return "CompProximityFuse requires a CompExplosive";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0(ThingDef parentDef)
+		{
+			return base.ConfigErrors(parentDef);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef parentDef;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal CompProperties_ProximityFuse $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0(parentDef).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_124;
+				case 3u:
+					goto IL_153;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (parentDef.tickerType != TickerType.Normal)
+				{
+					this.$current = string.Concat(new object[]
+					{
+						"CompProximityFuse needs tickerType ",
+						TickerType.Rare,
+						" or faster, has ",
+						parentDef.tickerType
+					});
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_124:
+				if (parentDef.CompDefFor<CompExplosive>() == null)
+				{
+					this.$current = "CompProximityFuse requires a CompExplosive";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_153:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompProperties_ProximityFuse.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new CompProperties_ProximityFuse.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.parentDef = parentDef;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

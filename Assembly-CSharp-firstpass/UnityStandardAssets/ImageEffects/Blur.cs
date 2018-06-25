@@ -3,27 +3,24 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000182 RID: 386
-	[ExecuteInEditMode]
 	[AddComponentMenu("Image Effects/Blur/Blur")]
+	[ExecuteInEditMode]
 	public class Blur : MonoBehaviour
 	{
-		// Token: 0x0400071E RID: 1822
 		[Range(0f, 10f)]
 		public int iterations = 3;
 
-		// Token: 0x0400071F RID: 1823
 		[Range(0f, 1f)]
 		public float blurSpread = 0.6f;
 
-		// Token: 0x04000720 RID: 1824
 		public Shader blurShader = null;
 
-		// Token: 0x04000721 RID: 1825
 		private static Material m_Material = null;
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x060008C4 RID: 2244 RVA: 0x00011978 File Offset: 0x0000FB78
+		public Blur()
+		{
+		}
+
 		protected Material material
 		{
 			get
@@ -37,7 +34,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008C5 RID: 2245 RVA: 0x000119C0 File Offset: 0x0000FBC0
 		protected void OnDisable()
 		{
 			if (Blur.m_Material)
@@ -46,7 +42,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008C6 RID: 2246 RVA: 0x000119E0 File Offset: 0x0000FBE0
 		protected void Start()
 		{
 			if (!SystemInfo.supportsImageEffects)
@@ -59,7 +54,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008C7 RID: 2247 RVA: 0x00011A38 File Offset: 0x0000FC38
 		public void FourTapCone(RenderTexture source, RenderTexture dest, int iteration)
 		{
 			float num = 0.5f + (float)iteration * this.blurSpread;
@@ -72,7 +66,6 @@ namespace UnityStandardAssets.ImageEffects
 			});
 		}
 
-		// Token: 0x060008C8 RID: 2248 RVA: 0x00011ABC File Offset: 0x0000FCBC
 		private void DownSample4x(RenderTexture source, RenderTexture dest)
 		{
 			float num = 1f;
@@ -85,7 +78,6 @@ namespace UnityStandardAssets.ImageEffects
 			});
 		}
 
-		// Token: 0x060008C9 RID: 2249 RVA: 0x00011B34 File Offset: 0x0000FD34
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			int width = source.width / 4;
@@ -101,6 +93,11 @@ namespace UnityStandardAssets.ImageEffects
 			}
 			Graphics.Blit(renderTexture, destination);
 			RenderTexture.ReleaseTemporary(renderTexture);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Blur()
+		{
 		}
 	}
 }

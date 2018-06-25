@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003BC RID: 956
 	public class SymbolResolver_ThingSet : SymbolResolver
 	{
-		// Token: 0x06001092 RID: 4242 RVA: 0x0008C758 File Offset: 0x0008AB58
+		public SymbolResolver_ThingSet()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -32,6 +35,21 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams = rp;
 				resolveParams.singleThingToSpawn = list[i];
 				BaseGen.symbolStack.Push("thing", resolveParams);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <Resolve>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Standable(this.map) && x.GetFirstItem(this.map) == null;
 			}
 		}
 	}

@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200007D RID: 125
 	public class JobDriver_Resurrect : JobDriver
 	{
-		// Token: 0x04000234 RID: 564
 		private const TargetIndex CorpseInd = TargetIndex.A;
 
-		// Token: 0x04000235 RID: 565
 		private const TargetIndex ItemInd = TargetIndex.B;
 
-		// Token: 0x04000236 RID: 566
 		private const int DurationTicks = 600;
 
-		// Token: 0x170000AE RID: 174
-		// (get) Token: 0x06000352 RID: 850 RVA: 0x00024F1C File Offset: 0x0002331C
+		public JobDriver_Resurrect()
+		{
+		}
+
 		private Corpse Corpse
 		{
 			get
@@ -27,8 +29,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000AF RID: 175
-		// (get) Token: 0x06000353 RID: 851 RVA: 0x00024F4C File Offset: 0x0002334C
 		private Thing Item
 		{
 			get
@@ -37,13 +37,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x00024F78 File Offset: 0x00023378
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Corpse, this.job, 1, -1, null) && this.pawn.Reserve(this.Item, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x00024FD4 File Offset: 0x000233D4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.A);
@@ -58,7 +56,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x00025000 File Offset: 0x00023400
 		private void Resurrect()
 		{
 			Pawn innerPawn = this.Corpse.InnerPawn;
@@ -68,6 +65,126 @@ namespace RimWorld
 				innerPawn.LabelIndefinite()
 			}).CapitalizeFirst(), innerPawn, MessageTypeDefOf.PositiveEvent, true);
 			this.Item.SplitOff(1).Destroy(DestroyMode.Vanish);
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <prepare>__0;
+
+			internal JobDriver_Resurrect $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_Haul.StartCarryThing(TargetIndex.B, false, false, false);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					prepare = Toils_General.Wait(600);
+					prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+					prepare.FailOnDespawnedOrNull(TargetIndex.A);
+					prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					this.$current = prepare;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = Toils_General.Do(new Action(base.Resurrect));
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Resurrect.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Resurrect.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
 		}
 	}
 }

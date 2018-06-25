@@ -5,17 +5,17 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000124 RID: 292
 	public class WorkGiver_BuildRoof : WorkGiver_Scanner
 	{
-		// Token: 0x06000603 RID: 1539 RVA: 0x000402F4 File Offset: 0x0003E6F4
+		public WorkGiver_BuildRoof()
+		{
+		}
+
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			return pawn.Map.areaManager.BuildRoof.ActiveCells;
 		}
 
-		// Token: 0x170000DB RID: 219
-		// (get) Token: 0x06000604 RID: 1540 RVA: 0x00040320 File Offset: 0x0003E720
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -24,8 +24,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000DC RID: 220
-		// (get) Token: 0x06000605 RID: 1541 RVA: 0x00040338 File Offset: 0x0003E738
 		public override bool AllowUnreachable
 		{
 			get
@@ -34,7 +32,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000606 RID: 1542 RVA: 0x00040350 File Offset: 0x0003E750
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			bool result;
@@ -79,7 +76,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000607 RID: 1543 RVA: 0x00040464 File Offset: 0x0003E864
 		private Building BuildingToTouchToBeAbleToBuildRoof(IntVec3 c, Pawn pawn)
 		{
 			Building result;
@@ -106,7 +102,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000608 RID: 1544 RVA: 0x000404D0 File Offset: 0x0003E8D0
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			LocalTargetInfo targetB = c;

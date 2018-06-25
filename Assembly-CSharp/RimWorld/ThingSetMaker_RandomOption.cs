@@ -1,18 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006EC RID: 1772
 	public class ThingSetMaker_RandomOption : ThingSetMaker
 	{
-		// Token: 0x0400157F RID: 5503
 		public List<ThingSetMaker_RandomOption.Option> options;
 
-		// Token: 0x06002696 RID: 9878 RVA: 0x0014A9B4 File Offset: 0x00148DB4
+		public ThingSetMaker_RandomOption()
+		{
+		}
+
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -25,7 +30,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002697 RID: 9879 RVA: 0x0014AA28 File Offset: 0x00148E28
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingSetMaker_RandomOption.Option option;
@@ -37,7 +41,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002698 RID: 9880 RVA: 0x0014AA90 File Offset: 0x00148E90
 		private float GetSelectionWeight(ThingSetMaker_RandomOption.Option option)
 		{
 			float? weightIfPlayerHasNoSuchItem = option.weightIfPlayerHasNoSuchItem;
@@ -53,7 +56,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002699 RID: 9881 RVA: 0x0014AAEC File Offset: 0x00148EEC
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -63,7 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600269A RID: 9882 RVA: 0x0014AB34 File Offset: 0x00148F34
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -85,17 +86,194 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x020006ED RID: 1773
 		public class Option
 		{
-			// Token: 0x04001580 RID: 5504
 			public ThingSetMaker thingSetMaker;
 
-			// Token: 0x04001581 RID: 5505
 			public float weight;
 
-			// Token: 0x04001582 RID: 5506
 			public float? weightIfPlayerHasNoSuchItem;
+
+			public Option()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Generate>c__AnonStorey1
+		{
+			internal ThingSetMakerParams parms;
+
+			public <Generate>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingSetMaker_RandomOption.Option x)
+			{
+				return x.thingSetMaker.CanGenerate(this.parms);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal int <i>__1;
+
+			internal float <weight>__2;
+
+			internal ThingSetMakerParams parms;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__3;
+
+			internal ThingSetMaker_RandomOption $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_17A;
+				case 1u:
+					Block_4:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							t = enumerator.Current;
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					break;
+				default:
+					return false;
+				}
+				IL_16C:
+				i++;
+				IL_17A:
+				if (i >= this.options.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					weight = this.options[i].weight;
+					float? weightIfPlayerHasNoSuchItem = this.options[i].weightIfPlayerHasNoSuchItem;
+					if (weightIfPlayerHasNoSuchItem != null)
+					{
+						weight = Mathf.Max(weight, this.options[i].weightIfPlayerHasNoSuchItem.Value);
+					}
+					if (weight <= 0f)
+					{
+						goto IL_16C;
+					}
+					enumerator = this.options[i].thingSetMaker.AllGeneratableThingsDebug(parms).GetEnumerator();
+					num = 4294967293u;
+					goto Block_4;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker_RandomOption.<AllGeneratableThingsDebugSub>c__Iterator0 <AllGeneratableThingsDebugSub>c__Iterator = new ThingSetMaker_RandomOption.<AllGeneratableThingsDebugSub>c__Iterator0();
+				<AllGeneratableThingsDebugSub>c__Iterator.$this = this;
+				<AllGeneratableThingsDebugSub>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebugSub>c__Iterator;
+			}
 		}
 	}
 }

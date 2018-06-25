@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200060A RID: 1546
 	public static class SiteMakerHelper
 	{
-		// Token: 0x0400123F RID: 4671
 		private static List<Faction> possibleFactions = new List<Faction>();
 
-		// Token: 0x06001F21 RID: 7969 RVA: 0x0010EA14 File Offset: 0x0010CE14
 		public static bool TryFindSiteParams_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, out SitePartDef sitePart, out Faction faction, Faction factionToUse = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			faction = factionToUse;
@@ -37,7 +35,6 @@ namespace RimWorld.Planet
 			return true;
 		}
 
-		// Token: 0x06001F22 RID: 7970 RVA: 0x0010EA90 File Offset: 0x0010CE90
 		public static bool TryFindSiteParams_SingleSitePart(SiteCoreDef core, string singleSitePartTag, out SitePartDef sitePart, out Faction faction, Faction factionToUse = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			IEnumerable<SitePartDef> singleSitePartCandidates = (singleSitePartTag == null) ? null : (from x in DefDatabase<SitePartDef>.AllDefsListForReading
@@ -46,7 +43,6 @@ namespace RimWorld.Planet
 			return SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartCandidates, out sitePart, out faction, factionToUse, disallowNonHostileFactions, extraFactionValidator);
 		}
 
-		// Token: 0x06001F23 RID: 7971 RVA: 0x0010EAEC File Offset: 0x0010CEEC
 		public static bool TryFindNewRandomSitePartFor(SiteCoreDef core, IEnumerable<SitePartDef> existingSiteParts, IEnumerable<SitePartDef> possibleSiteParts, Faction faction, out SitePartDef sitePart, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			if (faction != null)
@@ -76,7 +72,6 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001F24 RID: 7972 RVA: 0x0010EBD0 File Offset: 0x0010CFD0
 		public static bool TryFindRandomFactionFor(SiteCoreDef core, IEnumerable<SitePartDef> parts, out Faction faction, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			bool result;
@@ -99,7 +94,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F25 RID: 7973 RVA: 0x0010EC68 File Offset: 0x0010D068
 		public static bool FactionCanOwn(SiteCoreDef core, IEnumerable<SitePartDef> parts, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
 			bool result;
@@ -124,7 +118,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F26 RID: 7974 RVA: 0x0010ECF8 File Offset: 0x0010D0F8
 		private static bool FactionCanOwn(SiteDefBase siteDefBase, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
 			bool result;
@@ -138,6 +131,91 @@ namespace RimWorld.Planet
 				result = (siteDefBase.FactionCanOwn(faction) && (!disallowNonHostileFactions || faction == null || faction.HostileTo(Faction.OfPlayer)) && (extraFactionValidator == null || extraFactionValidator(faction)));
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SiteMakerHelper()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSiteParams_SingleSitePart>c__AnonStorey0
+		{
+			internal string singleSitePartTag;
+
+			public <TryFindSiteParams_SingleSitePart>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(SitePartDef x)
+			{
+				return x.tags.Contains(this.singleSitePartTag);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindNewRandomSitePartFor>c__AnonStorey1
+		{
+			internal Faction faction;
+
+			internal bool disallowNonHostileFactions;
+
+			internal Predicate<Faction> extraFactionValidator;
+
+			internal SiteCoreDef core;
+
+			internal IEnumerable<SitePartDef> existingSiteParts;
+
+			public <TryFindNewRandomSitePartFor>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(SitePartDef x)
+			{
+				return x == null || SiteMakerHelper.FactionCanOwn(x, this.faction, this.disallowNonHostileFactions, this.extraFactionValidator);
+			}
+
+			internal bool <>m__1(SitePartDef x)
+			{
+				return x == null || SiteMakerHelper.possibleFactions.Any((Faction fac) => SiteMakerHelper.FactionCanOwn(this.core, this.existingSiteParts, fac, this.disallowNonHostileFactions, this.extraFactionValidator) && SiteMakerHelper.FactionCanOwn(x, fac, this.disallowNonHostileFactions, this.extraFactionValidator));
+			}
+
+			private sealed class <TryFindNewRandomSitePartFor>c__AnonStorey2
+			{
+				internal SitePartDef x;
+
+				internal SiteMakerHelper.<TryFindNewRandomSitePartFor>c__AnonStorey1 <>f__ref$1;
+
+				public <TryFindNewRandomSitePartFor>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(Faction fac)
+				{
+					return SiteMakerHelper.FactionCanOwn(this.<>f__ref$1.core, this.<>f__ref$1.existingSiteParts, fac, this.<>f__ref$1.disallowNonHostileFactions, this.<>f__ref$1.extraFactionValidator) && SiteMakerHelper.FactionCanOwn(this.x, fac, this.<>f__ref$1.disallowNonHostileFactions, this.<>f__ref$1.extraFactionValidator);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomFactionFor>c__AnonStorey3
+		{
+			internal SiteCoreDef core;
+
+			internal IEnumerable<SitePartDef> parts;
+
+			internal bool disallowNonHostileFactions;
+
+			internal Predicate<Faction> extraFactionValidator;
+
+			public <TryFindRandomFactionFor>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Faction x)
+			{
+				return SiteMakerHelper.FactionCanOwn(this.core, this.parts, x, this.disallowNonHostileFactions, this.extraFactionValidator);
+			}
 		}
 	}
 }

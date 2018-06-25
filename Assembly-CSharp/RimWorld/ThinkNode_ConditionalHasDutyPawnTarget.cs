@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020001DB RID: 475
 	public class ThinkNode_ConditionalHasDutyPawnTarget : ThinkNode_Conditional
 	{
-		// Token: 0x0600096D RID: 2413 RVA: 0x000566E0 File Offset: 0x00054AE0
+		public ThinkNode_ConditionalHasDutyPawnTarget()
+		{
+		}
+
 		protected override bool Satisfied(Pawn pawn)
 		{
 			return pawn.mindState.duty != null && pawn.mindState.duty.focus.Thing is Pawn;

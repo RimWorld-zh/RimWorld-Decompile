@@ -1,47 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x0200039B RID: 923
 	public class SymbolResolver_BasePart_Outdoors_Division_Grid : SymbolResolver
 	{
-		// Token: 0x040009FA RID: 2554
 		private List<Pair<int, int>> optionsX = new List<Pair<int, int>>();
 
-		// Token: 0x040009FB RID: 2555
 		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
 
-		// Token: 0x040009FC RID: 2556
 		private List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child> children = new List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child>();
 
-		// Token: 0x040009FD RID: 2557
 		private const int MinWidthOrHeight = 13;
 
-		// Token: 0x040009FE RID: 2558
 		private const int MinRoomsPerRow = 2;
 
-		// Token: 0x040009FF RID: 2559
 		private const int MaxRoomsPerRow = 4;
 
-		// Token: 0x04000A00 RID: 2560
 		private const int MinPathwayWidth = 1;
 
-		// Token: 0x04000A01 RID: 2561
 		private const int MaxPathwayWidth = 5;
 
-		// Token: 0x04000A02 RID: 2562
 		private const int MinRoomSize = 6;
 
-		// Token: 0x04000A03 RID: 2563
 		private const float AllowNonSquareRoomsInTheFirstStepChance = 0.2f;
 
-		// Token: 0x04000A04 RID: 2564
 		private static List<Pair<Pair<int, int>, Pair<int, int>>> options = new List<Pair<Pair<int, int>, Pair<int, int>>>();
 
-		// Token: 0x0600100F RID: 4111 RVA: 0x00087224 File Offset: 0x00085624
+		[CompilerGenerated]
+		private static Predicate<Pair<int, int>> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Pair<int, int>> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<SymbolResolver_BasePart_Outdoors_Division_Grid.Child> <>f__am$cache2;
+
+		public SymbolResolver_BasePart_Outdoors_Division_Grid()
+		{
+		}
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -61,7 +62,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001010 RID: 4112 RVA: 0x000872A4 File Offset: 0x000856A4
 		public override void Resolve(ResolveParams rp)
 		{
 			this.FillOptions(rp.rect);
@@ -91,7 +91,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001011 RID: 4113 RVA: 0x00087364 File Offset: 0x00085764
 		private void FillOptions(CellRect rect)
 		{
 			this.FillOptions(this.optionsX, rect.Width);
@@ -106,7 +105,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001012 RID: 4114 RVA: 0x00087440 File Offset: 0x00085840
 		private void FillOptions(List<Pair<int, int>> outOptions, int length)
 		{
 			outOptions.Clear();
@@ -123,7 +121,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001013 RID: 4115 RVA: 0x000874B4 File Offset: 0x000858B4
 		private int GetRoomSize(int roomsPerRow, int pathwayWidth, int totalLength)
 		{
 			int num = totalLength - (roomsPerRow - 1) * pathwayWidth;
@@ -139,7 +136,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001014 RID: 4116 RVA: 0x000874E4 File Offset: 0x000858E4
 		private bool TryResolveRandomOption(int maxWidthHeightDiff, int maxPathwayWidthDiff, ResolveParams rp)
 		{
 			SymbolResolver_BasePart_Outdoors_Division_Grid.options.Clear();
@@ -173,7 +169,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001015 RID: 4117 RVA: 0x00087684 File Offset: 0x00085A84
 		private void ResolveOption(int roomsPerRowX, int pathwayWidthX, int roomsPerRowZ, int pathwayWidthZ, ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -252,7 +247,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001016 RID: 4118 RVA: 0x000879CC File Offset: 0x00085DCC
 		private void MergeRandomChildren()
 		{
 			if (this.children.Count >= 4)
@@ -281,20 +275,79 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0200039C RID: 924
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_BasePart_Outdoors_Division_Grid()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <FillOptions>m__0(Pair<int, int> x)
+		{
+			return x.First > 1;
+		}
+
+		[CompilerGenerated]
+		private static bool <FillOptions>m__1(Pair<int, int> x)
+		{
+			return x.First > 1;
+		}
+
+		[CompilerGenerated]
+		private static bool <MergeRandomChildren>m__2(SymbolResolver_BasePart_Outdoors_Division_Grid.Child x)
+		{
+			return !x.merged;
+		}
+
 		private class Child
 		{
-			// Token: 0x04000A08 RID: 2568
 			public CellRect rect;
 
-			// Token: 0x04000A09 RID: 2569
 			public int gridX;
 
-			// Token: 0x04000A0A RID: 2570
 			public int gridY;
 
-			// Token: 0x04000A0B RID: 2571
 			public bool merged;
+
+			public Child()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FillOptions>c__AnonStorey0
+		{
+			internal CellRect rect;
+
+			internal SymbolResolver_BasePart_Outdoors_Division_Grid $this;
+
+			public <FillOptions>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pair<int, int> x)
+			{
+				return x.First >= 3 && this.$this.GetRoomSize(x.First, x.Second, this.rect.Width) <= 7;
+			}
+
+			internal bool <>m__1(Pair<int, int> x)
+			{
+				return x.First >= 3 && this.$this.GetRoomSize(x.First, x.Second, this.rect.Height) <= 7;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MergeRandomChildren>c__AnonStorey1
+		{
+			internal SymbolResolver_BasePart_Outdoors_Division_Grid.Child child;
+
+			public <MergeRandomChildren>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(SymbolResolver_BasePart_Outdoors_Division_Grid.Child x)
+			{
+				return x != this.child && ((Mathf.Abs(x.gridX - this.child.gridX) == 1 && x.gridY == this.child.gridY) || (Mathf.Abs(x.gridY - this.child.gridY) == 1 && x.gridX == this.child.gridX));
+			}
 		}
 	}
 }

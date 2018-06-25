@@ -4,31 +4,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200082E RID: 2094
 	public abstract class Page : Window
 	{
-		// Token: 0x0400197C RID: 6524
 		public Page prev;
 
-		// Token: 0x0400197D RID: 6525
 		public Page next;
 
-		// Token: 0x0400197E RID: 6526
 		public Action nextAct;
 
-		// Token: 0x0400197F RID: 6527
 		public static readonly Vector2 StandardSize = new Vector2(1020f, 764f);
 
-		// Token: 0x04001980 RID: 6528
 		public const float TitleAreaHeight = 45f;
 
-		// Token: 0x04001981 RID: 6529
 		public const float BottomButHeight = 38f;
 
-		// Token: 0x04001982 RID: 6530
 		protected static readonly Vector2 BottomButSize = new Vector2(150f, 38f);
 
-		// Token: 0x06002F2D RID: 12077 RVA: 0x00193CF6 File Offset: 0x001920F6
 		public Page()
 		{
 			this.forcePause = true;
@@ -38,8 +29,6 @@ namespace RimWorld
 			this.forceCatchAcceptAndCancelEventEvenIfUnfocused = true;
 		}
 
-		// Token: 0x17000780 RID: 1920
-		// (get) Token: 0x06002F2E RID: 12078 RVA: 0x00193D24 File Offset: 0x00192124
 		public override Vector2 InitialSize
 		{
 			get
@@ -48,8 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000781 RID: 1921
-		// (get) Token: 0x06002F2F RID: 12079 RVA: 0x00193D40 File Offset: 0x00192140
 		public virtual string PageTitle
 		{
 			get
@@ -58,7 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F30 RID: 12080 RVA: 0x00193D56 File Offset: 0x00192156
 		protected void DrawPageTitle(Rect rect)
 		{
 			Text.Font = GameFont.Medium;
@@ -66,7 +52,6 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x06002F31 RID: 12081 RVA: 0x00193D8C File Offset: 0x0019218C
 		protected Rect GetMainRect(Rect rect, float extraTopSpace = 0f, bool ignoreTitle = false)
 		{
 			float num = 0f;
@@ -77,7 +62,6 @@ namespace RimWorld
 			return new Rect(0f, num, rect.width, rect.height - 38f - num - 17f);
 		}
 
-		// Token: 0x06002F32 RID: 12082 RVA: 0x00193DDC File Offset: 0x001921DC
 		protected void DoBottomButtons(Rect rect, string nextLabel = null, string midLabel = null, Action midAct = null, bool showNext = true)
 		{
 			float y = rect.y + rect.height - 38f;
@@ -117,19 +101,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F33 RID: 12083 RVA: 0x00193F7C File Offset: 0x0019237C
 		protected virtual bool CanDoBack()
 		{
 			return !TutorSystem.TutorialMode || TutorSystem.AllowAction("GotoPrevPage");
 		}
 
-		// Token: 0x06002F34 RID: 12084 RVA: 0x00193FB4 File Offset: 0x001923B4
 		protected virtual bool CanDoNext()
 		{
 			return !TutorSystem.TutorialMode || TutorSystem.AllowAction("GotoNextPage");
 		}
 
-		// Token: 0x06002F35 RID: 12085 RVA: 0x00193FEC File Offset: 0x001923EC
 		protected virtual void DoNext()
 		{
 			if (this.next != null)
@@ -145,7 +126,6 @@ namespace RimWorld
 			this.Close(true);
 		}
 
-		// Token: 0x06002F36 RID: 12086 RVA: 0x00194050 File Offset: 0x00192450
 		protected virtual void DoBack()
 		{
 			if (this.prev != null)
@@ -157,7 +137,6 @@ namespace RimWorld
 			this.Close(true);
 		}
 
-		// Token: 0x06002F37 RID: 12087 RVA: 0x001940A0 File Offset: 0x001924A0
 		public override void OnCancelKeyPressed()
 		{
 			if (Find.World == null || !Find.WorldRoutePlanner.Active)
@@ -175,7 +154,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F38 RID: 12088 RVA: 0x001940F9 File Offset: 0x001924F9
 		public override void OnAcceptKeyPressed()
 		{
 			if (Find.World == null || !Find.WorldRoutePlanner.Active)
@@ -186,6 +164,11 @@ namespace RimWorld
 				}
 				Event.current.Use();
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Page()
+		{
 		}
 	}
 }

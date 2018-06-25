@@ -1,44 +1,41 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BA7 RID: 2983
 	public class ThingCategoryDef : Def
 	{
-		// Token: 0x04002B90 RID: 11152
 		public ThingCategoryDef parent = null;
 
-		// Token: 0x04002B91 RID: 11153
 		[NoTranslate]
 		public string iconPath = null;
 
-		// Token: 0x04002B92 RID: 11154
 		public bool resourceReadoutRoot = false;
 
-		// Token: 0x04002B93 RID: 11155
 		[Unsaved]
 		public TreeNode_ThingCategory treeNode = null;
 
-		// Token: 0x04002B94 RID: 11156
 		[Unsaved]
 		public List<ThingCategoryDef> childCategories = new List<ThingCategoryDef>();
 
-		// Token: 0x04002B95 RID: 11157
 		[Unsaved]
 		public List<ThingDef> childThingDefs = new List<ThingDef>();
 
-		// Token: 0x04002B96 RID: 11158
 		[Unsaved]
 		public List<SpecialThingFilterDef> childSpecialFilters = new List<SpecialThingFilterDef>();
 
-		// Token: 0x04002B97 RID: 11159
 		[Unsaved]
 		public Texture2D icon = BaseContent.BadTex;
 
-		// Token: 0x170009DF RID: 2527
-		// (get) Token: 0x06004082 RID: 16514 RVA: 0x0021ED40 File Offset: 0x0021D140
+		public ThingCategoryDef()
+		{
+		}
+
 		public IEnumerable<ThingCategoryDef> Parents
 		{
 			get
@@ -55,8 +52,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009E0 RID: 2528
-		// (get) Token: 0x06004083 RID: 16515 RVA: 0x0021ED6C File Offset: 0x0021D16C
 		public IEnumerable<ThingCategoryDef> ThisAndChildCategoryDefs
 		{
 			get
@@ -73,8 +68,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009E1 RID: 2529
-		// (get) Token: 0x06004084 RID: 16516 RVA: 0x0021ED98 File Offset: 0x0021D198
 		public IEnumerable<ThingDef> DescendantThingDefs
 		{
 			get
@@ -90,8 +83,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009E2 RID: 2530
-		// (get) Token: 0x06004085 RID: 16517 RVA: 0x0021EDC4 File Offset: 0x0021D1C4
 		public IEnumerable<SpecialThingFilterDef> DescendantSpecialThingFilterDefs
 		{
 			get
@@ -107,8 +98,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009E3 RID: 2531
-		// (get) Token: 0x06004086 RID: 16518 RVA: 0x0021EDF0 File Offset: 0x0021D1F0
 		public IEnumerable<SpecialThingFilterDef> ParentsSpecialThingFilterDefs
 		{
 			get
@@ -124,7 +113,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004087 RID: 16519 RVA: 0x0021EE1A File Offset: 0x0021D21A
 		public override void PostLoad()
 		{
 			this.treeNode = new TreeNode_ThingCategory(this);
@@ -137,16 +125,840 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004088 RID: 16520 RVA: 0x0021EE4C File Offset: 0x0021D24C
 		public static ThingCategoryDef Named(string defName)
 		{
 			return DefDatabase<ThingCategoryDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06004089 RID: 16521 RVA: 0x0021EE68 File Offset: 0x0021D268
 		public override int GetHashCode()
 		{
 			return this.defName.GetHashCode();
+		}
+
+		[CompilerGenerated]
+		private void <PostLoad>m__0()
+		{
+			this.icon = ContentFinder<Texture2D>.Get(this.iconPath, true);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<ThingCategoryDef>, IEnumerator, IDisposable, IEnumerator<ThingCategoryDef>
+		{
+			internal IEnumerator<ThingCategoryDef> $locvar0;
+
+			internal ThingCategoryDef <cat>__1;
+
+			internal ThingCategoryDef $this;
+
+			internal ThingCategoryDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.parent != null)
+					{
+						this.$current = this.parent;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_F4;
+				case 1u:
+					enumerator = this.parent.Parents.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						cat = enumerator.Current;
+						this.$current = cat;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_F4:
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingCategoryDef IEnumerator<ThingCategoryDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingCategoryDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingCategoryDef> IEnumerable<ThingCategoryDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingCategoryDef.<>c__Iterator0 <>c__Iterator = new ThingCategoryDef.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<ThingCategoryDef>, IEnumerator, IDisposable, IEnumerator<ThingCategoryDef>
+		{
+			internal List<ThingCategoryDef>.Enumerator $locvar0;
+
+			internal ThingCategoryDef <child>__1;
+
+			internal IEnumerator<ThingCategoryDef> $locvar1;
+
+			internal ThingCategoryDef <subChild>__2;
+
+			internal ThingCategoryDef $this;
+
+			internal ThingCategoryDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = this;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					enumerator = this.childCategories.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 2u:
+						Block_5:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								subChild = enumerator2.Current;
+								this.$current = subChild;
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						child = enumerator.Current;
+						enumerator2 = child.ThisAndChildCategoryDefs.GetEnumerator();
+						num = 4294967293u;
+						goto Block_5;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingCategoryDef IEnumerator<ThingCategoryDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingCategoryDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingCategoryDef> IEnumerable<ThingCategoryDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingCategoryDef.<>c__Iterator1 <>c__Iterator = new ThingCategoryDef.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator2 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal IEnumerator<ThingCategoryDef> $locvar0;
+
+			internal ThingCategoryDef <childCatDef>__1;
+
+			internal List<ThingDef>.Enumerator $locvar1;
+
+			internal ThingDef <def>__2;
+
+			internal ThingCategoryDef $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.ThisAndChildCategoryDefs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_4:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								def = enumerator2.Current;
+								this.$current = def;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								((IDisposable)enumerator2).Dispose();
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						childCatDef = enumerator.Current;
+						enumerator2 = childCatDef.childThingDefs.GetEnumerator();
+						num = 4294967293u;
+						goto Block_4;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							((IDisposable)enumerator2).Dispose();
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingCategoryDef.<>c__Iterator2 <>c__Iterator = new ThingCategoryDef.<>c__Iterator2();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator3 : IEnumerable, IEnumerable<SpecialThingFilterDef>, IEnumerator, IDisposable, IEnumerator<SpecialThingFilterDef>
+		{
+			internal IEnumerator<ThingCategoryDef> $locvar0;
+
+			internal ThingCategoryDef <childCatDef>__1;
+
+			internal List<SpecialThingFilterDef>.Enumerator $locvar1;
+
+			internal SpecialThingFilterDef <sf>__2;
+
+			internal ThingCategoryDef $this;
+
+			internal SpecialThingFilterDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.ThisAndChildCategoryDefs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_4:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								sf = enumerator2.Current;
+								this.$current = sf;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								((IDisposable)enumerator2).Dispose();
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						childCatDef = enumerator.Current;
+						enumerator2 = childCatDef.childSpecialFilters.GetEnumerator();
+						num = 4294967293u;
+						goto Block_4;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			SpecialThingFilterDef IEnumerator<SpecialThingFilterDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							((IDisposable)enumerator2).Dispose();
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.SpecialThingFilterDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<SpecialThingFilterDef> IEnumerable<SpecialThingFilterDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingCategoryDef.<>c__Iterator3 <>c__Iterator = new ThingCategoryDef.<>c__Iterator3();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator4 : IEnumerable, IEnumerable<SpecialThingFilterDef>, IEnumerator, IDisposable, IEnumerator<SpecialThingFilterDef>
+		{
+			internal IEnumerator<ThingCategoryDef> $locvar0;
+
+			internal ThingCategoryDef <cat>__1;
+
+			internal List<SpecialThingFilterDef>.Enumerator $locvar1;
+
+			internal SpecialThingFilterDef <filter>__2;
+
+			internal ThingCategoryDef $this;
+
+			internal SpecialThingFilterDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.Parents.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_4:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								filter = enumerator2.Current;
+								this.$current = filter;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								((IDisposable)enumerator2).Dispose();
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						cat = enumerator.Current;
+						enumerator2 = cat.childSpecialFilters.GetEnumerator();
+						num = 4294967293u;
+						goto Block_4;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			SpecialThingFilterDef IEnumerator<SpecialThingFilterDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							((IDisposable)enumerator2).Dispose();
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.SpecialThingFilterDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<SpecialThingFilterDef> IEnumerable<SpecialThingFilterDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingCategoryDef.<>c__Iterator4 <>c__Iterator = new ThingCategoryDef.<>c__Iterator4();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

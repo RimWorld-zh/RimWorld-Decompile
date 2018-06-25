@@ -3,24 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E7B RID: 3707
 	public class Listing_TreeDefs : Listing_Tree
 	{
-		// Token: 0x040039DC RID: 14812
 		private float labelWidthInt;
 
-		// Token: 0x06005752 RID: 22354 RVA: 0x002CE0AC File Offset: 0x002CC4AC
 		public Listing_TreeDefs(float labelColumnWidth)
 		{
 			this.labelWidthInt = labelColumnWidth;
 		}
 
-		// Token: 0x17000DC3 RID: 3523
-		// (get) Token: 0x06005753 RID: 22355 RVA: 0x002CE0BC File Offset: 0x002CC4BC
 		protected override float LabelWidth
 		{
 			get
@@ -29,7 +25,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005754 RID: 22356 RVA: 0x002CE0D8 File Offset: 0x002CC4D8
 		public void ContentLines(TreeNode_Editor node, int indentLevel)
 		{
 			node.DoSpecialPreElements(this);
@@ -46,7 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005755 RID: 22357 RVA: 0x002CE148 File Offset: 0x002CC548
 		private void Node(TreeNode_Editor node, int indentLevel, int openMask)
 		{
 			if (node.nodeType == EditTreeNodeType.TerminalValue)
@@ -78,7 +72,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005756 RID: 22358 RVA: 0x002CE22C File Offset: 0x002CC62C
 		private void ControlButtonsRight(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			if (node.HasNewButton)
@@ -119,7 +112,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005757 RID: 22359 RVA: 0x002CE358 File Offset: 0x002CC758
 		private void ExtraInfoText(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			string extraInfoText = node.ExtraInfoText;
@@ -138,7 +130,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005758 RID: 22360 RVA: 0x002CE3E8 File Offset: 0x002CC7E8
 		protected void NodeLabelLeft(TreeNode_Editor node, int indentLevel)
 		{
 			string tipText = "";
@@ -153,7 +144,6 @@ namespace Verse
 			base.LabelLeft(node.LabelText, tipText, indentLevel);
 		}
 
-		// Token: 0x06005759 RID: 22361 RVA: 0x002CE448 File Offset: 0x002CC848
 		protected void MakeCreateNewObjectMenu(TreeNode_Editor owningNode, FieldInfo owningField, Type baseType, Action<object> addAction)
 		{
 			List<Type> list = baseType.InstantiableDescendantsAndSelf().ToList<Type>();
@@ -184,7 +174,6 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list2));
 		}
 
-		// Token: 0x0600575A RID: 22362 RVA: 0x002CE518 File Offset: 0x002CC918
 		protected void ValueEditWidgetRight(TreeNode_Editor node, float leftX)
 		{
 			if (node.nodeType != EditTreeNodeType.TerminalValue)
@@ -295,6 +284,100 @@ namespace Verse
 				GUI.color = Color.white;
 			}
 			node.Value = obj;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ControlButtonsRight>c__AnonStorey0
+		{
+			internal TreeNode_Editor node;
+
+			public <ControlButtonsRight>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0(object o)
+			{
+				this.node.owningField.SetValue(this.node.ParentObj, o);
+				((TreeNode_Editor)this.node.parentNode).RebuildChildNodes();
+			}
+
+			internal void <>m__1(object o)
+			{
+				this.node.obj.GetType().GetMethod("Add").Invoke(this.node.obj, new object[]
+				{
+					o
+				});
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeCreateNewObjectMenu>c__AnonStorey1
+		{
+			internal TreeNode_Editor owningNode;
+
+			internal Action<object> addAction;
+
+			public <MakeCreateNewObjectMenu>c__AnonStorey1()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeCreateNewObjectMenu>c__AnonStorey2
+		{
+			internal Type creatingType;
+
+			internal Listing_TreeDefs.<MakeCreateNewObjectMenu>c__AnonStorey1 <>f__ref$1;
+
+			public <MakeCreateNewObjectMenu>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$1.owningNode.SetOpen(-1, true);
+				object obj;
+				if (this.creatingType == typeof(string))
+				{
+					obj = "";
+				}
+				else
+				{
+					obj = Activator.CreateInstance(this.creatingType);
+				}
+				this.<>f__ref$1.addAction(obj);
+				if (this.<>f__ref$1.owningNode != null)
+				{
+					this.<>f__ref$1.owningNode.RebuildChildNodes();
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ValueEditWidgetRight>c__AnonStorey4
+		{
+			internal TreeNode_Editor node;
+
+			public <ValueEditWidgetRight>c__AnonStorey4()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ValueEditWidgetRight>c__AnonStorey3
+		{
+			internal object localVal;
+
+			internal Listing_TreeDefs.<ValueEditWidgetRight>c__AnonStorey4 <>f__ref$4;
+
+			public <ValueEditWidgetRight>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$4.node.Value = this.localVal;
+			}
 		}
 	}
 }

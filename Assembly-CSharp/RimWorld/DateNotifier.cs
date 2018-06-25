@@ -4,19 +4,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F2 RID: 754
 	public class DateNotifier : IExposable
 	{
-		// Token: 0x0400082F RID: 2095
 		private Season lastSeason = Season.Undefined;
 
-		// Token: 0x06000C77 RID: 3191 RVA: 0x0006EC05 File Offset: 0x0006D005
+		public DateNotifier()
+		{
+		}
+
 		public void ExposeData()
 		{
 			Scribe_Values.Look<Season>(ref this.lastSeason, "lastSeason", Season.Undefined, false);
 		}
 
-		// Token: 0x06000C78 RID: 3192 RVA: 0x0006EC1C File Offset: 0x0006D01C
 		public void DateNotifierTick()
 		{
 			Map map = this.FindPlayerHomeWithMinTimezone();
@@ -43,7 +43,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C79 RID: 3193 RVA: 0x0006ED64 File Offset: 0x0006D164
 		private Map FindPlayerHomeWithMinTimezone()
 		{
 			List<Map> maps = Find.Maps;
@@ -64,7 +63,6 @@ namespace RimWorld
 			return map;
 		}
 
-		// Token: 0x06000C7A RID: 3194 RVA: 0x0006EDF8 File Offset: 0x0006D1F8
 		private bool AnyPlayerHomeSeasonsAreMeaningful()
 		{
 			List<Map> maps = Find.Maps;
@@ -78,7 +76,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C7B RID: 3195 RVA: 0x0006EE5C File Offset: 0x0006D25C
 		private bool AnyPlayerHomeAvgTempIsLowInWinter()
 		{
 			List<Map> maps = Find.Maps;

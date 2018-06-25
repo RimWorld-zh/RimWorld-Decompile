@@ -3,20 +3,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000443 RID: 1091
 	public class StrengthWatcher
 	{
-		// Token: 0x04000B77 RID: 2935
 		private Map map;
 
-		// Token: 0x060012E7 RID: 4839 RVA: 0x000A3700 File Offset: 0x000A1B00
 		public StrengthWatcher(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000288 RID: 648
-		// (get) Token: 0x060012E8 RID: 4840 RVA: 0x000A3710 File Offset: 0x000A1B10
 		public float StrengthRating
 		{
 			get

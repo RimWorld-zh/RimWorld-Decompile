@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C72 RID: 3186
 	public class PlaceWorker_DoorLearnOpeningSpeed : PlaceWorker
 	{
-		// Token: 0x060045E5 RID: 17893 RVA: 0x0024E134 File Offset: 0x0024C534
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache0;
+
+		public PlaceWorker_DoorLearnOpeningSpeed()
+		{
+		}
+
 		public override void PostPlace(Map map, BuildableDef def, IntVec3 loc, Rot4 rot)
 		{
 			Blueprint_Door blueprint_Door = (Blueprint_Door)loc.GetThingList(map).FirstOrDefault((Thing t) => t is Blueprint_Door);
@@ -15,6 +21,12 @@ namespace RimWorld
 			{
 				LessonAutoActivator.TeachOpportunity(ConceptDefOf.DoorOpenSpeed, OpportunityType.Important);
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <PostPlace>m__0(Thing t)
+		{
+			return t is Blueprint_Door;
 		}
 	}
 }

@@ -5,10 +5,12 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020001B5 RID: 437
 	public class ThinkNode_Duty : ThinkNode
 	{
-		// Token: 0x06000918 RID: 2328 RVA: 0x00055600 File Offset: 0x00053A00
+		public ThinkNode_Duty()
+		{
+		}
+
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;
@@ -29,7 +31,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000919 RID: 2329 RVA: 0x00055694 File Offset: 0x00053A94
 		protected override void ResolveSubnodes()
 		{
 			foreach (DutyDef dutyDef in DefDatabase<DutyDef>.AllDefs)

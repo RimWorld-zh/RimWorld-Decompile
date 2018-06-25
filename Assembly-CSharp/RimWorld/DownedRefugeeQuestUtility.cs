@@ -3,16 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000352 RID: 850
 	public static class DownedRefugeeQuestUtility
 	{
-		// Token: 0x04000905 RID: 2309
 		private const float RelationWithColonistWeight = 20f;
 
-		// Token: 0x04000906 RID: 2310
 		private const float ChanceToRedressWorldPawn = 0.2f;
 
-		// Token: 0x06000EA8 RID: 3752 RVA: 0x0007C1D0 File Offset: 0x0007A5D0
 		public static Pawn GenerateRefugee(int tile)
 		{
 			PawnKindDef spaceRefugee = PawnKindDefOf.SpaceRefugee;
@@ -24,7 +20,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x06000EA9 RID: 3753 RVA: 0x0007C260 File Offset: 0x0007A660
 		public static Faction GetRandomFactionForRefugee()
 		{
 			if (Rand.Chance(0.6f))

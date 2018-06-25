@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003CD RID: 973
 	public class SymbolResolver_InnerStockpile : SymbolResolver
 	{
-		// Token: 0x04000A3A RID: 2618
 		private const int DefaultSize = 3;
 
-		// Token: 0x060010C1 RID: 4289 RVA: 0x0008E8E0 File Offset: 0x0008CCE0
+		public SymbolResolver_InnerStockpile()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			int? innerStockpileSize = rp.innerStockpileSize;
@@ -40,7 +42,6 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("stockpile", resolveParams);
 		}
 
-		// Token: 0x060010C2 RID: 4290 RVA: 0x0008E9B4 File Offset: 0x0008CDB4
 		private bool TryFindPerfectPlaceThenBest(CellRect outerRect, int size, out CellRect rect)
 		{
 			int num;
@@ -59,7 +60,6 @@ namespace RimWorld.BaseGen
 			return true;
 		}
 
-		// Token: 0x060010C3 RID: 4291 RVA: 0x0008EA08 File Offset: 0x0008CE08
 		private bool TryFindRandomInnerRect(CellRect outerRect, int size, out CellRect rect, int minValidCells, out int maxValidCellsFound)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -82,6 +82,36 @@ namespace RimWorld.BaseGen
 			});
 			maxValidCellsFound = maxValidCellsFoundLocal;
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomInnerRect>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal int maxValidCellsFoundLocal;
+
+			internal int minValidCells;
+
+			public <TryFindRandomInnerRect>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(CellRect x)
+			{
+				int num = 0;
+				CellRect.CellRectIterator iterator = x.GetIterator();
+				while (!iterator.Done())
+				{
+					if (iterator.Current.Standable(this.map) && iterator.Current.GetFirstItem(this.map) == null && iterator.Current.GetFirstBuilding(this.map) == null)
+					{
+						num++;
+					}
+					iterator.MoveNext();
+				}
+				this.maxValidCellsFoundLocal = Mathf.Max(this.maxValidCellsFoundLocal, num);
+				return num >= this.minValidCells;
+			}
 		}
 	}
 }

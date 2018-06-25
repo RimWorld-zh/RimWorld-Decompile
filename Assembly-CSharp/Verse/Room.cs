@@ -1,88 +1,72 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C99 RID: 3225
 	public sealed class Room
 	{
-		// Token: 0x0400302F RID: 12335
 		public sbyte mapIndex = -1;
 
-		// Token: 0x04003030 RID: 12336
 		private RoomGroup groupInt;
 
-		// Token: 0x04003031 RID: 12337
 		private List<Region> regions = new List<Region>();
 
-		// Token: 0x04003032 RID: 12338
 		public int ID = -16161616;
 
-		// Token: 0x04003033 RID: 12339
 		public int lastChangeTick = -1;
 
-		// Token: 0x04003034 RID: 12340
 		private int numRegionsTouchingMapEdge;
 
-		// Token: 0x04003035 RID: 12341
 		private int cachedOpenRoofCount = -1;
 
-		// Token: 0x04003036 RID: 12342
 		private IEnumerator<IntVec3> cachedOpenRoofState = null;
 
-		// Token: 0x04003037 RID: 12343
 		public bool isPrisonCell;
 
-		// Token: 0x04003038 RID: 12344
 		private int cachedCellCount = -1;
 
-		// Token: 0x04003039 RID: 12345
 		private bool statsAndRoleDirty = true;
 
-		// Token: 0x0400303A RID: 12346
 		private DefMap<RoomStatDef, float> stats = new DefMap<RoomStatDef, float>();
 
-		// Token: 0x0400303B RID: 12347
 		private RoomRoleDef role;
 
-		// Token: 0x0400303C RID: 12348
 		public int newOrReusedRoomGroupIndex = -1;
 
-		// Token: 0x0400303D RID: 12349
 		private static int nextRoomID;
 
-		// Token: 0x0400303E RID: 12350
 		private const int RegionCountHuge = 60;
 
-		// Token: 0x0400303F RID: 12351
 		private const int MaxRegionsToAssignRoomRole = 36;
 
-		// Token: 0x04003040 RID: 12352
 		private static readonly Color PrisonFieldColor = new Color(1f, 0.7f, 0.2f);
 
-		// Token: 0x04003041 RID: 12353
 		private static readonly Color NonPrisonFieldColor = new Color(0.3f, 0.3f, 1f);
 
-		// Token: 0x04003042 RID: 12354
 		private HashSet<Room> uniqueNeighborsSet = new HashSet<Room>();
 
-		// Token: 0x04003043 RID: 12355
 		private List<Room> uniqueNeighbors = new List<Room>();
 
-		// Token: 0x04003044 RID: 12356
 		private HashSet<Thing> uniqueContainedThingsSet = new HashSet<Thing>();
 
-		// Token: 0x04003045 RID: 12357
 		private List<Thing> uniqueContainedThings = new List<Thing>();
 
-		// Token: 0x04003046 RID: 12358
 		private static List<IntVec3> fields = new List<IntVec3>();
 
-		// Token: 0x17000B20 RID: 2848
-		// (get) Token: 0x060046C2 RID: 18114 RVA: 0x00255634 File Offset: 0x00253A34
+		[CompilerGenerated]
+		private static Func<RoomStatDef, float> <>f__am$cache0;
+
+		public Room()
+		{
+		}
+
 		public Map Map
 		{
 			get
@@ -91,8 +75,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B21 RID: 2849
-		// (get) Token: 0x060046C3 RID: 18115 RVA: 0x00255670 File Offset: 0x00253A70
 		public RegionType RegionType
 		{
 			get
@@ -101,8 +83,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B22 RID: 2850
-		// (get) Token: 0x060046C4 RID: 18116 RVA: 0x002556AC File Offset: 0x00253AAC
 		public List<Region> Regions
 		{
 			get
@@ -111,8 +91,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B23 RID: 2851
-		// (get) Token: 0x060046C5 RID: 18117 RVA: 0x002556C8 File Offset: 0x00253AC8
 		public int RegionCount
 		{
 			get
@@ -121,8 +99,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B24 RID: 2852
-		// (get) Token: 0x060046C6 RID: 18118 RVA: 0x002556E8 File Offset: 0x00253AE8
 		public bool IsHuge
 		{
 			get
@@ -131,8 +107,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B25 RID: 2853
-		// (get) Token: 0x060046C7 RID: 18119 RVA: 0x0025570C File Offset: 0x00253B0C
 		public bool Dereferenced
 		{
 			get
@@ -141,8 +115,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B26 RID: 2854
-		// (get) Token: 0x060046C8 RID: 18120 RVA: 0x00255730 File Offset: 0x00253B30
 		public bool TouchesMapEdge
 		{
 			get
@@ -151,8 +123,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B27 RID: 2855
-		// (get) Token: 0x060046C9 RID: 18121 RVA: 0x00255750 File Offset: 0x00253B50
 		public float Temperature
 		{
 			get
@@ -161,8 +131,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B28 RID: 2856
-		// (get) Token: 0x060046CA RID: 18122 RVA: 0x00255770 File Offset: 0x00253B70
 		public bool UsesOutdoorTemperature
 		{
 			get
@@ -171,9 +139,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B29 RID: 2857
-		// (get) Token: 0x060046CB RID: 18123 RVA: 0x00255790 File Offset: 0x00253B90
-		// (set) Token: 0x060046CC RID: 18124 RVA: 0x002557AC File Offset: 0x00253BAC
 		public RoomGroup Group
 		{
 			get
@@ -197,8 +162,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B2A RID: 2858
-		// (get) Token: 0x060046CD RID: 18125 RVA: 0x00255800 File Offset: 0x00253C00
 		public int CellCount
 		{
 			get
@@ -215,8 +178,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B2B RID: 2859
-		// (get) Token: 0x060046CE RID: 18126 RVA: 0x0025586C File Offset: 0x00253C6C
 		public int OpenRoofCount
 		{
 			get
@@ -225,8 +186,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B2C RID: 2860
-		// (get) Token: 0x060046CF RID: 18127 RVA: 0x0025588C File Offset: 0x00253C8C
 		public bool PsychologicallyOutdoors
 		{
 			get
@@ -235,8 +194,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B2D RID: 2861
-		// (get) Token: 0x060046D0 RID: 18128 RVA: 0x002558F0 File Offset: 0x00253CF0
 		public bool OutdoorsForWork
 		{
 			get
@@ -245,8 +202,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B2E RID: 2862
-		// (get) Token: 0x060046D1 RID: 18129 RVA: 0x00255938 File Offset: 0x00253D38
 		public List<Room> Neighbors
 		{
 			get
@@ -268,8 +223,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B2F RID: 2863
-		// (get) Token: 0x060046D2 RID: 18130 RVA: 0x00255A18 File Offset: 0x00253E18
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -285,8 +238,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B30 RID: 2864
-		// (get) Token: 0x060046D3 RID: 18131 RVA: 0x00255A44 File Offset: 0x00253E44
 		public IEnumerable<IntVec3> BorderCells
 		{
 			get
@@ -307,8 +258,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B31 RID: 2865
-		// (get) Token: 0x060046D4 RID: 18132 RVA: 0x00255A70 File Offset: 0x00253E70
 		public IEnumerable<Pawn> Owners
 		{
 			get
@@ -364,8 +313,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B32 RID: 2866
-		// (get) Token: 0x060046D5 RID: 18133 RVA: 0x00255A9C File Offset: 0x00253E9C
 		public IEnumerable<Building_Bed> ContainedBeds
 		{
 			get
@@ -383,8 +330,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B33 RID: 2867
-		// (get) Token: 0x060046D6 RID: 18134 RVA: 0x00255AC8 File Offset: 0x00253EC8
 		public bool Fogged
 		{
 			get
@@ -393,8 +338,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B34 RID: 2868
-		// (get) Token: 0x060046D7 RID: 18135 RVA: 0x00255B10 File Offset: 0x00253F10
 		public List<Thing> ContainedAndAdjacentThings
 		{
 			get
@@ -421,8 +364,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B35 RID: 2869
-		// (get) Token: 0x060046D8 RID: 18136 RVA: 0x00255BCC File Offset: 0x00253FCC
 		public RoomRoleDef Role
 		{
 			get
@@ -435,7 +376,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046D9 RID: 18137 RVA: 0x00255BF8 File Offset: 0x00253FF8
 		public static Room MakeNew(Map map)
 		{
 			Room room = new Room();
@@ -445,7 +385,6 @@ namespace Verse
 			return room;
 		}
 
-		// Token: 0x060046DA RID: 18138 RVA: 0x00255C38 File Offset: 0x00254038
 		public void AddRegion(Region r)
 		{
 			if (this.regions.Contains(r))
@@ -472,7 +411,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046DB RID: 18139 RVA: 0x00255CD4 File Offset: 0x002540D4
 		public void RemoveRegion(Region r)
 		{
 			if (!this.regions.Contains(r))
@@ -503,13 +441,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046DC RID: 18140 RVA: 0x00255D8D File Offset: 0x0025418D
 		public void Notify_MyMapRemoved()
 		{
 			this.mapIndex = -1;
 		}
 
-		// Token: 0x060046DD RID: 18141 RVA: 0x00255D98 File Offset: 0x00254198
 		public void Notify_ContainedThingSpawnedOrDespawned(Thing th)
 		{
 			if (th.def.category != ThingCategory.Mote && th.def.category != ThingCategory.Projectile && th.def.category != ThingCategory.Ethereal && th.def.category != ThingCategory.Pawn)
@@ -518,19 +454,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046DE RID: 18142 RVA: 0x00255DF5 File Offset: 0x002541F5
 		public void Notify_TerrainChanged()
 		{
 			this.statsAndRoleDirty = true;
 		}
 
-		// Token: 0x060046DF RID: 18143 RVA: 0x00255DFF File Offset: 0x002541FF
 		public void Notify_BedTypeChanged()
 		{
 			this.statsAndRoleDirty = true;
 		}
 
-		// Token: 0x060046E0 RID: 18144 RVA: 0x00255E09 File Offset: 0x00254209
 		public void Notify_RoofChanged()
 		{
 			this.cachedOpenRoofCount = -1;
@@ -538,7 +471,6 @@ namespace Verse
 			this.Group.Notify_RoofChanged();
 		}
 
-		// Token: 0x060046E1 RID: 18145 RVA: 0x00255E28 File Offset: 0x00254228
 		public void Notify_RoomShapeOrContainedBedsChanged()
 		{
 			this.cachedCellCount = -1;
@@ -582,7 +514,6 @@ namespace Verse
 			FacilitiesUtility.NotifyFacilitiesAboutChangedLOSBlockers(this.regions);
 		}
 
-		// Token: 0x060046E2 RID: 18146 RVA: 0x00255FA8 File Offset: 0x002543A8
 		public void DecrementMapIndex()
 		{
 			if ((int)this.mapIndex <= 0)
@@ -601,7 +532,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046E3 RID: 18147 RVA: 0x00256018 File Offset: 0x00254418
 		public float GetStat(RoomStatDef roomStat)
 		{
 			if (this.statsAndRoleDirty)
@@ -620,13 +550,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060046E4 RID: 18148 RVA: 0x00256064 File Offset: 0x00254464
 		public RoomStatScoreStage GetStatScoreStage(RoomStatDef stat)
 		{
 			return stat.GetScoreStage(this.GetStat(stat));
 		}
 
-		// Token: 0x060046E5 RID: 18149 RVA: 0x00256088 File Offset: 0x00254488
 		public void DrawFieldEdges()
 		{
 			Room.fields.Clear();
@@ -637,7 +565,6 @@ namespace Verse
 			Room.fields.Clear();
 		}
 
-		// Token: 0x060046E6 RID: 18150 RVA: 0x002560F8 File Offset: 0x002544F8
 		public int OpenRoofCountStopAt(int threshold)
 		{
 			if (this.cachedOpenRoofCount == -1 && this.cachedOpenRoofState == null)
@@ -663,7 +590,6 @@ namespace Verse
 			return this.cachedOpenRoofCount;
 		}
 
-		// Token: 0x060046E7 RID: 18151 RVA: 0x002561C4 File Offset: 0x002545C4
 		private void UpdateRoomStatsAndRole()
 		{
 			this.statsAndRoleDirty = false;
@@ -688,7 +614,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046E8 RID: 18152 RVA: 0x002562D0 File Offset: 0x002546D0
 		internal void DebugDraw()
 		{
 			int hashCode = this.GetHashCode();
@@ -698,7 +623,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046E9 RID: 18153 RVA: 0x0025633C File Offset: 0x0025473C
 		internal string DebugString()
 		{
 			return string.Concat(new object[]
@@ -726,7 +650,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060046EA RID: 18154 RVA: 0x0025646C File Offset: 0x0025486C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -743,10 +666,602 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060046EB RID: 18155 RVA: 0x00256504 File Offset: 0x00254904
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineInt(this.ID, 1538478890);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Room()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <UpdateRoomStatsAndRole>m__0(RoomStatDef x)
+		{
+			return x.updatePriority;
+		}
+
+		[CompilerGenerated]
+		private float <UpdateRoomStatsAndRole>m__1(RoomRoleDef x)
+		{
+			return x.Worker.GetScore(this);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal int <i>__1;
+
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__2;
+
+			internal Room $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							c = enumerator.Current;
+							this.$current = c;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.regions.Count)
+				{
+					enumerator = this.regions[i].Cells.GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Room.<>c__Iterator0 <>c__Iterator = new Room.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__1;
+
+			internal int <i>__2;
+
+			internal IntVec3 <prospective>__3;
+
+			internal Region <region>__3;
+
+			internal Room $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.Cells.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_10E:
+						i++;
+						break;
+					default:
+						goto IL_12A;
+					}
+					IL_11D:
+					if (i < 8)
+					{
+						prospective = c + GenAdj.AdjacentCells[i];
+						region = (c + GenAdj.AdjacentCells[i]).GetRegion(base.Map, RegionType.Set_Passable);
+						if (region == null || region.Room != this)
+						{
+							this.$current = prospective;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_10E;
+					}
+					IL_12A:
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						i = 0;
+						goto IL_11D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Room.<>c__Iterator1 <>c__Iterator = new Room.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator2 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal Pawn <firstOwner>__0;
+
+			internal Pawn <secondOwner>__0;
+
+			internal IEnumerator<Building_Bed> $locvar0;
+
+			internal Room $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (base.TouchesMapEdge)
+					{
+						return false;
+					}
+					if (base.IsHuge)
+					{
+						return false;
+					}
+					if (base.Role != RoomRoleDefOf.Bedroom && base.Role != RoomRoleDefOf.PrisonCell && base.Role != RoomRoleDefOf.Barracks && base.Role != RoomRoleDefOf.PrisonBarracks)
+					{
+						return false;
+					}
+					firstOwner = null;
+					secondOwner = null;
+					enumerator = base.ContainedBeds.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							Building_Bed building_Bed = enumerator.Current;
+							if (building_Bed.def.building.bed_humanlike)
+							{
+								for (int i = 0; i < building_Bed.owners.Count; i++)
+								{
+									if (firstOwner == null)
+									{
+										firstOwner = building_Bed.owners[i];
+									}
+									else
+									{
+										if (secondOwner != null)
+										{
+											return false;
+										}
+										secondOwner = building_Bed.owners[i];
+									}
+								}
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					if (firstOwner != null)
+					{
+						if (secondOwner == null)
+						{
+							this.$current = firstOwner;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+						if (LovePartnerRelationUtility.LovePartnerRelationExists(firstOwner, secondOwner))
+						{
+							this.$current = firstOwner;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					this.$current = secondOwner;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Room.<>c__Iterator2 <>c__Iterator = new Room.<>c__Iterator2();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator3 : IEnumerable, IEnumerable<Building_Bed>, IEnumerator, IDisposable, IEnumerator<Building_Bed>
+		{
+			internal List<Thing> <things>__0;
+
+			internal int <i>__1;
+
+			internal Building_Bed <bed>__2;
+
+			internal Room $this;
+
+			internal Building_Bed $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					things = base.ContainedAndAdjacentThings;
+					i = 0;
+					break;
+				case 1u:
+					IL_87:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= things.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					bed = (things[i] as Building_Bed);
+					if (bed != null)
+					{
+						this.$current = bed;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_87;
+				}
+				return false;
+			}
+
+			Building_Bed IEnumerator<Building_Bed>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Building_Bed>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Building_Bed> IEnumerable<Building_Bed>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Room.<>c__Iterator3 <>c__Iterator = new Room.<>c__Iterator3();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

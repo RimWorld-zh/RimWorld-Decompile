@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F6 RID: 1526
 	public static class CaravanNameGenerator
 	{
-		// Token: 0x06001E61 RID: 7777 RVA: 0x00107358 File Offset: 0x00105758
 		public static string GenerateCaravanName(Caravan caravan)
 		{
 			Pawn pawn;
@@ -36,7 +35,6 @@ namespace RimWorld.Planet
 			return caravan.def.label;
 		}
 
-		// Token: 0x06001E62 RID: 7778 RVA: 0x00107460 File Offset: 0x00105860
 		private static bool CaravanNameInUse(string name)
 		{
 			List<Caravan> caravans = Find.WorldObjects.Caravans;
@@ -48,6 +46,21 @@ namespace RimWorld.Planet
 				}
 			}
 			return false;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateCaravanName>c__AnonStorey0
+		{
+			internal Caravan caravan;
+
+			public <GenerateCaravanName>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return this.caravan.IsOwner(x);
+			}
 		}
 	}
 }

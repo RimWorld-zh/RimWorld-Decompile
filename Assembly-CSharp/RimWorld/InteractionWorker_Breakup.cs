@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B1 RID: 1201
 	public class InteractionWorker_Breakup : InteractionWorker
 	{
-		// Token: 0x04000CAB RID: 3243
 		private const float BaseChance = 0.02f;
 
-		// Token: 0x04000CAC RID: 3244
 		private const float SpouseRelationChanceFactor = 0.4f;
 
-		// Token: 0x06001571 RID: 5489 RVA: 0x000BEA90 File Offset: 0x000BCE90
+		[CompilerGenerated]
+		private static Func<Thought_Memory, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thought_Memory, float> <>f__am$cache1;
+
+		public InteractionWorker_Breakup()
+		{
+		}
+
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -37,7 +44,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001572 RID: 5490 RVA: 0x000BEB04 File Offset: 0x000BCF04
 		public Thought RandomBreakupReason(Pawn initiator, Pawn recipient)
 		{
 			List<Thought_Memory> list = (from m in initiator.needs.mood.thoughts.memories.Memories
@@ -60,7 +66,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001573 RID: 5491 RVA: 0x000BEBCC File Offset: 0x000BCFCC
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			Thought thought = this.RandomBreakupReason(initiator, recipient);
@@ -116,6 +121,40 @@ namespace RimWorld
 				letterLabel = null;
 				letterText = null;
 				letterDef = null;
+			}
+		}
+
+		[CompilerGenerated]
+		private static float <RandomBreakupReason>m__0(Thought_Memory m)
+		{
+			return -m.CurStage.baseOpinionOffset;
+		}
+
+		[CompilerGenerated]
+		private static float <RandomBreakupReason>m__1(Thought_Memory m)
+		{
+			return -m.CurStage.baseOpinionOffset;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomBreakupReason>c__AnonStorey0
+		{
+			internal Pawn recipient;
+
+			internal float worstMemoryOpinionOffset;
+
+			public <RandomBreakupReason>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thought_Memory m)
+			{
+				return m != null && m.otherPawn == this.recipient && m.CurStage != null && m.CurStage.baseOpinionOffset < 0f;
+			}
+
+			internal bool <>m__1(Thought_Memory m)
+			{
+				return -m.CurStage.baseOpinionOffset >= this.worstMemoryOpinionOffset / 2f;
 			}
 		}
 	}

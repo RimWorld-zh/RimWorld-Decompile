@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EA9 RID: 3753
 	public static class TabDrawer
 	{
-		// Token: 0x04003AA2 RID: 15010
 		private const float MaxTabWidth = 200f;
 
-		// Token: 0x04003AA3 RID: 15011
 		public const float TabHeight = 32f;
 
-		// Token: 0x04003AA4 RID: 15012
 		public const float TabHoriztonalOverlap = 10f;
 
-		// Token: 0x04003AA5 RID: 15013
 		private static List<TabRecord> tmpTabs = new List<TabRecord>();
 
-		// Token: 0x06005881 RID: 22657 RVA: 0x002D6128 File Offset: 0x002D4528
+		[CompilerGenerated]
+		private static Predicate<TabRecord> <>f__am$cache0;
+
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, int rows)
 		{
 			TabRecord result;
@@ -61,7 +59,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005882 RID: 22658 RVA: 0x002D6248 File Offset: 0x002D4648
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, float maxTabWidth = 200f)
 		{
 			TabRecord tabRecord = null;
@@ -123,6 +120,36 @@ namespace Verse
 				}
 			}
 			return tabRecord;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TabDrawer()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawTabs>m__0(TabRecord t)
+		{
+			return t.Selected;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawTabs>c__AnonStorey0
+		{
+			internal List<TabRecord> tabs;
+
+			internal float tabWidth;
+
+			public <DrawTabs>c__AnonStorey0()
+			{
+			}
+
+			internal Rect <>m__0(TabRecord tab)
+			{
+				int num = this.tabs.IndexOf(tab);
+				float x = (float)num * (this.tabWidth - 10f);
+				return new Rect(x, 1f, this.tabWidth, 32f);
+			}
 		}
 	}
 }

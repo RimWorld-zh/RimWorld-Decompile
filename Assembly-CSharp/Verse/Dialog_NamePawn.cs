@@ -4,19 +4,14 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EB6 RID: 3766
 	public class Dialog_NamePawn : Window
 	{
-		// Token: 0x04003B6C RID: 15212
 		private Pawn pawn;
 
-		// Token: 0x04003B6D RID: 15213
 		private string curName;
 
-		// Token: 0x04003B6E RID: 15214
 		private string curTitle;
 
-		// Token: 0x0600591E RID: 22814 RVA: 0x002DBB84 File Offset: 0x002D9F84
 		public Dialog_NamePawn(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -38,8 +33,6 @@ namespace Verse
 			this.closeOnAccept = false;
 		}
 
-		// Token: 0x17000DFC RID: 3580
-		// (get) Token: 0x0600591F RID: 22815 RVA: 0x002DBC0C File Offset: 0x002DA00C
 		private Name CurPawnName
 		{
 			get
@@ -63,8 +56,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DFD RID: 3581
-		// (get) Token: 0x06005920 RID: 22816 RVA: 0x002DBC84 File Offset: 0x002DA084
 		public override Vector2 InitialSize
 		{
 			get
@@ -73,7 +64,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005921 RID: 22817 RVA: 0x002DBCA8 File Offset: 0x002DA0A8
 		public override void DoWindowContents(Rect inRect)
 		{
 			bool flag = false;

@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C5 RID: 2501
 	public abstract class StatWorker_MeleeDamageAmount : StatWorker
 	{
-		// Token: 0x06003815 RID: 14357 RVA: 0x001DEAB4 File Offset: 0x001DCEB4
+		protected StatWorker_MeleeDamageAmount()
+		{
+		}
+
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			float num = base.GetValueUnfinalized(req, true);
@@ -27,7 +29,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003816 RID: 14358 RVA: 0x001DEB20 File Offset: 0x001DCF20
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -49,7 +50,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003817 RID: 14359
 		protected abstract DamageArmorCategoryDef CategoryOfDamage(ThingDef def);
 	}
 }

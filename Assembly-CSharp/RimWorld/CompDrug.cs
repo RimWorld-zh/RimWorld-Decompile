@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070C RID: 1804
 	public class CompDrug : ThingComp
 	{
-		// Token: 0x170005F0 RID: 1520
-		// (get) Token: 0x06002784 RID: 10116 RVA: 0x0015321C File Offset: 0x0015161C
+		public CompDrug()
+		{
+		}
+
 		public CompProperties_Drug Props
 		{
 			get
@@ -16,7 +18,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002785 RID: 10117 RVA: 0x0015323C File Offset: 0x0015163C
 		public override void PostIngested(Pawn ingester)
 		{
 			if (this.Props.Addictive && ingester.RaceProps.IsFlesh)
@@ -89,6 +90,21 @@ namespace RimWorld
 			if (ingester.drugs != null)
 			{
 				ingester.drugs.Notify_DrugIngested(this.parent);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PostIngested>c__AnonStorey0
+		{
+			internal HediffDef addictionHediffDef;
+
+			public <PostIngested>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Need x)
+			{
+				return x.def == this.addictionHediffDef.causesNeed;
 			}
 		}
 	}

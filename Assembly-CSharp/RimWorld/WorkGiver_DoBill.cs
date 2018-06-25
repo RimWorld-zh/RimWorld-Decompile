@@ -1,44 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200013E RID: 318
 	public class WorkGiver_DoBill : WorkGiver_Scanner
 	{
-		// Token: 0x04000317 RID: 791
 		private List<ThingCount> chosenIngThings = new List<ThingCount>();
 
-		// Token: 0x04000318 RID: 792
 		private static readonly IntRange ReCheckFailedBillTicksRange = new IntRange(500, 600);
 
-		// Token: 0x04000319 RID: 793
 		private static string MissingMaterialsTranslated;
 
-		// Token: 0x0400031A RID: 794
 		private static List<Thing> relevantThings = new List<Thing>();
 
-		// Token: 0x0400031B RID: 795
 		private static HashSet<Thing> processedThings = new HashSet<Thing>();
 
-		// Token: 0x0400031C RID: 796
 		private static List<Thing> newRelevantThings = new List<Thing>();
 
-		// Token: 0x0400031D RID: 797
 		private static List<IngredientCount> ingredientsOrdered = new List<IngredientCount>();
 
-		// Token: 0x0400031E RID: 798
 		private static List<Thing> tmpMedicine = new List<Thing>();
 
-		// Token: 0x0400031F RID: 799
 		private static WorkGiver_DoBill.DefCountList availableCounts = new WorkGiver_DoBill.DefCountList();
 
-		// Token: 0x170000FA RID: 250
-		// (get) Token: 0x0600067E RID: 1662 RVA: 0x00043364 File Offset: 0x00041764
+		[CompilerGenerated]
+		private static Func<Thing, float> <>f__am$cache0;
+
+		public WorkGiver_DoBill()
+		{
+		}
+
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -47,14 +43,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600067F RID: 1663 RVA: 0x0004337C File Offset: 0x0004177C
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Some;
 		}
 
-		// Token: 0x170000FB RID: 251
-		// (get) Token: 0x06000680 RID: 1664 RVA: 0x00043394 File Offset: 0x00041794
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -72,13 +65,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000681 RID: 1665 RVA: 0x000433F2 File Offset: 0x000417F2
 		public static void ResetStaticData()
 		{
 			WorkGiver_DoBill.MissingMaterialsTranslated = "MissingMaterials".Translate();
 		}
 
-		// Token: 0x06000682 RID: 1666 RVA: 0x00043404 File Offset: 0x00041804
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			bool result;
@@ -101,7 +92,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000683 RID: 1667 RVA: 0x0004347C File Offset: 0x0004187C
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
 			IBillGiver billGiver = thing as IBillGiver;
@@ -126,7 +116,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000684 RID: 1668 RVA: 0x0004355C File Offset: 0x0004195C
 		private static UnfinishedThing ClosestUnfinishedThingForBill(Pawn pawn, Bill_ProductionWithUft bill)
 		{
 			Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => bill.IsFixedOrAllowedIngredient(x.def)) && pawn.CanReserve(t, 1, -1, null, false);
@@ -139,7 +128,6 @@ namespace RimWorld
 			return (UnfinishedThing)GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
-		// Token: 0x06000685 RID: 1669 RVA: 0x00043604 File Offset: 0x00041A04
 		private static Job FinishUftJob(Pawn pawn, UnfinishedThing uft, Bill_ProductionWithUft bill)
 		{
 			Job result;
@@ -183,7 +171,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000686 RID: 1670 RVA: 0x000436F8 File Offset: 0x00041AF8
 		private Job StartOrResumeBillJob(Pawn pawn, IBillGiver giver)
 		{
 			for (int i = 0; i < giver.BillStack.Count; i++)
@@ -248,7 +235,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000687 RID: 1671 RVA: 0x00043900 File Offset: 0x00041D00
 		private Job TryStartNewDoBillJob(Pawn pawn, Bill bill, IBillGiver giver)
 		{
 			Job job = WorkGiverUtility.HaulStuffOffBillGiverJob(pawn, giver, null);
@@ -274,7 +260,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000688 RID: 1672 RVA: 0x000439E0 File Offset: 0x00041DE0
 		public bool ThingIsUsableBillGiver(Thing thing)
 		{
 			Pawn pawn = thing as Pawn;
@@ -326,7 +311,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000689 RID: 1673 RVA: 0x00043B48 File Offset: 0x00041F48
 		private static bool TryFindBestBillIngredients(Bill bill, Pawn pawn, Thing billGiver, List<ThingCount> chosen)
 		{
 			chosen.Clear();
@@ -412,7 +396,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600068A RID: 1674 RVA: 0x00043D40 File Offset: 0x00042140
 		private static IntVec3 GetBillGiverRootCell(Thing billGiver, Pawn forPawn)
 		{
 			Building building = billGiver as Building;
@@ -436,7 +419,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600068B RID: 1675 RVA: 0x00043DA8 File Offset: 0x000421A8
 		private static void AddEveryMedicineToRelevantThings(Pawn pawn, Thing billGiver, List<Thing> relevantThings, Predicate<Thing> baseValidator, Map map)
 		{
 			MedicalCareCategory medicalCareCategory = WorkGiver_DoBill.GetMedicalCareCategory(billGiver);
@@ -455,7 +437,6 @@ namespace RimWorld
 			WorkGiver_DoBill.tmpMedicine.Clear();
 		}
 
-		// Token: 0x0600068C RID: 1676 RVA: 0x00043E94 File Offset: 0x00042294
 		private static MedicalCareCategory GetMedicalCareCategory(Thing billGiver)
 		{
 			Pawn pawn = billGiver as Pawn;
@@ -471,7 +452,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600068D RID: 1677 RVA: 0x00043ED4 File Offset: 0x000422D4
 		private static void MakeIngredientsListInProcessingOrder(List<IngredientCount> ingredientsOrdered, Bill bill)
 		{
 			ingredientsOrdered.Clear();
@@ -500,7 +480,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600068E RID: 1678 RVA: 0x00043FBC File Offset: 0x000423BC
 		private static bool TryFindBestBillIngredientsInSet(List<Thing> availableThings, Bill bill, List<ThingCount> chosen)
 		{
 			bool result;
@@ -515,7 +494,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600068F RID: 1679 RVA: 0x00043FF8 File Offset: 0x000423F8
 		private static bool TryFindBestBillIngredientsInSet_NoMix(List<Thing> availableThings, Bill bill, List<ThingCount> chosen)
 		{
 			RecipeDef recipe = bill.recipe;
@@ -572,7 +550,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000690 RID: 1680 RVA: 0x000441FC File Offset: 0x000425FC
 		private static bool TryFindBestBillIngredientsInSet_AllowMix(List<Thing> availableThings, Bill bill, List<ThingCount> chosen)
 		{
 			chosen.Clear();
@@ -606,17 +583,27 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0200013F RID: 319
+		// Note: this type is marked as 'beforefieldinit'.
+		static WorkGiver_DoBill()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <AddEveryMedicineToRelevantThings>m__0(Thing x)
+		{
+			return -x.GetStatValue(StatDefOf.MedicalPotency, true);
+		}
+
 		private class DefCountList
 		{
-			// Token: 0x04000321 RID: 801
 			private List<ThingDef> defs = new List<ThingDef>();
 
-			// Token: 0x04000322 RID: 802
 			private List<float> counts = new List<float>();
 
-			// Token: 0x170000FC RID: 252
-			// (get) Token: 0x06000694 RID: 1684 RVA: 0x000443B8 File Offset: 0x000427B8
+			public DefCountList()
+			{
+			}
+
 			public int Count
 			{
 				get
@@ -625,7 +612,6 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x170000FD RID: 253
 			public float this[ThingDef def]
 			{
 				get
@@ -659,26 +645,22 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x06000697 RID: 1687 RVA: 0x0004447C File Offset: 0x0004287C
 			public float GetCount(int index)
 			{
 				return this.counts[index];
 			}
 
-			// Token: 0x06000698 RID: 1688 RVA: 0x0004449D File Offset: 0x0004289D
 			public void SetCount(int index, float val)
 			{
 				this.counts[index] = val;
 				this.CheckRemove(index);
 			}
 
-			// Token: 0x06000699 RID: 1689 RVA: 0x000444B4 File Offset: 0x000428B4
 			public ThingDef GetDef(int index)
 			{
 				return this.defs[index];
 			}
 
-			// Token: 0x0600069A RID: 1690 RVA: 0x000444D5 File Offset: 0x000428D5
 			private void CheckRemove(int index)
 			{
 				if (this.counts[index] == 0f)
@@ -688,14 +670,12 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x0600069B RID: 1691 RVA: 0x00044508 File Offset: 0x00042908
 			public void Clear()
 			{
 				this.defs.Clear();
 				this.counts.Clear();
 			}
 
-			// Token: 0x0600069C RID: 1692 RVA: 0x00044524 File Offset: 0x00042924
 			public void GenerateFrom(List<Thing> things)
 			{
 				this.Clear();
@@ -704,6 +684,154 @@ namespace RimWorld
 					ThingDef def;
 					this[def = things[i].def] = this[def] + (float)things[i].stackCount;
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ClosestUnfinishedThingForBill>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal Bill_ProductionWithUft bill;
+
+			public <ClosestUnfinishedThingForBill>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return !t.IsForbidden(this.pawn) && ((UnfinishedThing)t).Recipe == this.bill.recipe && ((UnfinishedThing)t).Creator == this.pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => this.bill.IsFixedOrAllowedIngredient(x.def)) && this.pawn.CanReserve(t, 1, -1, null, false);
+			}
+
+			internal bool <>m__1(Thing x)
+			{
+				return this.bill.IsFixedOrAllowedIngredient(x.def);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindBestBillIngredients>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			internal Thing billGiver;
+
+			internal Bill bill;
+
+			internal TraverseParms traverseParams;
+
+			internal RegionEntryPredicate entryCondition;
+
+			internal Region rootReg;
+
+			internal Predicate<Thing> baseValidator;
+
+			internal bool billGiverIsPawn;
+
+			internal int regionsProcessed;
+
+			internal int adjacentRegionsAvailable;
+
+			internal IntVec3 rootCell;
+
+			internal List<ThingCount> chosen;
+
+			internal bool foundAll;
+
+			public <TryFindBestBillIngredients>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return t.Spawned && !t.IsForbidden(this.pawn) && (float)(t.Position - this.billGiver.Position).LengthHorizontalSquared < this.bill.ingredientSearchRadius * this.bill.ingredientSearchRadius && this.bill.IsFixedOrAllowedIngredient(t) && this.bill.recipe.ingredients.Any((IngredientCount ingNeed) => ingNeed.filter.Allows(t)) && this.pawn.CanReserve(t, 1, -1, null, false);
+			}
+
+			internal bool <>m__1(Region from, Region r)
+			{
+				return r.Allows(this.traverseParams, false);
+			}
+
+			internal bool <>m__2(Region region)
+			{
+				return this.entryCondition(this.rootReg, region);
+			}
+
+			internal bool <>m__3(Region r)
+			{
+				List<Thing> list = r.ListerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.HaulableEver));
+				for (int i = 0; i < list.Count; i++)
+				{
+					Thing thing = list[i];
+					if (!WorkGiver_DoBill.processedThings.Contains(thing))
+					{
+						if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, PathEndMode.ClosestTouch, this.pawn))
+						{
+							if (this.baseValidator(thing) && (!thing.def.IsMedicine || !this.billGiverIsPawn))
+							{
+								WorkGiver_DoBill.newRelevantThings.Add(thing);
+								WorkGiver_DoBill.processedThings.Add(thing);
+							}
+						}
+					}
+				}
+				this.regionsProcessed++;
+				if (WorkGiver_DoBill.newRelevantThings.Count > 0 && this.regionsProcessed > this.adjacentRegionsAvailable)
+				{
+					Comparison<Thing> comparison = delegate(Thing t1, Thing t2)
+					{
+						float num = (float)(t1.Position - this.rootCell).LengthHorizontalSquared;
+						float value = (float)(t2.Position - this.rootCell).LengthHorizontalSquared;
+						return num.CompareTo(value);
+					};
+					WorkGiver_DoBill.newRelevantThings.Sort(comparison);
+					WorkGiver_DoBill.relevantThings.AddRange(WorkGiver_DoBill.newRelevantThings);
+					WorkGiver_DoBill.newRelevantThings.Clear();
+					if (WorkGiver_DoBill.TryFindBestBillIngredientsInSet(WorkGiver_DoBill.relevantThings, this.bill, this.chosen))
+					{
+						this.foundAll = true;
+						return true;
+					}
+				}
+				return false;
+			}
+
+			internal int <>m__4(Thing t1, Thing t2)
+			{
+				float num = (float)(t1.Position - this.rootCell).LengthHorizontalSquared;
+				float value = (float)(t2.Position - this.rootCell).LengthHorizontalSquared;
+				return num.CompareTo(value);
+			}
+
+			private sealed class <TryFindBestBillIngredients>c__AnonStorey2
+			{
+				internal Thing t;
+
+				internal WorkGiver_DoBill.<TryFindBestBillIngredients>c__AnonStorey1 <>f__ref$1;
+
+				public <TryFindBestBillIngredients>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(IngredientCount ingNeed)
+				{
+					return ingNeed.filter.Allows(this.t);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddEveryMedicineToRelevantThings>c__AnonStorey3
+		{
+			internal Thing billGiver;
+
+			public <AddEveryMedicineToRelevantThings>c__AnonStorey3()
+			{
+			}
+
+			internal int <>m__0(Thing x)
+			{
+				return x.Position.DistanceToSquared(this.billGiver.Position);
 			}
 		}
 	}

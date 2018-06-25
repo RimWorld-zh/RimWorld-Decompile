@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9B RID: 2971
 	public class SoundParamTarget_PropertyEcho : SoundParamTarget
 	{
-		// Token: 0x04002B39 RID: 11065
 		private EchoFilterProperty filterProperty;
 
-		// Token: 0x170009D5 RID: 2517
-		// (get) Token: 0x0600405D RID: 16477 RVA: 0x0021D5C4 File Offset: 0x0021B9C4
+		public SoundParamTarget_PropertyEcho()
+		{
+		}
+
 		public override string Label
 		{
 			get
@@ -19,8 +19,6 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x170009D6 RID: 2518
-		// (get) Token: 0x0600405E RID: 16478 RVA: 0x0021D5F0 File Offset: 0x0021B9F0
 		public override Type NeededFilterType
 		{
 			get
@@ -29,7 +27,6 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600405F RID: 16479 RVA: 0x0021D610 File Offset: 0x0021BA10
 		public override void SetOn(Sample sample, float value)
 		{
 			AudioEchoFilter audioEchoFilter = sample.source.GetComponent<AudioEchoFilter>();

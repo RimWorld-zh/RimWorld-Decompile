@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200046F RID: 1135
 	public static class PawnBanishUtility
 	{
-		// Token: 0x04000C00 RID: 3072
 		private const float DeathChanceForCaravanPawnBanishedToDie = 0.8f;
 
-		// Token: 0x04000C01 RID: 3073
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 
-		// Token: 0x060013F3 RID: 5107 RVA: 0x000AE380 File Offset: 0x000AC780
 		public static void Banish(Pawn pawn, int tile = -1)
 		{
 			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
@@ -69,7 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013F4 RID: 5108 RVA: 0x000AE4EC File Offset: 0x000AC8EC
 		public static bool WouldBeLeftToDie(Pawn p, int tile)
 		{
 			bool result;
@@ -105,7 +101,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013F5 RID: 5109 RVA: 0x000AE5C0 File Offset: 0x000AC9C0
 		public static string GetBanishPawnDialogText(Pawn banishedPawn)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -167,7 +162,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060013F6 RID: 5110 RVA: 0x000AE850 File Offset: 0x000ACC50
 		public static void ShowBanishPawnConfirmationDialog(Pawn pawn)
 		{
 			Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(PawnBanishUtility.GetBanishPawnDialogText(pawn), delegate
@@ -177,7 +171,6 @@ namespace RimWorld
 			Find.WindowStack.Add(window);
 		}
 
-		// Token: 0x060013F7 RID: 5111 RVA: 0x000AE898 File Offset: 0x000ACC98
 		public static string GetBanishButtonTip(Pawn pawn)
 		{
 			string result;
@@ -195,7 +188,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013F8 RID: 5112 RVA: 0x000AE900 File Offset: 0x000ACD00
 		private static void HealIfPossible(Pawn p)
 		{
 			PawnBanishUtility.tmpHediffs.Clear();
@@ -218,10 +210,29 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013F9 RID: 5113 RVA: 0x000AE9B8 File Offset: 0x000ACDB8
 		private static bool WillTakeInventoryIfBanished(Pawn pawn)
 		{
 			return !pawn.IsCaravanMember();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnBanishUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <ShowBanishPawnConfirmationDialog>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <ShowBanishPawnConfirmationDialog>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				PawnBanishUtility.Banish(this.pawn, -1);
+			}
 		}
 	}
 }

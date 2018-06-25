@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020001E5 RID: 485
 	public class ThinkNode_ConditionalAnyColonistTryingToExitMap : ThinkNode_Conditional
 	{
-		// Token: 0x06000983 RID: 2435 RVA: 0x00056A84 File Offset: 0x00054E84
+		public ThinkNode_ConditionalAnyColonistTryingToExitMap()
+		{
+		}
+
 		protected override bool Satisfied(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;

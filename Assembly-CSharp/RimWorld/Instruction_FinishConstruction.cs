@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008C4 RID: 2244
 	public class Instruction_FinishConstruction : Lesson_Instruction
 	{
-		// Token: 0x04001B9D RID: 7069
 		private int initialBlueprintsCount = -1;
 
-		// Token: 0x1700082C RID: 2092
-		// (get) Token: 0x06003350 RID: 13136 RVA: 0x001B926C File Offset: 0x001B766C
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache0;
+
+		public Instruction_FinishConstruction()
+		{
+		}
+
 		protected override float ProgressPercent
 		{
 			get
@@ -34,7 +38,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003351 RID: 13137 RVA: 0x001B92D0 File Offset: 0x001B76D0
 		private IEnumerable<Thing> ConstructionNeeders()
 		{
 			return from b in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Concat(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame))
@@ -42,7 +45,6 @@ namespace RimWorld
 			select b;
 		}
 
-		// Token: 0x06003352 RID: 13138 RVA: 0x001B9330 File Offset: 0x001B7730
 		public override void LessonUpdate()
 		{
 			base.LessonUpdate();
@@ -57,6 +59,12 @@ namespace RimWorld
 			{
 				Find.ActiveLesson.Deactivate();
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ConstructionNeeders>m__0(Thing b)
+		{
+			return b.Faction == Faction.OfPlayer;
 		}
 	}
 }

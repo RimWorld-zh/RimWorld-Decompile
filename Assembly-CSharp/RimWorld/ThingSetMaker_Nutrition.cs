@@ -1,23 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F3 RID: 1779
 	public class ThingSetMaker_Nutrition : ThingSetMaker
 	{
-		// Token: 0x0400158A RID: 5514
 		private int nextSeed;
 
-		// Token: 0x060026B5 RID: 9909 RVA: 0x0014C200 File Offset: 0x0014A600
+		[CompilerGenerated]
+		private static Func<Thing, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPairWithQuality, float> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPairWithQuality, float> <>f__am$cache4;
+
 		public ThingSetMaker_Nutrition()
 		{
 			this.nextSeed = Rand.Int;
 		}
 
-		// Token: 0x060026B6 RID: 9910 RVA: 0x0014C214 File Offset: 0x0014A614
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			bool result;
@@ -62,7 +77,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026B7 RID: 9911 RVA: 0x0014C38C File Offset: 0x0014A78C
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			float? maxTotalMass = parms.maxTotalMass;
@@ -77,13 +91,11 @@ namespace RimWorld
 			this.nextSeed++;
 		}
 
-		// Token: 0x060026B8 RID: 9912 RVA: 0x0014C438 File Offset: 0x0014A838
 		protected virtual IEnumerable<ThingDef> AllowedThingDefs(ThingSetMakerParams parms)
 		{
 			return ThingSetMakerUtility.GetAllowedThingDefs(parms);
 		}
 
-		// Token: 0x060026B9 RID: 9913 RVA: 0x0014C454 File Offset: 0x0014A854
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalNutrition, int seed)
 		{
 			Rand.PushState(seed);
@@ -92,7 +104,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026BA RID: 9914 RVA: 0x0014C480 File Offset: 0x0014A880
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalNutrition)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
@@ -132,7 +143,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026BB RID: 9915 RVA: 0x0014C660 File Offset: 0x0014AA60
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			TechLevel? techLevel2 = parms.techLevel;
@@ -155,6 +165,208 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static float <Generate>m__0(Thing x)
+		{
+			return x.GetStatValue(StatDefOf.Nutrition, true);
+		}
+
+		[CompilerGenerated]
+		private static bool <GeneratePossibleDefs>m__1(ThingDef x)
+		{
+			return x.IsMeat;
+		}
+
+		[CompilerGenerated]
+		private static bool <GeneratePossibleDefs>m__2(ThingDef x)
+		{
+			return x.IsLeather;
+		}
+
+		[CompilerGenerated]
+		private static float <GeneratePossibleDefs>m__3(ThingStuffPairWithQuality x)
+		{
+			return x.GetStatValue(StatDefOf.Nutrition);
+		}
+
+		[CompilerGenerated]
+		private static float <GeneratePossibleDefs>m__4(ThingStuffPairWithQuality x)
+		{
+			return x.GetStatValue(StatDefOf.Nutrition) * (float)x.thing.stackLimit;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GeneratePossibleDefs>c__AnonStorey1
+		{
+			internal int numMeats;
+
+			internal int numLeathers;
+
+			public <GeneratePossibleDefs>c__AnonStorey1()
+			{
+			}
+
+			internal float <>m__0(ThingDef x)
+			{
+				return ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(x, this.numMeats, this.numLeathers);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingSetMakerParams parms;
+
+			internal TechLevel <techLevel>__0;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__1;
+
+			internal ThingSetMaker_Nutrition $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+				{
+					TechLevel? techLevel2 = parms.techLevel;
+					techLevel = ((techLevel2 == null) ? TechLevel.Undefined : techLevel2.Value);
+					enumerator = this.AllowedThingDefs(parms).GetEnumerator();
+					num = 4294967293u;
+					break;
+				}
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					while (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						float? maxTotalMass = parms.maxTotalMass;
+						if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
+						{
+							float? maxTotalMass2 = parms.maxTotalMass;
+							if (ThingSetMakerUtility.GetMinMass(t, techLevel) > maxTotalMass2)
+							{
+								continue;
+							}
+						}
+						FloatRange? totalNutritionRange = parms.totalNutritionRange;
+						if (totalNutritionRange == null || parms.totalNutritionRange.Value.max == 3.40282347E+38f || !t.IsNutritionGivingIngestible || t.ingestible.CachedNutrition <= parms.totalNutritionRange.Value.max)
+						{
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker_Nutrition.<AllGeneratableThingsDebugSub>c__Iterator0 <AllGeneratableThingsDebugSub>c__Iterator = new ThingSetMaker_Nutrition.<AllGeneratableThingsDebugSub>c__Iterator0();
+				<AllGeneratableThingsDebugSub>c__Iterator.$this = this;
+				<AllGeneratableThingsDebugSub>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebugSub>c__Iterator;
+			}
 		}
 	}
 }

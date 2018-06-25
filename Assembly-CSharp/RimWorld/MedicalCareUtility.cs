@@ -1,37 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000520 RID: 1312
 	[StaticConstructorOnStartup]
 	public static class MedicalCareUtility
 	{
-		// Token: 0x04000E1D RID: 3613
 		private static Texture2D[] careTextures;
 
-		// Token: 0x04000E1E RID: 3614
 		public const float CareSetterHeight = 28f;
 
-		// Token: 0x04000E1F RID: 3615
 		public const float CareSetterWidth = 140f;
 
-		// Token: 0x04000E20 RID: 3616
 		private static bool medicalCarePainting = false;
 
-		// Token: 0x04000E22 RID: 3618
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
 		[CompilerGenerated]
 		private static Func<Pawn, MedicalCareCategory> <>f__mg$cache0;
 
-		// Token: 0x04000E23 RID: 3619
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>>> <>f__mg$cache1;
 
-		// Token: 0x060017E4 RID: 6116 RVA: 0x000D1195 File Offset: 0x000CF595
 		public static void Reset()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -45,7 +43,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060017E5 RID: 6117 RVA: 0x000D11BC File Offset: 0x000CF5BC
 		public static void MedicalCareSetter(Rect rect, ref MedicalCareCategory medCare)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width / 5f, rect.height);
@@ -77,13 +74,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017E6 RID: 6118 RVA: 0x000D12D8 File Offset: 0x000CF6D8
 		public static string GetLabel(this MedicalCareCategory cat)
 		{
 			return ("MedicalCareCategory_" + cat).Translate();
 		}
 
-		// Token: 0x060017E7 RID: 6119 RVA: 0x000D1304 File Offset: 0x000CF704
 		public static bool AllowsMedicine(this MedicalCareCategory cat, ThingDef meds)
 		{
 			bool result;
@@ -110,7 +105,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017E8 RID: 6120 RVA: 0x000D139C File Offset: 0x000CF79C
 		public static void MedicalCareSelectButton(Rect rect, Pawn pawn)
 		{
 			if (MedicalCareUtility.<>f__mg$cache0 == null)
@@ -127,13 +121,11 @@ namespace RimWorld
 			Widgets.Dropdown<Pawn, MedicalCareCategory>(rect, pawn, getPayload, menuGenerator, null, buttonIcon, null, null, null, true);
 		}
 
-		// Token: 0x060017E9 RID: 6121 RVA: 0x000D1410 File Offset: 0x000CF810
 		private static MedicalCareCategory MedicalCareSelectButton_GetMedicalCare(Pawn pawn)
 		{
 			return pawn.playerSettings.medCare;
 		}
 
-		// Token: 0x060017EA RID: 6122 RVA: 0x000D1430 File Offset: 0x000CF830
 		private static IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>> MedicalCareSelectButton_GenerateMenu(Pawn p)
 		{
 			for (int i = 0; i < 5; i++)
@@ -149,6 +141,170 @@ namespace RimWorld
 				};
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MedicalCareUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <Reset>m__0()
+		{
+			MedicalCareUtility.careTextures = new Texture2D[5];
+			MedicalCareUtility.careTextures[0] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare", true);
+			MedicalCareUtility.careTextures[1] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoMeds", true);
+			MedicalCareUtility.careTextures[2] = ThingDefOf.MedicineHerbal.uiIcon;
+			MedicalCareUtility.careTextures[3] = ThingDefOf.MedicineIndustrial.uiIcon;
+			MedicalCareUtility.careTextures[4] = ThingDefOf.MedicineUltratech.uiIcon;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MedicalCareSetter>c__AnonStorey1
+		{
+			internal MedicalCareCategory mc;
+
+			public <MedicalCareSetter>c__AnonStorey1()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.mc.GetLabel();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MedicalCareSelectButton_GenerateMenu>c__Iterator0 : IEnumerable, IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>>, IEnumerator, IDisposable, IEnumerator<Widgets.DropdownMenuElement<MedicalCareCategory>>
+		{
+			internal int <i>__1;
+
+			internal Pawn p;
+
+			internal Widgets.DropdownMenuElement<MedicalCareCategory> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private MedicalCareUtility.<MedicalCareSelectButton_GenerateMenu>c__Iterator0.<MedicalCareSelectButton_GenerateMenu>c__AnonStorey3 $locvar0;
+
+			private MedicalCareUtility.<MedicalCareSelectButton_GenerateMenu>c__Iterator0.<MedicalCareSelectButton_GenerateMenu>c__AnonStorey2 $locvar1;
+
+			[DebuggerHidden]
+			public <MedicalCareSelectButton_GenerateMenu>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < 5)
+				{
+					MedicalCareCategory mc = (MedicalCareCategory)i;
+					this.$current = new Widgets.DropdownMenuElement<MedicalCareCategory>
+					{
+						option = new FloatMenuOption(mc.GetLabel(), delegate()
+						{
+							<MedicalCareSelectButton_GenerateMenu>c__AnonStorey.p.playerSettings.medCare = mc;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null),
+						payload = mc
+					};
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Widgets.DropdownMenuElement<MedicalCareCategory> IEnumerator<Widgets.DropdownMenuElement<MedicalCareCategory>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Widgets.DropdownMenuElement<RimWorld.MedicalCareCategory>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Widgets.DropdownMenuElement<MedicalCareCategory>> IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MedicalCareUtility.<MedicalCareSelectButton_GenerateMenu>c__Iterator0 <MedicalCareSelectButton_GenerateMenu>c__Iterator = new MedicalCareUtility.<MedicalCareSelectButton_GenerateMenu>c__Iterator0();
+				<MedicalCareSelectButton_GenerateMenu>c__Iterator.p = p;
+				return <MedicalCareSelectButton_GenerateMenu>c__Iterator;
+			}
+
+			private sealed class <MedicalCareSelectButton_GenerateMenu>c__AnonStorey3
+			{
+				internal Pawn p;
+
+				public <MedicalCareSelectButton_GenerateMenu>c__AnonStorey3()
+				{
+				}
+			}
+
+			private sealed class <MedicalCareSelectButton_GenerateMenu>c__AnonStorey2
+			{
+				internal MedicalCareCategory mc;
+
+				internal MedicalCareUtility.<MedicalCareSelectButton_GenerateMenu>c__Iterator0.<MedicalCareSelectButton_GenerateMenu>c__AnonStorey3 <>f__ref$3;
+
+				public <MedicalCareSelectButton_GenerateMenu>c__AnonStorey2()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$3.p.playerSettings.medCare = this.mc;
+				}
+			}
 		}
 	}
 }

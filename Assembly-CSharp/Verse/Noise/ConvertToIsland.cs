@@ -3,24 +3,18 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F7B RID: 3963
 	public class ConvertToIsland : ModuleBase
 	{
-		// Token: 0x04003EDF RID: 16095
 		public Vector3 viewCenter;
 
-		// Token: 0x04003EE0 RID: 16096
 		public float viewAngle;
 
-		// Token: 0x04003EE1 RID: 16097
 		private const float WaterLevel = -0.12f;
 
-		// Token: 0x06005F9F RID: 24479 RVA: 0x0030BAD3 File Offset: 0x00309ED3
 		public ConvertToIsland() : base(1)
 		{
 		}
 
-		// Token: 0x06005FA0 RID: 24480 RVA: 0x0030BADD File Offset: 0x00309EDD
 		public ConvertToIsland(Vector3 viewCenter, float viewAngle, ModuleBase input) : base(1)
 		{
 			this.viewCenter = viewCenter;
@@ -28,7 +22,6 @@ namespace Verse.Noise
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06005FA1 RID: 24481 RVA: 0x0030BB00 File Offset: 0x00309F00
 		public override double GetValue(double x, double y, double z)
 		{
 			float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));

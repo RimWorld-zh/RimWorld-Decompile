@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F8 RID: 1528
 	public static class SettleInExistingMapUtility
 	{
-		// Token: 0x04001212 RID: 4626
 		private static List<Pawn> tmpPlayerPawns = new List<Pawn>();
 
-		// Token: 0x06001E66 RID: 7782 RVA: 0x0010779C File Offset: 0x00105B9C
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
 		public static Command SettleCommand(Map map, bool requiresNoEnemies)
 		{
 			Command_Settle command_Settle = new Command_Settle();
@@ -60,7 +61,6 @@ namespace RimWorld.Planet
 			return command_Settle;
 		}
 
-		// Token: 0x06001E67 RID: 7783 RVA: 0x001078F8 File Offset: 0x00105CF8
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.Parent;
@@ -81,6 +81,41 @@ namespace RimWorld.Planet
 			for (int i = 0; i < prisonersOfColonySpawned.Count; i++)
 			{
 				prisonersOfColonySpawned[i].guest.WaitInsteadOfEscapingForDefaultTicks();
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SettleInExistingMapUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Settle>m__0(Pawn x)
+		{
+			return x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SettleCommand>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <SettleCommand>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+				FactionBaseProximityGoodwillUtility.CheckConfirmSettle(this.map.Tile, delegate
+				{
+					SettleInExistingMapUtility.Settle(this.map);
+				});
+			}
+
+			internal void <>m__1()
+			{
+				SettleInExistingMapUtility.Settle(this.map);
 			}
 		}
 	}

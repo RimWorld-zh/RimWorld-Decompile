@@ -6,28 +6,20 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000FD1 RID: 4049
 	public static class ThingFilterUI
 	{
-		// Token: 0x0400400B RID: 16395
 		private static float viewHeight;
 
-		// Token: 0x0400400C RID: 16396
 		private const float ExtraViewHeight = 90f;
 
-		// Token: 0x0400400D RID: 16397
 		private const float RangeLabelTab = 10f;
 
-		// Token: 0x0400400E RID: 16398
 		private const float RangeLabelHeight = 19f;
 
-		// Token: 0x0400400F RID: 16399
 		private const float SliderHeight = 28f;
 
-		// Token: 0x04004010 RID: 16400
 		private const float SliderTab = 20f;
 
-		// Token: 0x060061F4 RID: 25076 RVA: 0x00317190 File Offset: 0x00315590
 		public static void DoThingFilterConfigWindow(Rect rect, ref Vector2 scrollPosition, ThingFilter filter, ThingFilter parentFilter = null, int openMask = 1, IEnumerable<ThingDef> forceHiddenDefs = null, IEnumerable<SpecialThingFilterDef> forceHiddenFilters = null, List<ThingDef> suppressSmallVolumeTags = null, Map map = null)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -80,7 +72,6 @@ namespace Verse
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x060061F5 RID: 25077 RVA: 0x00317398 File Offset: 0x00315798
 		private static void DrawHitPointsFilterConfig(ref float y, float width, ThingFilter filter)
 		{
 			Rect rect = new Rect(20f, y, width - 20f, 28f);
@@ -92,7 +83,6 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x060061F6 RID: 25078 RVA: 0x00317404 File Offset: 0x00315804
 		private static void DrawQualityFilterConfig(ref float y, float width, ThingFilter filter)
 		{
 			Rect rect = new Rect(20f, y, width - 20f, 28f);

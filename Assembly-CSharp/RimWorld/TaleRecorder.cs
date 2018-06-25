@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000662 RID: 1634
 	public static class TaleRecorder
 	{
-		// Token: 0x06002238 RID: 8760 RVA: 0x00122B48 File Offset: 0x00120F48
+		[CompilerGenerated]
+		private static Func<object, string> <>f__am$cache0;
+
 		public static void RecordTale(TaleDef def, params object[] args)
 		{
 			bool flag = Rand.Value < def.ignoreChance;
@@ -66,6 +68,12 @@ namespace RimWorld
 					}
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static string <RecordTale>m__0(object arg)
+		{
+			return arg.ToStringSafe<object>();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Verse;
@@ -7,13 +8,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200002A RID: 42
 	public static class FoodUtility
 	{
-		// Token: 0x040001A0 RID: 416
 		private static HashSet<Thing> filtered = new HashSet<Thing>();
 
-		// Token: 0x040001A1 RID: 417
 		private static readonly SimpleCurve FoodOptimalityEffectFromMoodCurve = new SimpleCurve
 		{
 			{
@@ -42,10 +40,8 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x040001A2 RID: 418
 		private static List<ThoughtDef> ingestThoughts = new List<ThoughtDef>();
 
-		// Token: 0x06000179 RID: 377 RVA: 0x0000EAC0 File Offset: 0x0000CEC0
 		public static bool TryFindBestFoodSourceFor(Pawn getter, Pawn eater, bool desperate, out Thing foodSource, out ThingDef foodDef, bool canRefillDispenser = true, bool canUseInventory = true, bool allowForbidden = false, bool allowCorpse = true, bool allowSociallyImproper = false, bool allowHarvest = false, bool forceScanWholeMap = false)
 		{
 			Profiler.BeginSample("TryFindBestFoodSourceFor");
@@ -155,7 +151,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600017A RID: 378 RVA: 0x0000ED60 File Offset: 0x0000D160
 		public static ThingDef GetFinalIngestibleDef(Thing foodSource, bool harvest = false)
 		{
 			Building_NutrientPasteDispenser building_NutrientPasteDispenser = foodSource as Building_NutrientPasteDispenser;
@@ -187,7 +182,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600017B RID: 379 RVA: 0x0000EE04 File Offset: 0x0000D204
 		public static Thing BestFoodInInventory(Pawn holder, Pawn eater = null, FoodPreferability minFoodPref = FoodPreferability.NeverForNutrition, FoodPreferability maxFoodPref = FoodPreferability.MealLavish, float minStackNutrition = 0f, bool allowDrug = false)
 		{
 			Thing result;
@@ -219,7 +213,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600017C RID: 380 RVA: 0x0000EEFC File Offset: 0x0000D2FC
 		public static Thing BestFoodSourceOnMap(Pawn getter, Pawn eater, bool desperate, out ThingDef foodDef, FoodPreferability maxPref = FoodPreferability.MealLavish, bool allowPlant = true, bool allowDrug = true, bool allowCorpse = true, bool allowDispenserFull = true, bool allowDispenserEmpty = true, bool allowForbidden = false, bool allowSociallyImproper = false, bool allowHarvest = false, bool forceScanWholeMap = false)
 		{
 			FoodUtility.<BestFoodSourceOnMap>c__AnonStorey0 <BestFoodSourceOnMap>c__AnonStorey = new FoodUtility.<BestFoodSourceOnMap>c__AnonStorey0();
@@ -402,7 +395,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600017D RID: 381 RVA: 0x0000F4AC File Offset: 0x0000D8AC
 		private static bool IsFoodSourceOnMapSociallyProper(Thing t, Pawn getter, Pawn eater, bool allowSociallyImproper)
 		{
 			if (!allowSociallyImproper)
@@ -416,7 +408,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600017E RID: 382 RVA: 0x0000F500 File Offset: 0x0000D900
 		public static float FoodOptimality(Pawn eater, Thing foodSource, ThingDef foodDef, float dist, bool takingToInventory = false)
 		{
 			float num = 300f;
@@ -479,7 +470,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600017F RID: 383 RVA: 0x0000F688 File Offset: 0x0000DA88
 		private static Thing SpawnedFoodSearchInnerScan(Pawn eater, IntVec3 root, List<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null)
 		{
 			Profiler.BeginSample("SpawnedFoodSearchInnerScan");
@@ -535,7 +525,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000180 RID: 384 RVA: 0x0000F7F0 File Offset: 0x0000DBF0
 		public static void DebugFoodSearchFromMouse_Update()
 		{
 			IntVec3 root = UI.MouseCell();
@@ -553,7 +542,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x0000F87C File Offset: 0x0000DC7C
 		public static void DebugFoodSearchFromMouse_OnGUI()
 		{
 			IntVec3 a = UI.MouseCell();
@@ -592,7 +580,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000182 RID: 386 RVA: 0x0000FA48 File Offset: 0x0000DE48
 		private static Pawn BestPawnToHuntForPredator(Pawn predator)
 		{
 			Pawn result;
@@ -648,7 +635,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000183 RID: 387 RVA: 0x0000FBA0 File Offset: 0x0000DFA0
 		public static bool IsAcceptablePreyFor(Pawn predator, Pawn prey)
 		{
 			bool result;
@@ -684,7 +670,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000184 RID: 388 RVA: 0x0000FD20 File Offset: 0x0000E120
 		public static float GetPreyScoreFor(Pawn predator, Pawn prey)
 		{
 			float num = prey.kindDef.combatPower / predator.kindDef.combatPower;
@@ -703,7 +688,6 @@ namespace RimWorld
 			return num3;
 		}
 
-		// Token: 0x06000185 RID: 389 RVA: 0x0000FDD4 File Offset: 0x0000E1D4
 		public static void DebugDrawPredatorFoodSource()
 		{
 			Pawn pawn = Find.Selector.SingleSelectedThing as Pawn;
@@ -726,7 +710,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000186 RID: 390 RVA: 0x0000FE7C File Offset: 0x0000E27C
 		public static List<ThoughtDef> ThoughtsFromIngesting(Pawn ingester, Thing foodSource, ThingDef foodDef)
 		{
 			FoodUtility.ingestThoughts.Clear();
@@ -778,7 +761,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000187 RID: 391 RVA: 0x0001001C File Offset: 0x0000E41C
 		private static void AddIngestThoughtsFromIngredient(ThingDef ingredient, Pawn ingester, List<ThoughtDef> ingestThoughts)
 		{
 			if (ingredient.ingestible != null)
@@ -794,13 +776,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000188 RID: 392 RVA: 0x000100B0 File Offset: 0x0000E4B0
 		public static bool IsHumanlikeMeat(ThingDef def)
 		{
 			return def.ingestible.sourceDef != null && def.ingestible.sourceDef.race != null && def.ingestible.sourceDef.race.Humanlike;
 		}
 
-		// Token: 0x06000189 RID: 393 RVA: 0x0001010C File Offset: 0x0000E50C
 		public static bool IsHumanlikeMeatOrHumanlikeCorpse(Thing thing)
 		{
 			bool result;
@@ -816,7 +796,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600018A RID: 394 RVA: 0x00010164 File Offset: 0x0000E564
 		public static int WillIngestStackCountOf(Pawn ingester, ThingDef def, float singleFoodNutrition)
 		{
 			int num = Mathf.Min(def.ingestible.maxNumToIngestAtOnce, FoodUtility.StackCountForNutrition(ingester.needs.food.NutritionWanted, singleFoodNutrition));
@@ -827,13 +806,11 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600018B RID: 395 RVA: 0x000101AC File Offset: 0x0000E5AC
 		public static float GetBodyPartNutrition(Corpse corpse, BodyPartRecord part)
 		{
 			return FoodUtility.GetBodyPartNutrition(corpse.GetStatValue(StatDefOf.Nutrition, true), corpse.InnerPawn, part);
 		}
 
-		// Token: 0x0600018C RID: 396 RVA: 0x000101DC File Offset: 0x0000E5DC
 		public static float GetBodyPartNutrition(float currentCorpseNutrition, Pawn pawn, BodyPartRecord part)
 		{
 			HediffSet hediffSet = pawn.health.hediffSet;
@@ -852,7 +829,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600018D RID: 397 RVA: 0x0001023C File Offset: 0x0000E63C
 		public static int StackCountForNutrition(float wantedNutrition, float singleFoodNutrition)
 		{
 			int result;
@@ -867,13 +843,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600018E RID: 398 RVA: 0x00010274 File Offset: 0x0000E674
 		public static bool ShouldBeFedBySomeone(Pawn pawn)
 		{
 			return FeedPatientUtility.ShouldBeFed(pawn) || WardenFeedUtility.ShouldBeFed(pawn);
 		}
 
-		// Token: 0x0600018F RID: 399 RVA: 0x000102A0 File Offset: 0x0000E6A0
 		public static void AddFoodPoisoningHediff(Pawn pawn, Thing ingestible)
 		{
 			pawn.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.FoodPoisoning, pawn, null), null, null, null);
@@ -887,13 +861,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000190 RID: 400 RVA: 0x0001033C File Offset: 0x0000E73C
 		public static bool Starving(this Pawn p)
 		{
 			return p.needs != null && p.needs.food != null && p.needs.food.Starving;
 		}
 
-		// Token: 0x06000191 RID: 401 RVA: 0x00010380 File Offset: 0x0000E780
 		public static float GetNutrition(Thing foodSource, ThingDef foodDef)
 		{
 			float result;
@@ -910,6 +882,91 @@ namespace RimWorld
 				result = foodDef.GetStatValueAbstract(StatDefOf.Nutrition, null);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FoodUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <BestFoodSourceOnMap>c__AnonStorey0
+		{
+			internal bool allowDispenserFull;
+
+			internal bool getterCanManipulate;
+
+			internal FoodPreferability minPref;
+
+			internal FoodPreferability maxPref;
+
+			internal Pawn eater;
+
+			internal Pawn getter;
+
+			internal bool allowForbidden;
+
+			internal bool allowDispenserEmpty;
+
+			internal bool allowSociallyImproper;
+
+			internal bool allowCorpse;
+
+			internal bool allowDrug;
+
+			internal bool desperate;
+
+			internal bool forceScanWholeMap;
+
+			internal Thing bestThing;
+
+			internal Predicate<Thing> foodValidator;
+
+			public <BestFoodSourceOnMap>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				Profiler.BeginSample("foodValidator");
+				Building_NutrientPasteDispenser building_NutrientPasteDispenser = t as Building_NutrientPasteDispenser;
+				if (building_NutrientPasteDispenser != null)
+				{
+					if (!this.allowDispenserFull || !this.getterCanManipulate || ThingDefOf.MealNutrientPaste.ingestible.preferability < this.minPref || ThingDefOf.MealNutrientPaste.ingestible.preferability > this.maxPref || !this.eater.RaceProps.CanEverEat(ThingDefOf.MealNutrientPaste) || (t.Faction != this.getter.Faction && t.Faction != this.getter.HostFaction) || (!this.allowForbidden && t.IsForbidden(this.getter)) || (!building_NutrientPasteDispenser.powerComp.PowerOn || (!this.allowDispenserEmpty && !building_NutrientPasteDispenser.HasEnoughFeedstockInHoppers())) || !t.InteractionCell.Standable(t.Map) || !FoodUtility.IsFoodSourceOnMapSociallyProper(t, this.getter, this.eater, this.allowSociallyImproper) || this.getter.IsWildMan() || !this.getter.Map.reachability.CanReachNonLocal(this.getter.Position, new TargetInfo(t.InteractionCell, t.Map, false), PathEndMode.OnCell, TraverseParms.For(this.getter, Danger.Some, TraverseMode.ByPawn, false)))
+					{
+						Profiler.EndSample();
+						return false;
+					}
+				}
+				else if (t.def.ingestible.preferability < this.minPref || t.def.ingestible.preferability > this.maxPref || !this.eater.RaceProps.WillAutomaticallyEat(t) || !t.def.IsNutritionGivingIngestible || !t.IngestibleNow || (!this.allowCorpse && t is Corpse) || (!this.allowDrug && t.def.IsDrug) || (!this.allowForbidden && t.IsForbidden(this.getter)) || (!this.desperate && t.IsNotFresh()) || (t.IsDessicated() || !FoodUtility.IsFoodSourceOnMapSociallyProper(t, this.getter, this.eater, this.allowSociallyImproper) || (!this.getter.AnimalAwareOf(t) && !this.forceScanWholeMap)) || !this.getter.CanReserve(t, 1, -1, null, false))
+				{
+					Profiler.EndSample();
+					return false;
+				}
+				Profiler.EndSample();
+				return true;
+			}
+
+			internal bool <>m__1(Thing x)
+			{
+				Plant plant = (Plant)x;
+				bool result;
+				if (!plant.HarvestableNow)
+				{
+					result = false;
+				}
+				else
+				{
+					ThingDef harvestedThingDef = plant.def.plant.harvestedThingDef;
+					result = (harvestedThingDef.IsNutritionGivingIngestible && this.getter.CanReserve(plant, 1, -1, null, false) && (this.allowForbidden || !plant.IsForbidden(this.getter)) && (this.bestThing == null || FoodUtility.GetFinalIngestibleDef(this.bestThing, false).ingestible.preferability < harvestedThingDef.ingestible.preferability));
+				}
+				return result;
+			}
+
+			internal bool <>m__2(Thing t)
+			{
+				return this.foodValidator(t) && !FoodUtility.filtered.Contains(t) && (t is Building_NutrientPasteDispenser || t.def.ingestible.preferability > FoodPreferability.DesperateOnly) && !t.IsNotFresh();
+			}
 		}
 	}
 }

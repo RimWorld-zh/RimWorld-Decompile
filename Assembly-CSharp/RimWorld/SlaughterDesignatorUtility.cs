@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DA RID: 2010
 	public static class SlaughterDesignatorUtility
 	{
-		// Token: 0x06002C91 RID: 11409 RVA: 0x00177BA0 File Offset: 0x00175FA0
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
 		public static void CheckWarnAboutBondedAnimal(Pawn designated)
 		{
 			if (designated.RaceProps.IsFlesh)
@@ -21,6 +23,12 @@ namespace RimWorld
 					}), designated, MessageTypeDefOf.CautionInput, false);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckWarnAboutBondedAnimal>m__0(Pawn x)
+		{
+			return !x.Dead;
 		}
 	}
 }

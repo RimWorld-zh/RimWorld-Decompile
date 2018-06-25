@@ -1,65 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020009CB RID: 2507
 	public class TargetingParameters
 	{
-		// Token: 0x040023E5 RID: 9189
 		public bool canTargetLocations = false;
 
-		// Token: 0x040023E6 RID: 9190
 		public bool canTargetSelf = false;
 
-		// Token: 0x040023E7 RID: 9191
 		public bool canTargetPawns = true;
 
-		// Token: 0x040023E8 RID: 9192
 		public bool canTargetFires = false;
 
-		// Token: 0x040023E9 RID: 9193
 		public bool canTargetBuildings = true;
 
-		// Token: 0x040023EA RID: 9194
 		public bool canTargetItems = false;
 
-		// Token: 0x040023EB RID: 9195
 		public List<Faction> onlyTargetFactions = null;
 
-		// Token: 0x040023EC RID: 9196
 		public Predicate<TargetInfo> validator = null;
 
-		// Token: 0x040023ED RID: 9197
 		public bool onlyTargetFlammables = false;
 
-		// Token: 0x040023EE RID: 9198
 		public Thing targetSpecificThing = null;
 
-		// Token: 0x040023EF RID: 9199
 		public bool mustBeSelectable = false;
 
-		// Token: 0x040023F0 RID: 9200
 		public bool neverTargetDoors = false;
 
-		// Token: 0x040023F1 RID: 9201
 		public bool neverTargetIncapacitated = false;
 
-		// Token: 0x040023F2 RID: 9202
 		public bool onlyTargetThingsAffectingRegions = false;
 
-		// Token: 0x040023F3 RID: 9203
 		public bool onlyTargetDamagedThings = false;
 
-		// Token: 0x040023F4 RID: 9204
 		public bool mapObjectTargetsMustBeAutoAttackable = true;
 
-		// Token: 0x040023F5 RID: 9205
 		public bool onlyTargetIncapacitatedPawns = false;
 
-		// Token: 0x0600382F RID: 14383 RVA: 0x001DF6E8 File Offset: 0x001DDAE8
+		[CompilerGenerated]
+		private static Predicate<TargetInfo> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<TargetInfo> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<TargetInfo> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Predicate<TargetInfo> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Predicate<TargetInfo> <>f__am$cache4;
+
+		public TargetingParameters()
+		{
+		}
+
 		public bool CanTarget(TargetInfo targ)
 		{
 			bool result;
@@ -121,7 +122,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003830 RID: 14384 RVA: 0x001DF978 File Offset: 0x001DDD78
 		public static TargetingParameters ForSelf(Pawn p)
 		{
 			return new TargetingParameters
@@ -133,7 +133,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003831 RID: 14385 RVA: 0x001DF9B0 File Offset: 0x001DDDB0
 		public static TargetingParameters ForArrest(Pawn arrester)
 		{
 			return new TargetingParameters
@@ -158,7 +157,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003832 RID: 14386 RVA: 0x001DFA00 File Offset: 0x001DDE00
 		public static TargetingParameters ForAttackHostile()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -187,7 +185,6 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003833 RID: 14387 RVA: 0x001DFA5C File Offset: 0x001DDE5C
 		public static TargetingParameters ForAttackAny()
 		{
 			return new TargetingParameters
@@ -199,7 +196,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003834 RID: 14388 RVA: 0x001DFA94 File Offset: 0x001DDE94
 		public static TargetingParameters ForRescue(Pawn p)
 		{
 			return new TargetingParameters
@@ -211,7 +207,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003835 RID: 14389 RVA: 0x001DFACC File Offset: 0x001DDECC
 		public static TargetingParameters ForStrip(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -222,7 +217,6 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003836 RID: 14390 RVA: 0x001DFB20 File Offset: 0x001DDF20
 		public static TargetingParameters ForTrade()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -237,7 +231,6 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003837 RID: 14391 RVA: 0x001DFB74 File Offset: 0x001DDF74
 		public static TargetingParameters ForDropPodsDestination()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -251,7 +244,6 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003838 RID: 14392 RVA: 0x001DFBE0 File Offset: 0x001DDFE0
 		public static TargetingParameters ForQuestPawnsWhoWillJoinColony(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -264,6 +256,77 @@ namespace RimWorld
 				return pawn != null && !pawn.Dead && pawn.mindState.willJoinColonyIfRescued;
 			};
 			return targetingParameters;
+		}
+
+		[CompilerGenerated]
+		private static bool <ForAttackHostile>m__0(TargetInfo targ)
+		{
+			bool result;
+			if (!targ.HasThing)
+			{
+				result = false;
+			}
+			else if (targ.Thing.HostileTo(Faction.OfPlayer))
+			{
+				result = true;
+			}
+			else
+			{
+				Pawn pawn = targ.Thing as Pawn;
+				result = (pawn != null && pawn.NonHumanlikeOrWildMan());
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ForStrip>m__1(TargetInfo targ)
+		{
+			return targ.HasThing && StrippableUtility.CanBeStrippedByColony(targ.Thing);
+		}
+
+		[CompilerGenerated]
+		private static bool <ForTrade>m__2(TargetInfo x)
+		{
+			ITrader trader = x.Thing as ITrader;
+			return trader != null && trader.CanTradeNow;
+		}
+
+		[CompilerGenerated]
+		private static bool <ForDropPodsDestination>m__3(TargetInfo x)
+		{
+			return DropCellFinder.IsGoodDropSpot(x.Cell, x.Map, false, true);
+		}
+
+		[CompilerGenerated]
+		private static bool <ForQuestPawnsWhoWillJoinColony>m__4(TargetInfo x)
+		{
+			Pawn pawn = x.Thing as Pawn;
+			return pawn != null && !pawn.Dead && pawn.mindState.willJoinColonyIfRescued;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ForArrest>c__AnonStorey0
+		{
+			internal Pawn arrester;
+
+			public <ForArrest>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(TargetInfo targ)
+			{
+				bool result;
+				if (!targ.HasThing)
+				{
+					result = false;
+				}
+				else
+				{
+					Pawn pawn = targ.Thing as Pawn;
+					result = (pawn != null && pawn != this.arrester && pawn.CanBeArrestedBy(this.arrester) && !pawn.Downed);
+				}
+				return result;
+			}
 		}
 	}
 }

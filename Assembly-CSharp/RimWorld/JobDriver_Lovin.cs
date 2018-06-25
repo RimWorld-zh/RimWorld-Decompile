@@ -1,27 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000072 RID: 114
 	public class JobDriver_Lovin : JobDriver
 	{
-		// Token: 0x04000219 RID: 537
 		private int ticksLeft = 0;
 
-		// Token: 0x0400021A RID: 538
 		private TargetIndex PartnerInd = TargetIndex.A;
 
-		// Token: 0x0400021B RID: 539
 		private TargetIndex BedInd = TargetIndex.B;
 
-		// Token: 0x0400021C RID: 540
 		private const int TicksBetweenHeartMotes = 100;
 
-		// Token: 0x0400021D RID: 541
 		private static readonly SimpleCurve LovinIntervalHoursFromAgeCurve = new SimpleCurve
 		{
 			{
@@ -46,8 +44,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x170000A1 RID: 161
-		// (get) Token: 0x0600031C RID: 796 RVA: 0x00021D74 File Offset: 0x00020174
+		public JobDriver_Lovin()
+		{
+		}
+
 		private Pawn Partner
 		{
 			get
@@ -56,8 +56,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000A2 RID: 162
-		// (get) Token: 0x0600031D RID: 797 RVA: 0x00021DA4 File Offset: 0x000201A4
 		private Building_Bed Bed
 		{
 			get
@@ -66,26 +64,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600031E RID: 798 RVA: 0x00021DD4 File Offset: 0x000201D4
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
 
-		// Token: 0x0600031F RID: 799 RVA: 0x00021DF0 File Offset: 0x000201F0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Partner, this.job, 1, -1, null) && this.pawn.Reserve(this.Bed, this.job, this.Bed.SleepingSlotsCount, 0, null);
 		}
 
-		// Token: 0x06000320 RID: 800 RVA: 0x00021E58 File Offset: 0x00020258
 		public override bool CanBeginNowWhileLyingDown()
 		{
 			return JobInBedUtility.InBedOrRestSpotNow(this.pawn, this.job.GetTarget(this.BedInd));
 		}
 
-		// Token: 0x06000321 RID: 801 RVA: 0x00021E8C File Offset: 0x0002028C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(this.BedInd);
@@ -136,7 +130,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000322 RID: 802 RVA: 0x00021EB8 File Offset: 0x000202B8
 		private int GenerateRandomMinTicksToNextLovin(Pawn pawn)
 		{
 			int result;
@@ -155,6 +148,208 @@ namespace RimWorld
 				result = (int)(num * 2500f);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobDriver_Lovin()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <preparePartner>__0;
+
+			internal Toil <doLovin>__0;
+
+			internal JobDriver_Lovin $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedOrNull(this.BedInd);
+					this.FailOnDespawnedOrNull(this.PartnerInd);
+					this.FailOn(() => !base.Partner.health.capacities.CanBeAwake);
+					this.KeepLyingDown(this.BedInd);
+					this.$current = Toils_Bed.ClaimBedIfNonMedical(this.BedInd, TargetIndex.None);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_Bed.GotoBed(this.BedInd);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+				{
+					Toil preparePartner = new Toil();
+					preparePartner.initAction = delegate()
+					{
+						if (base.Partner.CurJob == null || base.Partner.CurJob.def != JobDefOf.Lovin)
+						{
+							Job newJob = new Job(JobDefOf.Lovin, this.pawn, base.Bed);
+							base.Partner.jobs.StartJob(newJob, JobCondition.InterruptForced, null, false, true, null, null, false);
+							this.ticksLeft = (int)(2500f * Mathf.Clamp(Rand.Range(0.1f, 1.1f), 0.1f, 2f));
+						}
+						else
+						{
+							this.ticksLeft = 9999999;
+						}
+					};
+					preparePartner.defaultCompleteMode = ToilCompleteMode.Instant;
+					this.$current = preparePartner;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+					doLovin = Toils_LayDown.LayDown(this.BedInd, true, false, false, false);
+					doLovin.FailOn(() => base.Partner.CurJob == null || base.Partner.CurJob.def != JobDefOf.Lovin);
+					doLovin.AddPreTickAction(delegate
+					{
+						this.ticksLeft--;
+						if (this.ticksLeft <= 0)
+						{
+							base.ReadyForNextToil();
+						}
+						else if (this.pawn.IsHashIntervalTick(100))
+						{
+							MoteMaker.ThrowMetaIcon(this.pawn.Position, this.pawn.Map, ThingDefOf.Mote_Heart);
+						}
+					});
+					doLovin.AddFinishAction(delegate
+					{
+						Thought_Memory newThought = (Thought_Memory)ThoughtMaker.MakeThought(ThoughtDefOf.GotSomeLovin);
+						this.pawn.needs.mood.thoughts.memories.TryGainMemory(newThought, base.Partner);
+						this.pawn.mindState.canLovinTick = Find.TickManager.TicksGame + base.GenerateRandomMinTicksToNextLovin(this.pawn);
+					});
+					doLovin.socialMode = RandomSocialMode.Off;
+					this.$current = doLovin;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Lovin.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Lovin.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !base.Partner.health.capacities.CanBeAwake;
+			}
+
+			internal void <>m__1()
+			{
+				if (base.Partner.CurJob == null || base.Partner.CurJob.def != JobDefOf.Lovin)
+				{
+					Job newJob = new Job(JobDefOf.Lovin, this.pawn, base.Bed);
+					base.Partner.jobs.StartJob(newJob, JobCondition.InterruptForced, null, false, true, null, null, false);
+					this.ticksLeft = (int)(2500f * Mathf.Clamp(Rand.Range(0.1f, 1.1f), 0.1f, 2f));
+				}
+				else
+				{
+					this.ticksLeft = 9999999;
+				}
+			}
+
+			internal bool <>m__2()
+			{
+				return base.Partner.CurJob == null || base.Partner.CurJob.def != JobDefOf.Lovin;
+			}
+
+			internal void <>m__3()
+			{
+				this.ticksLeft--;
+				if (this.ticksLeft <= 0)
+				{
+					base.ReadyForNextToil();
+				}
+				else if (this.pawn.IsHashIntervalTick(100))
+				{
+					MoteMaker.ThrowMetaIcon(this.pawn.Position, this.pawn.Map, ThingDefOf.Mote_Heart);
+				}
+			}
+
+			internal void <>m__4()
+			{
+				Thought_Memory newThought = (Thought_Memory)ThoughtMaker.MakeThought(ThoughtDefOf.GotSomeLovin);
+				this.pawn.needs.mood.thoughts.memories.TryGainMemory(newThought, base.Partner);
+				this.pawn.mindState.canLovinTick = Find.TickManager.TicksGame + base.GenerateRandomMinTicksToNextLovin(this.pawn);
+			}
 		}
 	}
 }

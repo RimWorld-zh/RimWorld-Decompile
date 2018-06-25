@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200056B RID: 1387
 	public class FeatureWorker_OuterOcean : FeatureWorker
 	{
-		// Token: 0x04000F58 RID: 3928
 		private List<int> group = new List<int>();
 
-		// Token: 0x04000F59 RID: 3929
 		private List<int> edgeTiles = new List<int>();
 
-		// Token: 0x06001A3E RID: 6718 RVA: 0x000E3A0C File Offset: 0x000E1E0C
+		public FeatureWorker_OuterOcean()
+		{
+		}
+
 		public override void GenerateWhereAppropriate()
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -47,18 +48,44 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A3F RID: 6719 RVA: 0x000E3B38 File Offset: 0x000E1F38
 		private bool IsRoot(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
 			return worldGrid.IsOnEdge(tile) && this.CanTraverse(tile) && worldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A40 RID: 6720 RVA: 0x000E3B80 File Offset: 0x000E1F80
 		private bool CanTraverse(int tile)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;
 			return biome == BiomeDefOf.Ocean || biome == BiomeDefOf.Lake;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateWhereAppropriate>c__AnonStorey0
+		{
+			internal WorldGrid worldGrid;
+
+			internal FeatureWorker_OuterOcean $this;
+
+			public <GenerateWhereAppropriate>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return this.$this.CanTraverse(x);
+			}
+
+			internal bool <>m__1(int tile, int traversalDist)
+			{
+				this.$this.group.Add(tile);
+				return false;
+			}
+
+			internal bool <>m__2(int x)
+			{
+				return this.worldGrid[x].feature != null;
+			}
 		}
 	}
 }

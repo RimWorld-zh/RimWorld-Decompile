@@ -3,14 +3,14 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A82 RID: 2690
 	public class MentalState_SocialFighting : MentalState
 	{
-		// Token: 0x04002589 RID: 9609
 		public Pawn otherPawn;
 
-		// Token: 0x17000918 RID: 2328
-		// (get) Token: 0x06003BB1 RID: 15281 RVA: 0x001F8534 File Offset: 0x001F6934
+		public MentalState_SocialFighting()
+		{
+		}
+
 		private bool ShouldStop
 		{
 			get
@@ -19,8 +19,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000919 RID: 2329
-		// (get) Token: 0x06003BB2 RID: 15282 RVA: 0x001F8594 File Offset: 0x001F6994
 		private bool IsOtherPawnSocialFightingWithMe
 		{
 			get
@@ -39,7 +37,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB3 RID: 15283 RVA: 0x001F85F7 File Offset: 0x001F69F7
 		public override void MentalStateTick()
 		{
 			if (this.ShouldStop)
@@ -52,7 +49,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB4 RID: 15284 RVA: 0x001F8618 File Offset: 0x001F6A18
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -85,14 +81,12 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB5 RID: 15285 RVA: 0x001F8765 File Offset: 0x001F6B65
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.otherPawn, "otherPawn", false);
 		}
 
-		// Token: 0x06003BB6 RID: 15286 RVA: 0x001F8780 File Offset: 0x001F6B80
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

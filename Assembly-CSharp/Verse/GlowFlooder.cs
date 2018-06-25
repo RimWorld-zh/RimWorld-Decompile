@@ -4,49 +4,34 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C15 RID: 3093
 	public class GlowFlooder
 	{
-		// Token: 0x04002E31 RID: 11825
 		private Map map;
 
-		// Token: 0x04002E32 RID: 11826
 		private GlowFlooder.GlowFloodCell[] calcGrid;
 
-		// Token: 0x04002E33 RID: 11827
 		private FastPriorityQueue<int> openSet;
 
-		// Token: 0x04002E34 RID: 11828
 		private uint statusUnseenValue = 0u;
 
-		// Token: 0x04002E35 RID: 11829
 		private uint statusOpenValue = 1u;
 
-		// Token: 0x04002E36 RID: 11830
 		private uint statusFinalizedValue = 2u;
 
-		// Token: 0x04002E37 RID: 11831
 		private int mapSizeX;
 
-		// Token: 0x04002E38 RID: 11832
 		private int mapSizeZ;
 
-		// Token: 0x04002E39 RID: 11833
 		private CompGlower glower;
 
-		// Token: 0x04002E3A RID: 11834
 		private CellIndices cellIndices;
 
-		// Token: 0x04002E3B RID: 11835
 		private Color32[] glowGrid;
 
-		// Token: 0x04002E3C RID: 11836
 		private float attenLinearSlope;
 
-		// Token: 0x04002E3D RID: 11837
 		private Thing[] blockers = new Thing[8];
 
-		// Token: 0x04002E3E RID: 11838
 		private static readonly sbyte[,] Directions = new sbyte[,]
 		{
 			{
@@ -83,7 +68,6 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x060043A0 RID: 17312 RVA: 0x0023BEC4 File Offset: 0x0023A2C4
 		public GlowFlooder(Map map)
 		{
 			this.map = map;
@@ -93,7 +77,6 @@ namespace Verse
 			this.openSet = new FastPriorityQueue<int>(new GlowFlooder.CompareGlowFlooderLightSquares(this.calcGrid));
 		}
 
-		// Token: 0x060043A1 RID: 17313 RVA: 0x0023BF58 File Offset: 0x0023A358
 		public void AddFloodGlowFor(CompGlower theGlower, Color32[] glowGrid)
 		{
 			this.cellIndices = this.map.cellIndices;
@@ -199,7 +182,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043A2 RID: 17314 RVA: 0x0023C32C File Offset: 0x0023A72C
 		private void InitStatusesAndPushStartNode(ref int curIndex, IntVec3 start)
 		{
 			this.statusUnseenValue += 3u;
@@ -212,7 +194,6 @@ namespace Verse
 			this.openSet.Push(curIndex);
 		}
 
-		// Token: 0x060043A3 RID: 17315 RVA: 0x0023C3AC File Offset: 0x0023A7AC
 		private void SetGlowGridFromDist(int index)
 		{
 			float num = (float)this.calcGrid[index].intDist / 100f;
@@ -238,29 +219,27 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000C16 RID: 3094
+		// Note: this type is marked as 'beforefieldinit'.
+		static GlowFlooder()
+		{
+		}
+
 		private struct GlowFloodCell
 		{
-			// Token: 0x04002E3F RID: 11839
 			public int intDist;
 
-			// Token: 0x04002E40 RID: 11840
 			public uint status;
 		}
 
-		// Token: 0x02000C17 RID: 3095
 		private class CompareGlowFlooderLightSquares : IComparer<int>
 		{
-			// Token: 0x04002E41 RID: 11841
 			private GlowFlooder.GlowFloodCell[] grid;
 
-			// Token: 0x060043A5 RID: 17317 RVA: 0x0023C4D9 File Offset: 0x0023A8D9
 			public CompareGlowFlooderLightSquares(GlowFlooder.GlowFloodCell[] grid)
 			{
 				this.grid = grid;
 			}
 
-			// Token: 0x060043A6 RID: 17318 RVA: 0x0023C4EC File Offset: 0x0023A8EC
 			public int Compare(int a, int b)
 			{
 				return this.grid[a].intDist.CompareTo(this.grid[b].intDist);

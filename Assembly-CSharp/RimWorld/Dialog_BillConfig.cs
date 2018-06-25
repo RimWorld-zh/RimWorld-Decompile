@@ -1,51 +1,52 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006B6 RID: 1718
 	public class Dialog_BillConfig : Window
 	{
-		// Token: 0x04001459 RID: 5209
 		private IntVec3 billGiverPos;
 
-		// Token: 0x0400145A RID: 5210
 		private Bill_Production bill;
 
-		// Token: 0x0400145B RID: 5211
 		private Vector2 thingFilterScrollPosition;
 
-		// Token: 0x0400145C RID: 5212
 		private string repeatCountEditBuffer;
 
-		// Token: 0x0400145D RID: 5213
 		private string targetCountEditBuffer;
 
-		// Token: 0x0400145E RID: 5214
 		private string unpauseCountEditBuffer;
 
-		// Token: 0x0400145F RID: 5215
 		[TweakValue("Interface", 0f, 400f)]
 		private static int RepeatModeSubdialogHeight = 300;
 
-		// Token: 0x04001460 RID: 5216
 		[TweakValue("Interface", 0f, 400f)]
 		private static int StoreModeSubdialogHeight = 30;
 
-		// Token: 0x04001461 RID: 5217
 		[TweakValue("Interface", 0f, 400f)]
 		private static int WorkerSelectionSubdialogHeight = 85;
 
-		// Token: 0x04001462 RID: 5218
 		[TweakValue("Interface", 0f, 400f)]
 		private static int IngredientRadiusSubdialogHeight = 50;
 
-		// Token: 0x060024E6 RID: 9446 RVA: 0x0013C0EE File Offset: 0x0013A4EE
+		[CompilerGenerated]
+		private static Func<Bill_Production, Zone_Stockpile> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<BillStoreModeDef, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Bill_Production, Pawn> <>f__am$cache2;
+
 		public Dialog_BillConfig(Bill_Production bill, IntVec3 billGiverPos)
 		{
 			this.billGiverPos = billGiverPos;
@@ -56,8 +57,6 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x17000596 RID: 1430
-		// (get) Token: 0x060024E7 RID: 9447 RVA: 0x0013C124 File Offset: 0x0013A524
 		public override Vector2 InitialSize
 		{
 			get
@@ -66,7 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E8 RID: 9448 RVA: 0x0013C148 File Offset: 0x0013A548
 		private void AdjustCount(int offset)
 		{
 			if (offset > 0)
@@ -84,13 +82,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E9 RID: 9449 RVA: 0x0013C1A8 File Offset: 0x0013A5A8
 		public override void WindowUpdate()
 		{
 			this.bill.TryDrawIngredientSearchRadiusOnMap(this.billGiverPos);
 		}
 
-		// Token: 0x060024EA RID: 9450 RVA: 0x0013C1BC File Offset: 0x0013A5BC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Medium;
@@ -333,7 +329,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024EB RID: 9451 RVA: 0x0013D0A4 File Offset: 0x0013B4A4
 		private IEnumerable<Widgets.DropdownMenuElement<Pawn>> GeneratePawnRestrictionOptions()
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -438,7 +433,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024EC RID: 9452 RVA: 0x0013D0D0 File Offset: 0x0013B4D0
 		private IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>> GenerateStockpileInclusion()
 		{
 			yield return new Widgets.DropdownMenuElement<Zone_Stockpile>
@@ -485,6 +479,591 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Dialog_BillConfig()
+		{
+		}
+
+		[CompilerGenerated]
+		private static Zone_Stockpile <DoWindowContents>m__0(Bill_Production b)
+		{
+			return b.includeFromZone;
+		}
+
+		[CompilerGenerated]
+		private IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>> <DoWindowContents>m__1(Bill_Production b)
+		{
+			return this.GenerateStockpileInclusion();
+		}
+
+		[CompilerGenerated]
+		private static int <DoWindowContents>m__2(BillStoreModeDef bsm)
+		{
+			return bsm.listOrder;
+		}
+
+		[CompilerGenerated]
+		private static Pawn <DoWindowContents>m__3(Bill_Production b)
+		{
+			return b.pawnRestriction;
+		}
+
+		[CompilerGenerated]
+		private IEnumerable<Widgets.DropdownMenuElement<Pawn>> <DoWindowContents>m__4(Bill_Production b)
+		{
+			return this.GeneratePawnRestrictionOptions();
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey3
+		{
+			internal BillStoreModeDef smLocal;
+
+			internal Dialog_BillConfig $this;
+
+			public <DoWindowContents>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.bill.SetStoreMode(this.smLocal, null);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey2
+		{
+			internal SlotGroup group;
+
+			internal Dialog_BillConfig.<DoWindowContents>c__AnonStorey3 <>f__ref$3;
+
+			public <DoWindowContents>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$3.$this.bill.SetStoreMode(BillStoreModeDefOf.SpecificStockpile, (Zone_Stockpile)this.group.parent);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GeneratePawnRestrictionOptions>c__Iterator0 : IEnumerable, IEnumerable<Widgets.DropdownMenuElement<Pawn>>, IEnumerator, IDisposable, IEnumerator<Widgets.DropdownMenuElement<Pawn>>
+		{
+			internal SkillDef <workSkill>__0;
+
+			internal IEnumerable<Pawn> <pawns>__0;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Dialog_BillConfig $this;
+
+			internal Widgets.DropdownMenuElement<Pawn> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0.<GeneratePawnRestrictionOptions>c__AnonStorey4 $locvar1;
+
+			private static Func<Pawn, string> <>f__am$cache0;
+
+			private Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0.<GeneratePawnRestrictionOptions>c__AnonStorey5 $locvar2;
+
+			[DebuggerHidden]
+			public <GeneratePawnRestrictionOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = new Widgets.DropdownMenuElement<Pawn>
+					{
+						option = new FloatMenuOption("AnyWorker".Translate(), delegate()
+						{
+							this.bill.pawnRestriction = null;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null),
+						payload = null
+					};
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					workSkill = this.bill.recipe.workSkill;
+					pawns = PawnsFinder.AllMaps_FreeColonists;
+					pawns = from pawn in pawns
+					orderby pawn.LabelShortCap
+					select pawn;
+					if (workSkill != null)
+					{
+						pawns = from pawn in pawns
+						orderby pawn.skills.GetSkill(<GeneratePawnRestrictionOptions>c__AnonStorey.<>f__ref$0.$this.bill.recipe.workSkill).Level descending
+						select pawn;
+					}
+					<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver = this.bill.billStack.billGiver.GetWorkgiver();
+					if (<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver == null)
+					{
+						Log.ErrorOnce("Generating pawn restrictions for a BillGiver without a Workgiver", 96455148, false);
+						return false;
+					}
+					pawns = from pawn in pawns
+					orderby pawn.workSettings.WorkIsActive(<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver.workType) descending
+					select pawn;
+					pawns = from pawn in pawns
+					orderby pawn.story.WorkTypeIsDisabled(<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver.workType)
+					select pawn;
+					enumerator = pawns.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+				case 3u:
+				case 4u:
+				case 5u:
+				case 6u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						Pawn pawn = enumerator.Current;
+						if (pawn.story.WorkTypeIsDisabled(<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver.workType))
+						{
+							this.$current = new Widgets.DropdownMenuElement<Pawn>
+							{
+								option = new FloatMenuOption(string.Format("{0} ({1})", pawn.LabelShortCap, "WillNever".Translate(new object[]
+								{
+									<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver.verb
+								})), null, MenuOptionPriority.Default, null, null, 0f, null, null),
+								payload = pawn
+							};
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						if (this.bill.recipe.workSkill != null && !pawn.workSettings.WorkIsActive(<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver.workType))
+						{
+							this.$current = new Widgets.DropdownMenuElement<Pawn>
+							{
+								option = new FloatMenuOption(string.Format("{0} ({1} {2}, {3})", new object[]
+								{
+									pawn.LabelShortCap,
+									pawn.skills.GetSkill(this.bill.recipe.workSkill).Level,
+									this.bill.recipe.workSkill.label,
+									"NotAssigned".Translate()
+								}), delegate()
+								{
+									this.bill.pawnRestriction = pawn;
+								}, MenuOptionPriority.Default, null, null, 0f, null, null),
+								payload = pawn
+							};
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+						if (!pawn.workSettings.WorkIsActive(<GeneratePawnRestrictionOptions>c__AnonStorey.workGiver.workType))
+						{
+							this.$current = new Widgets.DropdownMenuElement<Pawn>
+							{
+								option = new FloatMenuOption(string.Format("{0} ({1})", pawn.LabelShortCap, "NotAssigned".Translate()), delegate()
+								{
+									this.bill.pawnRestriction = pawn;
+								}, MenuOptionPriority.Default, null, null, 0f, null, null),
+								payload = pawn
+							};
+							if (!this.$disposing)
+							{
+								this.$PC = 4;
+							}
+							flag = true;
+							return true;
+						}
+						if (this.bill.recipe.workSkill != null)
+						{
+							this.$current = new Widgets.DropdownMenuElement<Pawn>
+							{
+								option = new FloatMenuOption(string.Format("{0} ({1} {2})", pawn.LabelShortCap, pawn.skills.GetSkill(this.bill.recipe.workSkill).Level, this.bill.recipe.workSkill.label), delegate()
+								{
+									this.bill.pawnRestriction = pawn;
+								}, MenuOptionPriority.Default, null, null, 0f, null, null),
+								payload = pawn
+							};
+							if (!this.$disposing)
+							{
+								this.$PC = 5;
+							}
+							flag = true;
+							return true;
+						}
+						this.$current = new Widgets.DropdownMenuElement<Pawn>
+						{
+							option = new FloatMenuOption(string.Format("{0}", pawn.LabelShortCap), delegate()
+							{
+								this.bill.pawnRestriction = pawn;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null),
+							payload = pawn
+						};
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Widgets.DropdownMenuElement<Pawn> IEnumerator<Widgets.DropdownMenuElement<Pawn>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+				case 3u:
+				case 4u:
+				case 5u:
+				case 6u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Widgets.DropdownMenuElement<Verse.Pawn>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Widgets.DropdownMenuElement<Pawn>> IEnumerable<Widgets.DropdownMenuElement<Pawn>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0 <GeneratePawnRestrictionOptions>c__Iterator = new Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0();
+				<GeneratePawnRestrictionOptions>c__Iterator.$this = this;
+				return <GeneratePawnRestrictionOptions>c__Iterator;
+			}
+
+			private static string <>m__0(Pawn pawn)
+			{
+				return pawn.LabelShortCap;
+			}
+
+			private sealed class <GeneratePawnRestrictionOptions>c__AnonStorey4
+			{
+				internal WorkGiverDef workGiver;
+
+				internal Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0 <>f__ref$0;
+
+				public <GeneratePawnRestrictionOptions>c__AnonStorey4()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$0.$this.bill.pawnRestriction = null;
+				}
+
+				internal int <>m__1(Pawn pawn)
+				{
+					return pawn.skills.GetSkill(this.<>f__ref$0.$this.bill.recipe.workSkill).Level;
+				}
+
+				internal bool <>m__2(Pawn pawn)
+				{
+					return pawn.workSettings.WorkIsActive(this.workGiver.workType);
+				}
+
+				internal bool <>m__3(Pawn pawn)
+				{
+					return pawn.story.WorkTypeIsDisabled(this.workGiver.workType);
+				}
+			}
+
+			private sealed class <GeneratePawnRestrictionOptions>c__AnonStorey5
+			{
+				internal Pawn pawn;
+
+				internal Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0 <>f__ref$0;
+
+				internal Dialog_BillConfig.<GeneratePawnRestrictionOptions>c__Iterator0.<GeneratePawnRestrictionOptions>c__AnonStorey4 <>f__ref$4;
+
+				public <GeneratePawnRestrictionOptions>c__AnonStorey5()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$0.$this.bill.pawnRestriction = this.pawn;
+				}
+
+				internal void <>m__1()
+				{
+					this.<>f__ref$0.$this.bill.pawnRestriction = this.pawn;
+				}
+
+				internal void <>m__2()
+				{
+					this.<>f__ref$0.$this.bill.pawnRestriction = this.pawn;
+				}
+
+				internal void <>m__3()
+				{
+					this.<>f__ref$0.$this.bill.pawnRestriction = this.pawn;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateStockpileInclusion>c__Iterator1 : IEnumerable, IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>>, IEnumerator, IDisposable, IEnumerator<Widgets.DropdownMenuElement<Zone_Stockpile>>
+		{
+			internal List<SlotGroup> <groupList>__0;
+
+			internal int <groupCount>__0;
+
+			internal int <i>__1;
+
+			internal SlotGroup <group>__2;
+
+			internal Dialog_BillConfig $this;
+
+			internal Widgets.DropdownMenuElement<Zone_Stockpile> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private Dialog_BillConfig.<GenerateStockpileInclusion>c__Iterator1.<GenerateStockpileInclusion>c__AnonStorey6 $locvar0;
+
+			[DebuggerHidden]
+			public <GenerateStockpileInclusion>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = new Widgets.DropdownMenuElement<Zone_Stockpile>
+					{
+						option = new FloatMenuOption("IncludeFromAll".Translate(), delegate()
+						{
+							this.bill.includeFromZone = null;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null),
+						payload = null
+					};
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					groupList = this.bill.billStack.billGiver.Map.haulDestinationManager.AllGroupsListInPriorityOrder;
+					groupCount = groupList.Count;
+					i = 0;
+					goto IL_272;
+				case 2u:
+					break;
+				case 3u:
+					break;
+				default:
+					return false;
+				}
+				IL_264:
+				i++;
+				IL_272:
+				if (i >= groupCount)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					group = groupList[i];
+					Zone_Stockpile stockpile = group.parent as Zone_Stockpile;
+					if (stockpile == null)
+					{
+						goto IL_264;
+					}
+					if (!this.bill.recipe.WorkerCounter.CanPossiblyStoreInStockpile(this.bill, stockpile))
+					{
+						this.$current = new Widgets.DropdownMenuElement<Zone_Stockpile>
+						{
+							option = new FloatMenuOption(string.Format("{0} ({1})", "IncludeSpecific".Translate(new object[]
+							{
+								group.parent.SlotYielderLabel()
+							}), "IncompatibleLower".Translate()), null, MenuOptionPriority.Default, null, null, 0f, null, null),
+							payload = stockpile
+						};
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					this.$current = new Widgets.DropdownMenuElement<Zone_Stockpile>
+					{
+						option = new FloatMenuOption("IncludeSpecific".Translate(new object[]
+						{
+							group.parent.SlotYielderLabel()
+						}), delegate()
+						{
+							this.bill.includeFromZone = stockpile;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null),
+						payload = stockpile
+					};
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			Widgets.DropdownMenuElement<Zone_Stockpile> IEnumerator<Widgets.DropdownMenuElement<Zone_Stockpile>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Widgets.DropdownMenuElement<RimWorld.Zone_Stockpile>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Widgets.DropdownMenuElement<Zone_Stockpile>> IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Dialog_BillConfig.<GenerateStockpileInclusion>c__Iterator1 <GenerateStockpileInclusion>c__Iterator = new Dialog_BillConfig.<GenerateStockpileInclusion>c__Iterator1();
+				<GenerateStockpileInclusion>c__Iterator.$this = this;
+				return <GenerateStockpileInclusion>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				this.bill.includeFromZone = null;
+			}
+
+			private sealed class <GenerateStockpileInclusion>c__AnonStorey6
+			{
+				internal Zone_Stockpile stockpile;
+
+				internal Dialog_BillConfig.<GenerateStockpileInclusion>c__Iterator1 <>f__ref$1;
+
+				public <GenerateStockpileInclusion>c__AnonStorey6()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$1.$this.bill.includeFromZone = this.stockpile;
+				}
+			}
 		}
 	}
 }

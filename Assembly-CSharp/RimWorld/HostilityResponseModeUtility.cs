@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200051E RID: 1310
 	[StaticConstructorOnStartup]
 	public static class HostilityResponseModeUtility
 	{
-		// Token: 0x04000E11 RID: 3601
 		private static readonly Texture2D IgnoreIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Ignore", true);
 
-		// Token: 0x04000E12 RID: 3602
 		private static readonly Texture2D AttackIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Attack", true);
 
-		// Token: 0x04000E13 RID: 3603
 		private static readonly Texture2D FleeIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Flee", true);
 
-		// Token: 0x04000E14 RID: 3604
 		[CompilerGenerated]
 		private static Func<Pawn, HostilityResponseMode> <>f__mg$cache0;
 
-		// Token: 0x04000E15 RID: 3605
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>> <>f__mg$cache1;
 
-		// Token: 0x060017DC RID: 6108 RVA: 0x000D0C74 File Offset: 0x000CF074
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
 			Texture2D result;
@@ -50,7 +48,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017DD RID: 6109 RVA: 0x000D0CC8 File Offset: 0x000CF0C8
 		public static HostilityResponseMode GetNextResponse(Pawn pawn)
 		{
 			HostilityResponseMode result;
@@ -79,13 +76,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017DE RID: 6110 RVA: 0x000D0D3C File Offset: 0x000CF13C
 		public static string GetLabel(this HostilityResponseMode response)
 		{
 			return ("HostilityResponseMode_" + response).Translate();
 		}
 
-		// Token: 0x060017DF RID: 6111 RVA: 0x000D0D68 File Offset: 0x000CF168
 		public static void DrawResponseButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			if (HostilityResponseModeUtility.<>f__mg$cache0 == null)
@@ -114,13 +109,11 @@ namespace RimWorld
 			}));
 		}
 
-		// Token: 0x060017E0 RID: 6112 RVA: 0x000D0E54 File Offset: 0x000CF254
 		private static HostilityResponseMode DrawResponseButton_GetResponse(Pawn pawn)
 		{
 			return pawn.playerSettings.hostilityResponse;
 		}
 
-		// Token: 0x060017E1 RID: 6113 RVA: 0x000D0E74 File Offset: 0x000CF274
 		private static IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>> DrawResponseButton_GenerateMenu(Pawn p)
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(HostilityResponseMode)).GetEnumerator();
@@ -148,6 +141,186 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static HostilityResponseModeUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <DrawResponseButton>m__0()
+		{
+			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.HostilityResponse, KnowledgeAmount.SpecificInteraction);
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawResponseButton_GenerateMenu>c__Iterator0 : IEnumerable, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>, IEnumerator, IDisposable, IEnumerator<Widgets.DropdownMenuElement<HostilityResponseMode>>
+		{
+			internal IEnumerator $locvar0;
+
+			internal IDisposable $locvar1;
+
+			internal Pawn p;
+
+			internal Widgets.DropdownMenuElement<HostilityResponseMode> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private HostilityResponseModeUtility.<DrawResponseButton_GenerateMenu>c__Iterator0.<DrawResponseButton_GenerateMenu>c__AnonStorey2 $locvar2;
+
+			private HostilityResponseModeUtility.<DrawResponseButton_GenerateMenu>c__Iterator0.<DrawResponseButton_GenerateMenu>c__AnonStorey1 $locvar3;
+
+			[DebuggerHidden]
+			public <DrawResponseButton_GenerateMenu>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = Enum.GetValues(typeof(HostilityResponseMode)).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						HostilityResponseMode response = (HostilityResponseMode)enumerator.Current;
+						this.$current = new Widgets.DropdownMenuElement<HostilityResponseMode>
+						{
+							option = new FloatMenuOption(response.GetLabel(), delegate()
+							{
+								<DrawResponseButton_GenerateMenu>c__AnonStorey.p.playerSettings.hostilityResponse = response;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null),
+							payload = response
+						};
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Widgets.DropdownMenuElement<HostilityResponseMode> IEnumerator<Widgets.DropdownMenuElement<HostilityResponseMode>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Widgets.DropdownMenuElement<RimWorld.HostilityResponseMode>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Widgets.DropdownMenuElement<HostilityResponseMode>> IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HostilityResponseModeUtility.<DrawResponseButton_GenerateMenu>c__Iterator0 <DrawResponseButton_GenerateMenu>c__Iterator = new HostilityResponseModeUtility.<DrawResponseButton_GenerateMenu>c__Iterator0();
+				<DrawResponseButton_GenerateMenu>c__Iterator.p = p;
+				return <DrawResponseButton_GenerateMenu>c__Iterator;
+			}
+
+			private sealed class <DrawResponseButton_GenerateMenu>c__AnonStorey2
+			{
+				internal Pawn p;
+
+				public <DrawResponseButton_GenerateMenu>c__AnonStorey2()
+				{
+				}
+			}
+
+			private sealed class <DrawResponseButton_GenerateMenu>c__AnonStorey1
+			{
+				internal HostilityResponseMode response;
+
+				internal HostilityResponseModeUtility.<DrawResponseButton_GenerateMenu>c__Iterator0.<DrawResponseButton_GenerateMenu>c__AnonStorey2 <>f__ref$2;
+
+				public <DrawResponseButton_GenerateMenu>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$2.p.playerSettings.hostilityResponse = this.response;
+				}
+			}
 		}
 	}
 }

@@ -3,103 +3,75 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000185 RID: 389
+	[AddComponentMenu("Image Effects/Camera/Camera Motion Blur")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Camera/Camera Motion Blur")]
 	public class CameraMotionBlur : PostEffectsBase
 	{
-		// Token: 0x0400072B RID: 1835
 		private static float MAX_RADIUS = 10f;
 
-		// Token: 0x0400072C RID: 1836
 		public CameraMotionBlur.MotionBlurFilter filterType = CameraMotionBlur.MotionBlurFilter.Reconstruction;
 
-		// Token: 0x0400072D RID: 1837
 		public bool preview = false;
 
-		// Token: 0x0400072E RID: 1838
 		public Vector3 previewScale = Vector3.one;
 
-		// Token: 0x0400072F RID: 1839
 		public float movementScale = 0f;
 
-		// Token: 0x04000730 RID: 1840
 		public float rotationScale = 1f;
 
-		// Token: 0x04000731 RID: 1841
 		public float maxVelocity = 8f;
 
-		// Token: 0x04000732 RID: 1842
 		public float minVelocity = 0.1f;
 
-		// Token: 0x04000733 RID: 1843
 		public float velocityScale = 0.375f;
 
-		// Token: 0x04000734 RID: 1844
 		public float softZDistance = 0.005f;
 
-		// Token: 0x04000735 RID: 1845
 		public int velocityDownsample = 1;
 
-		// Token: 0x04000736 RID: 1846
 		public LayerMask excludeLayers = 0;
 
-		// Token: 0x04000737 RID: 1847
 		private GameObject tmpCam = null;
 
-		// Token: 0x04000738 RID: 1848
 		public Shader shader;
 
-		// Token: 0x04000739 RID: 1849
 		public Shader dx11MotionBlurShader;
 
-		// Token: 0x0400073A RID: 1850
 		public Shader replacementClear;
 
-		// Token: 0x0400073B RID: 1851
 		private Material motionBlurMaterial = null;
 
-		// Token: 0x0400073C RID: 1852
 		private Material dx11MotionBlurMaterial = null;
 
-		// Token: 0x0400073D RID: 1853
 		public Texture2D noiseTexture = null;
 
-		// Token: 0x0400073E RID: 1854
 		public float jitter = 0.05f;
 
-		// Token: 0x0400073F RID: 1855
 		public bool showVelocity = false;
 
-		// Token: 0x04000740 RID: 1856
 		public float showVelocityScale = 1f;
 
-		// Token: 0x04000741 RID: 1857
 		private Matrix4x4 currentViewProjMat;
 
-		// Token: 0x04000742 RID: 1858
 		private Matrix4x4 prevViewProjMat;
 
-		// Token: 0x04000743 RID: 1859
 		private int prevFrameCount;
 
-		// Token: 0x04000744 RID: 1860
 		private bool wasActive;
 
-		// Token: 0x04000745 RID: 1861
 		private Vector3 prevFrameForward = Vector3.forward;
 
-		// Token: 0x04000746 RID: 1862
 		private Vector3 prevFrameUp = Vector3.up;
 
-		// Token: 0x04000747 RID: 1863
 		private Vector3 prevFramePos = Vector3.zero;
 
-		// Token: 0x04000748 RID: 1864
 		private Camera _camera;
 
-		// Token: 0x060008D0 RID: 2256 RVA: 0x00011ED4 File Offset: 0x000100D4
+		public CameraMotionBlur()
+		{
+		}
+
 		private void CalculateViewProjection()
 		{
 			Matrix4x4 worldToCameraMatrix = this._camera.worldToCameraMatrix;
@@ -107,7 +79,6 @@ namespace UnityStandardAssets.ImageEffects
 			this.currentViewProjMat = gpuprojectionMatrix * worldToCameraMatrix;
 		}
 
-		// Token: 0x060008D1 RID: 2257 RVA: 0x00011F10 File Offset: 0x00010110
 		private new void Start()
 		{
 			this.CheckResources();
@@ -121,7 +92,6 @@ namespace UnityStandardAssets.ImageEffects
 			this.wasActive = false;
 		}
 
-		// Token: 0x060008D2 RID: 2258 RVA: 0x00011F66 File Offset: 0x00010166
 		private void OnEnable()
 		{
 			if (this._camera == null)
@@ -131,7 +101,6 @@ namespace UnityStandardAssets.ImageEffects
 			this._camera.depthTextureMode |= DepthTextureMode.Depth;
 		}
 
-		// Token: 0x060008D3 RID: 2259 RVA: 0x00011F9C File Offset: 0x0001019C
 		private void OnDisable()
 		{
 			if (null != this.motionBlurMaterial)
@@ -151,7 +120,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008D4 RID: 2260 RVA: 0x0001201C File Offset: 0x0001021C
 		public override bool CheckResources()
 		{
 			base.CheckSupport(true, true);
@@ -167,7 +135,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x060008D5 RID: 2261 RVA: 0x0001209C File Offset: 0x0001029C
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources())
@@ -337,7 +304,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008D6 RID: 2262 RVA: 0x0001298C File Offset: 0x00010B8C
 		private void Remember()
 		{
 			this.prevViewProjMat = this.currentViewProjMat;
@@ -346,7 +312,6 @@ namespace UnityStandardAssets.ImageEffects
 			this.prevFramePos = base.transform.position;
 		}
 
-		// Token: 0x060008D7 RID: 2263 RVA: 0x000129DC File Offset: 0x00010BDC
 		private Camera GetTmpCam()
 		{
 			if (this.tmpCam == null)
@@ -376,30 +341,27 @@ namespace UnityStandardAssets.ImageEffects
 			return this.tmpCam.GetComponent<Camera>();
 		}
 
-		// Token: 0x060008D8 RID: 2264 RVA: 0x00012B1E File Offset: 0x00010D1E
 		private void StartFrame()
 		{
 			this.prevFramePos = Vector3.Slerp(this.prevFramePos, base.transform.position, 0.75f);
 		}
 
-		// Token: 0x060008D9 RID: 2265 RVA: 0x00012B44 File Offset: 0x00010D44
 		private static int divRoundUp(int x, int d)
 		{
 			return (x + d - 1) / d;
 		}
 
-		// Token: 0x02000186 RID: 390
+		// Note: this type is marked as 'beforefieldinit'.
+		static CameraMotionBlur()
+		{
+		}
+
 		public enum MotionBlurFilter
 		{
-			// Token: 0x0400074A RID: 1866
 			CameraMotion,
-			// Token: 0x0400074B RID: 1867
 			LocalBlur,
-			// Token: 0x0400074C RID: 1868
 			Reconstruction,
-			// Token: 0x0400074D RID: 1869
 			ReconstructionDX11,
-			// Token: 0x0400074E RID: 1870
 			ReconstructionDisc
 		}
 	}

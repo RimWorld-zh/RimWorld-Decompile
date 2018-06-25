@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B0C RID: 2828
 	public class ColorGenerator_StandardApparel : ColorGenerator
 	{
-		// Token: 0x040027E7 RID: 10215
 		private const float DarkAmp = 0.4f;
 
-		// Token: 0x17000971 RID: 2417
-		// (get) Token: 0x06003E90 RID: 16016 RVA: 0x0020F8C4 File Offset: 0x0020DCC4
+		public ColorGenerator_StandardApparel()
+		{
+		}
+
 		public override Color ExemplaryColor
 		{
 			get
@@ -19,7 +19,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E91 RID: 16017 RVA: 0x0020F8F0 File Offset: 0x0020DCF0
 		public override Color NewRandomizedColor()
 		{
 			Color result;

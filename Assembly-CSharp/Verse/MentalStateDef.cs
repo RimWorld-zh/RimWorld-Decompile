@@ -1,98 +1,77 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000B55 RID: 2901
 	public class MentalStateDef : Def
 	{
-		// Token: 0x04002A08 RID: 10760
 		public Type stateClass = typeof(MentalState);
 
-		// Token: 0x04002A09 RID: 10761
 		public Type workerClass = typeof(MentalStateWorker);
 
-		// Token: 0x04002A0A RID: 10762
 		public MentalStateCategory category = MentalStateCategory.Undefined;
 
-		// Token: 0x04002A0B RID: 10763
 		public bool prisonersCanDo = true;
 
-		// Token: 0x04002A0C RID: 10764
 		public bool unspawnedCanDo = false;
 
-		// Token: 0x04002A0D RID: 10765
 		public bool colonistsOnly = false;
 
-		// Token: 0x04002A0E RID: 10766
 		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
 
-		// Token: 0x04002A0F RID: 10767
 		public bool blockNormalThoughts = false;
 
-		// Token: 0x04002A10 RID: 10768
 		public EffecterDef stateEffecter;
 
-		// Token: 0x04002A11 RID: 10769
 		public TaleDef tale;
 
-		// Token: 0x04002A12 RID: 10770
 		public bool allowBeatfire = false;
 
-		// Token: 0x04002A13 RID: 10771
 		public DrugCategory drugCategory = DrugCategory.Any;
 
-		// Token: 0x04002A14 RID: 10772
 		public bool ignoreDrugPolicy = false;
 
-		// Token: 0x04002A15 RID: 10773
 		public float recoveryMtbDays = 1f;
 
-		// Token: 0x04002A16 RID: 10774
 		public int minTicksBeforeRecovery = 500;
 
-		// Token: 0x04002A17 RID: 10775
 		public int maxTicksBeforeRecovery = 99999999;
 
-		// Token: 0x04002A18 RID: 10776
 		public bool recoverFromSleep = false;
 
-		// Token: 0x04002A19 RID: 10777
 		public ThoughtDef moodRecoveryThought;
 
-		// Token: 0x04002A1A RID: 10778
 		[MustTranslate]
 		public string beginLetter;
 
-		// Token: 0x04002A1B RID: 10779
 		[MustTranslate]
 		public string beginLetterLabel;
 
-		// Token: 0x04002A1C RID: 10780
 		public LetterDef beginLetterDef;
 
-		// Token: 0x04002A1D RID: 10781
 		public Color nameColor = Color.green;
 
-		// Token: 0x04002A1E RID: 10782
 		[MustTranslate]
 		public string recoveryMessage;
 
-		// Token: 0x04002A1F RID: 10783
 		[MustTranslate]
 		public string baseInspectLine;
 
-		// Token: 0x04002A20 RID: 10784
 		public bool escapingPrisonersIgnore = false;
 
-		// Token: 0x04002A21 RID: 10785
 		private MentalStateWorker workerInt = null;
 
-		// Token: 0x170009A0 RID: 2464
-		// (get) Token: 0x06003F6F RID: 16239 RVA: 0x00217194 File Offset: 0x00215594
+		public MentalStateDef()
+		{
+		}
+
 		public MentalStateWorker Worker
 		{
 			get
@@ -109,8 +88,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A1 RID: 2465
-		// (get) Token: 0x06003F70 RID: 16240 RVA: 0x002171EC File Offset: 0x002155EC
 		public bool IsAggro
 		{
 			get
@@ -119,8 +96,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A2 RID: 2466
-		// (get) Token: 0x06003F71 RID: 16241 RVA: 0x0021720C File Offset: 0x0021560C
 		public bool IsExtreme
 		{
 			get
@@ -137,7 +112,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F72 RID: 16242 RVA: 0x0021726D File Offset: 0x0021566D
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -147,7 +121,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F73 RID: 16243 RVA: 0x0021728C File Offset: 0x0021568C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -159,6 +132,159 @@ namespace Verse
 				yield return "no beginLetter or beginLetterLabel";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal MentalStateDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_101;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.beginLetter.NullOrEmpty() || !this.beginLetterLabel.NullOrEmpty())
+				{
+					goto IL_101;
+				}
+				this.$current = "no beginLetter or beginLetterLabel";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_101:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MentalStateDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new MentalStateDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

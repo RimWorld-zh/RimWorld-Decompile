@@ -6,15 +6,16 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Steamworks
 {
-	// Token: 0x0200002C RID: 44
 	public class InteropHelp
 	{
-		// Token: 0x060000AC RID: 172 RVA: 0x00002EE8 File Offset: 0x000010E8
+		public InteropHelp()
+		{
+		}
+
 		public static void TestIfPlatformSupported()
 		{
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x00002EEB File Offset: 0x000010EB
 		public static void TestIfAvailableClient()
 		{
 			InteropHelp.TestIfPlatformSupported();
@@ -24,7 +25,6 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x00002F13 File Offset: 0x00001113
 		public static void TestIfAvailableGameServer()
 		{
 			InteropHelp.TestIfPlatformSupported();
@@ -34,7 +34,6 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x060000AF RID: 175 RVA: 0x00002F3C File Offset: 0x0000113C
 		public static string PtrToStringUTF8(IntPtr nativeUtf8)
 		{
 			string result;
@@ -63,10 +62,8 @@ namespace Steamworks
 			return result;
 		}
 
-		// Token: 0x0200002D RID: 45
 		public class UTF8StringHandle : SafeHandleZeroOrMinusOneIsInvalid
 		{
-			// Token: 0x060000B0 RID: 176 RVA: 0x00002FB8 File Offset: 0x000011B8
 			public UTF8StringHandle(string str) : base(true)
 			{
 				if (str == null)
@@ -83,7 +80,6 @@ namespace Steamworks
 				}
 			}
 
-			// Token: 0x060000B1 RID: 177 RVA: 0x00003028 File Offset: 0x00001228
 			protected override bool ReleaseHandle()
 			{
 				if (!this.IsInvalid)
@@ -94,19 +90,14 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x0200002E RID: 46
 		public class SteamParamStringArray
 		{
-			// Token: 0x0400003B RID: 59
 			private IntPtr[] m_Strings;
 
-			// Token: 0x0400003C RID: 60
 			private IntPtr m_ptrStrings;
 
-			// Token: 0x0400003D RID: 61
 			private IntPtr m_pSteamParamStringArray;
 
-			// Token: 0x060000B2 RID: 178 RVA: 0x00003058 File Offset: 0x00001258
 			public SteamParamStringArray(IList<string> strings)
 			{
 				if (strings == null)
@@ -135,7 +126,6 @@ namespace Steamworks
 				}
 			}
 
-			// Token: 0x060000B3 RID: 179 RVA: 0x000031A0 File Offset: 0x000013A0
 			protected override void Finalize()
 			{
 				try
@@ -159,7 +149,6 @@ namespace Steamworks
 				}
 			}
 
-			// Token: 0x060000B4 RID: 180 RVA: 0x00003238 File Offset: 0x00001438
 			public static implicit operator IntPtr(InteropHelp.SteamParamStringArray that)
 			{
 				return that.m_pSteamParamStringArray;

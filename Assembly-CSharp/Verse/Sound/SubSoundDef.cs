@@ -1,135 +1,117 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000BA2 RID: 2978
 	public class SubSoundDef : Editable
 	{
-		// Token: 0x04002B4E RID: 11086
-		[Description("A name to help you identify the sound.")]
 		[DefaultValue("UnnamedSubSoundDef")]
+		[Description("A name to help you identify the sound.")]
 		public string name = "UnnamedSubSoundDef";
 
-		// Token: 0x04002B4F RID: 11087
-		[Description("Whether this sound plays on the camera or in the world.\n\nThis must match what the game expects from the sound Def with this name.")]
 		[DefaultValue(false)]
+		[Description("Whether this sound plays on the camera or in the world.\n\nThis must match what the game expects from the sound Def with this name.")]
 		public bool onCamera = false;
 
-		// Token: 0x04002B50 RID: 11088
-		[Description("Whether to mute this subSound while the game is paused (either by the pausing in play or by opening a menu)")]
 		[DefaultValue(false)]
+		[Description("Whether to mute this subSound while the game is paused (either by the pausing in play or by opening a menu)")]
 		public bool muteWhenPaused = false;
 
-		// Token: 0x04002B51 RID: 11089
-		[Description("Whether this subSound's tempo should be affected by the current tick rate.")]
 		[DefaultValue(false)]
+		[Description("Whether this subSound's tempo should be affected by the current tick rate.")]
 		public bool tempoAffectedByGameSpeed;
 
-		// Token: 0x04002B52 RID: 11090
 		[Description("The sound grains used for this sample. The game will choose one of these randomly when the sound plays. Sustainers choose one for each sample as it begins.")]
 		public List<AudioGrain> grains = new List<AudioGrain>();
 
-		// Token: 0x04002B53 RID: 11091
-		[EditSliderRange(0f, 100f)]
-		[Description("This sound will play at a random volume inside this range.\n\nSustainers will choose a different random volume for each sample.")]
 		[DefaultFloatRange(50f, 50f)]
+		[Description("This sound will play at a random volume inside this range.\n\nSustainers will choose a different random volume for each sample.")]
+		[EditSliderRange(0f, 100f)]
 		public FloatRange volumeRange = new FloatRange(50f, 50f);
 
-		// Token: 0x04002B54 RID: 11092
-		[EditSliderRange(0.05f, 2f)]
-		[Description("This sound will play at a random pitch inside this range.\n\nSustainers will choose a different random pitch for each sample.")]
 		[DefaultFloatRange(1f, 1f)]
+		[Description("This sound will play at a random pitch inside this range.\n\nSustainers will choose a different random pitch for each sample.")]
+		[EditSliderRange(0.05f, 2f)]
 		public FloatRange pitchRange = FloatRange.One;
 
-		// Token: 0x04002B55 RID: 11093
-		[EditSliderRange(0f, 200f)]
-		[Description("This sound will play max volume when it is under minDistance from the camera.\n\nIt will fade out linearly until the camera distance reaches its max.")]
 		[DefaultFloatRange(25f, 70f)]
+		[Description("This sound will play max volume when it is under minDistance from the camera.\n\nIt will fade out linearly until the camera distance reaches its max.")]
+		[EditSliderRange(0f, 200f)]
 		public FloatRange distRange = new FloatRange(25f, 70f);
 
-		// Token: 0x04002B56 RID: 11094
-		[Description("When the sound chooses the next grain, you may use this setting to have it avoid repeating the last grain, or avoid repeating any of the grains in the last X played, X being half the total number of grains defined.")]
 		[DefaultValue(RepeatSelectMode.NeverLastHalf)]
+		[Description("When the sound chooses the next grain, you may use this setting to have it avoid repeating the last grain, or avoid repeating any of the grains in the last X played, X being half the total number of grains defined.")]
 		public RepeatSelectMode repeatMode = RepeatSelectMode.NeverLastHalf;
 
-		// Token: 0x04002B57 RID: 11095
-		[Description("Mappings between game parameters (like fire size or wind speed) and properties of the sound.")]
 		[DefaultEmptyList(typeof(SoundParameterMapping))]
+		[Description("Mappings between game parameters (like fire size or wind speed) and properties of the sound.")]
 		public List<SoundParameterMapping> paramMappings = new List<SoundParameterMapping>();
 
-		// Token: 0x04002B58 RID: 11096
-		[Description("The filters to be applied to this sound.")]
 		[DefaultEmptyList(typeof(SoundFilter))]
+		[Description("The filters to be applied to this sound.")]
 		public List<SoundFilter> filters = new List<SoundFilter>();
 
-		// Token: 0x04002B59 RID: 11097
-		[Description("A range of possible times between when this sound is triggered and when it will actually start playing.")]
 		[DefaultFloatRange(0f, 0f)]
+		[Description("A range of possible times between when this sound is triggered and when it will actually start playing.")]
 		public FloatRange startDelayRange = FloatRange.Zero;
 
-		// Token: 0x04002B5A RID: 11098
-		[Description("If true, each sample in the sustainer will be looped and ended only after sustainerLoopDurationRange. If not, the sounds will just play once and end after their own length.")]
 		[DefaultValue(true)]
+		[Description("If true, each sample in the sustainer will be looped and ended only after sustainerLoopDurationRange. If not, the sounds will just play once and end after their own length.")]
 		public bool sustainLoop = true;
 
-		// Token: 0x04002B5B RID: 11099
-		[EditSliderRange(0f, 10f)]
-		[Description("The range of durations that individual looped samples in the sustainer will have. Each sample ends after a time randomly chosen in this range.\n\nOnly used if the sustainer is looped.")]
 		[DefaultFloatRange(9999f, 9999f)]
+		[Description("The range of durations that individual looped samples in the sustainer will have. Each sample ends after a time randomly chosen in this range.\n\nOnly used if the sustainer is looped.")]
+		[EditSliderRange(0f, 10f)]
 		public FloatRange sustainLoopDurationRange = new FloatRange(9999f, 9999f);
 
-		// Token: 0x04002B5C RID: 11100
-		[EditSliderRange(-2f, 2f)]
-		[Description("The time between when one sample ends and the next starts.\n\nSet to negative if you wish samples to overlap.")]
-		[LoadAlias("sustainInterval")]
 		[DefaultFloatRange(0f, 0f)]
+		[Description("The time between when one sample ends and the next starts.\n\nSet to negative if you wish samples to overlap.")]
+		[EditSliderRange(-2f, 2f)]
+		[LoadAlias("sustainInterval")]
 		public FloatRange sustainIntervalRange = FloatRange.Zero;
 
-		// Token: 0x04002B5D RID: 11101
-		[EditSliderRange(0f, 2f)]
-		[Description("The fade-in time of each sample. The sample will start at 0 volume and fade in over this number of seconds.")]
 		[DefaultValue(0f)]
+		[Description("The fade-in time of each sample. The sample will start at 0 volume and fade in over this number of seconds.")]
+		[EditSliderRange(0f, 2f)]
 		public float sustainAttack = 0f;
 
-		// Token: 0x04002B5E RID: 11102
-		[Description("Skip the attack on the first sustainer sample.")]
 		[DefaultValue(true)]
+		[Description("Skip the attack on the first sustainer sample.")]
 		public bool sustainSkipFirstAttack = true;
 
-		// Token: 0x04002B5F RID: 11103
-		[EditSliderRange(0f, 2f)]
-		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
 		[DefaultValue(0f)]
+		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
+		[EditSliderRange(0f, 2f)]
 		public float sustainRelease = 0f;
 
-		// Token: 0x04002B60 RID: 11104
 		[Unsaved]
 		public SoundDef parentDef;
 
-		// Token: 0x04002B61 RID: 11105
 		[Unsaved]
 		private List<ResolvedGrain> resolvedGrains = new List<ResolvedGrain>();
 
-		// Token: 0x04002B62 RID: 11106
 		[Unsaved]
 		private ResolvedGrain lastPlayedResolvedGrain = null;
 
-		// Token: 0x04002B63 RID: 11107
 		[Unsaved]
 		private int numToAvoid = 0;
 
-		// Token: 0x04002B64 RID: 11108
 		[Unsaved]
 		private int distinctResolvedGrainsCount = 0;
 
-		// Token: 0x04002B65 RID: 11109
 		[Unsaved]
 		private Queue<ResolvedGrain> recentlyPlayedResolvedGrains = new Queue<ResolvedGrain>();
 
-		// Token: 0x06004068 RID: 16488 RVA: 0x0021D9DC File Offset: 0x0021BDDC
+		public SubSoundDef()
+		{
+		}
+
 		public virtual void TryPlay(SoundInfo info)
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -176,7 +158,6 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004069 RID: 16489 RVA: 0x0021DB20 File Offset: 0x0021BF20
 		public ResolvedGrain RandomizedResolvedGrain()
 		{
 			ResolvedGrain chosenGrain = null;
@@ -211,14 +192,12 @@ namespace Verse.Sound
 			return chosenGrain;
 		}
 
-		// Token: 0x0600406A RID: 16490 RVA: 0x0021DBD0 File Offset: 0x0021BFD0
 		public float RandomizedVolume()
 		{
 			float randomInRange = this.volumeRange.RandomInRange;
 			return randomInRange / 100f;
 		}
 
-		// Token: 0x0600406B RID: 16491 RVA: 0x0021DBFA File Offset: 0x0021BFFA
 		public override void ResolveReferences()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -240,7 +219,6 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x0600406C RID: 16492 RVA: 0x0021DC10 File Offset: 0x0021C010
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -279,10 +257,259 @@ namespace Verse.Sound
 			yield break;
 		}
 
-		// Token: 0x0600406D RID: 16493 RVA: 0x0021DC3C File Offset: 0x0021C03C
 		public override string ToString()
 		{
 			return this.name;
+		}
+
+		[CompilerGenerated]
+		private void <ResolveReferences>m__0()
+		{
+			this.resolvedGrains.Clear();
+			foreach (AudioGrain audioGrain in this.grains)
+			{
+				foreach (ResolvedGrain item in audioGrain.GetResolvedGrains())
+				{
+					this.resolvedGrains.Add(item);
+				}
+			}
+			this.distinctResolvedGrainsCount = this.resolvedGrains.Distinct<ResolvedGrain>().Count<ResolvedGrain>();
+			this.numToAvoid = Mathf.FloorToInt((float)this.distinctResolvedGrainsCount / 2f);
+			if (this.distinctResolvedGrainsCount >= 6)
+			{
+				this.numToAvoid++;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomizedResolvedGrain>c__AnonStorey1
+		{
+			internal ResolvedGrain chosenGrain;
+
+			public <RandomizedResolvedGrain>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ResolvedGrain g)
+			{
+				return g.Equals(this.chosenGrain);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal List<SoundParameterMapping>.Enumerator $locvar0;
+
+			internal SoundParameterMapping <mapping>__1;
+
+			internal SubSoundDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private SubSoundDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey2 $locvar1;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.resolvedGrains.Count == 0)
+					{
+						this.$current = "No grains resolved.";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_B3;
+				case 3u:
+					goto IL_F7;
+				case 4u:
+				case 5u:
+					goto IL_111;
+				default:
+					return false;
+				}
+				if (this.sustainAttack + this.sustainRelease > this.sustainLoopDurationRange.TrueMin)
+				{
+					this.$current = "Attack + release < min loop duration. Sustain samples will cut off.";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_B3:
+				if (this.distRange.min > this.distRange.max)
+				{
+					this.$current = "Dist range min/max are reversed.";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_F7:
+				enumerator = this.paramMappings.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_111:
+					switch (num)
+					{
+					case 4u:
+						goto IL_24C;
+					case 5u:
+						IL_239:
+						break;
+					}
+					IL_23A:
+					IL_23B:
+					if (enumerator.MoveNext())
+					{
+						mapping = enumerator.Current;
+						if (mapping.inParam == null || mapping.outParam == null)
+						{
+							this.$current = "At least one parameter mapping is missing an in or out parameter.";
+							if (!this.$disposing)
+							{
+								this.$PC = 4;
+							}
+							flag = true;
+							return true;
+						}
+						if (mapping.outParam == null)
+						{
+							goto IL_23B;
+						}
+						Type neededFilter = mapping.outParam.NeededFilterType;
+						if (neededFilter == null)
+						{
+							goto IL_23A;
+						}
+						if (!(from fil in this.filters
+						where fil.GetType() == neededFilter
+						select fil).Any<SoundFilter>())
+						{
+							this.$current = "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
+							if (!this.$disposing)
+							{
+								this.$PC = 5;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_239;
+					}
+					IL_24C:;
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 4u:
+				case 5u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SubSoundDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new SubSoundDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+
+			private sealed class <ConfigErrors>c__AnonStorey2
+			{
+				internal Type neededFilter;
+
+				internal SubSoundDef.<ConfigErrors>c__Iterator0 <>f__ref$0;
+
+				public <ConfigErrors>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(SoundFilter fil)
+				{
+					return fil.GetType() == this.neededFilter;
+				}
+			}
 		}
 	}
 }

@@ -1,100 +1,74 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C88 RID: 3208
 	public sealed class Region
 	{
-		// Token: 0x04002FDB RID: 12251
 		public RegionType type = RegionType.Normal;
 
-		// Token: 0x04002FDC RID: 12252
 		public int id = -1;
 
-		// Token: 0x04002FDD RID: 12253
 		public sbyte mapIndex = -1;
 
-		// Token: 0x04002FDE RID: 12254
 		private Room roomInt;
 
-		// Token: 0x04002FDF RID: 12255
 		public List<RegionLink> links = new List<RegionLink>();
 
-		// Token: 0x04002FE0 RID: 12256
 		public CellRect extentsClose;
 
-		// Token: 0x04002FE1 RID: 12257
 		public CellRect extentsLimit;
 
-		// Token: 0x04002FE2 RID: 12258
 		public Building_Door portal;
 
-		// Token: 0x04002FE3 RID: 12259
 		private int precalculatedHashCode;
 
-		// Token: 0x04002FE4 RID: 12260
 		public bool touchesMapEdge = false;
 
-		// Token: 0x04002FE5 RID: 12261
 		private int cachedCellCount = -1;
 
-		// Token: 0x04002FE6 RID: 12262
 		public bool valid = true;
 
-		// Token: 0x04002FE7 RID: 12263
 		private ListerThings listerThings = new ListerThings(ListerThingsUse.Region);
 
-		// Token: 0x04002FE8 RID: 12264
 		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
 
-		// Token: 0x04002FE9 RID: 12265
 		public uint reachedIndex = 0u;
 
-		// Token: 0x04002FEA RID: 12266
 		public int newRegionGroupIndex = -1;
 
-		// Token: 0x04002FEB RID: 12267
 		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps = null;
 
-		// Token: 0x04002FEC RID: 12268
 		public int mark;
 
-		// Token: 0x04002FED RID: 12269
 		private List<KeyValuePair<Pawn, Danger>> cachedDangers = new List<KeyValuePair<Pawn, Danger>>();
 
-		// Token: 0x04002FEE RID: 12270
 		private int cachedDangersForFrame;
 
-		// Token: 0x04002FEF RID: 12271
 		private float cachedBaseDesiredPlantsCount;
 
-		// Token: 0x04002FF0 RID: 12272
 		private int cachedBaseDesiredPlantsCountForTick = -999999;
 
-		// Token: 0x04002FF1 RID: 12273
 		private int debug_makeTick = -1000;
 
-		// Token: 0x04002FF2 RID: 12274
 		private int debug_lastTraverseTick = -1000;
 
-		// Token: 0x04002FF3 RID: 12275
 		private static int nextId = 1;
 
-		// Token: 0x04002FF4 RID: 12276
 		public const int GridSize = 12;
 
-		// Token: 0x06004639 RID: 17977 RVA: 0x002507B4 File Offset: 0x0024EBB4
 		private Region()
 		{
 		}
 
-		// Token: 0x17000B0A RID: 2826
-		// (get) Token: 0x0600463A RID: 17978 RVA: 0x0025085C File Offset: 0x0024EC5C
 		public Map Map
 		{
 			get
@@ -103,8 +77,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0B RID: 2827
-		// (get) Token: 0x0600463B RID: 17979 RVA: 0x00250898 File Offset: 0x0024EC98
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -125,8 +97,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0C RID: 2828
-		// (get) Token: 0x0600463C RID: 17980 RVA: 0x002508C4 File Offset: 0x0024ECC4
 		public int CellCount
 		{
 			get
@@ -139,8 +109,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0D RID: 2829
-		// (get) Token: 0x0600463D RID: 17981 RVA: 0x00250900 File Offset: 0x0024ED00
 		public IEnumerable<Region> Neighbors
 		{
 			get
@@ -160,8 +128,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0E RID: 2830
-		// (get) Token: 0x0600463E RID: 17982 RVA: 0x0025092C File Offset: 0x0024ED2C
 		public IEnumerable<Region> NeighborsOfSameType
 		{
 			get
@@ -181,9 +147,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0F RID: 2831
-		// (get) Token: 0x0600463F RID: 17983 RVA: 0x00250958 File Offset: 0x0024ED58
-		// (set) Token: 0x06004640 RID: 17984 RVA: 0x00250974 File Offset: 0x0024ED74
 		public Room Room
 		{
 			get
@@ -207,8 +170,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B10 RID: 2832
-		// (get) Token: 0x06004641 RID: 17985 RVA: 0x002509C8 File Offset: 0x0024EDC8
 		public IntVec3 RandomCell
 		{
 			get
@@ -228,8 +189,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B11 RID: 2833
-		// (get) Token: 0x06004642 RID: 17986 RVA: 0x00250A40 File Offset: 0x0024EE40
 		public IntVec3 AnyCell
 		{
 			get
@@ -252,8 +211,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B12 RID: 2834
-		// (get) Token: 0x06004643 RID: 17987 RVA: 0x00250ADC File Offset: 0x0024EEDC
 		public string DebugString
 		{
 			get
@@ -283,8 +240,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B13 RID: 2835
-		// (get) Token: 0x06004644 RID: 17988 RVA: 0x00250CD0 File Offset: 0x0024F0D0
 		public bool DebugIsNew
 		{
 			get
@@ -293,8 +248,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B14 RID: 2836
-		// (get) Token: 0x06004645 RID: 17989 RVA: 0x00250CFC File Offset: 0x0024F0FC
 		public ListerThings ListerThings
 		{
 			get
@@ -303,7 +256,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004646 RID: 17990 RVA: 0x00250D18 File Offset: 0x0024F118
 		public static Region MakeNewUnfilled(IntVec3 root, Map map)
 		{
 			Region region = new Region();
@@ -324,7 +276,6 @@ namespace Verse
 			return region;
 		}
 
-		// Token: 0x06004647 RID: 17991 RVA: 0x00250E58 File Offset: 0x0024F258
 		public bool Allows(TraverseParms tp, bool isDestination)
 		{
 			bool result;
@@ -392,7 +343,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004648 RID: 17992 RVA: 0x00251050 File Offset: 0x0024F450
 		public Danger DangerFor(Pawn p)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -436,7 +386,6 @@ namespace Verse
 			return danger;
 		}
 
-		// Token: 0x06004649 RID: 17993 RVA: 0x0025116C File Offset: 0x0024F56C
 		public float GetBaseDesiredPlantsCount(bool allowCache = true)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -459,7 +408,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600464A RID: 17994 RVA: 0x00251238 File Offset: 0x0024F638
 		public AreaOverlap OverlapWith(Area a)
 		{
 			AreaOverlap result;
@@ -509,7 +457,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600464B RID: 17995 RVA: 0x00251334 File Offset: 0x0024F734
 		public void Notify_AreaChanged(Area a)
 		{
 			if (this.cachedAreaOverlaps != null)
@@ -521,7 +468,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600464C RID: 17996 RVA: 0x00251368 File Offset: 0x0024F768
 		public void DecrementMapIndex()
 		{
 			if ((int)this.mapIndex <= 0)
@@ -540,14 +486,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600464D RID: 17997 RVA: 0x002513D6 File Offset: 0x0024F7D6
 		public void Notify_MyMapRemoved()
 		{
 			this.listerThings.Clear();
 			this.mapIndex = -1;
 		}
 
-		// Token: 0x0600464E RID: 17998 RVA: 0x002513EC File Offset: 0x0024F7EC
 		public override string ToString()
 		{
 			string str;
@@ -576,7 +520,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0600464F RID: 17999 RVA: 0x002514D4 File Offset: 0x0024F8D4
 		public void DebugDraw()
 		{
 			if (DebugViewSettings.drawRegionTraversal)
@@ -589,7 +532,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004650 RID: 18000 RVA: 0x0025154C File Offset: 0x0024F94C
 		public void DebugDrawMouseover()
 		{
 			int num = Mathf.RoundToInt(Time.realtimeSinceStartup * 2f) % 2;
@@ -636,19 +578,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004651 RID: 18001 RVA: 0x00251754 File Offset: 0x0024FB54
 		public void Debug_Notify_Traversed()
 		{
 			this.debug_lastTraverseTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06004652 RID: 18002 RVA: 0x00251768 File Offset: 0x0024FB68
 		public override int GetHashCode()
 		{
 			return this.precalculatedHashCode;
 		}
 
-		// Token: 0x06004653 RID: 18003 RVA: 0x00251784 File Offset: 0x0024FB84
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -662,6 +601,365 @@ namespace Verse
 				result = (region != null && region.id == this.id);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Region()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal RegionGrid <regions>__0;
+
+			internal int <z>__1;
+
+			internal int <x>__2;
+
+			internal IntVec3 <c>__3;
+
+			internal Region $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					regions = base.Map.regionGrid;
+					z = this.extentsClose.minZ;
+					goto IL_FD;
+				case 1u:
+					IL_C4:
+					x++;
+					break;
+				default:
+					return false;
+				}
+				IL_D3:
+				if (x > this.extentsClose.maxX)
+				{
+					z++;
+				}
+				else
+				{
+					c = new IntVec3(x, 0, z);
+					if (regions.GetRegionAt_NoRebuild_InvalidAllowed(c) == this)
+					{
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_C4;
+				}
+				IL_FD:
+				if (z <= this.extentsClose.maxZ)
+				{
+					x = this.extentsClose.minX;
+					goto IL_D3;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Region.<>c__Iterator0 <>c__Iterator = new Region.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<Region>, IEnumerator, IDisposable, IEnumerator<Region>
+		{
+			internal int <li>__1;
+
+			internal RegionLink <link>__2;
+
+			internal int <ri>__3;
+
+			internal Region $this;
+
+			internal Region $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					li = 0;
+					goto IL_100;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_D6:
+				ri++;
+				IL_E5:
+				if (ri >= 2)
+				{
+					li++;
+				}
+				else
+				{
+					if (link.regions[ri] != null && link.regions[ri] != this && link.regions[ri].valid)
+					{
+						this.$current = link.regions[ri];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_D6;
+				}
+				IL_100:
+				if (li < this.links.Count)
+				{
+					link = this.links[li];
+					ri = 0;
+					goto IL_E5;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Region IEnumerator<Region>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Region>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Region> IEnumerable<Region>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Region.<>c__Iterator1 <>c__Iterator = new Region.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator2 : IEnumerable, IEnumerable<Region>, IEnumerator, IDisposable, IEnumerator<Region>
+		{
+			internal int <li>__1;
+
+			internal RegionLink <link>__2;
+
+			internal int <ri>__3;
+
+			internal Region $this;
+
+			internal Region $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					li = 0;
+					goto IL_127;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_FD:
+				ri++;
+				IL_10C:
+				if (ri >= 2)
+				{
+					li++;
+				}
+				else
+				{
+					if (link.regions[ri] != null && link.regions[ri] != this && link.regions[ri].type == this.type && link.regions[ri].valid)
+					{
+						this.$current = link.regions[ri];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_FD;
+				}
+				IL_127:
+				if (li < this.links.Count)
+				{
+					link = this.links[li];
+					ri = 0;
+					goto IL_10C;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Region IEnumerator<Region>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Region>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Region> IEnumerable<Region>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Region.<>c__Iterator2 <>c__Iterator = new Region.<>c__Iterator2();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

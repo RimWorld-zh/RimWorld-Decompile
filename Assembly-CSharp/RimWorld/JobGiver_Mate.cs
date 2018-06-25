@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000A6 RID: 166
 	public class JobGiver_Mate : ThinkNode_JobGiver
 	{
-		// Token: 0x06000414 RID: 1044 RVA: 0x00030C58 File Offset: 0x0002F058
+		public JobGiver_Mate()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -33,6 +36,22 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				Pawn pawn = t as Pawn;
+				return !pawn.Downed && pawn.CanCasuallyInteractNow(false) && !pawn.IsForbidden(this.pawn) && pawn.Faction == this.pawn.Faction && PawnUtility.FertileMateTarget(this.pawn, pawn);
+			}
 		}
 	}
 }

@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000F56 RID: 3926
 	public static class GenSpawn
 	{
-		// Token: 0x06005ED7 RID: 24279 RVA: 0x003052FC File Offset: 0x003036FC
 		public static Thing Spawn(ThingDef def, IntVec3 loc, Map map, WipeMode wipeMode = WipeMode.Vanish)
 		{
 			return GenSpawn.Spawn(ThingMaker.MakeThing(def, null), loc, map, wipeMode);
 		}
 
-		// Token: 0x06005ED8 RID: 24280 RVA: 0x00305320 File Offset: 0x00303720
 		public static Thing Spawn(Thing newThing, IntVec3 loc, Map map, WipeMode wipeMode = WipeMode.Vanish)
 		{
 			return GenSpawn.Spawn(newThing, loc, map, Rot4.North, wipeMode, false);
 		}
 
-		// Token: 0x06005ED9 RID: 24281 RVA: 0x00305344 File Offset: 0x00303744
 		public static Thing Spawn(Thing newThing, IntVec3 loc, Map map, Rot4 rot, WipeMode wipeMode = WipeMode.Vanish, bool respawningAfterLoad = false)
 		{
 			Thing result;
@@ -136,7 +133,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EDA RID: 24282 RVA: 0x00305708 File Offset: 0x00303B08
 		public static void SpawnBuildingAsPossible(Building building, Map map, bool respawningAfterLoad = false)
 		{
 			bool flag = false;
@@ -178,7 +174,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EDB RID: 24283 RVA: 0x00305868 File Offset: 0x00303C68
 		public static void Refund(Thing thing, Map map, CellRect avoidThisRect)
 		{
 			bool flag = false;
@@ -202,7 +197,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EDC RID: 24284 RVA: 0x00305904 File Offset: 0x00303D04
 		public static void WipeExistingThings(IntVec3 thingPos, Rot4 thingRot, BuildableDef thingDef, Map map, DestroyMode mode)
 		{
 			foreach (IntVec3 c in GenAdj.CellsOccupiedBy(thingPos, thingRot, thingDef.Size))
@@ -217,7 +211,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EDD RID: 24285 RVA: 0x003059D0 File Offset: 0x00303DD0
 		public static void WipeAndRefundExistingThings(IntVec3 thingPos, Rot4 thingRot, BuildableDef thingDef, Map map)
 		{
 			CellRect occupiedRect = GenAdj.OccupiedRect(thingPos, thingRot, thingDef.Size);
@@ -244,13 +237,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EDE RID: 24286 RVA: 0x00305AF4 File Offset: 0x00303EF4
 		public static bool WouldWipeAnythingWith(IntVec3 thingPos, Rot4 thingRot, BuildableDef thingDef, Map map, Predicate<Thing> predicate)
 		{
 			return GenSpawn.WouldWipeAnythingWith(GenAdj.OccupiedRect(thingPos, thingRot, thingDef.Size), thingDef, map, predicate);
 		}
 
-		// Token: 0x06005EDF RID: 24287 RVA: 0x00305B20 File Offset: 0x00303F20
 		public static bool WouldWipeAnythingWith(CellRect cellRect, BuildableDef thingDef, Map map, Predicate<Thing> predicate)
 		{
 			foreach (IntVec3 c in cellRect)
@@ -266,7 +257,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005EE0 RID: 24288 RVA: 0x00305BF4 File Offset: 0x00303FF4
 		public static bool SpawningWipes(BuildableDef newEntDef, BuildableDef oldEntDef)
 		{
 			ThingDef thingDef = newEntDef as ThingDef;
@@ -394,6 +384,56 @@ namespace Verse
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Spawn>c__AnonStorey0
+		{
+			internal CellRect occupiedRect;
+
+			public <Spawn>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !this.occupiedRect.Contains(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Refund>c__AnonStorey1
+		{
+			internal CellRect avoidThisRect;
+
+			public <Refund>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !this.avoidThisRect.Contains(x);
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				return !this.avoidThisRect.Contains(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <WipeAndRefundExistingThings>c__AnonStorey2
+		{
+			internal CellRect occupiedRect;
+
+			public <WipeAndRefundExistingThings>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !this.occupiedRect.Contains(x);
+			}
 		}
 	}
 }

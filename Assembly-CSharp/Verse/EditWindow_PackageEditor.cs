@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E4F RID: 3663
 	public class EditWindow_PackageEditor<TNewDef> : EditWindow where TNewDef : Def, new()
 	{
-		// Token: 0x04003919 RID: 14617
 		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
 
-		// Token: 0x0400391A RID: 14618
 		private DefPackage curPackage = null;
 
-		// Token: 0x0400391B RID: 14619
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x0400391C RID: 14620
 		private float viewHeight;
 
-		// Token: 0x0400391D RID: 14621
 		private string relFolder;
 
-		// Token: 0x0400391E RID: 14622
 		private const float EditButSize = 24f;
 
-		// Token: 0x06005661 RID: 22113 RVA: 0x002C8704 File Offset: 0x002C6B04
 		public EditWindow_PackageEditor(string relFolder)
 		{
 			this.relFolder = relFolder;
@@ -36,8 +29,6 @@ namespace Verse
 			this.optionalTitle = "Package Editor: " + relFolder;
 		}
 
-		// Token: 0x17000D83 RID: 3459
-		// (get) Token: 0x06005662 RID: 22114 RVA: 0x002C8760 File Offset: 0x002C6B60
 		public override Vector2 InitialSize
 		{
 			get
@@ -46,8 +37,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D84 RID: 3460
-		// (get) Token: 0x06005663 RID: 22115 RVA: 0x002C8784 File Offset: 0x002C6B84
 		public override bool IsDebug
 		{
 			get
@@ -56,7 +45,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005664 RID: 22116 RVA: 0x002C879C File Offset: 0x002C6B9C
 		public override void DoWindowContents(Rect selectorInner)
 		{
 			Profiler.BeginSample("PackageEditorOnGUI");
@@ -177,6 +165,49 @@ namespace Verse
 			listing_Standard.End();
 			Widgets.EndScrollView();
 			Profiler.EndSample();
+		}
+
+		[CompilerGenerated]
+		private void <DoWindowContents>m__0(DefPackage pack)
+		{
+			if (pack != this.curPackage)
+			{
+				this.curPackage = pack;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey1
+		{
+			internal Def deletingDef;
+
+			internal EditWindow_PackageEditor<TNewDef> $this;
+
+			public <DoWindowContents>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.curPackage.RemoveDef(this.deletingDef);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey0
+		{
+			internal Def def;
+
+			internal EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey1 <>f__ref$1;
+
+			public <DoWindowContents>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$1.deletingDef = this.def;
+			}
 		}
 	}
 }

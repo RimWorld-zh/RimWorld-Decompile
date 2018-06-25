@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E9 RID: 1001
 	public class GenStep_CaveHives : GenStep
 	{
-		// Token: 0x04000A61 RID: 2657
 		private List<IntVec3> rockCells = new List<IntVec3>();
 
-		// Token: 0x04000A62 RID: 2658
 		private List<IntVec3> possibleSpawnCells = new List<IntVec3>();
 
-		// Token: 0x04000A63 RID: 2659
 		private List<Hive> spawnedHives = new List<Hive>();
 
-		// Token: 0x04000A64 RID: 2660
 		private const int MinDistToOpenSpace = 10;
 
-		// Token: 0x04000A65 RID: 2661
 		private const int MinDistFromFactionBase = 50;
 
-		// Token: 0x04000A66 RID: 2662
 		private const float CaveCellsPerHive = 1000f;
 
-		// Token: 0x17000249 RID: 585
-		// (get) Token: 0x0600111F RID: 4383 RVA: 0x00092AB4 File Offset: 0x00090EB4
+		[CompilerGenerated]
+		private static Func<CompSpawner, bool> <>f__am$cache0;
+
+		public GenStep_CaveHives()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -36,7 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001120 RID: 4384 RVA: 0x00092AD0 File Offset: 0x00090ED0
 		public override void Generate(Map map)
 		{
 			if (Find.Storyteller.difficulty.allowCaveHives)
@@ -85,7 +83,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001121 RID: 4385 RVA: 0x00092CF4 File Offset: 0x000910F4
 		private void TrySpawnHive(Map map)
 		{
 			IntVec3 intVec;
@@ -105,7 +102,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001122 RID: 4386 RVA: 0x00092DB8 File Offset: 0x000911B8
 		private bool TryFindHiveSpawnCell(Map map, out IntVec3 spawnCell)
 		{
 			float num = -1f;
@@ -136,6 +132,49 @@ namespace RimWorld
 			}
 			spawnCell = intVec;
 			return spawnCell.IsValid;
+		}
+
+		[CompilerGenerated]
+		private static bool <TrySpawnHive>m__0(CompSpawner x)
+		{
+			return x.PropsSpawner.thingToSpawn == ThingDefOf.GlowPod;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Generate>c__AnonStorey0
+		{
+			internal Map map;
+
+			private static Func<Thing, bool> <>f__am$cache0;
+
+			public <Generate>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return this.map.thingGrid.ThingsAt(c).Any((Thing thing) => thing.Faction != null);
+			}
+
+			private static bool <>m__1(Thing thing)
+			{
+				return thing.Faction != null;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindHiveSpawnCell>c__AnonStorey1
+		{
+			internal Map map;
+
+			public <TryFindHiveSpawnCell>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Standable(this.map) && x.GetFirstItem(this.map) == null && x.GetFirstBuilding(this.map) == null && x.GetFirstPawn(this.map) == null;
+			}
 		}
 	}
 }

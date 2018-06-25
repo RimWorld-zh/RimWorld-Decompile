@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000BB8 RID: 3000
 	public static class WorkTypeDefsUtility
 	{
-		// Token: 0x17000A25 RID: 2597
-		// (get) Token: 0x060040FF RID: 16639 RVA: 0x0022575C File Offset: 0x00223B5C
+		[CompilerGenerated]
+		private static Func<WorkTypeDef, int> <>f__am$cache0;
+
 		public static IEnumerable<WorkTypeDef> WorkTypeDefsInPriorityOrder
 		{
 			get
@@ -19,7 +20,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004100 RID: 16640 RVA: 0x00225798 File Offset: 0x00223B98
 		public static string LabelTranslated(this WorkTags tags)
 		{
 			string result;
@@ -133,7 +133,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004101 RID: 16641 RVA: 0x0022596C File Offset: 0x00223D6C
 		public static bool OverlapsWithOnAnyWorkType(this WorkTags a, WorkTags b)
 		{
 			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
@@ -146,6 +145,12 @@ namespace Verse
 				}
 			}
 			return false;
+		}
+
+		[CompilerGenerated]
+		private static int <get_WorkTypeDefsInPriorityOrder>m__0(WorkTypeDef wt)
+		{
+			return wt.naturalPriority;
 		}
 	}
 }

@@ -4,43 +4,30 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E8F RID: 3727
 	public static class Text
 	{
-		// Token: 0x04003A2C RID: 14892
 		private static GameFont fontInt = GameFont.Small;
 
-		// Token: 0x04003A2D RID: 14893
 		private static TextAnchor anchorInt = TextAnchor.UpperLeft;
 
-		// Token: 0x04003A2E RID: 14894
 		private static bool wordWrapInt = true;
 
-		// Token: 0x04003A2F RID: 14895
 		public static readonly GUIStyle[] fontStyles = new GUIStyle[3];
 
-		// Token: 0x04003A30 RID: 14896
 		public static readonly GUIStyle[] textFieldStyles = new GUIStyle[3];
 
-		// Token: 0x04003A31 RID: 14897
 		public static readonly GUIStyle[] textAreaStyles = new GUIStyle[3];
 
-		// Token: 0x04003A32 RID: 14898
 		public static readonly GUIStyle[] textAreaReadOnlyStyles = new GUIStyle[3];
 
-		// Token: 0x04003A33 RID: 14899
 		private static readonly float[] lineHeights = new float[3];
 
-		// Token: 0x04003A34 RID: 14900
 		private static readonly float[] spaceBetweenLines = new float[3];
 
-		// Token: 0x04003A35 RID: 14901
 		private static GUIContent tmpTextGUIContent = new GUIContent();
 
-		// Token: 0x04003A36 RID: 14902
 		private const int NumFonts = 3;
 
-		// Token: 0x060057F3 RID: 22515 RVA: 0x002D21F0 File Offset: 0x002D05F0
 		static Text()
 		{
 			Font font = (Font)Resources.Load("Fonts/Calibri_tiny");
@@ -104,9 +91,6 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x17000DE8 RID: 3560
-		// (get) Token: 0x060057F4 RID: 22516 RVA: 0x002D251C File Offset: 0x002D091C
-		// (set) Token: 0x060057F5 RID: 22517 RVA: 0x002D2536 File Offset: 0x002D0936
 		public static GameFont Font
 		{
 			get
@@ -126,9 +110,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE9 RID: 3561
-		// (get) Token: 0x060057F6 RID: 22518 RVA: 0x002D2570 File Offset: 0x002D0970
-		// (set) Token: 0x060057F7 RID: 22519 RVA: 0x002D258A File Offset: 0x002D098A
 		public static TextAnchor Anchor
 		{
 			get
@@ -141,9 +122,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEA RID: 3562
-		// (get) Token: 0x060057F8 RID: 22520 RVA: 0x002D2594 File Offset: 0x002D0994
-		// (set) Token: 0x060057F9 RID: 22521 RVA: 0x002D25AE File Offset: 0x002D09AE
 		public static bool WordWrap
 		{
 			get
@@ -156,8 +134,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEB RID: 3563
-		// (get) Token: 0x060057FA RID: 22522 RVA: 0x002D25B8 File Offset: 0x002D09B8
 		public static float LineHeight
 		{
 			get
@@ -166,8 +142,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEC RID: 3564
-		// (get) Token: 0x060057FB RID: 22523 RVA: 0x002D25D8 File Offset: 0x002D09D8
 		public static float SpaceBetweenLines
 		{
 			get
@@ -176,8 +150,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DED RID: 3565
-		// (get) Token: 0x060057FC RID: 22524 RVA: 0x002D25F8 File Offset: 0x002D09F8
 		internal static GUIStyle CurFontStyle
 		{
 			get
@@ -203,8 +175,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEE RID: 3566
-		// (get) Token: 0x060057FD RID: 22525 RVA: 0x002D2670 File Offset: 0x002D0A70
 		public static GUIStyle CurTextFieldStyle
 		{
 			get
@@ -234,8 +204,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEF RID: 3567
-		// (get) Token: 0x060057FE RID: 22526 RVA: 0x002D26CC File Offset: 0x002D0ACC
 		public static GUIStyle CurTextAreaStyle
 		{
 			get
@@ -265,8 +233,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF0 RID: 3568
-		// (get) Token: 0x060057FF RID: 22527 RVA: 0x002D2728 File Offset: 0x002D0B28
 		public static GUIStyle CurTextAreaReadOnlyStyle
 		{
 			get
@@ -296,21 +262,18 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005800 RID: 22528 RVA: 0x002D2784 File Offset: 0x002D0B84
 		public static float CalcHeight(string text, float width)
 		{
 			Text.tmpTextGUIContent.text = text;
 			return Text.CurFontStyle.CalcHeight(Text.tmpTextGUIContent, width);
 		}
 
-		// Token: 0x06005801 RID: 22529 RVA: 0x002D27B4 File Offset: 0x002D0BB4
 		public static Vector2 CalcSize(string text)
 		{
 			Text.tmpTextGUIContent.text = text;
 			return Text.CurFontStyle.CalcSize(Text.tmpTextGUIContent);
 		}
 
-		// Token: 0x06005802 RID: 22530 RVA: 0x002D27E4 File Offset: 0x002D0BE4
 		internal static void StartOfOnGUI()
 		{
 			if (!Text.WordWrap)

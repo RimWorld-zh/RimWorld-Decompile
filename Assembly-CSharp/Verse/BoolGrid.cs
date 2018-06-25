@@ -1,36 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000C1C RID: 3100
 	public class BoolGrid : IExposable
 	{
-		// Token: 0x04002E54 RID: 11860
 		private bool[] arr;
 
-		// Token: 0x04002E55 RID: 11861
 		private int trueCountInt = 0;
 
-		// Token: 0x04002E56 RID: 11862
 		private int mapSizeX;
 
-		// Token: 0x04002E57 RID: 11863
 		private int mapSizeZ;
 
-		// Token: 0x060043B6 RID: 17334 RVA: 0x0023CB28 File Offset: 0x0023AF28
 		public BoolGrid()
 		{
 		}
 
-		// Token: 0x060043B7 RID: 17335 RVA: 0x0023CB38 File Offset: 0x0023AF38
 		public BoolGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
 		}
 
-		// Token: 0x17000A97 RID: 2711
-		// (get) Token: 0x060043B8 RID: 17336 RVA: 0x0023CB50 File Offset: 0x0023AF50
 		public int TrueCount
 		{
 			get
@@ -39,8 +34,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A98 RID: 2712
-		// (get) Token: 0x060043B9 RID: 17337 RVA: 0x0023CB6C File Offset: 0x0023AF6C
 		public IEnumerable<IntVec3> ActiveCells
 		{
 			get
@@ -66,7 +59,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A99 RID: 2713
 		public bool this[int index]
 		{
 			get
@@ -79,7 +71,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A9A RID: 2714
 		public bool this[IntVec3 c]
 		{
 			get
@@ -92,7 +83,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A9B RID: 2715
 		public bool this[int x, int z]
 		{
 			get
@@ -105,13 +95,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043C0 RID: 17344 RVA: 0x0023CC34 File Offset: 0x0023B034
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x060043C1 RID: 17345 RVA: 0x0023CC7C File Offset: 0x0023B07C
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.arr != null)
@@ -126,7 +114,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043C2 RID: 17346 RVA: 0x0023CCF0 File Offset: 0x0023B0F0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.trueCountInt, "trueCount", 0, false);
@@ -135,20 +122,17 @@ namespace Verse
 			DataExposeUtility.BoolArray(ref this.arr, this.mapSizeX * this.mapSizeZ, "arr");
 		}
 
-		// Token: 0x060043C3 RID: 17347 RVA: 0x0023CD51 File Offset: 0x0023B151
 		public void Clear()
 		{
 			Array.Clear(this.arr, 0, this.arr.Length);
 			this.trueCountInt = 0;
 		}
 
-		// Token: 0x060043C4 RID: 17348 RVA: 0x0023CD6F File Offset: 0x0023B16F
 		public virtual void Set(IntVec3 c, bool value)
 		{
 			this.Set(CellIndicesUtility.CellToIndex(c, this.mapSizeX), value);
 		}
 
-		// Token: 0x060043C5 RID: 17349 RVA: 0x0023CD88 File Offset: 0x0023B188
 		public virtual void Set(int index, bool value)
 		{
 			if (this.arr[index] != value)
@@ -165,7 +149,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043C6 RID: 17350 RVA: 0x0023CDDC File Offset: 0x0023B1DC
 		public void Invert()
 		{
 			for (int i = 0; i < this.arr.Length; i++)
@@ -173,6 +156,123 @@ namespace Verse
 				this.arr[i] = !this.arr[i];
 			}
 			this.trueCountInt = this.arr.Length - this.trueCountInt;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal int <yieldedCount>__0;
+
+			internal int <i>__1;
+
+			internal BoolGrid $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.trueCountInt == 0)
+					{
+						return false;
+					}
+					yieldedCount = 0;
+					i = 0;
+					goto IL_CC;
+				case 1u:
+					yieldedCount++;
+					if (yieldedCount >= this.trueCountInt)
+					{
+						return false;
+					}
+					break;
+				default:
+					return false;
+				}
+				IL_BD:
+				i++;
+				IL_CC:
+				if (i >= this.arr.Length)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.arr[i])
+					{
+						this.$current = CellIndicesUtility.IndexToCell(i, this.mapSizeX);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_BD;
+				}
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BoolGrid.<>c__Iterator0 <>c__Iterator = new BoolGrid.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

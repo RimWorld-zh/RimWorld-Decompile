@@ -5,31 +5,23 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E8C RID: 3724
 	public class MouseoverReadout
 	{
-		// Token: 0x04003A22 RID: 14882
 		private TerrainDef cachedTerrain;
 
-		// Token: 0x04003A23 RID: 14883
 		private string cachedTerrainString;
 
-		// Token: 0x04003A24 RID: 14884
 		private string[] glowStrings;
 
-		// Token: 0x04003A25 RID: 14885
 		private const float YInterval = 19f;
 
-		// Token: 0x04003A26 RID: 14886
 		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
 
-		// Token: 0x060057EA RID: 22506 RVA: 0x002D1B63 File Offset: 0x002CFF63
 		public MouseoverReadout()
 		{
 			this.MakePermaCache();
 		}
 
-		// Token: 0x060057EB RID: 22507 RVA: 0x002D1B74 File Offset: 0x002CFF74
 		private void MakePermaCache()
 		{
 			this.glowStrings = new string[101];
@@ -39,7 +31,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057EC RID: 22508 RVA: 0x002D1BDC File Offset: 0x002CFFDC
 		public void MouseoverReadoutOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -137,11 +128,15 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057ED RID: 22509 RVA: 0x002D20D0 File Offset: 0x002D04D0
 		private string SpeedPercentString(float extraPathTicks)
 		{
 			float f = 13f / (extraPathTicks + 13f);
 			return f.ToStringPercent();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MouseoverReadout()
+		{
 		}
 	}
 }

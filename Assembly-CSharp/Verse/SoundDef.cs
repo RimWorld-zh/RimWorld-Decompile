@@ -1,81 +1,72 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000B7D RID: 2941
 	public class SoundDef : Def
 	{
-		// Token: 0x04002AF6 RID: 10998
-		[Description("If checked, this sound is a sustainer.\n\nSustainers are used for sounds with a defined beginning and end (as opposed to OneShots, which just fire at a given instant).\n\nThis value must match what the game expects from the SubSoundDef with this name.")]
 		[DefaultValue(false)]
+		[Description("If checked, this sound is a sustainer.\n\nSustainers are used for sounds with a defined beginning and end (as opposed to OneShots, which just fire at a given instant).\n\nThis value must match what the game expects from the SubSoundDef with this name.")]
 		public bool sustain = false;
 
-		// Token: 0x04002AF7 RID: 10999
-		[Description("When the sound is allowed to play: only when the map view is active, only when the world view is active, or always (map + world + main menu).")]
 		[DefaultValue(SoundContext.Any)]
+		[Description("When the sound is allowed to play: only when the map view is active, only when the world view is active, or always (map + world + main menu).")]
 		public SoundContext context = SoundContext.Any;
 
-		// Token: 0x04002AF8 RID: 11000
 		[Description("Event names for this sound. \n\nThe code will look up sounds to play them according to their name. If the code finds the event name it wants in this list, it will trigger this sound.\n\nThe Def name is also used as an event name.")]
 		public List<string> eventNames = new List<string>();
 
-		// Token: 0x04002AF9 RID: 11001
-		[Description("For one-shots, this is the number of individual sounds from this Def than can be playing at a time.\n\n For sustainers, this is the number of sustainers that can be running with this sound (each of which can have sub-sounds). Sustainers can fade in and out as you move the camera or objects move, to keep the nearest ones audible.\n\nThis setting may not work for on-camera sounds.")]
 		[DefaultValue(4)]
+		[Description("For one-shots, this is the number of individual sounds from this Def than can be playing at a time.\n\n For sustainers, this is the number of sustainers that can be running with this sound (each of which can have sub-sounds). Sustainers can fade in and out as you move the camera or objects move, to keep the nearest ones audible.\n\nThis setting may not work for on-camera sounds.")]
 		public int maxVoices = 4;
 
-		// Token: 0x04002AFA RID: 11002
-		[Description("The number of instances of this sound that can play at almost exactly the same moment. Handles cases like six gunners all firing their identical guns at the same time because a target came into view of all of them at the same time. Ordinarily this would make a painfully loud sound, but you can reduce it with this.")]
 		[DefaultValue(3)]
+		[Description("The number of instances of this sound that can play at almost exactly the same moment. Handles cases like six gunners all firing their identical guns at the same time because a target came into view of all of them at the same time. Ordinarily this would make a painfully loud sound, but you can reduce it with this.")]
 		public int maxSimultaneous = 3;
 
-		// Token: 0x04002AFB RID: 11003
-		[Description("If the system has to not play some instances of this sound because of maxVoices, this determines which ones are ignored.\n\nYou should use PrioritizeNewest for things like gunshots, so older still-playing samples are overridden by newer, more important ones.\n\nSustained sounds should usually prioritize nearest, so if a new fire starts burning nearby it can override a more distant one.")]
 		[DefaultValue(VoicePriorityMode.PrioritizeNewest)]
+		[Description("If the system has to not play some instances of this sound because of maxVoices, this determines which ones are ignored.\n\nYou should use PrioritizeNewest for things like gunshots, so older still-playing samples are overridden by newer, more important ones.\n\nSustained sounds should usually prioritize nearest, so if a new fire starts burning nearby it can override a more distant one.")]
 		public VoicePriorityMode priorityMode = VoicePriorityMode.PrioritizeNewest;
 
-		// Token: 0x04002AFC RID: 11004
-		[Description("The special sound slot this sound takes. If a sound with this slot is playing, new sounds in this slot will not play.\n\nOnly works for on-camera sounds.")]
 		[DefaultValue("")]
+		[Description("The special sound slot this sound takes. If a sound with this slot is playing, new sounds in this slot will not play.\n\nOnly works for on-camera sounds.")]
 		public string slot = "";
 
-		// Token: 0x04002AFD RID: 11005
-		[LoadAlias("sustainerStartSound")]
-		[Description("The name of the SoundDef that will be played when this sustainer starts.")]
 		[DefaultValue("")]
+		[Description("The name of the SoundDef that will be played when this sustainer starts.")]
+		[LoadAlias("sustainerStartSound")]
 		public SoundDef sustainStartSound = null;
 
-		// Token: 0x04002AFE RID: 11006
-		[LoadAlias("sustainerStopSound")]
-		[Description("The name of the SoundDef that will be played when this sustainer ends.")]
 		[DefaultValue("")]
+		[Description("The name of the SoundDef that will be played when this sustainer ends.")]
+		[LoadAlias("sustainerStopSound")]
 		public SoundDef sustainStopSound = null;
 
-		// Token: 0x04002AFF RID: 11007
-		[Description("After a sustainer is ended, the sound will fade out over this many real-time seconds.")]
 		[DefaultValue(0f)]
+		[Description("After a sustainer is ended, the sound will fade out over this many real-time seconds.")]
 		public float sustainFadeoutTime = 0f;
 
-		// Token: 0x04002B00 RID: 11008
 		[Description("All the sounds that will play when this set is triggered.")]
 		public List<SubSoundDef> subSounds = new List<SubSoundDef>();
 
-		// Token: 0x04002B01 RID: 11009
 		[Unsaved]
 		public bool isUndefined = false;
 
-		// Token: 0x04002B02 RID: 11010
 		[Unsaved]
 		public Sustainer testSustainer = null;
 
-		// Token: 0x04002B03 RID: 11011
 		private static Dictionary<string, SoundDef> undefinedSoundDefs = new Dictionary<string, SoundDef>();
 
-		// Token: 0x170009C0 RID: 2496
-		// (get) Token: 0x06004010 RID: 16400 RVA: 0x0021C044 File Offset: 0x0021A444
+		public SoundDef()
+		{
+		}
+
 		private bool HasSubSoundsOnCamera
 		{
 			get
@@ -91,8 +82,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009C1 RID: 2497
-		// (get) Token: 0x06004011 RID: 16401 RVA: 0x0021C098 File Offset: 0x0021A498
 		public bool HasSubSoundsInWorld
 		{
 			get
@@ -108,8 +97,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009C2 RID: 2498
-		// (get) Token: 0x06004012 RID: 16402 RVA: 0x0021C0EC File Offset: 0x0021A4EC
 		public int MaxSimultaneousSamples
 		{
 			get
@@ -118,7 +105,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004013 RID: 16403 RVA: 0x0021C114 File Offset: 0x0021A514
 		public override void ResolveReferences()
 		{
 			for (int i = 0; i < this.subSounds.Count; i++)
@@ -128,7 +114,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004014 RID: 16404 RVA: 0x0021C164 File Offset: 0x0021A564
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.slot != "" && !this.HasSubSoundsOnCamera)
@@ -178,7 +163,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004015 RID: 16405 RVA: 0x0021C190 File Offset: 0x0021A590
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (this.testSustainer == null)
@@ -222,7 +206,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004016 RID: 16406 RVA: 0x0021C294 File Offset: 0x0021A694
 		public static SoundDef Named(string defName)
 		{
 			SoundDef namedSilentFail = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
@@ -263,7 +246,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004017 RID: 16407 RVA: 0x0021C398 File Offset: 0x0021A798
 		private static SoundDef UndefinedDefNamed(string defName)
 		{
 			SoundDef soundDef;
@@ -275,6 +257,220 @@ namespace Verse
 				SoundDef.undefinedSoundDefs.Add(defName, soundDef);
 			}
 			return soundDef;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SoundDef()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal int <i>__1;
+
+			internal List<SoundDef> <defs>__0;
+
+			internal int <i>__2;
+
+			internal int <j>__3;
+
+			internal SoundDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.slot != "" && !base.HasSubSoundsOnCamera)
+					{
+						this.$current = "Sound slots only work for on-camera sounds.";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_C3;
+				case 3u:
+					goto IL_102;
+				case 4u:
+					goto IL_132;
+				case 5u:
+					goto IL_181;
+				case 6u:
+					goto IL_1EA;
+				case 7u:
+					IL_2D1:
+					k++;
+					goto IL_2E0;
+				default:
+					return false;
+				}
+				if (base.HasSubSoundsInWorld && this.context != SoundContext.MapOnly)
+				{
+					this.$current = "Sounds with non-on-camera subsounds should use MapOnly context.";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_C3:
+				if (this.priorityMode == VoicePriorityMode.PrioritizeNewest && this.sustain)
+				{
+					this.$current = "PrioritizeNewest is not supported with sustainers.";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_102:
+				if (this.maxVoices < 1)
+				{
+					this.$current = "Max voices is less than 1.";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_132:
+				if (!this.sustain && (this.sustainStartSound != null || this.sustainStopSound != null))
+				{
+					this.$current = "Sustainer start and end sounds only work with sounds defined as sustainers.";
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_181:
+				if (!this.sustain)
+				{
+					i = 0;
+					goto IL_1F9;
+				}
+				goto IL_215;
+				IL_1EA:
+				i++;
+				IL_1F9:
+				if (i < this.subSounds.Count)
+				{
+					if (this.subSounds[i].startDelayRange.TrueMax > 0.001f)
+					{
+						this.$current = "startDelayRange is only supported on sustainers.";
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						return true;
+					}
+					goto IL_1EA;
+				}
+				IL_215:
+				defs = DefDatabase<SoundDef>.AllDefsListForReading;
+				j = 0;
+				goto IL_316;
+				IL_2E0:
+				if (k < defs[j].eventNames.Count)
+				{
+					if (defs[j].eventNames[k] == this.defName)
+					{
+						this.$current = this.defName + " is also defined in the eventNames list for " + defs[j];
+						if (!this.$disposing)
+						{
+							this.$PC = 7;
+						}
+						return true;
+					}
+					goto IL_2D1;
+				}
+				IL_307:
+				j++;
+				IL_316:
+				if (j >= defs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (!defs[j].eventNames.NullOrEmpty<string>())
+					{
+						k = 0;
+						goto IL_2E0;
+					}
+					goto IL_307;
+				}
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SoundDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new SoundDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

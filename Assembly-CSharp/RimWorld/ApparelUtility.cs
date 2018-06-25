@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000510 RID: 1296
 	public static class ApparelUtility
 	{
-		// Token: 0x0600176A RID: 5994 RVA: 0x000CD79C File Offset: 0x000CBB9C
 		public static bool CanWearTogether(ThingDef A, ThingDef B, BodyDef body)
 		{
 			bool flag = false;
@@ -60,7 +59,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600176B RID: 5995 RVA: 0x000CD8F0 File Offset: 0x000CBCF0
 		public static void GenerateLayerGroupPairs(BodyDef body, ThingDef td, Action<ApparelUtility.LayerGroupPair> callback)
 		{
 			for (int i = 0; i < td.apparel.layers.Count; i++)
@@ -74,7 +72,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600176C RID: 5996 RVA: 0x000CD968 File Offset: 0x000CBD68
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
@@ -109,23 +106,18 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x02000511 RID: 1297
 		public struct LayerGroupPair
 		{
-			// Token: 0x04000DDA RID: 3546
 			private readonly ApparelLayerDef layer;
 
-			// Token: 0x04000DDB RID: 3547
 			private readonly BodyPartGroupDef group;
 
-			// Token: 0x0600176D RID: 5997 RVA: 0x000CDA65 File Offset: 0x000CBE65
 			public LayerGroupPair(ApparelLayerDef layer, BodyPartGroupDef group)
 			{
 				this.layer = layer;
 				this.group = group;
 			}
 
-			// Token: 0x0600176E RID: 5998 RVA: 0x000CDA78 File Offset: 0x000CBE78
 			public override bool Equals(object rhs)
 			{
 				bool result;
@@ -141,12 +133,38 @@ namespace RimWorld
 				return result;
 			}
 
-			// Token: 0x0600176F RID: 5999 RVA: 0x000CDACC File Offset: 0x000CBECC
 			public override int GetHashCode()
 			{
 				int num = 17;
 				num = num * 23 + this.layer.GetHashCode();
 				return num * 23 + this.group.GetHashCode();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasPartsToWear>c__AnonStorey0
+		{
+			internal List<BodyPartGroupDef> groups;
+
+			public <HasPartsToWear>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasPartsToWear>c__AnonStorey1
+		{
+			internal int i;
+
+			internal ApparelUtility.<HasPartsToWear>c__AnonStorey0 <>f__ref$0;
+
+			public <HasPartsToWear>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord x)
+			{
+				return x.IsInGroup(this.<>f__ref$0.groups[this.i]);
 			}
 		}
 	}

@@ -9,48 +9,39 @@ using Verse;
 
 namespace RuntimeAudioClipLoader
 {
-	// Token: 0x020009DD RID: 2525
 	[StaticConstructorOnStartup]
 	public class Manager : MonoBehaviour
 	{
-		// Token: 0x04002422 RID: 9250
 		private static readonly string[] supportedFormats;
 
-		// Token: 0x04002423 RID: 9251
 		private static Dictionary<string, AudioClip> cache = new Dictionary<string, AudioClip>();
 
-		// Token: 0x04002424 RID: 9252
 		private static Queue<Manager.AudioInstance> deferredLoadQueue = new Queue<Manager.AudioInstance>();
 
-		// Token: 0x04002425 RID: 9253
 		private static Queue<Manager.AudioInstance> deferredSetDataQueue = new Queue<Manager.AudioInstance>();
 
-		// Token: 0x04002426 RID: 9254
 		private static Queue<Manager.AudioInstance> deferredSetFail = new Queue<Manager.AudioInstance>();
 
-		// Token: 0x04002427 RID: 9255
 		private static Thread deferredLoaderThread;
 
-		// Token: 0x04002428 RID: 9256
 		private static GameObject managerInstance;
 
-		// Token: 0x04002429 RID: 9257
 		private static Dictionary<AudioClip, AudioClipLoadType> audioClipLoadType = new Dictionary<AudioClip, AudioClipLoadType>();
 
-		// Token: 0x0400242A RID: 9258
 		private static Dictionary<AudioClip, AudioDataLoadState> audioLoadState = new Dictionary<AudioClip, AudioDataLoadState>();
 
-		// Token: 0x0400242B RID: 9259
 		[CompilerGenerated]
 		private static ThreadStart <>f__mg$cache0;
 
-		// Token: 0x06003891 RID: 14481 RVA: 0x001E3EA4 File Offset: 0x001E22A4
 		static Manager()
 		{
 			Manager.supportedFormats = Enum.GetNames(typeof(AudioFormat));
 		}
 
-		// Token: 0x06003893 RID: 14483 RVA: 0x001E3F0C File Offset: 0x001E230C
+		public Manager()
+		{
+		}
+
 		public static AudioClip Load(string filePath, bool doStream = false, bool loadInBackground = true, bool useCache = true)
 		{
 			AudioClip result;
@@ -80,7 +71,6 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x06003894 RID: 14484 RVA: 0x001E3FC4 File Offset: 0x001E23C4
 		public static AudioClip Load(Stream dataStream, AudioFormat audioFormat, string unityAudioClipName, bool doStream = false, bool loadInBackground = true, bool diposeDataStreamIfNotNeeded = true)
 		{
 			AudioClip audioClip = null;
@@ -149,7 +139,6 @@ namespace RuntimeAudioClipLoader
 			return audioClip;
 		}
 
-		// Token: 0x06003895 RID: 14485 RVA: 0x001E41E8 File Offset: 0x001E25E8
 		private static void RunDeferredLoaderThread()
 		{
 			if (Manager.deferredLoaderThread == null || !Manager.deferredLoaderThread.IsAlive)
@@ -164,7 +153,6 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003896 RID: 14486 RVA: 0x001E4250 File Offset: 0x001E2650
 		private static void DeferredLoaderMain()
 		{
 			Manager.AudioInstance audioInstance = null;
@@ -214,7 +202,6 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003897 RID: 14487 RVA: 0x001E43D0 File Offset: 0x001E27D0
 		private void Update()
 		{
 			Manager.AudioInstance audioInstance = null;
@@ -247,7 +234,6 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003898 RID: 14488 RVA: 0x001E44C0 File Offset: 0x001E28C0
 		private static void EnsureInstanceExists()
 		{
 			if (!Manager.managerInstance)
@@ -258,13 +244,11 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003899 RID: 14489 RVA: 0x001E44FA File Offset: 0x001E28FA
 		public static void SetAudioClipLoadState(AudioClip audioClip, AudioDataLoadState newLoadState)
 		{
 			Manager.audioLoadState[audioClip] = newLoadState;
 		}
 
-		// Token: 0x0600389A RID: 14490 RVA: 0x001E450C File Offset: 0x001E290C
 		public static AudioDataLoadState GetAudioClipLoadState(AudioClip audioClip)
 		{
 			AudioDataLoadState result = AudioDataLoadState.Failed;
@@ -276,13 +260,11 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x0600389B RID: 14491 RVA: 0x001E4547 File Offset: 0x001E2947
 		public static void SetAudioClipLoadType(AudioClip audioClip, AudioClipLoadType newLoadType)
 		{
 			Manager.audioClipLoadType[audioClip] = newLoadType;
 		}
 
-		// Token: 0x0600389C RID: 14492 RVA: 0x001E4558 File Offset: 0x001E2958
 		public static AudioClipLoadType GetAudioClipLoadType(AudioClip audioClip)
 		{
 			AudioClipLoadType result = (AudioClipLoadType)(-1);
@@ -294,19 +276,16 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x0600389D RID: 14493 RVA: 0x001E4594 File Offset: 0x001E2994
 		private static string GetExtension(string filePath)
 		{
 			return Path.GetExtension(filePath).Substring(1).ToLower();
 		}
 
-		// Token: 0x0600389E RID: 14494 RVA: 0x001E45BC File Offset: 0x001E29BC
 		public static bool IsSupportedFormat(string filePath)
 		{
 			return Manager.supportedFormats.Contains(Manager.GetExtension(filePath));
 		}
 
-		// Token: 0x0600389F RID: 14495 RVA: 0x001E45E4 File Offset: 0x001E29E4
 		public static AudioFormat GetAudioFormat(string filePath)
 		{
 			AudioFormat result = AudioFormat.unknown;
@@ -320,32 +299,27 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x060038A0 RID: 14496 RVA: 0x001E4638 File Offset: 0x001E2A38
 		public static void ClearCache()
 		{
 			Manager.cache.Clear();
 		}
 
-		// Token: 0x020009DE RID: 2526
 		private class AudioInstance
 		{
-			// Token: 0x0400242C RID: 9260
 			public AudioClip audioClip;
 
-			// Token: 0x0400242D RID: 9261
 			public CustomAudioFileReader reader;
 
-			// Token: 0x0400242E RID: 9262
 			public float[] dataToSet;
 
-			// Token: 0x0400242F RID: 9263
 			public int samplesCount;
 
-			// Token: 0x04002430 RID: 9264
 			public Stream streamToDisposeOnceDone;
 
-			// Token: 0x170008AF RID: 2223
-			// (get) Token: 0x060038A2 RID: 14498 RVA: 0x001E4650 File Offset: 0x001E2A50
+			public AudioInstance()
+			{
+			}
+
 			public int channels
 			{
 				get
@@ -354,8 +328,6 @@ namespace RuntimeAudioClipLoader
 				}
 			}
 
-			// Token: 0x170008B0 RID: 2224
-			// (get) Token: 0x060038A3 RID: 14499 RVA: 0x001E4678 File Offset: 0x001E2A78
 			public int sampleRate
 			{
 				get
@@ -364,10 +336,29 @@ namespace RuntimeAudioClipLoader
 				}
 			}
 
-			// Token: 0x060038A4 RID: 14500 RVA: 0x001E46A0 File Offset: 0x001E2AA0
 			public static implicit operator AudioClip(Manager.AudioInstance ai)
 			{
 				return ai.audioClip;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Load>c__AnonStorey0
+		{
+			internal CustomAudioFileReader reader;
+
+			public <Load>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0(float[] target)
+			{
+				this.reader.Read(target, 0, target.Length);
+			}
+
+			internal void <>m__1(int target)
+			{
+				this.reader.Seek((long)target, SeekOrigin.Begin);
 			}
 		}
 	}

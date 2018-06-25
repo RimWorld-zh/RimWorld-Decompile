@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -8,14 +9,14 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000605 RID: 1541
 	[StaticConstructorOnStartup]
 	public static class SettlementAbandonUtility
 	{
-		// Token: 0x0400122D RID: 4653
 		private static readonly Texture2D AbandonCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/AbandonHome", true);
 
-		// Token: 0x06001EE2 RID: 7906 RVA: 0x0010CDC4 File Offset: 0x0010B1C4
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
 		public static Command AbandonCommand(MapParent settlement)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -34,13 +35,11 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001EE3 RID: 7907 RVA: 0x0010CE58 File Offset: 0x0010B258
 		public static bool AllColonistsThere(MapParent settlement)
 		{
 			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any<Pawn>());
 		}
 
-		// Token: 0x06001EE4 RID: 7908 RVA: 0x0010CEA0 File Offset: 0x0010B2A0
 		public static void TryAbandonViaInterface(MapParent settlement)
 		{
 			Map map = settlement.Map;
@@ -87,7 +86,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EE5 RID: 7909 RVA: 0x0010D044 File Offset: 0x0010B444
 		private static void Abandon(MapParent settlement)
 		{
 			Find.WorldObjects.Remove(settlement);
@@ -99,13 +97,68 @@ namespace RimWorld.Planet
 			Find.GameEnder.CheckOrUpdateGameOver();
 		}
 
-		// Token: 0x06001EE6 RID: 7910 RVA: 0x0010D07C File Offset: 0x0010B47C
 		private static void AddAbandonedBase(FactionBase factionBase)
 		{
 			WorldObject worldObject = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.AbandonedBase);
 			worldObject.Tile = factionBase.Tile;
 			worldObject.SetFaction(factionBase.Faction);
 			Find.WorldObjects.Add(worldObject);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SettlementAbandonUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <TryAbandonViaInterface>m__0(Pawn x)
+		{
+			return x.IsColonist;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AbandonCommand>c__AnonStorey0
+		{
+			internal MapParent settlement;
+
+			public <AbandonCommand>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				SettlementAbandonUtility.TryAbandonViaInterface(this.settlement);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllColonistsThere>c__AnonStorey1
+		{
+			internal MapParent settlement;
+
+			public <AllColonistsThere>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Map x)
+			{
+				return x.info.parent != this.settlement && x.mapPawns.FreeColonistsSpawned.Any<Pawn>();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryAbandonViaInterface>c__AnonStorey2
+		{
+			internal MapParent settlement;
+
+			public <TryAbandonViaInterface>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				SettlementAbandonUtility.Abandon(this.settlement);
+			}
 		}
 	}
 }

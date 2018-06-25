@@ -1,25 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200065F RID: 1631
 	public class TaleData_Trader : TaleData
 	{
-		// Token: 0x04001363 RID: 4963
 		public string name;
 
-		// Token: 0x04001364 RID: 4964
 		public int pawnID = -1;
 
-		// Token: 0x04001365 RID: 4965
 		public Gender gender = Gender.Male;
 
-		// Token: 0x17000500 RID: 1280
-		// (get) Token: 0x06002210 RID: 8720 RVA: 0x001215A4 File Offset: 0x0011F9A4
+		[CompilerGenerated]
+		private static Func<PawnKindDef, bool> <>f__am$cache0;
+
+		public TaleData_Trader()
+		{
+		}
+
 		private bool IsPawn
 		{
 			get
@@ -28,7 +33,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002211 RID: 8721 RVA: 0x001215C5 File Offset: 0x0011F9C5
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
@@ -36,7 +40,6 @@ namespace RimWorld
 			Scribe_Values.Look<Gender>(ref this.gender, "gender", Gender.Male, false);
 		}
 
-		// Token: 0x06002212 RID: 8722 RVA: 0x00121600 File Offset: 0x0011FA00
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			string nameFull;
@@ -76,7 +79,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002213 RID: 8723 RVA: 0x00121634 File Offset: 0x0011FA34
 		public static TaleData_Trader GenerateFrom(ITrader trader)
 		{
 			TaleData_Trader taleData_Trader = new TaleData_Trader();
@@ -90,7 +92,6 @@ namespace RimWorld
 			return taleData_Trader;
 		}
 
-		// Token: 0x06002214 RID: 8724 RVA: 0x00121684 File Offset: 0x0011FA84
 		public static TaleData_Trader GenerateRandom()
 		{
 			PawnKindDef pawnKindDef = (from d in DefDatabase<PawnKindDef>.AllDefs
@@ -100,6 +101,173 @@ namespace RimWorld
 			pawn.mindState.wantsToTradeWithColony = true;
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
 			return TaleData_Trader.GenerateFrom(pawn);
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateRandom>m__0(PawnKindDef d)
+		{
+			return d.trader;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRules>c__Iterator0 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal string <nameFull>__1;
+
+			internal string prefix;
+
+			internal string <nameShortIndefinite>__2;
+
+			internal string <nameShortDefinite>__3;
+
+			internal TaleData_Trader $this;
+
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetRules>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (base.IsPawn)
+					{
+						nameFull = this.name;
+					}
+					else
+					{
+						nameFull = Find.ActiveLanguageWorker.WithIndefiniteArticle(this.name);
+					}
+					this.$current = new Rule_String(prefix + "_nameFull", nameFull);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					if (base.IsPawn)
+					{
+						nameShortIndefinite = this.name;
+					}
+					else
+					{
+						nameShortIndefinite = Find.ActiveLanguageWorker.WithIndefiniteArticle(this.name);
+					}
+					this.$current = new Rule_String(prefix + "_indefinite", nameShortIndefinite);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = new Rule_String(prefix + "_nameIndef", nameShortIndefinite);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					if (base.IsPawn)
+					{
+						nameShortDefinite = this.name;
+					}
+					else
+					{
+						nameShortDefinite = Find.ActiveLanguageWorker.WithDefiniteArticle(this.name);
+					}
+					this.$current = new Rule_String(prefix + "_definite", nameShortDefinite);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = new Rule_String(prefix + "_nameDef", nameShortDefinite);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = new Rule_String(prefix + "_pronoun", this.gender.GetPronoun());
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = new Rule_String(prefix + "_possessive", this.gender.GetPossessive());
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TaleData_Trader.<GetRules>c__Iterator0 <GetRules>c__Iterator = new TaleData_Trader.<GetRules>c__Iterator0();
+				<GetRules>c__Iterator.$this = this;
+				<GetRules>c__Iterator.prefix = prefix;
+				return <GetRules>c__Iterator;
+			}
 		}
 	}
 }

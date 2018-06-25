@@ -4,13 +4,14 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CD3 RID: 3283
 	public class PatchOperationAddModExtension : PatchOperationPathed
 	{
-		// Token: 0x04003112 RID: 12562
 		private XmlContainer value;
 
-		// Token: 0x06004885 RID: 18565 RVA: 0x00261A44 File Offset: 0x0025FE44
+		public PatchOperationAddModExtension()
+		{
+		}
+
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			XmlNode node = this.value.node;

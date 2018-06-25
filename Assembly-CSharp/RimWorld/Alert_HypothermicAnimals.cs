@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000791 RID: 1937
 	public class Alert_HypothermicAnimals : Alert
 	{
-		// Token: 0x170006B1 RID: 1713
-		// (get) Token: 0x06002AF4 RID: 10996 RVA: 0x0016B4F8 File Offset: 0x001698F8
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		public Alert_HypothermicAnimals()
+		{
+		}
+
 		private IEnumerable<Pawn> HypothermicAnimals
 		{
 			get
@@ -21,13 +26,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AF5 RID: 10997 RVA: 0x0016B534 File Offset: 0x00169934
 		public override string GetLabel()
 		{
 			return "Hypothermic wild animals (debug)";
 		}
 
-		// Token: 0x06002AF6 RID: 10998 RVA: 0x0016B550 File Offset: 0x00169950
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -45,7 +48,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06002AF7 RID: 10999 RVA: 0x0016B5FC File Offset: 0x001699FC
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -58,6 +60,12 @@ namespace RimWorld
 				result = AlertReport.CulpritsAre(this.HypothermicAnimals);
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_HypothermicAnimals>m__0(Pawn p)
+		{
+			return p.RaceProps.Animal && p.Faction == null && p.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false) != null;
 		}
 	}
 }

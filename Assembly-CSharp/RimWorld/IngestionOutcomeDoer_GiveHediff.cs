@@ -1,25 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000270 RID: 624
 	public class IngestionOutcomeDoer_GiveHediff : IngestionOutcomeDoer
 	{
-		// Token: 0x0400051F RID: 1311
 		public HediffDef hediffDef;
 
-		// Token: 0x04000520 RID: 1312
 		public float severity = -1f;
 
-		// Token: 0x04000521 RID: 1313
 		public ChemicalDef toleranceChemical = null;
 
-		// Token: 0x04000522 RID: 1314
 		private bool divideByBodySize = false;
 
-		// Token: 0x06000AB8 RID: 2744 RVA: 0x00060FD4 File Offset: 0x0005F3D4
+		public IngestionOutcomeDoer_GiveHediff()
+		{
+		}
+
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediffDef, pawn, null);
@@ -41,7 +43,6 @@ namespace RimWorld
 			pawn.health.AddHediff(hediff, null, null, null);
 		}
 
-		// Token: 0x06000AB9 RID: 2745 RVA: 0x00061058 File Offset: 0x0005F458
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			if (parentDef.IsDrug && this.chance >= 1f)
@@ -52,6 +53,147 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal ThingDef parentDef;
+
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <s>__1;
+
+			internal IngestionOutcomeDoer_GiveHediff $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!parentDef.IsDrug || this.chance < 1f)
+					{
+						goto IL_E0;
+					}
+					enumerator = this.hediffDef.SpecialDisplayStats().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						s = enumerator.Current;
+						this.$current = s;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_E0:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				IngestionOutcomeDoer_GiveHediff.<SpecialDisplayStats>c__Iterator0 <SpecialDisplayStats>c__Iterator = new IngestionOutcomeDoer_GiveHediff.<SpecialDisplayStats>c__Iterator0();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				<SpecialDisplayStats>c__Iterator.parentDef = parentDef;
+				return <SpecialDisplayStats>c__Iterator;
+			}
 		}
 	}
 }

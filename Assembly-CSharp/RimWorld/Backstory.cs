@@ -1,107 +1,86 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004DC RID: 1244
 	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
-		// Token: 0x04000CD0 RID: 3280
 		public string identifier = null;
 
-		// Token: 0x04000CD1 RID: 3281
 		public BackstorySlot slot;
 
-		// Token: 0x04000CD2 RID: 3282
 		public string title;
 
-		// Token: 0x04000CD3 RID: 3283
 		public string titleFemale;
 
-		// Token: 0x04000CD4 RID: 3284
 		public string titleShort;
 
-		// Token: 0x04000CD5 RID: 3285
 		public string titleShortFemale;
 
-		// Token: 0x04000CD6 RID: 3286
 		public string baseDesc = null;
 
-		// Token: 0x04000CD7 RID: 3287
 		private Dictionary<string, int> skillGains = new Dictionary<string, int>();
 
-		// Token: 0x04000CD8 RID: 3288
 		[Unsaved]
 		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
 
-		// Token: 0x04000CD9 RID: 3289
 		public WorkTags workDisables = WorkTags.None;
 
-		// Token: 0x04000CDA RID: 3290
 		public WorkTags requiredWorkTags = WorkTags.None;
 
-		// Token: 0x04000CDB RID: 3291
 		public List<string> spawnCategories = new List<string>();
 
-		// Token: 0x04000CDC RID: 3292
 		[LoadAlias("bodyNameGlobal")]
 		private string bodyTypeGlobal = null;
 
-		// Token: 0x04000CDD RID: 3293
 		[LoadAlias("bodyNameFemale")]
 		private string bodyTypeFemale = null;
 
-		// Token: 0x04000CDE RID: 3294
 		[LoadAlias("bodyNameMale")]
 		private string bodyTypeMale = null;
 
-		// Token: 0x04000CDF RID: 3295
 		[Unsaved]
 		private BodyTypeDef bodyTypeGlobalResolved = null;
 
-		// Token: 0x04000CE0 RID: 3296
 		[Unsaved]
 		private BodyTypeDef bodyTypeFemaleResolved = null;
 
-		// Token: 0x04000CE1 RID: 3297
 		[Unsaved]
 		private BodyTypeDef bodyTypeMaleResolved = null;
 
-		// Token: 0x04000CE2 RID: 3298
 		public List<TraitEntry> forcedTraits = null;
 
-		// Token: 0x04000CE3 RID: 3299
 		public List<TraitEntry> disallowedTraits = null;
 
-		// Token: 0x04000CE4 RID: 3300
 		public bool shuffleable = true;
 
-		// Token: 0x04000CE5 RID: 3301
 		[Unsaved]
 		public string untranslatedTitle;
 
-		// Token: 0x04000CE6 RID: 3302
 		[Unsaved]
 		public string untranslatedTitleFemale;
 
-		// Token: 0x04000CE7 RID: 3303
 		[Unsaved]
 		public string untranslatedTitleShort;
 
-		// Token: 0x04000CE8 RID: 3304
 		[Unsaved]
 		public string untranslatedTitleShortFemale;
 
-		// Token: 0x04000CE9 RID: 3305
 		[Unsaved]
 		public string untranslatedDesc;
 
-		// Token: 0x170002DC RID: 732
-		// (get) Token: 0x06001616 RID: 5654 RVA: 0x000C40B0 File Offset: 0x000C24B0
+		public Backstory()
+		{
+		}
+
 		public IEnumerable<WorkTypeDef> DisabledWorkTypes
 		{
 			get
@@ -118,8 +97,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002DD RID: 733
-		// (get) Token: 0x06001617 RID: 5655 RVA: 0x000C40DC File Offset: 0x000C24DC
 		public IEnumerable<WorkGiverDef> DisabledWorkGivers
 		{
 			get
@@ -136,7 +113,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001618 RID: 5656 RVA: 0x000C4108 File Offset: 0x000C2508
 		public bool DisallowsTrait(TraitDef def, int degree)
 		{
 			bool result;
@@ -158,7 +134,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001619 RID: 5657 RVA: 0x000C4184 File Offset: 0x000C2584
 		public string TitleFor(Gender g)
 		{
 			string result;
@@ -173,13 +148,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161A RID: 5658 RVA: 0x000C41C4 File Offset: 0x000C25C4
 		public string TitleCapFor(Gender g)
 		{
 			return this.TitleFor(g).CapitalizeFirst();
 		}
 
-		// Token: 0x0600161B RID: 5659 RVA: 0x000C41E8 File Offset: 0x000C25E8
 		public string TitleShortFor(Gender g)
 		{
 			string result;
@@ -198,13 +171,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161C RID: 5660 RVA: 0x000C4244 File Offset: 0x000C2644
 		public string TitleShortCapFor(Gender g)
 		{
 			return this.TitleShortFor(g).CapitalizeFirst();
 		}
 
-		// Token: 0x0600161D RID: 5661 RVA: 0x000C4268 File Offset: 0x000C2668
 		public BodyTypeDef BodyTypeFor(Gender g)
 		{
 			BodyTypeDef result;
@@ -223,7 +194,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161E RID: 5662 RVA: 0x000C42B4 File Offset: 0x000C26B4
 		public string FullDescriptionFor(Pawn p)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -258,19 +228,16 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x0600161F RID: 5663 RVA: 0x000C4484 File Offset: 0x000C2884
 		private bool AllowsWorkType(WorkTypeDef workType)
 		{
 			return (this.workDisables & workType.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x06001620 RID: 5664 RVA: 0x000C44AC File Offset: 0x000C28AC
 		private bool AllowsWorkGiver(WorkGiverDef workGiver)
 		{
 			return (this.workDisables & workGiver.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x06001621 RID: 5665 RVA: 0x000C44D1 File Offset: 0x000C28D1
 		internal void AddForcedTrait(TraitDef traitDef, int degree = 0)
 		{
 			if (this.forcedTraits == null)
@@ -280,7 +247,6 @@ namespace RimWorld
 			this.forcedTraits.Add(new TraitEntry(traitDef, degree));
 		}
 
-		// Token: 0x06001622 RID: 5666 RVA: 0x000C44FC File Offset: 0x000C28FC
 		internal void AddDisallowedTrait(TraitDef traitDef, int degree = 0)
 		{
 			if (this.disallowedTraits == null)
@@ -290,7 +256,6 @@ namespace RimWorld
 			this.disallowedTraits.Add(new TraitEntry(traitDef, degree));
 		}
 
-		// Token: 0x06001623 RID: 5667 RVA: 0x000C4528 File Offset: 0x000C2928
 		public void PostLoad()
 		{
 			this.untranslatedTitle = this.title;
@@ -301,7 +266,6 @@ namespace RimWorld
 			this.baseDesc = this.baseDesc.TrimEnd(new char[0]);
 		}
 
-		// Token: 0x06001624 RID: 5668 RVA: 0x000C458C File Offset: 0x000C298C
 		public void ResolveReferences()
 		{
 			int num = Mathf.Abs(GenText.StableStringHash(this.baseDesc) % 100);
@@ -343,7 +307,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001625 RID: 5669 RVA: 0x000C473C File Offset: 0x000C2B3C
 		public IEnumerable<string> ConfigErrors(bool ignoreNoSpawnCategories)
 		{
 			if (this.title.NullOrEmpty())
@@ -397,21 +360,18 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001626 RID: 5670 RVA: 0x000C476D File Offset: 0x000C2B6D
 		public void SetTitle(string newTitle, string newTitleFemale)
 		{
 			this.title = newTitle;
 			this.titleFemale = newTitleFemale;
 		}
 
-		// Token: 0x06001627 RID: 5671 RVA: 0x000C477E File Offset: 0x000C2B7E
 		public void SetTitleShort(string newTitleShort, string newTitleShortFemale)
 		{
 			this.titleShort = newTitleShort;
 			this.titleShortFemale = newTitleShortFemale;
 		}
 
-		// Token: 0x06001628 RID: 5672 RVA: 0x000C4790 File Offset: 0x000C2B90
 		public override string ToString()
 		{
 			string result;
@@ -426,10 +386,505 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001629 RID: 5673 RVA: 0x000C47D8 File Offset: 0x000C2BD8
 		public override int GetHashCode()
 		{
 			return this.identifier.GetHashCode();
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<WorkTypeDef>, IEnumerator, IDisposable, IEnumerator<WorkTypeDef>
+		{
+			internal List<WorkTypeDef> <list>__0;
+
+			internal int <i>__1;
+
+			internal Backstory $this;
+
+			internal WorkTypeDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					list = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+					i = 0;
+					break;
+				case 1u:
+					IL_86:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= list.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (!base.AllowsWorkType(list[i]))
+					{
+						this.$current = list[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_86;
+				}
+				return false;
+			}
+
+			WorkTypeDef IEnumerator<WorkTypeDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.WorkTypeDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<WorkTypeDef> IEnumerable<WorkTypeDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Backstory.<>c__Iterator0 <>c__Iterator = new Backstory.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<WorkGiverDef>, IEnumerator, IDisposable, IEnumerator<WorkGiverDef>
+		{
+			internal List<WorkGiverDef> <list>__0;
+
+			internal int <i>__1;
+
+			internal Backstory $this;
+
+			internal WorkGiverDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					list = DefDatabase<WorkGiverDef>.AllDefsListForReading;
+					i = 0;
+					break;
+				case 1u:
+					IL_86:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= list.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (!base.AllowsWorkGiver(list[i]))
+					{
+						this.$current = list[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_86;
+				}
+				return false;
+			}
+
+			WorkGiverDef IEnumerator<WorkGiverDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.WorkGiverDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<WorkGiverDef> IEnumerable<WorkGiverDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Backstory.<>c__Iterator1 <>c__Iterator = new Backstory.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator2 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal bool ignoreNoSpawnCategories;
+
+			internal Dictionary<SkillDef, int>.Enumerator $locvar0;
+
+			internal KeyValuePair<SkillDef, int> <kvp>__1;
+
+			internal Dictionary<string, Backstory>.Enumerator $locvar1;
+
+			internal KeyValuePair<string, Backstory> <kvp>__2;
+
+			internal Backstory $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.title.NullOrEmpty())
+					{
+						this.$current = "null title, baseDesc is " + this.baseDesc;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_CC;
+				case 3u:
+					goto IL_117;
+				case 4u:
+					goto IL_156;
+				case 5u:
+					goto IL_1AB;
+				case 6u:
+					goto IL_1FB;
+				case 7u:
+					goto IL_246;
+				case 8u:
+					Block_21:
+					try
+					{
+						switch (num)
+						{
+						case 8u:
+							IL_2F0:
+							break;
+						}
+						if (enumerator.MoveNext())
+						{
+							kvp = enumerator.Current;
+							if (kvp.Key.IsDisabled(this.workDisables, base.DisabledWorkTypes))
+							{
+								this.$current = "modifies skill " + kvp.Key + " but also disables this skill";
+								if (!this.$disposing)
+								{
+									this.$PC = 8;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_2F0;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							((IDisposable)enumerator).Dispose();
+						}
+					}
+					enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator();
+					num = 4294967293u;
+					goto Block_22;
+				case 9u:
+					goto IL_330;
+				default:
+					return false;
+				}
+				if (this.titleShort.NullOrEmpty())
+				{
+					this.$current = "null titleShort, baseDesc is " + this.baseDesc;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_CC:
+				if ((this.workDisables & WorkTags.Violent) != WorkTags.None && this.spawnCategories.Contains("Raider"))
+				{
+					this.$current = "cannot do Violent work but can spawn as a raider";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_117:
+				if (this.spawnCategories.Count == 0 && !ignoreNoSpawnCategories)
+				{
+					this.$current = "no spawn categories";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_156:
+				if (this.spawnCategories.Count == 1 && this.spawnCategories[0] == "Trader")
+				{
+					this.$current = "only Trader spawn category";
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_1AB:
+				if (this.baseDesc.NullOrEmpty())
+				{
+					goto IL_247;
+				}
+				if (char.IsWhiteSpace(this.baseDesc[0]))
+				{
+					this.$current = "baseDesc starts with whitepspace";
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				}
+				IL_1FB:
+				if (char.IsWhiteSpace(this.baseDesc[this.baseDesc.Length - 1]))
+				{
+					this.$current = "baseDesc ends with whitespace";
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				IL_246:
+				IL_247:
+				if (Prefs.DevMode)
+				{
+					enumerator = this.skillGainsResolved.GetEnumerator();
+					num = 4294967293u;
+					goto Block_21;
+				}
+				goto IL_3EE;
+				Block_22:
+				try
+				{
+					IL_330:
+					switch (num)
+					{
+					case 9u:
+						IL_3C1:
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						kvp2 = enumerator2.Current;
+						if (kvp2.Value != this && kvp2.Value.identifier == this.identifier)
+						{
+							this.$current = "backstory identifier used more than once: " + this.identifier;
+							if (!this.$disposing)
+							{
+								this.$PC = 9;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_3C1;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				IL_3EE:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 8u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				case 9u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Backstory.<ConfigErrors>c__Iterator2 <ConfigErrors>c__Iterator = new Backstory.<ConfigErrors>c__Iterator2();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.ignoreNoSpawnCategories = ignoreNoSpawnCategories;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

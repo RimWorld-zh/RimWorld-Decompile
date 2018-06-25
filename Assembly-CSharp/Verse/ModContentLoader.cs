@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RuntimeAudioClipLoader;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC5 RID: 3269
 	public static class ModContentLoader<T> where T : class
 	{
-		// Token: 0x040030DA RID: 12506
 		private static string[] AcceptableExtensionsAudio = new string[]
 		{
 			".wav",
@@ -21,20 +23,17 @@ namespace Verse
 			".s3m"
 		};
 
-		// Token: 0x040030DB RID: 12507
 		private static string[] AcceptableExtensionsTexture = new string[]
 		{
 			".png",
 			".jpg"
 		};
 
-		// Token: 0x040030DC RID: 12508
 		private static string[] AcceptableExtensionsString = new string[]
 		{
 			".txt"
 		};
 
-		// Token: 0x0600481A RID: 18458 RVA: 0x0025F79C File Offset: 0x0025DB9C
 		private static bool IsAcceptableExtension(string extension)
 		{
 			string[] array;
@@ -65,7 +64,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600481B RID: 18459 RVA: 0x0025F87C File Offset: 0x0025DC7C
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
 			string contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
@@ -96,7 +94,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600481C RID: 18460 RVA: 0x0025F8A8 File Offset: 0x0025DCA8
 		public static LoadedContentItem<T> LoadItem(string absFilePath, string contentDirPath = null)
 		{
 			string text = absFilePath;
@@ -169,7 +166,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600481D RID: 18461 RVA: 0x0025FAC8 File Offset: 0x0025DEC8
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
 			bool result;
@@ -185,7 +181,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600481E RID: 18462 RVA: 0x0025FB04 File Offset: 0x0025DF04
 		private static Texture2D LoadPNG(string filePath)
 		{
 			Texture2D texture2D = null;
@@ -201,6 +196,148 @@ namespace Verse
 				texture2D.Apply(true, true);
 			}
 			return texture2D;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ModContentLoader()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <LoadAllForMod>c__Iterator0 : IEnumerable, IEnumerable<LoadedContentItem<T>>, IEnumerator, IDisposable, IEnumerator<LoadedContentItem<T>>
+		{
+			internal ModContentPack mod;
+
+			internal string <contentDirPath>__0;
+
+			internal DirectoryInfo <contentDir>__0;
+
+			internal FileInfo[] $locvar0;
+
+			internal int $locvar1;
+
+			internal FileInfo <file>__1;
+
+			internal LoadedContentItem<T> <loadedItem>__2;
+
+			internal LoadedContentItem<T> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <LoadAllForMod>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
+					contentDir = new DirectoryInfo(contentDirPath);
+					if (!contentDir.Exists)
+					{
+						return false;
+					}
+					DeepProfiler.Start(string.Concat(new object[]
+					{
+						"Loading assets of type ",
+						typeof(T),
+						" for mod ",
+						mod
+					}));
+					files = contentDir.GetFiles("*.*", SearchOption.AllDirectories);
+					i = 0;
+					goto IL_141;
+				case 1u:
+					IL_132:
+					break;
+				default:
+					return false;
+				}
+				IL_133:
+				i++;
+				IL_141:
+				if (i >= files.Length)
+				{
+					DeepProfiler.End();
+					this.$PC = -1;
+				}
+				else
+				{
+					file = files[i];
+					if (!ModContentLoader<T>.IsAcceptableExtension(file.Extension))
+					{
+						goto IL_133;
+					}
+					loadedItem = ModContentLoader<T>.LoadItem(file.FullName, contentDirPath);
+					if (loadedItem != null)
+					{
+						this.$current = loadedItem;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_132;
+				}
+				return false;
+			}
+
+			LoadedContentItem<T> IEnumerator<LoadedContentItem<T>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.LoadedContentItem<T>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<LoadedContentItem<T>> IEnumerable<LoadedContentItem<T>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ModContentLoader<T>.<LoadAllForMod>c__Iterator0 <LoadAllForMod>c__Iterator = new ModContentLoader<T>.<LoadAllForMod>c__Iterator0();
+				<LoadAllForMod>c__Iterator.mod = mod;
+				return <LoadAllForMod>c__Iterator;
+			}
 		}
 	}
 }

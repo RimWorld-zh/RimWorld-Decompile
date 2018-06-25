@@ -1,24 +1,23 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008CE RID: 2254
 	public abstract class Lesson_Instruction : Lesson
 	{
-		// Token: 0x04001BAE RID: 7086
 		public InstructionDef def;
 
-		// Token: 0x04001BAF RID: 7087
 		private const float RectWidth = 310f;
 
-		// Token: 0x04001BB0 RID: 7088
 		private const float BarHeight = 30f;
 
-		// Token: 0x1700083A RID: 2106
-		// (get) Token: 0x06003398 RID: 13208 RVA: 0x001B7588 File Offset: 0x001B5988
+		protected Lesson_Instruction()
+		{
+		}
+
 		protected Map Map
 		{
 			get
@@ -27,8 +26,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700083B RID: 2107
-		// (get) Token: 0x06003399 RID: 13209 RVA: 0x001B75A4 File Offset: 0x001B59A4
 		protected virtual float ProgressPercent
 		{
 			get
@@ -37,8 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700083C RID: 2108
-		// (get) Token: 0x0600339A RID: 13210 RVA: 0x001B75C0 File Offset: 0x001B59C0
 		protected virtual bool ShowProgressBar
 		{
 			get
@@ -47,8 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700083D RID: 2109
-		// (get) Token: 0x0600339B RID: 13211 RVA: 0x001B75E8 File Offset: 0x001B59E8
 		public override string DefaultRejectInputMessage
 		{
 			get
@@ -57,8 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700083E RID: 2110
-		// (get) Token: 0x0600339C RID: 13212 RVA: 0x001B7608 File Offset: 0x001B5A08
 		public override InstructionDef Instruction
 		{
 			get
@@ -67,14 +58,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600339D RID: 13213 RVA: 0x001B7623 File Offset: 0x001B5A23
 		public override void ExposeData()
 		{
 			Scribe_Defs.Look<InstructionDef>(ref this.def, "def");
 			base.ExposeData();
 		}
 
-		// Token: 0x0600339E RID: 13214 RVA: 0x001B763C File Offset: 0x001B5A3C
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -100,7 +89,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600339F RID: 13215 RVA: 0x001B776C File Offset: 0x001B5B6C
 		public override void LessonOnGUI()
 		{
 			Text.Font = GameFont.Small;
@@ -179,7 +167,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033A0 RID: 13216 RVA: 0x001B79DF File Offset: 0x001B5DDF
 		public override void Notify_Event(EventPack ep)
 		{
 			if (this.def.eventTagsEnd != null && this.def.eventTagsEnd.Contains(ep.Tag))
@@ -188,13 +175,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033A1 RID: 13217 RVA: 0x001B7A18 File Offset: 0x001B5E18
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			return this.def.actionTagsAllowed != null && this.def.actionTagsAllowed.Contains(ep.Tag);
 		}
 
-		// Token: 0x060033A2 RID: 13218 RVA: 0x001B7A5C File Offset: 0x001B5E5C
 		public override void PostDeactivated()
 		{
 			SoundDefOf.CommsWindow_Close.PlayOneShotOnCamera(null);
@@ -204,6 +189,74 @@ namespace RimWorld
 				Find.ActiveLesson.Deactivate();
 				Find.TutorialState.Notify_TutorialEnding();
 				LessonAutoActivator.Notify_TutorialEnding();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LessonOnGUI>c__AnonStorey2
+		{
+			internal Rect mainRect;
+
+			internal string textAdj;
+
+			internal Lesson_Instruction $this;
+
+			public <LessonOnGUI>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Rect rect = this.mainRect.AtZero();
+				Widgets.DrawWindowBackgroundTutor(rect);
+				Rect rect2 = rect.ContractedBy(10f);
+				Text.Font = GameFont.Small;
+				Rect rect3 = rect2;
+				if (this.$this.ShowProgressBar)
+				{
+					rect3.height -= 47f;
+				}
+				Widgets.Label(rect3, this.textAdj);
+				if (this.$this.ShowProgressBar)
+				{
+					Rect rect4 = new Rect(rect2.x, rect2.yMax - 30f, rect2.width, 30f);
+					Widgets.FillableBar(rect4, this.$this.ProgressPercent, LearningReadout.ProgressBarFillTex);
+				}
+				if (this.$this.AgeSeconds < 0.5f)
+				{
+					GUI.color = new Color(1f, 1f, 1f, Mathf.Lerp(1f, 0f, this.$this.AgeSeconds / 0.5f));
+					GUI.DrawTexture(rect, BaseContent.WhiteTex);
+					GUI.color = Color.white;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LessonOnGUI>c__AnonStorey0
+		{
+			internal float screenOverlayAlpha;
+
+			public <LessonOnGUI>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LessonOnGUI>c__AnonStorey1
+		{
+			internal Rect fullScreenRect;
+
+			internal Lesson_Instruction.<LessonOnGUI>c__AnonStorey0 <>f__ref$0;
+
+			public <LessonOnGUI>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				GUI.color = new Color(1f, 1f, 1f, this.<>f__ref$0.screenOverlayAlpha);
+				GUI.DrawTexture(this.fullScreenRect, BaseContent.BlackTex);
+				GUI.color = Color.white;
 			}
 		}
 	}

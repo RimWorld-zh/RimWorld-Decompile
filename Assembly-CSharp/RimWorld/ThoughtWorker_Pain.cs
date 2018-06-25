@@ -3,10 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000221 RID: 545
 	public class ThoughtWorker_Pain : ThoughtWorker
 	{
-		// Token: 0x06000A0D RID: 2573 RVA: 0x000594F8 File Offset: 0x000578F8
+		public ThoughtWorker_Pain()
+		{
+		}
+
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float painTotal = p.health.hediffSet.PainTotal;

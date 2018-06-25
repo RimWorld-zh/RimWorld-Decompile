@@ -5,28 +5,22 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000179 RID: 377
 	public class LordJob_VisitColony : LordJob
 	{
-		// Token: 0x04000364 RID: 868
 		private Faction faction;
 
-		// Token: 0x04000365 RID: 869
 		private IntVec3 chillSpot;
 
-		// Token: 0x060007C1 RID: 1985 RVA: 0x0004C004 File Offset: 0x0004A404
 		public LordJob_VisitColony()
 		{
 		}
 
-		// Token: 0x060007C2 RID: 1986 RVA: 0x0004C00D File Offset: 0x0004A40D
 		public LordJob_VisitColony(Faction faction, IntVec3 chillSpot)
 		{
 			this.faction = faction;
 			this.chillSpot = chillSpot;
 		}
 
-		// Token: 0x060007C3 RID: 1987 RVA: 0x0004C024 File Offset: 0x0004A424
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -109,7 +103,6 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007C4 RID: 1988 RVA: 0x0004C3A4 File Offset: 0x0004A7A4
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);

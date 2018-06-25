@@ -1,30 +1,37 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200065E RID: 1630
 	public class TaleData_Thing : TaleData
 	{
-		// Token: 0x0400135C RID: 4956
 		public int thingID;
 
-		// Token: 0x0400135D RID: 4957
 		public ThingDef thingDef;
 
-		// Token: 0x0400135E RID: 4958
 		public ThingDef stuff;
 
-		// Token: 0x0400135F RID: 4959
 		public string title;
 
-		// Token: 0x04001360 RID: 4960
 		public QualityCategory quality;
 
-		// Token: 0x06002209 RID: 8713 RVA: 0x001210A0 File Offset: 0x0011F4A0
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<CompProperties> <>f__am$cache1;
+
+		public TaleData_Thing()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.thingID, "thingID", 0, false);
@@ -34,7 +41,6 @@ namespace RimWorld
 			Scribe_Values.Look<QualityCategory>(ref this.quality, "quality", QualityCategory.Awful, false);
 		}
 
-		// Token: 0x0600220A RID: 8714 RVA: 0x00121104 File Offset: 0x0011F504
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			yield return new Rule_String(prefix + "_label", this.thingDef.label);
@@ -52,7 +58,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600220B RID: 8715 RVA: 0x00121138 File Offset: 0x0011F538
 		public static TaleData_Thing GenerateFrom(Thing t)
 		{
 			TaleData_Thing taleData_Thing = new TaleData_Thing();
@@ -68,7 +73,6 @@ namespace RimWorld
 			return taleData_Thing;
 		}
 
-		// Token: 0x0600220C RID: 8716 RVA: 0x001211AC File Offset: 0x0011F5AC
 		public static TaleData_Thing GenerateRandom()
 		{
 			ThingDef thingDef = DefDatabase<ThingDef>.AllDefs.Where(delegate(ThingDef d)
@@ -94,6 +98,162 @@ namespace RimWorld
 			}
 			thing.TryGetComp<CompArt>().InitializeArt(source);
 			return TaleData_Thing.GenerateFrom(thing);
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateRandom>m__0(ThingDef d)
+		{
+			bool result;
+			if (d.comps != null)
+			{
+				result = d.comps.Any((CompProperties cp) => cp.compClass == typeof(CompArt));
+			}
+			else
+			{
+				result = false;
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateRandom>m__1(CompProperties cp)
+		{
+			return cp.compClass == typeof(CompArt);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRules>c__Iterator0 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal string prefix;
+
+			internal TaleData_Thing $this;
+
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetRules>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = new Rule_String(prefix + "_label", this.thingDef.label);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = new Rule_String(prefix + "_definite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.thingDef.label));
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = new Rule_String(prefix + "_indefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.thingDef.label));
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					if (this.stuff != null)
+					{
+						this.$current = new Rule_String(prefix + "_stuffLabel", this.stuff.label);
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						return true;
+					}
+					break;
+				case 4u:
+					break;
+				case 5u:
+					goto IL_1A0;
+				case 6u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				if (this.title != null)
+				{
+					this.$current = new Rule_String(prefix + "_title", this.title);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_1A0:
+				this.$current = new Rule_String(prefix + "_quality", this.quality.GetLabel());
+				if (!this.$disposing)
+				{
+					this.$PC = 6;
+				}
+				return true;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TaleData_Thing.<GetRules>c__Iterator0 <GetRules>c__Iterator = new TaleData_Thing.<GetRules>c__Iterator0();
+				<GetRules>c__Iterator.$this = this;
+				<GetRules>c__Iterator.prefix = prefix;
+				return <GetRules>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006BB RID: 1723
 	public class PowerBeam : OrbitalStrike
 	{
-		// Token: 0x04001482 RID: 5250
 		public const float Radius = 15f;
 
-		// Token: 0x04001483 RID: 5251
 		private const int FiresStartedPerTick = 3;
 
-		// Token: 0x04001484 RID: 5252
 		private static readonly IntRange FlameDamageAmountRange = new IntRange(43, 95);
 
-		// Token: 0x04001485 RID: 5253
 		private static readonly IntRange CorpseFlameDamageAmountRange = new IntRange(5, 10);
 
-		// Token: 0x04001486 RID: 5254
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06002517 RID: 9495 RVA: 0x0013E7F8 File Offset: 0x0013CBF8
+		public PowerBeam()
+		{
+		}
+
 		public override void StartStrike()
 		{
 			base.StartStrike();
 			MoteMaker.MakePowerBeamMote(base.Position, base.Map);
 		}
 
-		// Token: 0x06002518 RID: 9496 RVA: 0x0013E814 File Offset: 0x0013CC14
 		public override void Tick()
 		{
 			base.Tick();
@@ -44,7 +41,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002519 RID: 9497 RVA: 0x0013E854 File Offset: 0x0013CC54
 		private void StartRandomFireAndDoFlameDamage()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
@@ -70,6 +66,23 @@ namespace RimWorld
 				thing.TakeDamage(new DamageInfo(flame, amount, -1f, instigator, null, this.weaponDef, DamageInfo.SourceCategory.ThingOrUnknown, null)).AssociateWithLog(battleLogEntry_DamageTaken);
 			}
 			PowerBeam.tmpThings.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PowerBeam()
+		{
+		}
+
+		[CompilerGenerated]
+		private bool <StartRandomFireAndDoFlameDamage>m__0(IntVec3 x)
+		{
+			return x.InBounds(base.Map);
+		}
+
+		[CompilerGenerated]
+		private float <StartRandomFireAndDoFlameDamage>m__1(IntVec3 x)
+		{
+			return 1f - Mathf.Min(x.DistanceTo(base.Position) / 15f, 1f) + 0.05f;
 		}
 	}
 }

@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000F4 RID: 244
 	public class JoyGiver_InteractBuildingInteractionCell : JoyGiver_InteractBuilding
 	{
-		// Token: 0x06000527 RID: 1319 RVA: 0x00038DE8 File Offset: 0x000371E8
+		public JoyGiver_InteractBuildingInteractionCell()
+		{
+		}
+
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
 			Job result;

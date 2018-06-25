@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
@@ -9,16 +10,21 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200047E RID: 1150
 	public static class PawnDiedOrDownedThoughtsUtility
 	{
-		// Token: 0x04000C0A RID: 3082
 		private static List<IndividualThoughtToAdd> tmpIndividualThoughtsToAdd = new List<IndividualThoughtToAdd>();
 
-		// Token: 0x04000C0B RID: 3083
 		private static List<ThoughtDef> tmpAllColonistsThoughts = new List<ThoughtDef>();
 
-		// Token: 0x06001426 RID: 5158 RVA: 0x000AF7F0 File Offset: 0x000ADBF0
+		[CompilerGenerated]
+		private static Predicate<IndividualThoughtToAdd> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<IndividualThoughtToAdd, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<IndividualThoughtToAdd, Pawn> <>f__am$cache2;
+
 		public static void TryGiveThoughts(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind)
 		{
 			try
@@ -57,7 +63,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001427 RID: 5159 RVA: 0x000AF96C File Offset: 0x000ADD6C
 		public static void TryGiveThoughts(IEnumerable<Pawn> victims, PawnDiedOrDownedThoughtsKind thoughtsKind)
 		{
 			foreach (Pawn victim in victims)
@@ -66,7 +71,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001428 RID: 5160 RVA: 0x000AF9D0 File Offset: 0x000ADDD0
 		public static void GetThoughts(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, List<IndividualThoughtToAdd> outIndividualThoughts, List<ThoughtDef> outAllColonistsThoughts)
 		{
 			outIndividualThoughts.Clear();
@@ -81,7 +85,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001429 RID: 5161 RVA: 0x000AFA2C File Offset: 0x000ADE2C
 		public static void BuildMoodThoughtsListString(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, StringBuilder sb, string individualThoughtsHeader, string allColonistsThoughtsHeader)
 		{
 			PawnDiedOrDownedThoughtsUtility.GetThoughts(victim, dinfo, thoughtsKind, PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd, PawnDiedOrDownedThoughtsUtility.tmpAllColonistsThoughts);
@@ -129,7 +132,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142A RID: 5162 RVA: 0x000AFC88 File Offset: 0x000AE088
 		public static void BuildMoodThoughtsListString(IEnumerable<Pawn> victims, PawnDiedOrDownedThoughtsKind thoughtsKind, StringBuilder sb, string individualThoughtsHeader, string allColonistsThoughtsHeader, string victimLabelKey)
 		{
 			foreach (Pawn pawn in victims)
@@ -159,7 +161,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142B RID: 5163 RVA: 0x000AFDA0 File Offset: 0x000AE1A0
 		private static void AppendThoughts_ForHumanlike(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, List<IndividualThoughtToAdd> outIndividualThoughts, List<ThoughtDef> outAllColonistsThoughts)
 		{
 			bool flag = dinfo != null && dinfo.Value.Def.execution;
@@ -236,7 +237,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142C RID: 5164 RVA: 0x000B01AC File Offset: 0x000AE5AC
 		private static void AppendThoughts_Relations(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, List<IndividualThoughtToAdd> outIndividualThoughts, List<ThoughtDef> outAllColonistsThoughts)
 		{
 			if (thoughtsKind == PawnDiedOrDownedThoughtsKind.Banished && victim.RaceProps.Animal)
@@ -342,7 +342,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142D RID: 5165 RVA: 0x000B061C File Offset: 0x000AEA1C
 		private static bool Witnessed(Pawn p, Pawn victim)
 		{
 			bool result;
@@ -361,7 +360,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600142E RID: 5166 RVA: 0x000B06E8 File Offset: 0x000AEAE8
 		public static void RemoveDiedThoughts(Pawn pawn)
 		{
 			foreach (Pawn pawn2 in PawnsFinder.AllMapsWorldAndTemporary_Alive)
@@ -384,6 +382,29 @@ namespace RimWorld
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnDiedOrDownedThoughtsUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <BuildMoodThoughtsListString>m__0(IndividualThoughtToAdd x)
+		{
+			return x.thought.MoodOffset() != 0f;
+		}
+
+		[CompilerGenerated]
+		private static bool <BuildMoodThoughtsListString>m__1(IndividualThoughtToAdd x)
+		{
+			return x.thought.MoodOffset() != 0f;
+		}
+
+		[CompilerGenerated]
+		private static Pawn <BuildMoodThoughtsListString>m__2(IndividualThoughtToAdd x)
+		{
+			return x.addTo;
 		}
 	}
 }

@@ -5,16 +5,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200090F RID: 2319
 	public static class SeasonUtility
 	{
-		// Token: 0x04001D34 RID: 7476
 		private const float HemisphereLerpDistance = 5f;
 
-		// Token: 0x04001D35 RID: 7477
 		private const float SeasonYearPctLerpDistance = 0.085f;
 
-		// Token: 0x04001D36 RID: 7478
 		private static readonly SimpleCurve SeasonalAreaSeasons = new SimpleCurve
 		{
 			{
@@ -59,8 +55,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x1700089A RID: 2202
-		// (get) Token: 0x06003601 RID: 13825 RVA: 0x001CFFE0 File Offset: 0x001CE3E0
 		public static Season FirstSeason
 		{
 			get
@@ -69,7 +63,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003602 RID: 13826 RVA: 0x001CFFF8 File Offset: 0x001CE3F8
 		public static Season GetReportedSeason(float yearPct, float latitude)
 		{
 			float by;
@@ -95,7 +88,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003603 RID: 13827 RVA: 0x001D0058 File Offset: 0x001CE458
 		public static Season GetDominantSeason(float yearPct, float latitude)
 		{
 			float by;
@@ -108,7 +100,6 @@ namespace RimWorld
 			return GenMath.MaxBy<Season>(Season.Spring, by, Season.Summer, by2, Season.Fall, by3, Season.Winter, by4, Season.PermanentSummer, by5, Season.PermanentWinter, by6);
 		}
 
-		// Token: 0x06003604 RID: 13828 RVA: 0x001D0098 File Offset: 0x001CE498
 		public static void GetSeason(float yearPct, float latitude, out float spring, out float summer, out float fall, out float winter, out float permanentSummer, out float permanentWinter)
 		{
 			yearPct = Mathf.Clamp01(yearPct);
@@ -139,7 +130,6 @@ namespace RimWorld
 			permanentWinter = num3;
 		}
 
-		// Token: 0x06003605 RID: 13829 RVA: 0x001D0158 File Offset: 0x001CE558
 		private static void GetSeasonalAreaSeason(float yearPct, out float spring, out float summer, out float fall, out float winter, bool northernHemisphere)
 		{
 			yearPct = Mathf.Clamp01(yearPct);
@@ -182,7 +172,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003606 RID: 13830 RVA: 0x001D0298 File Offset: 0x001CE698
 		public static Twelfth GetFirstTwelfth(this Season season, float latitude)
 		{
 			if (latitude >= 0f)
@@ -224,7 +213,6 @@ namespace RimWorld
 			return Twelfth.Undefined;
 		}
 
-		// Token: 0x06003607 RID: 13831 RVA: 0x001D0364 File Offset: 0x001CE764
 		public static Twelfth GetMiddleTwelfth(this Season season, float latitude)
 		{
 			if (latitude >= 0f)
@@ -266,7 +254,6 @@ namespace RimWorld
 			return Twelfth.Undefined;
 		}
 
-		// Token: 0x06003608 RID: 13832 RVA: 0x001D0430 File Offset: 0x001CE830
 		public static Season GetPreviousSeason(this Season season)
 		{
 			Season result;
@@ -300,7 +287,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003609 RID: 13833 RVA: 0x001D04A0 File Offset: 0x001CE8A0
 		public static float GetMiddleYearPct(this Season season, float latitude)
 		{
 			float result;
@@ -315,7 +301,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600360A RID: 13834 RVA: 0x001D04D4 File Offset: 0x001CE8D4
 		public static string Label(this Season season)
 		{
 			string result;
@@ -346,13 +331,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600360B RID: 13835 RVA: 0x001D0574 File Offset: 0x001CE974
 		public static string LabelCap(this Season season)
 		{
 			return season.Label().CapitalizeFirst();
 		}
 
-		// Token: 0x0600360C RID: 13836 RVA: 0x001D0594 File Offset: 0x001CE994
 		public static string SeasonsRangeLabel(List<Twelfth> twelfths, Vector2 longLat)
 		{
 			string result;
@@ -384,7 +367,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600360D RID: 13837 RVA: 0x001D0630 File Offset: 0x001CEA30
 		private static string SeasonsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth, Vector2 longLat)
 		{
 			Twelfth leftMostTwelfth = TwelfthUtility.GetLeftMostTwelfth(twelfths, rootTwelfth);
@@ -409,6 +391,11 @@ namespace RimWorld
 			}
 			twelfths.Remove(rightMostTwelfth);
 			return GenDate.SeasonDateStringAt(leftMostTwelfth, longLat) + " - " + GenDate.SeasonDateStringAt(rightMostTwelfth, longLat);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SeasonUtility()
+		{
 		}
 	}
 }

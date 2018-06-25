@@ -1,32 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000802 RID: 2050
 	public class Dialog_ManageOutfits : Window
 	{
-		// Token: 0x0400184A RID: 6218
 		private Vector2 scrollPosition;
 
-		// Token: 0x0400184B RID: 6219
 		private Outfit selOutfitInt = null;
 
-		// Token: 0x0400184C RID: 6220
 		private const float TopAreaHeight = 40f;
 
-		// Token: 0x0400184D RID: 6221
 		private const float TopButtonHeight = 35f;
 
-		// Token: 0x0400184E RID: 6222
 		private const float TopButtonWidth = 150f;
 
-		// Token: 0x0400184F RID: 6223
 		private static ThingFilter apparelGlobalFilter;
 
-		// Token: 0x06002DC6 RID: 11718 RVA: 0x00181C84 File Offset: 0x00180084
 		public Dialog_ManageOutfits(Outfit selectedOutfit)
 		{
 			this.forcePause = true;
@@ -42,9 +38,6 @@ namespace RimWorld
 			this.SelectedOutfit = selectedOutfit;
 		}
 
-		// Token: 0x17000750 RID: 1872
-		// (get) Token: 0x06002DC7 RID: 11719 RVA: 0x00181CF4 File Offset: 0x001800F4
-		// (set) Token: 0x06002DC8 RID: 11720 RVA: 0x00181D0F File Offset: 0x0018010F
 		private Outfit SelectedOutfit
 		{
 			get
@@ -58,8 +51,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000751 RID: 1873
-		// (get) Token: 0x06002DC9 RID: 11721 RVA: 0x00181D20 File Offset: 0x00180120
 		public override Vector2 InitialSize
 		{
 			get
@@ -68,7 +59,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCA RID: 11722 RVA: 0x00181D44 File Offset: 0x00180144
 		private void CheckSelectedOutfitHasName()
 		{
 			if (this.SelectedOutfit != null && this.SelectedOutfit.label.NullOrEmpty())
@@ -77,7 +67,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCB RID: 11723 RVA: 0x00181D78 File Offset: 0x00180178
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = 0f;
@@ -153,24 +142,145 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCC RID: 11724 RVA: 0x001820E8 File Offset: 0x001804E8
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
 		{
 			yield return SpecialThingFilterDefOf.AllowNonDeadmansApparel;
 			yield break;
 		}
 
-		// Token: 0x06002DCD RID: 11725 RVA: 0x0018210B File Offset: 0x0018050B
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.CheckSelectedOutfitHasName();
 		}
 
-		// Token: 0x06002DCE RID: 11726 RVA: 0x0018211A File Offset: 0x0018051A
 		public static void DoNameInputRect(Rect rect, ref string name)
 		{
 			name = Widgets.TextField(rect, name, 30, Outfit.ValidNameRegex);
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey1
+		{
+			internal Outfit localOut;
+
+			internal Dialog_ManageOutfits $this;
+
+			public <DoWindowContents>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.SelectedOutfit = this.localOut;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey2
+		{
+			internal Outfit localOut;
+
+			internal Dialog_ManageOutfits $this;
+
+			public <DoWindowContents>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				AcceptanceReport acceptanceReport = Current.Game.outfitDatabase.TryDelete(this.localOut);
+				if (!acceptanceReport.Accepted)
+				{
+					Messages.Message(acceptanceReport.Reason, MessageTypeDefOf.RejectInput, false);
+				}
+				else if (this.localOut == this.$this.SelectedOutfit)
+				{
+					this.$this.SelectedOutfit = null;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HiddenSpecialThingFilters>c__Iterator0 : IEnumerable, IEnumerable<SpecialThingFilterDef>, IEnumerator, IDisposable, IEnumerator<SpecialThingFilterDef>
+		{
+			internal SpecialThingFilterDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <HiddenSpecialThingFilters>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = SpecialThingFilterDefOf.AllowNonDeadmansApparel;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			SpecialThingFilterDef IEnumerator<SpecialThingFilterDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.SpecialThingFilterDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<SpecialThingFilterDef> IEnumerable<SpecialThingFilterDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator0();
+			}
 		}
 	}
 }

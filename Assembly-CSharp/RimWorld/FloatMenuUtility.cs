@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200083E RID: 2110
 	public static class FloatMenuUtility
 	{
-		// Token: 0x06002FC0 RID: 12224 RVA: 0x0019DEE8 File Offset: 0x0019C2E8
 		public static void MakeMenu<T>(IEnumerable<T> objects, Func<T, string> labelGetter, Func<T, Action> actionGetter)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -20,7 +19,6 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06002FC1 RID: 12225 RVA: 0x0019DF74 File Offset: 0x0019C374
 		public static Action GetRangedAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
 			failStr = "";
@@ -85,7 +83,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FC2 RID: 12226 RVA: 0x0019E144 File Offset: 0x0019C544
 		public static Action GetMeleeAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
 			failStr = "";
@@ -135,7 +132,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002FC3 RID: 12227 RVA: 0x0019E2B4 File Offset: 0x0019C6B4
 		public static Action GetAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
 			Action result;
@@ -150,7 +146,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FC4 RID: 12228 RVA: 0x0019E310 File Offset: 0x0019C710
 		public static FloatMenuOption DecoratePrioritizedTask(FloatMenuOption option, Pawn pawn, LocalTargetInfo target, string reservedText = "ReservedBy")
 		{
 			FloatMenuOption result;
@@ -183,6 +178,47 @@ namespace RimWorld
 				result = option;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRangedAttackAction>c__AnonStorey0
+		{
+			internal LocalTargetInfo target;
+
+			internal Pawn pawn;
+
+			public <GetRangedAttackAction>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Job job = new Job(JobDefOf.AttackStatic, this.target);
+				this.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetMeleeAttackAction>c__AnonStorey1
+		{
+			internal LocalTargetInfo target;
+
+			internal Pawn pawn;
+
+			public <GetMeleeAttackAction>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Job job = new Job(JobDefOf.AttackMelee, this.target);
+				Pawn pawn = this.target.Thing as Pawn;
+				if (pawn != null)
+				{
+					job.killIncappedTarget = pawn.Downed;
+				}
+				this.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
 		}
 	}
 }

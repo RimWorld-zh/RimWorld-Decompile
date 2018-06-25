@@ -5,13 +5,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003BD RID: 957
 	public class SymbolResolver_AddWortToFermentingBarrels : SymbolResolver
 	{
-		// Token: 0x04000A2B RID: 2603
 		private static List<Building_FermentingBarrel> barrels = new List<Building_FermentingBarrel>();
 
-		// Token: 0x06001094 RID: 4244 RVA: 0x0008C8BC File Offset: 0x0008ACBC
+		public SymbolResolver_AddWortToFermentingBarrels()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -45,6 +46,11 @@ namespace RimWorld.BaseGen
 				}
 			}
 			SymbolResolver_AddWortToFermentingBarrels.barrels.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_AddWortToFermentingBarrels()
+		{
 		}
 	}
 }

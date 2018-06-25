@@ -1,52 +1,50 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BB7 RID: 2999
 	public class WorkTypeDef : Def
 	{
-		// Token: 0x04002C6C RID: 11372
 		public WorkTags workTags;
 
-		// Token: 0x04002C6D RID: 11373
 		[MustTranslate]
 		public string labelShort;
 
-		// Token: 0x04002C6E RID: 11374
 		[MustTranslate]
 		public string pawnLabel;
 
-		// Token: 0x04002C6F RID: 11375
 		[MustTranslate]
 		public string gerundLabel;
 
-		// Token: 0x04002C70 RID: 11376
 		[MustTranslate]
 		public string verb;
 
-		// Token: 0x04002C71 RID: 11377
 		public bool visible = true;
 
-		// Token: 0x04002C72 RID: 11378
 		public int naturalPriority = 0;
 
-		// Token: 0x04002C73 RID: 11379
 		public bool alwaysStartActive = false;
 
-		// Token: 0x04002C74 RID: 11380
 		public bool requireCapableColonist = false;
 
-		// Token: 0x04002C75 RID: 11381
 		public List<SkillDef> relevantSkills = new List<SkillDef>();
 
-		// Token: 0x04002C76 RID: 11382
 		[Unsaved]
 		public List<WorkGiverDef> workGiversByPriority = new List<WorkGiverDef>();
 
-		// Token: 0x060040F9 RID: 16633 RVA: 0x002253D8 File Offset: 0x002237D8
+		[CompilerGenerated]
+		private static Func<WorkGiverDef, int> <>f__am$cache0;
+
+		public WorkTypeDef()
+		{
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -60,7 +58,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040FA RID: 16634 RVA: 0x00225404 File Offset: 0x00223804
 		public override void ResolveReferences()
 		{
 			foreach (WorkGiverDef item in from d in DefDatabase<WorkGiverDef>.AllDefs
@@ -72,10 +69,174 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040FB RID: 16635 RVA: 0x00225498 File Offset: 0x00223898
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<string>(this.defName.GetHashCode(), this.gerundLabel);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private bool <ResolveReferences>m__0(WorkGiverDef d)
+		{
+			return d.workType == this;
+		}
+
+		[CompilerGenerated]
+		private static int <ResolveReferences>m__1(WorkGiverDef d)
+		{
+			return d.priorityInType;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal WorkTypeDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_117;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.naturalPriority >= 0 && this.naturalPriority <= 10000)
+				{
+					goto IL_117;
+				}
+				this.$current = "naturalPriority is " + this.naturalPriority + ", but it must be between 0 and 10000";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_117:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkTypeDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new WorkTypeDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

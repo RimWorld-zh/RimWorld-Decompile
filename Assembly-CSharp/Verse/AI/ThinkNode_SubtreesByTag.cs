@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AC0 RID: 2752
 	public class ThinkNode_SubtreesByTag : ThinkNode
 	{
-		// Token: 0x040026A8 RID: 9896
 		[NoTranslate]
 		public string insertTag;
 
-		// Token: 0x040026A9 RID: 9897
 		[Unsaved]
 		private List<ThinkTreeDef> matchedTrees = null;
 
-		// Token: 0x06003D41 RID: 15681 RVA: 0x00205864 File Offset: 0x00203C64
+		[CompilerGenerated]
+		private static Func<ThinkTreeDef, float> <>f__am$cache0;
+
+		public ThinkNode_SubtreesByTag()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_SubtreesByTag thinkNode_SubtreesByTag = (ThinkNode_SubtreesByTag)base.DeepCopy(resolve);
@@ -23,12 +27,10 @@ namespace Verse.AI
 			return thinkNode_SubtreesByTag;
 		}
 
-		// Token: 0x06003D42 RID: 15682 RVA: 0x00205893 File Offset: 0x00203C93
 		protected override void ResolveSubnodes()
 		{
 		}
 
-		// Token: 0x06003D43 RID: 15683 RVA: 0x00205898 File Offset: 0x00203C98
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			if (this.matchedTrees == null)
@@ -54,6 +56,12 @@ namespace Verse.AI
 				}
 			}
 			return ThinkResult.NoJob;
+		}
+
+		[CompilerGenerated]
+		private static float <TryIssueJobPackage>m__0(ThinkTreeDef tDef)
+		{
+			return tDef.insertPriority;
 		}
 	}
 }

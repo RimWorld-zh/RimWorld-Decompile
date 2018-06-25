@@ -4,13 +4,14 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A68 RID: 2664
 	public class MentalStateWorker_BedroomTantrum : MentalStateWorker
 	{
-		// Token: 0x0400256B RID: 9579
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06003B3F RID: 15167 RVA: 0x001F6E28 File Offset: 0x001F5228
+		public MentalStateWorker_BedroomTantrum()
+		{
+		}
+
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -35,6 +36,11 @@ namespace Verse.AI
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MentalStateWorker_BedroomTantrum()
+		{
 		}
 	}
 }

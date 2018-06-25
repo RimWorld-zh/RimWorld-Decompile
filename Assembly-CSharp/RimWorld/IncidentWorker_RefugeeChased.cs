@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200033D RID: 829
 	public class IncidentWorker_RefugeeChased : IncidentWorker
 	{
-		// Token: 0x040008E6 RID: 2278
 		private static readonly IntRange RaidDelay = new IntRange(1000, 2500);
 
-		// Token: 0x040008E7 RID: 2279
 		private const float RaidPointsFactor = 1.35f;
 
-		// Token: 0x040008E8 RID: 2280
 		private const float RelationWithColonistWeight = 20f;
 
-		// Token: 0x06000E23 RID: 3619 RVA: 0x0007854C File Offset: 0x0007694C
+		[CompilerGenerated]
+		private static Func<Faction, bool> <>f__am$cache0;
+
+		public IncidentWorker_RefugeeChased()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -35,7 +38,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E24 RID: 3620 RVA: 0x0007859C File Offset: 0x0007699C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -110,18 +112,79 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E25 RID: 3621 RVA: 0x00078830 File Offset: 0x00076C30
 		private bool TryFindSpawnSpot(Map map, out IntVec3 spawnSpot)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out spawnSpot);
 		}
 
-		// Token: 0x06000E26 RID: 3622 RVA: 0x00078870 File Offset: 0x00076C70
 		private bool TryFindEnemyFaction(out Faction enemyFac)
 		{
 			return (from f in Find.FactionManager.AllFactions
 			where !f.def.hidden && !f.defeated && f.HostileTo(Faction.OfPlayer)
 			select f).TryRandomElement(out enemyFac);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_RefugeeChased()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindEnemyFaction>m__0(Faction f)
+		{
+			return !f.def.hidden && !f.defeated && f.HostileTo(Faction.OfPlayer);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExecuteWorker>c__AnonStorey0
+		{
+			internal Pawn refugee;
+
+			internal IntVec3 spawnSpot;
+
+			internal Map map;
+
+			internal Faction enemyFac;
+
+			public <TryExecuteWorker>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				GenSpawn.Spawn(this.refugee, this.spawnSpot, this.map, WipeMode.Vanish);
+				this.refugee.SetFaction(Faction.OfPlayer, null);
+				CameraJumper.TryJump(this.refugee);
+				IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, this.map);
+				incidentParms.forced = true;
+				incidentParms.faction = this.enemyFac;
+				incidentParms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
+				incidentParms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
+				incidentParms.spawnCenter = this.spawnSpot;
+				incidentParms.points *= 1.35f;
+				QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange);
+				Find.Storyteller.incidentQueue.Add(qi);
+			}
+
+			internal void <>m__1()
+			{
+				Find.WorldPawns.PassToWorld(this.refugee, PawnDiscardDecideMode.Decide);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSpawnSpot>c__AnonStorey1
+		{
+			internal Map map;
+
+			public <TryFindSpawnSpot>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return this.map.reachability.CanReachColony(c);
+			}
 		}
 	}
 }

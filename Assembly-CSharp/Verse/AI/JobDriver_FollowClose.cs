@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A35 RID: 2613
 	public class JobDriver_FollowClose : JobDriver
 	{
-		// Token: 0x0400250C RID: 9484
 		private const TargetIndex FolloweeInd = TargetIndex.A;
 
-		// Token: 0x0400250D RID: 9485
 		private const int CheckPathIntervalTicks = 30;
 
-		// Token: 0x170008E8 RID: 2280
-		// (get) Token: 0x060039FB RID: 14843 RVA: 0x001EA7E0 File Offset: 0x001E8BE0
+		public JobDriver_FollowClose()
+		{
+		}
+
 		private Pawn Followee
 		{
 			get
@@ -23,8 +26,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008E9 RID: 2281
-		// (get) Token: 0x060039FC RID: 14844 RVA: 0x001EA810 File Offset: 0x001E8C10
 		private bool CurrentlyWalkingToFollowee
 		{
 			get
@@ -33,13 +34,11 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060039FD RID: 14845 RVA: 0x001EA860 File Offset: 0x001E8C60
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060039FE RID: 14846 RVA: 0x001EA878 File Offset: 0x001E8C78
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -50,7 +49,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060039FF RID: 14847 RVA: 0x001EA8D0 File Offset: 0x001E8CD0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -123,13 +121,11 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A00 RID: 14848 RVA: 0x001EA8FC File Offset: 0x001E8CFC
 		public override bool IsContinuation(Job j)
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
 
-		// Token: 0x06003A01 RID: 14849 RVA: 0x001EA92C File Offset: 0x001E8D2C
 		public static bool FarEnoughAndPossibleToStartJob(Pawn follower, Pawn followee, float radius)
 		{
 			bool result;
@@ -155,13 +151,11 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A02 RID: 14850 RVA: 0x001EAA10 File Offset: 0x001E8E10
 		private static bool NearFollowee(Pawn follower, Pawn followee, float radius)
 		{
 			return follower.Position.AdjacentTo8WayOrInside(followee.Position) || (follower.Position.InHorDistOf(followee.Position, radius) && GenSight.LineOfSight(follower.Position, followee.Position, follower.Map, false, null, 0, 0));
 		}
 
-		// Token: 0x06003A03 RID: 14851 RVA: 0x001EAA7C File Offset: 0x001E8E7C
 		private static bool NearDestinationOrNotMoving(Pawn follower, Pawn followee, float radius)
 		{
 			bool result;
@@ -175,6 +169,224 @@ namespace Verse.AI
 				result = (!lastPassableCellInPath.IsValid || follower.Position.AdjacentTo8WayOrInside(lastPassableCellInPath) || follower.Position.InHorDistOf(lastPassableCellInPath, radius));
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <follow>__0;
+
+			internal JobDriver_FollowClose $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					this.FailOnDespawnedOrNull(TargetIndex.A);
+					Toil follow = new Toil();
+					follow.tickAction = delegate()
+					{
+						Pawn followee = base.Followee;
+						float followRadius = this.job.followRadius;
+						if (!this.pawn.pather.Moving || this.pawn.IsHashIntervalTick(30))
+						{
+							bool flag = false;
+							if (base.CurrentlyWalkingToFollowee)
+							{
+								if (JobDriver_FollowClose.NearFollowee(this.pawn, followee, followRadius))
+								{
+									flag = true;
+								}
+							}
+							else
+							{
+								float radius = followRadius * 1.2f;
+								if (JobDriver_FollowClose.NearFollowee(this.pawn, followee, radius))
+								{
+									flag = true;
+								}
+								else
+								{
+									if (!this.pawn.CanReach(followee, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+									{
+										base.EndJobWith(JobCondition.Incompletable);
+										return;
+									}
+									this.pawn.pather.StartPath(followee, PathEndMode.Touch);
+									this.locomotionUrgencySameAs = null;
+								}
+							}
+							if (flag)
+							{
+								if (JobDriver_FollowClose.NearDestinationOrNotMoving(this.pawn, followee, followRadius))
+								{
+									base.EndJobWith(JobCondition.Succeeded);
+								}
+								else
+								{
+									IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
+									if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
+									{
+										IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
+										if (intVec == this.pawn.Position)
+										{
+											base.EndJobWith(JobCondition.Succeeded);
+										}
+										else if (intVec.IsValid && this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+										{
+											this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
+											this.locomotionUrgencySameAs = followee;
+										}
+										else
+										{
+											base.EndJobWith(JobCondition.Incompletable);
+										}
+									}
+								}
+							}
+						}
+					};
+					follow.defaultCompleteMode = ToilCompleteMode.Never;
+					this.$current = follow;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_FollowClose.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_FollowClose.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				Pawn followee = base.Followee;
+				float followRadius = this.job.followRadius;
+				if (!this.pawn.pather.Moving || this.pawn.IsHashIntervalTick(30))
+				{
+					bool flag = false;
+					if (base.CurrentlyWalkingToFollowee)
+					{
+						if (JobDriver_FollowClose.NearFollowee(this.pawn, followee, followRadius))
+						{
+							flag = true;
+						}
+					}
+					else
+					{
+						float radius = followRadius * 1.2f;
+						if (JobDriver_FollowClose.NearFollowee(this.pawn, followee, radius))
+						{
+							flag = true;
+						}
+						else
+						{
+							if (!this.pawn.CanReach(followee, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+							{
+								base.EndJobWith(JobCondition.Incompletable);
+								return;
+							}
+							this.pawn.pather.StartPath(followee, PathEndMode.Touch);
+							this.locomotionUrgencySameAs = null;
+						}
+					}
+					if (flag)
+					{
+						if (JobDriver_FollowClose.NearDestinationOrNotMoving(this.pawn, followee, followRadius))
+						{
+							base.EndJobWith(JobCondition.Succeeded);
+						}
+						else
+						{
+							IntVec3 lastPassableCellInPath = followee.pather.LastPassableCellInPath;
+							if (!this.pawn.pather.Moving || this.pawn.pather.Destination.HasThing || !this.pawn.pather.Destination.Cell.InHorDistOf(lastPassableCellInPath, followRadius))
+							{
+								IntVec3 intVec = CellFinder.RandomClosewalkCellNear(lastPassableCellInPath, base.Map, Mathf.FloorToInt(followRadius), null);
+								if (intVec == this.pawn.Position)
+								{
+									base.EndJobWith(JobCondition.Succeeded);
+								}
+								else if (intVec.IsValid && this.pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+								{
+									this.pawn.pather.StartPath(intVec, PathEndMode.OnCell);
+									this.locomotionUrgencySameAs = followee;
+								}
+								else
+								{
+									base.EndJobWith(JobCondition.Incompletable);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000114 RID: 276
 	public class JobGiver_SocialFighting : ThinkNode_JobGiver
 	{
-		// Token: 0x060005A5 RID: 1445 RVA: 0x0003CA8C File Offset: 0x0003AE8C
+		public JobGiver_SocialFighting()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

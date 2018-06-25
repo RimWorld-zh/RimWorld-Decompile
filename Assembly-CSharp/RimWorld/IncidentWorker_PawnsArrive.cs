@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000349 RID: 841
 	public abstract class IncidentWorker_PawnsArrive : IncidentWorker
 	{
-		// Token: 0x06000E6A RID: 3690 RVA: 0x00079744 File Offset: 0x00077B44
+		protected IncidentWorker_PawnsArrive()
+		{
+		}
+
 		protected IEnumerable<Faction> CandidateFactions(Map map, bool desperate = false)
 		{
 			return from f in Find.FactionManager.AllFactions
@@ -17,7 +20,6 @@ namespace RimWorld
 			select f;
 		}
 
-		// Token: 0x06000E6B RID: 3691 RVA: 0x00079790 File Offset: 0x00077B90
 		protected virtual bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			bool result;
@@ -43,14 +45,12 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E6C RID: 3692 RVA: 0x0007981C File Offset: 0x00077C1C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return this.CandidateFactions(map, false).Any<Faction>();
 		}
 
-		// Token: 0x06000E6D RID: 3693 RVA: 0x0007984C File Offset: 0x00077C4C
 		public string DebugListingOfGroupSources()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -68,6 +68,25 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 			}
 			return stringBuilder.ToString();
+		}
+
+		[CompilerGenerated]
+		private sealed class <CandidateFactions>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal bool desperate;
+
+			internal IncidentWorker_PawnsArrive $this;
+
+			public <CandidateFactions>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Faction f)
+			{
+				return this.$this.FactionCanBeGroupSource(f, this.map, this.desperate);
+			}
 		}
 	}
 }

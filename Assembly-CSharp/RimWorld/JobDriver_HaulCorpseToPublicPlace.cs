@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200006C RID: 108
 	public class JobDriver_HaulCorpseToPublicPlace : JobDriver
 	{
-		// Token: 0x0400020F RID: 527
 		private const TargetIndex CorpseInd = TargetIndex.A;
 
-		// Token: 0x04000210 RID: 528
 		private const TargetIndex GraveInd = TargetIndex.B;
 
-		// Token: 0x04000211 RID: 529
 		private const TargetIndex CellInd = TargetIndex.C;
 
-		// Token: 0x04000212 RID: 530
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x17000099 RID: 153
-		// (get) Token: 0x060002F3 RID: 755 RVA: 0x0001FF7C File Offset: 0x0001E37C
+		public JobDriver_HaulCorpseToPublicPlace()
+		{
+		}
+
 		private Corpse Corpse
 		{
 			get
@@ -30,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700009A RID: 154
-		// (get) Token: 0x060002F4 RID: 756 RVA: 0x0001FFAC File Offset: 0x0001E3AC
 		private Building_Grave Grave
 		{
 			get
@@ -40,8 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700009B RID: 155
-		// (get) Token: 0x060002F5 RID: 757 RVA: 0x0001FFDC File Offset: 0x0001E3DC
 		private bool InGrave
 		{
 			get
@@ -50,8 +47,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700009C RID: 156
-		// (get) Token: 0x060002F6 RID: 758 RVA: 0x00020000 File Offset: 0x0001E400
 		private Thing Target
 		{
 			get
@@ -60,13 +55,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060002F7 RID: 759 RVA: 0x00020028 File Offset: 0x0001E428
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Target, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060002F8 RID: 760 RVA: 0x0002005C File Offset: 0x0001E45C
 		public override string GetReport()
 		{
 			string result;
@@ -81,7 +74,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060002F9 RID: 761 RVA: 0x000200A8 File Offset: 0x0001E4A8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -101,7 +93,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060002FA RID: 762 RVA: 0x000200D4 File Offset: 0x0001E4D4
 		private Toil FindCellToDropCorpseToil()
 		{
 			return new Toil
@@ -128,7 +119,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060002FB RID: 763 RVA: 0x0002010C File Offset: 0x0001E50C
 		private Toil ForbidAndNotifyMentalStateToil()
 		{
 			return new Toil
@@ -150,7 +140,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060002FC RID: 764 RVA: 0x00020144 File Offset: 0x0001E544
 		private bool TryFindTableCell(out IntVec3 cell)
 		{
 			JobDriver_HaulCorpseToPublicPlace.tmpCells.Clear();
@@ -184,6 +173,225 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobDriver_HaulCorpseToPublicPlace()
+		{
+		}
+
+		[CompilerGenerated]
+		private void <FindCellToDropCorpseToil>m__0()
+		{
+			IntVec3 c = IntVec3.Invalid;
+			if (!Rand.Chance(0.8f) || !this.TryFindTableCell(out c))
+			{
+				bool flag = false;
+				IntVec3 root;
+				if (RCellFinder.TryFindRandomSpotJustOutsideColony(this.pawn, out root) && CellFinder.TryRandomClosewalkCellNear(root, this.pawn.Map, 5, out c, (IntVec3 x) => this.pawn.CanReserve(x, 1, -1, null, false) && x.GetFirstItem(this.pawn.Map) == null))
+				{
+					flag = true;
+				}
+				if (!flag)
+				{
+					c = CellFinder.RandomClosewalkCellNear(this.pawn.Position, this.pawn.Map, 10, (IntVec3 x) => this.pawn.CanReserve(x, 1, -1, null, false) && x.GetFirstItem(this.pawn.Map) == null);
+				}
+			}
+			this.job.SetTarget(TargetIndex.C, c);
+		}
+
+		[CompilerGenerated]
+		private void <ForbidAndNotifyMentalStateToil>m__1()
+		{
+			Corpse corpse = this.Corpse;
+			if (corpse != null)
+			{
+				corpse.SetForbidden(true, true);
+			}
+			MentalState_CorpseObsession mentalState_CorpseObsession = this.pawn.MentalState as MentalState_CorpseObsession;
+			if (mentalState_CorpseObsession != null)
+			{
+				mentalState_CorpseObsession.Notify_CorpseHauled();
+			}
+		}
+
+		[CompilerGenerated]
+		private bool <FindCellToDropCorpseToil>m__2(IntVec3 x)
+		{
+			return this.pawn.CanReserve(x, 1, -1, null, false) && x.GetFirstItem(this.pawn.Map) == null;
+		}
+
+		[CompilerGenerated]
+		private bool <FindCellToDropCorpseToil>m__3(IntVec3 x)
+		{
+			return this.pawn.CanReserve(x, 1, -1, null, false) && x.GetFirstItem(this.pawn.Map) == null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <gotoCorpse>__0;
+
+			internal JobDriver_HaulCorpseToPublicPlace $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDestroyedOrNull(TargetIndex.A);
+					gotoCorpse = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A);
+					this.$current = Toils_Jump.JumpIfTargetInvalid(TargetIndex.B, gotoCorpse);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.InteractionCell).FailOnDespawnedOrNull(TargetIndex.B);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_General.Wait(300).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f).FailOnDespawnedOrNull(TargetIndex.B).FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = Toils_General.Open(TargetIndex.B);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = gotoCorpse;
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					this.$current = base.FindCellToDropCorpseToil();
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				case 8u:
+					this.$current = Toils_Reserve.Reserve(TargetIndex.C, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 9;
+					}
+					return true;
+				case 9u:
+					this.$current = Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 10;
+					}
+					return true;
+				case 10u:
+					this.$current = Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, null, false);
+					if (!this.$disposing)
+					{
+						this.$PC = 11;
+					}
+					return true;
+				case 11u:
+					this.$current = base.ForbidAndNotifyMentalStateToil();
+					if (!this.$disposing)
+					{
+						this.$PC = 12;
+					}
+					return true;
+				case 12u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_HaulCorpseToPublicPlace.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_HaulCorpseToPublicPlace.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
 		}
 	}
 }

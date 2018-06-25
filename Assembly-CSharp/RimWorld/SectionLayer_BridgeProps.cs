@@ -4,24 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200038E RID: 910
 	[StaticConstructorOnStartup]
 	public class SectionLayer_BridgeProps : SectionLayer
 	{
-		// Token: 0x040009A8 RID: 2472
 		private static readonly Material PropsLoopMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Loop", ShaderDatabase.Transparent);
 
-		// Token: 0x040009A9 RID: 2473
 		private static readonly Material PropsRightMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Right", ShaderDatabase.Transparent);
 
-		// Token: 0x06000FDB RID: 4059 RVA: 0x00085038 File Offset: 0x00083438
 		public SectionLayer_BridgeProps(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
-		// Token: 0x17000242 RID: 578
-		// (get) Token: 0x06000FDC RID: 4060 RVA: 0x0008504C File Offset: 0x0008344C
 		public override bool Visible
 		{
 			get
@@ -30,7 +24,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FDD RID: 4061 RVA: 0x00085068 File Offset: 0x00083468
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -77,7 +70,6 @@ namespace RimWorld
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x06000FDE RID: 4062 RVA: 0x000852AC File Offset: 0x000836AC
 		private bool ShouldDrawPropsBelow(IntVec3 c, TerrainGrid terrGrid)
 		{
 			TerrainDef terrainDef = terrGrid.TerrainAt(c);
@@ -102,6 +94,11 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SectionLayer_BridgeProps()
+		{
 		}
 	}
 }

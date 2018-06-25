@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000155 RID: 341
 	public class WorkGiver_PlantsCut : WorkGiver_Scanner
 	{
-		// Token: 0x06000702 RID: 1794 RVA: 0x00047768 File Offset: 0x00045B68
+		public WorkGiver_PlantsCut()
+		{
+		}
+
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x06000703 RID: 1795 RVA: 0x00047780 File Offset: 0x00045B80
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Designation> desList = pawn.Map.designationManager.allDesignations;
@@ -29,8 +34,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x1700010E RID: 270
-		// (get) Token: 0x06000704 RID: 1796 RVA: 0x000477AC File Offset: 0x00045BAC
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -39,7 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000705 RID: 1797 RVA: 0x000477C4 File Offset: 0x00045BC4
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;
@@ -83,6 +85,116 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentialWorkThingsGlobal>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn pawn;
+
+			internal List<Designation> <desList>__0;
+
+			internal int <i>__1;
+
+			internal Designation <des>__2;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PotentialWorkThingsGlobal>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					desList = pawn.Map.designationManager.allDesignations;
+					i = 0;
+					break;
+				case 1u:
+					IL_B5:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= desList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					des = desList[i];
+					if (des.def == DesignationDefOf.CutPlant || des.def == DesignationDefOf.HarvestPlant)
+					{
+						this.$current = des.target.Thing;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_B5;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkGiver_PlantsCut.<PotentialWorkThingsGlobal>c__Iterator0 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_PlantsCut.<PotentialWorkThingsGlobal>c__Iterator0();
+				<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
+				return <PotentialWorkThingsGlobal>c__Iterator;
+			}
 		}
 	}
 }

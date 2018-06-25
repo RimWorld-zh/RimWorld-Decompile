@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000060 RID: 96
 	public class JobDriver_VisitSickPawn : JobDriver
 	{
-		// Token: 0x040001FD RID: 509
 		private const TargetIndex PatientInd = TargetIndex.A;
 
-		// Token: 0x040001FE RID: 510
 		private const TargetIndex ChairInd = TargetIndex.B;
 
-		// Token: 0x17000090 RID: 144
-		// (get) Token: 0x060002C1 RID: 705 RVA: 0x0001D998 File Offset: 0x0001BD98
+		public JobDriver_VisitSickPawn()
+		{
+		}
+
 		private Pawn Patient
 		{
 			get
@@ -24,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000091 RID: 145
-		// (get) Token: 0x060002C2 RID: 706 RVA: 0x0001D9C8 File Offset: 0x0001BDC8
 		private Thing Chair
 		{
 			get
@@ -34,7 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060002C3 RID: 707 RVA: 0x0001D9F4 File Offset: 0x0001BDF4
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -56,7 +56,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060002C4 RID: 708 RVA: 0x0001DA70 File Offset: 0x0001BE70
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -98,6 +97,172 @@ namespace RimWorld
 				defaultDuration = this.job.def.joyDuration
 			};
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <waitAndTalk>__0;
+
+			internal JobDriver_VisitSickPawn $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					this.FailOn(() => !base.Patient.InBed() || !base.Patient.Awake());
+					if (base.Chair != null)
+					{
+						this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
+					}
+					if (base.Chair != null)
+					{
+						this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.OnCell);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 1u:
+					break;
+				case 2u:
+					break;
+				case 3u:
+				{
+					Toil waitAndTalk = new Toil();
+					waitAndTalk.tickAction = delegate()
+					{
+						base.Patient.needs.joy.GainJoy(this.job.def.joyGainRate * 0.000144f, this.job.def.joyKind);
+						if (this.pawn.IsHashIntervalTick(320))
+						{
+							InteractionDef intDef = (Rand.Value >= 0.8f) ? InteractionDefOf.DeepTalk : InteractionDefOf.Chitchat;
+							this.pawn.interactions.TryInteractWith(base.Patient, intDef);
+						}
+						this.pawn.rotationTracker.FaceCell(base.Patient.Position);
+						this.pawn.GainComfortFromCellIfPossible();
+						JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.None, 1f, null);
+						if (this.pawn.needs.joy.CurLevelPercentage > 0.9999f && base.Patient.needs.joy.CurLevelPercentage > 0.9999f)
+						{
+							this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+						}
+					};
+					waitAndTalk.handlingFacing = true;
+					waitAndTalk.socialMode = RandomSocialMode.Off;
+					waitAndTalk.defaultCompleteMode = ToilCompleteMode.Delay;
+					waitAndTalk.defaultDuration = this.job.def.joyDuration;
+					this.$current = waitAndTalk;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				case 4u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				this.$current = Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
+				if (!this.$disposing)
+				{
+					this.$PC = 3;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_VisitSickPawn.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_VisitSickPawn.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !base.Patient.InBed() || !base.Patient.Awake();
+			}
+
+			internal void <>m__1()
+			{
+				base.Patient.needs.joy.GainJoy(this.job.def.joyGainRate * 0.000144f, this.job.def.joyKind);
+				if (this.pawn.IsHashIntervalTick(320))
+				{
+					InteractionDef intDef = (Rand.Value >= 0.8f) ? InteractionDefOf.DeepTalk : InteractionDefOf.Chitchat;
+					this.pawn.interactions.TryInteractWith(base.Patient, intDef);
+				}
+				this.pawn.rotationTracker.FaceCell(base.Patient.Position);
+				this.pawn.GainComfortFromCellIfPossible();
+				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.None, 1f, null);
+				if (this.pawn.needs.joy.CurLevelPercentage > 0.9999f && base.Patient.needs.joy.CurLevelPercentage > 0.9999f)
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+				}
+			}
 		}
 	}
 }

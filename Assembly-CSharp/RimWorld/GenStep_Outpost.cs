@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld.BaseGen;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200040E RID: 1038
 	public class GenStep_Outpost : GenStep
 	{
-		// Token: 0x04000ADA RID: 2778
 		private const int Size = 16;
 
-		// Token: 0x04000ADB RID: 2779
 		private static List<CellRect> possibleRects = new List<CellRect>();
 
-		// Token: 0x17000261 RID: 609
-		// (get) Token: 0x060011D2 RID: 4562 RVA: 0x0009AE90 File Offset: 0x00099290
+		public GenStep_Outpost()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -24,7 +24,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011D3 RID: 4563 RVA: 0x0009AEAC File Offset: 0x000992AC
 		public override void Generate(Map map)
 		{
 			CellRect rectToDefend;
@@ -55,7 +54,6 @@ namespace RimWorld
 			BaseGen.Generate();
 		}
 
-		// Token: 0x060011D4 RID: 4564 RVA: 0x0009AFA0 File Offset: 0x000993A0
 		private CellRect GetOutpostRect(CellRect rectToDefend, Map map)
 		{
 			GenStep_Outpost.possibleRects.Add(new CellRect(rectToDefend.minX - 1 - 16, rectToDefend.CenterCell.z - 8, 16, 16));
@@ -74,6 +72,26 @@ namespace RimWorld
 				result = rectToDefend;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenStep_Outpost()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetOutpostRect>c__AnonStorey0
+		{
+			internal CellRect mapRect;
+
+			public <GetOutpostRect>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(CellRect x)
+			{
+				return !x.FullyContainedWithin(this.mapRect);
+			}
 		}
 	}
 }

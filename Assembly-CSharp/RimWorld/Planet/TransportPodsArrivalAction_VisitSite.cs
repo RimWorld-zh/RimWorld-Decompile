@@ -1,31 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000617 RID: 1559
 	public class TransportPodsArrivalAction_VisitSite : TransportPodsArrivalAction
 	{
-		// Token: 0x04001250 RID: 4688
 		private Site site;
 
-		// Token: 0x04001251 RID: 4689
 		private PawnsArrivalModeDef arrivalMode;
 
-		// Token: 0x06001F69 RID: 8041 RVA: 0x001108CB File Offset: 0x0010ECCB
 		public TransportPodsArrivalAction_VisitSite()
 		{
 		}
 
-		// Token: 0x06001F6A RID: 8042 RVA: 0x001108D4 File Offset: 0x0010ECD4
 		public TransportPodsArrivalAction_VisitSite(Site site, PawnsArrivalModeDef arrivalMode)
 		{
 			this.site = site;
 			this.arrivalMode = arrivalMode;
 		}
 
-		// Token: 0x06001F6B RID: 8043 RVA: 0x001108EB File Offset: 0x0010ECEB
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -33,7 +31,6 @@ namespace RimWorld.Planet
 			Scribe_Defs.Look<PawnsArrivalModeDef>(ref this.arrivalMode, "arrivalMode");
 		}
 
-		// Token: 0x06001F6C RID: 8044 RVA: 0x00110918 File Offset: 0x0010ED18
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
@@ -53,13 +50,11 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F6D RID: 8045 RVA: 0x0011097C File Offset: 0x0010ED7C
 		public override bool ShouldUseLongEvent(List<ActiveDropPodInfo> pods, int tile)
 		{
 			return !this.site.HasMap;
 		}
 
-		// Token: 0x06001F6E RID: 8046 RVA: 0x001109A0 File Offset: 0x0010EDA0
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)
 		{
 			Thing lookTarget = TransportPodsArrivalActionUtility.GetLookTarget(pods);
@@ -77,7 +72,6 @@ namespace RimWorld.Planet
 			this.arrivalMode.Worker.TravelingTransportPodsArrived(pods, orGenerateMap);
 		}
 
-		// Token: 0x06001F6F RID: 8047 RVA: 0x00110A54 File Offset: 0x0010EE54
 		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, Site site)
 		{
 			FloatMenuAcceptanceReport result;
@@ -103,7 +97,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F70 RID: 8048 RVA: 0x00110AF0 File Offset: 0x0010EEF0
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Site site)
 		{
 			foreach (FloatMenuOption f in TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_VisitSite>(() => TransportPodsArrivalAction_VisitSite.CanVisit(pods, site), () => new TransportPodsArrivalAction_VisitSite(site, PawnsArrivalModeDefOf.EdgeDrop), "DropAtEdge".Translate(), representative, site.Tile))
@@ -115,6 +108,226 @@ namespace RimWorld.Planet
 				yield return f2;
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal CompLaunchable representative;
+
+			internal Site site;
+
+			internal IEnumerable<IThingHolder> pods;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <f>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <f>__2;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private TransportPodsArrivalAction_VisitSite.<GetFloatMenuOptions>c__Iterator0.<GetFloatMenuOptions>c__AnonStorey1 $locvar2;
+
+			[DebuggerHidden]
+			public <GetFloatMenuOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_VisitSite>(() => TransportPodsArrivalAction_VisitSite.CanVisit(pods, site), () => new TransportPodsArrivalAction_VisitSite(site, PawnsArrivalModeDefOf.EdgeDrop), "DropAtEdge".Translate(), representative, site.Tile).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_177;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						f = enumerator.Current;
+						this.$current = f;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_VisitSite>(() => TransportPodsArrivalAction_VisitSite.CanVisit(<GetFloatMenuOptions>c__AnonStorey.pods, <GetFloatMenuOptions>c__AnonStorey.site), () => new TransportPodsArrivalAction_VisitSite(<GetFloatMenuOptions>c__AnonStorey.site, PawnsArrivalModeDefOf.CenterDrop), "DropInCenter".Translate(), representative, <GetFloatMenuOptions>c__AnonStorey.site.Tile).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_177:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						f2 = enumerator2.Current;
+						this.$current = f2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TransportPodsArrivalAction_VisitSite.<GetFloatMenuOptions>c__Iterator0 <GetFloatMenuOptions>c__Iterator = new TransportPodsArrivalAction_VisitSite.<GetFloatMenuOptions>c__Iterator0();
+				<GetFloatMenuOptions>c__Iterator.representative = representative;
+				<GetFloatMenuOptions>c__Iterator.site = site;
+				<GetFloatMenuOptions>c__Iterator.pods = pods;
+				return <GetFloatMenuOptions>c__Iterator;
+			}
+
+			private sealed class <GetFloatMenuOptions>c__AnonStorey1
+			{
+				internal IEnumerable<IThingHolder> pods;
+
+				internal Site site;
+
+				public <GetFloatMenuOptions>c__AnonStorey1()
+				{
+				}
+
+				internal FloatMenuAcceptanceReport <>m__0()
+				{
+					return TransportPodsArrivalAction_VisitSite.CanVisit(this.pods, this.site);
+				}
+
+				internal TransportPodsArrivalAction_VisitSite <>m__1()
+				{
+					return new TransportPodsArrivalAction_VisitSite(this.site, PawnsArrivalModeDefOf.EdgeDrop);
+				}
+
+				internal FloatMenuAcceptanceReport <>m__2()
+				{
+					return TransportPodsArrivalAction_VisitSite.CanVisit(this.pods, this.site);
+				}
+
+				internal TransportPodsArrivalAction_VisitSite <>m__3()
+				{
+					return new TransportPodsArrivalAction_VisitSite(this.site, PawnsArrivalModeDefOf.CenterDrop);
+				}
+			}
 		}
 	}
 }

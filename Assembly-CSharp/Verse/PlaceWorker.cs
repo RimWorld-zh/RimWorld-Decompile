@@ -1,38 +1,110 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C67 RID: 3175
 	public abstract class PlaceWorker
 	{
-		// Token: 0x060045CA RID: 17866 RVA: 0x0024DB18 File Offset: 0x0024BF18
+		protected PlaceWorker()
+		{
+		}
+
 		public virtual AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x060045CB RID: 17867 RVA: 0x0024DB32 File Offset: 0x0024BF32
 		public virtual void PostPlace(Map map, BuildableDef def, IntVec3 loc, Rot4 rot)
 		{
 		}
 
-		// Token: 0x060045CC RID: 17868 RVA: 0x0024DB35 File Offset: 0x0024BF35
 		public virtual void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 		}
 
-		// Token: 0x060045CD RID: 17869 RVA: 0x0024DB38 File Offset: 0x0024BF38
 		public virtual bool ForceAllowPlaceOver(BuildableDef other)
 		{
 			return false;
 		}
 
-		// Token: 0x060045CE RID: 17870 RVA: 0x0024DB50 File Offset: 0x0024BF50
 		public virtual IEnumerable<TerrainAffordanceDef> DisplayAffordances()
 		{
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DisplayAffordances>c__Iterator0 : IEnumerable, IEnumerable<TerrainAffordanceDef>, IEnumerator, IDisposable, IEnumerator<TerrainAffordanceDef>
+		{
+			internal TerrainAffordanceDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <DisplayAffordances>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			TerrainAffordanceDef IEnumerator<TerrainAffordanceDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.TerrainAffordanceDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<TerrainAffordanceDef> IEnumerable<TerrainAffordanceDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PlaceWorker.<DisplayAffordances>c__Iterator0();
+			}
 		}
 	}
 }

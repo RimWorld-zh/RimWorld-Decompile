@@ -1,22 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000271 RID: 625
 	public class IngestionOutcomeDoer_OffsetNeed : IngestionOutcomeDoer
 	{
-		// Token: 0x04000523 RID: 1315
 		public NeedDef need;
 
-		// Token: 0x04000524 RID: 1316
 		public float offset = 0f;
 
-		// Token: 0x04000525 RID: 1317
 		public ChemicalDef toleranceChemical = null;
 
-		// Token: 0x06000ABB RID: 2747 RVA: 0x000612B8 File Offset: 0x0005F6B8
+		public IngestionOutcomeDoer_OffsetNeed()
+		{
+		}
+
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			if (pawn.needs != null)
@@ -31,11 +34,96 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000ABC RID: 2748 RVA: 0x00061318 File Offset: 0x0005F718
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal IngestionOutcomeDoer_OffsetNeed $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator0 <SpecialDisplayStats>c__Iterator = new IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator0();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
+			}
 		}
 	}
 }

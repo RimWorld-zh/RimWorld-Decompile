@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C0E RID: 3086
 	public sealed class DesignationManager : IExposable
 	{
-		// Token: 0x04002E22 RID: 11810
 		public Map map;
 
-		// Token: 0x04002E23 RID: 11811
 		public List<Designation> allDesignations = new List<Designation>();
 
-		// Token: 0x06004371 RID: 17265 RVA: 0x0023A147 File Offset: 0x00238547
 		public DesignationManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004372 RID: 17266 RVA: 0x0023A164 File Offset: 0x00238564
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Designation>(ref this.allDesignations, "allDesignations", LookMode.Deep, new object[0]);
@@ -55,7 +54,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004373 RID: 17267 RVA: 0x0023A2C4 File Offset: 0x002386C4
 		public void DrawDesignations()
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
@@ -67,7 +65,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004374 RID: 17268 RVA: 0x0023A344 File Offset: 0x00238744
 		public void AddDesignation(Designation newDes)
 		{
 			if (newDes.def.targetType == TargetType.Cell && this.DesignationAt(newDes.target.Cell, newDes.def) != null)
@@ -95,7 +92,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004375 RID: 17269 RVA: 0x0023A46C File Offset: 0x0023886C
 		public Designation DesignationOn(Thing t)
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
@@ -109,7 +105,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004376 RID: 17270 RVA: 0x0023A4C8 File Offset: 0x002388C8
 		public Designation DesignationOn(Thing t, DesignationDef def)
 		{
 			Designation result;
@@ -133,7 +128,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004377 RID: 17271 RVA: 0x0023A55C File Offset: 0x0023895C
 		public Designation DesignationAt(IntVec3 c, DesignationDef def)
 		{
 			Designation result;
@@ -157,7 +151,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004378 RID: 17272 RVA: 0x0023A620 File Offset: 0x00238A20
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
 		{
 			int count = this.allDesignations.Count;
@@ -171,7 +164,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004379 RID: 17273 RVA: 0x0023A654 File Offset: 0x00238A54
 		public IEnumerable<Designation> AllDesignationsAt(IntVec3 c)
 		{
 			int count = this.allDesignations.Count;
@@ -186,7 +178,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600437A RID: 17274 RVA: 0x0023A688 File Offset: 0x00238A88
 		public bool HasMapDesignationAt(IntVec3 c)
 		{
 			int count = this.allDesignations.Count;
@@ -201,7 +192,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600437B RID: 17275 RVA: 0x0023A6F8 File Offset: 0x00238AF8
 		public IEnumerable<Designation> SpawnedDesignationsOfDef(DesignationDef def)
 		{
 			int count = this.allDesignations.Count;
@@ -216,14 +206,12 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600437C RID: 17276 RVA: 0x0023A729 File Offset: 0x00238B29
 		public void RemoveDesignation(Designation des)
 		{
 			des.Notify_Removing();
 			this.allDesignations.Remove(des);
 		}
 
-		// Token: 0x0600437D RID: 17277 RVA: 0x0023A740 File Offset: 0x00238B40
 		public void TryRemoveDesignation(IntVec3 c, DesignationDef def)
 		{
 			Designation designation = this.DesignationAt(c, def);
@@ -233,7 +221,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600437E RID: 17278 RVA: 0x0023A764 File Offset: 0x00238B64
 		public void RemoveAllDesignationsOn(Thing t, bool standardCanceling = false)
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
@@ -250,7 +237,6 @@ namespace Verse
 			this.allDesignations.RemoveAll((Designation d) => (!standardCanceling || d.def.designateCancelable) && d.target.Thing == t);
 		}
 
-		// Token: 0x0600437F RID: 17279 RVA: 0x0023A808 File Offset: 0x00238C08
 		public void TryRemoveDesignationOn(Thing t, DesignationDef def)
 		{
 			Designation designation = this.DesignationOn(t, def);
@@ -260,7 +246,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004380 RID: 17280 RVA: 0x0023A82C File Offset: 0x00238C2C
 		public void RemoveAllDesignationsOfDef(DesignationDef def)
 		{
 			for (int i = this.allDesignations.Count - 1; i >= 0; i--)
@@ -273,7 +258,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004381 RID: 17281 RVA: 0x0023A890 File Offset: 0x00238C90
 		public void Notify_BuildingDespawned(Thing b)
 		{
 			CellRect cellRect = b.OccupiedRect();
@@ -287,6 +271,359 @@ namespace Verse
 						this.RemoveDesignation(designation);
 					}
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllDesignationsOn>c__Iterator0 : IEnumerable, IEnumerable<Designation>, IEnumerator, IDisposable, IEnumerator<Designation>
+		{
+			internal int <count>__0;
+
+			internal int <i>__1;
+
+			internal Thing t;
+
+			internal DesignationManager $this;
+
+			internal Designation $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllDesignationsOn>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					count = this.allDesignations.Count;
+					i = 0;
+					break;
+				case 1u:
+					IL_A0:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.allDesignations[i].target.Thing == t)
+					{
+						this.$current = this.allDesignations[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_A0;
+				}
+				return false;
+			}
+
+			Designation IEnumerator<Designation>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Designation>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Designation> IEnumerable<Designation>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DesignationManager.<AllDesignationsOn>c__Iterator0 <AllDesignationsOn>c__Iterator = new DesignationManager.<AllDesignationsOn>c__Iterator0();
+				<AllDesignationsOn>c__Iterator.$this = this;
+				<AllDesignationsOn>c__Iterator.t = t;
+				return <AllDesignationsOn>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllDesignationsAt>c__Iterator1 : IEnumerable, IEnumerable<Designation>, IEnumerator, IDisposable, IEnumerator<Designation>
+		{
+			internal int <count>__0;
+
+			internal int <i>__1;
+
+			internal Designation <des>__2;
+
+			internal IntVec3 c;
+
+			internal DesignationManager $this;
+
+			internal Designation $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllDesignationsAt>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					count = this.allDesignations.Count;
+					i = 0;
+					break;
+				case 1u:
+					IL_DB:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					des = this.allDesignations[i];
+					if ((!des.target.HasThing || des.target.Thing.Map == this.map) && des.target.Cell == c)
+					{
+						this.$current = des;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_DB;
+				}
+				return false;
+			}
+
+			Designation IEnumerator<Designation>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Designation>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Designation> IEnumerable<Designation>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DesignationManager.<AllDesignationsAt>c__Iterator1 <AllDesignationsAt>c__Iterator = new DesignationManager.<AllDesignationsAt>c__Iterator1();
+				<AllDesignationsAt>c__Iterator.$this = this;
+				<AllDesignationsAt>c__Iterator.c = c;
+				return <AllDesignationsAt>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpawnedDesignationsOfDef>c__Iterator2 : IEnumerable, IEnumerable<Designation>, IEnumerator, IDisposable, IEnumerator<Designation>
+		{
+			internal int <count>__0;
+
+			internal int <i>__1;
+
+			internal Designation <des>__2;
+
+			internal DesignationDef def;
+
+			internal DesignationManager $this;
+
+			internal Designation $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpawnedDesignationsOfDef>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					count = this.allDesignations.Count;
+					i = 0;
+					break;
+				case 1u:
+					IL_D1:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					des = this.allDesignations[i];
+					if (des.def == def && (!des.target.HasThing || des.target.Thing.Map == this.map))
+					{
+						this.$current = des;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_D1;
+				}
+				return false;
+			}
+
+			Designation IEnumerator<Designation>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Designation>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Designation> IEnumerable<Designation>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DesignationManager.<SpawnedDesignationsOfDef>c__Iterator2 <SpawnedDesignationsOfDef>c__Iterator = new DesignationManager.<SpawnedDesignationsOfDef>c__Iterator2();
+				<SpawnedDesignationsOfDef>c__Iterator.$this = this;
+				<SpawnedDesignationsOfDef>c__Iterator.def = def;
+				return <SpawnedDesignationsOfDef>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RemoveAllDesignationsOn>c__AnonStorey3
+		{
+			internal bool standardCanceling;
+
+			internal Thing t;
+
+			public <RemoveAllDesignationsOn>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Designation d)
+			{
+				return (!this.standardCanceling || d.def.designateCancelable) && d.target.Thing == this.t;
 			}
 		}
 	}

@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DE RID: 2014
 	public class Designator_Tame : Designator
 	{
-		// Token: 0x040017A9 RID: 6057
 		private List<Pawn> justDesignated = new List<Pawn>();
 
-		// Token: 0x06002CA5 RID: 11429 RVA: 0x001783B8 File Offset: 0x001767B8
+		[CompilerGenerated]
+		private static Func<Pawn, PawnKindDef> <>f__am$cache0;
+
 		public Designator_Tame()
 		{
 			this.defaultLabel = "DesignatorTame".Translate();
@@ -26,8 +30,6 @@ namespace RimWorld
 			this.tutorTag = "Tame";
 		}
 
-		// Token: 0x17000707 RID: 1799
-		// (get) Token: 0x06002CA6 RID: 11430 RVA: 0x00178448 File Offset: 0x00176848
 		public override int DraggableDimensions
 		{
 			get
@@ -36,8 +38,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000708 RID: 1800
-		// (get) Token: 0x06002CA7 RID: 11431 RVA: 0x00178460 File Offset: 0x00176860
 		protected override DesignationDef Designation
 		{
 			get
@@ -46,7 +46,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA8 RID: 11432 RVA: 0x0017847C File Offset: 0x0017687C
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -65,7 +64,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA9 RID: 11433 RVA: 0x001784DC File Offset: 0x001768DC
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
 			foreach (Pawn t in this.TameablesInCell(loc))
@@ -74,7 +72,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CAA RID: 11434 RVA: 0x0017853C File Offset: 0x0017693C
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -90,7 +87,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CAB RID: 11435 RVA: 0x001785C4 File Offset: 0x001769C4
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -107,7 +103,6 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AnimalTaming, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002CAC RID: 11436 RVA: 0x00178684 File Offset: 0x00176A84
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.RemoveAllDesignationsOn(t, false);
@@ -115,7 +110,6 @@ namespace RimWorld
 			this.justDesignated.Add((Pawn)t);
 		}
 
-		// Token: 0x06002CAD RID: 11437 RVA: 0x001786D8 File Offset: 0x00176AD8
 		private IEnumerable<Pawn> TameablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))
@@ -131,6 +125,141 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static PawnKindDef <FinalizeDesignationSucceeded>m__0(Pawn p)
+		{
+			return p.kindDef;
+		}
+
+		[CompilerGenerated]
+		private sealed class <FinalizeDesignationSucceeded>c__AnonStorey1
+		{
+			internal PawnKindDef kind;
+
+			public <FinalizeDesignationSucceeded>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return x.kindDef == this.kind;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TameablesInCell>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IntVec3 c;
+
+			internal List<Thing> <thingList>__0;
+
+			internal int <i>__1;
+
+			internal Designator_Tame $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <TameablesInCell>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (c.Fogged(base.Map))
+					{
+						return false;
+					}
+					thingList = c.GetThingList(base.Map);
+					i = 0;
+					break;
+				case 1u:
+					IL_C4:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= thingList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						this.$current = (Pawn)thingList[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_C4;
+				}
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Designator_Tame.<TameablesInCell>c__Iterator0 <TameablesInCell>c__Iterator = new Designator_Tame.<TameablesInCell>c__Iterator0();
+				<TameablesInCell>c__Iterator.$this = this;
+				<TameablesInCell>c__Iterator.c = c;
+				return <TameablesInCell>c__Iterator;
+			}
 		}
 	}
 }

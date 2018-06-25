@@ -1,32 +1,32 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200030F RID: 783
 	public class GameCondition_Flashstorm : GameCondition
 	{
-		// Token: 0x04000878 RID: 2168
 		private static readonly IntRange AreaRadiusRange = new IntRange(45, 60);
 
-		// Token: 0x04000879 RID: 2169
 		private static readonly IntRange TicksBetweenStrikes = new IntRange(320, 800);
 
-		// Token: 0x0400087A RID: 2170
 		private const int RainDisableTicksAfterConditionEnds = 30000;
 
-		// Token: 0x0400087B RID: 2171
 		public IntVec2 centerLocation;
 
-		// Token: 0x0400087C RID: 2172
 		private int areaRadius = 0;
 
-		// Token: 0x0400087D RID: 2173
 		private int nextLightningTicks = 0;
 
-		// Token: 0x06000D36 RID: 3382 RVA: 0x00072734 File Offset: 0x00070B34
+		public GameCondition_Flashstorm()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -35,7 +35,6 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.nextLightningTicks, "nextLightningTicks", 0, false);
 		}
 
-		// Token: 0x06000D37 RID: 3383 RVA: 0x00072788 File Offset: 0x00070B88
 		public override void Init()
 		{
 			base.Init();
@@ -43,7 +42,6 @@ namespace RimWorld
 			this.FindGoodCenterLocation();
 		}
 
-		// Token: 0x06000D38 RID: 3384 RVA: 0x000727B8 File Offset: 0x00070BB8
 		public override void GameConditionTick()
 		{
 			if (Find.TickManager.TicksGame > this.nextLightningTicks)
@@ -58,14 +56,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D39 RID: 3385 RVA: 0x00072882 File Offset: 0x00070C82
 		public override void End()
 		{
 			base.SingleMap.weatherDecider.DisableRainFor(30000);
 			base.End();
 		}
 
-		// Token: 0x06000D3A RID: 3386 RVA: 0x000728A0 File Offset: 0x00070CA0
 		private void FindGoodCenterLocation()
 		{
 			if (base.SingleMap.Size.x <= 16 || base.SingleMap.Size.z <= 16)
@@ -82,13 +78,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D3B RID: 3387 RVA: 0x0007295C File Offset: 0x00070D5C
 		private bool IsGoodLocationForStrike(IntVec3 loc)
 		{
 			return loc.InBounds(base.SingleMap) && !loc.Roofed(base.SingleMap) && loc.Standable(base.SingleMap);
 		}
 
-		// Token: 0x06000D3C RID: 3388 RVA: 0x000729A4 File Offset: 0x00070DA4
 		private bool IsGoodCenterLocation(IntVec2 loc)
 		{
 			int num = 0;
@@ -107,7 +101,6 @@ namespace RimWorld
 			return num >= num2;
 		}
 
-		// Token: 0x06000D3D RID: 3389 RVA: 0x00072A48 File Offset: 0x00070E48
 		private IEnumerable<IntVec3> GetPotentiallyAffectedCells(IntVec2 center)
 		{
 			for (int x = center.x - this.areaRadius; x <= center.x + this.areaRadius; x++)
@@ -121,6 +114,128 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GameCondition_Flashstorm()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetPotentiallyAffectedCells>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec2 center;
+
+			internal int <x>__1;
+
+			internal int <z>__2;
+
+			internal GameCondition_Flashstorm $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetPotentiallyAffectedCells>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					x = center.x - this.areaRadius;
+					goto IL_13B;
+				case 1u:
+					IL_FB:
+					z++;
+					break;
+				default:
+					return false;
+				}
+				IL_10A:
+				if (z > center.z + this.areaRadius)
+				{
+					x++;
+				}
+				else
+				{
+					if ((center.x - x) * (center.x - x) + (center.z - z) * (center.z - z) <= this.areaRadius * this.areaRadius)
+					{
+						this.$current = new IntVec3(x, 0, z);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_FB;
+				}
+				IL_13B:
+				if (x <= center.x + this.areaRadius)
+				{
+					z = center.z - this.areaRadius;
+					goto IL_10A;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__Iterator0 <GetPotentiallyAffectedCells>c__Iterator = new GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__Iterator0();
+				<GetPotentiallyAffectedCells>c__Iterator.$this = this;
+				<GetPotentiallyAffectedCells>c__Iterator.center = center;
+				return <GetPotentiallyAffectedCells>c__Iterator;
+			}
 		}
 	}
 }

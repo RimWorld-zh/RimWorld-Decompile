@@ -4,10 +4,8 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200011C RID: 284
 	public static class WorkGiverUtility
 	{
-		// Token: 0x060005E3 RID: 1507 RVA: 0x0003F3A8 File Offset: 0x0003D7A8
 		public static Job HaulStuffOffBillGiverJob(Pawn pawn, IBillGiver giver, Thing thingToIgnore)
 		{
 			foreach (IntVec3 c in giver.IngredientStackCells)

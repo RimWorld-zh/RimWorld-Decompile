@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000D6 RID: 214
 	public abstract class JobGiver_ManTurrets : ThinkNode_JobGiver
 	{
-		// Token: 0x040002A8 RID: 680
 		public float maxDistFromPoint = -1f;
 
-		// Token: 0x060004C1 RID: 1217 RVA: 0x00035724 File Offset: 0x00033B24
+		protected JobGiver_ManTurrets()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_ManTurrets jobGiver_ManTurrets = (JobGiver_ManTurrets)base.DeepCopy(resolve);
@@ -18,7 +20,6 @@ namespace RimWorld
 			return jobGiver_ManTurrets;
 		}
 
-		// Token: 0x060004C2 RID: 1218 RVA: 0x00035754 File Offset: 0x00033B54
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = (Thing t) => t.def.hasInteractionCell && t.def.HasComp(typeof(CompMannable)) && pawn.CanReserve(t, 1, -1, null, false) && JobDriver_ManTurret.FindAmmoForTurret(pawn, (Building_TurretGun)t) != null;
@@ -39,7 +40,21 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004C3 RID: 1219
 		protected abstract IntVec3 GetRoot(Pawn pawn);
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return t.def.hasInteractionCell && t.def.HasComp(typeof(CompMannable)) && this.pawn.CanReserve(t, 1, -1, null, false) && JobDriver_ManTurret.FindAmmoForTurret(this.pawn, (Building_TurretGun)t) != null;
+			}
+		}
 	}
 }

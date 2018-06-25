@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003B2 RID: 946
 	public class SymbolResolver_ExtraDoor : SymbolResolver
 	{
-		// Token: 0x06001069 RID: 4201 RVA: 0x0008AAA4 File Offset: 0x00088EA4
+		public SymbolResolver_ExtraDoor()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -50,7 +53,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600106A RID: 4202 RVA: 0x0008ABD4 File Offset: 0x00088FD4
 		private bool WallHasDoor(CellRect rect, Rot4 dir)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -64,7 +66,6 @@ namespace RimWorld.BaseGen
 			return false;
 		}
 
-		// Token: 0x0600106B RID: 4203 RVA: 0x0008AC54 File Offset: 0x00089054
 		private bool TryFindRandomDoorSpawnCell(CellRect rect, Rot4 dir, out IntVec3 found)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -165,7 +166,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600106C RID: 4204 RVA: 0x0008AEC4 File Offset: 0x000892C4
 		private int GetDistanceToExistingDoors(IntVec3 cell, CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -178,6 +178,46 @@ namespace RimWorld.BaseGen
 				}
 			}
 			return num;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomDoorSpawnCell>c__AnonStorey0
+		{
+			internal CellRect rect;
+
+			internal Map map;
+
+			public <TryFindRandomDoorSpawnCell>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				IntVec3 c = new IntVec3(x, 0, this.rect.maxZ + 1);
+				IntVec3 c2 = new IntVec3(x, 0, this.rect.maxZ - 1);
+				return c.InBounds(this.map) && c.Standable(this.map) && c2.InBounds(this.map) && c2.Standable(this.map);
+			}
+
+			internal bool <>m__1(int x)
+			{
+				IntVec3 c = new IntVec3(x, 0, this.rect.minZ - 1);
+				IntVec3 c2 = new IntVec3(x, 0, this.rect.minZ + 1);
+				return c.InBounds(this.map) && c.Standable(this.map) && c2.InBounds(this.map) && c2.Standable(this.map);
+			}
+
+			internal bool <>m__2(int z)
+			{
+				IntVec3 c = new IntVec3(this.rect.minX - 1, 0, z);
+				IntVec3 c2 = new IntVec3(this.rect.minX + 1, 0, z);
+				return c.InBounds(this.map) && c.Standable(this.map) && c2.InBounds(this.map) && c2.Standable(this.map);
+			}
+
+			internal bool <>m__3(int z)
+			{
+				IntVec3 c = new IntVec3(this.rect.maxX + 1, 0, z);
+				IntVec3 c2 = new IntVec3(this.rect.maxX - 1, 0, z);
+				return c.InBounds(this.map) && c.Standable(this.map) && c2.InBounds(this.map) && c2.Standable(this.map);
+			}
 		}
 	}
 }

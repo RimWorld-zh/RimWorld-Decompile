@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000106 RID: 262
 	public static class SickPawnVisitUtility
 	{
-		// Token: 0x06000578 RID: 1400 RVA: 0x0003B6E4 File Offset: 0x00039AE4
 		public static Pawn FindRandomSickPawn(Pawn pawn, JoyCategory maxPatientJoy)
 		{
 			IEnumerable<Pawn> source = from x in pawn.Map.mapPawns.FreeColonistsSpawned
@@ -29,13 +28,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000579 RID: 1401 RVA: 0x0003B758 File Offset: 0x00039B58
 		public static bool CanVisit(Pawn pawn, Pawn sick, JoyCategory maxPatientJoy)
 		{
 			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && sick.needs.joy.CurCategory <= maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33f && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
 		}
 
-		// Token: 0x0600057A RID: 1402 RVA: 0x0003B830 File Offset: 0x00039C30
 		public static Thing FindChair(Pawn forPawn, Pawn nearPawn)
 		{
 			Predicate<Thing> validator = delegate(Thing x)
@@ -74,7 +71,6 @@ namespace RimWorld
 			return GenClosest.ClosestThingReachable(nearPawn.Position, nearPawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.OnCell, TraverseParms.For(forPawn, Danger.Deadly, TraverseMode.ByPawn, false), 2.2f, validator, null, 0, 5, false, RegionType.Set_Passable, false);
 		}
 
-		// Token: 0x0600057B RID: 1403 RVA: 0x0003B8A4 File Offset: 0x00039CA4
 		private static bool AboutToRecover(Pawn pawn)
 		{
 			bool result;
@@ -107,13 +103,80 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600057C RID: 1404 RVA: 0x0003B98C File Offset: 0x00039D8C
 		private static float VisitChanceScore(Pawn pawn, Pawn sick)
 		{
 			float num = GenMath.LerpDouble(-100f, 100f, 0.05f, 2f, (float)pawn.relations.OpinionOf(sick));
 			float lengthHorizontal = (pawn.Position - sick.Position).LengthHorizontal;
 			float num2 = Mathf.Clamp(GenMath.LerpDouble(0f, 150f, 1f, 0.2f, lengthHorizontal), 0.2f, 1f);
 			return num * num2;
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRandomSickPawn>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal JoyCategory maxPatientJoy;
+
+			public <FindRandomSickPawn>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return SickPawnVisitUtility.CanVisit(this.pawn, x, this.maxPatientJoy);
+			}
+
+			internal float <>m__1(Pawn x)
+			{
+				return SickPawnVisitUtility.VisitChanceScore(this.pawn, x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindChair>c__AnonStorey1
+		{
+			internal Pawn forPawn;
+
+			internal Pawn nearPawn;
+
+			public <FindChair>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				bool result;
+				if (!x.def.building.isSittable)
+				{
+					result = false;
+				}
+				else if (x.IsForbidden(this.forPawn))
+				{
+					result = false;
+				}
+				else if (!GenSight.LineOfSight(x.Position, this.nearPawn.Position, this.nearPawn.Map, false, null, 0, 0))
+				{
+					result = false;
+				}
+				else if (!this.forPawn.CanReserve(x, 1, -1, null, false))
+				{
+					result = false;
+				}
+				else
+				{
+					if (x.def.rotatable)
+					{
+						float num = GenGeo.AngleDifferenceBetween(x.Rotation.AsAngle, (this.nearPawn.Position - x.Position).AngleFlat);
+						if (num > 95f)
+						{
+							return false;
+						}
+					}
+					result = true;
+				}
+				return result;
+			}
 		}
 	}
 }

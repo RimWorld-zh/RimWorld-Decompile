@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000385 RID: 901
 	public class DangerWatcher
 	{
-		// Token: 0x0400098C RID: 2444
 		private Map map;
 
-		// Token: 0x0400098D RID: 2445
 		private StoryDanger dangerRatingInt = StoryDanger.None;
 
-		// Token: 0x0400098E RID: 2446
 		private int lastUpdateTick = -10000;
 
-		// Token: 0x0400098F RID: 2447
 		private int lastColonistHarmedTick = -10000;
 
-		// Token: 0x04000990 RID: 2448
 		private const int UpdateInterval = 101;
 
-		// Token: 0x06000F94 RID: 3988 RVA: 0x00083A5C File Offset: 0x00081E5C
+		[CompilerGenerated]
+		private static Func<IAttackTarget, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<IAttackTarget, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache2;
+
 		public DangerWatcher(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x1700023C RID: 572
-		// (get) Token: 0x06000F95 RID: 3989 RVA: 0x00083A8C File Offset: 0x00081E8C
 		public StoryDanger DangerRating
 		{
 			get
@@ -45,7 +46,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F96 RID: 3990 RVA: 0x00083AE0 File Offset: 0x00081EE0
 		private StoryDanger CalculateDangerRating()
 		{
 			float num = (from x in this.map.attackTargetsCache.TargetsHostileToColony
@@ -88,10 +88,27 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F97 RID: 3991 RVA: 0x00083C78 File Offset: 0x00082078
 		public void Notify_ColonistHarmedExternally()
 		{
 			this.lastColonistHarmedTick = Find.TickManager.TicksGame;
+		}
+
+		[CompilerGenerated]
+		private static bool <CalculateDangerRating>m__0(IAttackTarget x)
+		{
+			return GenHostility.IsActiveThreatToPlayer(x);
+		}
+
+		[CompilerGenerated]
+		private static float <CalculateDangerRating>m__1(IAttackTarget t)
+		{
+			return (!(t is Pawn)) ? 0f : ((Pawn)t).kindDef.combatPower;
+		}
+
+		[CompilerGenerated]
+		private static bool <CalculateDangerRating>m__2(Pawn p)
+		{
+			return !p.Downed;
 		}
 	}
 }

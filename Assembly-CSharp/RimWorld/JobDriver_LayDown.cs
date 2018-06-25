@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000098 RID: 152
 	public class JobDriver_LayDown : JobDriver
 	{
-		// Token: 0x04000262 RID: 610
 		public const TargetIndex BedOrRestSpotIndex = TargetIndex.A;
 
-		// Token: 0x170000C4 RID: 196
-		// (get) Token: 0x060003DC RID: 988 RVA: 0x0002C6D8 File Offset: 0x0002AAD8
+		public JobDriver_LayDown()
+		{
+		}
+
 		public Building_Bed Bed
 		{
 			get
@@ -21,7 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003DD RID: 989 RVA: 0x0002C708 File Offset: 0x0002AB08
 		public override bool TryMakePreToilReservations()
 		{
 			bool hasThing = this.job.GetTarget(TargetIndex.A).HasThing;
@@ -35,13 +38,11 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060003DE RID: 990 RVA: 0x0002C770 File Offset: 0x0002AB70
 		public override bool CanBeginNowWhileLyingDown()
 		{
 			return JobInBedUtility.InBedOrRestSpotNow(this.pawn, this.job.GetTarget(TargetIndex.A));
 		}
 
-		// Token: 0x060003DF RID: 991 RVA: 0x0002C79C File Offset: 0x0002AB9C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			bool hasBed = this.job.GetTarget(TargetIndex.A).HasThing;
@@ -58,7 +59,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060003E0 RID: 992 RVA: 0x0002C7C8 File Offset: 0x0002ABC8
 		public override string GetReport()
 		{
 			string result;
@@ -71,6 +71,122 @@ namespace RimWorld
 				result = "ReportResting".Translate();
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal bool <hasBed>__0;
+
+			internal JobDriver_LayDown $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					hasBed = this.job.GetTarget(TargetIndex.A).HasThing;
+					if (hasBed)
+					{
+						this.$current = Toils_Bed.ClaimBedIfNonMedical(TargetIndex.A, TargetIndex.None);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					this.$current = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_Bed.GotoBed(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					break;
+				case 3u:
+					break;
+				case 4u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				this.$current = Toils_LayDown.LayDown(TargetIndex.A, hasBed, true, true, true);
+				if (!this.$disposing)
+				{
+					this.$PC = 4;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_LayDown.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_LayDown.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
 		}
 	}
 }

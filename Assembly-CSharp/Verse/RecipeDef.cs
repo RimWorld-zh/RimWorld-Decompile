@@ -1,161 +1,129 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B63 RID: 2915
 	public class RecipeDef : Def
 	{
-		// Token: 0x04002A83 RID: 10883
 		public Type workerClass = typeof(RecipeWorker);
 
-		// Token: 0x04002A84 RID: 10884
 		public Type workerCounterClass = typeof(RecipeWorkerCounter);
 
-		// Token: 0x04002A85 RID: 10885
 		[MustTranslate]
 		public string jobString = "Doing an unknown recipe.";
 
-		// Token: 0x04002A86 RID: 10886
 		public WorkTypeDef requiredGiverWorkType = null;
 
-		// Token: 0x04002A87 RID: 10887
 		public float workAmount = -1f;
 
-		// Token: 0x04002A88 RID: 10888
 		public StatDef workSpeedStat = null;
 
-		// Token: 0x04002A89 RID: 10889
 		public StatDef efficiencyStat = null;
 
-		// Token: 0x04002A8A RID: 10890
 		public StatDef workTableEfficiencyStat = null;
 
-		// Token: 0x04002A8B RID: 10891
 		public StatDef workTableSpeedStat = null;
 
-		// Token: 0x04002A8C RID: 10892
 		public List<IngredientCount> ingredients = new List<IngredientCount>();
 
-		// Token: 0x04002A8D RID: 10893
 		public ThingFilter fixedIngredientFilter = new ThingFilter();
 
-		// Token: 0x04002A8E RID: 10894
 		public ThingFilter defaultIngredientFilter = null;
 
-		// Token: 0x04002A8F RID: 10895
 		public bool allowMixingIngredients = false;
 
-		// Token: 0x04002A90 RID: 10896
 		private Type ingredientValueGetterClass = typeof(IngredientValueGetter_Volume);
 
-		// Token: 0x04002A91 RID: 10897
 		public List<SpecialThingFilterDef> forceHiddenSpecialFilters = null;
 
-		// Token: 0x04002A92 RID: 10898
 		public bool autoStripCorpses = true;
 
-		// Token: 0x04002A93 RID: 10899
 		public List<ThingDefCountClass> products = new List<ThingDefCountClass>();
 
-		// Token: 0x04002A94 RID: 10900
 		public List<SpecialProductType> specialProducts = null;
 
-		// Token: 0x04002A95 RID: 10901
 		public bool productHasIngredientStuff = false;
 
-		// Token: 0x04002A96 RID: 10902
 		public int targetCountAdjustment = 1;
 
-		// Token: 0x04002A97 RID: 10903
 		public ThingDef unfinishedThingDef = null;
 
-		// Token: 0x04002A98 RID: 10904
 		public List<SkillRequirement> skillRequirements = null;
 
-		// Token: 0x04002A99 RID: 10905
 		public SkillDef workSkill = null;
 
-		// Token: 0x04002A9A RID: 10906
 		public float workSkillLearnFactor = 1f;
 
-		// Token: 0x04002A9B RID: 10907
 		public EffecterDef effectWorking = null;
 
-		// Token: 0x04002A9C RID: 10908
 		public SoundDef soundWorking = null;
 
-		// Token: 0x04002A9D RID: 10909
 		public List<ThingDef> recipeUsers = null;
 
-		// Token: 0x04002A9E RID: 10910
 		public List<BodyPartDef> appliedOnFixedBodyParts = new List<BodyPartDef>();
 
-		// Token: 0x04002A9F RID: 10911
 		public HediffDef addsHediff = null;
 
-		// Token: 0x04002AA0 RID: 10912
 		public HediffDef removesHediff = null;
 
-		// Token: 0x04002AA1 RID: 10913
 		public bool hideBodyPartNames = false;
 
-		// Token: 0x04002AA2 RID: 10914
 		public bool isViolation = false;
 
-		// Token: 0x04002AA3 RID: 10915
 		[MustTranslate]
 		public string successfullyRemovedHediffMessage = null;
 
-		// Token: 0x04002AA4 RID: 10916
 		public float surgerySuccessChanceFactor = 1f;
 
-		// Token: 0x04002AA5 RID: 10917
 		public float deathOnFailedSurgeryChance = 0f;
 
-		// Token: 0x04002AA6 RID: 10918
 		public bool targetsBodyPart = true;
 
-		// Token: 0x04002AA7 RID: 10919
 		public bool anesthetize = true;
 
-		// Token: 0x04002AA8 RID: 10920
 		public bool requireBed = true;
 
-		// Token: 0x04002AA9 RID: 10921
 		public ResearchProjectDef researchPrerequisite = null;
 
-		// Token: 0x04002AAA RID: 10922
 		[NoTranslate]
 		public List<string> factionPrerequisiteTags = null;
 
-		// Token: 0x04002AAB RID: 10923
 		public ConceptDef conceptLearned = null;
 
-		// Token: 0x04002AAC RID: 10924
 		public bool dontShowIfAnyIngredientMissing;
 
-		// Token: 0x04002AAD RID: 10925
 		[Unsaved]
 		private RecipeWorker workerInt = null;
 
-		// Token: 0x04002AAE RID: 10926
 		[Unsaved]
 		private RecipeWorkerCounter workerCounterInt = null;
 
-		// Token: 0x04002AAF RID: 10927
 		[Unsaved]
 		private IngredientValueGetter ingredientValueGetterInt = null;
 
-		// Token: 0x04002AB0 RID: 10928
 		[Unsaved]
 		private List<ThingDef> premultipliedSmallIngredients = null;
 
-		// Token: 0x170009A6 RID: 2470
-		// (get) Token: 0x06003F9E RID: 16286 RVA: 0x00218B50 File Offset: 0x00216F50
+		[CompilerGenerated]
+		private static Predicate<string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<IngredientCount, IEnumerable<ThingDef>> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2;
+
+		public RecipeDef()
+		{
+		}
+
 		public RecipeWorker Worker
 		{
 			get
@@ -169,8 +137,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A7 RID: 2471
-		// (get) Token: 0x06003F9F RID: 16287 RVA: 0x00218B9C File Offset: 0x00216F9C
 		public RecipeWorkerCounter WorkerCounter
 		{
 			get
@@ -184,8 +150,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A8 RID: 2472
-		// (get) Token: 0x06003FA0 RID: 16288 RVA: 0x00218BE8 File Offset: 0x00216FE8
 		public IngredientValueGetter IngredientValueGetter
 		{
 			get
@@ -198,8 +162,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A9 RID: 2473
-		// (get) Token: 0x06003FA1 RID: 16289 RVA: 0x00218C24 File Offset: 0x00217024
 		public bool AvailableNow
 		{
 			get
@@ -224,8 +186,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AA RID: 2474
-		// (get) Token: 0x06003FA2 RID: 16290 RVA: 0x00218C9C File Offset: 0x0021709C
 		public string MinSkillString
 		{
 			get
@@ -255,8 +215,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AB RID: 2475
-		// (get) Token: 0x06003FA3 RID: 16291 RVA: 0x00218D64 File Offset: 0x00217164
 		public IEnumerable<ThingDef> AllRecipeUsers
 		{
 			get
@@ -283,8 +241,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AC RID: 2476
-		// (get) Token: 0x06003FA4 RID: 16292 RVA: 0x00218D90 File Offset: 0x00217190
 		public bool UsesUnfinishedThing
 		{
 			get
@@ -293,8 +249,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AD RID: 2477
-		// (get) Token: 0x06003FA5 RID: 16293 RVA: 0x00218DB4 File Offset: 0x002171B4
 		public bool IsSurgery
 		{
 			get
@@ -310,8 +264,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AE RID: 2478
-		// (get) Token: 0x06003FA6 RID: 16294 RVA: 0x00218E28 File Offset: 0x00217228
 		public ThingDef ProducedThingDef
 		{
 			get
@@ -333,7 +285,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FA7 RID: 16295 RVA: 0x00218E84 File Offset: 0x00217284
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
 			float statValueAbstract;
@@ -348,7 +299,6 @@ namespace Verse
 			return statValueAbstract;
 		}
 
-		// Token: 0x06003FA8 RID: 16296 RVA: 0x00218ED4 File Offset: 0x002172D4
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -386,7 +336,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FA9 RID: 16297 RVA: 0x00218F0C File Offset: 0x0021730C
 		public bool IsIngredient(ThingDef th)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -399,7 +348,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003FAA RID: 16298 RVA: 0x00218F8C File Offset: 0x0021738C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -417,7 +365,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FAB RID: 16299 RVA: 0x00218FB8 File Offset: 0x002173B8
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -448,13 +395,11 @@ namespace Verse
 			this.defaultIngredientFilter.ResolveReferences();
 		}
 
-		// Token: 0x06003FAC RID: 16300 RVA: 0x0021907C File Offset: 0x0021747C
 		public bool PawnSatisfiesSkillRequirements(Pawn pawn)
 		{
 			return this.FirstSkillRequirementPawnDoesntSatisfy(pawn) == null;
 		}
 
-		// Token: 0x06003FAD RID: 16301 RVA: 0x0021909C File Offset: 0x0021749C
 		public SkillRequirement FirstSkillRequirementPawnDoesntSatisfy(Pawn pawn)
 		{
 			SkillRequirement result;
@@ -476,7 +421,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FAE RID: 16302 RVA: 0x0021910C File Offset: 0x0021750C
 		public List<ThingDef> GetPremultipliedSmallIngredients()
 		{
 			List<ThingDef> result;
@@ -510,7 +454,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FAF RID: 16303 RVA: 0x00219268 File Offset: 0x00217668
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.workSkill != null)
@@ -553,6 +496,701 @@ namespace Verse
 				yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgeryRequireBed".Translate(), this.requireBed.ToStringYesNo(), 0, "");
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_AvailableNow>m__0(string tag)
+		{
+			return Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<ThingDef> <GetPremultipliedSmallIngredients>m__1(IngredientCount ingredient)
+		{
+			return ingredient.filter.AllowedThingDefs;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetPremultipliedSmallIngredients>m__2(ThingDef td)
+		{
+			return td.smallVolume;
+		}
+
+		[CompilerGenerated]
+		private bool <GetPremultipliedSmallIngredients>m__3(ThingDef td)
+		{
+			return !this.premultipliedSmallIngredients.Contains(td);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal int <i>__1;
+
+			internal List<ThingDef> <thingDefs>__0;
+
+			internal int <i>__2;
+
+			internal RecipeDef $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.recipeUsers == null)
+					{
+						goto IL_9F;
+					}
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				case 2u:
+					IL_124:
+					goto IL_125;
+				default:
+					return false;
+				}
+				if (i < this.recipeUsers.Count)
+				{
+					this.$current = this.recipeUsers[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				IL_9F:
+				thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
+				j = 0;
+				goto IL_134;
+				IL_125:
+				j++;
+				IL_134:
+				if (j >= thingDefs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (thingDefs[j].recipes == null)
+					{
+						goto IL_125;
+					}
+					if (thingDefs[j].recipes.Contains(this))
+					{
+						this.$current = thingDefs[j];
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					goto IL_124;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RecipeDef.<>c__Iterator0 <>c__Iterator = new RecipeDef.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentiallyMissingIngredients>c__Iterator1 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal int <i>__1;
+
+			internal IngredientCount <ing>__2;
+
+			internal bool <foundIng>__2;
+
+			internal Map map;
+
+			internal List<Thing> <thingList>__2;
+
+			internal Pawn billDoer;
+
+			internal ThingDef <def>__3;
+
+			internal RecipeDef $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<ThingDef, float> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <PotentiallyMissingIngredients>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_1E9;
+				case 1u:
+					break;
+				case 2u:
+					IL_1D8:
+					break;
+				default:
+					return false;
+				}
+				IL_1DA:
+				i++;
+				IL_1E9:
+				if (i >= this.ingredients.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					ing = this.ingredients[i];
+					foundIng = false;
+					thingList = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
+					for (int j = 0; j < thingList.Count; j++)
+					{
+						Thing thing = thingList[j];
+						if ((billDoer == null || !thing.IsForbidden(billDoer)) && !thing.Position.Fogged(map) && (ing.IsFixedIngredient || this.fixedIngredientFilter.Allows(thing)) && ing.filter.Allows(thing))
+						{
+							foundIng = true;
+							break;
+						}
+					}
+					if (!foundIng)
+					{
+						if (ing.IsFixedIngredient)
+						{
+							this.$current = ing.filter.AllowedThingDefs.First<ThingDef>();
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+						}
+						else
+						{
+							def = (from x in ing.filter.AllowedThingDefs
+							orderby x.BaseMarketValue
+							select x).FirstOrDefault((ThingDef x) => this.fixedIngredientFilter.Allows(x));
+							if (def == null)
+							{
+								goto IL_1D8;
+							}
+							this.$current = def;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+						}
+						return true;
+					}
+					goto IL_1DA;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RecipeDef.<PotentiallyMissingIngredients>c__Iterator1 <PotentiallyMissingIngredients>c__Iterator = new RecipeDef.<PotentiallyMissingIngredients>c__Iterator1();
+				<PotentiallyMissingIngredients>c__Iterator.$this = this;
+				<PotentiallyMissingIngredients>c__Iterator.map = map;
+				<PotentiallyMissingIngredients>c__Iterator.billDoer = billDoer;
+				return <PotentiallyMissingIngredients>c__Iterator;
+			}
+
+			private static float <>m__0(ThingDef x)
+			{
+				return x.BaseMarketValue;
+			}
+
+			internal bool <>m__1(ThingDef x)
+			{
+				return this.fixedIngredientFilter.Allows(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator2 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal RecipeDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_EB;
+				case 3u:
+					goto IL_12F;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.workerClass == null)
+				{
+					this.$current = "workerClass is null.";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_EB:
+				if (this.surgerySuccessChanceFactor < 99999f && !this.requireBed)
+				{
+					this.$current = "failable surgery does not require bed";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_12F:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RecipeDef.<ConfigErrors>c__Iterator2 <ConfigErrors>c__Iterator = new RecipeDef.<ConfigErrors>c__Iterator2();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator3 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal RecipeDef $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<IngredientCount, string> <>f__am$cache0;
+
+			private static Func<SkillRequirement, string> <>f__am$cache1;
+
+			private static Func<ThingDefCountClass, string> <>f__am$cache2;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.workSkill != null)
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, "");
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_123;
+				case 3u:
+					goto IL_1B0;
+				case 4u:
+					goto IL_23D;
+				case 5u:
+					goto IL_291;
+				case 6u:
+					goto IL_2E5;
+				case 7u:
+					goto IL_38D;
+				case 8u:
+					goto IL_38D;
+				case 9u:
+					goto IL_3D3;
+				default:
+					return false;
+				}
+				if (this.ingredients != null && this.ingredients.Count > 0)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Ingredients".Translate(), (from ic in this.ingredients
+					select ic.Summary).ToCommaList(true), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_123:
+				if (this.skillRequirements != null && this.skillRequirements.Count > 0)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "SkillRequirements".Translate(), (from sr in this.skillRequirements
+					select sr.Summary).ToCommaList(true), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_1B0:
+				if (this.products != null && this.products.Count > 0)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Products".Translate(), (from pr in this.products
+					select pr.Summary).ToCommaList(true), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_23D:
+				if (this.workSpeedStat != null)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_291:
+				if (this.efficiencyStat != null)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				}
+				IL_2E5:
+				if (!base.IsSurgery)
+				{
+					goto IL_3D3;
+				}
+				if (this.surgerySuccessChanceFactor >= 99999f)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, "");
+				if (!this.$disposing)
+				{
+					this.$PC = 8;
+				}
+				return true;
+				IL_38D:
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgeryRequireBed".Translate(), this.requireBed.ToStringYesNo(), 0, "");
+				if (!this.$disposing)
+				{
+					this.$PC = 9;
+				}
+				return true;
+				IL_3D3:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RecipeDef.<SpecialDisplayStats>c__Iterator3 <SpecialDisplayStats>c__Iterator = new RecipeDef.<SpecialDisplayStats>c__Iterator3();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
+			}
+
+			private static string <>m__0(IngredientCount ic)
+			{
+				return ic.Summary;
+			}
+
+			private static string <>m__1(SkillRequirement sr)
+			{
+				return sr.Summary;
+			}
+
+			private static string <>m__2(ThingDefCountClass pr)
+			{
+				return pr.Summary;
+			}
 		}
 	}
 }

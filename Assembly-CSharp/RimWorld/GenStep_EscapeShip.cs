@@ -5,17 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E5 RID: 997
 	public class GenStep_EscapeShip : GenStep_Scatterer
 	{
-		// Token: 0x04000A59 RID: 2649
 		private static readonly IntRange EscapeShipSizeWidth = new IntRange(20, 28);
 
-		// Token: 0x04000A5A RID: 2650
 		private static readonly IntRange EscapeShipSizeHeight = new IntRange(34, 42);
 
-		// Token: 0x17000246 RID: 582
-		// (get) Token: 0x0600110E RID: 4366 RVA: 0x0009214C File Offset: 0x0009054C
+		public GenStep_EscapeShip()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -24,7 +23,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600110F RID: 4367 RVA: 0x00092168 File Offset: 0x00090568
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -67,7 +65,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001110 RID: 4368 RVA: 0x00092300 File Offset: 0x00090700
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_EscapeShip.EscapeShipSizeWidth.RandomInRange;
@@ -95,6 +92,11 @@ namespace RimWorld
 			BaseGen.globalSettings.map = map;
 			BaseGen.symbolStack.Push("ship_core", resolveParams);
 			BaseGen.Generate();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenStep_EscapeShip()
+		{
 		}
 	}
 }

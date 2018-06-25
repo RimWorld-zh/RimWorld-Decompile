@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000A9 RID: 169
 	public static class SelfDefenseUtility
 	{
-		// Token: 0x04000274 RID: 628
 		public const float FleeWhenDistToHostileLessThan = 8f;
 
-		// Token: 0x0600041D RID: 1053 RVA: 0x0003140C File Offset: 0x0002F80C
+		[CompilerGenerated]
+		private static RegionEntryPredicate <>f__am$cache0;
+
 		public static bool ShouldStartFleeing(Pawn pawn)
 		{
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.AlwaysFlee);
@@ -44,7 +45,6 @@ namespace RimWorld
 			return foundThreat;
 		}
 
-		// Token: 0x0600041E RID: 1054 RVA: 0x000314DC File Offset: 0x0002F8DC
 		public static bool ShouldFleeFrom(Thing t, Pawn pawn, bool checkDistance, bool checkLOS)
 		{
 			bool result;
@@ -66,6 +66,38 @@ namespace RimWorld
 				result = (attackTarget != null && !attackTarget.ThreatDisabled(pawn) && t is IAttackTargetSearcher && (!checkLOS || GenSight.LineOfSight(pawn.Position, t.Position, pawn.Map, false, null, 0, 0)));
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ShouldStartFleeing>m__0(Region from, Region reg)
+		{
+			return reg.portal == null || reg.portal.Open;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ShouldStartFleeing>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal bool foundThreat;
+
+			public <ShouldStartFleeing>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region reg)
+			{
+				List<Thing> list = reg.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (SelfDefenseUtility.ShouldFleeFrom(list[i], this.pawn, true, true))
+					{
+						this.foundThreat = true;
+						break;
+					}
+				}
+				return this.foundThreat;
+			}
 		}
 	}
 }

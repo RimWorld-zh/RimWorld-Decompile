@@ -1,40 +1,37 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EE RID: 750
 	public class ConceptDef : Def
 	{
-		// Token: 0x040007FB RID: 2043
 		public float priority = float.MaxValue;
 
-		// Token: 0x040007FC RID: 2044
 		public bool noteTeaches = false;
 
-		// Token: 0x040007FD RID: 2045
 		public bool needsOpportunity = false;
 
-		// Token: 0x040007FE RID: 2046
 		public bool opportunityDecays = true;
 
-		// Token: 0x040007FF RID: 2047
 		public ProgramState gameMode = ProgramState.Playing;
 
-		// Token: 0x04000800 RID: 2048
 		[MustTranslate]
 		private string helpText = null;
 
-		// Token: 0x04000801 RID: 2049
 		[NoTranslate]
 		public List<string> highlightTags = null;
 
-		// Token: 0x04000802 RID: 2050
 		private static List<string> tmpParseErrors = new List<string>();
 
-		// Token: 0x170001D8 RID: 472
-		// (get) Token: 0x06000C5B RID: 3163 RVA: 0x0006DACC File Offset: 0x0006BECC
+		public ConceptDef()
+		{
+		}
+
 		public bool TriggeredDirect
 		{
 			get
@@ -43,8 +40,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001D9 RID: 473
-		// (get) Token: 0x06000C5C RID: 3164 RVA: 0x0006DAF4 File Offset: 0x0006BEF4
 		public string HelpTextAdjusted
 		{
 			get
@@ -53,7 +48,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C5D RID: 3165 RVA: 0x0006DB16 File Offset: 0x0006BF16
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -63,7 +57,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C5E RID: 3166 RVA: 0x0006DB48 File Offset: 0x0006BF48
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string str in this.<ConfigErrors>__BaseCallProxy0())
@@ -91,13 +84,11 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C5F RID: 3167 RVA: 0x0006DB74 File Offset: 0x0006BF74
 		public static ConceptDef Named(string defName)
 		{
 			return DefDatabase<ConceptDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C60 RID: 3168 RVA: 0x0006DB90 File Offset: 0x0006BF90
 		public void HighlightAllTags()
 		{
 			if (this.highlightTags != null)
@@ -106,6 +97,205 @@ namespace RimWorld
 				{
 					UIHighlighter.HighlightTag(this.highlightTags[i]);
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ConceptDef()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <str>__1;
+
+			internal int <i>__2;
+
+			internal ConceptDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_F8;
+				case 3u:
+					goto IL_12C;
+				case 4u:
+					goto IL_170;
+				case 5u:
+					i++;
+					goto IL_1E1;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						str = enumerator.Current;
+						this.$current = str;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.priority > 9999999f)
+				{
+					this.$current = "priority isn't set";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_F8:
+				if (this.helpText.NullOrEmpty())
+				{
+					this.$current = "no help text";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_12C:
+				if (base.TriggeredDirect && this.label.NullOrEmpty())
+				{
+					this.$current = "no label";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_170:
+				ConceptDef.tmpParseErrors.Clear();
+				this.helpText.AdjustedForKeys(ConceptDef.tmpParseErrors, false);
+				i = 0;
+				IL_1E1:
+				if (i < ConceptDef.tmpParseErrors.Count)
+				{
+					this.$current = "helpText error: " + ConceptDef.tmpParseErrors[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ConceptDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ConceptDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
 			}
 		}
 	}

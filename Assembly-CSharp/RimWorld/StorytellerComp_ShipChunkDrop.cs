@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000374 RID: 884
 	public class StorytellerComp_ShipChunkDrop : StorytellerComp
 	{
-		// Token: 0x0400095C RID: 2396
 		private static readonly SimpleCurve ShipChunkDropMTBDaysCurve = new SimpleCurve
 		{
 			{
@@ -28,8 +30,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x17000224 RID: 548
-		// (get) Token: 0x06000F46 RID: 3910 RVA: 0x000815F8 File Offset: 0x0007F9F8
+		public StorytellerComp_ShipChunkDrop()
+		{
+		}
+
 		private float ShipChunkDropMTBDays
 		{
 			get
@@ -39,7 +43,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F47 RID: 3911 RVA: 0x0008162C File Offset: 0x0007FA2C
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (Rand.MTBEventOccurs(this.ShipChunkDropMTBDays, 60000f, 1000f))
@@ -52,6 +55,115 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static StorytellerComp_ShipChunkDrop()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal IncidentDef <def>__1;
+
+			internal IIncidentTarget target;
+
+			internal IncidentParms <parms>__1;
+
+			internal StorytellerComp_ShipChunkDrop $this;
+
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeIntervalIncidents>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (Rand.MTBEventOccurs(base.ShipChunkDropMTBDays, 60000f, 1000f))
+					{
+						def = IncidentDefOf.ShipChunkDrop;
+						parms = this.GenerateParms(def.category, target);
+						if (def.Worker.CanFireNow(parms))
+						{
+							this.$current = new FiringIncident(def, this, parms);
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__Iterator0 <MakeIntervalIncidents>c__Iterator = new StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__Iterator0();
+				<MakeIntervalIncidents>c__Iterator.$this = this;
+				<MakeIntervalIncidents>c__Iterator.target = target;
+				return <MakeIntervalIncidents>c__Iterator;
+			}
 		}
 	}
 }

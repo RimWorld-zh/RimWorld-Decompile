@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000321 RID: 801
 	public class IncidentWorker_CaravanMeeting : IncidentWorker
 	{
-		// Token: 0x040008BD RID: 2237
 		private const int MapSize = 100;
 
-		// Token: 0x06000DA8 RID: 3496 RVA: 0x00074CC4 File Offset: 0x000730C4
+		[CompilerGenerated]
+		private static Func<Faction, bool> <>f__am$cache0;
+
+		public IncidentWorker_CaravanMeeting()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
 			return parms.target is Map || (CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(parms.target.Tile) && this.TryFindFaction(out faction));
 		}
 
-		// Token: 0x06000DA9 RID: 3497 RVA: 0x00074D10 File Offset: 0x00073110
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			bool result;
@@ -119,7 +123,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DAA RID: 3498 RVA: 0x00074F54 File Offset: 0x00073354
 		private bool TryFindFaction(out Faction faction)
 		{
 			return (from x in Find.FactionManager.AllFactionsListForReading
@@ -127,7 +130,6 @@ namespace RimWorld
 			select x).TryRandomElement(out faction);
 		}
 
-		// Token: 0x06000DAB RID: 3499 RVA: 0x00074F9C File Offset: 0x0007339C
 		private List<Pawn> GenerateCaravanPawns(Faction faction)
 		{
 			return PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms
@@ -139,7 +141,6 @@ namespace RimWorld
 			}, true).ToList<Pawn>();
 		}
 
-		// Token: 0x06000DAC RID: 3500 RVA: 0x00074FE8 File Offset: 0x000733E8
 		private void RemoveAllPawnsAndPassToWorld(Caravan caravan)
 		{
 			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
@@ -148,6 +149,120 @@ namespace RimWorld
 				Find.WorldPawns.PassToWorld(pawnsListForReading[i], PawnDiscardDecideMode.Decide);
 			}
 			caravan.RemoveAllPawns();
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindFaction>m__0(Faction x)
+		{
+			return !x.IsPlayer && !x.HostileTo(Faction.OfPlayer) && !x.def.hidden && x.def.humanlikeFaction && x.def.caravanTraderKinds.Any<TraderKindDef>();
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExecuteWorker>c__AnonStorey0
+		{
+			internal Pawn bestPlayerNegotiator;
+
+			internal Caravan metCaravan;
+
+			internal Caravan caravan;
+
+			internal Faction faction;
+
+			internal IncidentWorker_CaravanMeeting $this;
+
+			public <TryExecuteWorker>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Find.WindowStack.Add(new Dialog_Trade(this.bestPlayerNegotiator, this.metCaravan, false));
+				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(this.metCaravan.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradingWithOtherCaravan".Translate(new object[]
+				{
+					Faction.OfPlayer.def.pawnsPlural
+				}), LetterDefOf.NeutralEvent, false, true);
+			}
+
+			internal void <>m__1()
+			{
+				LongEventHandler.QueueLongEvent(delegate()
+				{
+					Pawn t = this.caravan.PawnsListForReading[0];
+					Faction faction = this.faction;
+					Faction ofPlayer = Faction.OfPlayer;
+					FactionRelationKind kind = FactionRelationKind.Hostile;
+					string reason = "GoodwillChangedReason_AttackedCaravan".Translate();
+					faction.TrySetRelationKind(ofPlayer, kind, true, reason, new GlobalTargetInfo?(t));
+					Map map = CaravanIncidentUtility.GetOrGenerateMapForIncident(this.caravan, new IntVec3(100, 1, 100), WorldObjectDefOf.AttackedNonPlayerCaravan);
+					IntVec3 playerSpot;
+					IntVec3 enemySpot;
+					MultipleCaravansCellFinder.FindStartingCellsFor2Groups(map, out playerSpot, out enemySpot);
+					CaravanEnterMapUtility.Enter(this.caravan, map, (Pawn p) => CellFinder.RandomClosewalkCellNear(playerSpot, map, 12, null), CaravanDropInventoryMode.DoNotDrop, true);
+					List<Pawn> list = this.metCaravan.PawnsListForReading.ToList<Pawn>();
+					CaravanEnterMapUtility.Enter(this.metCaravan, map, (Pawn p) => CellFinder.RandomClosewalkCellNear(enemySpot, map, 12, null), CaravanDropInventoryMode.DoNotDrop, false);
+					LordMaker.MakeNewLord(this.faction, new LordJob_DefendAttackedTraderCaravan(list[0].Position), map, list);
+					Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+					CameraJumper.TryJumpAndSelect(t);
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(list, "LetterRelatedPawnsGroupGeneric".Translate(new object[]
+					{
+						Faction.OfPlayer.def.pawnsPlural
+					}), LetterDefOf.NeutralEvent, true, true);
+				}, "GeneratingMapForNewEncounter", false, null);
+			}
+
+			internal void <>m__2()
+			{
+				this.$this.RemoveAllPawnsAndPassToWorld(this.metCaravan);
+			}
+
+			internal void <>m__3()
+			{
+				Pawn t = this.caravan.PawnsListForReading[0];
+				Faction faction = this.faction;
+				Faction ofPlayer = Faction.OfPlayer;
+				FactionRelationKind kind = FactionRelationKind.Hostile;
+				string reason = "GoodwillChangedReason_AttackedCaravan".Translate();
+				faction.TrySetRelationKind(ofPlayer, kind, true, reason, new GlobalTargetInfo?(t));
+				Map map = CaravanIncidentUtility.GetOrGenerateMapForIncident(this.caravan, new IntVec3(100, 1, 100), WorldObjectDefOf.AttackedNonPlayerCaravan);
+				IntVec3 playerSpot;
+				IntVec3 enemySpot;
+				MultipleCaravansCellFinder.FindStartingCellsFor2Groups(map, out playerSpot, out enemySpot);
+				CaravanEnterMapUtility.Enter(this.caravan, map, (Pawn p) => CellFinder.RandomClosewalkCellNear(playerSpot, map, 12, null), CaravanDropInventoryMode.DoNotDrop, true);
+				List<Pawn> list = this.metCaravan.PawnsListForReading.ToList<Pawn>();
+				CaravanEnterMapUtility.Enter(this.metCaravan, map, (Pawn p) => CellFinder.RandomClosewalkCellNear(enemySpot, map, 12, null), CaravanDropInventoryMode.DoNotDrop, false);
+				LordMaker.MakeNewLord(this.faction, new LordJob_DefendAttackedTraderCaravan(list[0].Position), map, list);
+				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				CameraJumper.TryJumpAndSelect(t);
+				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(list, "LetterRelatedPawnsGroupGeneric".Translate(new object[]
+				{
+					Faction.OfPlayer.def.pawnsPlural
+				}), LetterDefOf.NeutralEvent, true, true);
+			}
+
+			private sealed class <TryExecuteWorker>c__AnonStorey1
+			{
+				internal IntVec3 playerSpot;
+
+				internal Map map;
+
+				internal IntVec3 enemySpot;
+
+				internal IncidentWorker_CaravanMeeting.<TryExecuteWorker>c__AnonStorey0 <>f__ref$0;
+
+				public <TryExecuteWorker>c__AnonStorey1()
+				{
+				}
+
+				internal IntVec3 <>m__0(Pawn p)
+				{
+					return CellFinder.RandomClosewalkCellNear(this.playerSpot, this.map, 12, null);
+				}
+
+				internal IntVec3 <>m__1(Pawn p)
+				{
+					return CellFinder.RandomClosewalkCellNear(this.enemySpot, this.map, 12, null);
+				}
+			}
 		}
 	}
 }

@@ -3,11 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200045B RID: 1115
 	public class DeathActionWorker_BigExplosion : DeathActionWorker
 	{
-		// Token: 0x170002AD RID: 685
-		// (get) Token: 0x0600138F RID: 5007 RVA: 0x000A93EC File Offset: 0x000A77EC
+		public DeathActionWorker_BigExplosion()
+		{
+		}
+
 		public override RulePackDef DeathRules
 		{
 			get
@@ -16,8 +17,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002AE RID: 686
-		// (get) Token: 0x06001390 RID: 5008 RVA: 0x000A9408 File Offset: 0x000A7808
 		public override bool DangerousInMelee
 		{
 			get
@@ -26,7 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001391 RID: 5009 RVA: 0x000A9420 File Offset: 0x000A7820
 		public override void PawnDied(Corpse corpse)
 		{
 			float radius;

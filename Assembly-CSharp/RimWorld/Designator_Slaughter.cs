@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D9 RID: 2009
 	public class Designator_Slaughter : Designator
 	{
-		// Token: 0x040017A7 RID: 6055
 		private List<Pawn> justDesignated = new List<Pawn>();
 
-		// Token: 0x06002C88 RID: 11400 RVA: 0x00177738 File Offset: 0x00175B38
 		public Designator_Slaughter()
 		{
 			this.defaultLabel = "DesignatorSlaughter".Translate();
@@ -25,8 +26,6 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc11;
 		}
 
-		// Token: 0x17000701 RID: 1793
-		// (get) Token: 0x06002C89 RID: 11401 RVA: 0x001777BC File Offset: 0x00175BBC
 		public override int DraggableDimensions
 		{
 			get
@@ -35,8 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000702 RID: 1794
-		// (get) Token: 0x06002C8A RID: 11402 RVA: 0x001777D4 File Offset: 0x00175BD4
 		protected override DesignationDef Designation
 		{
 			get
@@ -45,7 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C8B RID: 11403 RVA: 0x001777F0 File Offset: 0x00175BF0
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -64,7 +60,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C8C RID: 11404 RVA: 0x00177850 File Offset: 0x00175C50
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
 			foreach (Pawn t in this.SlaughterablesInCell(loc))
@@ -73,7 +68,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C8D RID: 11405 RVA: 0x001778B0 File Offset: 0x00175CB0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -89,14 +83,12 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C8E RID: 11406 RVA: 0x00177930 File Offset: 0x00175D30
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 			this.justDesignated.Add((Pawn)t);
 		}
 
-		// Token: 0x06002C8F RID: 11407 RVA: 0x00177968 File Offset: 0x00175D68
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -107,7 +99,6 @@ namespace RimWorld
 			this.justDesignated.Clear();
 		}
 
-		// Token: 0x06002C90 RID: 11408 RVA: 0x001779B8 File Offset: 0x00175DB8
 		private IEnumerable<Pawn> SlaughterablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))
@@ -123,6 +114,120 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SlaughterablesInCell>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IntVec3 c;
+
+			internal List<Thing> <thingList>__0;
+
+			internal int <i>__1;
+
+			internal Designator_Slaughter $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SlaughterablesInCell>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (c.Fogged(base.Map))
+					{
+						return false;
+					}
+					thingList = c.GetThingList(base.Map);
+					i = 0;
+					break;
+				case 1u:
+					IL_C4:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= thingList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						this.$current = (Pawn)thingList[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_C4;
+				}
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Designator_Slaughter.<SlaughterablesInCell>c__Iterator0 <SlaughterablesInCell>c__Iterator = new Designator_Slaughter.<SlaughterablesInCell>c__Iterator0();
+				<SlaughterablesInCell>c__Iterator.$this = this;
+				<SlaughterablesInCell>c__Iterator.c = c;
+				return <SlaughterablesInCell>c__Iterator;
+			}
 		}
 	}
 }

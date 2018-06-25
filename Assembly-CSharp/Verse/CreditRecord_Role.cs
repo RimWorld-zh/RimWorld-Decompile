@@ -3,24 +3,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EDD RID: 3805
 	public class CreditRecord_Role : CreditsEntry
 	{
-		// Token: 0x04003C76 RID: 15478
 		public string roleKey;
 
-		// Token: 0x04003C77 RID: 15479
 		public string creditee;
 
-		// Token: 0x04003C78 RID: 15480
 		public string extra;
 
-		// Token: 0x06005A11 RID: 23057 RVA: 0x002E3F95 File Offset: 0x002E2395
 		public CreditRecord_Role()
 		{
 		}
 
-		// Token: 0x06005A12 RID: 23058 RVA: 0x002E3F9E File Offset: 0x002E239E
 		public CreditRecord_Role(string roleKey, string creditee, string extra = null)
 		{
 			this.roleKey = roleKey;
@@ -28,13 +22,11 @@ namespace Verse
 			this.extra = extra;
 		}
 
-		// Token: 0x06005A13 RID: 23059 RVA: 0x002E3FBC File Offset: 0x002E23BC
 		public override float DrawHeight(float width)
 		{
 			return 50f;
 		}
 
-		// Token: 0x06005A14 RID: 23060 RVA: 0x002E3FD8 File Offset: 0x002E23D8
 		public override void Draw(Rect rect)
 		{
 			Text.Font = GameFont.Medium;

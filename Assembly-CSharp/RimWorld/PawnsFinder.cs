@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004A0 RID: 1184
 	public static class PawnsFinder
 	{
-		// Token: 0x170002C1 RID: 705
-		// (get) Token: 0x06001525 RID: 5413 RVA: 0x000B9E4C File Offset: 0x000B824C
 		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_AliveOrDead
 		{
 			get
@@ -34,8 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C2 RID: 706
-		// (get) Token: 0x06001526 RID: 5414 RVA: 0x000B9E70 File Offset: 0x000B8270
 		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_Alive
 		{
 			get
@@ -59,8 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C3 RID: 707
-		// (get) Token: 0x06001527 RID: 5415 RVA: 0x000B9E94 File Offset: 0x000B8294
 		public static IEnumerable<Pawn> AllMaps
 		{
 			get
@@ -80,8 +77,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C4 RID: 708
-		// (get) Token: 0x06001528 RID: 5416 RVA: 0x000B9EB8 File Offset: 0x000B82B8
 		public static IEnumerable<Pawn> AllMaps_Spawned
 		{
 			get
@@ -102,8 +97,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C5 RID: 709
-		// (get) Token: 0x06001529 RID: 5417 RVA: 0x000B9EDC File Offset: 0x000B82DC
 		public static IEnumerable<Pawn> All_AliveOrDead
 		{
 			get
@@ -120,8 +113,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C6 RID: 710
-		// (get) Token: 0x0600152A RID: 5418 RVA: 0x000B9F00 File Offset: 0x000B8300
 		public static IEnumerable<Pawn> Temporary
 		{
 			get
@@ -163,8 +154,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C7 RID: 711
-		// (get) Token: 0x0600152B RID: 5419 RVA: 0x000B9F24 File Offset: 0x000B8324
 		public static IEnumerable<Pawn> Temporary_Alive
 		{
 			get
@@ -180,8 +169,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C8 RID: 712
-		// (get) Token: 0x0600152C RID: 5420 RVA: 0x000B9F48 File Offset: 0x000B8348
 		public static IEnumerable<Pawn> Temporary_Dead
 		{
 			get
@@ -197,8 +184,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002C9 RID: 713
-		// (get) Token: 0x0600152D RID: 5421 RVA: 0x000B9F6C File Offset: 0x000B836C
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive
 		{
 			get
@@ -215,8 +200,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002CA RID: 714
-		// (get) Token: 0x0600152E RID: 5422 RVA: 0x000B9F90 File Offset: 0x000B8390
 		public static IEnumerable<Pawn> AllCaravansAndTravelingTransportPods_Alive
 		{
 			get
@@ -232,8 +215,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002CB RID: 715
-		// (get) Token: 0x0600152F RID: 5423 RVA: 0x000B9FB4 File Offset: 0x000B83B4
 		public static IEnumerable<Pawn> AllCaravansAndTravelingTransportPods_AliveOrDead
 		{
 			get
@@ -262,8 +243,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002CC RID: 716
-		// (get) Token: 0x06001530 RID: 5424 RVA: 0x000B9FD8 File Offset: 0x000B83D8
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_Colonists
 		{
 			get
@@ -279,8 +258,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002CD RID: 717
-		// (get) Token: 0x06001531 RID: 5425 RVA: 0x000B9FFC File Offset: 0x000B83FC
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 		{
 			get
@@ -296,8 +273,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002CE RID: 718
-		// (get) Token: 0x06001532 RID: 5426 RVA: 0x000BA020 File Offset: 0x000B8420
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep
 		{
 			get
@@ -313,8 +288,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002CF RID: 719
-		// (get) Token: 0x06001533 RID: 5427 RVA: 0x000BA044 File Offset: 0x000B8444
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction
 		{
 			get
@@ -331,8 +304,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D0 RID: 720
-		// (get) Token: 0x06001534 RID: 5428 RVA: 0x000BA068 File Offset: 0x000B8468
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction_NoCryptosleep
 		{
 			get
@@ -349,8 +320,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D1 RID: 721
-		// (get) Token: 0x06001535 RID: 5429 RVA: 0x000BA08C File Offset: 0x000B848C
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_PrisonersOfColony
 		{
 			get
@@ -366,8 +335,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D2 RID: 722
-		// (get) Token: 0x06001536 RID: 5430 RVA: 0x000BA0B0 File Offset: 0x000B84B0
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners
 		{
 			get
@@ -376,8 +343,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D3 RID: 723
-		// (get) Token: 0x06001537 RID: 5431 RVA: 0x000BA0D4 File Offset: 0x000B84D4
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners_NoCryptosleep
 		{
 			get
@@ -393,8 +358,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D4 RID: 724
-		// (get) Token: 0x06001538 RID: 5432 RVA: 0x000BA0F8 File Offset: 0x000B84F8
 		public static IEnumerable<Pawn> AllMaps_PrisonersOfColonySpawned
 		{
 			get
@@ -415,8 +378,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D5 RID: 725
-		// (get) Token: 0x06001539 RID: 5433 RVA: 0x000BA11C File Offset: 0x000B851C
 		public static IEnumerable<Pawn> AllMaps_PrisonersOfColony
 		{
 			get
@@ -436,8 +397,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D6 RID: 726
-		// (get) Token: 0x0600153A RID: 5434 RVA: 0x000BA140 File Offset: 0x000B8540
 		public static IEnumerable<Pawn> AllMaps_FreeColonists
 		{
 			get
@@ -457,8 +416,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D7 RID: 727
-		// (get) Token: 0x0600153B RID: 5435 RVA: 0x000BA164 File Offset: 0x000B8564
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsSpawned
 		{
 			get
@@ -478,8 +435,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D8 RID: 728
-		// (get) Token: 0x0600153C RID: 5436 RVA: 0x000BA188 File Offset: 0x000B8588
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisonersSpawned
 		{
 			get
@@ -499,8 +454,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002D9 RID: 729
-		// (get) Token: 0x0600153D RID: 5437 RVA: 0x000BA1AC File Offset: 0x000B85AC
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisoners
 		{
 			get
@@ -517,7 +470,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600153E RID: 5438 RVA: 0x000BA1D0 File Offset: 0x000B85D0
 		public static IEnumerable<Pawn> AllMaps_SpawnedPawnsInFaction(Faction faction)
 		{
 			List<Map> maps = Find.Maps;
@@ -530,6 +482,3753 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal IEnumerator<Pawn> $locvar1;
+
+			internal Pawn <p>__2;
+
+			internal IEnumerator<Pawn> $locvar2;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsWorldAndTemporary_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_DA;
+				case 3u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator3.MoveNext())
+						{
+							p3 = enumerator3.Current;
+							this.$current = p3;
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (Find.World == null)
+				{
+					goto IL_151;
+				}
+				enumerator2 = Find.WorldPawns.AllPawnsDead.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_DA:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						p2 = enumerator2.Current;
+						this.$current = p2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_151:
+				enumerator3 = PawnsFinder.Temporary_Dead.GetEnumerator();
+				num = 4294967293u;
+				goto Block_5;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator0();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal IEnumerator<Pawn> $locvar1;
+
+			internal Pawn <p>__2;
+
+			internal IEnumerator<Pawn> $locvar2;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMaps.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_DA;
+				case 3u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator3.MoveNext())
+						{
+							p3 = enumerator3.Current;
+							this.$current = p3;
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (Find.World == null)
+				{
+					goto IL_151;
+				}
+				enumerator2 = Find.WorldPawns.AllPawnsAlive.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_DA:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						p2 = enumerator2.Current;
+						this.$current = p2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_151:
+				enumerator3 = PawnsFinder.Temporary_Alive.GetEnumerator();
+				num = 4294967293u;
+				goto Block_5;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator1();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator2 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState == ProgramState.Entry)
+					{
+						goto IL_10D;
+					}
+					maps = Find.Maps;
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maps.Count)
+				{
+					enumerator = maps[i].mapPawns.AllPawns.GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				IL_10D:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator2();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator3 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal List<Pawn> <spawned>__3;
+
+			internal int <j>__4;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState != ProgramState.Entry)
+					{
+						maps = Find.Maps;
+						i = 0;
+						goto IL_D2;
+					}
+					goto IL_E9;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_AD:
+				if (j < spawned.Count)
+				{
+					this.$current = spawned[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_D2:
+				if (i < maps.Count)
+				{
+					spawned = maps[i].mapPawns.AllPawnsSpawned;
+					j = 0;
+					goto IL_AD;
+				}
+				IL_E9:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator3();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator4 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal IEnumerator<Pawn> $locvar1;
+
+			internal Pawn <p>__2;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_C6;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = PawnsFinder.AllCaravansAndTravelingTransportPods_AliveOrDead.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_C6:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						p2 = enumerator2.Current;
+						this.$current = p2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator4();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator5 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<List<Pawn>> <makingPawnsList>__0;
+
+			internal int <i>__1;
+
+			internal List<Pawn> <makingPawns>__2;
+
+			internal int <j>__3;
+
+			internal List<List<Thing>> <makingThingsList>__0;
+
+			internal int <i>__4;
+
+			internal List<Thing> <makingThings>__5;
+
+			internal int <j>__6;
+
+			internal Pawn <p>__7;
+
+			internal List<Pawn> <startingAndOptionalPawns>__8;
+
+			internal int <i>__9;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator5()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					makingPawnsList = PawnGroupKindWorker.pawnsBeingGeneratedNow;
+					i = 0;
+					goto IL_C5;
+				case 1u:
+					j++;
+					break;
+				case 2u:
+					IL_15E:
+					l++;
+					goto IL_16D;
+				case 3u:
+					IL_21C:
+					m++;
+					goto IL_22B;
+				default:
+					return false;
+				}
+				IL_A0:
+				if (j < makingPawns.Count)
+				{
+					this.$current = makingPawns[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_C5:
+				if (i >= makingPawnsList.Count)
+				{
+					makingThingsList = ThingSetMaker.thingsBeingGeneratedNow;
+					k = 0;
+					goto IL_192;
+				}
+				makingPawns = makingPawnsList[i];
+				j = 0;
+				goto IL_A0;
+				IL_16D:
+				if (l >= makingThings.Count)
+				{
+					k++;
+				}
+				else
+				{
+					p = (makingThings[l] as Pawn);
+					if (p != null)
+					{
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					goto IL_15E;
+				}
+				IL_192:
+				if (k < makingThingsList.Count)
+				{
+					makingThings = makingThingsList[k];
+					l = 0;
+					goto IL_16D;
+				}
+				if (Current.ProgramState == ProgramState.Playing || Find.GameInitData == null)
+				{
+					goto IL_242;
+				}
+				startingAndOptionalPawns = Find.GameInitData.startingAndOptionalPawns;
+				m = 0;
+				IL_22B:
+				if (m < startingAndOptionalPawns.Count)
+				{
+					if (startingAndOptionalPawns[m] != null)
+					{
+						this.$current = startingAndOptionalPawns[m];
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+					goto IL_21C;
+				}
+				IL_242:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator5();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator6 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator6()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.Temporary.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (!p.Dead)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator6();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator7 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator7()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.Temporary.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.Dead)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator7();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator8 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal IEnumerator<Pawn> $locvar1;
+
+			internal Pawn <p>__2;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator8()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMaps.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_C6;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = PawnsFinder.AllCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_C6:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						p2 = enumerator2.Current;
+						this.$current = p2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator8();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator9 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator9()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllCaravansAndTravelingTransportPods_AliveOrDead.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (!p.Dead)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator9();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__IteratorA : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Caravan> <caravans>__1;
+
+			internal int <i>__2;
+
+			internal List<Pawn> <pawns>__3;
+
+			internal int <j>__4;
+
+			internal List<TravelingTransportPods> <travelingTransportPods>__1;
+
+			internal int <i>__5;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__6;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__IteratorA()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Find.World != null)
+					{
+						caravans = Find.WorldObjects.Caravans;
+						i = 0;
+						goto IL_D8;
+					}
+					goto IL_1CC;
+				case 1u:
+					j++;
+					break;
+				case 2u:
+					Block_6:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					k++;
+					goto IL_1B5;
+				default:
+					return false;
+				}
+				IL_B3:
+				if (j < pawns.Count)
+				{
+					this.$current = pawns[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_D8:
+				if (i < caravans.Count)
+				{
+					pawns = caravans[i].PawnsListForReading;
+					j = 0;
+					goto IL_B3;
+				}
+				travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
+				k = 0;
+				IL_1B5:
+				if (k < travelingTransportPods.Count)
+				{
+					enumerator = travelingTransportPods[k].Pawns.GetEnumerator();
+					num = 4294967293u;
+					goto Block_6;
+				}
+				IL_1CC:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__IteratorA();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__IteratorB : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__IteratorB()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.IsColonist)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__IteratorB();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__IteratorC : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__IteratorC()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.IsFreeColonist)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__IteratorC();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__IteratorD : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__IteratorD()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_9D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.IsFreeColonist && !p.Suspended)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_9D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__IteratorD();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__IteratorE : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal Faction <playerFaction>__0;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__IteratorE()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					playerFaction = Faction.OfPlayer;
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_9E:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.Faction == playerFaction)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_9E;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__IteratorE();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__IteratorF : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal Faction <playerFaction>__0;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__IteratorF()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					playerFaction = Faction.OfPlayer;
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_AE:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.Faction == playerFaction && !p.Suspended)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_AE;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__IteratorF();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator10 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator10()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.IsPrisonerOfColony)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator10();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator11 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator11()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_8D:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (!p.Suspended)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_8D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator11();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator12 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal List<Pawn> <prisonersOfColonySpawned>__3;
+
+			internal int <j>__4;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator12()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState != ProgramState.Entry)
+					{
+						maps = Find.Maps;
+						i = 0;
+						goto IL_D2;
+					}
+					goto IL_E9;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_AD:
+				if (j < prisonersOfColonySpawned.Count)
+				{
+					this.$current = prisonersOfColonySpawned[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_D2:
+				if (i < maps.Count)
+				{
+					prisonersOfColonySpawned = maps[i].mapPawns.PrisonersOfColonySpawned;
+					j = 0;
+					goto IL_AD;
+				}
+				IL_E9:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator12();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator13 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator13()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState == ProgramState.Entry)
+					{
+						goto IL_10D;
+					}
+					maps = Find.Maps;
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maps.Count)
+				{
+					enumerator = maps[i].mapPawns.PrisonersOfColony.GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				IL_10D:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator13();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator14 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator14()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState == ProgramState.Entry)
+					{
+						goto IL_10D;
+					}
+					maps = Find.Maps;
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maps.Count)
+				{
+					enumerator = maps[i].mapPawns.FreeColonists.GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				IL_10D:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator14();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator15 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator15()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState == ProgramState.Entry)
+					{
+						goto IL_10D;
+					}
+					maps = Find.Maps;
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maps.Count)
+				{
+					enumerator = maps[i].mapPawns.FreeColonistsSpawned.GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				IL_10D:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator15();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator16 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator16()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Current.ProgramState == ProgramState.Entry)
+					{
+						goto IL_10D;
+					}
+					maps = Find.Maps;
+					i = 0;
+					break;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maps.Count)
+				{
+					enumerator = maps[i].mapPawns.FreeColonistsAndPrisonersSpawned.GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				IL_10D:
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator16();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator17 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__0;
+
+			internal int <i>__1;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__2;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator17()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					maps = Find.Maps;
+					i = 0;
+					break;
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < maps.Count)
+				{
+					enumerator = maps[i].mapPawns.FreeColonistsAndPrisoners.GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PawnsFinder.<>c__Iterator17();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllMaps_SpawnedPawnsInFaction>c__Iterator18 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__0;
+
+			internal int <i>__1;
+
+			internal Faction faction;
+
+			internal List<Pawn> <spawnedPawnsInFaction>__2;
+
+			internal int <j>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllMaps_SpawnedPawnsInFaction>c__Iterator18()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					maps = Find.Maps;
+					i = 0;
+					goto IL_CD;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_A8:
+				if (j < spawnedPawnsInFaction.Count)
+				{
+					this.$current = spawnedPawnsInFaction[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_CD:
+				if (i < maps.Count)
+				{
+					spawnedPawnsInFaction = maps[i].mapPawns.SpawnedPawnsInFaction(faction);
+					j = 0;
+					goto IL_A8;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__Iterator18 <AllMaps_SpawnedPawnsInFaction>c__Iterator = new PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__Iterator18();
+				<AllMaps_SpawnedPawnsInFaction>c__Iterator.faction = faction;
+				return <AllMaps_SpawnedPawnsInFaction>c__Iterator;
+			}
 		}
 	}
 }

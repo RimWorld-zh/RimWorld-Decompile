@@ -1,38 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E38 RID: 3640
 	[HasDebugOutput]
 	public class Dialog_PawnTableTest : Window
 	{
-		// Token: 0x040038EA RID: 14570
 		private PawnColumnDef singleColumn;
 
-		// Token: 0x040038EB RID: 14571
 		private PawnTable pawnTableMin;
 
-		// Token: 0x040038EC RID: 14572
 		private PawnTable pawnTableOptimal;
 
-		// Token: 0x040038ED RID: 14573
 		private PawnTable pawnTableMax;
 
-		// Token: 0x040038EE RID: 14574
 		private const int TableTitleHeight = 30;
 
-		// Token: 0x06005621 RID: 22049 RVA: 0x002C6768 File Offset: 0x002C4B68
 		public Dialog_PawnTableTest(PawnColumnDef singleColumn)
 		{
 			this.singleColumn = singleColumn;
 		}
 
-		// Token: 0x17000D76 RID: 3446
-		// (get) Token: 0x06005622 RID: 22050 RVA: 0x002C6778 File Offset: 0x002C4B78
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,8 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D77 RID: 3447
-		// (get) Token: 0x06005623 RID: 22051 RVA: 0x002C67A0 File Offset: 0x002C4BA0
 		private List<Pawn> Pawns
 		{
 			get
@@ -51,7 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005624 RID: 22052 RVA: 0x002C67D0 File Offset: 0x002C4BD0
 		public override void DoWindowContents(Rect inRect)
 		{
 			int num = ((int)inRect.height - 90) / 3;
@@ -98,9 +87,8 @@ namespace Verse
 			num2 += num;
 		}
 
-		// Token: 0x06005625 RID: 22053 RVA: 0x002C6A9C File Offset: 0x002C4E9C
-		[DebugOutput]
 		[Category("UI")]
+		[DebugOutput]
 		private static void PawnColumnTest()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -114,6 +102,39 @@ namespace Verse
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+		}
+
+		[CompilerGenerated]
+		private IEnumerable<Pawn> <DoWindowContents>m__0()
+		{
+			return this.Pawns;
+		}
+
+		[CompilerGenerated]
+		private IEnumerable<Pawn> <DoWindowContents>m__1()
+		{
+			return this.Pawns;
+		}
+
+		[CompilerGenerated]
+		private IEnumerable<Pawn> <DoWindowContents>m__2()
+		{
+			return this.Pawns;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnColumnTest>c__AnonStorey0
+		{
+			internal PawnColumnDef localDef;
+
+			public <PawnColumnTest>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Find.WindowStack.Add(new Dialog_PawnTableTest(this.localDef));
+			}
 		}
 	}
 }

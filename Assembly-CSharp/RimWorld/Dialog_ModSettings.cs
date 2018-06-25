@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000804 RID: 2052
 	public class Dialog_ModSettings : Window
 	{
-		// Token: 0x04001853 RID: 6227
 		private Mod selMod = null;
 
-		// Token: 0x04001854 RID: 6228
 		private const float TopAreaHeight = 40f;
 
-		// Token: 0x04001855 RID: 6229
 		private const float TopButtonHeight = 35f;
 
-		// Token: 0x04001856 RID: 6230
 		private const float TopButtonWidth = 150f;
 
-		// Token: 0x06002DD2 RID: 11730 RVA: 0x001824BA File Offset: 0x001808BA
+		[CompilerGenerated]
+		private static Func<Mod, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Mod, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Mod, bool> <>f__am$cache2;
+
 		public Dialog_ModSettings()
 		{
 			this.forcePause = true;
@@ -31,8 +35,6 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x17000753 RID: 1875
-		// (get) Token: 0x06002DD3 RID: 11731 RVA: 0x001824F0 File Offset: 0x001808F0
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,7 +43,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD4 RID: 11732 RVA: 0x00182514 File Offset: 0x00180914
 		public override void PreClose()
 		{
 			base.PreClose();
@@ -51,7 +52,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD5 RID: 11733 RVA: 0x00182534 File Offset: 0x00180934
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 150f, 35f);
@@ -94,10 +94,48 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD6 RID: 11734 RVA: 0x00182738 File Offset: 0x00180B38
 		public static bool HasSettings()
 		{
 			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());
+		}
+
+		[CompilerGenerated]
+		private static bool <DoWindowContents>m__0(Mod mod)
+		{
+			return !mod.SettingsCategory().NullOrEmpty();
+		}
+
+		[CompilerGenerated]
+		private static string <DoWindowContents>m__1(Mod mod)
+		{
+			return mod.SettingsCategory();
+		}
+
+		[CompilerGenerated]
+		private static bool <HasSettings>m__2(Mod mod)
+		{
+			return !mod.SettingsCategory().NullOrEmpty();
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey0
+		{
+			internal Mod localMod;
+
+			internal Dialog_ModSettings $this;
+
+			public <DoWindowContents>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (this.$this.selMod != null)
+				{
+					this.$this.selMod.WriteSettings();
+				}
+				this.$this.selMod = this.localMod;
+			}
 		}
 	}
 }

@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B5 RID: 1461
 	public static class IcosahedronGenerator
 	{
-		// Token: 0x040010C4 RID: 4292
 		private static readonly TriangleIndices[] IcosahedronTris = new TriangleIndices[]
 		{
 			new TriangleIndices(0, 11, 5),
@@ -32,7 +30,6 @@ namespace RimWorld.Planet
 			new TriangleIndices(9, 8, 1)
 		};
 
-		// Token: 0x06001C0B RID: 7179 RVA: 0x000F145C File Offset: 0x000EF85C
 		public static void GenerateIcosahedron(List<Vector3> outVerts, List<TriangleIndices> outTris, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			float num = (1f + Mathf.Sqrt(5f)) / 2f;
@@ -76,11 +73,15 @@ namespace RimWorld.Planet
 			MeshUtility.RemoveUnusedVertices(outVerts, outTris);
 		}
 
-		// Token: 0x06001C0C RID: 7180 RVA: 0x000F16B8 File Offset: 0x000EFAB8
 		private static bool IcosahedronFaceNeeded(int v1, int v2, int v3, List<Vector3> verts, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			viewAngle += 18f;
 			return MeshUtility.Visible(verts[v1], radius, viewCenter, viewAngle) || MeshUtility.Visible(verts[v2], radius, viewCenter, viewAngle) || MeshUtility.Visible(verts[v3], radius, viewCenter, viewAngle);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IcosahedronGenerator()
+		{
 		}
 	}
 }

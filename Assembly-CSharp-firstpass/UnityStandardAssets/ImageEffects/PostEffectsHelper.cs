@@ -3,18 +3,19 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001A1 RID: 417
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
 	internal class PostEffectsHelper : MonoBehaviour
 	{
-		// Token: 0x0600094A RID: 2378 RVA: 0x0001788C File Offset: 0x00015A8C
+		public PostEffectsHelper()
+		{
+		}
+
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			Debug.Log("OnRenderImage in Helper called ...");
 		}
 
-		// Token: 0x0600094B RID: 2379 RVA: 0x0001789C File Offset: 0x00015A9C
 		private static void DrawLowLevelPlaneAlignedWithCamera(float dist, RenderTexture source, RenderTexture dest, Material material, Camera cameraForProjectionMatrix)
 		{
 			RenderTexture.active = dest;
@@ -65,7 +66,6 @@ namespace UnityStandardAssets.ImageEffects
 			GL.PopMatrix();
 		}
 
-		// Token: 0x0600094C RID: 2380 RVA: 0x00017A08 File Offset: 0x00015C08
 		private static void DrawBorder(RenderTexture dest, Material material)
 		{
 			RenderTexture.active = dest;
@@ -141,7 +141,6 @@ namespace UnityStandardAssets.ImageEffects
 			GL.PopMatrix();
 		}
 
-		// Token: 0x0600094D RID: 2381 RVA: 0x00017CB0 File Offset: 0x00015EB0
 		private static void DrawLowLevelQuad(float x1, float x2, float y1, float y2, RenderTexture source, RenderTexture dest, Material material)
 		{
 			RenderTexture.active = dest;

@@ -3,10 +3,12 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003AF RID: 943
 	public class SymbolResolver_EmptyRoom : SymbolResolver
 	{
-		// Token: 0x06001057 RID: 4183 RVA: 0x00089F84 File Offset: 0x00088384
+		public SymbolResolver_EmptyRoom()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EFC RID: 3836
 	public class SimpleCurve : IEnumerable<CurvePoint>, IEnumerable
 	{
-		// Token: 0x04003CC2 RID: 15554
 		private List<CurvePoint> points = new List<CurvePoint>();
 
-		// Token: 0x04003CC3 RID: 15555
 		[Unsaved]
 		private SimpleCurveView view = null;
 
-		// Token: 0x04003CC4 RID: 15556
 		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
 		{
 			int result;
@@ -34,8 +33,10 @@ namespace Verse
 			return result;
 		};
 
-		// Token: 0x17000EA2 RID: 3746
-		// (get) Token: 0x06005BB1 RID: 23473 RVA: 0x002EB938 File Offset: 0x002E9D38
+		public SimpleCurve()
+		{
+		}
+
 		public int PointsCount
 		{
 			get
@@ -44,8 +45,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EA3 RID: 3747
-		// (get) Token: 0x06005BB2 RID: 23474 RVA: 0x002EB958 File Offset: 0x002E9D58
 		public List<CurvePoint> Points
 		{
 			get
@@ -54,8 +53,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EA4 RID: 3748
-		// (get) Token: 0x06005BB3 RID: 23475 RVA: 0x002EB974 File Offset: 0x002E9D74
 		public bool HasView
 		{
 			get
@@ -64,8 +61,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EA5 RID: 3749
-		// (get) Token: 0x06005BB4 RID: 23476 RVA: 0x002EB998 File Offset: 0x002E9D98
 		public SimpleCurveView View
 		{
 			get
@@ -79,13 +74,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BB5 RID: 23477 RVA: 0x002EB9D8 File Offset: 0x002E9DD8
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
 		}
 
-		// Token: 0x06005BB6 RID: 23478 RVA: 0x002EB9F4 File Offset: 0x002E9DF4
 		public IEnumerator<CurvePoint> GetEnumerator()
 		{
 			foreach (CurvePoint point in this.points)
@@ -95,7 +88,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x17000EA6 RID: 3750
 		public CurvePoint this[int i]
 		{
 			get
@@ -108,7 +100,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BB9 RID: 23481 RVA: 0x002EBA4C File Offset: 0x002E9E4C
 		public void SetPoints(IEnumerable<CurvePoint> newPoints)
 		{
 			this.points.Clear();
@@ -119,14 +110,12 @@ namespace Verse
 			this.SortPoints();
 		}
 
-		// Token: 0x06005BBA RID: 23482 RVA: 0x002EBABC File Offset: 0x002E9EBC
 		public void Add(float x, float y, bool sort = true)
 		{
 			CurvePoint newPoint = new CurvePoint(x, y);
 			this.Add(newPoint, sort);
 		}
 
-		// Token: 0x06005BBB RID: 23483 RVA: 0x002EBADB File Offset: 0x002E9EDB
 		public void Add(CurvePoint newPoint, bool sort = true)
 		{
 			this.points.Add(newPoint);
@@ -136,13 +125,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BBC RID: 23484 RVA: 0x002EBAF6 File Offset: 0x002E9EF6
 		public void SortPoints()
 		{
 			this.points.Sort(SimpleCurve.CurvePointsComparer);
 		}
 
-		// Token: 0x06005BBD RID: 23485 RVA: 0x002EBB0C File Offset: 0x002E9F0C
 		public void RemovePointNear(CurvePoint point)
 		{
 			for (int i = 0; i < this.points.Count; i++)
@@ -155,7 +142,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BBE RID: 23486 RVA: 0x002EBB7C File Offset: 0x002E9F7C
 		public float Evaluate(float x)
 		{
 			float result;
@@ -194,7 +180,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005BBF RID: 23487 RVA: 0x002EBD00 File Offset: 0x002EA100
 		public float PeriodProbabilityFromCumulative(float startX, float span)
 		{
 			float result;
@@ -223,7 +208,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005BC0 RID: 23488 RVA: 0x002EBDA8 File Offset: 0x002EA1A8
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
 			for (int i = 0; i < this.points.Count - 1; i++)
@@ -235,6 +219,239 @@ namespace Verse
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SimpleCurve()
+		{
+		}
+
+		[CompilerGenerated]
+		private static int <CurvePointsComparer>m__0(CurvePoint a, CurvePoint b)
+		{
+			int result;
+			if (a.x < b.x)
+			{
+				result = -1;
+			}
+			else if (b.x < a.x)
+			{
+				result = 1;
+			}
+			else
+			{
+				result = 0;
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetEnumerator>c__Iterator0 : IEnumerator, IDisposable, IEnumerator<CurvePoint>
+		{
+			internal List<CurvePoint>.Enumerator $locvar0;
+
+			internal CurvePoint <point>__1;
+
+			internal SimpleCurve $this;
+
+			internal CurvePoint $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetEnumerator>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = this.points.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						point = enumerator.Current;
+						this.$current = point;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			CurvePoint IEnumerator<CurvePoint>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator1 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal int <i>__1;
+
+			internal string prefix;
+
+			internal SimpleCurve $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					for (i = 0; i < this.points.Count - 1; i++)
+					{
+						if (this.points[i + 1].x < this.points[i].x)
+						{
+							this.$current = prefix + ": points are out of order";
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SimpleCurve.<ConfigErrors>c__Iterator1 <ConfigErrors>c__Iterator = new SimpleCurve.<ConfigErrors>c__Iterator1();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.prefix = prefix;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

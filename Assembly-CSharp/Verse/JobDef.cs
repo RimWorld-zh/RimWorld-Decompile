@@ -1,74 +1,60 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B4B RID: 2891
 	public class JobDef : Def
 	{
-		// Token: 0x040029C4 RID: 10692
 		public Type driverClass;
 
-		// Token: 0x040029C5 RID: 10693
 		[MustTranslate]
 		public string reportString = "Doing something.";
 
-		// Token: 0x040029C6 RID: 10694
 		public bool playerInterruptible = true;
 
-		// Token: 0x040029C7 RID: 10695
 		public CheckJobOverrideOnDamageMode checkOverrideOnDamage = CheckJobOverrideOnDamageMode.Always;
 
-		// Token: 0x040029C8 RID: 10696
 		public bool alwaysShowWeapon = false;
 
-		// Token: 0x040029C9 RID: 10697
 		public bool neverShowWeapon = false;
 
-		// Token: 0x040029CA RID: 10698
 		public bool suspendable = true;
 
-		// Token: 0x040029CB RID: 10699
 		public bool casualInterruptible = true;
 
-		// Token: 0x040029CC RID: 10700
 		public bool allowOpportunisticPrefix = false;
 
-		// Token: 0x040029CD RID: 10701
 		public bool collideWithPawns = false;
 
-		// Token: 0x040029CE RID: 10702
 		public bool isIdle = false;
 
-		// Token: 0x040029CF RID: 10703
 		public TaleDef taleOnCompletion = null;
 
-		// Token: 0x040029D0 RID: 10704
 		public bool makeTargetPrisoner = false;
 
-		// Token: 0x040029D1 RID: 10705
 		public int joyDuration = 4000;
 
-		// Token: 0x040029D2 RID: 10706
 		public int joyMaxParticipants = 1;
 
-		// Token: 0x040029D3 RID: 10707
 		public float joyGainRate = 1f;
 
-		// Token: 0x040029D4 RID: 10708
 		public SkillDef joySkill = null;
 
-		// Token: 0x040029D5 RID: 10709
 		public float joyXpPerTick = 0f;
 
-		// Token: 0x040029D6 RID: 10710
 		public JoyKindDef joyKind = null;
 
-		// Token: 0x040029D7 RID: 10711
 		public Rot4 faceDir = Rot4.Invalid;
 
-		// Token: 0x06003F55 RID: 16213 RVA: 0x0021659C File Offset: 0x0021499C
+		public JobDef()
+		{
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -80,6 +66,159 @@ namespace Verse
 				yield return "funSkill is not null but funXpPerTick is zero";
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal JobDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FC;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.joySkill == null || this.joyXpPerTick != 0f)
+				{
+					goto IL_FC;
+				}
+				this.$current = "funSkill is not null but funXpPerTick is zero";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_FC:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new JobDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,31 +1,40 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C1 RID: 2497
 	public class StatWorker
 	{
-		// Token: 0x040023D0 RID: 9168
 		protected StatDef stat;
 
-		// Token: 0x060037E8 RID: 14312 RVA: 0x001DBA68 File Offset: 0x001D9E68
+		[CompilerGenerated]
+		private static Func<PawnCapacityOffset, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<PawnCapacityFactor, int> <>f__am$cache1;
+
+		public StatWorker()
+		{
+		}
+
 		public void InitSetStat(StatDef newStat)
 		{
 			this.stat = newStat;
 		}
 
-		// Token: 0x060037E9 RID: 14313 RVA: 0x001DBA74 File Offset: 0x001D9E74
 		public float GetValue(Thing thing, bool applyPostProcess = true)
 		{
 			return this.GetValue(StatRequest.For(thing), true);
 		}
 
-		// Token: 0x060037EA RID: 14314 RVA: 0x001DBA98 File Offset: 0x001D9E98
 		public float GetValue(StatRequest req, bool applyPostProcess = true)
 		{
 			if (this.stat.minifiedThingInherits)
@@ -45,13 +54,11 @@ namespace RimWorld
 			return valueUnfinalized;
 		}
 
-		// Token: 0x060037EB RID: 14315 RVA: 0x001DBB18 File Offset: 0x001D9F18
 		public float GetValueAbstract(BuildableDef def, ThingDef stuffDef = null)
 		{
 			return this.GetValue(StatRequest.For(def, stuffDef, QualityCategory.Normal), true);
 		}
 
-		// Token: 0x060037EC RID: 14316 RVA: 0x001DBB3C File Offset: 0x001D9F3C
 		public virtual float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			if (Prefs.DevMode && this.IsDisabledFor(req.Thing))
@@ -180,7 +187,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060037ED RID: 14317 RVA: 0x001DC094 File Offset: 0x001DA494
 		public virtual string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -493,7 +499,6 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x060037EE RID: 14318 RVA: 0x001DCE44 File Offset: 0x001DB244
 		public virtual void FinalizeValue(StatRequest req, ref float val, bool applyPostProcess)
 		{
 			if (this.stat.parts != null)
@@ -525,7 +530,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037EF RID: 14319 RVA: 0x001DCF50 File Offset: 0x001DB350
 		public virtual string GetExplanationFinalizePart(StatRequest req, ToStringNumberSense numberSense, float finalVal)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -570,7 +574,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060037F0 RID: 14320 RVA: 0x001DD0E8 File Offset: 0x001DB4E8
 		public string GetExplanationFull(StatRequest req, ToStringNumberSense numberSense, float value)
 		{
 			string result;
@@ -590,7 +593,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F1 RID: 14321 RVA: 0x001DD168 File Offset: 0x001DB568
 		public virtual bool ShouldShowFor(StatRequest req)
 		{
 			bool result;
@@ -693,7 +695,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F2 RID: 14322 RVA: 0x001DD4D0 File Offset: 0x001DB8D0
 		public virtual bool IsDisabledFor(Thing thing)
 		{
 			bool result;
@@ -732,26 +733,22 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F3 RID: 14323 RVA: 0x001DD610 File Offset: 0x001DBA10
 		public virtual string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq)
 		{
 			return stat.ValueToString(value, numberSense);
 		}
 
-		// Token: 0x060037F4 RID: 14324 RVA: 0x001DD630 File Offset: 0x001DBA30
 		private static string InfoTextLineFromGear(Thing gear, StatDef stat)
 		{
 			float f = StatWorker.StatOffsetFromGear(gear, stat);
 			return "    " + gear.LabelCap + ": " + f.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset);
 		}
 
-		// Token: 0x060037F5 RID: 14325 RVA: 0x001DD670 File Offset: 0x001DBA70
 		private static float StatOffsetFromGear(Thing gear, StatDef stat)
 		{
 			return gear.def.equippedStatOffsets.GetStatOffsetFromList(stat);
 		}
 
-		// Token: 0x060037F6 RID: 14326 RVA: 0x001DD698 File Offset: 0x001DBA98
 		private static IEnumerable<Thing> RelevantGear(Pawn pawn, StatDef stat)
 		{
 			if (pawn.apparel != null)
@@ -777,7 +774,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060037F7 RID: 14327 RVA: 0x001DD6CC File Offset: 0x001DBACC
 		private static bool GearAffectsStat(ThingDef gearDef, StatDef stat)
 		{
 			if (gearDef.equippedStatOffsets != null)
@@ -793,7 +789,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060037F8 RID: 14328 RVA: 0x001DD748 File Offset: 0x001DBB48
 		protected float GetBaseValueFor(BuildableDef def)
 		{
 			float result = this.stat.defaultBaseValue;
@@ -811,7 +806,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F9 RID: 14329 RVA: 0x001DD7CC File Offset: 0x001DBBCC
 		public string ValueToString(float val, bool finalized, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
 			string result;
@@ -829,6 +823,250 @@ namespace RimWorld
 				result = text;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static int <GetExplanationUnfinalized>m__0(PawnCapacityOffset hfa)
+		{
+			return hfa.capacity.listOrder;
+		}
+
+		[CompilerGenerated]
+		private bool <GetExplanationUnfinalized>m__1(Trait tr)
+		{
+			return tr.CurrentData.statOffsets != null && tr.CurrentData.statOffsets.Any((StatModifier se) => se.stat == this.stat);
+		}
+
+		[CompilerGenerated]
+		private bool <GetExplanationUnfinalized>m__2(Trait tr)
+		{
+			return tr.CurrentData.statFactors != null && tr.CurrentData.statFactors.Any((StatModifier se) => se.stat == this.stat);
+		}
+
+		[CompilerGenerated]
+		private bool <GetExplanationUnfinalized>m__3(StatModifier se)
+		{
+			return se.stat == this.stat;
+		}
+
+		[CompilerGenerated]
+		private bool <GetExplanationUnfinalized>m__4(StatModifier se)
+		{
+			return se.stat == this.stat;
+		}
+
+		[CompilerGenerated]
+		private static int <GetExplanationUnfinalized>m__5(PawnCapacityFactor hfa)
+		{
+			return hfa.capacity.listOrder;
+		}
+
+		[CompilerGenerated]
+		private bool <GetExplanationUnfinalized>m__6(StatModifier se)
+		{
+			return se.stat == this.stat;
+		}
+
+		[CompilerGenerated]
+		private bool <GetExplanationUnfinalized>m__7(StatModifier se)
+		{
+			return se.stat == this.stat;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RelevantGear>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn pawn;
+
+			internal List<Apparel>.Enumerator $locvar0;
+
+			internal Apparel <t>__1;
+
+			internal StatDef stat;
+
+			internal List<ThingWithComps>.Enumerator $locvar1;
+
+			internal ThingWithComps <t>__2;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RelevantGear>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (pawn.apparel == null)
+					{
+						goto IL_E5;
+					}
+					enumerator = pawn.apparel.WornApparel.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						case 2u:
+							IL_175:
+							break;
+						}
+						if (enumerator2.MoveNext())
+						{
+							t2 = enumerator2.Current;
+							if (StatWorker.GearAffectsStat(t2.def, stat))
+							{
+								this.$current = t2;
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_175;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							((IDisposable)enumerator2).Dispose();
+						}
+					}
+					goto IL_1A2;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_B8:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						if (StatWorker.GearAffectsStat(t.def, stat))
+						{
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_B8;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				IL_E5:
+				if (pawn.equipment != null)
+				{
+					enumerator2 = pawn.equipment.AllEquipmentListForReading.GetEnumerator();
+					num = 4294967293u;
+					goto Block_5;
+				}
+				IL_1A2:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatWorker.<RelevantGear>c__Iterator0 <RelevantGear>c__Iterator = new StatWorker.<RelevantGear>c__Iterator0();
+				<RelevantGear>c__Iterator.pawn = pawn;
+				<RelevantGear>c__Iterator.stat = stat;
+				return <RelevantGear>c__Iterator;
+			}
 		}
 	}
 }

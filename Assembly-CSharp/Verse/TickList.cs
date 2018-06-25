@@ -4,22 +4,16 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BD2 RID: 3026
 	public class TickList
 	{
-		// Token: 0x04002D15 RID: 11541
 		private TickerType tickType;
 
-		// Token: 0x04002D16 RID: 11542
 		private List<List<Thing>> thingLists = new List<List<Thing>>();
 
-		// Token: 0x04002D17 RID: 11543
 		private List<Thing> thingsToRegister = new List<Thing>();
 
-		// Token: 0x04002D18 RID: 11544
 		private List<Thing> thingsToDeregister = new List<Thing>();
 
-		// Token: 0x060041EE RID: 16878 RVA: 0x0022C414 File Offset: 0x0022A814
 		public TickList(TickerType tickType)
 		{
 			this.tickType = tickType;
@@ -29,8 +23,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4B RID: 2635
-		// (get) Token: 0x060041EF RID: 16879 RVA: 0x0022C47C File Offset: 0x0022A87C
 		private int TickInterval
 		{
 			get
@@ -63,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041F0 RID: 16880 RVA: 0x0022C4D0 File Offset: 0x0022A8D0
 		public void Reset()
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -74,7 +65,6 @@ namespace Verse
 			this.thingsToDeregister.Clear();
 		}
 
-		// Token: 0x060041F1 RID: 16881 RVA: 0x0022C524 File Offset: 0x0022A924
 		public void RemoveWhere(Predicate<Thing> predicate)
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -85,19 +75,16 @@ namespace Verse
 			this.thingsToDeregister.RemoveAll(predicate);
 		}
 
-		// Token: 0x060041F2 RID: 16882 RVA: 0x0022C57D File Offset: 0x0022A97D
 		public void RegisterThing(Thing t)
 		{
 			this.thingsToRegister.Add(t);
 		}
 
-		// Token: 0x060041F3 RID: 16883 RVA: 0x0022C58C File Offset: 0x0022A98C
 		public void DeregisterThing(Thing t)
 		{
 			this.thingsToDeregister.Add(t);
 		}
 
-		// Token: 0x060041F4 RID: 16884 RVA: 0x0022C59C File Offset: 0x0022A99C
 		public void Tick()
 		{
 			for (int i = 0; i < this.thingsToRegister.Count; i++)
@@ -184,7 +171,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041F5 RID: 16885 RVA: 0x0022C898 File Offset: 0x0022AC98
 		private List<Thing> BucketOf(Thing t)
 		{
 			int num = t.GetHashCode();

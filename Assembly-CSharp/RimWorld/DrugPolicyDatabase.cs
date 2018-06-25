@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F1 RID: 753
 	public class DrugPolicyDatabase : IExposable
 	{
-		// Token: 0x0400082D RID: 2093
 		private List<DrugPolicy> policies = new List<DrugPolicy>();
 
-		// Token: 0x06000C6E RID: 3182 RVA: 0x0006E878 File Offset: 0x0006CC78
+		[CompilerGenerated]
+		private static Func<DrugPolicy, int> <>f__am$cache0;
+
 		public DrugPolicyDatabase()
 		{
 			this.GenerateStartingDrugPolicies();
 		}
 
-		// Token: 0x170001DC RID: 476
-		// (get) Token: 0x06000C6F RID: 3183 RVA: 0x0006E894 File Offset: 0x0006CC94
 		public List<DrugPolicy> AllPolicies
 		{
 			get
@@ -27,13 +26,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C70 RID: 3184 RVA: 0x0006E8AF File Offset: 0x0006CCAF
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<DrugPolicy>(ref this.policies, "policies", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06000C71 RID: 3185 RVA: 0x0006E8CC File Offset: 0x0006CCCC
 		public DrugPolicy DefaultDrugPolicy()
 		{
 			if (this.policies.Count == 0)
@@ -43,7 +40,6 @@ namespace RimWorld
 			return this.policies[0];
 		}
 
-		// Token: 0x06000C72 RID: 3186 RVA: 0x0006E904 File Offset: 0x0006CD04
 		public AcceptanceReport TryDelete(DrugPolicy policy)
 		{
 			foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
@@ -67,7 +63,6 @@ namespace RimWorld
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x06000C73 RID: 3187 RVA: 0x0006EA20 File Offset: 0x0006CE20
 		public DrugPolicy MakeNewDrugPolicy()
 		{
 			int num;
@@ -85,7 +80,6 @@ namespace RimWorld
 			return drugPolicy;
 		}
 
-		// Token: 0x06000C74 RID: 3188 RVA: 0x0006EAAC File Offset: 0x0006CEAC
 		private void GenerateStartingDrugPolicies()
 		{
 			DrugPolicy drugPolicy = this.MakeNewDrugPolicy();
@@ -110,6 +104,12 @@ namespace RimWorld
 			drugPolicy4[ThingDefOf.Beer].takeToInventory = 1;
 			drugPolicy4[ThingDefOf.Beer].daysFrequency = 1f;
 			drugPolicy4[ThingDefOf.SmokeleafJoint].allowedForJoy = true;
+		}
+
+		[CompilerGenerated]
+		private static int <MakeNewDrugPolicy>m__0(DrugPolicy o)
+		{
+			return o.uniqueId;
 		}
 	}
 }

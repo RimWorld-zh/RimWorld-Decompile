@@ -3,15 +3,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000975 RID: 2421
 	public abstract class SubEffecter_DrifterEmote : SubEffecter
 	{
-		// Token: 0x0600367F RID: 13951 RVA: 0x001D14BD File Offset: 0x001CF8BD
 		public SubEffecter_DrifterEmote(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06003680 RID: 13952 RVA: 0x001D14C8 File Offset: 0x001CF8C8
 		protected void MakeMote(TargetInfo A)
 		{
 			Vector3 vector = (!A.HasThing) ? A.Cell.ToVector3Shifted() : A.Thing.DrawPos;

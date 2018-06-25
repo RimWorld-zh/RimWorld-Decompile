@@ -3,13 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A57 RID: 2647
 	public static class JobUtility
 	{
-		// Token: 0x04002551 RID: 9553
 		private static bool startingErrorRecoverJob = false;
 
-		// Token: 0x06003AF1 RID: 15089 RVA: 0x001F4908 File Offset: 0x001F2D08
 		public static void TryStartErrorRecoverJob(Pawn pawn, string message, Exception exception = null, JobDriver concreteDriver = null)
 		{
 			string text = message;
@@ -44,7 +41,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003AF2 RID: 15090 RVA: 0x001F49E0 File Offset: 0x001F2DE0
 		private static void AppendVarsInfoToDebugMessage(Pawn pawn, ref string msg, JobDriver concreteDriver)
 		{
 			if (concreteDriver != null)
@@ -88,6 +84,11 @@ namespace Verse.AI
 			{
 				msg = msg + " lastJobGiver=" + pawn.mindState.lastJobGiver.ToStringSafe<ThinkNode>();
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobUtility()
+		{
 		}
 	}
 }

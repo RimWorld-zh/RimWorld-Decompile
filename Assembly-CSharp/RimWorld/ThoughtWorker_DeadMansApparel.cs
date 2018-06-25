@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000214 RID: 532
 	public class ThoughtWorker_DeadMansApparel : ThoughtWorker
 	{
-		// Token: 0x060009F3 RID: 2547 RVA: 0x00058E5C File Offset: 0x0005725C
+		public ThoughtWorker_DeadMansApparel()
+		{
+		}
+
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			string text = null;

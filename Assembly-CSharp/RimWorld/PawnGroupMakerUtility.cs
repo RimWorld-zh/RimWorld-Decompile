@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000492 RID: 1170
 	[HasDebugOutput]
 	public class PawnGroupMakerUtility
 	{
-		// Token: 0x04000C7F RID: 3199
 		private static readonly SimpleCurve PawnWeightFactorByMostExpensivePawnCostFractionCurve = new SimpleCurve
 		{
 			{
@@ -28,7 +30,19 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x060014B9 RID: 5305 RVA: 0x000B6594 File Offset: 0x000B4994
+		[CompilerGenerated]
+		private static Func<Faction, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Faction, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Action<Faction> <>f__am$cache2;
+
+		public PawnGroupMakerUtility()
+		{
+		}
+
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
 			if (parms.groupKind == null)
@@ -72,7 +86,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060014BA RID: 5306 RVA: 0x000B65C8 File Offset: 0x000B49C8
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float pointsTotal, List<PawnGenOption> options, PawnGroupMakerParms groupParms)
 		{
 			float num = PawnGroupMakerUtility.MaxPawnCost(groupParms.faction, pointsTotal, groupParms.raidStrategy, groupParms.groupKind);
@@ -143,7 +156,6 @@ namespace RimWorld
 			return list2;
 		}
 
-		// Token: 0x060014BB RID: 5307 RVA: 0x000B67F0 File Offset: 0x000B4BF0
 		public static float MaxPawnCost(Faction faction, float totalPoints, RaidStrategyDef raidStrategy, PawnGroupKindDef groupKind)
 		{
 			float num = faction.def.maxPawnCostPerTotalPointsCurve.Evaluate(totalPoints);
@@ -159,7 +171,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060014BC RID: 5308 RVA: 0x000B6868 File Offset: 0x000B4C68
 		public static bool CanGenerateAnyNormalGroup(Faction faction, float points)
 		{
 			bool result;
@@ -188,7 +199,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014BD RID: 5309 RVA: 0x000B6908 File Offset: 0x000B4D08
 		[DebugOutput]
 		public static void PawnGroupsMade()
 		{
@@ -270,7 +280,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060014BE RID: 5310 RVA: 0x000B6984 File Offset: 0x000B4D84
 		public static bool TryGetRandomFactionForCombatPawnGroup(float points, out Faction faction, Predicate<Faction> validator = null, bool allowNonHostileToPlayer = false, bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
 			List<Faction> source = Find.FactionManager.AllFactions.Where(delegate(Faction f)
@@ -285,6 +294,436 @@ namespace RimWorld
 				return false;
 			}).ToList<Faction>();
 			return source.TryRandomElementByWeight((Faction f) => f.def.RaidCommonalityFromPoints(points), out faction);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnGroupMakerUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <PawnGroupsMade>m__0(Faction fac)
+		{
+			return !fac.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>();
+		}
+
+		[CompilerGenerated]
+		private static string <PawnGroupsMade>m__1(Faction fac)
+		{
+			return fac.Name + " (" + fac.def.defName + ")";
+		}
+
+		[CompilerGenerated]
+		private static void <PawnGroupsMade>m__2(Faction fac)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine(string.Concat(new object[]
+			{
+				"FACTION: ",
+				fac.Name,
+				" (",
+				fac.def.defName,
+				") min=",
+				fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat)
+			}));
+			Action<float> action = delegate(float points)
+			{
+				if (points >= fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+				{
+					PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+					pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
+					pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
+					pawnGroupMakerParms.points = points;
+					pawnGroupMakerParms.faction = fac;
+					sb.AppendLine(string.Concat(new object[]
+					{
+						"Group with ",
+						pawnGroupMakerParms.points,
+						" points (max option cost: ",
+						PawnGroupMakerUtility.MaxPawnCost(fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
+						")"
+					}));
+					float num2 = 0f;
+					foreach (Pawn pawn in from pa in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false)
+					orderby pa.kindDef.combatPower
+					select pa)
+					{
+						string text;
+						if (pawn.equipment.Primary != null)
+						{
+							text = pawn.equipment.Primary.Label;
+						}
+						else
+						{
+							text = "no-equipment";
+						}
+						Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
+						string text2;
+						if (apparel != null)
+						{
+							text2 = apparel.LabelCap;
+						}
+						else
+						{
+							text2 = "shirtless";
+						}
+						sb.AppendLine(string.Concat(new string[]
+						{
+							"  ",
+							pawn.kindDef.combatPower.ToString("F0").PadRight(6),
+							pawn.kindDef.defName,
+							", ",
+							text,
+							", ",
+							text2
+						}));
+						num2 += pawn.kindDef.combatPower;
+					}
+					sb.AppendLine("         totalCost " + num2);
+					sb.AppendLine();
+				}
+			};
+			foreach (float num in Dialog_DebugActionsMenu.PointsOptions(false))
+			{
+				float obj = num;
+				action(obj);
+			}
+			Log.Message(sb.ToString(), false);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GeneratePawns>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal PawnGroupMakerParms parms;
+
+			internal IEnumerable<PawnGroupMaker> <usableGroupMakers>__0;
+
+			internal PawnGroupMaker <chosenGroupMaker>__0;
+
+			internal bool warnOnZeroResults;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private PawnGroupMakerUtility.<GeneratePawns>c__Iterator0.<GeneratePawns>c__AnonStorey1 $locvar1;
+
+			private static Func<PawnGroupMaker, float> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <GeneratePawns>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (parms.groupKind == null)
+					{
+						Log.Error("Tried to generate pawns with null pawn group kind def. parms=" + parms, false);
+						return false;
+					}
+					if (parms.faction.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>())
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Faction ",
+							parms.faction,
+							" of def ",
+							parms.faction.def,
+							" has no any PawnGroupMakers."
+						}), false);
+						return false;
+					}
+					usableGroupMakers = from gm in parms.faction.def.pawnGroupMakers
+					where gm.kindDef == parms.groupKind && gm.CanGenerateFrom(parms)
+					select gm;
+					if (!usableGroupMakers.TryRandomElementByWeight((PawnGroupMaker gm) => gm.commonality, out chosenGroupMaker))
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Faction ",
+							parms.faction,
+							" of def ",
+							parms.faction.def,
+							" has no usable PawnGroupMakers for parms ",
+							parms
+						}), false);
+						return false;
+					}
+					enumerator = chosenGroupMaker.GeneratePawns(parms, warnOnZeroResults).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnGroupMakerUtility.<GeneratePawns>c__Iterator0 <GeneratePawns>c__Iterator = new PawnGroupMakerUtility.<GeneratePawns>c__Iterator0();
+				<GeneratePawns>c__Iterator.parms = parms;
+				<GeneratePawns>c__Iterator.warnOnZeroResults = warnOnZeroResults;
+				return <GeneratePawns>c__Iterator;
+			}
+
+			private static float <>m__0(PawnGroupMaker gm)
+			{
+				return gm.commonality;
+			}
+
+			private sealed class <GeneratePawns>c__AnonStorey1
+			{
+				internal PawnGroupMakerParms parms;
+
+				internal PawnGroupMakerUtility.<GeneratePawns>c__Iterator0 <>f__ref$0;
+
+				public <GeneratePawns>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(PawnGroupMaker gm)
+				{
+					return gm.kindDef == this.parms.groupKind && gm.CanGenerateFrom(this.parms);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ChoosePawnGenOptionsByPoints>c__AnonStorey2
+		{
+			internal float highestCost;
+
+			public <ChoosePawnGenOptionsByPoints>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(PawnGenOption gr)
+			{
+				float selectionWeight = gr.selectionWeight;
+				return selectionWeight * PawnGroupMakerUtility.PawnWeightFactorByMostExpensivePawnCostFractionCurve.Evaluate(gr.Cost / this.highestCost);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGetRandomFactionForCombatPawnGroup>c__AnonStorey4
+		{
+			internal bool allowHidden;
+
+			internal bool allowDefeated;
+
+			internal bool allowNonHumanlike;
+
+			internal bool allowNonHostileToPlayer;
+
+			internal Predicate<Faction> validator;
+
+			internal float points;
+
+			private static Predicate<PawnGroupMaker> <>f__am$cache0;
+
+			public <TryGetRandomFactionForCombatPawnGroup>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(Faction f)
+			{
+				if ((this.allowHidden || !f.def.hidden) && (this.allowDefeated || !f.defeated) && (this.allowNonHumanlike || f.def.humanlikeFaction) && (this.allowNonHostileToPlayer || f.HostileTo(Faction.OfPlayer)) && f.def.pawnGroupMakers != null)
+				{
+					if (f.def.pawnGroupMakers.Any((PawnGroupMaker x) => x.kindDef == PawnGroupKindDefOf.Combat) && (this.validator == null || this.validator(f)))
+					{
+						return this.points >= f.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat);
+					}
+				}
+				return false;
+			}
+
+			internal float <>m__1(Faction f)
+			{
+				return f.def.RaidCommonalityFromPoints(this.points);
+			}
+
+			private static bool <>m__2(PawnGroupMaker x)
+			{
+				return x.kindDef == PawnGroupKindDefOf.Combat;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnGroupsMade>c__AnonStorey3
+		{
+			internal Faction fac;
+
+			internal StringBuilder sb;
+
+			private static Func<Pawn, float> <>f__am$cache0;
+
+			public <PawnGroupsMade>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0(float points)
+			{
+				if (points >= this.fac.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+				{
+					PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+					pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
+					pawnGroupMakerParms.tile = Find.CurrentMap.Tile;
+					pawnGroupMakerParms.points = points;
+					pawnGroupMakerParms.faction = this.fac;
+					this.sb.AppendLine(string.Concat(new object[]
+					{
+						"Group with ",
+						pawnGroupMakerParms.points,
+						" points (max option cost: ",
+						PawnGroupMakerUtility.MaxPawnCost(this.fac, points, RaidStrategyDefOf.ImmediateAttack, PawnGroupKindDefOf.Combat),
+						")"
+					}));
+					float num = 0f;
+					foreach (Pawn pawn in from pa in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, false)
+					orderby pa.kindDef.combatPower
+					select pa)
+					{
+						string text;
+						if (pawn.equipment.Primary != null)
+						{
+							text = pawn.equipment.Primary.Label;
+						}
+						else
+						{
+							text = "no-equipment";
+						}
+						Apparel apparel = pawn.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
+						string text2;
+						if (apparel != null)
+						{
+							text2 = apparel.LabelCap;
+						}
+						else
+						{
+							text2 = "shirtless";
+						}
+						this.sb.AppendLine(string.Concat(new string[]
+						{
+							"  ",
+							pawn.kindDef.combatPower.ToString("F0").PadRight(6),
+							pawn.kindDef.defName,
+							", ",
+							text,
+							", ",
+							text2
+						}));
+						num += pawn.kindDef.combatPower;
+					}
+					this.sb.AppendLine("         totalCost " + num);
+					this.sb.AppendLine();
+				}
+			}
+
+			private static float <>m__1(Pawn pa)
+			{
+				return pa.kindDef.combatPower;
+			}
 		}
 	}
 }

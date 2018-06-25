@@ -4,10 +4,8 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CFB RID: 3323
 	public static class ArmorUtility
 	{
-		// Token: 0x06004931 RID: 18737 RVA: 0x00267C18 File Offset: 0x00266018
 		public static float GetPostArmorDamage(Pawn pawn, float amount, BodyPartRecord part, DamageDef damageDef, out bool deflectedByMetalArmor)
 		{
 			deflectedByMetalArmor = false;
@@ -48,7 +46,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004932 RID: 18738 RVA: 0x00267CFC File Offset: 0x002660FC
 		private static void ApplyArmor(ref float damAmount, float armorRating, Thing armorThing, DamageDef damageDef, Pawn pawn, ref bool deflectedByMetalArmor)
 		{
 			if (armorThing != null)

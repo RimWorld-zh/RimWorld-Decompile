@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001B2 RID: 434
 	internal class Triangles
 	{
-		// Token: 0x04000896 RID: 2198
 		private static Mesh[] meshes;
 
-		// Token: 0x04000897 RID: 2199
 		private static int currentTris = 0;
 
-		// Token: 0x06000972 RID: 2418 RVA: 0x00019850 File Offset: 0x00017A50
+		public Triangles()
+		{
+		}
+
 		private static bool HasMeshes()
 		{
 			bool result;
@@ -34,7 +34,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000973 RID: 2419 RVA: 0x000198A8 File Offset: 0x00017AA8
 		private static void Cleanup()
 		{
 			if (Triangles.meshes != null)
@@ -51,7 +50,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000974 RID: 2420 RVA: 0x00019910 File Offset: 0x00017B10
 		private static Mesh[] GetMeshes(int totalWidth, int totalHeight)
 		{
 			Mesh[] result;
@@ -78,7 +76,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000975 RID: 2421 RVA: 0x000199CC File Offset: 0x00017BCC
 		private static Mesh GetMesh(int triCount, int triOffset, int totalWidth, int totalHeight)
 		{
 			Mesh mesh = new Mesh();
@@ -112,6 +109,11 @@ namespace UnityStandardAssets.ImageEffects
 			mesh.uv = array2;
 			mesh.uv2 = array3;
 			return mesh;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Triangles()
+		{
 		}
 	}
 }

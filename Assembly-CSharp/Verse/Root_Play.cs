@@ -8,25 +8,32 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BDF RID: 3039
 	public class Root_Play : Root
 	{
-		// Token: 0x04002D5F RID: 11615
 		public MusicManagerPlay musicManagerPlay;
 
-		// Token: 0x04002D60 RID: 11616
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache0;
 
-		// Token: 0x04002D61 RID: 11617
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache1;
 
-		// Token: 0x04002D62 RID: 11618
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache2;
 
-		// Token: 0x06004255 RID: 16981 RVA: 0x0022E9B8 File Offset: 0x0022CDB8
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache2;
+
+		public Root_Play()
+		{
+		}
+
 		public override void Start()
 		{
 			Log.ResetMessageCount();
@@ -94,7 +101,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004256 RID: 16982 RVA: 0x0022EB5C File Offset: 0x0022CF5C
 		public override void Update()
 		{
 			base.Update();
@@ -122,7 +128,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004257 RID: 16983 RVA: 0x0022EC18 File Offset: 0x0022D018
 		private static void SetupForQuickTestPlay()
 		{
 			Current.ProgramState = ProgramState.Entry;
@@ -136,6 +141,44 @@ namespace Verse
 			Find.GameInitData.mapSize = 150;
 			Find.GameInitData.PrepForMapGen();
 			Find.Scenario.PreMapGenerate();
+		}
+
+		[CompilerGenerated]
+		private static void <Start>m__0()
+		{
+			SavedGameLoaderNow.LoadGameFromSaveFileNow(Find.GameInitData.gameToLoad);
+		}
+
+		[CompilerGenerated]
+		private static void <Start>m__1()
+		{
+			if (Current.Game == null)
+			{
+				Root_Play.SetupForQuickTestPlay();
+			}
+			Current.Game.InitNewGame();
+		}
+
+		[CompilerGenerated]
+		private static void <Start>m__2()
+		{
+			ScreenFader.SetColor(Color.black);
+			ScreenFader.StartFade(Color.clear, 0.5f);
+		}
+
+		[CompilerGenerated]
+		private sealed class <Start>c__AnonStorey0
+		{
+			internal FileInfo autostart;
+
+			public <Start>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				SavedGameLoaderNow.LoadGameFromSaveFileNow(Path.GetFileNameWithoutExtension(this.autostart.Name));
+			}
 		}
 	}
 }

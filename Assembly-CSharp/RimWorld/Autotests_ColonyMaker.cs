@@ -2,25 +2,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008F6 RID: 2294
 	public static class Autotests_ColonyMaker
 	{
-		// Token: 0x04001CBC RID: 7356
 		private static CellRect overRect;
 
-		// Token: 0x04001CBD RID: 7357
 		private static BoolGrid usedCells;
 
-		// Token: 0x04001CBE RID: 7358
 		private const int OverRectSize = 100;
 
-		// Token: 0x1700088F RID: 2191
-		// (get) Token: 0x06003507 RID: 13575 RVA: 0x001C5550 File Offset: 0x001C3950
+		[CompilerGenerated]
+		private static Func<PawnKindDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Action<Pawn> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Action<Pawn> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Action<Pawn> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<HediffDef, bool> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Func<DamageDef, bool> <>f__am$cacheA;
+
 		private static Map Map
 		{
 			get
@@ -29,7 +57,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003508 RID: 13576 RVA: 0x001C556A File Offset: 0x001C396A
 		public static void MakeColony_Full()
 		{
 			Autotests_ColonyMaker.MakeColony(new ColonyMakerFlag[]
@@ -52,13 +79,11 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06003509 RID: 13577 RVA: 0x001C5584 File Offset: 0x001C3984
 		public static void MakeColony_Animals()
 		{
 			Autotests_ColonyMaker.MakeColony(new ColonyMakerFlag[1]);
 		}
 
-		// Token: 0x0600350A RID: 13578 RVA: 0x001C5594 File Offset: 0x001C3994
 		public static void MakeColony(params ColonyMakerFlag[] flags)
 		{
 			bool godMode = DebugSettings.godMode;
@@ -375,7 +400,6 @@ namespace RimWorld
 			Thing.allowDestroyNonDestroyable = false;
 		}
 
-		// Token: 0x0600350B RID: 13579 RVA: 0x001C637C File Offset: 0x001C477C
 		private static void FillWithItems(CellRect rect, List<ThingDef> itemDefs)
 		{
 			int num = 0;
@@ -394,7 +418,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600350C RID: 13580 RVA: 0x001C6414 File Offset: 0x001C4814
 		private static Thing TryMakeBuilding(ThingDef def)
 		{
 			CellRect cellRect;
@@ -417,7 +440,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600350D RID: 13581 RVA: 0x001C64DC File Offset: 0x001C48DC
 		private static bool TryGetFreeRect(int width, int height, out CellRect result)
 		{
 			for (int i = Autotests_ColonyMaker.overRect.minZ; i <= Autotests_ColonyMaker.overRect.maxZ - height; i++)
@@ -464,7 +486,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600350E RID: 13582 RVA: 0x001C6670 File Offset: 0x001C4A70
 		private static void DoToColonists(float fraction, Action<Pawn> funcToDo)
 		{
 			int num = Rand.RangeInclusive(1, Mathf.RoundToInt((float)Autotests_ColonyMaker.Map.mapPawns.FreeColonistsCount * fraction));
@@ -480,7 +501,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600350F RID: 13583 RVA: 0x001C670C File Offset: 0x001C4B0C
 		private static void MakeColonists(int count, IntVec3 center)
 		{
 			for (int i = 0; i < count; i++)
@@ -499,7 +519,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003510 RID: 13584 RVA: 0x001C67D0 File Offset: 0x001C4BD0
 		private static void DeleteAllSpawnedPawns()
 		{
 			foreach (Pawn pawn in Autotests_ColonyMaker.Map.mapPawns.AllPawnsSpawned.ToList<Pawn>())
@@ -510,7 +529,6 @@ namespace RimWorld
 			Find.GameEnder.gameEnding = false;
 		}
 
-		// Token: 0x06003511 RID: 13585 RVA: 0x001C6854 File Offset: 0x001C4C54
 		private static void ClearAllHomeArea()
 		{
 			foreach (IntVec3 c in Autotests_ColonyMaker.Map.AllCells)
@@ -519,11 +537,94 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003512 RID: 13586 RVA: 0x001C68C4 File Offset: 0x001C4CC4
 		private static void FillWithHomeArea(CellRect r)
 		{
 			Designator_AreaHomeExpand designator_AreaHomeExpand = new Designator_AreaHomeExpand();
 			designator_AreaHomeExpand.DesignateMultiCell(r.Cells);
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__0(PawnKindDef k)
+		{
+			return k.RaceProps.Animal;
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__1(Thing t)
+		{
+			return t is Corpse;
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__2(ThingDef def)
+		{
+			return typeof(Building_WorkTable).IsAssignableFrom(def.thingClass);
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__3(ThingDef def)
+		{
+			return def.category == ThingCategory.Building && def.BuildableByPlayer;
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__4(ThingDef def)
+		{
+			return DebugThingPlaceHelper.IsDebugSpawnable(def, false) && def.category == ThingCategory.Item;
+		}
+
+		[CompilerGenerated]
+		private static void <MakeColony>m__5(Pawn col)
+		{
+			col.needs.food.CurLevel = Mathf.Max(0f, Rand.Range(-0.05f, 0.05f));
+		}
+
+		[CompilerGenerated]
+		private static void <MakeColony>m__6(Pawn col)
+		{
+			col.needs.rest.CurLevel = Mathf.Max(0f, Rand.Range(-0.05f, 0.05f));
+		}
+
+		[CompilerGenerated]
+		private static void <MakeColony>m__7(Pawn col)
+		{
+			DamageDef def = (from d in DefDatabase<DamageDef>.AllDefs
+			where d.externalViolence
+			select d).RandomElement<DamageDef>();
+			col.TakeDamage(new DamageInfo(def, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__8(HediffDef d)
+		{
+			return d.hediffClass != typeof(Hediff_AddedPart) && (d.HasComp(typeof(HediffComp_Immunizable)) || d.HasComp(typeof(HediffComp_GrowthMode)));
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__9(ThingDef def)
+		{
+			return def.thingClass == typeof(Building_Bed);
+		}
+
+		[CompilerGenerated]
+		private static bool <MakeColony>m__A(DamageDef d)
+		{
+			return d.externalViolence;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeColony>c__AnonStorey0
+		{
+			internal Zone_Growing dummyZone;
+
+			public <MakeColony>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef d)
+			{
+				return d.plant != null && GenPlant.CanSowOnGrower(d, this.dummyZone);
+			}
 		}
 	}
 }

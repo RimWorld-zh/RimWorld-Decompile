@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003C8 RID: 968
 	public class SymbolResolver_FillWithBeds : SymbolResolver
 	{
-		// Token: 0x060010B1 RID: 4273 RVA: 0x0008E118 File Offset: 0x0008C518
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
+		public SymbolResolver_FillWithBeds()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -60,6 +66,12 @@ namespace RimWorld.BaseGen
 					}
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(Thing x)
+		{
+			return x.def.category == ThingCategory.Building;
 		}
 	}
 }

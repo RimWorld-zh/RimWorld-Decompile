@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.BaseGen;
 using UnityEngine;
 using Verse;
@@ -8,16 +9,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020003EE RID: 1006
 	public class GenStep_Roads : GenStep
 	{
-		// Token: 0x04000A8D RID: 2701
 		private const float CurveControlPointDistance = 4f;
 
-		// Token: 0x04000A8E RID: 2702
 		private const int CurveSampleMultiplier = 4;
 
-		// Token: 0x04000A8F RID: 2703
 		private readonly float[] endcapSamples = new float[]
 		{
 			0.75f,
@@ -27,8 +24,16 @@ namespace RimWorld
 			0.95f
 		};
 
-		// Token: 0x1700024E RID: 590
-		// (get) Token: 0x06001157 RID: 4439 RVA: 0x000955A4 File Offset: 0x000939A4
+		[CompilerGenerated]
+		private static Func<RoadDef, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<GenStep_Roads.DrawCommand, int> <>f__am$cache1;
+
+		public GenStep_Roads()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -37,7 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001158 RID: 4440 RVA: 0x000955C0 File Offset: 0x000939C0
 		public override void Generate(Map map)
 		{
 			List<GenStep_Roads.NeededRoad> neededRoads = this.CalculateNeededRoads(map);
@@ -93,7 +97,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001159 RID: 4441 RVA: 0x000958D0 File Offset: 0x00093CD0
 		private List<GenStep_Roads.NeededRoad> CalculateNeededRoads(Map map)
 		{
 			List<int> list = new List<int>();
@@ -133,7 +136,6 @@ namespace RimWorld
 			return list2;
 		}
 
-		// Token: 0x0600115A RID: 4442 RVA: 0x00095AB4 File Offset: 0x00093EB4
 		private IntVec3 FindRoadExitCell(Map map, float angle, IntVec3 crossroads, ref RoadPathingDef pathingDef)
 		{
 			Predicate<IntVec3> tileValidator = delegate(IntVec3 pos)
@@ -175,14 +177,12 @@ namespace RimWorld
 			return IntVec3.Invalid;
 		}
 
-		// Token: 0x0600115B RID: 4443 RVA: 0x00095C5C File Offset: 0x0009405C
 		private Action PrepDrawRoad(Map map, TerrainDef rockDef, IntVec3 start, IntVec3 end, RoadDef roadDef, RoadPathingDef pathingDef)
 		{
 			IntVec3 intVec;
 			return this.PrepDrawRoad(map, rockDef, start, end, roadDef, pathingDef, out intVec);
 		}
 
-		// Token: 0x0600115C RID: 4444 RVA: 0x00095C84 File Offset: 0x00094084
 		private Action PrepDrawRoad(Map map, TerrainDef rockDef, IntVec3 start, IntVec3 end, RoadDef roadDef, RoadPathingDef pathingDef, out IntVec3 centerpoint)
 		{
 			centerpoint = IntVec3.Invalid;
@@ -233,7 +233,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600115D RID: 4445 RVA: 0x00095EE8 File Offset: 0x000942E8
 		private void DrawCurveSegment(GenStep_Roads.DistanceElement[,] distance, List<IntVec3> path, int pathStartIndex, int pathEndIndex, RoadPathingDef pathing, Map map, int centerpointIndex, ref IntVec3 centerpoint)
 		{
 			if (pathStartIndex == pathEndIndex)
@@ -302,7 +301,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600115E RID: 4446 RVA: 0x000961B4 File Offset: 0x000945B4
 		private GenMath.BezierCubicControls GenerateBezierControls(List<IntVec3> path, int pathStartIndex, int pathEndIndex)
 		{
 			int index = Mathf.Max(0, pathStartIndex - (pathEndIndex - pathStartIndex));
@@ -316,7 +314,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600115F RID: 4447 RVA: 0x000962B8 File Offset: 0x000946B8
 		private void ApplyDistanceField(GenStep_Roads.DistanceElement[,] distance, Map map, TerrainDef rockDef, RoadDef roadDef, RoadPathingDef pathingDef)
 		{
 			for (int i = 0; i < map.Size.x; i++)
@@ -349,7 +346,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001160 RID: 4448 RVA: 0x00096408 File Offset: 0x00094808
 		private void FillDistanceField(GenStep_Roads.DistanceElement[,] field, float cx, float cz, float alongPath, float radius, Map map)
 		{
 			int num = Mathf.Clamp(Mathf.FloorToInt(cx - radius), 0, field.GetLength(0) - 1);
@@ -376,7 +372,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001161 RID: 4449 RVA: 0x0009657C File Offset: 0x0009497C
 		private List<IntVec3> RefinePath(List<IntVec3> input, Map map)
 		{
 			List<IntVec3> list = this.RefineEndcap(input, map);
@@ -384,7 +379,6 @@ namespace RimWorld
 			return this.RefineEndcap(list, map);
 		}
 
-		// Token: 0x06001162 RID: 4450 RVA: 0x000965A8 File Offset: 0x000949A8
 		private List<IntVec3> RefineEndcap(List<IntVec3> input, Map map)
 		{
 			float[] array = new float[this.endcapSamples.Length];
@@ -476,40 +470,227 @@ namespace RimWorld
 			return input;
 		}
 
-		// Token: 0x020003EF RID: 1007
+		[CompilerGenerated]
+		private static int <Generate>m__0(RoadDef rd)
+		{
+			return rd.priority;
+		}
+
+		[CompilerGenerated]
+		private static int <Generate>m__1(GenStep_Roads.DrawCommand dc)
+		{
+			return dc.roadDef.priority;
+		}
+
 		private struct NeededRoad
 		{
-			// Token: 0x04000A92 RID: 2706
 			public float angle;
 
-			// Token: 0x04000A93 RID: 2707
 			public RoadDef road;
 		}
 
-		// Token: 0x020003F0 RID: 1008
 		private struct DrawCommand
 		{
-			// Token: 0x04000A94 RID: 2708
 			public RoadDef roadDef;
 
-			// Token: 0x04000A95 RID: 2709
 			public Action action;
 		}
 
-		// Token: 0x020003F1 RID: 1009
 		public struct DistanceElement
 		{
-			// Token: 0x04000A96 RID: 2710
 			public float fromRoad;
 
-			// Token: 0x04000A97 RID: 2711
 			public float alongPath;
 
-			// Token: 0x04000A98 RID: 2712
 			public bool touched;
 
-			// Token: 0x04000A99 RID: 2713
 			public IntVec3 origin;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Generate>c__AnonStorey0
+		{
+			internal List<GenStep_Roads.NeededRoad> neededRoads;
+
+			public <Generate>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Generate>c__AnonStorey2
+		{
+			internal RoadDef bestRoadType;
+
+			internal GenStep_Roads.<Generate>c__AnonStorey0 <>f__ref$0;
+
+			public <Generate>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(RoadDef rd)
+			{
+				GenStep_Roads.<Generate>c__AnonStorey0 <>f__ref$0 = this.<>f__ref$0;
+				RoadDef rd = rd2;
+				return this.<>f__ref$0.neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2;
+			}
+
+			internal bool <>m__1(GenStep_Roads.NeededRoad nr)
+			{
+				return nr.road == this.bestRoadType;
+			}
+
+			internal bool <>m__2(GenStep_Roads.NeededRoad nr)
+			{
+				return nr.road == this.bestRoadType;
+			}
+
+			internal bool <>m__3(GenStep_Roads.NeededRoad nr)
+			{
+				return nr.road == this.bestRoadType;
+			}
+
+			internal bool <>m__4(GenStep_Roads.NeededRoad nr)
+			{
+				return nr.road == this.bestRoadType;
+			}
+
+			private sealed class <Generate>c__AnonStorey1
+			{
+				internal RoadDef rd;
+
+				internal GenStep_Roads.<Generate>c__AnonStorey0 <>f__ref$0;
+
+				public <Generate>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(GenStep_Roads.NeededRoad nr)
+				{
+					return nr.road == this.rd;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRoadExitCell>c__AnonStorey3
+		{
+			internal Map map;
+
+			internal float angle;
+
+			internal Predicate<IntVec3> tileValidator;
+
+			internal IntVec3 crossroads;
+
+			public <FindRoadExitCell>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 pos)
+			{
+				foreach (IntVec3 c in GenRadial.RadialCellsAround(pos, 8f, true))
+				{
+					if (c.InBounds(this.map) && c.GetTerrain(this.map).IsWater)
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRoadExitCell>c__AnonStorey4
+		{
+			internal float validAngleSpan;
+
+			public <FindRoadExitCell>c__AnonStorey4()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRoadExitCell>c__AnonStorey5
+		{
+			internal Predicate<IntVec3> angleValidator;
+
+			internal GenStep_Roads.<FindRoadExitCell>c__AnonStorey3 <>f__ref$3;
+
+			internal GenStep_Roads.<FindRoadExitCell>c__AnonStorey4 <>f__ref$4;
+
+			public <FindRoadExitCell>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 pos)
+			{
+				return GenGeo.AngleDifferenceBetween((pos - this.<>f__ref$3.map.Center).AngleFlat, this.<>f__ref$3.angle) < this.<>f__ref$4.validAngleSpan;
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				return this.angleValidator(x) && this.<>f__ref$3.tileValidator(x) && this.<>f__ref$3.map.reachability.CanReach(this.<>f__ref$3.crossroads, x, PathEndMode.OnCell, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRoadExitCell>c__AnonStorey6
+		{
+			internal float validAngleSpan;
+
+			public <FindRoadExitCell>c__AnonStorey6()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindRoadExitCell>c__AnonStorey7
+		{
+			internal Predicate<IntVec3> angleValidator;
+
+			internal GenStep_Roads.<FindRoadExitCell>c__AnonStorey3 <>f__ref$3;
+
+			internal GenStep_Roads.<FindRoadExitCell>c__AnonStorey6 <>f__ref$6;
+
+			public <FindRoadExitCell>c__AnonStorey7()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 pos)
+			{
+				return GenGeo.AngleDifferenceBetween((pos - this.<>f__ref$3.map.Center).AngleFlat, this.<>f__ref$3.angle) < this.<>f__ref$6.validAngleSpan;
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				return this.angleValidator(x) && this.<>f__ref$3.tileValidator(x) && this.<>f__ref$3.map.reachability.CanReach(this.<>f__ref$3.crossroads, x, PathEndMode.OnCell, TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PrepDrawRoad>c__AnonStorey8
+		{
+			internal GenStep_Roads.DistanceElement[,] distance;
+
+			internal Map map;
+
+			internal TerrainDef rockDef;
+
+			internal RoadDef roadDef;
+
+			internal RoadPathingDef pathingDef;
+
+			internal GenStep_Roads $this;
+
+			public <PrepDrawRoad>c__AnonStorey8()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.ApplyDistanceField(this.distance, this.map, this.rockDef, this.roadDef, this.pathingDef);
+			}
 		}
 	}
 }

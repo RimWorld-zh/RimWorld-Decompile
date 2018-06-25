@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A9 RID: 1705
 	public class Building_MarriageSpot : Building
 	{
-		// Token: 0x06002487 RID: 9351 RVA: 0x0013908C File Offset: 0x0013748C
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache1;
+
+		public Building_MarriageSpot()
+		{
+		}
+
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -21,7 +30,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06002488 RID: 9352 RVA: 0x001390DC File Offset: 0x001374DC
 		private string UsableNowStatus()
 		{
 			if (!this.AnyCoupleForWhichIsValid())
@@ -49,7 +57,6 @@ namespace RimWorld
 			return "MarriageSpotUsable".Translate();
 		}
 
-		// Token: 0x06002489 RID: 9353 RVA: 0x0013918C File Offset: 0x0013758C
 		private bool AnyCoupleForWhichIsValid()
 		{
 			return base.Map.mapPawns.FreeColonistsSpawned.Any(delegate(Pawn p)
@@ -59,7 +66,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600248A RID: 9354 RVA: 0x001391C4 File Offset: 0x001375C4
 		private bool TryFindAnyFiancesCouple(out Pair<Pawn, Pawn> fiances)
 		{
 			foreach (Pawn pawn in base.Map.mapPawns.FreeColonistsSpawned)
@@ -73,6 +79,25 @@ namespace RimWorld
 			}
 			fiances = default(Pair<Pawn, Pawn>);
 			return false;
+		}
+
+		[CompilerGenerated]
+		private bool <AnyCoupleForWhichIsValid>m__0(Pawn p)
+		{
+			Pawn firstDirectRelationPawn = p.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Fiance, (Pawn x) => x.Spawned);
+			return firstDirectRelationPawn != null && MarriageSpotUtility.IsValidMarriageSpotFor(base.Position, p, firstDirectRelationPawn, null);
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindAnyFiancesCouple>m__1(Pawn x)
+		{
+			return x.Spawned;
+		}
+
+		[CompilerGenerated]
+		private static bool <AnyCoupleForWhichIsValid>m__2(Pawn x)
+		{
+			return x.Spawned;
 		}
 	}
 }

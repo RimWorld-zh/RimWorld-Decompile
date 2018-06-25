@@ -1,31 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000667 RID: 1639
 	public class Tale : IExposable, ILoadReferenceable
 	{
-		// Token: 0x04001380 RID: 4992
 		public TaleDef def;
 
-		// Token: 0x04001381 RID: 4993
 		public int id;
 
-		// Token: 0x04001382 RID: 4994
 		private int uses = 0;
 
-		// Token: 0x04001383 RID: 4995
 		public int date = -1;
 
-		// Token: 0x04001384 RID: 4996
 		public TaleData_Surroundings surroundings;
 
-		// Token: 0x17000503 RID: 1283
-		// (get) Token: 0x06002245 RID: 8773 RVA: 0x001233AC File Offset: 0x001217AC
+		public Tale()
+		{
+		}
+
 		public int AgeTicks
 		{
 			get
@@ -34,8 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000504 RID: 1284
-		// (get) Token: 0x06002246 RID: 8774 RVA: 0x001233D4 File Offset: 0x001217D4
 		public int Uses
 		{
 			get
@@ -44,8 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000505 RID: 1285
-		// (get) Token: 0x06002247 RID: 8775 RVA: 0x001233F0 File Offset: 0x001217F0
 		public bool Unused
 		{
 			get
@@ -54,8 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000506 RID: 1286
-		// (get) Token: 0x06002248 RID: 8776 RVA: 0x00123410 File Offset: 0x00121810
 		public virtual Pawn DominantPawn
 		{
 			get
@@ -64,8 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000507 RID: 1287
-		// (get) Token: 0x06002249 RID: 8777 RVA: 0x00123428 File Offset: 0x00121828
 		public float InterestLevel
 		{
 			get
@@ -102,8 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000508 RID: 1288
-		// (get) Token: 0x0600224A RID: 8778 RVA: 0x001234DC File Offset: 0x001218DC
 		public bool Expired
 		{
 			get
@@ -112,8 +102,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000509 RID: 1289
-		// (get) Token: 0x0600224B RID: 8779 RVA: 0x00123538 File Offset: 0x00121938
 		public virtual string ShortSummary
 		{
 			get
@@ -122,7 +110,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600224C RID: 8780 RVA: 0x00123558 File Offset: 0x00121958
 		public virtual void GenerateTestData()
 		{
 			if (Find.CurrentMap == null)
@@ -133,13 +120,11 @@ namespace RimWorld
 			this.surroundings = TaleData_Surroundings.GenerateRandom(Find.CurrentMap);
 		}
 
-		// Token: 0x0600224D RID: 8781 RVA: 0x00123598 File Offset: 0x00121998
 		public virtual bool Concerns(Thing th)
 		{
 			return false;
 		}
 
-		// Token: 0x0600224E RID: 8782 RVA: 0x001235B0 File Offset: 0x001219B0
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<TaleDef>(ref this.def, "def");
@@ -149,13 +134,11 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Surroundings>(ref this.surroundings, "surroundings", new object[0]);
 		}
 
-		// Token: 0x0600224F RID: 8783 RVA: 0x0012361A File Offset: 0x00121A1A
 		public void Notify_NewlyUsed()
 		{
 			this.uses++;
 		}
 
-		// Token: 0x06002250 RID: 8784 RVA: 0x0012362B File Offset: 0x00121A2B
 		public void Notify_ReferenceDestroyed()
 		{
 			if (this.uses == 0)
@@ -168,7 +151,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002251 RID: 8785 RVA: 0x00123664 File Offset: 0x00121A64
 		public IEnumerable<RulePack> GetTextGenerationIncludes()
 		{
 			if (this.def.rulePack != null)
@@ -178,7 +160,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002252 RID: 8786 RVA: 0x00123690 File Offset: 0x00121A90
 		public IEnumerable<Rule> GetTextGenerationRules()
 		{
 			Vector2 location = Vector2.zero;
@@ -201,25 +182,21 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002253 RID: 8787 RVA: 0x001236BC File Offset: 0x00121ABC
 		protected virtual IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			yield break;
 		}
 
-		// Token: 0x06002254 RID: 8788 RVA: 0x001236E0 File Offset: 0x00121AE0
 		public string GetUniqueLoadID()
 		{
 			return "Tale_" + this.id;
 		}
 
-		// Token: 0x06002255 RID: 8789 RVA: 0x0012370C File Offset: 0x00121B0C
 		public override int GetHashCode()
 		{
 			return this.id;
 		}
 
-		// Token: 0x06002256 RID: 8790 RVA: 0x00123728 File Offset: 0x00121B28
 		public override string ToString()
 		{
 			string str = string.Concat(new object[]
@@ -238,6 +215,368 @@ namespace RimWorld
 				str = str + ", expireDays=" + this.def.expireDays.ToString("F2");
 			}
 			return str + ")";
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetTextGenerationIncludes>c__Iterator0 : IEnumerable, IEnumerable<RulePack>, IEnumerator, IDisposable, IEnumerator<RulePack>
+		{
+			internal Tale $this;
+
+			internal RulePack $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetTextGenerationIncludes>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.def.rulePack != null)
+					{
+						this.$current = this.def.rulePack;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			RulePack IEnumerator<RulePack>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.RulePack>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<RulePack> IEnumerable<RulePack>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Tale.<GetTextGenerationIncludes>c__Iterator0 <GetTextGenerationIncludes>c__Iterator = new Tale.<GetTextGenerationIncludes>c__Iterator0();
+				<GetTextGenerationIncludes>c__Iterator.$this = this;
+				return <GetTextGenerationIncludes>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetTextGenerationRules>c__Iterator1 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal Vector2 <location>__0;
+
+			internal IEnumerator<Rule> $locvar0;
+
+			internal Rule <r>__1;
+
+			internal IEnumerator<Rule> $locvar1;
+
+			internal Rule <r>__2;
+
+			internal Tale $this;
+
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetTextGenerationRules>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					location = Vector2.zero;
+					if (this.surroundings != null && this.surroundings.tile >= 0)
+					{
+						location = Find.WorldGrid.LongLatOf(this.surroundings.tile);
+					}
+					this.$current = new Rule_String("DATE", GenDate.DateFullStringAt((long)this.date, location));
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					if (this.surroundings == null)
+					{
+						goto IL_15F;
+					}
+					enumerator = this.surroundings.GetRules().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				case 3u:
+					Block_7:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							r2 = enumerator2.Current;
+							this.$current = r2;
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						r = enumerator.Current;
+						this.$current = r;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_15F:
+				enumerator2 = this.SpecialTextGenerationRules().GetEnumerator();
+				num = 4294967293u;
+				goto Block_7;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Tale.<GetTextGenerationRules>c__Iterator1 <GetTextGenerationRules>c__Iterator = new Tale.<GetTextGenerationRules>c__Iterator1();
+				<GetTextGenerationRules>c__Iterator.$this = this;
+				return <GetTextGenerationRules>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialTextGenerationRules>c__Iterator2 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialTextGenerationRules>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Tale.<SpecialTextGenerationRules>c__Iterator2();
+			}
 		}
 	}
 }

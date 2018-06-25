@@ -3,15 +3,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F26 RID: 3878
 	public abstract class SubEffecter_Sprayer : SubEffecter
 	{
-		// Token: 0x06005CE3 RID: 23779 RVA: 0x002F1D69 File Offset: 0x002F0169
 		public SubEffecter_Sprayer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CE4 RID: 23780 RVA: 0x002F1D74 File Offset: 0x002F0174
 		protected void MakeMote(TargetInfo A, TargetInfo B)
 		{
 			Vector3 vector = Vector3.zero;

@@ -4,24 +4,20 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000DCB RID: 3531
 	public class RectTrigger : Thing
 	{
-		// Token: 0x04003493 RID: 13459
 		private CellRect rect;
 
-		// Token: 0x04003494 RID: 13460
 		public bool destroyIfUnfogged;
 
-		// Token: 0x04003495 RID: 13461
 		public bool activateOnExplosion;
 
-		// Token: 0x04003496 RID: 13462
 		public string signalTag;
 
-		// Token: 0x17000CC6 RID: 3270
-		// (get) Token: 0x06004F0D RID: 20237 RVA: 0x002940F8 File Offset: 0x002924F8
-		// (set) Token: 0x06004F0E RID: 20238 RVA: 0x00294113 File Offset: 0x00292513
+		public RectTrigger()
+		{
+		}
+
 		public CellRect Rect
 		{
 			get
@@ -38,14 +34,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F0F RID: 20239 RVA: 0x0029413A File Offset: 0x0029253A
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.rect.ClipInsideMap(base.Map);
 		}
 
-		// Token: 0x06004F10 RID: 20240 RVA: 0x00294158 File Offset: 0x00292558
 		public override void Tick()
 		{
 			if (this.destroyIfUnfogged && !this.rect.CenterCell.Fogged(base.Map))
@@ -74,7 +68,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F11 RID: 20241 RVA: 0x00294299 File Offset: 0x00292699
 		public void ActivatedBy(Pawn p)
 		{
 			Find.SignalManager.SendSignal(new Signal(this.signalTag, new object[]
@@ -87,7 +80,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F12 RID: 20242 RVA: 0x002942D0 File Offset: 0x002926D0
 		public override void ExposeData()
 		{
 			base.ExposeData();

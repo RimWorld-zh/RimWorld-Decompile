@@ -5,19 +5,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000893 RID: 2195
 	public class PawnColumnWorker_Label : PawnColumnWorker
 	{
-		// Token: 0x04001AE0 RID: 6880
 		private const int LeftMargin = 3;
 
-		// Token: 0x04001AE1 RID: 6881
 		private static Dictionary<string, string> labelCache = new Dictionary<string, string>();
 
-		// Token: 0x04001AE2 RID: 6882
 		private static float labelCacheForWidth = -1f;
 
-		// Token: 0x06003219 RID: 12825 RVA: 0x001AFFDC File Offset: 0x001AE3DC
+		public PawnColumnWorker_Label()
+		{
+		}
+
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width, Mathf.Min(rect.height, 30f));
@@ -71,16 +70,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600321A RID: 12826 RVA: 0x001B01EC File Offset: 0x001AE5EC
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 80);
 		}
 
-		// Token: 0x0600321B RID: 12827 RVA: 0x001B0210 File Offset: 0x001AE610
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(165, this.GetMinWidth(table), this.GetMaxWidth(table));
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnColumnWorker_Label()
+		{
 		}
 	}
 }

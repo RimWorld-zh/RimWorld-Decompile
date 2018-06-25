@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000D0 RID: 208
 	internal class JobGiver_FightFiresNearPoint : ThinkNode_JobGiver
 	{
-		// Token: 0x0400029F RID: 671
 		public float maxDistFromPoint = -1f;
 
-		// Token: 0x060004B2 RID: 1202 RVA: 0x000350A0 File Offset: 0x000334A0
+		public JobGiver_FightFiresNearPoint()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_FightFiresNearPoint jobGiver_FightFiresNearPoint = (JobGiver_FightFiresNearPoint)base.DeepCopy(resolve);
@@ -19,7 +21,6 @@ namespace RimWorld
 			return jobGiver_FightFiresNearPoint;
 		}
 
-		// Token: 0x060004B3 RID: 1203 RVA: 0x000350D0 File Offset: 0x000334D0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)
@@ -38,6 +39,22 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				Pawn pawn = ((AttachableThing)t).parent as Pawn;
+				return pawn == null && this.pawn.CanReserve(t, 1, -1, null, false) && !this.pawn.story.WorkTagIsDisabled(WorkTags.Firefighting);
+			}
 		}
 	}
 }

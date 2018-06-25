@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000837 RID: 2103
 	public class Page_SelectStoryteller : Page
 	{
-		// Token: 0x040019B7 RID: 6583
 		private StorytellerDef storyteller;
 
-		// Token: 0x040019B8 RID: 6584
 		private DifficultyDef difficulty;
 
-		// Token: 0x040019B9 RID: 6585
 		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 
-		// Token: 0x1700078A RID: 1930
-		// (get) Token: 0x06002F9A RID: 12186 RVA: 0x00197E44 File Offset: 0x00196244
+		[CompilerGenerated]
+		private static Func<StorytellerDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<StorytellerDef, int> <>f__am$cache1;
+
+		public Page_SelectStoryteller()
+		{
+		}
+
 		public override string PageTitle
 		{
 			get
@@ -27,7 +32,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F9B RID: 12187 RVA: 0x00197E64 File Offset: 0x00196264
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -37,7 +41,6 @@ namespace RimWorld
 			select d).First<StorytellerDef>();
 		}
 
-		// Token: 0x06002F9C RID: 12188 RVA: 0x00197ECC File Offset: 0x001962CC
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -46,7 +49,6 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002F9D RID: 12189 RVA: 0x00197F14 File Offset: 0x00196314
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -70,6 +72,18 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <PreOpen>m__0(StorytellerDef d)
+		{
+			return d.listVisible;
+		}
+
+		[CompilerGenerated]
+		private static int <PreOpen>m__1(StorytellerDef d)
+		{
+			return d.listOrder;
 		}
 	}
 }

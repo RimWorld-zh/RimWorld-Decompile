@@ -1,54 +1,49 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000769 RID: 1897
 	public abstract class StockGenerator
 	{
-		// Token: 0x040016A9 RID: 5801
 		[Unsaved]
 		public TraderKindDef trader;
 
-		// Token: 0x040016AA RID: 5802
 		public IntRange countRange = IntRange.zero;
 
-		// Token: 0x040016AB RID: 5803
 		public List<ThingDefCountRangeClass> customCountRanges;
 
-		// Token: 0x040016AC RID: 5804
 		public FloatRange totalPriceRange = FloatRange.Zero;
 
-		// Token: 0x040016AD RID: 5805
 		public TechLevel maxTechLevelGenerate = TechLevel.Archotech;
 
-		// Token: 0x040016AE RID: 5806
 		public TechLevel maxTechLevelBuy = TechLevel.Archotech;
 
-		// Token: 0x040016AF RID: 5807
 		public PriceType price = PriceType.Normal;
 
-		// Token: 0x060029F5 RID: 10741 RVA: 0x0016390C File Offset: 0x00161D0C
+		protected StockGenerator()
+		{
+		}
+
 		public virtual void ResolveReferences(TraderKindDef trader)
 		{
 			this.trader = trader;
 		}
 
-		// Token: 0x060029F6 RID: 10742 RVA: 0x00163918 File Offset: 0x00161D18
 		public virtual IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
 			yield break;
 		}
 
-		// Token: 0x060029F7 RID: 10743
 		public abstract IEnumerable<Thing> GenerateThings(int forTile);
 
-		// Token: 0x060029F8 RID: 10744
 		public abstract bool HandlesThingDef(ThingDef thingDef);
 
-		// Token: 0x060029F9 RID: 10745 RVA: 0x0016393C File Offset: 0x00161D3C
 		public bool TryGetPriceType(ThingDef thingDef, TradeAction action, out PriceType priceType)
 		{
 			bool result;
@@ -65,7 +60,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060029FA RID: 10746 RVA: 0x00163974 File Offset: 0x00161D74
 		protected int RandomCountOf(ThingDef def)
 		{
 			IntRange intRange = this.countRange;
@@ -110,6 +104,76 @@ namespace RimWorld
 				result = randomInRange;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new StockGenerator.<ConfigErrors>c__Iterator0();
+			}
 		}
 	}
 }

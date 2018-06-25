@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004AF RID: 1199
 	public static class ResurrectionUtility
 	{
-		// Token: 0x04000CA0 RID: 3232
 		private static SimpleCurve DementiaChancePerRotDaysCurve = new SimpleCurve
 		{
 			{
@@ -23,7 +22,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000CA1 RID: 3233
 		private static SimpleCurve BlindnessChancePerRotDaysCurve = new SimpleCurve
 		{
 			{
@@ -36,7 +34,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000CA2 RID: 3234
 		private static SimpleCurve ResurrectionPsychosisChancePerRotDaysCurve = new SimpleCurve
 		{
 			{
@@ -49,7 +46,9 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06001560 RID: 5472 RVA: 0x000BDD18 File Offset: 0x000BC118
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache0;
+
 		public static void Resurrect(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -113,7 +112,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001561 RID: 5473 RVA: 0x000BDEFC File Offset: 0x000BC2FC
 		public static void ResurrectWithSideEffects(Pawn pawn)
 		{
 			Corpse corpse = pawn.Corpse;
@@ -172,6 +170,17 @@ namespace RimWorld
 				Log.Error("The pawn has died while being resurrected.", false);
 				ResurrectionUtility.Resurrect(pawn);
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ResurrectionUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ResurrectWithSideEffects>m__0(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.Eye;
 		}
 	}
 }

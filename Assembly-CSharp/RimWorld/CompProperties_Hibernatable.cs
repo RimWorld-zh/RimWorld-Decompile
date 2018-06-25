@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000262 RID: 610
 	public class CompProperties_Hibernatable : CompProperties
 	{
-		// Token: 0x040004C7 RID: 1223
 		public float startupDays = 15f;
 
-		// Token: 0x040004C8 RID: 1224
 		public IncidentTargetTypeDef incidentTargetWhileStarting = null;
 
-		// Token: 0x06000AA0 RID: 2720 RVA: 0x000600C1 File Offset: 0x0005E4C1
 		public CompProperties_Hibernatable()
 		{
 			this.compClass = typeof(CompHibernatable);
 		}
 
-		// Token: 0x06000AA1 RID: 2721 RVA: 0x000600EC File Offset: 0x0005E4EC
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -37,6 +36,168 @@ namespace RimWorld
 				});
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0(ThingDef parentDef)
+		{
+			return base.ConfigErrors(parentDef);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef parentDef;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal CompProperties_Hibernatable $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0(parentDef).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_120;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (parentDef.tickerType == TickerType.Normal)
+				{
+					goto IL_120;
+				}
+				this.$current = string.Concat(new object[]
+				{
+					"CompHibernatable needs tickerType ",
+					TickerType.Normal,
+					", has ",
+					parentDef.tickerType
+				});
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_120:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompProperties_Hibernatable.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new CompProperties_Hibernatable.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.parentDef = parentDef;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

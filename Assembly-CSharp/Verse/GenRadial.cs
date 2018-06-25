@@ -1,39 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F4B RID: 3915
 	public static class GenRadial
 	{
-		// Token: 0x04003E31 RID: 15921
 		public static IntVec3[] ManualRadialPattern = new IntVec3[49];
 
-		// Token: 0x04003E32 RID: 15922
 		public static IntVec3[] RadialPattern = new IntVec3[10000];
 
-		// Token: 0x04003E33 RID: 15923
 		private static float[] RadialPatternRadii = new float[10000];
 
-		// Token: 0x04003E34 RID: 15924
 		private const int RadialPatternCount = 10000;
 
-		// Token: 0x04003E35 RID: 15925
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x04003E36 RID: 15926
 		private static bool working = false;
 
-		// Token: 0x06005EA6 RID: 24230 RVA: 0x00301DF4 File Offset: 0x003001F4
+		[CompilerGenerated]
+		private static Comparison<IntVec3> <>f__am$cache0;
+
 		static GenRadial()
 		{
 			GenRadial.SetupManualRadialPattern();
 			GenRadial.SetupRadialPattern();
 		}
 
-		// Token: 0x17000F3D RID: 3901
-		// (get) Token: 0x06005EA7 RID: 24231 RVA: 0x00301E48 File Offset: 0x00300248
 		public static float MaxRadialPatternRadius
 		{
 			get
@@ -42,7 +39,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EA8 RID: 24232 RVA: 0x00301E6C File Offset: 0x0030026C
 		private static void SetupManualRadialPattern()
 		{
 			GenRadial.ManualRadialPattern[0] = new IntVec3(0, 0, 0);
@@ -96,7 +92,6 @@ namespace Verse
 			GenRadial.ManualRadialPattern[48] = new IntVec3(-3, 0, -3);
 		}
 
-		// Token: 0x06005EA9 RID: 24233 RVA: 0x00302358 File Offset: 0x00300758
 		private static void SetupRadialPattern()
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -133,7 +128,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EAA RID: 24234 RVA: 0x00302410 File Offset: 0x00300810
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
 			int result;
@@ -161,7 +155,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EAB RID: 24235 RVA: 0x0030246C File Offset: 0x0030086C
 		public static int NumCellsInRadius(float radius)
 		{
 			int result;
@@ -191,13 +184,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EAC RID: 24236 RVA: 0x00302508 File Offset: 0x00300908
 		public static float RadiusOfNumCells(int numCells)
 		{
 			return GenRadial.RadialPatternRadii[numCells];
 		}
 
-		// Token: 0x06005EAD RID: 24237 RVA: 0x00302524 File Offset: 0x00300924
 		public static IEnumerable<IntVec3> RadialPatternInRadius(float radius)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
@@ -208,7 +199,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EAE RID: 24238 RVA: 0x00302550 File Offset: 0x00300950
 		public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
@@ -219,7 +209,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EAF RID: 24239 RVA: 0x00302588 File Offset: 0x00300988
 		public static IEnumerable<Thing> RadialDistinctThingsAround(IntVec3 center, Map map, float radius, bool useCenter)
 		{
 			int numCells = GenRadial.NumCellsInRadius(radius);
@@ -259,7 +248,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EB0 RID: 24240 RVA: 0x003025C8 File Offset: 0x003009C8
 		public static void ProcessEquidistantCells(IntVec3 center, float radius, Func<List<IntVec3>, bool> processor, Map map = null)
 		{
 			if (GenRadial.working)
@@ -302,6 +290,382 @@ namespace Verse
 					GenRadial.tmpCells.Clear();
 					GenRadial.working = false;
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static int <SetupRadialPattern>m__0(IntVec3 A, IntVec3 B)
+		{
+			float num = (float)A.LengthHorizontalSquared;
+			float num2 = (float)B.LengthHorizontalSquared;
+			int result;
+			if (num < num2)
+			{
+				result = -1;
+			}
+			else if (num == num2)
+			{
+				result = 0;
+			}
+			else
+			{
+				result = 1;
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RadialPatternInRadius>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal float radius;
+
+			internal int <numSquares>__0;
+
+			internal int <i>__1;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RadialPatternInRadius>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					numSquares = GenRadial.NumCellsInRadius(radius);
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < numSquares)
+				{
+					this.$current = GenRadial.RadialPattern[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenRadial.<RadialPatternInRadius>c__Iterator0 <RadialPatternInRadius>c__Iterator = new GenRadial.<RadialPatternInRadius>c__Iterator0();
+				<RadialPatternInRadius>c__Iterator.radius = radius;
+				return <RadialPatternInRadius>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RadialCellsAround>c__Iterator1 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal float radius;
+
+			internal int <numSquares>__0;
+
+			internal bool useCenter;
+
+			internal int <i>__1;
+
+			internal IntVec3 center;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RadialCellsAround>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					numSquares = GenRadial.NumCellsInRadius(radius);
+					i = ((!useCenter) ? 1 : 0);
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < numSquares)
+				{
+					this.$current = GenRadial.RadialPattern[i] + center;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenRadial.<RadialCellsAround>c__Iterator1 <RadialCellsAround>c__Iterator = new GenRadial.<RadialCellsAround>c__Iterator1();
+				<RadialCellsAround>c__Iterator.radius = radius;
+				<RadialCellsAround>c__Iterator.useCenter = useCenter;
+				<RadialCellsAround>c__Iterator.center = center;
+				return <RadialCellsAround>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RadialDistinctThingsAround>c__Iterator2 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal float radius;
+
+			internal int <numCells>__0;
+
+			internal HashSet<Thing> <returnedThings>__0;
+
+			internal bool useCenter;
+
+			internal int <i>__1;
+
+			internal IntVec3 center;
+
+			internal IntVec3 <cell>__2;
+
+			internal Map map;
+
+			internal List<Thing> <thingList>__2;
+
+			internal int <j>__3;
+
+			internal Thing <t>__4;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RadialDistinctThingsAround>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					numCells = GenRadial.NumCellsInRadius(radius);
+					returnedThings = null;
+					i = ((!useCenter) ? 1 : 0);
+					goto IL_1A3;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_170:
+				j++;
+				IL_17E:
+				if (j < thingList.Count)
+				{
+					t = thingList[j];
+					if (t.def.size.x > 1 && t.def.size.z > 1)
+					{
+						if (returnedThings == null)
+						{
+							returnedThings = new HashSet<Thing>();
+						}
+						if (returnedThings.Contains(t))
+						{
+							goto IL_170;
+						}
+						returnedThings.Add(t);
+					}
+					this.$current = t;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				IL_195:
+				i++;
+				IL_1A3:
+				if (i >= numCells)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					cell = GenRadial.RadialPattern[i] + center;
+					if (!cell.InBounds(map))
+					{
+						goto IL_195;
+					}
+					thingList = cell.GetThingList(map);
+					j = 0;
+					goto IL_17E;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenRadial.<RadialDistinctThingsAround>c__Iterator2 <RadialDistinctThingsAround>c__Iterator = new GenRadial.<RadialDistinctThingsAround>c__Iterator2();
+				<RadialDistinctThingsAround>c__Iterator.radius = radius;
+				<RadialDistinctThingsAround>c__Iterator.useCenter = useCenter;
+				<RadialDistinctThingsAround>c__Iterator.center = center;
+				<RadialDistinctThingsAround>c__Iterator.map = map;
+				return <RadialDistinctThingsAround>c__Iterator;
 			}
 		}
 	}

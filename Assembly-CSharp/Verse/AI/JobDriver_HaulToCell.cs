@@ -1,29 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A41 RID: 2625
 	public class JobDriver_HaulToCell : JobDriver
 	{
-		// Token: 0x0400251F RID: 9503
 		private bool forbiddenInitially;
 
-		// Token: 0x04002520 RID: 9504
 		private const TargetIndex HaulableInd = TargetIndex.A;
 
-		// Token: 0x04002521 RID: 9505
 		private const TargetIndex StoreCellInd = TargetIndex.B;
 
-		// Token: 0x06003A3A RID: 14906 RVA: 0x001EE2C7 File Offset: 0x001EC6C7
+		public JobDriver_HaulToCell()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.forbiddenInitially, "forbiddenInitially", false, false);
 		}
 
-		// Token: 0x06003A3B RID: 14907 RVA: 0x001EE2E4 File Offset: 0x001EC6E4
 		public override string GetReport()
 		{
 			IntVec3 cell = this.job.targetB.Cell;
@@ -68,13 +70,11 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A3C RID: 14908 RVA: 0x001EE3EC File Offset: 0x001EC7EC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A3D RID: 14909 RVA: 0x001EE449 File Offset: 0x001EC849
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -88,7 +88,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A3E RID: 14910 RVA: 0x001EE480 File Offset: 0x001EC880
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -125,6 +124,190 @@ namespace Verse.AI
 			yield return carryToCell;
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <reserveTargetA>__0;
+
+			internal Toil <carryToCell>__0;
+
+			internal JobDriver_HaulToCell $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_HaulToCell.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDestroyedOrNull(TargetIndex.A);
+					this.FailOnBurningImmobile(TargetIndex.B);
+					if (!this.forbiddenInitially)
+					{
+						this.FailOnForbidden(TargetIndex.A);
+					}
+					reserveTargetA = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+					this.$current = reserveTargetA;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					<MakeNewToils>c__AnonStorey.toilGoto = null;
+					<MakeNewToils>c__AnonStorey.toilGoto = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A).FailOn(delegate()
+					{
+						Pawn actor = <MakeNewToils>c__AnonStorey.toilGoto.actor;
+						Job curJob = actor.jobs.curJob;
+						if (curJob.haulMode == HaulMode.ToCellStorage)
+						{
+							Thing thing = curJob.GetTarget(TargetIndex.A).Thing;
+							IntVec3 cell = actor.jobs.curJob.GetTarget(TargetIndex.B).Cell;
+							if (!cell.IsValidStorageFor(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Map, thing))
+							{
+								return true;
+							}
+						}
+						return false;
+					});
+					this.$current = <MakeNewToils>c__AnonStorey.toilGoto;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_Haul.StartCarryThing(TargetIndex.A, false, true, false);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					if (this.job.haulOpportunisticDuplicates)
+					{
+						this.$current = Toils_Haul.CheckForGetOpportunityDuplicate(reserveTargetA, TargetIndex.A, TargetIndex.B, false, null);
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						return true;
+					}
+					break;
+				case 4u:
+					break;
+				case 5u:
+					this.$current = Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+				this.$current = carryToCell;
+				if (!this.$disposing)
+				{
+					this.$PC = 5;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_HaulToCell.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_HaulToCell.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil toilGoto;
+
+				internal JobDriver_HaulToCell.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0()
+				{
+					Pawn actor = this.toilGoto.actor;
+					Job curJob = actor.jobs.curJob;
+					if (curJob.haulMode == HaulMode.ToCellStorage)
+					{
+						Thing thing = curJob.GetTarget(TargetIndex.A).Thing;
+						IntVec3 cell = actor.jobs.curJob.GetTarget(TargetIndex.B).Cell;
+						if (!cell.IsValidStorageFor(this.<>f__ref$0.$this.Map, thing))
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+			}
 		}
 	}
 }

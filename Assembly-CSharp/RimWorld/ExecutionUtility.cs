@@ -1,14 +1,31 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000093 RID: 147
 	public static class ExecutionUtility
 	{
-		// Token: 0x060003AE RID: 942 RVA: 0x00029B60 File Offset: 0x00027F60
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, float> <>f__am$cache5;
+
 		public static void DoExecutionByCut(Pawn executioner, Pawn victim)
 		{
 			Map map = victim.Map;
@@ -30,7 +47,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003AF RID: 943 RVA: 0x00029C24 File Offset: 0x00028024
 		private static BodyPartRecord ExecuteCutPart(Pawn pawn)
 		{
 			BodyPartRecord bodyPartRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).FirstOrDefault((BodyPartRecord x) => x.def == BodyPartDefOf.Neck);
@@ -77,6 +93,42 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExecuteCutPart>m__0(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.Neck;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExecuteCutPart>m__1(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.Head;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExecuteCutPart>m__2(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.InsectHead;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExecuteCutPart>m__3(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.Body;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExecuteCutPart>m__4(BodyPartRecord x)
+		{
+			return x.def == BodyPartDefOf.Torso;
+		}
+
+		[CompilerGenerated]
+		private static float <ExecuteCutPart>m__5(BodyPartRecord x)
+		{
+			return x.coverageAbsWithChildren;
 		}
 	}
 }

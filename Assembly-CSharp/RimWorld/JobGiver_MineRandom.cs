@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000A2 RID: 162
 	public class JobGiver_MineRandom : ThinkNode_JobGiver
 	{
-		// Token: 0x0600040C RID: 1036 RVA: 0x00030744 File Offset: 0x0002EB44
+		public JobGiver_MineRandom()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Region region = pawn.GetRegion(RegionType.Set_Passable);

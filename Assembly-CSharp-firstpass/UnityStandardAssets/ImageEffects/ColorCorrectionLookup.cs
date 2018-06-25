@@ -3,24 +3,22 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000189 RID: 393
-	[ExecuteInEditMode]
 	[AddComponentMenu("Image Effects/Color Adjustments/Color Correction (3D Lookup Texture)")]
+	[ExecuteInEditMode]
 	public class ColorCorrectionLookup : PostEffectsBase
 	{
-		// Token: 0x0400076A RID: 1898
 		public Shader shader;
 
-		// Token: 0x0400076B RID: 1899
 		private Material material;
 
-		// Token: 0x0400076C RID: 1900
 		public Texture3D converted3DLut = null;
 
-		// Token: 0x0400076D RID: 1901
 		public string basedOnTempTex = "";
 
-		// Token: 0x060008E3 RID: 2275 RVA: 0x000132E0 File Offset: 0x000114E0
+		public ColorCorrectionLookup()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(false);
@@ -32,7 +30,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x060008E4 RID: 2276 RVA: 0x00013336 File Offset: 0x00011536
 		private void OnDisable()
 		{
 			if (this.material)
@@ -42,7 +39,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008E5 RID: 2277 RVA: 0x0001335D File Offset: 0x0001155D
 		private void OnDestroy()
 		{
 			if (this.converted3DLut)
@@ -52,7 +48,6 @@ namespace UnityStandardAssets.ImageEffects
 			this.converted3DLut = null;
 		}
 
-		// Token: 0x060008E6 RID: 2278 RVA: 0x00013384 File Offset: 0x00011584
 		public void SetIdentityLut()
 		{
 			int num = 16;
@@ -78,7 +73,6 @@ namespace UnityStandardAssets.ImageEffects
 			this.basedOnTempTex = "";
 		}
 
-		// Token: 0x060008E7 RID: 2279 RVA: 0x00013488 File Offset: 0x00011688
 		public bool ValidDimensions(Texture2D tex2d)
 		{
 			bool result;
@@ -94,7 +88,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x060008E8 RID: 2280 RVA: 0x000134D8 File Offset: 0x000116D8
 		public void Convert(Texture2D temp2DTex, string path)
 		{
 			if (temp2DTex)
@@ -137,7 +130,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x060008E9 RID: 2281 RVA: 0x00013628 File Offset: 0x00011828
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources() || !SystemInfo.supports3DTextures)

@@ -1,69 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A44 RID: 2628
 	public abstract class JobDriver : IExposable, IJobEndable
 	{
-		// Token: 0x04002525 RID: 9509
 		public Pawn pawn;
 
-		// Token: 0x04002526 RID: 9510
 		public Job job;
 
-		// Token: 0x04002527 RID: 9511
 		private List<Toil> toils = new List<Toil>();
 
-		// Token: 0x04002528 RID: 9512
 		public List<Func<JobCondition>> globalFailConditions = new List<Func<JobCondition>>();
 
-		// Token: 0x04002529 RID: 9513
 		public List<Action> globalFinishActions = new List<Action>();
 
-		// Token: 0x0400252A RID: 9514
 		public bool ended = false;
 
-		// Token: 0x0400252B RID: 9515
 		private int curToilIndex = -1;
 
-		// Token: 0x0400252C RID: 9516
 		private ToilCompleteMode curToilCompleteMode;
 
-		// Token: 0x0400252D RID: 9517
 		public int ticksLeftThisToil = 99999;
 
-		// Token: 0x0400252E RID: 9518
 		private bool wantBeginNextToil = false;
 
-		// Token: 0x0400252F RID: 9519
 		protected int startTick = -1;
 
-		// Token: 0x04002530 RID: 9520
 		public TargetIndex rotateToFace = TargetIndex.A;
 
-		// Token: 0x04002531 RID: 9521
 		private int nextToilIndex = -1;
 
-		// Token: 0x04002532 RID: 9522
 		public bool asleep;
 
-		// Token: 0x04002533 RID: 9523
 		public float uninstallWorkLeft;
 
-		// Token: 0x04002534 RID: 9524
 		public bool collideWithPawns;
 
-		// Token: 0x04002535 RID: 9525
 		public Pawn locomotionUrgencySameAs;
 
-		// Token: 0x04002536 RID: 9526
 		public int debugTicksSpentThisToil = 0;
 
-		// Token: 0x170008EE RID: 2286
-		// (get) Token: 0x06003A54 RID: 14932 RVA: 0x00010F0C File Offset: 0x0000F30C
+		protected JobDriver()
+		{
+		}
+
 		protected Toil CurToil
 		{
 			get
@@ -96,8 +80,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008EF RID: 2287
-		// (get) Token: 0x06003A55 RID: 14933 RVA: 0x00010FE4 File Offset: 0x0000F3E4
 		protected bool HaveCurToil
 		{
 			get
@@ -106,8 +88,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F0 RID: 2288
-		// (get) Token: 0x06003A56 RID: 14934 RVA: 0x0001101C File Offset: 0x0000F41C
 		private bool CanStartNextToilInBusyStance
 		{
 			get
@@ -117,8 +97,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F1 RID: 2289
-		// (get) Token: 0x06003A57 RID: 14935 RVA: 0x00011064 File Offset: 0x0000F464
 		public int CurToilIndex
 		{
 			get
@@ -127,8 +105,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F2 RID: 2290
-		// (get) Token: 0x06003A58 RID: 14936 RVA: 0x00011080 File Offset: 0x0000F480
 		public bool OnLastToil
 		{
 			get
@@ -137,8 +113,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F3 RID: 2291
-		// (get) Token: 0x06003A59 RID: 14937 RVA: 0x000110AC File Offset: 0x0000F4AC
 		public SkillDef ActiveSkill
 		{
 			get
@@ -147,8 +121,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F4 RID: 2292
-		// (get) Token: 0x06003A5A RID: 14938 RVA: 0x000110F4 File Offset: 0x0000F4F4
 		public bool HandlingFacing
 		{
 			get
@@ -157,8 +129,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F5 RID: 2293
-		// (get) Token: 0x06003A5B RID: 14939 RVA: 0x00011124 File Offset: 0x0000F524
 		protected LocalTargetInfo TargetA
 		{
 			get
@@ -167,8 +137,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F6 RID: 2294
-		// (get) Token: 0x06003A5C RID: 14940 RVA: 0x00011144 File Offset: 0x0000F544
 		protected LocalTargetInfo TargetB
 		{
 			get
@@ -177,8 +145,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F7 RID: 2295
-		// (get) Token: 0x06003A5D RID: 14941 RVA: 0x00011164 File Offset: 0x0000F564
 		protected LocalTargetInfo TargetC
 		{
 			get
@@ -187,9 +153,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F8 RID: 2296
-		// (get) Token: 0x06003A5E RID: 14942 RVA: 0x00011184 File Offset: 0x0000F584
-		// (set) Token: 0x06003A5F RID: 14943 RVA: 0x000111A9 File Offset: 0x0000F5A9
 		protected Thing TargetThingA
 		{
 			get
@@ -202,9 +165,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008F9 RID: 2297
-		// (get) Token: 0x06003A60 RID: 14944 RVA: 0x000111C0 File Offset: 0x0000F5C0
-		// (set) Token: 0x06003A61 RID: 14945 RVA: 0x000111E5 File Offset: 0x0000F5E5
 		protected Thing TargetThingB
 		{
 			get
@@ -217,8 +177,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008FA RID: 2298
-		// (get) Token: 0x06003A62 RID: 14946 RVA: 0x000111FC File Offset: 0x0000F5FC
 		protected IntVec3 TargetLocA
 		{
 			get
@@ -227,8 +185,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008FB RID: 2299
-		// (get) Token: 0x06003A63 RID: 14947 RVA: 0x00011224 File Offset: 0x0000F624
 		protected Map Map
 		{
 			get
@@ -237,13 +193,11 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A64 RID: 14948 RVA: 0x00011244 File Offset: 0x0000F644
 		public virtual string GetReport()
 		{
 			return this.ReportStringProcessed(this.job.def.reportString);
 		}
 
-		// Token: 0x06003A65 RID: 14949 RVA: 0x00011270 File Offset: 0x0000F670
 		protected string ReportStringProcessed(string str)
 		{
 			LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
@@ -304,19 +258,15 @@ namespace Verse.AI
 			return str;
 		}
 
-		// Token: 0x06003A66 RID: 14950
 		public abstract bool TryMakePreToilReservations();
 
-		// Token: 0x06003A67 RID: 14951
 		protected abstract IEnumerable<Toil> MakeNewToils();
 
-		// Token: 0x06003A68 RID: 14952 RVA: 0x0001144B File Offset: 0x0000F84B
 		public virtual void SetInitialPosture()
 		{
 			this.pawn.jobs.posture = PawnPosture.Standing;
 		}
 
-		// Token: 0x06003A69 RID: 14953 RVA: 0x00011460 File Offset: 0x0000F860
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.ended, "ended", false, false);
@@ -337,7 +287,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A6A RID: 14954 RVA: 0x0001155C File Offset: 0x0000F95C
 		public void Cleanup(JobCondition condition)
 		{
 			for (int i = 0; i < this.globalFinishActions.Count; i++)
@@ -369,13 +318,11 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A6B RID: 14955 RVA: 0x00011644 File Offset: 0x0000FA44
 		public virtual bool CanBeginNowWhileLyingDown()
 		{
 			return false;
 		}
 
-		// Token: 0x06003A6C RID: 14956 RVA: 0x0001165C File Offset: 0x0000FA5C
 		internal void SetupToils()
 		{
 			try
@@ -398,7 +345,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A6D RID: 14957 RVA: 0x00011734 File Offset: 0x0000FB34
 		public void DriverTick()
 		{
 			try
@@ -478,14 +424,12 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A6E RID: 14958 RVA: 0x00011978 File Offset: 0x0000FD78
 		public void ReadyForNextToil()
 		{
 			this.wantBeginNextToil = true;
 			this.TryActuallyStartNextToil();
 		}
 
-		// Token: 0x06003A6F RID: 14959 RVA: 0x00011988 File Offset: 0x0000FD88
 		private void TryActuallyStartNextToil()
 		{
 			if (this.pawn.Spawned)
@@ -572,7 +516,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A70 RID: 14960 RVA: 0x00011C28 File Offset: 0x00010028
 		public void EndJobWith(JobCondition condition)
 		{
 			if (!this.pawn.Destroyed && this.pawn.CurJob == this.job)
@@ -581,7 +524,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A71 RID: 14961 RVA: 0x00011C64 File Offset: 0x00010064
 		public virtual object[] TaleParameters()
 		{
 			return new object[]
@@ -590,7 +532,6 @@ namespace Verse.AI
 			};
 		}
 
-		// Token: 0x06003A72 RID: 14962 RVA: 0x00011C88 File Offset: 0x00010088
 		private bool CheckCurrentToilEndOrFail()
 		{
 			bool result;
@@ -657,7 +598,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A73 RID: 14963 RVA: 0x00011E94 File Offset: 0x00010294
 		private void SetNextToil(Toil to)
 		{
 			if (to != null && !this.toils.Contains(to))
@@ -675,7 +615,6 @@ namespace Verse.AI
 			this.nextToilIndex = this.toils.IndexOf(to);
 		}
 
-		// Token: 0x06003A74 RID: 14964 RVA: 0x00011F20 File Offset: 0x00010320
 		public void JumpToToil(Toil to)
 		{
 			if (to == null)
@@ -686,13 +625,11 @@ namespace Verse.AI
 			this.ReadyForNextToil();
 		}
 
-		// Token: 0x06003A75 RID: 14965 RVA: 0x00011F73 File Offset: 0x00010373
 		public virtual void Notify_Starting()
 		{
 			this.startTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003A76 RID: 14966 RVA: 0x00011F86 File Offset: 0x00010386
 		public virtual void Notify_PatherArrived()
 		{
 			if (this.curToilCompleteMode == ToilCompleteMode.PatherArrival)
@@ -701,35 +638,29 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A77 RID: 14967 RVA: 0x00011F9B File Offset: 0x0001039B
 		public virtual void Notify_PatherFailed()
 		{
 			this.EndJobWith(JobCondition.ErroredPather);
 		}
 
-		// Token: 0x06003A78 RID: 14968 RVA: 0x00011FA5 File Offset: 0x000103A5
 		public virtual void Notify_StanceChanged()
 		{
 		}
 
-		// Token: 0x06003A79 RID: 14969 RVA: 0x00011FA8 File Offset: 0x000103A8
 		public virtual void Notify_DamageTaken(DamageInfo dinfo)
 		{
 		}
 
-		// Token: 0x06003A7A RID: 14970 RVA: 0x00011FAC File Offset: 0x000103AC
 		public Pawn GetActor()
 		{
 			return this.pawn;
 		}
 
-		// Token: 0x06003A7B RID: 14971 RVA: 0x00011FC7 File Offset: 0x000103C7
 		public void AddEndCondition(Func<JobCondition> newEndCondition)
 		{
 			this.globalFailConditions.Add(newEndCondition);
 		}
 
-		// Token: 0x06003A7C RID: 14972 RVA: 0x00011FD8 File Offset: 0x000103D8
 		public void AddFailCondition(Func<bool> newFailCondition)
 		{
 			this.globalFailConditions.Add(delegate
@@ -747,19 +678,16 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x06003A7D RID: 14973 RVA: 0x0001200A File Offset: 0x0001040A
 		public void AddFinishAction(Action newAct)
 		{
 			this.globalFinishActions.Add(newAct);
 		}
 
-		// Token: 0x06003A7E RID: 14974 RVA: 0x0001201C File Offset: 0x0001041C
 		public virtual bool ModifyCarriedThingDrawPos(ref Vector3 drawPos, ref bool behind, ref bool flip)
 		{
 			return false;
 		}
 
-		// Token: 0x06003A7F RID: 14975 RVA: 0x00012034 File Offset: 0x00010434
 		public virtual RandomSocialMode DesiredSocialMode()
 		{
 			RandomSocialMode result;
@@ -774,10 +702,33 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A80 RID: 14976 RVA: 0x00012068 File Offset: 0x00010468
 		public virtual bool IsContinuation(Job j)
 		{
 			return true;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddFailCondition>c__AnonStorey0
+		{
+			internal Func<bool> newFailCondition;
+
+			public <AddFailCondition>c__AnonStorey0()
+			{
+			}
+
+			internal JobCondition <>m__0()
+			{
+				JobCondition result;
+				if (this.newFailCondition())
+				{
+					result = JobCondition.Incompletable;
+				}
+				else
+				{
+					result = JobCondition.Ongoing;
+				}
+				return result;
+			}
 		}
 	}
 }

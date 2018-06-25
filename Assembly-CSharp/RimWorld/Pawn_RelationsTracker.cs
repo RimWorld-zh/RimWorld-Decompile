@@ -1,68 +1,59 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200052B RID: 1323
 	public class Pawn_RelationsTracker : IExposable
 	{
-		// Token: 0x04000E71 RID: 3697
 		private Pawn pawn;
 
-		// Token: 0x04000E72 RID: 3698
 		private List<DirectPawnRelation> directRelations = new List<DirectPawnRelation>();
 
-		// Token: 0x04000E73 RID: 3699
 		public bool everSeenByPlayer;
 
-		// Token: 0x04000E74 RID: 3700
 		public bool canGetRescuedThought = true;
 
-		// Token: 0x04000E75 RID: 3701
 		public Pawn relativeInvolvedInRescueQuest;
 
-		// Token: 0x04000E76 RID: 3702
 		private HashSet<Pawn> pawnsWithDirectRelationsWithMe = new HashSet<Pawn>();
 
-		// Token: 0x04000E77 RID: 3703
 		private List<Pawn> cachedFamilyByBlood = new List<Pawn>();
 
-		// Token: 0x04000E78 RID: 3704
 		private bool familyByBloodIsCached;
 
-		// Token: 0x04000E79 RID: 3705
 		private bool canCacheFamilyByBlood;
 
-		// Token: 0x04000E7A RID: 3706
 		private const int CheckDevelopBondRelationIntervalTicks = 2500;
 
-		// Token: 0x04000E7B RID: 3707
 		private const float MaxBondRelationCheckDist = 12f;
 
-		// Token: 0x04000E7C RID: 3708
 		private const float BondRelationPerIntervalChance = 0.001f;
 
-		// Token: 0x04000E7D RID: 3709
 		public const int FriendOpinionThreshold = 20;
 
-		// Token: 0x04000E7E RID: 3710
 		public const int RivalOpinionThreshold = -20;
 
-		// Token: 0x04000E7F RID: 3711
 		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
 
-		// Token: 0x0600183D RID: 6205 RVA: 0x000D3CC4 File Offset: 0x000D20C4
+		[CompilerGenerated]
+		private static Predicate<DirectPawnRelation> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache1;
+
 		public Pawn_RelationsTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x1700035F RID: 863
-		// (get) Token: 0x0600183E RID: 6206 RVA: 0x000D3CFC File Offset: 0x000D20FC
 		public List<DirectPawnRelation> DirectRelations
 		{
 			get
@@ -71,8 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000360 RID: 864
-		// (get) Token: 0x0600183F RID: 6207 RVA: 0x000D3D18 File Offset: 0x000D2118
 		public IEnumerable<Pawn> Children
 		{
 			get
@@ -93,8 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000361 RID: 865
-		// (get) Token: 0x06001840 RID: 6208 RVA: 0x000D3D44 File Offset: 0x000D2144
 		public int ChildrenCount
 		{
 			get
@@ -103,8 +90,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000362 RID: 866
-		// (get) Token: 0x06001841 RID: 6209 RVA: 0x000D3D64 File Offset: 0x000D2164
 		public bool RelatedToAnyoneOrAnyoneRelatedToMe
 		{
 			get
@@ -113,8 +98,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000363 RID: 867
-		// (get) Token: 0x06001842 RID: 6210 RVA: 0x000D3D98 File Offset: 0x000D2198
 		public IEnumerable<Pawn> FamilyByBlood
 		{
 			get
@@ -138,8 +121,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000364 RID: 868
-		// (get) Token: 0x06001843 RID: 6211 RVA: 0x000D3DFC File Offset: 0x000D21FC
 		private IEnumerable<Pawn> FamilyByBlood_Internal
 		{
 			get
@@ -213,8 +194,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000365 RID: 869
-		// (get) Token: 0x06001844 RID: 6212 RVA: 0x000D3E28 File Offset: 0x000D2228
 		public IEnumerable<Pawn> PotentiallyRelatedPawns
 		{
 			get
@@ -269,8 +248,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000366 RID: 870
-		// (get) Token: 0x06001845 RID: 6213 RVA: 0x000D3E54 File Offset: 0x000D2254
 		public IEnumerable<Pawn> RelatedPawns
 		{
 			get
@@ -298,7 +275,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001846 RID: 6214 RVA: 0x000D3E80 File Offset: 0x000D2280
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<DirectPawnRelation>(ref this.directRelations, "directRelations", LookMode.Deep, new object[0]);
@@ -329,7 +305,6 @@ namespace RimWorld
 			Scribe_References.Look<Pawn>(ref this.relativeInvolvedInRescueQuest, "relativeInvolvedInRescueQuest", false);
 		}
 
-		// Token: 0x06001847 RID: 6215 RVA: 0x000D3FD4 File Offset: 0x000D23D4
 		public void RelationsTrackerTick()
 		{
 			if (!this.pawn.Dead)
@@ -339,7 +314,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001848 RID: 6216 RVA: 0x000D3FF8 File Offset: 0x000D23F8
 		public DirectPawnRelation GetDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			DirectPawnRelation result;
@@ -355,7 +329,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001849 RID: 6217 RVA: 0x000D4068 File Offset: 0x000D2468
 		public Pawn GetFirstDirectRelationPawn(PawnRelationDef def, Predicate<Pawn> predicate = null)
 		{
 			Pawn result;
@@ -379,7 +352,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600184A RID: 6218 RVA: 0x000D40FC File Offset: 0x000D24FC
 		public bool DirectRelationExists(PawnRelationDef def, Pawn otherPawn)
 		{
 			bool result;
@@ -403,7 +375,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600184B RID: 6219 RVA: 0x000D4180 File Offset: 0x000D2580
 		public void AddDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			if (def.implied)
@@ -455,13 +426,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600184C RID: 6220 RVA: 0x000D42F4 File Offset: 0x000D26F4
 		public void RemoveDirectRelation(DirectPawnRelation relation)
 		{
 			this.RemoveDirectRelation(relation.def, relation.otherPawn);
 		}
 
-		// Token: 0x0600184D RID: 6221 RVA: 0x000D430C File Offset: 0x000D270C
 		public void RemoveDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			if (!this.TryRemoveDirectRelation(def, otherPawn))
@@ -478,7 +447,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600184E RID: 6222 RVA: 0x000D4364 File Offset: 0x000D2764
 		public bool TryRemoveDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			bool result;
@@ -526,7 +494,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600184F RID: 6223 RVA: 0x000D4514 File Offset: 0x000D2914
 		public int OpinionOf(Pawn other)
 		{
 			int result;
@@ -571,7 +538,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001850 RID: 6224 RVA: 0x000D4690 File Offset: 0x000D2A90
 		public string OpinionExplanation(Pawn other)
 		{
 			string result;
@@ -661,7 +627,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001851 RID: 6225 RVA: 0x000D49CC File Offset: 0x000D2DCC
 		public float SecondaryLovinChanceFactor(Pawn otherPawn)
 		{
 			float result;
@@ -743,7 +708,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001852 RID: 6226 RVA: 0x000D4CF0 File Offset: 0x000D30F0
 		public float SecondaryRomanceChanceFactor(Pawn otherPawn)
 		{
 			float num = 1f;
@@ -754,7 +718,6 @@ namespace RimWorld
 			return this.SecondaryLovinChanceFactor(otherPawn) * num;
 		}
 
-		// Token: 0x06001853 RID: 6227 RVA: 0x000D4D6C File Offset: 0x000D316C
 		public float CompatibilityWith(Pawn otherPawn)
 		{
 			float result;
@@ -773,7 +736,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001854 RID: 6228 RVA: 0x000D4E0C File Offset: 0x000D320C
 		public float ConstantPerPawnsPairCompatibilityOffset(int otherPawnID)
 		{
 			Rand.PushState();
@@ -783,7 +745,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001855 RID: 6229 RVA: 0x000D4E58 File Offset: 0x000D3258
 		public void ClearAllRelations()
 		{
 			List<DirectPawnRelation> list = this.directRelations.ToList<DirectPawnRelation>();
@@ -805,7 +766,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001856 RID: 6230 RVA: 0x000D4F28 File Offset: 0x000D3328
 		internal void Notify_PawnKilled(DamageInfo? dinfo, Map mapBeforeDeath)
 		{
 			foreach (Pawn pawn in this.PotentiallyRelatedPawns)
@@ -826,7 +786,6 @@ namespace RimWorld
 			this.Notify_FailedRescueQuest();
 		}
 
-		// Token: 0x06001857 RID: 6231 RVA: 0x000D4FFC File Offset: 0x000D33FC
 		public void Notify_PassedToWorld()
 		{
 			if (!this.pawn.Dead)
@@ -835,13 +794,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001858 RID: 6232 RVA: 0x000D5016 File Offset: 0x000D3416
 		public void Notify_ExitedMap()
 		{
 			this.Rescued();
 		}
 
-		// Token: 0x06001859 RID: 6233 RVA: 0x000D501F File Offset: 0x000D341F
 		public void Notify_ChangedFaction()
 		{
 			if (this.pawn.Faction == Faction.OfPlayer)
@@ -850,7 +807,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600185A RID: 6234 RVA: 0x000D5040 File Offset: 0x000D3440
 		public void Notify_PawnSold(Pawn playerNegotiator)
 		{
 			foreach (Pawn pawn in this.PotentiallyRelatedPawns)
@@ -867,13 +823,11 @@ namespace RimWorld
 			this.RemoveMySpouseMarriageRelatedThoughts();
 		}
 
-		// Token: 0x0600185B RID: 6235 RVA: 0x000D50FC File Offset: 0x000D34FC
 		public void Notify_PawnKidnapped()
 		{
 			this.RemoveMySpouseMarriageRelatedThoughts();
 		}
 
-		// Token: 0x0600185C RID: 6236 RVA: 0x000D5108 File Offset: 0x000D3508
 		public void Notify_RescuedBy(Pawn rescuer)
 		{
 			if (rescuer.RaceProps.Humanlike && this.canGetRescuedThought)
@@ -883,7 +837,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600185D RID: 6237 RVA: 0x000D5160 File Offset: 0x000D3560
 		public void Notify_FailedRescueQuest()
 		{
 			if (this.relativeInvolvedInRescueQuest != null && !this.relativeInvolvedInRescueQuest.Dead && this.relativeInvolvedInRescueQuest.needs.mood != null)
@@ -898,7 +851,6 @@ namespace RimWorld
 			this.relativeInvolvedInRescueQuest = null;
 		}
 
-		// Token: 0x0600185E RID: 6238 RVA: 0x000D5214 File Offset: 0x000D3614
 		private void Rescued()
 		{
 			if (this.relativeInvolvedInRescueQuest != null && !this.relativeInvolvedInRescueQuest.Dead && this.relativeInvolvedInRescueQuest.needs.mood != null)
@@ -913,19 +865,16 @@ namespace RimWorld
 			this.relativeInvolvedInRescueQuest = null;
 		}
 
-		// Token: 0x0600185F RID: 6239 RVA: 0x000D52C8 File Offset: 0x000D36C8
 		public float GetFriendDiedThoughtPowerFactor(int opinion)
 		{
 			return Mathf.Lerp(0.15f, 1f, Mathf.InverseLerp(20f, 100f, (float)opinion));
 		}
 
-		// Token: 0x06001860 RID: 6240 RVA: 0x000D5300 File Offset: 0x000D3700
 		public float GetRivalDiedThoughtPowerFactor(int opinion)
 		{
 			return Mathf.Lerp(0.15f, 1f, Mathf.InverseLerp(-20f, -100f, (float)opinion));
 		}
 
-		// Token: 0x06001861 RID: 6241 RVA: 0x000D5338 File Offset: 0x000D3738
 		private void RemoveMySpouseMarriageRelatedThoughts()
 		{
 			Pawn spouse = this.pawn.GetSpouse();
@@ -937,7 +886,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001862 RID: 6242 RVA: 0x000D53A4 File Offset: 0x000D37A4
 		public void CheckAppendBondedAnimalDiedInfo(ref string letter, ref string label)
 		{
 			if (this.pawn.RaceProps.Animal && this.everSeenByPlayer && !PawnGenerator.IsBeingGenerated(this.pawn))
@@ -988,7 +936,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001863 RID: 6243 RVA: 0x000D55C4 File Offset: 0x000D39C4
 		private void AffectBondedAnimalsOnMyDeath()
 		{
 			int num = 0;
@@ -1052,7 +999,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001864 RID: 6244 RVA: 0x000D57A4 File Offset: 0x000D3BA4
 		private void Tick_CheckStartMarriageCeremony()
 		{
 			if (this.pawn.Spawned && !this.pawn.RaceProps.Animal)
@@ -1072,7 +1018,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001865 RID: 6245 RVA: 0x000D5948 File Offset: 0x000D3D48
 		private void Tick_CheckDevelopBondRelation()
 		{
 			if (this.pawn.Spawned && this.pawn.RaceProps.Animal && this.pawn.Faction == Faction.OfPlayer && this.pawn.playerSettings.RespectedMaster != null)
@@ -1085,12 +1030,820 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001866 RID: 6246 RVA: 0x000D5A34 File Offset: 0x000D3E34
 		private void GainedOrLostDirectRelation()
 		{
 			if (Current.ProgramState == ProgramState.Playing && !this.pawn.Dead && this.pawn.needs.mood != null)
 			{
 				this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Pawn_RelationsTracker()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(DirectPawnRelation x)
+		{
+			return x.otherPawn == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckAppendBondedAnimalDiedInfo>m__1(Pawn x)
+		{
+			return !x.Dead && (!x.RaceProps.Humanlike || !x.story.traits.HasTrait(TraitDefOf.Psychopath));
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal HashSet<Pawn>.Enumerator $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal List<DirectPawnRelation> <hisDirectRels>__2;
+
+			internal int <i>__3;
+
+			internal Pawn_RelationsTracker $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = this.pawnsWithDirectRelationsWithMe.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					IL_117:
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						hisDirectRels = p.relations.directRelations;
+						for (i = 0; i < hisDirectRels.Count; i++)
+						{
+							if (hisDirectRels[i].otherPawn == this.pawn && hisDirectRels[i].def == PawnRelationDefOf.Parent)
+							{
+								this.$current = p;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						goto IL_117;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_RelationsTracker.<>c__Iterator0 <>c__Iterator = new Pawn_RelationsTracker.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Pawn> <familyStack>__0;
+
+			internal List<Pawn> <familyChildrenStack>__0;
+
+			internal HashSet<Pawn> <familyVisited>__0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn <father>__1;
+
+			internal Pawn <mother>__1;
+
+			internal Pawn <child>__2;
+
+			internal IEnumerable<Pawn> <children>__2;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn_RelationsTracker $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!base.RelatedToAnyoneOrAnyoneRelatedToMe)
+					{
+						return false;
+					}
+					familyStack = null;
+					familyChildrenStack = null;
+					familyVisited = null;
+					num = 4294967293u;
+					break;
+				case 1u:
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_11B:
+						father = p.GetFather();
+						if (father != null && !familyVisited.Contains(father))
+						{
+							familyStack.Add(father);
+							familyVisited.Add(father);
+						}
+						mother = p.GetMother();
+						if (mother != null && !familyVisited.Contains(mother))
+						{
+							familyStack.Add(mother);
+							familyVisited.Add(mother);
+						}
+						familyChildrenStack.Clear();
+						familyChildrenStack.Add(p);
+						break;
+					case 2u:
+						IL_25D:
+						children = child.relations.Children;
+						enumerator = children.GetEnumerator();
+						try
+						{
+							while (enumerator.MoveNext())
+							{
+								Pawn item = enumerator.Current;
+								if (!familyVisited.Contains(item))
+								{
+									familyChildrenStack.Add(item);
+									familyVisited.Add(item);
+								}
+							}
+						}
+						finally
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+						break;
+					default:
+						familyStack = SimplePool<List<Pawn>>.Get();
+						familyChildrenStack = SimplePool<List<Pawn>>.Get();
+						familyVisited = SimplePool<HashSet<Pawn>>.Get();
+						familyStack.Add(this.pawn);
+						familyVisited.Add(this.pawn);
+						goto IL_302;
+					}
+					if (familyChildrenStack.Any<Pawn>())
+					{
+						child = familyChildrenStack[familyChildrenStack.Count - 1];
+						familyChildrenStack.RemoveLast<Pawn>();
+						if (child != p && child != this.pawn)
+						{
+							this.$current = child;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_25D;
+					}
+					IL_302:
+					if (familyStack.Any<Pawn>())
+					{
+						p = familyStack[familyStack.Count - 1];
+						familyStack.RemoveLast<Pawn>();
+						if (p != this.pawn)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_11B;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_RelationsTracker.<>c__Iterator1 <>c__Iterator = new Pawn_RelationsTracker.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				familyStack.Clear();
+				SimplePool<List<Pawn>>.Return(familyStack);
+				familyChildrenStack.Clear();
+				SimplePool<List<Pawn>>.Return(familyChildrenStack);
+				familyVisited.Clear();
+				SimplePool<HashSet<Pawn>>.Return(familyVisited);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator2 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Pawn> <stack>__0;
+
+			internal HashSet<Pawn> <visited>__0;
+
+			internal Pawn <p>__1;
+
+			internal HashSet<Pawn>.Enumerator $locvar0;
+
+			internal Pawn_RelationsTracker $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!base.RelatedToAnyoneOrAnyoneRelatedToMe)
+					{
+						return false;
+					}
+					stack = null;
+					visited = null;
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_101:
+						for (int i = 0; i < p.relations.directRelations.Count; i++)
+						{
+							Pawn otherPawn = p.relations.directRelations[i].otherPawn;
+							if (!visited.Contains(otherPawn))
+							{
+								stack.Add(otherPawn);
+								visited.Add(otherPawn);
+							}
+						}
+						enumerator = p.relations.pawnsWithDirectRelationsWithMe.GetEnumerator();
+						try
+						{
+							while (enumerator.MoveNext())
+							{
+								Pawn item = enumerator.Current;
+								if (!visited.Contains(item))
+								{
+									stack.Add(item);
+									visited.Add(item);
+								}
+							}
+						}
+						finally
+						{
+							((IDisposable)enumerator).Dispose();
+						}
+						break;
+					default:
+						stack = SimplePool<List<Pawn>>.Get();
+						visited = SimplePool<HashSet<Pawn>>.Get();
+						stack.Add(this.pawn);
+						visited.Add(this.pawn);
+						break;
+					}
+					if (stack.Any<Pawn>())
+					{
+						p = stack[stack.Count - 1];
+						stack.RemoveLast<Pawn>();
+						if (p != this.pawn)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_101;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_RelationsTracker.<>c__Iterator2 <>c__Iterator = new Pawn_RelationsTracker.<>c__Iterator2();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				stack.Clear();
+				SimplePool<List<Pawn>>.Return(stack);
+				visited.Clear();
+				SimplePool<HashSet<Pawn>>.Return(visited);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator3 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal bool <definitelyKin>__2;
+
+			internal Pawn_RelationsTracker $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.canCacheFamilyByBlood = true;
+					this.familyByBloodIsCached = false;
+					this.cachedFamilyByBlood.Clear();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						break;
+					default:
+						enumerator = base.PotentiallyRelatedPawns.GetEnumerator();
+						num = 4294967293u;
+						break;
+					}
+					try
+					{
+						switch (num)
+						{
+						case 1u:
+							IL_115:
+							break;
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							bool definitelyKin = this.familyByBloodIsCached && this.cachedFamilyByBlood.Contains(p);
+							if (definitelyKin || this.pawn.GetRelations(p).Any<PawnRelationDef>())
+							{
+								this.$current = p;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_115;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_RelationsTracker.<>c__Iterator3 <>c__Iterator = new Pawn_RelationsTracker.<>c__Iterator3();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				this.canCacheFamilyByBlood = false;
+				this.familyByBloodIsCached = false;
+				this.cachedFamilyByBlood.Clear();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetDirectRelation>c__AnonStorey4
+		{
+			internal PawnRelationDef def;
+
+			internal Pawn otherPawn;
+
+			public <GetDirectRelation>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return x.def == this.def && x.otherPawn == this.otherPawn;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryRemoveDirectRelation>c__AnonStorey5
+		{
+			internal PawnRelationDef def;
+
+			internal Pawn otherPawn;
+
+			internal Pawn_RelationsTracker $this;
+
+			public <TryRemoveDirectRelation>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(DirectPawnRelation x)
+			{
+				return x.def == this.def && x.otherPawn == this.$this.pawn;
+			}
+
+			internal bool <>m__1(DirectPawnRelation x)
+			{
+				return x.otherPawn == this.$this.pawn;
+			}
+
+			internal bool <>m__2(DirectPawnRelation x)
+			{
+				return x.otherPawn == this.otherPawn;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheckAppendBondedAnimalDiedInfo>c__AnonStorey6
+		{
+			internal Predicate<Pawn> isAffected;
+
+			public <CheckAppendBondedAnimalDiedInfo>c__AnonStorey6()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return this.isAffected(x);
 			}
 		}
 	}

@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000083 RID: 131
 	public class JobDriver_TradeWithPawn : JobDriver
 	{
-		// Token: 0x170000B6 RID: 182
-		// (get) Token: 0x06000370 RID: 880 RVA: 0x00026654 File Offset: 0x00024A54
+		public JobDriver_TradeWithPawn()
+		{
+		}
+
 		private Pawn Trader
 		{
 			get
@@ -18,13 +23,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000371 RID: 881 RVA: 0x00026674 File Offset: 0x00024A74
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Trader, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000372 RID: 882 RVA: 0x000266A8 File Offset: 0x00024AA8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -40,6 +43,136 @@ namespace RimWorld
 			};
 			yield return trade;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_TradeWithPawn $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedOrNull(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOn(() => !this.Trader.CanTradeNow);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					<MakeNewToils>c__AnonStorey.trade = new Toil();
+					<MakeNewToils>c__AnonStorey.trade.initAction = delegate()
+					{
+						Pawn actor = <MakeNewToils>c__AnonStorey.trade.actor;
+						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Trader.CanTradeNow)
+						{
+							Find.WindowStack.Add(new Dialog_Trade(actor, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Trader, false));
+						}
+					};
+					this.$current = <MakeNewToils>c__AnonStorey.trade;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil trade;
+
+				internal JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0()
+				{
+					return !this.<>f__ref$0.$this.Trader.CanTradeNow;
+				}
+
+				internal void <>m__1()
+				{
+					Pawn actor = this.trade.actor;
+					if (this.<>f__ref$0.$this.Trader.CanTradeNow)
+					{
+						Find.WindowStack.Add(new Dialog_Trade(actor, this.<>f__ref$0.$this.Trader, false));
+					}
+				}
+			}
 		}
 	}
 }

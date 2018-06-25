@@ -1,41 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BBF RID: 3007
 	public class BattleLogEntry_ExplosionImpact : LogEntry_DamageResult
 	{
-		// Token: 0x04002C93 RID: 11411
 		private Pawn initiatorPawn;
 
-		// Token: 0x04002C94 RID: 11412
 		private ThingDef initiatorThing;
 
-		// Token: 0x04002C95 RID: 11413
 		private Pawn recipientPawn;
 
-		// Token: 0x04002C96 RID: 11414
 		private ThingDef recipientThing;
 
-		// Token: 0x04002C97 RID: 11415
 		private ThingDef weaponDef;
 
-		// Token: 0x04002C98 RID: 11416
 		private ThingDef projectileDef;
 
-		// Token: 0x04002C99 RID: 11417
 		private DamageDef damageDef;
 
-		// Token: 0x06004139 RID: 16697 RVA: 0x00227170 File Offset: 0x00225570
 		public BattleLogEntry_ExplosionImpact() : base(null)
 		{
 		}
 
-		// Token: 0x0600413A RID: 16698 RVA: 0x0022717C File Offset: 0x0022557C
 		public BattleLogEntry_ExplosionImpact(Thing initiator, Thing recipient, ThingDef weaponDef, ThingDef projectileDef, DamageDef damageDef) : base(null)
 		{
 			if (initiator is Pawn)
@@ -59,8 +53,6 @@ namespace Verse
 			this.damageDef = damageDef;
 		}
 
-		// Token: 0x17000A2F RID: 2607
-		// (get) Token: 0x0600413B RID: 16699 RVA: 0x00227204 File Offset: 0x00225604
 		private string InitiatorName
 		{
 			get
@@ -82,8 +74,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A30 RID: 2608
-		// (get) Token: 0x0600413C RID: 16700 RVA: 0x00227258 File Offset: 0x00225658
 		private string RecipientName
 		{
 			get
@@ -105,13 +95,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600413D RID: 16701 RVA: 0x002272AC File Offset: 0x002256AC
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiatorPawn || t == this.recipientPawn;
 		}
 
-		// Token: 0x0600413E RID: 16702 RVA: 0x002272DC File Offset: 0x002256DC
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiatorPawn != null)
@@ -125,7 +113,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600413F RID: 16703 RVA: 0x00227308 File Offset: 0x00225708
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (this.recipientPawn != null)
@@ -145,7 +132,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004140 RID: 16704 RVA: 0x00227370 File Offset: 0x00225770
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -168,13 +154,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004141 RID: 16705 RVA: 0x002273D4 File Offset: 0x002257D4
 		protected override BodyDef DamagedBody()
 		{
 			return (this.recipientPawn == null) ? null : this.recipientPawn.RaceProps.body;
 		}
 
-		// Token: 0x06004142 RID: 16706 RVA: 0x0022740C File Offset: 0x0022580C
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -215,7 +199,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004143 RID: 16707 RVA: 0x002275A0 File Offset: 0x002259A0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -228,10 +211,113 @@ namespace Verse
 			Scribe_Defs.Look<DamageDef>(ref this.damageDef, "damageDef");
 		}
 
-		// Token: 0x06004144 RID: 16708 RVA: 0x00227628 File Offset: 0x00225A28
 		public override string ToString()
 		{
 			return "BattleLogEntry_ExplosionImpact: " + this.InitiatorName + "->" + this.RecipientName;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetConcerns>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal BattleLogEntry_ExplosionImpact $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetConcerns>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.initiatorPawn != null)
+					{
+						this.$current = this.initiatorPawn;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_90;
+				default:
+					return false;
+				}
+				if (this.recipientPawn != null)
+				{
+					this.$current = this.recipientPawn;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_90:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BattleLogEntry_ExplosionImpact.<GetConcerns>c__Iterator0 <GetConcerns>c__Iterator = new BattleLogEntry_ExplosionImpact.<GetConcerns>c__Iterator0();
+				<GetConcerns>c__Iterator.$this = this;
+				return <GetConcerns>c__Iterator;
+			}
 		}
 	}
 }

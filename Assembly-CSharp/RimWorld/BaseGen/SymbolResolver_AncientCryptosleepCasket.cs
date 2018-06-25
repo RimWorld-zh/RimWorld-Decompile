@@ -5,10 +5,12 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003A6 RID: 934
 	public class SymbolResolver_AncientCryptosleepCasket : SymbolResolver
 	{
-		// Token: 0x06001039 RID: 4153 RVA: 0x00088934 File Offset: 0x00086D34
+		public SymbolResolver_AncientCryptosleepCasket()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			int? ancientCryptosleepCasketGroupID = rp.ancientCryptosleepCasketGroupID;

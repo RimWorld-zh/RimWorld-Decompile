@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200034E RID: 846
 	public class IncidentWorker_VisitorGroup : IncidentWorker_NeutralGroup
 	{
-		// Token: 0x040008FC RID: 2300
 		private const float TraderChance = 0.75f;
 
-		// Token: 0x040008FD RID: 2301
 		private static readonly SimpleCurve PointsCurve = new SimpleCurve
 		{
 			{
@@ -40,7 +38,13 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06000E92 RID: 3730 RVA: 0x0007B5FC File Offset: 0x000799FC
+		[CompilerGenerated]
+		private static Func<TraderKindDef, float> <>f__am$cache0;
+
+		public IncidentWorker_VisitorGroup()
+		{
+		}
+
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -111,7 +115,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E93 RID: 3731 RVA: 0x0007B87A File Offset: 0x00079C7A
 		protected override void ResolveParmsPoints(IncidentParms parms)
 		{
 			if (parms.points < 0f)
@@ -120,7 +123,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E94 RID: 3732 RVA: 0x0007B8A4 File Offset: 0x00079CA4
 		private bool TryConvertOnePawnToSmallTrader(List<Pawn> pawns, Faction faction, Map map)
 		{
 			bool result;
@@ -163,6 +165,32 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_VisitorGroup()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <TryConvertOnePawnToSmallTrader>m__0(TraderKindDef traderDef)
+		{
+			return traderDef.CalculatedCommonality;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExecuteWorker>c__AnonStorey0
+		{
+			internal IncidentParms parms;
+
+			public <TryExecuteWorker>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return this.parms.faction.leader == x;
+			}
 		}
 	}
 }

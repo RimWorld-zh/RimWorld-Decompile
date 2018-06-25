@@ -4,41 +4,29 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000C2A RID: 3114
 	public class AttackTargetsCache
 	{
-		// Token: 0x04002E78 RID: 11896
 		private Map map;
 
-		// Token: 0x04002E79 RID: 11897
 		private HashSet<IAttackTarget> allTargets = new HashSet<IAttackTarget>();
 
-		// Token: 0x04002E7A RID: 11898
 		private Dictionary<Faction, HashSet<IAttackTarget>> targetsHostileToFaction = new Dictionary<Faction, HashSet<IAttackTarget>>();
 
-		// Token: 0x04002E7B RID: 11899
 		private HashSet<Pawn> pawnsInAggroMentalState = new HashSet<Pawn>();
 
-		// Token: 0x04002E7C RID: 11900
 		private static List<IAttackTarget> targets = new List<IAttackTarget>();
 
-		// Token: 0x04002E7D RID: 11901
 		private static HashSet<IAttackTarget> emptySet = new HashSet<IAttackTarget>();
 
-		// Token: 0x04002E7E RID: 11902
 		private static List<IAttackTarget> tmpTargets = new List<IAttackTarget>();
 
-		// Token: 0x04002E7F RID: 11903
 		private static List<IAttackTarget> tmpToUpdate = new List<IAttackTarget>();
 
-		// Token: 0x06004468 RID: 17512 RVA: 0x0023FECC File Offset: 0x0023E2CC
 		public AttackTargetsCache(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AB6 RID: 2742
-		// (get) Token: 0x06004469 RID: 17513 RVA: 0x0023FF00 File Offset: 0x0023E300
 		public HashSet<IAttackTarget> TargetsHostileToColony
 		{
 			get
@@ -47,13 +35,11 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600446A RID: 17514 RVA: 0x0023FF20 File Offset: 0x0023E320
 		public static void AttackTargetsCacheStaticUpdate()
 		{
 			AttackTargetsCache.targets.Clear();
 		}
 
-		// Token: 0x0600446B RID: 17515 RVA: 0x0023FF30 File Offset: 0x0023E330
 		public void UpdateTarget(IAttackTarget t)
 		{
 			if (this.allTargets.Contains(t))
@@ -67,7 +53,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600446C RID: 17516 RVA: 0x0023FF88 File Offset: 0x0023E388
 		public List<IAttackTarget> GetPotentialTargetsFor(IAttackTargetSearcher th)
 		{
 			Thing thing = th.Thing;
@@ -110,7 +95,6 @@ namespace Verse.AI
 			return AttackTargetsCache.targets;
 		}
 
-		// Token: 0x0600446D RID: 17517 RVA: 0x0024012C File Offset: 0x0023E52C
 		public HashSet<IAttackTarget> TargetsHostileToFaction(Faction f)
 		{
 			HashSet<IAttackTarget> result;
@@ -130,7 +114,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x0600446E RID: 17518 RVA: 0x00240188 File Offset: 0x0023E588
 		public void Notify_ThingSpawned(Thing th)
 		{
 			IAttackTarget attackTarget = th as IAttackTarget;
@@ -140,7 +123,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600446F RID: 17519 RVA: 0x002401AC File Offset: 0x0023E5AC
 		public void Notify_ThingDespawned(Thing th)
 		{
 			IAttackTarget attackTarget = th as IAttackTarget;
@@ -150,7 +132,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004470 RID: 17520 RVA: 0x002401D0 File Offset: 0x0023E5D0
 		public void Notify_FactionHostilityChanged(Faction f1, Faction f2)
 		{
 			AttackTargetsCache.tmpTargets.Clear();
@@ -169,7 +150,6 @@ namespace Verse.AI
 			AttackTargetsCache.tmpTargets.Clear();
 		}
 
-		// Token: 0x06004471 RID: 17521 RVA: 0x00240298 File Offset: 0x0023E698
 		private void RegisterTarget(IAttackTarget target)
 		{
 			if (this.allTargets.Contains(target))
@@ -223,7 +203,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004472 RID: 17522 RVA: 0x00240420 File Offset: 0x0023E820
 		private void DeregisterTarget(IAttackTarget target)
 		{
 			if (!this.allTargets.Contains(target))
@@ -252,7 +231,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004473 RID: 17523 RVA: 0x002404F8 File Offset: 0x0023E8F8
 		private void Debug_AssertHostile(Faction f, HashSet<IAttackTarget> targets)
 		{
 			AttackTargetsCache.tmpToUpdate.Clear();
@@ -280,16 +258,19 @@ namespace Verse.AI
 			AttackTargetsCache.tmpToUpdate.Clear();
 		}
 
-		// Token: 0x06004474 RID: 17524 RVA: 0x00240600 File Offset: 0x0023EA00
 		public bool Debug_CheckIfInAllTargets(IAttackTarget t)
 		{
 			return t != null && this.allTargets.Contains(t);
 		}
 
-		// Token: 0x06004475 RID: 17525 RVA: 0x0024062C File Offset: 0x0023EA2C
 		public bool Debug_CheckIfHostileToFaction(Faction f, IAttackTarget t)
 		{
 			return f != null && t != null && this.targetsHostileToFaction[f].Contains(t);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static AttackTargetsCache()
+		{
 		}
 	}
 }

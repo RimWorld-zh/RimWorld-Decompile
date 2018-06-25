@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200037A RID: 890
 	public static class StorytellerUtility
 	{
-		// Token: 0x04000967 RID: 2407
 		private const float PointsPer1000Wealth = 7.5f;
 
-		// Token: 0x04000968 RID: 2408
 		public const float BuildingWealthFactor = 0.5f;
 
-		// Token: 0x04000969 RID: 2409
 		private const float PointsPerColonist = 34f;
 
-		// Token: 0x0400096A RID: 2410
 		private const float PointsPerTameAnimalCombatPower = 0.09f;
 
-		// Token: 0x0400096B RID: 2411
 		private const float PointsPerPlayerPawnFactorInContainer = 0.3f;
 
-		// Token: 0x0400096C RID: 2412
 		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.5f;
 
-		// Token: 0x0400096D RID: 2413
 		private static readonly SimpleCurve PostProcessCurve = new SimpleCurve
 		{
 			{
@@ -61,16 +54,24 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0400096E RID: 2414
 		public const float CaravanWealthPointsFactor = 0.5f;
 
-		// Token: 0x0400096F RID: 2415
 		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
 
-		// Token: 0x04000970 RID: 2416
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 
-		// Token: 0x06000F58 RID: 3928 RVA: 0x00082004 File Offset: 0x00080404
+		[CompilerGenerated]
+		private static Func<KeyValuePair<IIncidentTarget, int>, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pair<IncidentDef, IncidentParms>, IncidentDef> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<IncidentDef, string> <>f__am$cache3;
+
 		public static IncidentParms DefaultParmsNow(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			if (incCat == null)
@@ -112,7 +113,6 @@ namespace RimWorld
 			return incidentParms;
 		}
 
-		// Token: 0x06000F59 RID: 3929 RVA: 0x0008212C File Offset: 0x0008052C
 		public static float DefaultThreatPointsNow(IIncidentTarget target)
 		{
 			float num = target.PlayerWealthForStoryteller;
@@ -147,7 +147,6 @@ namespace RimWorld
 			return StorytellerUtility.PostProcessCurve.Evaluate(num5);
 		}
 
-		// Token: 0x06000F5A RID: 3930 RVA: 0x000822E0 File Offset: 0x000806E0
 		public static float AllyIncidentMTBMultiplier(bool enoughIfNonHostile)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -180,7 +179,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F5B RID: 3931 RVA: 0x000823C4 File Offset: 0x000807C4
 		public static void ShowFutureIncidentsDebugLogFloatMenu(bool currentMapOnly)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -200,7 +198,6 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06000F5C RID: 3932 RVA: 0x0008248C File Offset: 0x0008088C
 		public static void DebugLogTestFutureIncidents(bool currentMapOnly, StorytellerComp onlyThisComp = null)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -279,7 +276,6 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06000F5D RID: 3933 RVA: 0x00082878 File Offset: 0x00080C78
 		public static void DebugGetFutureIncidents(int numTestDays, bool currentMapOnly, out Dictionary<IIncidentTarget, int> incCountsForTarget, out int[] incCountsForComp, out List<Pair<IncidentDef, IncidentParms>> allIncidents, out int threatBigCount, StringBuilder incDebugInfo = null, StorytellerComp onlyThisComp = null)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -349,7 +345,6 @@ namespace RimWorld
 			StorytellerUtility.tmpOldStoryStates.Clear();
 		}
 
-		// Token: 0x06000F5E RID: 3934 RVA: 0x00082BCC File Offset: 0x00080FCC
 		public static void DebugLogTestIncidentTargets()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -364,6 +359,67 @@ namespace RimWorld
 				stringBuilder.AppendLine("");
 			}
 			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static StorytellerUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static int <DebugLogTestFutureIncidents>m__0(KeyValuePair<IIncidentTarget, int> kvp)
+		{
+			return kvp.Value;
+		}
+
+		[CompilerGenerated]
+		private static IncidentDef <DebugLogTestFutureIncidents>m__1(Pair<IncidentDef, IncidentParms> x)
+		{
+			return x.First;
+		}
+
+		[CompilerGenerated]
+		private static string <DebugLogTestFutureIncidents>m__2(IncidentDef x)
+		{
+			return x.category.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <DebugLogTestFutureIncidents>m__3(IncidentDef x)
+		{
+			return x.defName;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ShowFutureIncidentsDebugLogFloatMenu>c__AnonStorey0
+		{
+			internal bool currentMapOnly;
+
+			public <ShowFutureIncidentsDebugLogFloatMenu>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				StorytellerUtility.DebugLogTestFutureIncidents(this.currentMapOnly, null);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ShowFutureIncidentsDebugLogFloatMenu>c__AnonStorey1
+		{
+			internal StorytellerComp comp;
+
+			internal StorytellerUtility.<ShowFutureIncidentsDebugLogFloatMenu>c__AnonStorey0 <>f__ref$0;
+
+			public <ShowFutureIncidentsDebugLogFloatMenu>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				StorytellerUtility.DebugLogTestFutureIncidents(this.<>f__ref$0.currentMapOnly, this.comp);
+			}
 		}
 	}
 }

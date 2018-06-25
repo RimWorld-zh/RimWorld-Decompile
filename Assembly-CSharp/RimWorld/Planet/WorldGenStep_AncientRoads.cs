@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005BB RID: 1467
 	public class WorldGenStep_AncientRoads : WorldGenStep
 	{
-		// Token: 0x040010E5 RID: 4325
 		public float maximumSiteCurve;
 
-		// Token: 0x040010E6 RID: 4326
 		public float minimumChain;
 
-		// Token: 0x040010E7 RID: 4327
 		public float maximumSegmentCurviness;
 
-		// Token: 0x1700041B RID: 1051
-		// (get) Token: 0x06001C29 RID: 7209 RVA: 0x000F29A0 File Offset: 0x000F0DA0
+		[CompilerGenerated]
+		private static Comparison<List<int>> <>f__am$cache0;
+
+		public WorldGenStep_AncientRoads()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -27,13 +29,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C2A RID: 7210 RVA: 0x000F29BA File Offset: 0x000F0DBA
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateAncientRoads();
 		}
 
-		// Token: 0x06001C2B RID: 7211 RVA: 0x000F29C4 File Offset: 0x000F0DC4
 		private void GenerateAncientRoads()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(new int?(0));
@@ -87,7 +87,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C2C RID: 7212 RVA: 0x000F2C80 File Offset: 0x000F1080
 		private List<List<int>> GenerateProspectiveRoads()
 		{
 			List<int> ancientSites = Find.World.genData.ancientSites;
@@ -119,6 +118,66 @@ namespace RimWorld.Planet
 				}
 			}
 			return list;
+		}
+
+		[CompilerGenerated]
+		private static int <GenerateAncientRoads>m__0(List<int> lhs, List<int> rhs)
+		{
+			return -lhs.Count.CompareTo(rhs.Count);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateAncientRoads>c__AnonStorey0
+		{
+			internal HashSet<int> used;
+
+			public <GenerateAncientRoads>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int elem)
+			{
+				return this.used.Contains(elem);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateAncientRoads>c__AnonStorey1
+		{
+			internal float costCutoff;
+
+			public <GenerateAncientRoads>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(float cost)
+			{
+				return cost > this.costCutoff;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateProspectiveRoads>c__AnonStorey2
+		{
+			internal int current;
+
+			internal float ang;
+
+			internal WorldGenStep_AncientRoads $this;
+
+			public <GenerateProspectiveRoads>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(int idx)
+			{
+				return idx != this.current && Math.Abs(Find.World.grid.GetHeadingFromTo(this.current, idx) - this.ang) < this.$this.maximumSiteCurve;
+			}
+
+			internal float <>m__1(int idx)
+			{
+				return Find.World.grid.ApproxDistanceInTiles(this.current, idx);
+			}
 		}
 	}
 }

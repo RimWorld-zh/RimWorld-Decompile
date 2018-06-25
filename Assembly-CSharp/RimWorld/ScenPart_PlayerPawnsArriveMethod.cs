@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000646 RID: 1606
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
-		// Token: 0x040012F8 RID: 4856
 		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
 
-		// Token: 0x06002149 RID: 8521 RVA: 0x0011AD9A File Offset: 0x0011919A
+		public ScenPart_PlayerPawnsArriveMethod()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<PlayerPawnsArriveMethod>(ref this.method, "method", PlayerPawnsArriveMethod.Standing, false);
 		}
 
-		// Token: 0x0600214A RID: 8522 RVA: 0x0011ADB8 File Offset: 0x001191B8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -52,7 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600214B RID: 8523 RVA: 0x0011AEA8 File Offset: 0x001192A8
 		public override string Summary(Scenario scen)
 		{
 			string result;
@@ -67,13 +67,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600214C RID: 8524 RVA: 0x0011AEDA File Offset: 0x001192DA
 		public override void Randomize()
 		{
 			this.method = ((Rand.Value >= 0.5f) ? PlayerPawnsArriveMethod.Standing : PlayerPawnsArriveMethod.DropPods);
 		}
 
-		// Token: 0x0600214D RID: 8525 RVA: 0x0011AEFC File Offset: 0x001192FC
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)
@@ -112,7 +110,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600214E RID: 8526 RVA: 0x0011B0B0 File Offset: 0x001194B0
 		public override void PostMapGenerate(Map map)
 		{
 			if (Find.GameInitData != null)
@@ -121,6 +118,23 @@ namespace RimWorld
 				{
 					PawnUtility.GiveAllStartingPlayerPawnsThought(ThoughtDefOf.CrashedTogether);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoEditInterface>c__AnonStorey0
+		{
+			internal PlayerPawnsArriveMethod localM;
+
+			internal ScenPart_PlayerPawnsArriveMethod $this;
+
+			public <DoEditInterface>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.method = this.localM;
 			}
 		}
 	}

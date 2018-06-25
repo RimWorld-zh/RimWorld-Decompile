@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ABC RID: 2748
 	public class ThinkNode_PrioritySorter : ThinkNode
 	{
-		// Token: 0x040026A2 RID: 9890
 		public float minPriority = 0f;
 
-		// Token: 0x040026A3 RID: 9891
 		private static List<ThinkNode> workingNodes = new List<ThinkNode>();
 
-		// Token: 0x06003D32 RID: 15666 RVA: 0x002053A8 File Offset: 0x002037A8
+		public ThinkNode_PrioritySorter()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_PrioritySorter thinkNode_PrioritySorter = (ThinkNode_PrioritySorter)base.DeepCopy(resolve);
@@ -20,7 +20,6 @@ namespace Verse.AI
 			return thinkNode_PrioritySorter;
 		}
 
-		// Token: 0x06003D33 RID: 15667 RVA: 0x002053D8 File Offset: 0x002037D8
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkNode_PrioritySorter.workingNodes.Clear();
@@ -85,6 +84,11 @@ namespace Verse.AI
 				ThinkNode_PrioritySorter.workingNodes.RemoveAt(num2);
 			}
 			return ThinkResult.NoJob;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThinkNode_PrioritySorter()
+		{
 		}
 	}
 }

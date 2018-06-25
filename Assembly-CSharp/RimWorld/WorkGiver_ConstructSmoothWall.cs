@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200012D RID: 301
 	public class WorkGiver_ConstructSmoothWall : WorkGiver_Scanner
 	{
-		// Token: 0x170000E5 RID: 229
-		// (get) Token: 0x06000632 RID: 1586 RVA: 0x00041734 File Offset: 0x0003FB34
+		public WorkGiver_ConstructSmoothWall()
+		{
+		}
+
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -18,7 +23,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000633 RID: 1587 RVA: 0x0004174C File Offset: 0x0003FB4C
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			if (pawn.Faction != Faction.OfPlayer)
@@ -32,7 +36,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000634 RID: 1588 RVA: 0x00041778 File Offset: 0x0003FB78
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			bool result;
@@ -66,10 +69,146 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000635 RID: 1589 RVA: 0x00041850 File Offset: 0x0003FC50
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			return new Job(JobDefOf.SmoothWall, c.GetEdifice(pawn.Map));
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentialWorkCellsGlobal>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal Pawn pawn;
+
+			internal IEnumerator<Designation> $locvar0;
+
+			internal Designation <des>__1;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PotentialWorkCellsGlobal>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (pawn.Faction != Faction.OfPlayer)
+					{
+						return false;
+					}
+					enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.SmoothWall).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						des = enumerator.Current;
+						this.$current = des.target.Cell;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkGiver_ConstructSmoothWall.<PotentialWorkCellsGlobal>c__Iterator0 <PotentialWorkCellsGlobal>c__Iterator = new WorkGiver_ConstructSmoothWall.<PotentialWorkCellsGlobal>c__Iterator0();
+				<PotentialWorkCellsGlobal>c__Iterator.pawn = pawn;
+				return <PotentialWorkCellsGlobal>c__Iterator;
+			}
 		}
 	}
 }

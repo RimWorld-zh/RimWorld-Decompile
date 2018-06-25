@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000982 RID: 2434
 	public static class GenThing
 	{
-		// Token: 0x04002366 RID: 9062
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04002367 RID: 9063
 		private static List<string> tmpThingLabels = new List<string>();
 
-		// Token: 0x04002368 RID: 9064
 		private static List<Pair<string, int>> tmpThingCounts = new List<Pair<string, int>>();
 
-		// Token: 0x060036D5 RID: 14037 RVA: 0x001D4D08 File Offset: 0x001D3108
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thing, float> <>f__am$cache1;
+
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -33,7 +35,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D6 RID: 14038 RVA: 0x001D4D64 File Offset: 0x001D3164
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
 		{
 			Vector3 result = loc.ToVector3ShiftedWithAltitude(altitude);
@@ -92,7 +93,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D7 RID: 14039 RVA: 0x001D4F0C File Offset: 0x001D330C
 		public static bool TryDropAndSetForbidden(Thing th, IntVec3 pos, Map map, ThingPlaceMode mode, out Thing resultingThing, bool forbidden)
 		{
 			bool result;
@@ -112,7 +112,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D8 RID: 14040 RVA: 0x001D4F54 File Offset: 0x001D3354
 		public static string ThingsToCommaList(IList<Thing> things, bool useAnd = false, bool aggregate = true, int maxCount = -1)
 		{
 			GenThing.tmpThings.Clear();
@@ -162,7 +161,6 @@ namespace RimWorld
 			return GenThing.tmpThingLabels.ToCommaList(useAnd);
 		}
 
-		// Token: 0x060036D9 RID: 14041 RVA: 0x001D5184 File Offset: 0x001D3584
 		public static float GetMarketValue(IList<Thing> things)
 		{
 			float num = 0f;
@@ -171,6 +169,23 @@ namespace RimWorld
 				num += things[i].MarketValue * (float)things[i].stackCount;
 			}
 			return num;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenThing()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ThingsToCommaList>m__0(Thing x)
+		{
+			return x is Pawn;
+		}
+
+		[CompilerGenerated]
+		private static float <ThingsToCommaList>m__1(Thing x)
+		{
+			return x.MarketValue * (float)x.stackCount;
 		}
 	}
 }

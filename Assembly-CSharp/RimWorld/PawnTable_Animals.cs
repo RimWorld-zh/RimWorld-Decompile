@@ -1,19 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200089B RID: 2203
 	public class PawnTable_Animals : PawnTable
 	{
-		// Token: 0x06003279 RID: 12921 RVA: 0x001B2BFA File Offset: 0x001B0FFA
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Pawn, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> <>f__am$cache4;
+
 		public PawnTable_Animals(PawnTableDef def, Func<IEnumerable<Pawn>> pawnsGetter, int uiWidth, int uiHeight) : base(def, pawnsGetter, uiWidth, uiHeight)
 		{
 		}
 
-		// Token: 0x0600327A RID: 12922 RVA: 0x001B2C08 File Offset: 0x001B1008
 		protected override IEnumerable<Pawn> LabelSortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input
@@ -21,12 +34,41 @@ namespace RimWorld
 			select p;
 		}
 
-		// Token: 0x0600327B RID: 12923 RVA: 0x001B2C84 File Offset: 0x001B1084
 		protected override IEnumerable<Pawn> PrimarySortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input
 			orderby p.RaceProps.petness descending, p.RaceProps.baseBodySize
 			select p;
+		}
+
+		[CompilerGenerated]
+		private static bool <LabelSortFunction>m__0(Pawn p)
+		{
+			return p.Name.Numerical;
+		}
+
+		[CompilerGenerated]
+		private static int <LabelSortFunction>m__1(Pawn p)
+		{
+			return (!(p.Name is NameSingle)) ? 0 : ((NameSingle)p.Name).Number;
+		}
+
+		[CompilerGenerated]
+		private static string <LabelSortFunction>m__2(Pawn p)
+		{
+			return p.def.label;
+		}
+
+		[CompilerGenerated]
+		private static float <PrimarySortFunction>m__3(Pawn p)
+		{
+			return p.RaceProps.petness;
+		}
+
+		[CompilerGenerated]
+		private static float <PrimarySortFunction>m__4(Pawn p)
+		{
+			return p.RaceProps.baseBodySize;
 		}
 	}
 }

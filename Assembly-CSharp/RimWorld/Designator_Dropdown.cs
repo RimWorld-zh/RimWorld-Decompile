@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007CB RID: 1995
 	public class Designator_Dropdown : Designator
 	{
-		// Token: 0x040017A1 RID: 6049
 		private List<Designator> elements = new List<Designator>();
 
-		// Token: 0x040017A2 RID: 6050
 		private Designator activeDesignator = null;
 
-		// Token: 0x040017A3 RID: 6051
 		private bool activeDesignatorSet = false;
 
-		// Token: 0x170006EA RID: 1770
-		// (get) Token: 0x06002C2D RID: 11309 RVA: 0x00175AB0 File Offset: 0x00173EB0
+		public Designator_Dropdown()
+		{
+		}
+
 		public override string Label
 		{
 			get
@@ -27,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EB RID: 1771
-		// (get) Token: 0x06002C2E RID: 11310 RVA: 0x00175AF0 File Offset: 0x00173EF0
 		public override string Desc
 		{
 			get
@@ -37,8 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EC RID: 1772
-		// (get) Token: 0x06002C2F RID: 11311 RVA: 0x00175B10 File Offset: 0x00173F10
 		public override Color IconDrawColor
 		{
 			get
@@ -47,8 +43,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006ED RID: 1773
-		// (get) Token: 0x06002C30 RID: 11312 RVA: 0x00175B30 File Offset: 0x00173F30
 		public override bool Visible
 		{
 			get
@@ -64,8 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EE RID: 1774
-		// (get) Token: 0x06002C31 RID: 11313 RVA: 0x00175B84 File Offset: 0x00173F84
 		public List<Designator> Elements
 		{
 			get
@@ -74,8 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EF RID: 1775
-		// (get) Token: 0x06002C32 RID: 11314 RVA: 0x00175BA0 File Offset: 0x00173FA0
 		public override float PanelReadoutTitleExtraRightMargin
 		{
 			get
@@ -84,7 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C33 RID: 11315 RVA: 0x00175BC0 File Offset: 0x00173FC0
 		public void Add(Designator des)
 		{
 			this.elements.Add(des);
@@ -94,7 +83,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C34 RID: 11316 RVA: 0x00175BE4 File Offset: 0x00173FE4
 		public void SetActiveDesignator(Designator des, bool explicitySet = true)
 		{
 			this.activeDesignator = des;
@@ -110,13 +98,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C35 RID: 11317 RVA: 0x00175C4E File Offset: 0x0017404E
 		public override void DrawMouseAttachments()
 		{
 			this.activeDesignator.DrawMouseAttachments();
 		}
 
-		// Token: 0x06002C36 RID: 11318 RVA: 0x00175C5C File Offset: 0x0017405C
 		public override void ProcessInput(Event ev)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -143,22 +129,62 @@ namespace RimWorld
 			Find.DesignatorManager.Select(this.activeDesignator);
 		}
 
-		// Token: 0x06002C37 RID: 11319 RVA: 0x00175D44 File Offset: 0x00174144
 		public override AcceptanceReport CanDesignateCell(IntVec3 loc)
 		{
 			return this.activeDesignator.CanDesignateCell(loc);
 		}
 
-		// Token: 0x06002C38 RID: 11320 RVA: 0x00175D65 File Offset: 0x00174165
 		public override void SelectedUpdate()
 		{
 			this.activeDesignator.SelectedUpdate();
 		}
 
-		// Token: 0x06002C39 RID: 11321 RVA: 0x00175D73 File Offset: 0x00174173
 		public override void DrawPanelReadout(ref float curY, float width)
 		{
 			this.activeDesignator.DrawPanelReadout(ref curY, width);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private void <ProcessInput>__BaseCallProxy0(Event ev)
+		{
+			base.ProcessInput(ev);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ProcessInput>c__AnonStorey0
+		{
+			internal Event ev;
+
+			internal Designator_Dropdown $this;
+
+			public <ProcessInput>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.activeDesignatorSet = true;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ProcessInput>c__AnonStorey1
+		{
+			internal Designator des;
+
+			internal Designator_Dropdown.<ProcessInput>c__AnonStorey0 <>f__ref$0;
+
+			public <ProcessInput>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$0.$this.<ProcessInput>__BaseCallProxy0(this.<>f__ref$0.ev);
+				Find.DesignatorManager.Select(this.des);
+				this.<>f__ref$0.$this.SetActiveDesignator(this.des, true);
+			}
 		}
 	}
 }

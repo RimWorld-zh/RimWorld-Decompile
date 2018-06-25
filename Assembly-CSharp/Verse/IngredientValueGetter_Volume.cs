@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000B65 RID: 2917
 	public class IngredientValueGetter_Volume : IngredientValueGetter
 	{
-		// Token: 0x06003FBA RID: 16314 RVA: 0x00219FEC File Offset: 0x002183EC
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		public IngredientValueGetter_Volume()
+		{
+		}
+
 		public override float ValuePerUnitOf(ThingDef t)
 		{
 			float result;
@@ -21,7 +27,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FBB RID: 16315 RVA: 0x0021A020 File Offset: 0x00218420
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
 			string result;
@@ -44,7 +49,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FBC RID: 16316 RVA: 0x0021A0FC File Offset: 0x002184FC
 		public override string ExtraDescriptionLine(RecipeDef r)
 		{
 			string result;
@@ -60,6 +64,47 @@ namespace Verse
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <BillRequirementsDescription>m__0(ThingDef td)
+		{
+			return td.smallVolume;
+		}
+
+		[CompilerGenerated]
+		private sealed class <BillRequirementsDescription>c__AnonStorey0
+		{
+			internal RecipeDef r;
+
+			public <BillRequirementsDescription>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef td)
+			{
+				return td.smallVolume && !this.r.GetPremultipliedSmallIngredients().Contains(td);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ExtraDescriptionLine>c__AnonStorey1
+		{
+			internal RecipeDef r;
+
+			public <ExtraDescriptionLine>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IngredientCount ing)
+			{
+				return ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !this.r.GetPremultipliedSmallIngredients().Contains(td));
+			}
+
+			internal bool <>m__1(ThingDef td)
+			{
+				return td.smallVolume && !this.r.GetPremultipliedSmallIngredients().Contains(td);
+			}
 		}
 	}
 }

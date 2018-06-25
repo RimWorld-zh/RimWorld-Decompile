@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000109 RID: 265
 	public class JoyGiver_InPrivateRoom : JoyGiver
 	{
-		// Token: 0x06000584 RID: 1412 RVA: 0x0003BF04 File Offset: 0x0003A304
+		public JoyGiver_InPrivateRoom()
+		{
+		}
+
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -38,10 +41,24 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000585 RID: 1413 RVA: 0x0003BF9C File Offset: 0x0003A39C
 		public override Job TryGiveJobWhileInBed(Pawn pawn)
 		{
 			return new Job(this.def.jobDef, pawn.CurrentBed());
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return c.Standable(this.pawn.Map) && !c.IsForbidden(this.pawn) && this.pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.None, 1, -1, null, false);
+			}
 		}
 	}
 }

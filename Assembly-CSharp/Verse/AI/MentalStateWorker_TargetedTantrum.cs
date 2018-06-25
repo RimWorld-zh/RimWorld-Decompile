@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A69 RID: 2665
 	public class MentalStateWorker_TargetedTantrum : MentalStateWorker
 	{
-		// Token: 0x0400256C RID: 9580
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06003B42 RID: 15170 RVA: 0x001F6ED0 File Offset: 0x001F52D0
+		public MentalStateWorker_TargetedTantrum()
+		{
+		}
+
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -26,6 +27,11 @@ namespace Verse.AI
 				result = flag;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MentalStateWorker_TargetedTantrum()
+		{
 		}
 	}
 }

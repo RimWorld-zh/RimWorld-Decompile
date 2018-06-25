@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A9 RID: 1449
 	public static class TileFinder
 	{
-		// Token: 0x04001072 RID: 4210
 		private static List<Pair<int, int>> tmpTiles = new List<Pair<int, int>>();
 
-		// Token: 0x04001073 RID: 4211
 		private static List<int> tmpPlayerTiles = new List<int>();
 
-		// Token: 0x06001B99 RID: 7065 RVA: 0x000EE75C File Offset: 0x000ECB5C
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache0;
+
 		public static int RandomStartingTile()
 		{
 			return TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, true, null);
 		}
 
-		// Token: 0x06001B9A RID: 7066 RVA: 0x000EE780 File Offset: 0x000ECB80
 		public static int RandomFactionBaseTileFor(Faction faction, bool mustBeAutoChoosable = false, Predicate<int> extraValidator = null)
 		{
 			for (int i = 0; i < 500; i++)
@@ -61,7 +60,6 @@ namespace RimWorld.Planet
 			return 0;
 		}
 
-		// Token: 0x06001B9B RID: 7067 RVA: 0x000EE830 File Offset: 0x000ECC30
 		public static bool IsValidTileForNewSettlement(int tile, StringBuilder reason = null)
 		{
 			Tile tile2 = Find.WorldGrid[tile];
@@ -142,7 +140,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001B9C RID: 7068 RVA: 0x000EEA18 File Offset: 0x000ECE18
 		public static bool TryFindPassableTileWithTraversalDistance(int rootTile, int minDist, int maxDist, out int result, Predicate<int> validator = null, bool ignoreFirstTilePassability = false, bool preferCloserTiles = false)
 		{
 			TileFinder.tmpTiles.Clear();
@@ -191,7 +188,6 @@ namespace RimWorld.Planet
 			return result2;
 		}
 
-		// Token: 0x06001B9D RID: 7069 RVA: 0x000EEAFC File Offset: 0x000ECEFC
 		public static bool TryFindRandomPlayerTile(out int tile, bool allowCaravans, Predicate<int> validator = null)
 		{
 			TileFinder.tmpPlayerTiles.Clear();
@@ -254,7 +250,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001B9E RID: 7070 RVA: 0x000EECF8 File Offset: 0x000ED0F8
 		public static bool TryFindNewSiteTile(out int tile, int minDist = 7, int maxDist = 27, bool allowCaravans = false, bool preferCloserTiles = true, int nearThisTile = -1)
 		{
 			Func<int, int> findTile = delegate(int root)
@@ -288,6 +283,171 @@ namespace RimWorld.Planet
 			}
 			tile = findTile(arg);
 			return tile != -1;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TileFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private static int <RandomFactionBaseTileFor>m__0(int _)
+		{
+			return Rand.Range(0, Find.WorldGrid.TilesCount);
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomFactionBaseTileFor>c__AnonStorey0
+		{
+			internal bool mustBeAutoChoosable;
+
+			internal Predicate<int> extraValidator;
+
+			public <RandomFactionBaseTileFor>c__AnonStorey0()
+			{
+			}
+
+			internal float <>m__0(int x)
+			{
+				Tile tile = Find.WorldGrid[x];
+				float result;
+				if (!tile.biome.canBuildBase || !tile.biome.implemented || tile.hilliness == Hilliness.Impassable)
+				{
+					result = 0f;
+				}
+				else if (this.mustBeAutoChoosable && !tile.biome.canAutoChoose)
+				{
+					result = 0f;
+				}
+				else if (this.extraValidator != null && !this.extraValidator(x))
+				{
+					result = 0f;
+				}
+				else
+				{
+					result = tile.biome.factionBaseSelectionWeight;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindPassableTileWithTraversalDistance>c__AnonStorey1
+		{
+			internal int rootTile;
+
+			internal bool ignoreFirstTilePassability;
+
+			internal int maxDist;
+
+			internal int minDist;
+
+			internal Predicate<int> validator;
+
+			public <TryFindPassableTileWithTraversalDistance>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return !Find.World.Impassable(x) || (x == this.rootTile && this.ignoreFirstTilePassability);
+			}
+
+			internal bool <>m__1(int tile, int traversalDistance)
+			{
+				bool result;
+				if (traversalDistance > this.maxDist)
+				{
+					result = true;
+				}
+				else
+				{
+					if (traversalDistance >= this.minDist && (this.validator == null || this.validator(tile)))
+					{
+						TileFinder.tmpTiles.Add(new Pair<int, int>(tile, traversalDistance));
+					}
+					result = false;
+				}
+				return result;
+			}
+
+			internal float <>m__2(Pair<int, int> x)
+			{
+				return 1f - (float)(x.Second - this.minDist) / ((float)(this.maxDist - this.minDist) + 0.01f);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomPlayerTile>c__AnonStorey2
+		{
+			internal Predicate<int> validator;
+
+			public <TryFindRandomPlayerTile>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Map x)
+			{
+				return x.IsPlayerHome && (this.validator == null || this.validator(x.Tile));
+			}
+
+			internal bool <>m__1(Map x)
+			{
+				return x.mapPawns.FreeColonistsSpawnedCount != 0 && (this.validator == null || this.validator(x.Tile));
+			}
+
+			internal bool <>m__2(Caravan x)
+			{
+				return x.IsPlayerControlled && (this.validator == null || this.validator(x.Tile));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindNewSiteTile>c__AnonStorey3
+		{
+			internal int minDist;
+
+			internal int maxDist;
+
+			internal bool preferCloserTiles;
+
+			internal Func<int, int> findTile;
+
+			private static Predicate<int> <>f__am$cache0;
+
+			public <TryFindNewSiteTile>c__AnonStorey3()
+			{
+			}
+
+			internal int <>m__0(int root)
+			{
+				int num = this.minDist;
+				int num2 = this.maxDist;
+				int num3;
+				ref int result = ref num3;
+				Predicate<int> validator = (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null);
+				bool flag = this.preferCloserTiles;
+				int result2;
+				if (TileFinder.TryFindPassableTileWithTraversalDistance(root, num, num2, out result, validator, false, flag))
+				{
+					result2 = num3;
+				}
+				else
+				{
+					result2 = -1;
+				}
+				return result2;
+			}
+
+			internal bool <>m__1(int x)
+			{
+				return this.findTile(x) != -1;
+			}
+
+			private static bool <>m__2(int x)
+			{
+				return !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null);
+			}
 		}
 	}
 }

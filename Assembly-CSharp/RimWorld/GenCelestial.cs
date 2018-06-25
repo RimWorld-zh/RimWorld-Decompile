@@ -5,23 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000905 RID: 2309
 	public static class GenCelestial
 	{
-		// Token: 0x04001D07 RID: 7431
 		public const float ShadowMaxLengthDay = 15f;
 
-		// Token: 0x04001D08 RID: 7432
 		public const float ShadowMaxLengthNight = 15f;
 
-		// Token: 0x04001D09 RID: 7433
 		private const float ShadowGlowLerpSpan = 0.15f;
 
-		// Token: 0x04001D0A RID: 7434
 		private const float ShadowDayNightThreshold = 0.6f;
 
-		// Token: 0x17000890 RID: 2192
-		// (get) Token: 0x06003595 RID: 13717 RVA: 0x001CDE84 File Offset: 0x001CC284
 		private static int TicksAbsForSunPosInWorldSpace
 		{
 			get
@@ -41,26 +34,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003596 RID: 13718 RVA: 0x001CDEF8 File Offset: 0x001CC2F8
 		public static float CurCelestialSunGlow(Map map)
 		{
 			return GenCelestial.CelestialSunGlow(map, Find.TickManager.TicksAbs);
 		}
 
-		// Token: 0x06003597 RID: 13719 RVA: 0x001CDF20 File Offset: 0x001CC320
 		public static float CelestialSunGlow(Map map, int ticksAbs)
 		{
 			Vector2 vector = Find.WorldGrid.LongLatOf(map.Tile);
 			return GenCelestial.CelestialSunGlowPercent(vector.y, GenDate.DayOfYear((long)ticksAbs, vector.x), GenDate.DayPercent((long)ticksAbs, vector.x));
 		}
 
-		// Token: 0x06003598 RID: 13720 RVA: 0x001CDF70 File Offset: 0x001CC370
 		public static float CurShadowStrength(Map map)
 		{
 			return Mathf.Clamp01(Mathf.Abs(GenCelestial.CurCelestialSunGlow(map) - 0.6f) / 0.15f);
 		}
 
-		// Token: 0x06003599 RID: 13721 RVA: 0x001CDFA4 File Offset: 0x001CC3A4
 		public static GenCelestial.LightInfo GetLightSourceInfo(Map map, GenCelestial.LightType type)
 		{
 			float num = GenLocalDate.DayPercent(map);
@@ -118,20 +107,17 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600359A RID: 13722 RVA: 0x001CE110 File Offset: 0x001CC510
 		public static Vector3 CurSunPositionInWorldSpace()
 		{
 			int ticksAbsForSunPosInWorldSpace = GenCelestial.TicksAbsForSunPosInWorldSpace;
 			return GenCelestial.SunPositionUnmodified((float)GenDate.DayOfYear((long)ticksAbsForSunPosInWorldSpace, 0f), GenDate.DayPercent((long)ticksAbsForSunPosInWorldSpace, 0f), new Vector3(0f, 0f, -1f));
 		}
 
-		// Token: 0x0600359B RID: 13723 RVA: 0x001CE160 File Offset: 0x001CC560
 		public static bool IsDaytime(float glow)
 		{
 			return glow > 0.6f;
 		}
 
-		// Token: 0x0600359C RID: 13724 RVA: 0x001CE180 File Offset: 0x001CC580
 		private static Vector3 SunPosition(float latitude, int dayOfYear, float dayPercent)
 		{
 			Vector3 target = GenCelestial.SurfaceNormal(latitude);
@@ -145,7 +131,6 @@ namespace RimWorld
 			return current.normalized;
 		}
 
-		// Token: 0x0600359D RID: 13725 RVA: 0x001CE214 File Offset: 0x001CC614
 		private static Vector3 SunPositionUnmodified(float dayOfYear, float dayPercent, Vector3 initialSunPos)
 		{
 			Vector3 point = initialSunPos * 100f;
@@ -158,7 +143,6 @@ namespace RimWorld
 			return point.normalized;
 		}
 
-		// Token: 0x0600359E RID: 13726 RVA: 0x001CE294 File Offset: 0x001CC694
 		private static float CelestialSunGlowPercent(float latitude, int dayOfYear, float dayPercent)
 		{
 			Vector3 vector = GenCelestial.SurfaceNormal(latitude);
@@ -168,7 +152,6 @@ namespace RimWorld
 			return Mathf.Clamp01(value2);
 		}
 
-		// Token: 0x0600359F RID: 13727 RVA: 0x001CE2E4 File Offset: 0x001CC6E4
 		public static float AverageGlow(float latitude, int dayOfYear)
 		{
 			float num = 0f;
@@ -179,7 +162,6 @@ namespace RimWorld
 			return num / 24f;
 		}
 
-		// Token: 0x060035A0 RID: 13728 RVA: 0x001CE330 File Offset: 0x001CC730
 		private static Vector3 SurfaceNormal(float latitude)
 		{
 			Vector3 vector = new Vector3(1f, 0f, 0f);
@@ -187,7 +169,6 @@ namespace RimWorld
 			return vector;
 		}
 
-		// Token: 0x060035A1 RID: 13729 RVA: 0x001CE380 File Offset: 0x001CC780
 		public static void LogSunGlowForYear()
 		{
 			for (int i = -90; i <= 90; i += 10)
@@ -214,24 +195,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x02000906 RID: 2310
 		public struct LightInfo
 		{
-			// Token: 0x04001D0B RID: 7435
 			public Vector2 vector;
 
-			// Token: 0x04001D0C RID: 7436
 			public float intensity;
 		}
 
-		// Token: 0x02000907 RID: 2311
 		public enum LightType
 		{
-			// Token: 0x04001D0E RID: 7438
 			Shadow,
-			// Token: 0x04001D0F RID: 7439
 			LightingSun,
-			// Token: 0x04001D10 RID: 7440
 			LightingMoon
 		}
 	}

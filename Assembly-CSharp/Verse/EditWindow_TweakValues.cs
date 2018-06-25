@@ -1,33 +1,33 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E0F RID: 3599
 	public class EditWindow_TweakValues : EditWindow
 	{
-		// Token: 0x04003573 RID: 13683
 		[TweakValue("TweakValue", 0f, 300f)]
 		public static float CategoryWidth = 180f;
 
-		// Token: 0x04003574 RID: 13684
 		[TweakValue("TweakValue", 0f, 300f)]
 		public static float TitleWidth = 300f;
 
-		// Token: 0x04003575 RID: 13685
 		[TweakValue("TweakValue", 0f, 300f)]
 		public static float NumberWidth = 140f;
 
-		// Token: 0x04003576 RID: 13686
 		private Vector2 scrollPosition;
 
-		// Token: 0x04003577 RID: 13687
 		private static List<EditWindow_TweakValues.TweakInfo> tweakValueFields;
 
-		// Token: 0x06005197 RID: 20887 RVA: 0x0029DF08 File Offset: 0x0029C308
+		[CompilerGenerated]
+		private static Func<EditWindow_TweakValues.TweakInfo, string> <>f__am$cache0;
+
 		public EditWindow_TweakValues()
 		{
 			this.optionalTitle = "TweakValues";
@@ -45,8 +45,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D5E RID: 3422
-		// (get) Token: 0x06005198 RID: 20888 RVA: 0x0029DF74 File Offset: 0x0029C374
 		public override Vector2 InitialSize
 		{
 			get
@@ -55,8 +53,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D5F RID: 3423
-		// (get) Token: 0x06005199 RID: 20889 RVA: 0x0029DF98 File Offset: 0x0029C398
 		public override bool IsDebug
 		{
 			get
@@ -65,7 +61,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600519A RID: 20890 RVA: 0x0029DFB0 File Offset: 0x0029C3B0
 		private IEnumerable<FieldInfo> FindAllTweakables()
 		{
 			foreach (Type type in GenTypes.AllTypes)
@@ -97,7 +92,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600519B RID: 20891 RVA: 0x0029DFD4 File Offset: 0x0029C3D4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
@@ -179,7 +173,6 @@ namespace Verse
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x0600519C RID: 20892 RVA: 0x0029E4BC File Offset: 0x0029C8BC
 		private float GetAsFloat(FieldInfo field)
 		{
 			float result;
@@ -207,7 +200,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600519D RID: 20893 RVA: 0x0029E5A0 File Offset: 0x0029C9A0
 		private void SetFromFloat(FieldInfo field, float input)
 		{
 			if (field.FieldType == typeof(float))
@@ -232,17 +224,208 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000E10 RID: 3600
+		// Note: this type is marked as 'beforefieldinit'.
+		static EditWindow_TweakValues()
+		{
+		}
+
+		[CompilerGenerated]
+		private EditWindow_TweakValues.TweakInfo <EditWindow_TweakValues>m__0(FieldInfo field)
+		{
+			return new EditWindow_TweakValues.TweakInfo
+			{
+				field = field,
+				tweakValue = field.TryGetAttribute<TweakValue>(),
+				initial = this.GetAsFloat(field)
+			};
+		}
+
+		[CompilerGenerated]
+		private static string <EditWindow_TweakValues>m__1(EditWindow_TweakValues.TweakInfo ti)
+		{
+			return string.Format("{0}.{1}", ti.tweakValue.category, ti.field.DeclaringType.Name);
+		}
+
 		private struct TweakInfo
 		{
-			// Token: 0x04003579 RID: 13689
 			public FieldInfo field;
 
-			// Token: 0x0400357A RID: 13690
 			public TweakValue tweakValue;
 
-			// Token: 0x0400357B RID: 13691
 			public float initial;
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindAllTweakables>c__Iterator0 : IEnumerable, IEnumerable<FieldInfo>, IEnumerator, IDisposable, IEnumerator<FieldInfo>
+		{
+			internal IEnumerator<Type> $locvar0;
+
+			internal Type <type>__1;
+
+			internal FieldInfo[] $locvar1;
+
+			internal int $locvar2;
+
+			internal FieldInfo <field>__2;
+
+			internal TweakValue <tv>__3;
+
+			internal FieldInfo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <FindAllTweakables>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = GenTypes.AllTypes.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_18E:
+						break;
+					default:
+						goto IL_1B2;
+					}
+					IL_18F:
+					i++;
+					IL_19E:
+					if (i < fields.Length)
+					{
+						field = fields[i];
+						tv = field.TryGetAttribute<TweakValue>();
+						if (tv == null)
+						{
+							goto IL_18F;
+						}
+						if (!field.IsStatic)
+						{
+							Log.Error(string.Format("Field {0}.{1} is marked with TweakValue, but isn't static; TweakValue won't work", field.DeclaringType.FullName, field.Name), false);
+							goto IL_18E;
+						}
+						if (field.IsLiteral)
+						{
+							Log.Error(string.Format("Field {0}.{1} is marked with TweakValue, but is const; TweakValue won't work", field.DeclaringType.FullName, field.Name), false);
+							goto IL_18E;
+						}
+						if (field.IsInitOnly)
+						{
+							Log.Error(string.Format("Field {0}.{1} is marked with TweakValue, but is readonly; TweakValue won't work", field.DeclaringType.FullName, field.Name), false);
+							goto IL_18E;
+						}
+						this.$current = field;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+					IL_1B2:
+					if (enumerator.MoveNext())
+					{
+						type = enumerator.Current;
+						fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+						i = 0;
+						goto IL_19E;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FieldInfo IEnumerator<FieldInfo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.Reflection.FieldInfo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FieldInfo> IEnumerable<FieldInfo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new EditWindow_TweakValues.<FindAllTweakables>c__Iterator0();
+			}
 		}
 	}
 }

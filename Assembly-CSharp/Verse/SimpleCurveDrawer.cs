@@ -1,45 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EFE RID: 3838
 	[StaticConstructorOnStartup]
 	public static class SimpleCurveDrawer
 	{
-		// Token: 0x04003CC6 RID: 15558
 		private const float PointSize = 10f;
 
-		// Token: 0x04003CC7 RID: 15559
 		private static readonly Color AxisLineColor = new Color(0.2f, 0.5f, 1f, 1f);
 
-		// Token: 0x04003CC8 RID: 15560
 		private static readonly Color MajorLineColor = new Color(0.2f, 0.4f, 1f, 0.6f);
 
-		// Token: 0x04003CC9 RID: 15561
 		private static readonly Color MinorLineColor = new Color(0.2f, 0.3f, 1f, 0.19f);
 
-		// Token: 0x04003CCA RID: 15562
 		private const float MeasureWidth = 60f;
 
-		// Token: 0x04003CCB RID: 15563
 		private const float MeasureHeight = 30f;
 
-		// Token: 0x04003CCC RID: 15564
 		private const float MeasureLinePeekOut = 5f;
 
-		// Token: 0x04003CCD RID: 15565
 		private const float LegendCellWidth = 140f;
 
-		// Token: 0x04003CCE RID: 15566
 		private const float LegendCellHeight = 20f;
 
-		// Token: 0x04003CCF RID: 15567
 		private static readonly Texture2D CurvePoint = ContentFinder<Texture2D>.Get("UI/Widgets/Dev/CurvePoint", true);
 
-		// Token: 0x06005BC9 RID: 23497 RVA: 0x002EC6A0 File Offset: 0x002EAAA0
 		public static void DrawCurve(Rect rect, SimpleCurve curve, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendScreenRect = default(Rect))
 		{
 			SimpleCurveDrawer.DrawCurve(rect, new SimpleCurveDrawInfo
@@ -48,7 +37,6 @@ namespace Verse
 			}, style, marks, legendScreenRect);
 		}
 
-		// Token: 0x06005BCA RID: 23498 RVA: 0x002EC6C8 File Offset: 0x002EAAC8
 		public static void DrawCurve(Rect rect, SimpleCurveDrawInfo curve, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendScreenRect = default(Rect))
 		{
 			if (curve.curve != null)
@@ -60,7 +48,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BCB RID: 23499 RVA: 0x002EC700 File Offset: 0x002EAB00
 		public static void DrawCurves(Rect rect, List<SimpleCurveDrawInfo> curves, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendRect = default(Rect))
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -158,7 +145,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BCC RID: 23500 RVA: 0x002ECA90 File Offset: 0x002EAE90
 		public static void DrawCurveLines(Rect rect, SimpleCurveDrawInfo curve, bool drawPoints, Rect viewRect, bool useAALines, bool pointsRemoveOptimization)
 		{
 			if (curve.curve != null)
@@ -243,7 +229,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BCD RID: 23501 RVA: 0x002ECEB0 File Offset: 0x002EB2B0
 		public static void DrawCurveMeasures(Rect rect, Rect viewRect, Rect graphRect, int xLabelsCount, int yLabelsCount, bool xIntegersOnly, bool yIntegersOnly)
 		{
 			Text.Font = GameFont.Small;
@@ -304,7 +289,6 @@ namespace Verse
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06005BCE RID: 23502 RVA: 0x002ED114 File Offset: 0x002EB514
 		private static void CalculateMeasureStartAndInc(out float start, out float inc, out int count, float min, float max, int wantedCount, bool integersOnly)
 		{
 			if (integersOnly && GenMath.AnyIntegerInRange(min, max))
@@ -323,7 +307,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BCF RID: 23503 RVA: 0x002ED180 File Offset: 0x002EB580
 		public static void DrawCurvesLegend(Rect rect, List<SimpleCurveDrawInfo> curves)
 		{
 			Text.Anchor = TextAnchor.UpperLeft;
@@ -361,7 +344,6 @@ namespace Verse
 			Text.WordWrap = true;
 		}
 
-		// Token: 0x06005BD0 RID: 23504 RVA: 0x002ED2B8 File Offset: 0x002EB6B8
 		public static void DrawCurveMousePoint(List<SimpleCurveDrawInfo> curves, Rect screenRect, Rect viewRect, string labelX)
 		{
 			if (curves.Count != 0)
@@ -429,7 +411,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BD1 RID: 23505 RVA: 0x002ED4EC File Offset: 0x002EB8EC
 		public static void DrawCurveMarks(Rect rect, Rect viewRect, List<CurveMark> marks)
 		{
 			float x = viewRect.x;
@@ -451,26 +432,22 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06005BD2 RID: 23506 RVA: 0x002ED604 File Offset: 0x002EBA04
 		private static void DrawPoint(Vector2 screenPoint)
 		{
 			Rect position = new Rect(screenPoint.x - 5f, screenPoint.y - 5f, 10f, 10f);
 			GUI.DrawTexture(position, SimpleCurveDrawer.CurvePoint);
 		}
 
-		// Token: 0x06005BD3 RID: 23507 RVA: 0x002ED648 File Offset: 0x002EBA48
 		private static void DrawInfiniteVerticalLine(Rect rect, Rect viewRect, float curveX)
 		{
 			Widgets.DrawLineVertical(SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(rect, viewRect, new Vector2(curveX, 0f)).x, -999f, 9999f);
 		}
 
-		// Token: 0x06005BD4 RID: 23508 RVA: 0x002ED680 File Offset: 0x002EBA80
 		private static void DrawInfiniteHorizontalLine(Rect rect, Rect viewRect, float curveY)
 		{
 			Widgets.DrawLineHorizontal(-999f, SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(rect, viewRect, new Vector2(0f, curveY)).y, 9999f);
 		}
 
-		// Token: 0x06005BD5 RID: 23509 RVA: 0x002ED6B8 File Offset: 0x002EBAB8
 		public static Vector2 CurveToScreenCoordsInsideScreenRect(Rect rect, Rect viewRect, Vector2 curvePoint)
 		{
 			Vector2 result = curvePoint;
@@ -482,7 +459,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005BD6 RID: 23510 RVA: 0x002ED74C File Offset: 0x002EBB4C
 		public static Vector2 ScreenToCurveCoords(Rect rect, Rect viewRect, Vector2 screenPoint)
 		{
 			Vector2 loc = screenPoint;
@@ -494,7 +470,6 @@ namespace Verse
 			return new CurvePoint(loc);
 		}
 
-		// Token: 0x06005BD7 RID: 23511 RVA: 0x002ED7E8 File Offset: 0x002EBBE8
 		public static void DrawGraphBackgroundLines(Rect rect, Rect viewRect)
 		{
 			GUI.BeginGroup(rect);
@@ -539,7 +514,6 @@ namespace Verse
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06005BD8 RID: 23512 RVA: 0x002ED958 File Offset: 0x002EBD58
 		private static int RemovePointsOptimizationFreq(int count)
 		{
 			int result = count + 1;
@@ -560,6 +534,26 @@ namespace Verse
 				result = 2;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SimpleCurveDrawer()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawCurveLines>c__AnonStorey0
+		{
+			internal Rect viewRect;
+
+			public <DrawCurveLines>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(CurvePoint x)
+			{
+				return x.x >= this.viewRect.xMin && x.x <= this.viewRect.xMax;
+			}
 		}
 	}
 }

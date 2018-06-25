@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000808 RID: 2056
 	public class Dialog_NamePlayerFactionBase : Dialog_GiveName
 	{
-		// Token: 0x0400185E RID: 6238
 		private FactionBase factionBase;
 
-		// Token: 0x06002DE8 RID: 11752 RVA: 0x00182BE4 File Offset: 0x00180FE4
+		[CompilerGenerated]
+		private static Func<string> <>f__am$cache0;
+
 		public Dialog_NamePlayerFactionBase(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
@@ -25,7 +26,6 @@ namespace RimWorld
 			this.invalidNameMessageKey = "PlayerFactionBaseNameIsInvalid";
 		}
 
-		// Token: 0x06002DE9 RID: 11753 RVA: 0x00182C8F File Offset: 0x0018108F
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -35,16 +35,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DEA RID: 11754 RVA: 0x00182CC0 File Offset: 0x001810C0
 		protected override bool IsValidName(string s)
 		{
 			return NamePlayerFactionBaseDialogUtility.IsValidName(s);
 		}
 
-		// Token: 0x06002DEB RID: 11755 RVA: 0x00182CDB File Offset: 0x001810DB
 		protected override void Named(string s)
 		{
 			NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);
+		}
+
+		[CompilerGenerated]
+		private static string <Dialog_NamePlayerFactionBase>m__0()
+		{
+			return NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, null, false, null, null);
 		}
 	}
 }

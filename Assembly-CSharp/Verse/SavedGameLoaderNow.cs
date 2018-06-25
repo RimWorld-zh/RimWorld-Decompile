@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000C66 RID: 3174
 	public class SavedGameLoaderNow
 	{
-		// Token: 0x060045C7 RID: 17863 RVA: 0x0024DA14 File Offset: 0x0024BE14
+		[CompilerGenerated]
+		private static Func<ModContentPack, string> <>f__am$cache0;
+
+		public SavedGameLoaderNow()
+		{
+		}
+
 		public static void LoadGameFromSaveFileNow(string fileName)
 		{
 			string str = (from mod in LoadedModManager.RunningMods
@@ -30,6 +36,12 @@ namespace Verse
 				Log.Error("Could not find game XML node.", false);
 				Scribe.ForceStop();
 			}
+		}
+
+		[CompilerGenerated]
+		private static string <LoadGameFromSaveFileNow>m__0(ModContentPack mod)
+		{
+			return mod.ToString();
 		}
 	}
 }

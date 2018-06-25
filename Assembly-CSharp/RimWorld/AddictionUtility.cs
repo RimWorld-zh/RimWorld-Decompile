@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000463 RID: 1123
 	public static class AddictionUtility
 	{
-		// Token: 0x060013B7 RID: 5047 RVA: 0x000AB9B0 File Offset: 0x000A9DB0
 		public static bool IsAddicted(Pawn pawn, Thing drug)
 		{
 			return AddictionUtility.FindAddictionHediff(pawn, drug) != null;
 		}
 
-		// Token: 0x060013B8 RID: 5048 RVA: 0x000AB9D4 File Offset: 0x000A9DD4
 		public static bool IsAddicted(Pawn pawn, ChemicalDef chemical)
 		{
 			return AddictionUtility.FindAddictionHediff(pawn, chemical) != null;
 		}
 
-		// Token: 0x060013B9 RID: 5049 RVA: 0x000AB9F8 File Offset: 0x000A9DF8
 		public static Hediff_Addiction FindAddictionHediff(Pawn pawn, Thing drug)
 		{
 			Hediff_Addiction result;
@@ -43,13 +40,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013BA RID: 5050 RVA: 0x000ABA54 File Offset: 0x000A9E54
 		public static Hediff_Addiction FindAddictionHediff(Pawn pawn, ChemicalDef chemical)
 		{
 			return (Hediff_Addiction)pawn.health.hediffSet.hediffs.Find((Hediff x) => x.def == chemical.addictionHediff);
 		}
 
-		// Token: 0x060013BB RID: 5051 RVA: 0x000ABA9C File Offset: 0x000A9E9C
 		public static Hediff FindToleranceHediff(Pawn pawn, ChemicalDef chemical)
 		{
 			Hediff result;
@@ -64,7 +59,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013BC RID: 5052 RVA: 0x000ABAF8 File Offset: 0x000A9EF8
 		public static void ModifyChemicalEffectForToleranceAndBodySize(Pawn pawn, ChemicalDef chemicalDef, ref float effect)
 		{
 			if (chemicalDef != null)
@@ -78,7 +72,6 @@ namespace RimWorld
 			effect /= pawn.BodySize;
 		}
 
-		// Token: 0x060013BD RID: 5053 RVA: 0x000ABB54 File Offset: 0x000A9F54
 		public static void CheckDrugAddictionTeachOpportunity(Pawn pawn)
 		{
 			if (pawn.RaceProps.IsFlesh && pawn.Spawned)
@@ -93,7 +86,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013BE RID: 5054 RVA: 0x000ABBC4 File Offset: 0x000A9FC4
 		public static bool AddictedToAnything(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -107,7 +99,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060013BF RID: 5055 RVA: 0x000ABC1C File Offset: 0x000AA01C
 		public static bool CanBingeOnNow(Pawn pawn, ChemicalDef chemical, DrugCategory drugCategory)
 		{
 			bool result;
@@ -145,6 +136,36 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindAddictionHediff>c__AnonStorey0
+		{
+			internal ChemicalDef chemical;
+
+			public <FindAddictionHediff>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Hediff x)
+			{
+				return x.def == this.chemical.addictionHediff;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindToleranceHediff>c__AnonStorey1
+		{
+			internal ChemicalDef chemical;
+
+			public <FindToleranceHediff>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Hediff x)
+			{
+				return x.def == this.chemical.toleranceHediff;
+			}
 		}
 	}
 }

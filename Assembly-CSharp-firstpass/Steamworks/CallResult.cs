@@ -1,45 +1,61 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Steamworks
 {
-	// Token: 0x02000005 RID: 5
 	public sealed class CallResult<T>
 	{
-		// Token: 0x04000008 RID: 8
 		private CCallbackBaseVTable VTable;
 
-		// Token: 0x04000009 RID: 9
 		private IntPtr m_pVTable = IntPtr.Zero;
 
-		// Token: 0x0400000A RID: 10
 		private CCallbackBase m_CCallbackBase;
 
-		// Token: 0x0400000B RID: 11
 		private GCHandle m_pCCallbackBase;
 
-		// Token: 0x0400000D RID: 13
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		[CompilerGenerated]
+		private CallResult<T>.APIDispatchDelegate m_Func;
+
 		private SteamAPICall_t m_hAPICall = SteamAPICall_t.Invalid;
 
-		// Token: 0x0400000E RID: 14
 		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
-		// Token: 0x06000013 RID: 19 RVA: 0x000023DC File Offset: 0x000005DC
 		public CallResult(CallResult<T>.APIDispatchDelegate func = null)
 		{
 			this.m_Func = func;
 			this.BuildCCallbackBase();
 		}
 
-		// Token: 0x14000002 RID: 2
-		// (add) Token: 0x06000014 RID: 20 RVA: 0x00002428 File Offset: 0x00000628
-		// (remove) Token: 0x06000015 RID: 21 RVA: 0x00002460 File Offset: 0x00000660
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private event CallResult<T>.APIDispatchDelegate m_Func;
+		private event CallResult<T>.APIDispatchDelegate m_Func
+		{
+			add
+			{
+				CallResult<T>.APIDispatchDelegate apidispatchDelegate = this.m_Func;
+				CallResult<T>.APIDispatchDelegate apidispatchDelegate2;
+				do
+				{
+					apidispatchDelegate2 = apidispatchDelegate;
+					apidispatchDelegate = Interlocked.CompareExchange<CallResult<T>.APIDispatchDelegate>(ref this.m_Func, (CallResult<T>.APIDispatchDelegate)Delegate.Combine(apidispatchDelegate2, value), apidispatchDelegate);
+				}
+				while (apidispatchDelegate != apidispatchDelegate2);
+			}
+			remove
+			{
+				CallResult<T>.APIDispatchDelegate apidispatchDelegate = this.m_Func;
+				CallResult<T>.APIDispatchDelegate apidispatchDelegate2;
+				do
+				{
+					apidispatchDelegate2 = apidispatchDelegate;
+					apidispatchDelegate = Interlocked.CompareExchange<CallResult<T>.APIDispatchDelegate>(ref this.m_Func, (CallResult<T>.APIDispatchDelegate)Delegate.Remove(apidispatchDelegate2, value), apidispatchDelegate);
+				}
+				while (apidispatchDelegate != apidispatchDelegate2);
+			}
+		}
 
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000016 RID: 22 RVA: 0x00002498 File Offset: 0x00000698
 		public SteamAPICall_t Handle
 		{
 			get
@@ -48,13 +64,11 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x06000017 RID: 23 RVA: 0x000024B4 File Offset: 0x000006B4
 		public static CallResult<T> Create(CallResult<T>.APIDispatchDelegate func = null)
 		{
 			return new CallResult<T>(func);
 		}
 
-		// Token: 0x06000018 RID: 24 RVA: 0x000024D0 File Offset: 0x000006D0
 		~CallResult()
 		{
 			this.Cancel();
@@ -68,7 +82,6 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x06000019 RID: 25 RVA: 0x00002540 File Offset: 0x00000740
 		public void Set(SteamAPICall_t hAPICall, CallResult<T>.APIDispatchDelegate func = null)
 		{
 			if (func != null)
@@ -90,13 +103,11 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x0600001A RID: 26 RVA: 0x000025D8 File Offset: 0x000007D8
 		public bool IsActive()
 		{
 			return this.m_hAPICall != SteamAPICall_t.Invalid;
 		}
 
-		// Token: 0x0600001B RID: 27 RVA: 0x000025FD File Offset: 0x000007FD
 		public void Cancel()
 		{
 			if (this.m_hAPICall != SteamAPICall_t.Invalid)
@@ -106,14 +117,12 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x0600001C RID: 28 RVA: 0x0000263D File Offset: 0x0000083D
 		public void SetGameserverFlag()
 		{
 			CCallbackBase ccallbackBase = this.m_CCallbackBase;
 			ccallbackBase.m_nCallbackFlags |= 2;
 		}
 
-		// Token: 0x0600001D RID: 29 RVA: 0x00002654 File Offset: 0x00000854
 		private void OnRunCallback(IntPtr thisptr, IntPtr pvParam)
 		{
 			this.m_hAPICall = SteamAPICall_t.Invalid;
@@ -127,7 +136,6 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x0600001E RID: 30 RVA: 0x000026B4 File Offset: 0x000008B4
 		private void OnRunCallResult(IntPtr thisptr, IntPtr pvParam, bool bFailed, ulong hSteamAPICall)
 		{
 			SteamAPICall_t x = (SteamAPICall_t)hSteamAPICall;
@@ -148,13 +156,11 @@ namespace Steamworks
 			}
 		}
 
-		// Token: 0x0600001F RID: 31 RVA: 0x00002744 File Offset: 0x00000944
 		private int OnGetCallbackSizeBytes(IntPtr thisptr)
 		{
 			return this.m_size;
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x00002760 File Offset: 0x00000960
 		private void BuildCCallbackBase()
 		{
 			this.VTable = new CCallbackBaseVTable
@@ -174,8 +180,6 @@ namespace Steamworks
 			this.m_pCCallbackBase = GCHandle.Alloc(this.m_CCallbackBase, GCHandleType.Pinned);
 		}
 
-		// Token: 0x02000006 RID: 6
-		// (Invoke) Token: 0x06000022 RID: 34
 		public delegate void APIDispatchDelegate(T param, bool bIOFailure);
 	}
 }

@@ -1,50 +1,41 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BC0 RID: 3008
 	public class BattleLogEntry_MeleeCombat : LogEntry_DamageResult
 	{
-		// Token: 0x04002C9A RID: 11418
 		private RulePackDef ruleDef;
 
-		// Token: 0x04002C9B RID: 11419
 		private Pawn initiator;
 
-		// Token: 0x04002C9C RID: 11420
 		private Pawn recipientPawn;
 
-		// Token: 0x04002C9D RID: 11421
 		private ThingDef recipientThing;
 
-		// Token: 0x04002C9E RID: 11422
 		private ImplementOwnerTypeDef implementType;
 
-		// Token: 0x04002C9F RID: 11423
 		private ThingDef ownerEquipmentDef;
 
-		// Token: 0x04002CA0 RID: 11424
 		private HediffDef ownerHediffDef;
 
-		// Token: 0x04002CA1 RID: 11425
 		private string toolLabel;
 
-		// Token: 0x04002CA2 RID: 11426
 		public bool alwaysShowInCompact;
 
-		// Token: 0x04002CA3 RID: 11427
 		[TweakValue("LogFilter", 0f, 1f)]
 		private static float DisplayChanceOnMiss = 0.5f;
 
-		// Token: 0x06004145 RID: 16709 RVA: 0x002277A8 File Offset: 0x00225BA8
 		public BattleLogEntry_MeleeCombat() : base(null)
 		{
 		}
 
-		// Token: 0x06004146 RID: 16710 RVA: 0x002277B4 File Offset: 0x00225BB4
 		public BattleLogEntry_MeleeCombat(RulePackDef ruleDef, bool alwaysShowInCompact, Pawn initiator, Thing recipient, ImplementOwnerTypeDef implementType, string toolLabel, ThingDef ownerEquipmentDef = null, HediffDef ownerHediffDef = null, LogEntryDef def = null) : base(def)
 		{
 			this.ruleDef = ruleDef;
@@ -68,8 +59,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A31 RID: 2609
-		// (get) Token: 0x06004147 RID: 16711 RVA: 0x00227864 File Offset: 0x00225C64
 		private string InitiatorName
 		{
 			get
@@ -78,8 +67,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A32 RID: 2610
-		// (get) Token: 0x06004148 RID: 16712 RVA: 0x0022789C File Offset: 0x00225C9C
 		private string RecipientName
 		{
 			get
@@ -88,9 +75,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A33 RID: 2611
-		// (get) Token: 0x06004149 RID: 16713 RVA: 0x002278D4 File Offset: 0x00225CD4
-		// (set) Token: 0x0600414A RID: 16714 RVA: 0x002278EF File Offset: 0x00225CEF
 		public RulePackDef RuleDef
 		{
 			get
@@ -104,13 +88,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600414B RID: 16715 RVA: 0x00227900 File Offset: 0x00225D00
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiator || t == this.recipientPawn;
 		}
 
-		// Token: 0x0600414C RID: 16716 RVA: 0x00227930 File Offset: 0x00225D30
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiator != null)
@@ -124,7 +106,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600414D RID: 16717 RVA: 0x0022795C File Offset: 0x00225D5C
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.initiator && this.recipientPawn != null)
@@ -141,7 +122,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600414E RID: 16718 RVA: 0x002279C8 File Offset: 0x00225DC8
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -168,13 +148,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600414F RID: 16719 RVA: 0x00227A68 File Offset: 0x00225E68
 		protected override BodyDef DamagedBody()
 		{
 			return (this.recipientPawn == null) ? null : this.recipientPawn.RaceProps.body;
 		}
 
-		// Token: 0x06004150 RID: 16720 RVA: 0x00227AA0 File Offset: 0x00225EA0
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -210,13 +188,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004151 RID: 16721 RVA: 0x00227C38 File Offset: 0x00226038
 		public override bool ShowInCompactView()
 		{
 			return this.alwaysShowInCompact || Rand.ChanceSeeded(BattleLogEntry_MeleeCombat.DisplayChanceOnMiss, this.logID);
 		}
 
-		// Token: 0x06004152 RID: 16722 RVA: 0x00227C70 File Offset: 0x00226070
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -234,7 +210,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004153 RID: 16723 RVA: 0x00227D1C File Offset: 0x0022611C
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -245,6 +220,115 @@ namespace Verse
 				"->",
 				this.RecipientName
 			});
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static BattleLogEntry_MeleeCombat()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetConcerns>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal BattleLogEntry_MeleeCombat $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetConcerns>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.initiator != null)
+					{
+						this.$current = this.initiator;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_90;
+				default:
+					return false;
+				}
+				if (this.recipientPawn != null)
+				{
+					this.$current = this.recipientPawn;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_90:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BattleLogEntry_MeleeCombat.<GetConcerns>c__Iterator0 <GetConcerns>c__Iterator = new BattleLogEntry_MeleeCombat.<GetConcerns>c__Iterator0();
+				<GetConcerns>c__Iterator.$this = this;
+				return <GetConcerns>c__Iterator;
+			}
 		}
 	}
 }

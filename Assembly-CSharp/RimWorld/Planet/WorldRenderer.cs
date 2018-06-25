@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A0 RID: 1440
 	[StaticConstructorOnStartup]
 	public class WorldRenderer
 	{
-		// Token: 0x04001056 RID: 4182
 		private List<WorldLayer> layers = new List<WorldLayer>();
 
-		// Token: 0x04001057 RID: 4183
 		public WorldRenderMode wantedMode;
 
-		// Token: 0x04001058 RID: 4184
 		private bool asynchronousRegenerationActive = false;
 
-		// Token: 0x06001B7A RID: 7034 RVA: 0x000ED888 File Offset: 0x000EBC88
 		public WorldRenderer()
 		{
 			foreach (Type type in typeof(WorldLayer).AllLeafSubclasses())
@@ -28,8 +26,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700040C RID: 1036
-		// (get) Token: 0x06001B7B RID: 7035 RVA: 0x000ED918 File Offset: 0x000EBD18
 		private bool ShouldRegenerateDirtyLayersInLongEvent
 		{
 			get
@@ -48,7 +44,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B7C RID: 7036 RVA: 0x000ED984 File Offset: 0x000EBD84
 		public void SetAllLayersDirty()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -57,7 +52,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B7D RID: 7037 RVA: 0x000ED9C4 File Offset: 0x000EBDC4
 		public void SetDirty<T>() where T : WorldLayer
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -69,7 +63,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B7E RID: 7038 RVA: 0x000EDA18 File Offset: 0x000EBE18
 		public void RegenerateAllLayersNow()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -78,7 +71,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B7F RID: 7039 RVA: 0x000EDA58 File Offset: 0x000EBE58
 		private IEnumerable RegenerateDirtyLayersNow_Async()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -109,7 +101,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B80 RID: 7040 RVA: 0x000EDA84 File Offset: 0x000EBE84
 		public void Notify_StaticWorldObjectPosChanged()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -122,13 +113,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B81 RID: 7041 RVA: 0x000EDACE File Offset: 0x000EBECE
 		public void CheckActivateWorldCamera()
 		{
 			Find.WorldCamera.gameObject.SetActive(WorldRendererUtility.WorldRenderedNow);
 		}
 
-		// Token: 0x06001B82 RID: 7042 RVA: 0x000EDAE8 File Offset: 0x000EBEE8
 		public void DrawWorldLayers()
 		{
 			if (this.asynchronousRegenerationActive)
@@ -150,7 +139,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B83 RID: 7043 RVA: 0x000EDB70 File Offset: 0x000EBF70
 		public int GetTileIDFromRayHit(RaycastHit hit)
 		{
 			int i = 0;
@@ -165,6 +153,167 @@ namespace RimWorld.Planet
 				i++;
 			}
 			return -1;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RegenerateDirtyLayersNow_Async>c__Iterator0 : IEnumerable, IEnumerable<object>, IEnumerator, IDisposable, IEnumerator<object>
+		{
+			internal int <i>__1;
+
+			internal IEnumerator $locvar0;
+
+			internal object <result>__2;
+
+			internal IDisposable $locvar1;
+
+			internal WorldRenderer $this;
+
+			internal object $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RegenerateDirtyLayersNow_Async>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_132;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							result = enumerator.Current;
+							this.$current = result;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if ((disposable = (enumerator as IDisposable)) != null)
+							{
+								disposable.Dispose();
+							}
+						}
+					}
+					this.$current = null;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				IL_124:
+				i++;
+				IL_132:
+				if (i >= this.layers.Count)
+				{
+					this.asynchronousRegenerationActive = false;
+					this.$PC = -1;
+				}
+				else
+				{
+					if (!this.layers[i].Dirty)
+					{
+						goto IL_124;
+					}
+					enumerator = this.layers[i].Regenerate().GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				return false;
+			}
+
+			object IEnumerator<object>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<object>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<object> IEnumerable<object>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldRenderer.<RegenerateDirtyLayersNow_Async>c__Iterator0 <RegenerateDirtyLayersNow_Async>c__Iterator = new WorldRenderer.<RegenerateDirtyLayersNow_Async>c__Iterator0();
+				<RegenerateDirtyLayersNow_Async>c__Iterator.$this = this;
+				return <RegenerateDirtyLayersNow_Async>c__Iterator;
+			}
 		}
 	}
 }

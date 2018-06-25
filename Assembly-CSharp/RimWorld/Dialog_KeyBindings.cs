@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007FC RID: 2044
 	public class Dialog_KeyBindings : Window
 	{
-		// Token: 0x0400180C RID: 6156
 		protected Vector2 scrollPosition;
 
-		// Token: 0x0400180D RID: 6157
 		protected float contentHeight;
 
-		// Token: 0x0400180E RID: 6158
 		protected KeyPrefsData keyPrefsData = null;
 
-		// Token: 0x0400180F RID: 6159
 		protected Vector2 WindowSize = new Vector2(900f, 760f);
 
-		// Token: 0x04001810 RID: 6160
 		protected const float EntryHeight = 34f;
 
-		// Token: 0x04001811 RID: 6161
 		protected const float CategoryHeadingHeight = 40f;
 
-		// Token: 0x04001812 RID: 6162
 		private static List<KeyBindingDef> keyBindingsWorkingList = new List<KeyBindingDef>();
 
-		// Token: 0x06002D7D RID: 11645 RVA: 0x0017F0BC File Offset: 0x0017D4BC
+		[CompilerGenerated]
+		private static Func<KeyBindingDef, ushort> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<KeyBindingDef, ushort> <>f__am$cache1;
+
 		public Dialog_KeyBindings()
 		{
 			this.forcePause = true;
@@ -51,8 +49,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700073E RID: 1854
-		// (get) Token: 0x06002D7E RID: 11646 RVA: 0x0017F1B4 File Offset: 0x0017D5B4
 		public override Vector2 InitialSize
 		{
 			get
@@ -61,8 +57,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700073F RID: 1855
-		// (get) Token: 0x06002D7F RID: 11647 RVA: 0x0017F1D0 File Offset: 0x0017D5D0
 		protected override float Margin
 		{
 			get
@@ -71,7 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D80 RID: 11648 RVA: 0x0017F1EC File Offset: 0x0017D5EC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(120f, 40f);
@@ -140,7 +133,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002D81 RID: 11649 RVA: 0x0017F5E4 File Offset: 0x0017D9E4
 		private void DrawCategoryEntry(KeyBindingCategoryDef category, float width, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -165,7 +157,6 @@ namespace RimWorld
 			curY += 4f;
 		}
 
-		// Token: 0x06002D82 RID: 11650 RVA: 0x0017F6A0 File Offset: 0x0017DAA0
 		private void DrawKeyEntry(KeyBindingDef keyDef, Rect parentRect, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -192,7 +183,6 @@ namespace RimWorld
 			curY += 34f;
 		}
 
-		// Token: 0x06002D83 RID: 11651 RVA: 0x0017F80C File Offset: 0x0017DC0C
 		private void SettingButtonClicked(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			if (Event.current.button == 0)
@@ -213,6 +203,48 @@ namespace RimWorld
 					this.keyPrefsData.SetBinding(keyDef, slot, KeyCode.None);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				Find.WindowStack.Add(new FloatMenu(list));
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Dialog_KeyBindings()
+		{
+		}
+
+		[CompilerGenerated]
+		private static ushort <DoWindowContents>m__0(KeyBindingDef x)
+		{
+			return x.category.index;
+		}
+
+		[CompilerGenerated]
+		private static ushort <DoWindowContents>m__1(KeyBindingDef x)
+		{
+			return x.index;
+		}
+
+		[CompilerGenerated]
+		private sealed class <SettingButtonClicked>c__AnonStorey0
+		{
+			internal KeyPrefs.BindingSlot slot;
+
+			internal KeyBindingDef keyDef;
+
+			internal Dialog_KeyBindings $this;
+
+			public <SettingButtonClicked>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				KeyCode keyCode = (this.slot != KeyPrefs.BindingSlot.A) ? this.keyDef.defaultKeyCodeB : this.keyDef.defaultKeyCodeA;
+				this.$this.keyPrefsData.SetBinding(this.keyDef, this.slot, keyCode);
+			}
+
+			internal void <>m__1()
+			{
+				this.$this.keyPrefsData.SetBinding(this.keyDef, this.slot, KeyCode.None);
 			}
 		}
 	}

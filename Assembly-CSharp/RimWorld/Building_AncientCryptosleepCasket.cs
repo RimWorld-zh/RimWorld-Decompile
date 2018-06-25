@@ -1,25 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200069B RID: 1691
 	public class Building_AncientCryptosleepCasket : Building_CryptosleepCasket
 	{
-		// Token: 0x04001402 RID: 5122
 		public int groupID = -1;
 
-		// Token: 0x060023D0 RID: 9168 RVA: 0x00133FAA File Offset: 0x001323AA
+		[CompilerGenerated]
+		private static Func<Building_AncientCryptosleepCasket, IEnumerable<Thing>> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
+		public Building_AncientCryptosleepCasket()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.groupID, "groupID", 0, false);
 		}
 
-		// Token: 0x060023D1 RID: 9169 RVA: 0x00133FC8 File Offset: 0x001323C8
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -46,7 +56,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023D2 RID: 9170 RVA: 0x001340A4 File Offset: 0x001324A4
 		public override void EjectContents()
 		{
 			List<Thing> list = new List<Thing>();
@@ -77,7 +86,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023D3 RID: 9171 RVA: 0x001341F4 File Offset: 0x001325F4
 		private IEnumerable<Building_AncientCryptosleepCasket> UnopenedCasketsInGroup()
 		{
 			yield return this;
@@ -93,6 +101,167 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<Thing> <EjectContents>m__0(Building_AncientCryptosleepCasket c)
+		{
+			return c.innerContainer;
+		}
+
+		[CompilerGenerated]
+		private static bool <EjectContents>m__1(Pawn p)
+		{
+			return p.RaceProps.Humanlike && p.GetLord() == null && p.Faction == Faction.OfAncientsHostile;
+		}
+
+		[CompilerGenerated]
+		private sealed class <UnopenedCasketsInGroup>c__Iterator0 : IEnumerable, IEnumerable<Building_AncientCryptosleepCasket>, IEnumerator, IDisposable, IEnumerator<Building_AncientCryptosleepCasket>
+		{
+			internal List<Thing>.Enumerator $locvar0;
+
+			internal Thing <t>__1;
+
+			internal Building_AncientCryptosleepCasket <casket>__2;
+
+			internal Building_AncientCryptosleepCasket $this;
+
+			internal Building_AncientCryptosleepCasket $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <UnopenedCasketsInGroup>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = this;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					if (this.groupID == -1)
+					{
+						goto IL_131;
+					}
+					enumerator = base.Map.listerThings.ThingsOfDef(ThingDefOf.AncientCryptosleepCasket).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 2u:
+						IL_104:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						casket = (t as Building_AncientCryptosleepCasket);
+						if (casket.groupID == this.groupID && !casket.contentsKnown)
+						{
+							this.$current = casket;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_104;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				IL_131:
+				this.$PC = -1;
+				return false;
+			}
+
+			Building_AncientCryptosleepCasket IEnumerator<Building_AncientCryptosleepCasket>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Building_AncientCryptosleepCasket>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Building_AncientCryptosleepCasket> IEnumerable<Building_AncientCryptosleepCasket>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator0 <UnopenedCasketsInGroup>c__Iterator = new Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator0();
+				<UnopenedCasketsInGroup>c__Iterator.$this = this;
+				return <UnopenedCasketsInGroup>c__Iterator;
+			}
 		}
 	}
 }

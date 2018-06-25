@@ -1,31 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000604 RID: 1540
 	[StaticConstructorOnStartup]
 	public class Settlement : MapParent, ITrader
 	{
-		// Token: 0x04001227 RID: 4647
 		public Settlement_TraderTracker trader;
 
-		// Token: 0x04001228 RID: 4648
 		public List<Pawn> previouslyGeneratedInhabitants = new List<Pawn>();
 
-		// Token: 0x04001229 RID: 4649
 		public static readonly Texture2D ShowSellableItemsCommand = ContentFinder<Texture2D>.Get("UI/Commands/SellableItems", true);
 
-		// Token: 0x0400122A RID: 4650
 		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
 
-		// Token: 0x0400122B RID: 4651
 		public static readonly Texture2D AttackCommand = ContentFinder<Texture2D>.Get("UI/Commands/AttackSettlement", true);
 
-		// Token: 0x17000486 RID: 1158
-		// (get) Token: 0x06001EC5 RID: 7877 RVA: 0x001094F4 File Offset: 0x001078F4
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
+		public Settlement()
+		{
+		}
+
 		protected override bool UseGenericEnterMapFloatMenuOption
 		{
 			get
@@ -34,8 +37,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000487 RID: 1159
-		// (get) Token: 0x06001EC6 RID: 7878 RVA: 0x00109514 File Offset: 0x00107914
 		public virtual bool Visitable
 		{
 			get
@@ -44,8 +45,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000488 RID: 1160
-		// (get) Token: 0x06001EC7 RID: 7879 RVA: 0x00109560 File Offset: 0x00107960
 		public virtual bool Attackable
 		{
 			get
@@ -54,8 +53,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000489 RID: 1161
-		// (get) Token: 0x06001EC8 RID: 7880 RVA: 0x00109588 File Offset: 0x00107988
 		public TraderKindDef TraderKind
 		{
 			get
@@ -73,8 +70,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700048A RID: 1162
-		// (get) Token: 0x06001EC9 RID: 7881 RVA: 0x001095BC File Offset: 0x001079BC
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -92,8 +87,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700048B RID: 1163
-		// (get) Token: 0x06001ECA RID: 7882 RVA: 0x001095F0 File Offset: 0x001079F0
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -111,8 +104,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700048C RID: 1164
-		// (get) Token: 0x06001ECB RID: 7883 RVA: 0x00109624 File Offset: 0x00107A24
 		public string TraderName
 		{
 			get
@@ -130,8 +121,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700048D RID: 1165
-		// (get) Token: 0x06001ECC RID: 7884 RVA: 0x00109658 File Offset: 0x00107A58
 		public bool CanTradeNow
 		{
 			get
@@ -140,8 +129,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700048E RID: 1166
-		// (get) Token: 0x06001ECD RID: 7885 RVA: 0x0010968C File Offset: 0x00107A8C
 		public float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -159,7 +146,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ECE RID: 7886 RVA: 0x001096C4 File Offset: 0x00107AC4
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> result;
@@ -174,19 +160,16 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001ECF RID: 7887 RVA: 0x001096F7 File Offset: 0x00107AF7
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToTrader(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06001ED0 RID: 7888 RVA: 0x00109708 File Offset: 0x00107B08
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06001ED1 RID: 7889 RVA: 0x0010971C File Offset: 0x00107B1C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -201,7 +184,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED2 RID: 7890 RVA: 0x00109797 File Offset: 0x00107B97
 		public override void Tick()
 		{
 			base.Tick();
@@ -211,7 +193,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED3 RID: 7891 RVA: 0x001097B8 File Offset: 0x00107BB8
 		public override void Notify_MyMapRemoved(Map map)
 		{
 			base.Notify_MyMapRemoved(map);
@@ -225,14 +206,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED4 RID: 7892 RVA: 0x0010981C File Offset: 0x00107C1C
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
 			alsoRemoveWorldObject = false;
 			return !base.Map.IsPlayerHome && !base.Map.mapPawns.AnyPawnBlockingMapRemoval;
 		}
 
-		// Token: 0x06001ED5 RID: 7893 RVA: 0x0010985A File Offset: 0x00107C5A
 		public override void PostRemove()
 		{
 			base.PostRemove();
@@ -242,7 +221,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED6 RID: 7894 RVA: 0x0010987C File Offset: 0x00107C7C
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -261,7 +239,6 @@ namespace RimWorld.Planet
 			return text;
 		}
 
-		// Token: 0x06001ED7 RID: 7895 RVA: 0x00109910 File Offset: 0x00107D10
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -300,7 +277,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001ED8 RID: 7896 RVA: 0x0010993C File Offset: 0x00107D3C
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			if (this.CanTradeNow && CaravanVisitUtility.SettlementVisitedNow(caravan) == this)
@@ -331,7 +307,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001ED9 RID: 7897 RVA: 0x00109970 File Offset: 0x00107D70
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy2(caravan))
@@ -356,7 +331,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EDA RID: 7898 RVA: 0x001099A4 File Offset: 0x00107DA4
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy3(pods, representative))
@@ -378,13 +352,1015 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EDB RID: 7899 RVA: 0x001099DC File Offset: 0x00107DDC
 		public override void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			base.GetChildHolders(outChildren);
 			if (this.trader != null)
 			{
 				outChildren.Add(this.trader);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Settlement()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(Pawn x)
+		{
+			return x == null;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetCaravanGizmos>__BaseCallProxy1(Caravan caravan)
+		{
+			return base.GetCaravanGizmos(caravan);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<FloatMenuOption> <GetFloatMenuOptions>__BaseCallProxy2(Caravan caravan)
+		{
+			return base.GetFloatMenuOptions(caravan);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<FloatMenuOption> <GetTransportPodsFloatMenuOptions>__BaseCallProxy3(IEnumerable<IThingHolder> pods, CompLaunchable representative)
+		{
+			return base.GetTransportPodsFloatMenuOptions(pods, representative);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Action <showSellableItems>__2;
+
+			internal Command_Action <formCaravan>__3;
+
+			internal Settlement $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Action <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_14A;
+				case 3u:
+					goto IL_1FE;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (base.TraderKind != null)
+				{
+					Command_Action showSellableItems = new Command_Action();
+					showSellableItems.defaultLabel = "CommandShowSellableItems".Translate();
+					showSellableItems.defaultDesc = "CommandShowSellableItemsDesc".Translate();
+					showSellableItems.icon = Settlement.ShowSellableItemsCommand;
+					showSellableItems.action = delegate()
+					{
+						Find.WindowStack.Add(new Dialog_SellableItems(base.TraderKind));
+					};
+					this.$current = showSellableItems;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_14A:
+				if (base.Faction != Faction.OfPlayer)
+				{
+					if (!PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
+					{
+						formCaravan = new Command_Action();
+						formCaravan.defaultLabel = "CommandFormCaravan".Translate();
+						formCaravan.defaultDesc = "CommandFormCaravanDesc".Translate();
+						formCaravan.icon = Settlement.FormCaravanCommand;
+						formCaravan.action = delegate()
+						{
+							Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
+							Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput, false);
+						};
+						this.$current = formCaravan;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+				}
+				IL_1FE:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Settlement.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Settlement.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				Find.WindowStack.Add(new Dialog_SellableItems(base.TraderKind));
+			}
+
+			private static void <>m__1()
+			{
+				Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
+				Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetCaravanGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Caravan caravan;
+
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Action <attack>__2;
+
+			internal Settlement $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private Settlement.<GetCaravanGizmos>c__Iterator1.<GetCaravanGizmos>c__AnonStorey4 $locvar1;
+
+			[DebuggerHidden]
+			public <GetCaravanGizmos>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (base.CanTradeNow && CaravanVisitUtility.SettlementVisitedNow(caravan) == this)
+					{
+						this.$current = CaravanVisitUtility.TradeCommand(caravan);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FD;
+				case 3u:
+					goto IL_122;
+				case 4u:
+					goto IL_22B;
+				default:
+					return false;
+				}
+				if (CaravanArrivalAction_OfferGifts.CanOfferGiftsTo(<GetCaravanGizmos>c__AnonStorey.caravan, this))
+				{
+					this.$current = FactionGiftUtility.OfferGiftsCommand(<GetCaravanGizmos>c__AnonStorey.caravan, this);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_FD:
+				enumerator = base.<GetCaravanGizmos>__BaseCallProxy1(<GetCaravanGizmos>c__AnonStorey.caravan).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_122:
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.Attackable)
+				{
+					Command_Action attack = new Command_Action();
+					attack.icon = Settlement.AttackCommand;
+					attack.defaultLabel = "CommandAttackSettlement".Translate();
+					attack.defaultDesc = "CommandAttackSettlementDesc".Translate();
+					attack.action = delegate()
+					{
+						SettlementUtility.Attack(<GetCaravanGizmos>c__AnonStorey.caravan, <GetCaravanGizmos>c__AnonStorey.<>f__ref$1.$this);
+					};
+					this.$current = attack;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_22B:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Settlement.<GetCaravanGizmos>c__Iterator1 <GetCaravanGizmos>c__Iterator = new Settlement.<GetCaravanGizmos>c__Iterator1();
+				<GetCaravanGizmos>c__Iterator.$this = this;
+				<GetCaravanGizmos>c__Iterator.caravan = caravan;
+				return <GetCaravanGizmos>c__Iterator;
+			}
+
+			private sealed class <GetCaravanGizmos>c__AnonStorey4
+			{
+				internal Caravan caravan;
+
+				internal Settlement.<GetCaravanGizmos>c__Iterator1 <>f__ref$1;
+
+				public <GetCaravanGizmos>c__AnonStorey4()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					SettlementUtility.Attack(this.caravan, this.<>f__ref$1.$this);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFloatMenuOptions>c__Iterator2 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal Caravan caravan;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <o>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <f>__2;
+
+			internal IEnumerator<FloatMenuOption> $locvar2;
+
+			internal FloatMenuOption <f>__3;
+
+			internal IEnumerator<FloatMenuOption> $locvar3;
+
+			internal FloatMenuOption <f>__4;
+
+			internal Settlement $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetFloatMenuOptions>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetFloatMenuOptions>__BaseCallProxy2(caravan).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FD;
+				case 3u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator3.MoveNext())
+						{
+							f2 = enumerator3.Current;
+							this.$current = f2;
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					enumerator4 = CaravanArrivalAction_AttackSettlement.GetFloatMenuOptions(caravan, this).GetEnumerator();
+					num = 4294967293u;
+					goto Block_6;
+				case 4u:
+					goto IL_22A;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						this.$current = o;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (CaravanVisitUtility.SettlementVisitedNow(caravan) == this)
+				{
+					goto IL_174;
+				}
+				enumerator2 = CaravanArrivalAction_VisitSettlement.GetFloatMenuOptions(caravan, this).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_FD:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						f = enumerator2.Current;
+						this.$current = f;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_174:
+				enumerator3 = CaravanArrivalAction_OfferGifts.GetFloatMenuOptions(caravan, this).GetEnumerator();
+				num = 4294967293u;
+				goto Block_5;
+				Block_6:
+				try
+				{
+					IL_22A:
+					switch (num)
+					{
+					}
+					if (enumerator4.MoveNext())
+					{
+						f3 = enumerator4.Current;
+						this.$current = f3;
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Settlement.<GetFloatMenuOptions>c__Iterator2 <GetFloatMenuOptions>c__Iterator = new Settlement.<GetFloatMenuOptions>c__Iterator2();
+				<GetFloatMenuOptions>c__Iterator.$this = this;
+				<GetFloatMenuOptions>c__Iterator.caravan = caravan;
+				return <GetFloatMenuOptions>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetTransportPodsFloatMenuOptions>c__Iterator3 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal IEnumerable<IThingHolder> pods;
+
+			internal CompLaunchable representative;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <o>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <f>__2;
+
+			internal IEnumerator<FloatMenuOption> $locvar2;
+
+			internal FloatMenuOption <f>__3;
+
+			internal IEnumerator<FloatMenuOption> $locvar3;
+
+			internal FloatMenuOption <f>__4;
+
+			internal Settlement $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetTransportPodsFloatMenuOptions>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetTransportPodsFloatMenuOptions>__BaseCallProxy3(pods, representative).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_F2;
+				case 3u:
+					goto IL_18E;
+				case 4u:
+					goto IL_22A;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						this.$current = o;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = TransportPodsArrivalAction_VisitSettlement.GetFloatMenuOptions(representative, pods, this).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_F2:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						f = enumerator2.Current;
+						this.$current = f;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				enumerator3 = TransportPodsArrivalAction_GiveGift.GetFloatMenuOptions(representative, pods, this).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_18E:
+					switch (num)
+					{
+					}
+					if (enumerator3.MoveNext())
+					{
+						f2 = enumerator3.Current;
+						this.$current = f2;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+				}
+				enumerator4 = TransportPodsArrivalAction_AttackSettlement.GetFloatMenuOptions(representative, pods, this).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_22A:
+					switch (num)
+					{
+					}
+					if (enumerator4.MoveNext())
+					{
+						f3 = enumerator4.Current;
+						this.$current = f3;
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Settlement.<GetTransportPodsFloatMenuOptions>c__Iterator3 <GetTransportPodsFloatMenuOptions>c__Iterator = new Settlement.<GetTransportPodsFloatMenuOptions>c__Iterator3();
+				<GetTransportPodsFloatMenuOptions>c__Iterator.$this = this;
+				<GetTransportPodsFloatMenuOptions>c__Iterator.pods = pods;
+				<GetTransportPodsFloatMenuOptions>c__Iterator.representative = representative;
+				return <GetTransportPodsFloatMenuOptions>c__Iterator;
 			}
 		}
 	}

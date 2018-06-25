@@ -1,22 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079C RID: 1948
 	public class Alert_ColonistNeedsTend : Alert
 	{
-		// Token: 0x06002B28 RID: 11048 RVA: 0x0016CFC1 File Offset: 0x0016B3C1
 		public Alert_ColonistNeedsTend()
 		{
 			this.defaultLabel = "ColonistNeedsTreatment".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x170006B4 RID: 1716
-		// (get) Token: 0x06002B29 RID: 11049 RVA: 0x0016CFE4 File Offset: 0x0016B3E4
 		private IEnumerable<Pawn> NeedingColonists
 		{
 			get
@@ -39,7 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B2A RID: 11050 RVA: 0x0016D008 File Offset: 0x0016B408
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -50,10 +49,150 @@ namespace RimWorld
 			return string.Format("ColonistNeedsTreatmentDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B2B RID: 11051 RVA: 0x0016D098 File Offset: 0x0016B498
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.NeedingColonists);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Building_Bed <curBed>__2;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					while (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.health.HasHediffsNeedingTendByPlayer(true))
+						{
+							curBed = p.CurrentBed();
+							if (curBed == null || !curBed.Medical)
+							{
+								if (!Alert_ColonistNeedsRescuing.NeedsRescue(p))
+								{
+									this.$current = p;
+									if (!this.$disposing)
+									{
+										this.$PC = 1;
+									}
+									flag = true;
+									return true;
+								}
+							}
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Alert_ColonistNeedsTend.<>c__Iterator0();
+			}
 		}
 	}
 }

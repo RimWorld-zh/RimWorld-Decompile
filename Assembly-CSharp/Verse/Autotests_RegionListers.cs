@@ -3,16 +3,12 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x020008F8 RID: 2296
 	public static class Autotests_RegionListers
 	{
-		// Token: 0x04001CD0 RID: 7376
 		private static Dictionary<Region, List<Thing>> expectedListers = new Dictionary<Region, List<Thing>>();
 
-		// Token: 0x04001CD1 RID: 7377
 		private static List<Region> tmpTouchableRegions = new List<Region>();
 
-		// Token: 0x0600352B RID: 13611 RVA: 0x001C7289 File Offset: 0x001C5689
 		public static void CheckBugs(Map map)
 		{
 			Autotests_RegionListers.CalculateExpectedListers(map);
@@ -21,7 +17,6 @@ namespace Verse
 			Autotests_RegionListers.CheckThingRegisteredButShouldnt(map);
 		}
 
-		// Token: 0x0600352C RID: 13612 RVA: 0x001C72A4 File Offset: 0x001C56A4
 		private static void CheckThingRegisteredTwice(Map map)
 		{
 			foreach (KeyValuePair<Region, List<Thing>> keyValuePair in Autotests_RegionListers.expectedListers)
@@ -34,7 +29,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600352D RID: 13613 RVA: 0x001C736C File Offset: 0x001C576C
 		private static void CheckDuplicates(List<Thing> lister, Region region, bool expected)
 		{
 			for (int i = 1; i < lister.Count; i++)
@@ -69,7 +63,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600352E RID: 13614 RVA: 0x001C7430 File Offset: 0x001C5830
 		private static void CheckThingNotRegisteredButShould()
 		{
 			foreach (KeyValuePair<Region, List<Thing>> keyValuePair in Autotests_RegionListers.expectedListers)
@@ -95,7 +88,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600352F RID: 13615 RVA: 0x001C7530 File Offset: 0x001C5930
 		private static void CheckThingRegisteredButShouldnt(Map map)
 		{
 			foreach (Region region in map.regionGrid.AllRegions)
@@ -125,7 +117,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003530 RID: 13616 RVA: 0x001C7638 File Offset: 0x001C5A38
 		private static void CalculateExpectedListers(Map map)
 		{
 			Autotests_RegionListers.expectedListers.Clear();
@@ -149,6 +140,11 @@ namespace Verse
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Autotests_RegionListers()
+		{
 		}
 	}
 }

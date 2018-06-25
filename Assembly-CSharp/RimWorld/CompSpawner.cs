@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000737 RID: 1847
 	public class CompSpawner : ThingComp
 	{
-		// Token: 0x04001655 RID: 5717
 		private int ticksUntilSpawn;
 
-		// Token: 0x1700064F RID: 1615
-		// (get) Token: 0x060028BF RID: 10431 RVA: 0x0015BD1C File Offset: 0x0015A11C
+		public CompSpawner()
+		{
+		}
+
 		public CompProperties_Spawner PropsSpawner
 		{
 			get
@@ -20,8 +24,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000650 RID: 1616
-		// (get) Token: 0x060028C0 RID: 10432 RVA: 0x0015BD3C File Offset: 0x0015A13C
 		private bool PowerOn
 		{
 			get
@@ -31,7 +33,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C1 RID: 10433 RVA: 0x0015BD6C File Offset: 0x0015A16C
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -40,19 +41,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C2 RID: 10434 RVA: 0x0015BD7B File Offset: 0x0015A17B
 		public override void CompTick()
 		{
 			this.TickInterval(1);
 		}
 
-		// Token: 0x060028C3 RID: 10435 RVA: 0x0015BD85 File Offset: 0x0015A185
 		public override void CompTickRare()
 		{
 			this.TickInterval(250);
 		}
 
-		// Token: 0x060028C4 RID: 10436 RVA: 0x0015BD94 File Offset: 0x0015A194
 		private void TickInterval(int interval)
 		{
 			if (this.parent.Spawned)
@@ -77,7 +75,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C5 RID: 10437 RVA: 0x0015BE39 File Offset: 0x0015A239
 		private void CheckShouldSpawn()
 		{
 			if (this.ticksUntilSpawn <= 0)
@@ -87,7 +84,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C6 RID: 10438 RVA: 0x0015BE58 File Offset: 0x0015A258
 		public bool TryDoSpawn()
 		{
 			bool result;
@@ -148,7 +144,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028C7 RID: 10439 RVA: 0x0015C030 File Offset: 0x0015A430
 		private bool TryFindSpawnCell(out IntVec3 result)
 		{
 			foreach (IntVec3 intVec in GenAdj.CellsAdjacent8Way(this.parent).InRandomOrder(null))
@@ -188,20 +183,17 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060028C8 RID: 10440 RVA: 0x0015C210 File Offset: 0x0015A610
 		private void ResetCountdown()
 		{
 			this.ticksUntilSpawn = this.PropsSpawner.spawnIntervalRange.RandomInRange;
 		}
 
-		// Token: 0x060028C9 RID: 10441 RVA: 0x0015C22C File Offset: 0x0015A62C
 		public override void PostExposeData()
 		{
 			string str = (!this.PropsSpawner.saveKeysPrefix.NullOrEmpty()) ? (this.PropsSpawner.saveKeysPrefix + "_") : null;
 			Scribe_Values.Look<int>(ref this.ticksUntilSpawn, str + "ticksUntilSpawn", 0, false);
 		}
 
-		// Token: 0x060028CA RID: 10442 RVA: 0x0015C284 File Offset: 0x0015A684
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)
@@ -220,7 +212,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060028CB RID: 10443 RVA: 0x0015C2B0 File Offset: 0x0015A6B0
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -236,6 +227,114 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Action <com>__1;
+
+			internal CompSpawner $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (Prefs.DevMode)
+					{
+						Command_Action com = new Command_Action();
+						com.defaultLabel = "DEBUG: Spawn " + base.PropsSpawner.thingToSpawn.label;
+						com.icon = TexCommand.DesirePower;
+						com.action = delegate()
+						{
+							base.TryDoSpawn();
+							base.ResetCountdown();
+						};
+						this.$current = com;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompSpawner.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompSpawner.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.TryDoSpawn();
+				base.ResetCountdown();
+			}
 		}
 	}
 }

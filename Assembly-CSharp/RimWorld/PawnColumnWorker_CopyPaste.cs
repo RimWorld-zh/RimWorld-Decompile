@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000882 RID: 2178
 	public abstract class PawnColumnWorker_CopyPaste : PawnColumnWorker
 	{
-		// Token: 0x170007FE RID: 2046
-		// (get) Token: 0x060031B1 RID: 12721
+		protected PawnColumnWorker_CopyPaste()
+		{
+		}
+
 		protected abstract bool AnythingInClipboard { get; }
 
-		// Token: 0x060031B2 RID: 12722 RVA: 0x001AE9F8 File Offset: 0x001ACDF8
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Action pasteAction = null;
@@ -29,22 +30,40 @@ namespace RimWorld
 			}, pasteAction);
 		}
 
-		// Token: 0x060031B3 RID: 12723 RVA: 0x001AEA68 File Offset: 0x001ACE68
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 36);
 		}
 
-		// Token: 0x060031B4 RID: 12724 RVA: 0x001AEA8C File Offset: 0x001ACE8C
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), this.GetMinWidth(table));
 		}
 
-		// Token: 0x060031B5 RID: 12725
 		protected abstract void CopyFrom(Pawn p);
 
-		// Token: 0x060031B6 RID: 12726
 		protected abstract void PasteTo(Pawn p);
+
+		[CompilerGenerated]
+		private sealed class <DoCell>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal PawnColumnWorker_CopyPaste $this;
+
+			public <DoCell>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.PasteTo(this.pawn);
+			}
+
+			internal void <>m__1()
+			{
+				this.$this.CopyFrom(this.pawn);
+			}
+		}
 	}
 }

@@ -4,11 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200012C RID: 300
 	public class WorkGiver_ConstructFinishFrames : WorkGiver_Scanner
 	{
-		// Token: 0x170000E3 RID: 227
-		// (get) Token: 0x0600062D RID: 1581 RVA: 0x00041640 File Offset: 0x0003FA40
+		public WorkGiver_ConstructFinishFrames()
+		{
+		}
+
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -17,14 +18,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600062E RID: 1582 RVA: 0x00041658 File Offset: 0x0003FA58
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x170000E4 RID: 228
-		// (get) Token: 0x0600062F RID: 1583 RVA: 0x00041670 File Offset: 0x0003FA70
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -33,7 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000630 RID: 1584 RVA: 0x0004168C File Offset: 0x0003FA8C
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005BF RID: 1471
 	public class WorldGenStep_Features : WorldGenStep
 	{
-		// Token: 0x1700041F RID: 1055
-		// (get) Token: 0x06001C3C RID: 7228 RVA: 0x000F2FD4 File Offset: 0x000F13D4
+		[CompilerGenerated]
+		private static Func<FeatureDef, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<FeatureDef, ushort> <>f__am$cache1;
+
+		public WorldGenStep_Features()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -17,7 +25,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C3D RID: 7229 RVA: 0x000F2FF0 File Offset: 0x000F13F0
 		public override void GenerateFresh(string seed)
 		{
 			Find.World.features = new WorldFeatures();
@@ -41,6 +48,18 @@ namespace RimWorld.Planet
 					}), false);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateFresh>m__0(FeatureDef x)
+		{
+			return x.order;
+		}
+
+		[CompilerGenerated]
+		private static ushort <GenerateFresh>m__1(FeatureDef x)
+		{
+			return x.index;
 		}
 	}
 }

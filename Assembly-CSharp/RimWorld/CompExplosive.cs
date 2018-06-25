@@ -5,26 +5,22 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200070E RID: 1806
 	public class CompExplosive : ThingComp
 	{
-		// Token: 0x040015D6 RID: 5590
 		public bool wickStarted = false;
 
-		// Token: 0x040015D7 RID: 5591
 		protected int wickTicksLeft = 0;
 
-		// Token: 0x040015D8 RID: 5592
 		private Thing instigator;
 
-		// Token: 0x040015D9 RID: 5593
 		public bool destroyedThroughDetonation;
 
-		// Token: 0x040015DA RID: 5594
 		protected Sustainer wickSoundSustainer = null;
 
-		// Token: 0x170005F6 RID: 1526
-		// (get) Token: 0x06002792 RID: 10130 RVA: 0x001539A4 File Offset: 0x00151DA4
+		public CompExplosive()
+		{
+		}
+
 		public CompProperties_Explosive Props
 		{
 			get
@@ -33,8 +29,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170005F7 RID: 1527
-		// (get) Token: 0x06002793 RID: 10131 RVA: 0x001539C4 File Offset: 0x00151DC4
 		protected int StartWickThreshold
 		{
 			get
@@ -43,8 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170005F8 RID: 1528
-		// (get) Token: 0x06002794 RID: 10132 RVA: 0x001539F8 File Offset: 0x00151DF8
 		private bool CanEverExplodeFromDamage
 		{
 			get
@@ -66,7 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002795 RID: 10133 RVA: 0x00153A64 File Offset: 0x00151E64
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -76,7 +67,6 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.destroyedThroughDetonation, "destroyedThroughDetonation", false, false);
 		}
 
-		// Token: 0x06002796 RID: 10134 RVA: 0x00153AC0 File Offset: 0x00151EC0
 		public override void CompTick()
 		{
 			if (this.wickStarted)
@@ -97,7 +87,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002797 RID: 10135 RVA: 0x00153B28 File Offset: 0x00151F28
 		private void StartWickSustainer()
 		{
 			SoundDefOf.MetalHitImportant.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
@@ -105,7 +94,6 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
 
-		// Token: 0x06002798 RID: 10136 RVA: 0x00153B84 File Offset: 0x00151F84
 		private void EndWickSustainer()
 		{
 			if (this.wickSoundSustainer != null)
@@ -115,7 +103,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002799 RID: 10137 RVA: 0x00153BA6 File Offset: 0x00151FA6
 		public override void PostDraw()
 		{
 			if (this.wickStarted)
@@ -124,7 +111,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600279A RID: 10138 RVA: 0x00153BD0 File Offset: 0x00151FD0
 		public override void PostPreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			absorbed = false;
@@ -148,7 +134,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600279B RID: 10139 RVA: 0x00153CA8 File Offset: 0x001520A8
 		public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			if (this.CanEverExplodeFromDamage)
@@ -173,7 +158,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600279C RID: 10140 RVA: 0x00153D58 File Offset: 0x00152158
 		public void StartWick(Thing instigator = null)
 		{
 			if (!this.wickStarted)
@@ -189,14 +173,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600279D RID: 10141 RVA: 0x00153DCC File Offset: 0x001521CC
 		public void StopWick()
 		{
 			this.wickStarted = false;
 			this.instigator = null;
 		}
 
-		// Token: 0x0600279E RID: 10142 RVA: 0x00153DE0 File Offset: 0x001521E0
 		public float ExplosiveRadius()
 		{
 			CompProperties_Explosive props = this.Props;
@@ -212,7 +194,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600279F RID: 10143 RVA: 0x00153E84 File Offset: 0x00152284
 		protected void Detonate(Map map)
 		{
 			if (this.parent.SpawnedOrAnyParentSpawned)
@@ -256,7 +237,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027A0 RID: 10144 RVA: 0x00154034 File Offset: 0x00152434
 		private bool CanExplodeFromDamageType(DamageDef damage)
 		{
 			return this.Props.requiredDamageTypeToExplode == null || this.Props.requiredDamageTypeToExplode == damage;

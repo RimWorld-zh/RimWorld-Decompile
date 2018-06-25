@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200078E RID: 1934
 	public class Alert_LifeThreateningHediff : Alert_Critical
 	{
-		// Token: 0x170006AE RID: 1710
-		// (get) Token: 0x06002AE9 RID: 10985 RVA: 0x0016ADFC File Offset: 0x001691FC
+		public Alert_LifeThreateningHediff()
+		{
+		}
+
 		private IEnumerable<Pawn> SickPawns
 		{
 			get
@@ -30,13 +35,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AEA RID: 10986 RVA: 0x0016AE20 File Offset: 0x00169220
 		public override string GetLabel()
 		{
 			return "PawnsWithLifeThreateningDisease".Translate();
 		}
 
-		// Token: 0x06002AEB RID: 10987 RVA: 0x0016AE40 File Offset: 0x00169240
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -65,10 +68,151 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AEC RID: 10988 RVA: 0x0016AF98 File Offset: 0x00169398
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.SickPawns);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal int <i>__2;
+
+			internal Hediff <diff>__3;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners_NoCryptosleep.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					IL_11F:
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						for (i = 0; i < p.health.hediffSet.hediffs.Count; i++)
+						{
+							diff = p.health.hediffSet.hediffs[i];
+							if (diff.CurStage != null && diff.CurStage.lifeThreatening && !diff.FullyImmune())
+							{
+								this.$current = p;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						goto IL_11F;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Alert_LifeThreateningHediff.<>c__Iterator0();
+			}
 		}
 	}
 }

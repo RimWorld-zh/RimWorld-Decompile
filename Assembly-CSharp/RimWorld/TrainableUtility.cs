@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200053D RID: 1341
 	public static class TrainableUtility
 	{
-		// Token: 0x04000EB1 RID: 3761
 		private static List<TrainableDef> defsInListOrder = new List<TrainableDef>();
 
-		// Token: 0x04000EB2 RID: 3762
 		private static readonly SimpleCurve DecayIntervalDaysFromWildnessCurve = new SimpleCurve
 		{
 			{
@@ -27,16 +27,24 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000EB4 RID: 3764
+		[CompilerGenerated]
+		private static Func<TrainableDef, float> <>f__am$cache0;
+
 		[CompilerGenerated]
 		private static Func<Pawn, Pawn> <>f__mg$cache0;
 
-		// Token: 0x04000EB5 RID: 3765
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Pawn>>> <>f__mg$cache1;
 
-		// Token: 0x17000387 RID: 903
-		// (get) Token: 0x060018FA RID: 6394 RVA: 0x000D9B2C File Offset: 0x000D7F2C
+		[CompilerGenerated]
+		private static Func<Pawn, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<DirectPawnRelation, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<DirectPawnRelation, Pawn> <>f__am$cache3;
+
 		public static List<TrainableDef> TrainableDefsInListOrder
 		{
 			get
@@ -45,7 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018FB RID: 6395 RVA: 0x000D9B48 File Offset: 0x000D7F48
 		public static void Reset()
 		{
 			TrainableUtility.defsInListOrder.Clear();
@@ -80,19 +87,16 @@ namespace RimWorld
 			while (flag);
 		}
 
-		// Token: 0x060018FC RID: 6396 RVA: 0x000D9C38 File Offset: 0x000D8038
 		public static string MasterString(Pawn pawn)
 		{
 			return (pawn.playerSettings.Master == null) ? ("(" + "NoneLower".Translate() + ")") : RelationsUtility.LabelWithBondInfo(pawn.playerSettings.Master, pawn);
 		}
 
-		// Token: 0x060018FD RID: 6397 RVA: 0x000D9C8C File Offset: 0x000D808C
 		public static int MinimumHandlingSkill(Pawn p)
 		{
 			return Mathf.RoundToInt(p.GetStatValue(StatDefOf.MinimumHandlingSkill, true));
 		}
 
-		// Token: 0x060018FE RID: 6398 RVA: 0x000D9CB4 File Offset: 0x000D80B4
 		public static void MasterSelectButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			Rect rect2 = rect;
@@ -111,13 +115,11 @@ namespace RimWorld
 			Widgets.Dropdown<Pawn, Pawn>(rect2, pawn, getPayload, menuGenerator, buttonLabel, null, dragLabel, null, null, paintable);
 		}
 
-		// Token: 0x060018FF RID: 6399 RVA: 0x000D9D30 File Offset: 0x000D8130
 		private static Pawn MasterSelectButton_GetMaster(Pawn pet)
 		{
 			return pet.playerSettings.Master;
 		}
 
-		// Token: 0x06001900 RID: 6400 RVA: 0x000D9D50 File Offset: 0x000D8150
 		private static IEnumerable<Widgets.DropdownMenuElement<Pawn>> MasterSelectButton_GenerateMenu(Pawn p)
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -164,7 +166,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001901 RID: 6401 RVA: 0x000D9D7C File Offset: 0x000D817C
 		public static bool CanBeMaster(Pawn master, Pawn animal, bool checkSpawned = true)
 		{
 			bool result;
@@ -181,7 +182,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001902 RID: 6402 RVA: 0x000D9DD8 File Offset: 0x000D81D8
 		public static string GetIconTooltipText(Pawn pawn)
 		{
 			string text = "";
@@ -198,7 +198,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06001903 RID: 6403 RVA: 0x000D9E88 File Offset: 0x000D8288
 		public static IEnumerable<Pawn> GetAllColonistBondsFor(Pawn pet)
 		{
 			return from bond in pet.relations.DirectRelations
@@ -206,19 +205,16 @@ namespace RimWorld
 			select bond.otherPawn;
 		}
 
-		// Token: 0x06001904 RID: 6404 RVA: 0x000D9EEC File Offset: 0x000D82EC
 		public static int DegradationPeriodTicks(ThingDef def)
 		{
 			return Mathf.RoundToInt(TrainableUtility.DecayIntervalDaysFromWildnessCurve.Evaluate(def.race.wildness) * 60000f);
 		}
 
-		// Token: 0x06001905 RID: 6405 RVA: 0x000D9F24 File Offset: 0x000D8324
 		public static bool TamenessCanDecay(ThingDef def)
 		{
 			return def.race.wildness > 0.101f;
 		}
 
-		// Token: 0x06001906 RID: 6406 RVA: 0x000D9F4C File Offset: 0x000D834C
 		public static string GetWildnessExplanation(ThingDef def)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -230,6 +226,247 @@ namespace RimWorld
 				stringBuilder.AppendLine("TamenessWillNotDecay".Translate());
 			}
 			return stringBuilder.ToString();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TrainableUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__0(TrainableDef td)
+		{
+			return td.listPriority;
+		}
+
+		[CompilerGenerated]
+		private static string <GetIconTooltipText>m__1(Pawn bond)
+		{
+			return bond.LabelShort;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetAllColonistBondsFor>m__2(DirectPawnRelation bond)
+		{
+			return bond.def == PawnRelationDefOf.Bond && bond.otherPawn != null && bond.otherPawn.IsColonistPlayerControlled;
+		}
+
+		[CompilerGenerated]
+		private static Pawn <GetAllColonistBondsFor>m__3(DirectPawnRelation bond)
+		{
+			return bond.otherPawn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MasterSelectButton_GenerateMenu>c__Iterator0 : IEnumerable, IEnumerable<Widgets.DropdownMenuElement<Pawn>>, IEnumerator, IDisposable, IEnumerator<Widgets.DropdownMenuElement<Pawn>>
+		{
+			internal Pawn p;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal string <lab>__2;
+
+			internal Action <action>__2;
+
+			internal int <level>__2;
+
+			internal int <minLevel>__2;
+
+			internal Widgets.DropdownMenuElement<Pawn> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private TrainableUtility.<MasterSelectButton_GenerateMenu>c__Iterator0.<MasterSelectButton_GenerateMenu>c__AnonStorey1 $locvar1;
+
+			private TrainableUtility.<MasterSelectButton_GenerateMenu>c__Iterator0.<MasterSelectButton_GenerateMenu>c__AnonStorey2 $locvar2;
+
+			[DebuggerHidden]
+			public <MasterSelectButton_GenerateMenu>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					this.$current = new Widgets.DropdownMenuElement<Pawn>
+					{
+						option = new FloatMenuOption("(" + "NoneLower".Translate() + ")", delegate()
+						{
+							p.playerSettings.Master = null;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null),
+						payload = null
+					};
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						Pawn col = enumerator.Current;
+						lab = RelationsUtility.LabelWithBondInfo(col, <MasterSelectButton_GenerateMenu>c__AnonStorey.p);
+						action = null;
+						level = col.skills.GetSkill(SkillDefOf.Animals).Level;
+						minLevel = TrainableUtility.MinimumHandlingSkill(<MasterSelectButton_GenerateMenu>c__AnonStorey.p);
+						if (level < minLevel)
+						{
+							action = null;
+							lab = lab + " (" + "SkillTooLow".Translate(new object[]
+							{
+								SkillDefOf.Animals.LabelCap,
+								level,
+								minLevel
+							}) + ")";
+						}
+						else if (TrainableUtility.CanBeMaster(col, <MasterSelectButton_GenerateMenu>c__AnonStorey.p, true))
+						{
+							action = delegate()
+							{
+								<MasterSelectButton_GenerateMenu>c__AnonStorey.p.playerSettings.Master = col;
+							};
+						}
+						this.$current = new Widgets.DropdownMenuElement<Pawn>
+						{
+							option = new FloatMenuOption(lab, action, MenuOptionPriority.Default, null, null, 0f, null, null),
+							payload = col
+						};
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Widgets.DropdownMenuElement<Pawn> IEnumerator<Widgets.DropdownMenuElement<Pawn>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Widgets.DropdownMenuElement<Verse.Pawn>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Widgets.DropdownMenuElement<Pawn>> IEnumerable<Widgets.DropdownMenuElement<Pawn>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TrainableUtility.<MasterSelectButton_GenerateMenu>c__Iterator0 <MasterSelectButton_GenerateMenu>c__Iterator = new TrainableUtility.<MasterSelectButton_GenerateMenu>c__Iterator0();
+				<MasterSelectButton_GenerateMenu>c__Iterator.p = p;
+				return <MasterSelectButton_GenerateMenu>c__Iterator;
+			}
+
+			private sealed class <MasterSelectButton_GenerateMenu>c__AnonStorey1
+			{
+				internal Pawn p;
+
+				public <MasterSelectButton_GenerateMenu>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.p.playerSettings.Master = null;
+				}
+			}
+
+			private sealed class <MasterSelectButton_GenerateMenu>c__AnonStorey2
+			{
+				internal Pawn col;
+
+				internal TrainableUtility.<MasterSelectButton_GenerateMenu>c__Iterator0.<MasterSelectButton_GenerateMenu>c__AnonStorey1 <>f__ref$1;
+
+				public <MasterSelectButton_GenerateMenu>c__AnonStorey2()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$1.p.playerSettings.Master = this.col;
+				}
+			}
 		}
 	}
 }

@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000598 RID: 1432
 	public class WorldLayer_Sun : WorldLayer
 	{
-		// Token: 0x04001022 RID: 4130
 		private const float SunDrawSize = 15f;
 
-		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x06001B52 RID: 6994 RVA: 0x000EB5D0 File Offset: 0x000E99D0
+		public WorldLayer_Sun()
+		{
+		}
+
 		protected override int Layer
 		{
 			get
@@ -21,8 +25,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x06001B53 RID: 6995 RVA: 0x000EB5EC File Offset: 0x000E99EC
 		protected override Quaternion Rotation
 		{
 			get
@@ -31,7 +33,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B54 RID: 6996 RVA: 0x000EB60C File Offset: 0x000E9A0C
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -58,6 +59,156 @@ namespace RimWorld.Planet
 			Rand.PopState();
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable <Regenerate>__BaseCallProxy0()
+		{
+			return base.Regenerate();
+		}
+
+		[CompilerGenerated]
+		private sealed class <Regenerate>c__Iterator0 : IEnumerable, IEnumerable<object>, IEnumerator, IDisposable, IEnumerator<object>
+		{
+			internal IEnumerator $locvar0;
+
+			internal object <result>__1;
+
+			internal IDisposable $locvar1;
+
+			internal LayerSubMesh <sunSubMesh>__0;
+
+			internal WorldLayer_Sun $this;
+
+			internal object $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <Regenerate>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<Regenerate>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						result = enumerator.Current;
+						this.$current = result;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+				}
+				Rand.PushState();
+				Rand.Seed = Find.World.info.Seed;
+				sunSubMesh = base.GetSubMesh(WorldMaterials.Sun);
+				WorldRendererUtility.PrintQuadTangentialToPlanet(Vector3.forward * 10f, 15f, 0f, sunSubMesh, true, false, true);
+				Rand.PopState();
+				base.FinalizeMesh(MeshParts.All);
+				this.$PC = -1;
+				return false;
+			}
+
+			object IEnumerator<object>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<object>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<object> IEnumerable<object>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldLayer_Sun.<Regenerate>c__Iterator0 <Regenerate>c__Iterator = new WorldLayer_Sun.<Regenerate>c__Iterator0();
+				<Regenerate>c__Iterator.$this = this;
+				return <Regenerate>c__Iterator;
+			}
 		}
 	}
 }

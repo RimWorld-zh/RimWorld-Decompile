@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007E7 RID: 2023
 	public abstract class Designator_ZoneAdd : Designator_Zone
 	{
-		// Token: 0x040017B8 RID: 6072
 		protected Type zoneTypeToPlace;
 
-		// Token: 0x06002CF6 RID: 11510 RVA: 0x0017A82F File Offset: 0x00178C2F
 		public Designator_ZoneAdd()
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragAreaAdd;
@@ -21,9 +19,6 @@ namespace RimWorld
 			this.useMouseIcon = true;
 		}
 
-		// Token: 0x17000720 RID: 1824
-		// (get) Token: 0x06002CF7 RID: 11511 RVA: 0x0017A85C File Offset: 0x00178C5C
-		// (set) Token: 0x06002CF8 RID: 11512 RVA: 0x0017A87B File Offset: 0x00178C7B
 		private Zone SelectedZone
 		{
 			get
@@ -40,14 +35,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000721 RID: 1825
-		// (get) Token: 0x06002CF9 RID: 11513
 		protected abstract string NewZoneLabel { get; }
 
-		// Token: 0x06002CFA RID: 11514
 		protected abstract Zone MakeNewZone();
 
-		// Token: 0x06002CFB RID: 11515 RVA: 0x0017A89C File Offset: 0x00178C9C
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();
@@ -57,7 +48,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CFC RID: 11516 RVA: 0x0017A8F0 File Offset: 0x00178CF0
 		public override void DrawMouseAttachments()
 		{
 			if (this.useMouseIcon)
@@ -86,7 +76,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CFD RID: 11517 RVA: 0x0017A998 File Offset: 0x00178D98
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -124,7 +113,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CFE RID: 11518 RVA: 0x0017AAB8 File Offset: 0x00178EB8
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
 			List<IntVec3> list = cells.ToList<IntVec3>();
@@ -216,6 +204,12 @@ namespace RimWorld
 					TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private bool <DesignateMultiCell>m__0(IntVec3 c)
+		{
+			return base.Map.zoneManager.ZoneAt(c) != null;
 		}
 	}
 }

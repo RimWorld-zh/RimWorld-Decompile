@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F6E RID: 3950
 	public class ShaderParameter
 	{
-		// Token: 0x04003EBD RID: 16061
 		[NoTranslate]
 		private string name;
 
-		// Token: 0x04003EBE RID: 16062
 		private Vector4 value;
 
-		// Token: 0x04003EBF RID: 16063
 		private Texture2D valueTex;
 
-		// Token: 0x04003EC0 RID: 16064
 		private ShaderParameter.Type type;
 
-		// Token: 0x06005F69 RID: 24425 RVA: 0x0030A808 File Offset: 0x00308C08
+		public ShaderParameter()
+		{
+		}
+
 		public void Apply(Material mat)
 		{
 			ShaderParameter.Type type = this.type;
@@ -48,7 +47,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F6A RID: 24426 RVA: 0x0030A8AC File Offset: 0x00308CAC
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)
@@ -83,17 +81,32 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F6F RID: 3951
 		private enum Type
 		{
-			// Token: 0x04003EC2 RID: 16066
 			Float,
-			// Token: 0x04003EC3 RID: 16067
 			Vector,
-			// Token: 0x04003EC4 RID: 16068
 			Matrix,
-			// Token: 0x04003EC5 RID: 16069
 			Texture
+		}
+
+		[CompilerGenerated]
+		private sealed class <LoadDataFromXmlCustom>c__AnonStorey0
+		{
+			internal string valstr;
+
+			internal ShaderParameter $this;
+
+			public <LoadDataFromXmlCustom>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.valueTex = ContentFinder<Texture2D>.Get(this.valstr.TrimStart(new char[]
+				{
+					'/'
+				}), true);
+			}
 		}
 	}
 }

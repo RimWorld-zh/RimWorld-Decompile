@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A88 RID: 2696
 	public class MentalState_TargetedTantrum : MentalState_Tantrum
 	{
-		// Token: 0x04002592 RID: 9618
 		public const int MinMarketValue = 300;
 
-		// Token: 0x04002593 RID: 9619
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06003BD3 RID: 15315 RVA: 0x001F8C90 File Offset: 0x001F7090
+		[CompilerGenerated]
+		private static Func<Thing, float> <>f__am$cache0;
+
+		public MentalState_TargetedTantrum()
+		{
+		}
+
 		public override void MentalStateTick()
 		{
 			if (this.target == null || this.target.Destroyed)
@@ -44,14 +48,12 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BD4 RID: 15316 RVA: 0x001F8D80 File Offset: 0x001F7180
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.TryFindNewTarget();
 		}
 
-		// Token: 0x06003BD5 RID: 15317 RVA: 0x001F8D94 File Offset: 0x001F7194
 		private bool TryFindNewTarget()
 		{
 			TantrumMentalStateUtility.GetSmashableThingsNear(this.pawn, this.pawn.Position, MentalState_TargetedTantrum.tmpThings, null, 300, 40);
@@ -60,7 +62,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003BD6 RID: 15318 RVA: 0x001F8E08 File Offset: 0x001F7208
 		public override string GetBeginLetterText()
 		{
 			string result;
@@ -74,6 +75,17 @@ namespace Verse.AI
 				result = string.Format(this.def.beginLetter, this.pawn.LabelShort, this.target.Label).AdjustedFor(this.pawn, "PAWN").CapitalizeFirst();
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MentalState_TargetedTantrum()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <TryFindNewTarget>m__0(Thing x)
+		{
+			return x.MarketValue * (float)x.stackCount;
 		}
 	}
 }

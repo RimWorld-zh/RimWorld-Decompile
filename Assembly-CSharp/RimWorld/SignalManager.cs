@@ -4,13 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000308 RID: 776
 	public class SignalManager
 	{
-		// Token: 0x0400085F RID: 2143
 		public List<ISignalReceiver> receivers = new List<ISignalReceiver>();
 
-		// Token: 0x06000CE4 RID: 3300 RVA: 0x00070FE8 File Offset: 0x0006F3E8
+		public SignalManager()
+		{
+		}
+
 		public void RegisterReceiver(ISignalReceiver receiver)
 		{
 			if (receiver == null)
@@ -27,13 +28,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CE5 RID: 3301 RVA: 0x00071046 File Offset: 0x0006F446
 		public void DeregisterReceiver(ISignalReceiver receiver)
 		{
 			this.receivers.Remove(receiver);
 		}
 
-		// Token: 0x06000CE6 RID: 3302 RVA: 0x00071058 File Offset: 0x0006F458
 		public void SendSignal(Signal signal)
 		{
 			if (DebugViewSettings.logSignals)

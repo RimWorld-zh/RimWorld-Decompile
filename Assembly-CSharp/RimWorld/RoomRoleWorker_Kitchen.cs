@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000434 RID: 1076
 	public class RoomRoleWorker_Kitchen : RoomRoleWorker
 	{
-		// Token: 0x060012C8 RID: 4808 RVA: 0x000A2C04 File Offset: 0x000A1004
+		public RoomRoleWorker_Kitchen()
+		{
+		}
+
 		public override float GetScore(Room room)
 		{
 			int num = 0;

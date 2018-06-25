@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C35 RID: 3125
 	public static class NameUseChecker
 	{
-		// Token: 0x17000AD2 RID: 2770
-		// (get) Token: 0x060044C5 RID: 17605 RVA: 0x00242D08 File Offset: 0x00241108
 		public static IEnumerable<Name> AllPawnsNamesEverUsed
 		{
 			get
@@ -24,7 +25,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044C6 RID: 17606 RVA: 0x00242D2C File Offset: 0x0024112C
 		public static bool NameWordIsUsed(string singleName)
 		{
 			foreach (Name name in NameUseChecker.AllPawnsNamesEverUsed)
@@ -43,7 +43,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060044C7 RID: 17607 RVA: 0x00242DF8 File Offset: 0x002411F8
 		public static bool NameSingleIsUsed(string candidate)
 		{
 			foreach (Pawn pawn in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
@@ -55,6 +54,142 @@ namespace Verse
 				}
 			}
 			return false;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Name>, IEnumerator, IDisposable, IEnumerator<Name>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Name $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_92:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.Name != null)
+						{
+							this.$current = p.Name;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_92;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Name IEnumerator<Name>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Name>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Name> IEnumerable<Name>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new NameUseChecker.<>c__Iterator0();
+			}
 		}
 	}
 }

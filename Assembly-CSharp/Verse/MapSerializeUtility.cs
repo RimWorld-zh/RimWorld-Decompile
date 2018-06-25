@@ -1,23 +1,55 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000CA5 RID: 3237
 	public static class MapSerializeUtility
 	{
-		// Token: 0x0600474A RID: 18250 RVA: 0x00259F6C File Offset: 0x0025836C
 		public static byte[] SerializeUshort(Map map, Func<IntVec3, ushort> shortReader)
 		{
 			return DataSerializeUtility.SerializeUshort(map.info.NumCells, (int idx) => shortReader(map.cellIndices.IndexToCell(idx)));
 		}
 
-		// Token: 0x0600474B RID: 18251 RVA: 0x00259FB8 File Offset: 0x002583B8
 		public static void LoadUshort(byte[] arr, Map map, Action<IntVec3, ushort> shortWriter)
 		{
 			DataSerializeUtility.LoadUshort(arr, map.info.NumCells, delegate(int idx, ushort data)
 			{
 				shortWriter(map.cellIndices.IndexToCell(idx), data);
 			});
+		}
+
+		[CompilerGenerated]
+		private sealed class <SerializeUshort>c__AnonStorey0
+		{
+			internal Func<IntVec3, ushort> shortReader;
+
+			internal Map map;
+
+			public <SerializeUshort>c__AnonStorey0()
+			{
+			}
+
+			internal ushort <>m__0(int idx)
+			{
+				return this.shortReader(this.map.cellIndices.IndexToCell(idx));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LoadUshort>c__AnonStorey1
+		{
+			internal Action<IntVec3, ushort> shortWriter;
+
+			internal Map map;
+
+			public <LoadUshort>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0(int idx, ushort data)
+			{
+				this.shortWriter(this.map.cellIndices.IndexToCell(idx), data);
+			}
 		}
 	}
 }

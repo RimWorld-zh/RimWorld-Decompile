@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020006A1 RID: 1697
 	public class Building_CommsConsole : Building
 	{
-		// Token: 0x0400141A RID: 5146
 		private CompPowerTrader powerComp;
 
-		// Token: 0x17000568 RID: 1384
-		// (get) Token: 0x0600241F RID: 9247 RVA: 0x001365C4 File Offset: 0x001349C4
+		public Building_CommsConsole()
+		{
+		}
+
 		public bool CanUseCommsNow
 		{
 			get
@@ -22,7 +26,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002420 RID: 9248 RVA: 0x00136610 File Offset: 0x00134A10
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -31,7 +34,6 @@ namespace RimWorld
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.OpeningComms, OpportunityType.GoodToKnow);
 		}
 
-		// Token: 0x06002421 RID: 9249 RVA: 0x00136640 File Offset: 0x00134A40
 		private void UseAct(Pawn myPawn, ICommunicable commTarget)
 		{
 			Job job = new Job(JobDefOf.UseCommsConsole, this);
@@ -40,7 +42,6 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.OpeningComms, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002422 RID: 9250 RVA: 0x00136680 File Offset: 0x00134A80
 		private FloatMenuOption GetFailureReason(Pawn myPawn)
 		{
 			FloatMenuOption result;
@@ -85,13 +86,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002423 RID: 9251 RVA: 0x00136828 File Offset: 0x00134C28
 		public IEnumerable<ICommunicable> GetCommTargets(Pawn myPawn)
 		{
 			return myPawn.Map.passingShipManager.passingShips.Cast<ICommunicable>().Concat(Find.FactionManager.AllFactionsVisibleInViewOrder.Cast<ICommunicable>());
 		}
 
-		// Token: 0x06002424 RID: 9252 RVA: 0x00136868 File Offset: 0x00134C68
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
 			FloatMenuOption failureReason = this.GetFailureReason(myPawn);
@@ -111,13 +110,172 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002425 RID: 9253 RVA: 0x0013689C File Offset: 0x00134C9C
 		public void GiveUseCommsJob(Pawn negotiator, ICommunicable target)
 		{
 			Job job = new Job(JobDefOf.UseCommsConsole, this);
 			job.commTarget = target;
 			negotiator.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.OpeningComms, KnowledgeAmount.Total);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal Pawn myPawn;
+
+			internal FloatMenuOption <failureReason>__1;
+
+			internal IEnumerator<ICommunicable> $locvar0;
+
+			internal ICommunicable <commTarget>__2;
+
+			internal FloatMenuOption <option>__3;
+
+			internal Building_CommsConsole $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetFloatMenuOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					failureReason = base.GetFailureReason(myPawn);
+					if (failureReason != null)
+					{
+						this.$current = failureReason;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					enumerator = base.GetCommTargets(myPawn).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					return false;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 2u:
+						IL_FF:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						commTarget = enumerator.Current;
+						option = commTarget.CommFloatMenuOption(this, myPawn);
+						if (option != null)
+						{
+							this.$current = option;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_FF;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_CommsConsole.<GetFloatMenuOptions>c__Iterator0 <GetFloatMenuOptions>c__Iterator = new Building_CommsConsole.<GetFloatMenuOptions>c__Iterator0();
+				<GetFloatMenuOptions>c__Iterator.$this = this;
+				<GetFloatMenuOptions>c__Iterator.myPawn = myPawn;
+				return <GetFloatMenuOptions>c__Iterator;
+			}
 		}
 	}
 }

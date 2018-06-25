@@ -4,10 +4,12 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000D7 RID: 215
 	public class JobGiver_ManTurretsNearPoint : JobGiver_ManTurrets
 	{
-		// Token: 0x060004C5 RID: 1221 RVA: 0x00035894 File Offset: 0x00033C94
+		public JobGiver_ManTurretsNearPoint()
+		{
+		}
+
 		protected override IntVec3 GetRoot(Pawn pawn)
 		{
 			return pawn.GetLord().CurLordToil.FlagLoc;

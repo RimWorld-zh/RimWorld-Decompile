@@ -3,21 +3,16 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009FA RID: 2554
 	public class LordToil_Travel : LordToil
 	{
-		// Token: 0x0400248C RID: 9356
 		public Danger maxDanger = Danger.Unspecified;
 
-		// Token: 0x06003950 RID: 14672 RVA: 0x000501C3 File Offset: 0x0004E5C3
 		public LordToil_Travel(IntVec3 dest)
 		{
 			this.data = new LordToilData_Travel();
 			this.Data.dest = dest;
 		}
 
-		// Token: 0x170008DD RID: 2269
-		// (get) Token: 0x06003951 RID: 14673 RVA: 0x000501EC File Offset: 0x0004E5EC
 		public override IntVec3 FlagLoc
 		{
 			get
@@ -26,8 +21,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008DE RID: 2270
-		// (get) Token: 0x06003952 RID: 14674 RVA: 0x0005020C File Offset: 0x0004E60C
 		private LordToilData_Travel Data
 		{
 			get
@@ -36,8 +29,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008DF RID: 2271
-		// (get) Token: 0x06003953 RID: 14675 RVA: 0x0005022C File Offset: 0x0004E62C
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -46,8 +37,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008E0 RID: 2272
-		// (get) Token: 0x06003954 RID: 14676 RVA: 0x00050244 File Offset: 0x0004E644
 		protected virtual float AllArrivedCheckRadius
 		{
 			get
@@ -56,7 +45,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003955 RID: 14677 RVA: 0x00050260 File Offset: 0x0004E660
 		public override void UpdateAllDuties()
 		{
 			LordToilData_Travel data = this.Data;
@@ -68,7 +56,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003956 RID: 14678 RVA: 0x000502DC File Offset: 0x0004E6DC
 		public override void LordToilTick()
 		{
 			if (Find.TickManager.TicksGame % 205 == 0)
@@ -91,13 +78,11 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003957 RID: 14679 RVA: 0x00050398 File Offset: 0x0004E798
 		public bool HasDestination()
 		{
 			return this.Data.dest.IsValid;
 		}
 
-		// Token: 0x06003958 RID: 14680 RVA: 0x000503BD File Offset: 0x0004E7BD
 		public void SetDestination(IntVec3 dest)
 		{
 			this.Data.dest = dest;

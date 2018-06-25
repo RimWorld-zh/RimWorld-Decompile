@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000045 RID: 69
 	public abstract class JobDriver_RemoveBuilding : JobDriver
 	{
-		// Token: 0x040001D6 RID: 470
 		private float workLeft = 0f;
 
-		// Token: 0x040001D7 RID: 471
 		private float totalNeededWork = 0f;
 
-		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x0600023E RID: 574 RVA: 0x00017198 File Offset: 0x00015598
+		protected JobDriver_RemoveBuilding()
+		{
+		}
+
 		protected Thing Target
 		{
 			get
@@ -24,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x0600023F RID: 575 RVA: 0x000171C0 File Offset: 0x000155C0
 		protected Building Building
 		{
 			get
@@ -34,15 +35,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700007B RID: 123
-		// (get) Token: 0x06000240 RID: 576
 		protected abstract DesignationDef Designation { get; }
 
-		// Token: 0x1700007C RID: 124
-		// (get) Token: 0x06000241 RID: 577
 		protected abstract int TotalNeededWork { get; }
 
-		// Token: 0x06000242 RID: 578 RVA: 0x000171E5 File Offset: 0x000155E5
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -50,13 +46,11 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.totalNeededWork, "totalNeededWork", 0f, false);
 		}
 
-		// Token: 0x06000243 RID: 579 RVA: 0x0001721C File Offset: 0x0001561C
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Target, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000244 RID: 580 RVA: 0x00017250 File Offset: 0x00015650
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnThingMissingDesignation(TargetIndex.A, this.Designation);
@@ -93,14 +87,192 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000245 RID: 581 RVA: 0x0001727A File Offset: 0x0001567A
 		protected virtual void FinishedRemoving()
 		{
 		}
 
-		// Token: 0x06000246 RID: 582 RVA: 0x0001727D File Offset: 0x0001567D
 		protected virtual void TickAction()
 		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <finalize>__2;
+
+			internal JobDriver_RemoveBuilding $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_RemoveBuilding.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			private static Func<SkillDef> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnThingMissingDesignation(TargetIndex.A, this.Designation);
+					this.FailOnForbidden(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+				{
+					Toil doWork = new Toil().FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					doWork.initAction = delegate()
+					{
+						this.totalNeededWork = (float)this.TotalNeededWork;
+						this.workLeft = this.totalNeededWork;
+					};
+					doWork.tickAction = delegate()
+					{
+						this.workLeft -= this.pawn.GetStatValue(StatDefOf.ConstructionSpeed, true);
+						this.TickAction();
+						if (this.workLeft <= 0f)
+						{
+							doWork.actor.jobs.curDriver.ReadyForNextToil();
+						}
+					};
+					doWork.defaultCompleteMode = ToilCompleteMode.Never;
+					doWork.WithProgressBar(TargetIndex.A, () => 1f - this.workLeft / this.totalNeededWork, false, -0.5f);
+					doWork.activeSkill = (() => SkillDefOf.Construction);
+					this.$current = doWork;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				case 2u:
+				{
+					Toil finalize = new Toil();
+					finalize.initAction = delegate()
+					{
+						this.FinishedRemoving();
+						base.Map.designationManager.RemoveAllDesignationsOn(base.Target, false);
+					};
+					finalize.defaultCompleteMode = ToilCompleteMode.Instant;
+					this.$current = finalize;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_RemoveBuilding.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_RemoveBuilding.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private static SkillDef <>m__0()
+			{
+				return SkillDefOf.Construction;
+			}
+
+			internal void <>m__1()
+			{
+				this.FinishedRemoving();
+				base.Map.designationManager.RemoveAllDesignationsOn(base.Target, false);
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil doWork;
+
+				internal JobDriver_RemoveBuilding.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$0.$this.totalNeededWork = (float)this.<>f__ref$0.$this.TotalNeededWork;
+					this.<>f__ref$0.$this.workLeft = this.<>f__ref$0.$this.totalNeededWork;
+				}
+
+				internal void <>m__1()
+				{
+					this.<>f__ref$0.$this.workLeft -= this.<>f__ref$0.$this.pawn.GetStatValue(StatDefOf.ConstructionSpeed, true);
+					this.<>f__ref$0.$this.TickAction();
+					if (this.<>f__ref$0.$this.workLeft <= 0f)
+					{
+						this.doWork.actor.jobs.curDriver.ReadyForNextToil();
+					}
+				}
+
+				internal float <>m__2()
+				{
+					return 1f - this.<>f__ref$0.$this.workLeft / this.<>f__ref$0.$this.totalNeededWork;
+				}
+			}
 		}
 	}
 }

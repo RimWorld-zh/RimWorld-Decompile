@@ -4,13 +4,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000E8 RID: 232
 	public class JobGiver_PatientGoToBed : ThinkNode
 	{
-		// Token: 0x040002C8 RID: 712
 		public bool respectTimetable = true;
 
-		// Token: 0x060004FE RID: 1278 RVA: 0x00037A7C File Offset: 0x00035E7C
+		public JobGiver_PatientGoToBed()
+		{
+		}
+
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;

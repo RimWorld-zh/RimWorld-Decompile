@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200009E RID: 158
 	public class JobDriver_RemoveApparel : JobDriver
 	{
-		// Token: 0x0400026A RID: 618
 		private int duration;
 
-		// Token: 0x0400026B RID: 619
 		private const TargetIndex ApparelInd = TargetIndex.A;
 
-		// Token: 0x170000C6 RID: 198
-		// (get) Token: 0x060003F8 RID: 1016 RVA: 0x0002EEF8 File Offset: 0x0002D2F8
+		public JobDriver_RemoveApparel()
+		{
+		}
+
 		private Apparel Apparel
 		{
 			get
@@ -24,27 +27,23 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003F9 RID: 1017 RVA: 0x0002EF26 File Offset: 0x0002D326
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.duration, "duration", 0, false);
 		}
 
-		// Token: 0x060003FA RID: 1018 RVA: 0x0002EF44 File Offset: 0x0002D344
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060003FB RID: 1019 RVA: 0x0002EF5A File Offset: 0x0002D35A
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.duration = (int)(this.Apparel.GetStatValue(StatDefOf.EquipDelay, true) * 60f);
 		}
 
-		// Token: 0x060003FC RID: 1020 RVA: 0x0002EF84 File Offset: 0x0002D384
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -97,6 +96,225 @@ namespace RimWorld
 				yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <carryToCell>__1;
+
+			internal JobDriver_RemoveApparel $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDestroyedOrNull(TargetIndex.A);
+					this.$current = Toils_General.Wait(this.duration).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_General.Do(delegate
+					{
+						if (this.pawn.apparel.WornApparel.Contains(base.Apparel))
+						{
+							Apparel apparel;
+							if (this.pawn.apparel.TryDrop(base.Apparel, out apparel))
+							{
+								this.job.targetA = apparel;
+								if (this.job.haulDroppedApparel)
+								{
+									apparel.SetForbidden(false, false);
+									StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(apparel);
+									IntVec3 c;
+									if (StoreUtility.TryFindBestBetterStoreCellFor(apparel, this.pawn, base.Map, currentPriority, this.pawn.Faction, out c, true))
+									{
+										this.job.count = apparel.stackCount;
+										this.job.targetB = c;
+									}
+									else
+									{
+										base.EndJobWith(JobCondition.Incompletable);
+									}
+								}
+								else
+								{
+									base.EndJobWith(JobCondition.Succeeded);
+								}
+							}
+							else
+							{
+								base.EndJobWith(JobCondition.Incompletable);
+							}
+						}
+						else
+						{
+							base.EndJobWith(JobCondition.Incompletable);
+						}
+					});
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					if (this.job.haulDroppedApparel)
+					{
+						this.$current = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+					break;
+				case 3u:
+					this.$current = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false).FailOn(() => !this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation));
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+					this.$current = carryToCell;
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_RemoveApparel.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_RemoveApparel.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				if (this.pawn.apparel.WornApparel.Contains(base.Apparel))
+				{
+					Apparel apparel;
+					if (this.pawn.apparel.TryDrop(base.Apparel, out apparel))
+					{
+						this.job.targetA = apparel;
+						if (this.job.haulDroppedApparel)
+						{
+							apparel.SetForbidden(false, false);
+							StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(apparel);
+							IntVec3 c;
+							if (StoreUtility.TryFindBestBetterStoreCellFor(apparel, this.pawn, base.Map, currentPriority, this.pawn.Faction, out c, true))
+							{
+								this.job.count = apparel.stackCount;
+								this.job.targetB = c;
+							}
+							else
+							{
+								base.EndJobWith(JobCondition.Incompletable);
+							}
+						}
+						else
+						{
+							base.EndJobWith(JobCondition.Succeeded);
+						}
+					}
+					else
+					{
+						base.EndJobWith(JobCondition.Incompletable);
+					}
+				}
+				else
+				{
+					base.EndJobWith(JobCondition.Incompletable);
+				}
+			}
+
+			internal bool <>m__1()
+			{
+				return !this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);
+			}
 		}
 	}
 }

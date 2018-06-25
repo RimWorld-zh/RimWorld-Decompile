@@ -5,51 +5,36 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C9B RID: 3227
 	public sealed class RoomGroupTempTracker
 	{
-		// Token: 0x0400304F RID: 12367
 		private RoomGroup roomGroup;
 
-		// Token: 0x04003050 RID: 12368
 		private float temperatureInt;
 
-		// Token: 0x04003051 RID: 12369
 		private List<IntVec3> equalizeCells = new List<IntVec3>();
 
-		// Token: 0x04003052 RID: 12370
 		private float noRoofCoverage;
 
-		// Token: 0x04003053 RID: 12371
 		private float thickRoofCoverage;
 
-		// Token: 0x04003054 RID: 12372
 		private int cycleIndex = 0;
 
-		// Token: 0x04003055 RID: 12373
 		private const float ThinRoofEqualizeRate = 5E-05f;
 
-		// Token: 0x04003056 RID: 12374
 		private const float NoRoofEqualizeRate = 0.0007f;
 
-		// Token: 0x04003057 RID: 12375
 		private const float DeepEqualizeFractionPerTick = 5E-05f;
 
-		// Token: 0x04003058 RID: 12376
 		private static int debugGetFrame = -999;
 
-		// Token: 0x04003059 RID: 12377
 		private static float debugWallEq;
 
-		// Token: 0x06004705 RID: 18181 RVA: 0x002578A0 File Offset: 0x00255CA0
 		public RoomGroupTempTracker(RoomGroup roomGroup, Map map)
 		{
 			this.roomGroup = roomGroup;
 			this.Temperature = map.mapTemperature.OutdoorTemp;
 		}
 
-		// Token: 0x17000B42 RID: 2882
-		// (get) Token: 0x06004706 RID: 18182 RVA: 0x002578D4 File Offset: 0x00255CD4
 		private Map Map
 		{
 			get
@@ -58,8 +43,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B43 RID: 2883
-		// (get) Token: 0x06004707 RID: 18183 RVA: 0x002578F4 File Offset: 0x00255CF4
 		private float ThinRoofCoverage
 		{
 			get
@@ -68,9 +51,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B44 RID: 2884
-		// (get) Token: 0x06004708 RID: 18184 RVA: 0x0025791C File Offset: 0x00255D1C
-		// (set) Token: 0x06004709 RID: 18185 RVA: 0x00257937 File Offset: 0x00255D37
 		public float Temperature
 		{
 			get
@@ -83,13 +63,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600470A RID: 18186 RVA: 0x00257950 File Offset: 0x00255D50
 		public void RoofChanged()
 		{
 			this.RegenerateEqualizationData();
 		}
 
-		// Token: 0x0600470B RID: 18187 RVA: 0x00257959 File Offset: 0x00255D59
 		public void RoomChanged()
 		{
 			if (this.Map != null)
@@ -99,7 +77,6 @@ namespace Verse
 			this.RegenerateEqualizationData();
 		}
 
-		// Token: 0x0600470C RID: 18188 RVA: 0x00257980 File Offset: 0x00255D80
 		private void RegenerateEqualizationData()
 		{
 			this.thickRoofCoverage = 0f;
@@ -199,7 +176,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600470D RID: 18189 RVA: 0x00257CDC File Offset: 0x002560DC
 		public void EqualizeTemperature()
 		{
 			if (this.roomGroup.UsesOutdoorTemperature)
@@ -216,7 +192,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600470E RID: 18190 RVA: 0x00257D78 File Offset: 0x00256178
 		private float WallEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -249,7 +224,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600470F RID: 18191 RVA: 0x00257E8C File Offset: 0x0025628C
 		private float TempDiffFromOutdoorsAdjusted()
 		{
 			float num = this.Map.mapTemperature.OutdoorTemp - this.temperatureInt;
@@ -265,7 +239,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004710 RID: 18192 RVA: 0x00257EF4 File Offset: 0x002562F4
 		private float ThinRoofEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -283,7 +256,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004711 RID: 18193 RVA: 0x00257F44 File Offset: 0x00256344
 		private float NoRoofEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -301,7 +273,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004712 RID: 18194 RVA: 0x00257F94 File Offset: 0x00256394
 		private float DeepEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -326,7 +297,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004713 RID: 18195 RVA: 0x00258000 File Offset: 0x00256400
 		public void DebugDraw()
 		{
 			foreach (IntVec3 c in this.equalizeCells)
@@ -335,7 +305,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004714 RID: 18196 RVA: 0x00258064 File Offset: 0x00256464
 		internal string DebugString()
 		{
 			string result;
@@ -384,6 +353,11 @@ namespace Verse
 				});
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static RoomGroupTempTracker()
+		{
 		}
 	}
 }

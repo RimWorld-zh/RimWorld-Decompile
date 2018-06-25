@@ -6,28 +6,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020000FE RID: 254
 	public static class WalkPathFinder
 	{
-		// Token: 0x040002D8 RID: 728
 		private const int NumPathNodes = 8;
 
-		// Token: 0x040002D9 RID: 729
 		private const float StepDistMin = 2f;
 
-		// Token: 0x040002DA RID: 730
 		private const float StepDistMax = 14f;
 
-		// Token: 0x040002DB RID: 731
 		private static readonly int StartRadialIndex = GenRadial.NumCellsInRadius(14f);
 
-		// Token: 0x040002DC RID: 732
 		private static readonly int EndRadialIndex = GenRadial.NumCellsInRadius(2f);
 
-		// Token: 0x040002DD RID: 733
 		private static readonly int RadialIndexStride = 3;
 
-		// Token: 0x06000553 RID: 1363 RVA: 0x00039FE4 File Offset: 0x000383E4
 		public static bool TryFindWalkPath(Pawn pawn, IntVec3 root, out List<IntVec3> result)
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -98,7 +90,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000554 RID: 1364 RVA: 0x0003A274 File Offset: 0x00038674
 		public static void DebugFlashWalkPath(IntVec3 root, int numEntries = 8)
 		{
 			Map currentMap = Find.CurrentMap;
@@ -118,6 +109,11 @@ namespace RimWorld
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WalkPathFinder()
+		{
 		}
 	}
 }

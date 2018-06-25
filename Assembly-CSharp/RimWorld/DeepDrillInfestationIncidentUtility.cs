@@ -4,10 +4,8 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000329 RID: 809
 	public static class DeepDrillInfestationIncidentUtility
 	{
-		// Token: 0x06000DCD RID: 3533 RVA: 0x00076208 File Offset: 0x00074608
 		public static void GetUsableDeepDrills(Map map, List<Thing> outDrills)
 		{
 			outDrills.Clear();

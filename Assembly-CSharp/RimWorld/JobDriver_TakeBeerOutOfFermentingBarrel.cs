@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000081 RID: 129
 	public class JobDriver_TakeBeerOutOfFermentingBarrel : JobDriver
 	{
-		// Token: 0x0400023B RID: 571
 		private const TargetIndex BarrelInd = TargetIndex.A;
 
-		// Token: 0x0400023C RID: 572
 		private const TargetIndex BeerToHaulInd = TargetIndex.B;
 
-		// Token: 0x0400023D RID: 573
 		private const TargetIndex StorageCellInd = TargetIndex.C;
 
-		// Token: 0x0400023E RID: 574
 		private const int Duration = 200;
 
-		// Token: 0x170000B2 RID: 178
-		// (get) Token: 0x06000364 RID: 868 RVA: 0x00025814 File Offset: 0x00023C14
+		public JobDriver_TakeBeerOutOfFermentingBarrel()
+		{
+		}
+
 		protected Building_FermentingBarrel Barrel
 		{
 			get
@@ -30,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000B3 RID: 179
-		// (get) Token: 0x06000365 RID: 869 RVA: 0x00025844 File Offset: 0x00023C44
 		protected Thing Beer
 		{
 			get
@@ -40,13 +39,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000366 RID: 870 RVA: 0x00025870 File Offset: 0x00023C70
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Barrel, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000367 RID: 871 RVA: 0x000258A4 File Offset: 0x00023CA4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -82,6 +79,199 @@ namespace RimWorld
 			yield return carryToCell;
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, carryToCell, true);
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <takeBeer>__0;
+
+			internal Toil <carryToCell>__0;
+
+			internal JobDriver_TakeBeerOutOfFermentingBarrel $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					this.FailOnBurningImmobile(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_General.Wait(200).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).FailOn(() => !base.Barrel.Fermented).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+				{
+					Toil takeBeer = new Toil();
+					takeBeer.initAction = delegate()
+					{
+						Thing thing = base.Barrel.TakeOutBeer();
+						GenPlace.TryPlaceThing(thing, this.pawn.Position, base.Map, ThingPlaceMode.Near, null, null);
+						StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(thing);
+						IntVec3 c;
+						if (StoreUtility.TryFindBestBetterStoreCellFor(thing, this.pawn, base.Map, currentPriority, this.pawn.Faction, out c, true))
+						{
+							this.job.SetTarget(TargetIndex.C, c);
+							this.job.SetTarget(TargetIndex.B, thing);
+							this.job.count = thing.stackCount;
+						}
+						else
+						{
+							base.EndJobWith(JobCondition.Incompletable);
+						}
+					};
+					takeBeer.defaultCompleteMode = ToilCompleteMode.Instant;
+					this.$current = takeBeer;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+					this.$current = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = Toils_Reserve.Reserve(TargetIndex.C, 1, -1, null);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$current = Toils_Haul.StartCarryThing(TargetIndex.B, false, false, false);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.C);
+					this.$current = carryToCell;
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				case 8u:
+					this.$current = Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, carryToCell, true);
+					if (!this.$disposing)
+					{
+						this.$PC = 9;
+					}
+					return true;
+				case 9u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_TakeBeerOutOfFermentingBarrel.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_TakeBeerOutOfFermentingBarrel.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !base.Barrel.Fermented;
+			}
+
+			internal void <>m__1()
+			{
+				Thing thing = base.Barrel.TakeOutBeer();
+				GenPlace.TryPlaceThing(thing, this.pawn.Position, base.Map, ThingPlaceMode.Near, null, null);
+				StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(thing);
+				IntVec3 c;
+				if (StoreUtility.TryFindBestBetterStoreCellFor(thing, this.pawn, base.Map, currentPriority, this.pawn.Faction, out c, true))
+				{
+					this.job.SetTarget(TargetIndex.C, c);
+					this.job.SetTarget(TargetIndex.B, thing);
+					this.job.count = thing.stackCount;
+				}
+				else
+				{
+					base.EndJobWith(JobCondition.Incompletable);
+				}
+			}
 		}
 	}
 }

@@ -2,39 +2,46 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000DA4 RID: 3492
 	public class ScribeMetaHeaderUtility
 	{
-		// Token: 0x04003415 RID: 13333
 		private static ScribeMetaHeaderUtility.ScribeHeaderMode lastMode;
 
-		// Token: 0x04003416 RID: 13334
 		public static string loadedGameVersion;
 
-		// Token: 0x04003417 RID: 13335
 		public static List<string> loadedModIdsList;
 
-		// Token: 0x04003418 RID: 13336
 		public static List<string> loadedModNamesList;
 
-		// Token: 0x04003419 RID: 13337
 		public const string MetaNodeName = "meta";
 
-		// Token: 0x0400341A RID: 13338
 		public const string GameVersionNodeName = "gameVersion";
 
-		// Token: 0x0400341B RID: 13339
 		public const string ModIdsNodeName = "modIds";
 
-		// Token: 0x0400341C RID: 13340
 		public const string ModNamesNodeName = "modNames";
 
-		// Token: 0x06004E08 RID: 19976 RVA: 0x0028C894 File Offset: 0x0028AC94
+		[CompilerGenerated]
+		private static Func<ModContentPack, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ModContentPack, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ModContentPack, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<string, string> <>f__am$cache3;
+
+		public ScribeMetaHeaderUtility()
+		{
+		}
+
 		public static void WriteMetaHeader()
 		{
 			if (Scribe.EnterNode("meta"))
@@ -57,7 +64,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E09 RID: 19977 RVA: 0x0028C968 File Offset: 0x0028AD68
 		public static void LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode mode, bool logVersionConflictWarning)
 		{
 			ScribeMetaHeaderUtility.loadedGameVersion = "Unknown";
@@ -98,13 +104,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E0A RID: 19978 RVA: 0x0028CA78 File Offset: 0x0028AE78
 		private static bool VersionsMatch()
 		{
 			return VersionControl.BuildFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) == VersionControl.BuildFromVersionString(VersionControl.CurrentVersionStringWithRev);
 		}
 
-		// Token: 0x06004E0B RID: 19979 RVA: 0x0028CAA4 File Offset: 0x0028AEA4
 		public static bool TryCreateDialogsForVersionMismatchWarnings(Action confirmedAction)
 		{
 			string text = null;
@@ -203,7 +207,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E0C RID: 19980 RVA: 0x0028CC80 File Offset: 0x0028B080
 		public static bool LoadedModsMatchesActiveMods(out string loadedModsSummary, out string runningModsSummary)
 		{
 			loadedModsSummary = null;
@@ -232,7 +235,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E0D RID: 19981 RVA: 0x0028CD34 File Offset: 0x0028B134
 		private static bool ModListsMatch(List<string> a, List<string> b)
 		{
 			bool result;
@@ -258,7 +260,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E0E RID: 19982 RVA: 0x0028CDB0 File Offset: 0x0028B1B0
 		public static string GameVersionOf(FileInfo file)
 		{
 			if (!file.Exists)
@@ -288,13 +289,11 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004E0F RID: 19983 RVA: 0x0028CE98 File Offset: 0x0028B298
 		public static bool ReadToMetaElement(XmlTextReader textReader)
 		{
 			return ScribeMetaHeaderUtility.ReadToNextElement(textReader) && ScribeMetaHeaderUtility.ReadToNextElement(textReader) && !(textReader.Name != "meta");
 		}
 
-		// Token: 0x06004E10 RID: 19984 RVA: 0x0028CEF0 File Offset: 0x0028B2F0
 		private static bool ReadToNextElement(XmlTextReader textReader)
 		{
 			while (textReader.Read())
@@ -307,17 +306,79 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x02000DA5 RID: 3493
+		[CompilerGenerated]
+		private static string <WriteMetaHeader>m__0(ModContentPack mod)
+		{
+			return mod.Identifier;
+		}
+
+		[CompilerGenerated]
+		private static string <WriteMetaHeader>m__1(ModContentPack mod)
+		{
+			return mod.Name;
+		}
+
+		[CompilerGenerated]
+		private static string <LoadedModsMatchesActiveMods>m__2(ModContentPack mod)
+		{
+			return mod.Identifier;
+		}
+
+		[CompilerGenerated]
+		private static string <LoadedModsMatchesActiveMods>m__3(string id)
+		{
+			return ModLister.GetModWithIdentifier(id).Name;
+		}
+
 		public enum ScribeHeaderMode
 		{
-			// Token: 0x04003422 RID: 13346
 			None,
-			// Token: 0x04003423 RID: 13347
 			Map,
-			// Token: 0x04003424 RID: 13348
 			World,
-			// Token: 0x04003425 RID: 13349
 			Scenario
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryCreateDialogsForVersionMismatchWarnings>c__AnonStorey0
+		{
+			internal Dialog_MessageBox dialog;
+
+			private static Func<int, bool> <>f__am$cache0;
+
+			private static Func<int, string> <>f__am$cache1;
+
+			public <TryCreateDialogsForVersionMismatchWarnings>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				int num = ModLister.InstalledModsListHash(false);
+				ModsConfig.SetActiveToList(ScribeMetaHeaderUtility.loadedModIdsList);
+				ModsConfig.Save();
+				if (num == ModLister.InstalledModsListHash(false))
+				{
+					IEnumerable<string> items = from id in Enumerable.Range(0, ScribeMetaHeaderUtility.loadedModIdsList.Count)
+					where ModLister.GetModWithIdentifier(ScribeMetaHeaderUtility.loadedModIdsList[id]) == null
+					select ScribeMetaHeaderUtility.loadedModNamesList[id];
+					Messages.Message(string.Format("{0}: {1}", "MissingMods".Translate(), items.ToCommaList(false)), MessageTypeDefOf.RejectInput, false);
+					this.dialog.buttonCClose = false;
+				}
+				else
+				{
+					ModsConfig.RestartFromChangedMods();
+				}
+			}
+
+			private static bool <>m__1(int id)
+			{
+				return ModLister.GetModWithIdentifier(ScribeMetaHeaderUtility.loadedModIdsList[id]) == null;
+			}
+
+			private static string <>m__2(int id)
+			{
+				return ScribeMetaHeaderUtility.loadedModNamesList[id];
+			}
 		}
 	}
 }

@@ -4,14 +4,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200015B RID: 347
 	public class WorkGiver_RescueDowned : WorkGiver_TakeToBed
 	{
-		// Token: 0x04000331 RID: 817
 		private const float MinDistFromEnemy = 40f;
 
-		// Token: 0x17000118 RID: 280
-		// (get) Token: 0x06000726 RID: 1830 RVA: 0x00048774 File Offset: 0x00046B74
+		public WorkGiver_RescueDowned()
+		{
+		}
+
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -20,14 +20,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000727 RID: 1831 RVA: 0x0004878C File Offset: 0x00046B8C
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x17000119 RID: 281
-		// (get) Token: 0x06000728 RID: 1832 RVA: 0x000487A4 File Offset: 0x00046BA4
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -36,7 +33,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000729 RID: 1833 RVA: 0x000487C0 File Offset: 0x00046BC0
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -52,7 +48,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600072A RID: 1834 RVA: 0x00048870 File Offset: 0x00046C70
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;

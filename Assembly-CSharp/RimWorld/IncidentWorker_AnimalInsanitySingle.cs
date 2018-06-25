@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000325 RID: 805
 	public class IncidentWorker_AnimalInsanitySingle : IncidentWorker
 	{
-		// Token: 0x040008C5 RID: 2245
 		private const int FixedPoints = 30;
 
-		// Token: 0x06000DBC RID: 3516 RVA: 0x00075864 File Offset: 0x00073C64
+		public IncidentWorker_AnimalInsanitySingle()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -27,7 +29,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DBD RID: 3517 RVA: 0x000758A4 File Offset: 0x00073CA4
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -50,7 +51,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DBE RID: 3518 RVA: 0x00075920 File Offset: 0x00073D20
 		private bool TryFindRandomAnimal(Map map, out Pawn animal)
 		{
 			int maxPoints = 150;
@@ -61,6 +61,21 @@ namespace RimWorld
 			return (from p in map.mapPawns.AllPawnsSpawned
 			where p.RaceProps.Animal && p.kindDef.combatPower <= (float)maxPoints && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
 			select p).TryRandomElement(out animal);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomAnimal>c__AnonStorey0
+		{
+			internal int maxPoints;
+
+			public <TryFindRandomAnimal>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn p)
+			{
+				return p.RaceProps.Animal && p.kindDef.combatPower <= (float)this.maxPoints && IncidentWorker_AnimalInsanityMass.AnimalUsable(p);
+			}
 		}
 	}
 }

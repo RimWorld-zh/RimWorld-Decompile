@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A0 RID: 1952
 	public class Alert_ColonistsIdle : Alert
 	{
-		// Token: 0x04001739 RID: 5945
 		public const int MinDaysPassed = 1;
 
-		// Token: 0x170006B8 RID: 1720
-		// (get) Token: 0x06002B39 RID: 11065 RVA: 0x0016DA8C File Offset: 0x0016BE8C
+		public Alert_ColonistsIdle()
+		{
+		}
+
 		private IEnumerable<Pawn> IdleColonists
 		{
 			get
@@ -36,13 +40,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B3A RID: 11066 RVA: 0x0016DAB0 File Offset: 0x0016BEB0
 		public override string GetLabel()
 		{
 			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count<Pawn>().ToStringCached());
 		}
 
-		// Token: 0x06002B3B RID: 11067 RVA: 0x0016DAE4 File Offset: 0x0016BEE4
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -53,7 +55,6 @@ namespace RimWorld
 			return string.Format("ColonistsIdleDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B3C RID: 11068 RVA: 0x0016DB78 File Offset: 0x0016BF78
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -66,6 +67,163 @@ namespace RimWorld
 				result = AlertReport.CulpritsAre(this.IdleColonists);
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal List<Map> <maps>__0;
+
+			internal int <i>__1;
+
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__2;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					maps = Find.Maps;
+					i = 0;
+					goto IL_11D;
+				case 1u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						case 1u:
+							IL_DC:
+							break;
+						}
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							if (p.mindState.IsIdle)
+							{
+								this.$current = p;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_DC;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					break;
+				default:
+					return false;
+				}
+				IL_10E:
+				i++;
+				IL_11D:
+				if (i >= maps.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (maps[i].IsPlayerHome)
+					{
+						enumerator = maps[i].mapPawns.FreeColonistsSpawned.GetEnumerator();
+						num = 4294967293u;
+						goto Block_3;
+					}
+					goto IL_10E;
+				}
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Alert_ColonistsIdle.<>c__Iterator0();
+			}
 		}
 	}
 }

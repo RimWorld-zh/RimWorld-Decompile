@@ -1,95 +1,74 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E6 RID: 742
 	public class ThoughtDef : Def
 	{
-		// Token: 0x040007B2 RID: 1970
 		public Type thoughtClass = null;
 
-		// Token: 0x040007B3 RID: 1971
 		public Type workerClass = null;
 
-		// Token: 0x040007B4 RID: 1972
 		public List<ThoughtStage> stages = new List<ThoughtStage>();
 
-		// Token: 0x040007B5 RID: 1973
 		public int stackLimit = 1;
 
-		// Token: 0x040007B6 RID: 1974
 		public float stackedEffectMultiplier = 0.75f;
 
-		// Token: 0x040007B7 RID: 1975
 		public float durationDays = 0f;
 
-		// Token: 0x040007B8 RID: 1976
 		public bool invert = false;
 
-		// Token: 0x040007B9 RID: 1977
 		public bool validWhileDespawned = false;
 
-		// Token: 0x040007BA RID: 1978
 		public ThoughtDef nextThought = null;
 
-		// Token: 0x040007BB RID: 1979
 		public List<TraitDef> nullifyingTraits = null;
 
-		// Token: 0x040007BC RID: 1980
 		public List<TaleDef> nullifyingOwnTales = null;
 
-		// Token: 0x040007BD RID: 1981
 		public List<TraitDef> requiredTraits = null;
 
-		// Token: 0x040007BE RID: 1982
 		public int requiredTraitsDegree = int.MinValue;
 
-		// Token: 0x040007BF RID: 1983
 		public StatDef effectMultiplyingStat = null;
 
-		// Token: 0x040007C0 RID: 1984
 		public HediffDef hediff;
 
-		// Token: 0x040007C1 RID: 1985
 		public GameConditionDef gameCondition;
 
-		// Token: 0x040007C2 RID: 1986
 		public bool nullifiedIfNotColonist;
 
-		// Token: 0x040007C3 RID: 1987
 		public ThoughtDef thoughtToMake = null;
 
-		// Token: 0x040007C4 RID: 1988
 		[NoTranslate]
 		private string icon = null;
 
-		// Token: 0x040007C5 RID: 1989
 		public bool showBubble = false;
 
-		// Token: 0x040007C6 RID: 1990
 		public int stackLimitForSameOtherPawn = -1;
 
-		// Token: 0x040007C7 RID: 1991
 		public float lerpOpinionToZeroAfterDurationPct = 0.7f;
 
-		// Token: 0x040007C8 RID: 1992
 		public float maxCumulatedOpinionOffset = float.MaxValue;
 
-		// Token: 0x040007C9 RID: 1993
 		public TaleDef taleDef;
 
-		// Token: 0x040007CA RID: 1994
 		[Unsaved]
 		private ThoughtWorker workerInt = null;
 
-		// Token: 0x040007CB RID: 1995
 		private Texture2D iconInt;
 
-		// Token: 0x170001CB RID: 459
-		// (get) Token: 0x06000C33 RID: 3123 RVA: 0x0006C400 File Offset: 0x0006A800
+		public ThoughtDef()
+		{
+		}
+
 		public string Label
 		{
 			get
@@ -119,8 +98,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001CC RID: 460
-		// (get) Token: 0x06000C34 RID: 3124 RVA: 0x0006C4C4 File Offset: 0x0006A8C4
 		public int DurationTicks
 		{
 			get
@@ -129,8 +106,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001CD RID: 461
-		// (get) Token: 0x06000C35 RID: 3125 RVA: 0x0006C4E8 File Offset: 0x0006A8E8
 		public bool IsMemory
 		{
 			get
@@ -139,8 +114,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001CE RID: 462
-		// (get) Token: 0x06000C36 RID: 3126 RVA: 0x0006C528 File Offset: 0x0006A928
 		public bool IsSituational
 		{
 			get
@@ -149,8 +122,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001CF RID: 463
-		// (get) Token: 0x06000C37 RID: 3127 RVA: 0x0006C54C File Offset: 0x0006A94C
 		public bool IsSocial
 		{
 			get
@@ -159,8 +130,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001D0 RID: 464
-		// (get) Token: 0x06000C38 RID: 3128 RVA: 0x0006C578 File Offset: 0x0006A978
 		public bool RequiresSpecificTraitsDegree
 		{
 			get
@@ -169,8 +138,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001D1 RID: 465
-		// (get) Token: 0x06000C39 RID: 3129 RVA: 0x0006C5A0 File Offset: 0x0006A9A0
 		public ThoughtWorker Worker
 		{
 			get
@@ -184,8 +151,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001D2 RID: 466
-		// (get) Token: 0x06000C3A RID: 3130 RVA: 0x0006C5F8 File Offset: 0x0006A9F8
 		public Type ThoughtClass
 		{
 			get
@@ -207,8 +172,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001D3 RID: 467
-		// (get) Token: 0x06000C3B RID: 3131 RVA: 0x0006C64C File Offset: 0x0006AA4C
 		public Texture2D Icon
 		{
 			get
@@ -225,7 +188,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C3C RID: 3132 RVA: 0x0006C6A0 File Offset: 0x0006AAA0
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -261,10 +223,263 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C3D RID: 3133 RVA: 0x0006C6CC File Offset: 0x0006AACC
 		public static ThoughtDef Named(string defName)
 		{
 			return DefDatabase<ThoughtDef>.GetNamed(defName, true);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <error>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<string> $locvar1;
+
+			internal string <e>__3;
+
+			internal ThoughtDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FC;
+				case 3u:
+					goto IL_13B;
+				case 4u:
+					goto IL_17A;
+				case 5u:
+					goto IL_1C9;
+				case 6u:
+					Block_16:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							e = enumerator2.Current;
+							this.$current = e;
+							if (!this.$disposing)
+							{
+								this.$PC = 6;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					goto IL_293;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						error = enumerator.Current;
+						this.$current = error;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.stages.NullOrEmpty<ThoughtStage>())
+				{
+					this.$current = "no stages";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_FC:
+				if (this.workerClass != null && this.nextThought != null)
+				{
+					this.$current = "has a nextThought but also has a workerClass. nextThought only works for memories";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_13B:
+				if (base.IsMemory && this.workerClass != null)
+				{
+					this.$current = "has a workerClass but is a memory. workerClass only works for situational thoughts, not memories";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_17A:
+				if (!base.IsMemory && this.workerClass == null && base.IsSituational)
+				{
+					this.$current = "is a situational thought but has no workerClass. Situational thoughts require workerClasses to analyze the situation";
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_1C9:
+				i = 0;
+				goto IL_2A2;
+				IL_293:
+				i++;
+				IL_2A2:
+				if (i >= this.stages.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.stages[i] != null)
+					{
+						enumerator2 = this.stages[i].ConfigErrors().GetEnumerator();
+						num = 4294967293u;
+						goto Block_16;
+					}
+					goto IL_293;
+				}
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 6u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThoughtDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ThoughtDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

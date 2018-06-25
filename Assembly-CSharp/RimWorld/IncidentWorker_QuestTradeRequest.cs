@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000359 RID: 857
 	public class IncidentWorker_QuestTradeRequest : IncidentWorker
 	{
-		// Token: 0x04000916 RID: 2326
 		private static readonly IntRange RandomDurationRangeDays = new IntRange(18, 38);
 
-		// Token: 0x04000917 RID: 2327
 		private const int MaxDurationDays = 40;
 
-		// Token: 0x04000918 RID: 2328
 		private const float MinTravelTimeFraction = 0.35f;
 
-		// Token: 0x04000919 RID: 2329
 		private const float MinTravelTimeAbsolute = 6f;
 
-		// Token: 0x0400091A RID: 2330
 		private const int MaxTileDistance = 36;
 
-		// Token: 0x0400091B RID: 2331
 		private static readonly IntRange BaseValueWantedRange = new IntRange(500, 2500);
 
-		// Token: 0x0400091C RID: 2332
 		private static readonly SimpleCurve ValueWantedFactorFromWealthCurve = new SimpleCurve
 		{
 			{
@@ -45,10 +38,8 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0400091D RID: 2333
 		private static readonly FloatRange RewardValueFactorRange = new FloatRange(1.8f, 2.5f);
 
-		// Token: 0x0400091E RID: 2334
 		private static readonly SimpleCurve RewardValueFactorFromWealthCurve = new SimpleCurve
 		{
 			{
@@ -65,20 +56,20 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0400091F RID: 2335
 		private static Dictionary<ThingDef, int> requestCountDict = new Dictionary<ThingDef, int>();
 
-		// Token: 0x04000920 RID: 2336
 		private static List<Map> tmpAvailableMaps = new List<Map>();
 
-		// Token: 0x06000ECB RID: 3787 RVA: 0x0007CFF4 File Offset: 0x0007B3F4
+		public IncidentWorker_QuestTradeRequest()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map;
 			return base.CanFireNowSub(parms) && this.TryGetRandomAvailableTargetMap(out map) && IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile) != null;
 		}
 
-		// Token: 0x06000ECC RID: 3788 RVA: 0x0007D04C File Offset: 0x0007B44C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map;
@@ -120,7 +111,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECD RID: 3789 RVA: 0x0007D194 File Offset: 0x0007B594
 		public bool TryGenerateTradeRequest(TradeRequestComp target, Map map)
 		{
 			int num = this.RandomOfferDurationTicks(map.Tile, target.parent.Tile);
@@ -143,7 +133,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECE RID: 3790 RVA: 0x0007D238 File Offset: 0x0007B638
 		public static Settlement RandomNearbyTradeableSettlement(int originTile)
 		{
 			return (from settlement in Find.WorldObjects.Settlements
@@ -151,7 +140,6 @@ namespace RimWorld
 			select settlement).RandomElementWithFallback(null);
 		}
 
-		// Token: 0x06000ECF RID: 3791 RVA: 0x0007D27C File Offset: 0x0007B67C
 		private static bool TryFindRandomRequestedThingDef(Map map, out ThingDef thingDef, out int count)
 		{
 			IncidentWorker_QuestTradeRequest.requestCountDict.Clear();
@@ -210,7 +198,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ED0 RID: 3792 RVA: 0x0007D2F8 File Offset: 0x0007B6F8
 		private bool TryGetRandomAvailableTargetMap(out Map map)
 		{
 			IncidentWorker_QuestTradeRequest.tmpAvailableMaps.Clear();
@@ -227,7 +214,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ED1 RID: 3793 RVA: 0x0007D39C File Offset: 0x0007B79C
 		private static int RandomRequestCount(ThingDef thingDef, Map map)
 		{
 			float num = (float)IncidentWorker_QuestTradeRequest.BaseValueWantedRange.RandomInRange;
@@ -235,7 +221,6 @@ namespace RimWorld
 			return ThingUtility.RoundedResourceStackCount(Mathf.Max(1, Mathf.RoundToInt(num / thingDef.BaseMarketValue)));
 		}
 
-		// Token: 0x06000ED2 RID: 3794 RVA: 0x0007D3F0 File Offset: 0x0007B7F0
 		private static List<Thing> GenerateRewardsFor(ThingDef thingDef, int quantity, Faction faction, Map map)
 		{
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
@@ -265,7 +250,6 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000ED3 RID: 3795 RVA: 0x0007D530 File Offset: 0x0007B930
 		private int RandomOfferDurationTicks(int tileIdFrom, int tileIdTo)
 		{
 			int randomInRange = IncidentWorker_QuestTradeRequest.RandomDurationRangeDays.RandomInRange;
@@ -285,7 +269,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ED4 RID: 3796 RVA: 0x0007D5A4 File Offset: 0x0007B9A4
 		private bool AtLeast2HealthyColonists(Map map)
 		{
 			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer);
@@ -305,6 +288,98 @@ namespace RimWorld
 				}
 			}
 			return false;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_QuestTradeRequest()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomNearbyTradeableSettlement>c__AnonStorey0
+		{
+			internal int originTile;
+
+			public <RandomNearbyTradeableSettlement>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Settlement settlement)
+			{
+				return settlement.Visitable && settlement.GetComponent<TradeRequestComp>() != null && !settlement.GetComponent<TradeRequestComp>().ActiveRequest && Find.WorldGrid.ApproxDistanceInTiles(this.originTile, settlement.Tile) < 36f && Find.WorldReachability.CanReach(this.originTile, settlement.Tile);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomRequestedThingDef>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal Func<ThingDef, bool> globalValidator;
+
+			public <TryFindRandomRequestedThingDef>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingDef td)
+			{
+				bool result;
+				if (td.BaseMarketValue / td.BaseMass < 5f)
+				{
+					result = false;
+				}
+				else if (!td.alwaysHaulable)
+				{
+					result = false;
+				}
+				else
+				{
+					CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
+					if (compProperties != null && compProperties.daysToRotStart < 10f)
+					{
+						result = false;
+					}
+					else if (td.ingestible != null && td.ingestible.HumanEdible)
+					{
+						result = false;
+					}
+					else if (td == ThingDefOf.Silver)
+					{
+						result = false;
+					}
+					else if (!td.PlayerAcquirable)
+					{
+						result = false;
+					}
+					else
+					{
+						int num = IncidentWorker_QuestTradeRequest.RandomRequestCount(td, this.map);
+						IncidentWorker_QuestTradeRequest.requestCountDict.Add(td, num);
+						result = PlayerItemAccessibilityUtility.PossiblyAccessible(td, num, this.map);
+					}
+				}
+				return result;
+			}
+
+			internal bool <>m__1(ThingDef td)
+			{
+				return this.globalValidator(td);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateRewardsFor>c__AnonStorey2
+		{
+			internal ThingDef thingDef;
+
+			public <GenerateRewardsFor>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(ThingDef td)
+			{
+				return td != this.thingDef;
+			}
 		}
 	}
 }

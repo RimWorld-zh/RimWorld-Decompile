@@ -5,11 +5,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000195 RID: 405
 	public class LordToil_KidnapCover : LordToil_DoOpportunisticTaskOrCover
 	{
-		// Token: 0x17000154 RID: 340
-		// (get) Token: 0x0600085E RID: 2142 RVA: 0x0004FE34 File Offset: 0x0004E234
+		public LordToil_KidnapCover()
+		{
+		}
+
 		protected override DutyDef DutyDef
 		{
 			get
@@ -18,8 +19,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000155 RID: 341
-		// (get) Token: 0x0600085F RID: 2143 RVA: 0x0004FE50 File Offset: 0x0004E250
 		public override bool ForceHighStoryDanger
 		{
 			get
@@ -28,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000156 RID: 342
-		// (get) Token: 0x06000860 RID: 2144 RVA: 0x0004FE6C File Offset: 0x0004E26C
 		public override bool AllowSelfTend
 		{
 			get
@@ -38,7 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000861 RID: 2145 RVA: 0x0004FE84 File Offset: 0x0004E284
 		protected override bool TryFindGoodOpportunisticTaskTarget(Pawn pawn, out Thing target, List<Thing> alreadyTakenTargets)
 		{
 			bool result;

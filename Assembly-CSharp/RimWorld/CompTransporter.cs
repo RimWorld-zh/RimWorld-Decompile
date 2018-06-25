@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
@@ -7,48 +11,37 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000744 RID: 1860
 	[StaticConstructorOnStartup]
 	public class CompTransporter : ThingComp, IThingHolder
 	{
-		// Token: 0x04001675 RID: 5749
 		public int groupID = -1;
 
-		// Token: 0x04001676 RID: 5750
 		public ThingOwner innerContainer;
 
-		// Token: 0x04001677 RID: 5751
 		public List<TransferableOneWay> leftToLoad;
 
-		// Token: 0x04001678 RID: 5752
 		private CompLaunchable cachedCompLaunchable;
 
-		// Token: 0x04001679 RID: 5753
 		private static readonly Texture2D CancelLoadCommandTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
 
-		// Token: 0x0400167A RID: 5754
 		private static readonly Texture2D LoadCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter", true);
 
-		// Token: 0x0400167B RID: 5755
 		private static readonly Texture2D SelectPreviousInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectPreviousTransporter", true);
 
-		// Token: 0x0400167C RID: 5756
 		private static readonly Texture2D SelectAllInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectAllTransporters", true);
 
-		// Token: 0x0400167D RID: 5757
 		private static readonly Texture2D SelectNextInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectNextTransporter", true);
 
-		// Token: 0x0400167E RID: 5758
 		private static List<CompTransporter> tmpTransportersInGroup = new List<CompTransporter>();
 
-		// Token: 0x06002919 RID: 10521 RVA: 0x0015E61D File Offset: 0x0015CA1D
+		[CompilerGenerated]
+		private static Predicate<TransferableOneWay> <>f__am$cache0;
+
 		public CompTransporter()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
 		}
 
-		// Token: 0x1700065D RID: 1629
-		// (get) Token: 0x0600291A RID: 10522 RVA: 0x0015E63C File Offset: 0x0015CA3C
 		public CompProperties_Transporter Props
 		{
 			get
@@ -57,8 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065E RID: 1630
-		// (get) Token: 0x0600291B RID: 10523 RVA: 0x0015E65C File Offset: 0x0015CA5C
 		public Map Map
 		{
 			get
@@ -67,8 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065F RID: 1631
-		// (get) Token: 0x0600291C RID: 10524 RVA: 0x0015E67C File Offset: 0x0015CA7C
 		public bool AnythingLeftToLoad
 		{
 			get
@@ -77,8 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000660 RID: 1632
-		// (get) Token: 0x0600291D RID: 10525 RVA: 0x0015E6A0 File Offset: 0x0015CAA0
 		public bool LoadingInProgressOrReadyToLaunch
 		{
 			get
@@ -87,8 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000661 RID: 1633
-		// (get) Token: 0x0600291E RID: 10526 RVA: 0x0015E6C4 File Offset: 0x0015CAC4
 		public bool AnyInGroupHasAnythingLeftToLoad
 		{
 			get
@@ -97,8 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000662 RID: 1634
-		// (get) Token: 0x0600291F RID: 10527 RVA: 0x0015E6E8 File Offset: 0x0015CAE8
 		public CompLaunchable Launchable
 		{
 			get
@@ -111,8 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000663 RID: 1635
-		// (get) Token: 0x06002920 RID: 10528 RVA: 0x0015E720 File Offset: 0x0015CB20
 		public Thing FirstThingLeftToLoad
 		{
 			get
@@ -138,8 +119,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000664 RID: 1636
-		// (get) Token: 0x06002921 RID: 10529 RVA: 0x0015E784 File Offset: 0x0015CB84
 		public Thing FirstThingLeftToLoadInGroup
 		{
 			get
@@ -157,7 +136,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002922 RID: 10530 RVA: 0x0015E7E0 File Offset: 0x0015CBE0
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -169,19 +147,16 @@ namespace RimWorld
 			Scribe_Collections.Look<TransferableOneWay>(ref this.leftToLoad, "leftToLoad", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06002923 RID: 10531 RVA: 0x0015E838 File Offset: 0x0015CC38
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06002924 RID: 10532 RVA: 0x0015E853 File Offset: 0x0015CC53
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06002925 RID: 10533 RVA: 0x0015E864 File Offset: 0x0015CC64
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -199,7 +174,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002926 RID: 10534 RVA: 0x0015E908 File Offset: 0x0015CD08
 		public List<CompTransporter> TransportersInGroup(Map map)
 		{
 			List<CompTransporter> result;
@@ -215,7 +189,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002927 RID: 10535 RVA: 0x0015E948 File Offset: 0x0015CD48
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo g in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -306,7 +279,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002928 RID: 10536 RVA: 0x0015E974 File Offset: 0x0015CD74
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -317,7 +289,6 @@ namespace RimWorld
 			this.innerContainer.TryDropAll(this.parent.Position, map, ThingPlaceMode.Near, null, null);
 		}
 
-		// Token: 0x06002929 RID: 10537 RVA: 0x0015E9C8 File Offset: 0x0015CDC8
 		public void AddToTheToLoadList(TransferableOneWay t, int count)
 		{
 			if (t.HasAnyThing && t.CountToTransfer > 0)
@@ -340,25 +311,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600292A RID: 10538 RVA: 0x0015EA5A File Offset: 0x0015CE5A
 		public void Notify_ThingAdded(Thing t)
 		{
 			this.SubtractFromToLoadList(t, t.stackCount);
 		}
 
-		// Token: 0x0600292B RID: 10539 RVA: 0x0015EA6A File Offset: 0x0015CE6A
 		public void Notify_ThingAddedAndMergedWith(Thing t, int mergedCount)
 		{
 			this.SubtractFromToLoadList(t, mergedCount);
 		}
 
-		// Token: 0x0600292C RID: 10540 RVA: 0x0015EA78 File Offset: 0x0015CE78
 		public bool CancelLoad()
 		{
 			return this.CancelLoad(this.Map);
 		}
 
-		// Token: 0x0600292D RID: 10541 RVA: 0x0015EA9C File Offset: 0x0015CE9C
 		public bool CancelLoad(Map map)
 		{
 			bool result;
@@ -380,7 +347,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600292E RID: 10542 RVA: 0x0015EB00 File Offset: 0x0015CF00
 		public void TryRemoveLord(Map map)
 		{
 			if (this.LoadingInProgressOrReadyToLaunch)
@@ -393,7 +359,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600292F RID: 10543 RVA: 0x0015EB3D File Offset: 0x0015CF3D
 		public void CleanUpLoadingVars(Map map)
 		{
 			this.groupID = -1;
@@ -404,7 +369,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002930 RID: 10544 RVA: 0x0015EB78 File Offset: 0x0015CF78
 		private void SubtractFromToLoadList(Thing t, int count)
 		{
 			if (this.leftToLoad != null)
@@ -425,7 +389,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002931 RID: 10545 RVA: 0x0015EBFC File Offset: 0x0015CFFC
 		private void SelectPreviousInGroup()
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
@@ -433,7 +396,6 @@ namespace RimWorld
 			CameraJumper.TryJumpAndSelect(list[GenMath.PositiveMod(num - 1, list.Count)].parent);
 		}
 
-		// Token: 0x06002932 RID: 10546 RVA: 0x0015EC44 File Offset: 0x0015D044
 		private void SelectAllInGroup()
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
@@ -445,12 +407,310 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002933 RID: 10547 RVA: 0x0015EC98 File Offset: 0x0015D098
 		private void SelectNextInGroup()
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
 			int num = list.IndexOf(this);
 			CameraJumper.TryJumpAndSelect(list[(num + 1) % list.Count].parent);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CompTransporter()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <get_FirstThingLeftToLoad>m__0(TransferableOneWay x)
+		{
+			return x.CountToTransfer != 0 && x.HasAnyThing;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <CompGetGizmosExtra>__BaseCallProxy0()
+		{
+			return base.CompGetGizmosExtra();
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Action <cancelLoad>__2;
+
+			internal Command_Action <selectPreviousInGroup>__2;
+
+			internal Command_Action <selectAllInGroup>__2;
+
+			internal Command_Action <selectNextInGroup>__2;
+
+			internal Command_LoadToTransporter <loadGroup>__3;
+
+			internal int <selectedTransportersCount>__3;
+
+			internal CompLaunchable <launchable>__3;
+
+			internal CompTransporter $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<CompGetGizmosExtra>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+				{
+					Command_Action selectPreviousInGroup = new Command_Action();
+					selectPreviousInGroup.defaultLabel = "CommandSelectPreviousTransporter".Translate();
+					selectPreviousInGroup.defaultDesc = "CommandSelectPreviousTransporterDesc".Translate();
+					selectPreviousInGroup.icon = CompTransporter.SelectPreviousInGroupCommandTex;
+					selectPreviousInGroup.action = delegate()
+					{
+						base.SelectPreviousInGroup();
+					};
+					this.$current = selectPreviousInGroup;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+				{
+					Command_Action selectAllInGroup = new Command_Action();
+					selectAllInGroup.defaultLabel = "CommandSelectAllTransporters".Translate();
+					selectAllInGroup.defaultDesc = "CommandSelectAllTransportersDesc".Translate();
+					selectAllInGroup.icon = CompTransporter.SelectAllInGroupCommandTex;
+					selectAllInGroup.action = delegate()
+					{
+						base.SelectAllInGroup();
+					};
+					this.$current = selectAllInGroup;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				case 4u:
+				{
+					Command_Action selectNextInGroup = new Command_Action();
+					selectNextInGroup.defaultLabel = "CommandSelectNextTransporter".Translate();
+					selectNextInGroup.defaultDesc = "CommandSelectNextTransporterDesc".Translate();
+					selectNextInGroup.icon = CompTransporter.SelectNextInGroupCommandTex;
+					selectNextInGroup.action = delegate()
+					{
+						base.SelectNextInGroup();
+					};
+					this.$current = selectNextInGroup;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				case 5u:
+					goto IL_460;
+				case 6u:
+					goto IL_460;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (base.LoadingInProgressOrReadyToLaunch)
+				{
+					Command_Action cancelLoad = new Command_Action();
+					cancelLoad.defaultLabel = "CommandCancelLoad".Translate();
+					cancelLoad.defaultDesc = "CommandCancelLoadDesc".Translate();
+					cancelLoad.icon = CompTransporter.CancelLoadCommandTex;
+					cancelLoad.action = delegate()
+					{
+						SoundDefOf.Designate_Cancel.PlayOneShotOnCamera(null);
+						base.CancelLoad();
+					};
+					this.$current = cancelLoad;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				loadGroup = new Command_LoadToTransporter();
+				selectedTransportersCount = 0;
+				for (int i = 0; i < Find.Selector.NumSelected; i++)
+				{
+					Thing thing = Find.Selector.SelectedObjectsListForReading[i] as Thing;
+					if (thing != null && thing.def == this.parent.def)
+					{
+						CompLaunchable compLaunchable = thing.TryGetComp<CompLaunchable>();
+						if (compLaunchable == null || (compLaunchable.FuelingPortSource != null && compLaunchable.FuelingPortSourceHasAnyFuel))
+						{
+							selectedTransportersCount++;
+						}
+					}
+				}
+				loadGroup.defaultLabel = "CommandLoadTransporter".Translate(new object[]
+				{
+					selectedTransportersCount.ToString()
+				});
+				loadGroup.defaultDesc = "CommandLoadTransporterDesc".Translate();
+				loadGroup.icon = CompTransporter.LoadCommandTex;
+				loadGroup.transComp = this;
+				launchable = base.Launchable;
+				if (launchable != null)
+				{
+					if (!launchable.ConnectedToFuelingPort)
+					{
+						loadGroup.Disable("CommandLoadTransporterFailNotConnectedToFuelingPort".Translate());
+					}
+					else if (!launchable.FuelingPortSourceHasAnyFuel)
+					{
+						loadGroup.Disable("CommandLoadTransporterFailNoFuel".Translate());
+					}
+				}
+				this.$current = loadGroup;
+				if (!this.$disposing)
+				{
+					this.$PC = 6;
+				}
+				return true;
+				IL_460:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompTransporter.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompTransporter.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				SoundDefOf.Designate_Cancel.PlayOneShotOnCamera(null);
+				base.CancelLoad();
+			}
+
+			internal void <>m__1()
+			{
+				base.SelectPreviousInGroup();
+			}
+
+			internal void <>m__2()
+			{
+				base.SelectAllInGroup();
+			}
+
+			internal void <>m__3()
+			{
+				base.SelectNextInGroup();
+			}
 		}
 	}
 }

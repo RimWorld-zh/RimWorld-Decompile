@@ -3,22 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006E9 RID: 1769
 	public static class SkyfallerShrapnelUtility
 	{
-		// Token: 0x04001578 RID: 5496
 		private const float ShrapnelDistanceFront = 6f;
 
-		// Token: 0x04001579 RID: 5497
 		private const float ShrapnelDistanceSide = 4f;
 
-		// Token: 0x0400157A RID: 5498
 		private const float ShrapnelDistanceBack = 30f;
 
-		// Token: 0x0400157B RID: 5499
 		private const int MotesPerShrapnel = 2;
 
-		// Token: 0x0400157C RID: 5500
 		private static readonly SimpleCurve ShrapnelDistanceFromAngle = new SimpleCurve
 		{
 			{
@@ -51,7 +45,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0400157D RID: 5501
 		private static readonly SimpleCurve ShrapnelAngleDistribution = new SimpleCurve
 		{
 			{
@@ -84,7 +77,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0600268B RID: 9867 RVA: 0x0014A48C File Offset: 0x0014888C
 		public static void MakeShrapnel(IntVec3 center, Map map, float angle, float distanceFactor, int metalShrapnelCount, int rubbleShrapnelCount, bool spawnMotes)
 		{
 			angle -= 90f;
@@ -96,7 +88,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600268C RID: 9868 RVA: 0x0014A4DC File Offset: 0x001488DC
 		private static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
 			for (int i = 0; i < quantity; i++)
@@ -115,7 +106,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600268D RID: 9869 RVA: 0x0014A554 File Offset: 0x00148954
 		private static void ThrowShrapnelMotes(int count, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
 			for (int i = 0; i < count; i++)
@@ -128,7 +118,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600268E RID: 9870 RVA: 0x0014A5B4 File Offset: 0x001489B4
 		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
 		{
 			bool result;
@@ -148,12 +137,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600268F RID: 9871 RVA: 0x0014A618 File Offset: 0x00148A18
 		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)
 		{
 			float num = SkyfallerShrapnelUtility.ShrapnelAngleDistribution.Evaluate(Rand.Value);
 			float d = SkyfallerShrapnelUtility.ShrapnelDistanceFromAngle.Evaluate(num) * Rand.Value * distanceFactor;
 			return (Vector3Utility.HorizontalVectorFromAngle(num + angleOffset) * d).ToIntVec3() + center;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SkyfallerShrapnelUtility()
+		{
 		}
 	}
 }

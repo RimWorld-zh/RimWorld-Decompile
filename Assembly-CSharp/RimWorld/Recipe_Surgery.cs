@@ -4,19 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200046D RID: 1133
 	public class Recipe_Surgery : RecipeWorker
 	{
-		// Token: 0x04000BF8 RID: 3064
 		private const float CatastrophicFailChance = 0.5f;
 
-		// Token: 0x04000BF9 RID: 3065
 		private const float RidiculousFailChanceFromCatastrophic = 0.1f;
 
-		// Token: 0x04000BFA RID: 3066
 		private const float InspiredSurgeryFailChanceFactor = 0.1f;
 
-		// Token: 0x04000BFB RID: 3067
 		private static readonly SimpleCurve MedicineMedicalPotencyToSurgeryChanceFactor = new SimpleCurve
 		{
 			{
@@ -33,7 +28,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x060013E2 RID: 5090 RVA: 0x000AC184 File Offset: 0x000AA584
+		public Recipe_Surgery()
+		{
+		}
+
 		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
 		{
 			float num = 1f;
@@ -115,7 +113,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013E3 RID: 5091 RVA: 0x000AC3DD File Offset: 0x000AA7DD
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
 		{
 			if (patient.RaceProps.Humanlike)
@@ -124,7 +121,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013E4 RID: 5092 RVA: 0x000AC418 File Offset: 0x000AA818
 		private float GetAverageMedicalPotency(List<Thing> ingredients, Bill bill)
 		{
 			Bill_Medical bill_Medical = bill as Bill_Medical;
@@ -163,6 +159,11 @@ namespace RimWorld
 				result = num2 / (float)num;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Recipe_Surgery()
+		{
 		}
 	}
 }

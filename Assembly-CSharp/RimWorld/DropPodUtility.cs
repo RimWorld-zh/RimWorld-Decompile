@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006E5 RID: 1765
 	public static class DropPodUtility
 	{
-		// Token: 0x0400156C RID: 5484
 		private static List<List<Thing>> tempList = new List<List<Thing>>();
 
-		// Token: 0x06002667 RID: 9831 RVA: 0x00149F20 File Offset: 0x00148320
 		public static void MakeDropPodAt(IntVec3 c, Map map, ActiveDropPodInfo info, bool explode = false)
 		{
 			ActiveDropPod activeDropPod = (ActiveDropPod)ThingMaker.MakeThing(ThingDefOf.ActiveDropPod, null);
@@ -20,7 +18,6 @@ namespace RimWorld
 			SkyfallerMaker.SpawnSkyfaller(skyfaller, activeDropPod, c, map);
 		}
 
-		// Token: 0x06002668 RID: 9832 RVA: 0x00149F68 File Offset: 0x00148368
 		public static void DropThingsNear(IntVec3 dropCenter, Map map, IEnumerable<Thing> things, int openDelay = 110, bool canInstaDropDuringInit = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
 		{
 			DropPodUtility.tempList.Clear();
@@ -34,7 +31,6 @@ namespace RimWorld
 			DropPodUtility.tempList.Clear();
 		}
 
-		// Token: 0x06002669 RID: 9833 RVA: 0x00149FFC File Offset: 0x001483FC
 		public static void DropThingGroupsNear(IntVec3 dropCenter, Map map, List<List<Thing>> thingsGroups, int openDelay = 110, bool instaDrop = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
 		{
 			foreach (List<Thing> list in thingsGroups)
@@ -74,6 +70,26 @@ namespace RimWorld
 					activeDropPodInfo.leaveSlag = leaveSlag;
 					DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo, explode);
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static DropPodUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DropThingGroupsNear>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <DropThingGroupsNear>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return c.Walkable(this.map);
 			}
 		}
 	}

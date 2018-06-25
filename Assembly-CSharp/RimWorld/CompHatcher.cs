@@ -5,23 +5,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000718 RID: 1816
 	public class CompHatcher : ThingComp
 	{
-		// Token: 0x040015E6 RID: 5606
 		private float gestateProgress = 0f;
 
-		// Token: 0x040015E7 RID: 5607
 		public Pawn hatcheeParent = null;
 
-		// Token: 0x040015E8 RID: 5608
 		public Pawn otherParent = null;
 
-		// Token: 0x040015E9 RID: 5609
 		public Faction hatcheeFaction = null;
 
-		// Token: 0x17000606 RID: 1542
-		// (get) Token: 0x060027E4 RID: 10212 RVA: 0x00155780 File Offset: 0x00153B80
+		public CompHatcher()
+		{
+		}
+
 		public CompProperties_Hatcher Props
 		{
 			get
@@ -30,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000607 RID: 1543
-		// (get) Token: 0x060027E5 RID: 10213 RVA: 0x001557A0 File Offset: 0x00153BA0
 		private CompTemperatureRuinable FreezerComp
 		{
 			get
@@ -40,8 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000608 RID: 1544
-		// (get) Token: 0x060027E6 RID: 10214 RVA: 0x001557C0 File Offset: 0x00153BC0
 		public bool TemperatureDamaged
 		{
 			get
@@ -51,7 +44,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027E7 RID: 10215 RVA: 0x001557F0 File Offset: 0x00153BF0
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -61,7 +53,6 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.hatcheeFaction, "hatcheeFaction", false);
 		}
 
-		// Token: 0x060027E8 RID: 10216 RVA: 0x00155850 File Offset: 0x00153C50
 		public override void CompTick()
 		{
 			if (!this.TemperatureDamaged)
@@ -75,7 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027E9 RID: 10217 RVA: 0x001558A8 File Offset: 0x00153CA8
 		public void Hatch()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(this.Props.hatcherPawn, this.hatcheeFaction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
@@ -118,7 +108,6 @@ namespace RimWorld
 			this.parent.Destroy(DestroyMode.Vanish);
 		}
 
-		// Token: 0x060027EA RID: 10218 RVA: 0x00155A84 File Offset: 0x00153E84
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			float t = (float)count / (float)(this.parent.stackCount + count);
@@ -127,7 +116,6 @@ namespace RimWorld
 			this.gestateProgress = Mathf.Lerp(this.gestateProgress, b, t);
 		}
 
-		// Token: 0x060027EB RID: 10219 RVA: 0x00155ACC File Offset: 0x00153ECC
 		public override void PostSplitOff(Thing piece)
 		{
 			CompHatcher comp = ((ThingWithComps)piece).GetComp<CompHatcher>();
@@ -137,7 +125,6 @@ namespace RimWorld
 			comp.hatcheeFaction = this.hatcheeFaction;
 		}
 
-		// Token: 0x060027EC RID: 10220 RVA: 0x00155B16 File Offset: 0x00153F16
 		public override void PrePreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
 			base.PrePreTraded(action, playerNegotiator, trader);
@@ -151,14 +138,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027ED RID: 10221 RVA: 0x00155B4C File Offset: 0x00153F4C
 		public override void PostPostGeneratedForTrader(TraderKindDef trader, int forTile, Faction forFaction)
 		{
 			base.PostPostGeneratedForTrader(trader, forTile, forFaction);
 			this.hatcheeFaction = forFaction;
 		}
 
-		// Token: 0x060027EE RID: 10222 RVA: 0x00155B60 File Offset: 0x00153F60
 		public override string CompInspectStringExtra()
 		{
 			string result;

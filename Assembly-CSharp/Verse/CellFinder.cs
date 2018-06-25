@@ -1,76 +1,71 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000F2F RID: 3887
 	public static class CellFinder
 	{
-		// Token: 0x04003DB1 RID: 15793
 		public static float EdgeRoadChance_Ignore = 0f;
 
-		// Token: 0x04003DB2 RID: 15794
 		public static float EdgeRoadChance_Animal = 0f;
 
-		// Token: 0x04003DB3 RID: 15795
 		public static float EdgeRoadChance_Hostile = 0.2f;
 
-		// Token: 0x04003DB4 RID: 15796
 		public static float EdgeRoadChance_Neutral = 0.75f;
 
-		// Token: 0x04003DB5 RID: 15797
 		public static float EdgeRoadChance_Friendly = 0.75f;
 
-		// Token: 0x04003DB6 RID: 15798
 		public static float EdgeRoadChance_Always = 1f;
 
-		// Token: 0x04003DB7 RID: 15799
 		private static List<IntVec3> workingCells = new List<IntVec3>();
 
-		// Token: 0x04003DB8 RID: 15800
 		private static List<Region> workingRegions = new List<Region>();
 
-		// Token: 0x04003DB9 RID: 15801
 		private static List<int> workingListX = new List<int>();
 
-		// Token: 0x04003DBA RID: 15802
 		private static List<int> workingListZ = new List<int>();
 
-		// Token: 0x04003DBB RID: 15803
 		private static List<IntVec3> mapEdgeCells;
 
-		// Token: 0x04003DBC RID: 15804
 		private static IntVec3 mapEdgeCellsSize;
 
-		// Token: 0x04003DBD RID: 15805
 		private static List<IntVec3>[] mapSingleEdgeCells = new List<IntVec3>[4];
 
-		// Token: 0x04003DBE RID: 15806
 		private static IntVec3 mapSingleEdgeCellsSize;
 
-		// Token: 0x04003DBF RID: 15807
 		private static Dictionary<IntVec3, float> tmpDistances = new Dictionary<IntVec3, float>();
 
-		// Token: 0x04003DC0 RID: 15808
 		private static Dictionary<IntVec3, IntVec3> tmpParents = new Dictionary<IntVec3, IntVec3>();
 
-		// Token: 0x04003DC1 RID: 15809
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x04003DC2 RID: 15810
 		private static List<Thing> tmpUniqueWipedThings = new List<Thing>();
 
-		// Token: 0x06005D41 RID: 23873 RVA: 0x002F3504 File Offset: 0x002F1904
+		[CompilerGenerated]
+		private static RegionProcessor <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Region, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static RegionProcessor <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Region, float> <>f__am$cache3;
+
 		public static IntVec3 RandomCell(Map map)
 		{
 			return new IntVec3(Rand.Range(0, map.Size.x), 0, Rand.Range(0, map.Size.z));
 		}
 
-		// Token: 0x06005D42 RID: 23874 RVA: 0x002F3548 File Offset: 0x002F1948
 		public static IntVec3 RandomEdgeCell(Map map)
 		{
 			IntVec3 result = default(IntVec3);
@@ -101,7 +96,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D43 RID: 23875 RVA: 0x002F3620 File Offset: 0x002F1A20
 		public static IntVec3 RandomEdgeCell(Rot4 dir, Map map)
 		{
 			IntVec3 result;
@@ -128,7 +122,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D44 RID: 23876 RVA: 0x002F3720 File Offset: 0x002F1B20
 		public static IntVec3 RandomNotEdgeCell(int minEdgeDistance, Map map)
 		{
 			IntVec3 result;
@@ -145,7 +138,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D45 RID: 23877 RVA: 0x002F37A8 File Offset: 0x002F1BA8
 		public static bool TryFindClosestRegionWith(Region rootReg, TraverseParms traverseParms, Predicate<Region> validator, int maxRegions, out Region result, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			bool result2;
@@ -177,7 +169,6 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06005D46 RID: 23878 RVA: 0x002F3820 File Offset: 0x002F1C20
 		public static Region RandomRegionNear(Region root, int maxRegions, TraverseParms traverseParms, Predicate<Region> validator = null, Pawn pawnToAllow = null, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			if (root == null)
@@ -204,7 +195,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D47 RID: 23879 RVA: 0x002F38E0 File Offset: 0x002F1CE0
 		public static void AllRegionsNear(List<Region> results, Region root, int maxRegions, TraverseParms traverseParms, Predicate<Region> validator = null, Pawn pawnToAllow = null, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			if (results == null)
@@ -229,7 +219,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005D48 RID: 23880 RVA: 0x002F397C File Offset: 0x002F1D7C
 		public static bool TryFindRandomReachableCellNear(IntVec3 root, Map map, float radius, TraverseParms traverseParms, Predicate<IntVec3> cellValidator, Predicate<Region> regionValidator, out IntVec3 result, int maxRegions = 999999)
 		{
 			bool result2;
@@ -274,7 +263,6 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06005D49 RID: 23881 RVA: 0x002F3AEC File Offset: 0x002F1EEC
 		public static IntVec3 RandomClosewalkCellNear(IntVec3 root, Map map, int radius, Predicate<IntVec3> extraValidator = null)
 		{
 			IntVec3 intVec;
@@ -290,13 +278,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D4A RID: 23882 RVA: 0x002F3B1C File Offset: 0x002F1F1C
 		public static bool TryRandomClosewalkCellNear(IntVec3 root, Map map, int radius, out IntVec3 result, Predicate<IntVec3> extraValidator = null)
 		{
 			return CellFinder.TryFindRandomReachableCellNear(root, map, (float)radius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 c) => c.Standable(map) && (extraValidator == null || extraValidator(c)), null, out result, 999999);
 		}
 
-		// Token: 0x06005D4B RID: 23883 RVA: 0x002F3B70 File Offset: 0x002F1F70
 		public static IntVec3 RandomClosewalkCellNearNotForbidden(IntVec3 root, Map map, int radius, Pawn pawn)
 		{
 			IntVec3 intVec;
@@ -312,7 +298,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D4C RID: 23884 RVA: 0x002F3BE0 File Offset: 0x002F1FE0
 		public static bool TryFindRandomCellInRegion(this Region reg, Predicate<IntVec3> validator, out IntVec3 result)
 		{
 			for (int i = 0; i < 10; i++)
@@ -338,7 +323,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D4D RID: 23885 RVA: 0x002F3CB4 File Offset: 0x002F20B4
 		public static bool TryFindRandomCellNear(IntVec3 root, Map map, int squareRadius, Predicate<IntVec3> validator, out IntVec3 result, int maxTries = -1)
 		{
 			int num = root.x - squareRadius;
@@ -432,13 +416,11 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D4E RID: 23886 RVA: 0x002F3F78 File Offset: 0x002F2378
 		public static bool TryFindRandomPawnExitCell(Pawn searcher, out IntVec3 result)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => !searcher.Map.roofGrid.Roofed(c) && c.Walkable(searcher.Map) && searcher.CanReach(c, PathEndMode.OnCell, Danger.Some, false, TraverseMode.ByPawn), searcher.Map, 0f, out result);
 		}
 
-		// Token: 0x06005D4F RID: 23887 RVA: 0x002F3FBC File Offset: 0x002F23BC
 		public static bool TryFindRandomEdgeCellWith(Predicate<IntVec3> validator, Map map, float roadChance, out IntVec3 result)
 		{
 			if (Rand.Chance(roadChance))
@@ -494,7 +476,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D50 RID: 23888 RVA: 0x002F41BC File Offset: 0x002F25BC
 		public static bool TryFindRandomEdgeCellWith(Predicate<IntVec3> validator, Map map, Rot4 dir, float roadChance, out IntVec3 result)
 		{
 			if (Rand.Value < roadChance)
@@ -555,7 +536,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D51 RID: 23889 RVA: 0x002F4408 File Offset: 0x002F2808
 		public static bool TryFindRandomEdgeCellNearWith(IntVec3 near, float radius, Map map, Predicate<IntVec3> validator, out IntVec3 spot)
 		{
 			CellRect cellRect = CellRect.CenteredOn(near, Mathf.CeilToInt(radius));
@@ -572,7 +552,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D52 RID: 23890 RVA: 0x002F44A8 File Offset: 0x002F28A8
 		public static bool TryFindBestPawnStandCell(Pawn forPawn, out IntVec3 cell, bool cellByCell = false)
 		{
 			cell = IntVec3.Invalid;
@@ -678,7 +657,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D53 RID: 23891 RVA: 0x002F476C File Offset: 0x002F2B6C
 		public static bool TryFindRandomCellInsideWith(CellRect cellRect, Predicate<IntVec3> predicate, out IntVec3 result)
 		{
 			int area = cellRect.Area;
@@ -715,7 +693,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D54 RID: 23892 RVA: 0x002F4884 File Offset: 0x002F2C84
 		public static IntVec3 RandomSpawnCellForPawnNear(IntVec3 root, Map map, int firstTryWithRadius = 4)
 		{
 			IntVec3 intVec;
@@ -731,7 +708,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D55 RID: 23893 RVA: 0x002F48B0 File Offset: 0x002F2CB0
 		public static bool TryFindRandomSpawnCellForPawnNear(IntVec3 root, Map map, out IntVec3 result, int firstTryWithRadius = 4)
 		{
 			bool result2;
@@ -767,7 +743,6 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06005D56 RID: 23894 RVA: 0x002F49D4 File Offset: 0x002F2DD4
 		public static IntVec3 FindNoWipeSpawnLocNear(IntVec3 near, Map map, ThingDef thingToSpawn, Rot4 rot, int maxDist = 2, Predicate<IntVec3> extraValidator = null)
 		{
 			int num = GenRadial.NumCellsInRadius((float)maxDist);
@@ -861,7 +836,6 @@ namespace Verse
 			return (!intVec.IsValid) ? near : intVec;
 		}
 
-		// Token: 0x06005D57 RID: 23895 RVA: 0x002F4D84 File Offset: 0x002F3184
 		private static IEnumerable<IntVec3> GetAdjacentCardinalCellsForBestStandCell(IntVec3 x, float radius, Pawn pawn)
 		{
 			if ((float)(x - pawn.Position).LengthManhattan > radius)
@@ -881,6 +855,453 @@ namespace Verse
 				}
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CellFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <RandomRegionNear>m__0(Region r)
+		{
+			CellFinder.workingRegions.Add(r);
+			return false;
+		}
+
+		[CompilerGenerated]
+		private static float <RandomRegionNear>m__1(Region r)
+		{
+			return (float)r.CellCount;
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindRandomReachableCellNear>m__2(Region r)
+		{
+			CellFinder.workingRegions.Add(r);
+			return false;
+		}
+
+		[CompilerGenerated]
+		private static float <TryFindRandomReachableCellNear>m__3(Region r)
+		{
+			return (float)r.CellCount;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindClosestRegionWith>c__AnonStorey1
+		{
+			internal TraverseParms traverseParms;
+
+			internal Predicate<Region> validator;
+
+			internal Region localResult;
+
+			public <TryFindClosestRegionWith>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return r.Allows(this.traverseParms, true);
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				bool result;
+				if (this.validator(r))
+				{
+					this.localResult = r;
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomRegionNear>c__AnonStorey2
+		{
+			internal Predicate<Region> validator;
+
+			internal TraverseParms traverseParms;
+
+			internal Pawn pawnToAllow;
+
+			public <RandomRegionNear>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return (this.validator == null || this.validator(r)) && r.Allows(this.traverseParms, true) && (this.pawnToAllow == null || !r.IsForbiddenEntirely(this.pawnToAllow));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllRegionsNear>c__AnonStorey3
+		{
+			internal Predicate<Region> validator;
+
+			internal TraverseParms traverseParms;
+
+			internal Pawn pawnToAllow;
+
+			internal List<Region> results;
+
+			public <AllRegionsNear>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return (this.validator == null || this.validator(r)) && r.Allows(this.traverseParms, true) && (this.pawnToAllow == null || !r.IsForbiddenEntirely(this.pawnToAllow));
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				this.results.Add(r);
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomReachableCellNear>c__AnonStorey4
+		{
+			internal TraverseParms traverseParms;
+
+			internal float radius;
+
+			internal IntVec3 root;
+
+			internal float radSquared;
+
+			internal Predicate<Region> regionValidator;
+
+			internal Predicate<IntVec3> cellValidator;
+
+			public <TryFindRandomReachableCellNear>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return r.Allows(this.traverseParms, true) && (this.radius > 1000f || r.extentsClose.ClosestDistSquaredTo(this.root) <= this.radSquared) && (this.regionValidator == null || this.regionValidator(r));
+			}
+
+			internal bool <>m__1(IntVec3 c)
+			{
+				return (float)(c - this.root).LengthHorizontalSquared <= this.radSquared && (this.cellValidator == null || this.cellValidator(c));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryRandomClosewalkCellNear>c__AnonStorey5
+		{
+			internal Map map;
+
+			internal Predicate<IntVec3> extraValidator;
+
+			public <TryRandomClosewalkCellNear>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return c.Standable(this.map) && (this.extraValidator == null || this.extraValidator(c));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomClosewalkCellNearNotForbidden>c__AnonStorey6
+		{
+			internal Pawn pawn;
+
+			internal Map map;
+
+			public <RandomClosewalkCellNearNotForbidden>c__AnonStorey6()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return !c.IsForbidden(this.pawn) && c.Standable(this.map);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomPawnExitCell>c__AnonStorey7
+		{
+			internal Pawn searcher;
+
+			public <TryFindRandomPawnExitCell>c__AnonStorey7()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return !this.searcher.Map.roofGrid.Roofed(c) && c.Walkable(this.searcher.Map) && this.searcher.CanReach(c, PathEndMode.OnCell, Danger.Some, false, TraverseMode.ByPawn);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomEdgeCellWith>c__AnonStorey8
+		{
+			internal Predicate<IntVec3> validator;
+
+			public <TryFindRandomEdgeCellWith>c__AnonStorey8()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return this.validator(c);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomEdgeCellWith>c__AnonStorey9
+		{
+			internal Predicate<IntVec3> validator;
+
+			internal Map map;
+
+			internal Rot4 dir;
+
+			public <TryFindRandomEdgeCellWith>c__AnonStorey9()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return this.validator(c) && c.OnEdge(this.map, this.dir);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomEdgeCellNearWith>c__AnonStoreyA
+		{
+			internal IntVec3 near;
+
+			internal float radius;
+
+			internal Map map;
+
+			internal Predicate<IntVec3> validator;
+
+			public <TryFindRandomEdgeCellNearWith>c__AnonStoreyA()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.InHorDistOf(this.near, this.radius) && x.OnEdge(this.map) && this.validator(x);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindBestPawnStandCell>c__AnonStoreyB
+		{
+			internal float radius;
+
+			internal Pawn forPawn;
+
+			public <TryFindBestPawnStandCell>c__AnonStoreyB()
+			{
+			}
+
+			internal IEnumerable<IntVec3> <>m__0(IntVec3 x)
+			{
+				return CellFinder.GetAdjacentCardinalCellsForBestStandCell(x, this.radius, this.forPawn);
+			}
+
+			internal float <>m__1(IntVec3 from, IntVec3 to)
+			{
+				float num = 1f;
+				if (from.x != to.x && from.z != to.z)
+				{
+					num = 1.41421354f;
+				}
+				if (!to.Standable(this.forPawn.Map))
+				{
+					num += 3f;
+				}
+				if (PawnUtility.AnyPawnBlockingPathAt(to, this.forPawn, false, false, false))
+				{
+					bool flag = to.GetThingList(this.forPawn.Map).Find((Thing x) => x is Pawn && x.HostileTo(this.forPawn)) != null;
+					if (flag)
+					{
+						num += 40f;
+					}
+					else
+					{
+						num += 15f;
+					}
+				}
+				Building_Door building_Door = to.GetEdifice(this.forPawn.Map) as Building_Door;
+				if (building_Door != null && !building_Door.FreePassage)
+				{
+					if (building_Door.PawnCanOpen(this.forPawn))
+					{
+						num += 6f;
+					}
+					else
+					{
+						num += 50f;
+					}
+				}
+				return num;
+			}
+
+			internal bool <>m__2(Thing x)
+			{
+				return x is Pawn && x.HostileTo(this.forPawn);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomSpawnCellForPawnNear>c__AnonStoreyC
+		{
+			internal Map map;
+
+			internal bool rootFogged;
+
+			public <TryFindRandomSpawnCellForPawnNear>c__AnonStoreyC()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return c.Standable(this.map) && (this.rootFogged || !c.Fogged(this.map)) && c.GetFirstPawn(this.map) == null;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetAdjacentCardinalCellsForBestStandCell>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec3 x;
+
+			internal Pawn pawn;
+
+			internal float radius;
+
+			internal int <i>__1;
+
+			internal IntVec3 <c>__2;
+
+			internal Building_Door <door>__2;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetAdjacentCardinalCellsForBestStandCell>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if ((float)(x - pawn.Position).LengthManhattan > radius)
+					{
+						return false;
+					}
+					i = 0;
+					goto IL_135;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_127:
+				i++;
+				IL_135:
+				if (i >= 4)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					c = x + GenAdj.CardinalDirections[i];
+					if (!c.InBounds(pawn.Map) || !c.Walkable(pawn.Map))
+					{
+						goto IL_127;
+					}
+					door = (c.GetEdifice(pawn.Map) as Building_Door);
+					if (door != null && !door.CanPhysicallyPass(pawn))
+					{
+						goto IL_127;
+					}
+					this.$current = c;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CellFinder.<GetAdjacentCardinalCellsForBestStandCell>c__Iterator0 <GetAdjacentCardinalCellsForBestStandCell>c__Iterator = new CellFinder.<GetAdjacentCardinalCellsForBestStandCell>c__Iterator0();
+				<GetAdjacentCardinalCellsForBestStandCell>c__Iterator.x = x;
+				<GetAdjacentCardinalCellsForBestStandCell>c__Iterator.pawn = pawn;
+				<GetAdjacentCardinalCellsForBestStandCell>c__Iterator.radius = radius;
+				return <GetAdjacentCardinalCellsForBestStandCell>c__Iterator;
+			}
 		}
 	}
 }

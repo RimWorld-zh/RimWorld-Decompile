@@ -1,22 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000631 RID: 1585
 	public class ScenPart_PermaGameCondition : ScenPart
 	{
-		// Token: 0x040012BD RID: 4797
 		private GameConditionDef gameCondition;
 
-		// Token: 0x040012BE RID: 4798
 		public const string PermaGameConditionTag = "PermaGameCondition";
 
-		// Token: 0x170004E3 RID: 1251
-		// (get) Token: 0x060020A0 RID: 8352 RVA: 0x001179EC File Offset: 0x00115DEC
+		[CompilerGenerated]
+		private static Func<GameConditionDef, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<GameConditionDef, bool> <>f__am$cache1;
+
+		public ScenPart_PermaGameCondition()
+		{
+		}
+
 		public override string Label
 		{
 			get
@@ -25,7 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020A1 RID: 8353 RVA: 0x00117A2C File Offset: 0x00115E2C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -38,20 +46,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020A2 RID: 8354 RVA: 0x00117A96 File Offset: 0x00115E96
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<GameConditionDef>(ref this.gameCondition, "gameCondition");
 		}
 
-		// Token: 0x060020A3 RID: 8355 RVA: 0x00117AAF File Offset: 0x00115EAF
 		public override void Randomize()
 		{
 			this.gameCondition = this.AllowedGameConditions().RandomElement<GameConditionDef>();
 		}
 
-		// Token: 0x060020A4 RID: 8356 RVA: 0x00117AC4 File Offset: 0x00115EC4
 		private IEnumerable<GameConditionDef> AllowedGameConditions()
 		{
 			return from d in DefDatabase<GameConditionDef>.AllDefs
@@ -59,13 +64,11 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060020A5 RID: 8357 RVA: 0x00117B00 File Offset: 0x00115F00
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PermaGameCondition", "ScenPart_PermaGameCondition".Translate());
 		}
 
-		// Token: 0x060020A6 RID: 8358 RVA: 0x00117B2C File Offset: 0x00115F2C
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PermaGameCondition")
@@ -75,14 +78,12 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060020A7 RID: 8359 RVA: 0x00117B60 File Offset: 0x00115F60
 		public override void GenerateIntoMap(Map map)
 		{
 			GameCondition cond = GameConditionMaker.MakeConditionPermanent(this.gameCondition);
 			map.gameConditionManager.RegisterCondition(cond);
 		}
 
-		// Token: 0x060020A8 RID: 8360 RVA: 0x00117B88 File Offset: 0x00115F88
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			bool result;
@@ -103,6 +104,139 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <DoEditInterface>m__0(GameConditionDef d)
+		{
+			return d.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private Action <DoEditInterface>m__1(GameConditionDef d)
+		{
+			return delegate()
+			{
+				this.gameCondition = d;
+			};
+		}
+
+		[CompilerGenerated]
+		private static bool <AllowedGameConditions>m__2(GameConditionDef d)
+		{
+			return d.canBePermanent;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetSummaryListEntries>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal string tag;
+
+			internal ScenPart_PermaGameCondition $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetSummaryListEntries>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (tag == "PermaGameCondition")
+					{
+						this.$current = this.gameCondition.LabelCap + ": " + this.gameCondition.description.CapitalizeFirst();
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenPart_PermaGameCondition.<GetSummaryListEntries>c__Iterator0 <GetSummaryListEntries>c__Iterator = new ScenPart_PermaGameCondition.<GetSummaryListEntries>c__Iterator0();
+				<GetSummaryListEntries>c__Iterator.$this = this;
+				<GetSummaryListEntries>c__Iterator.tag = tag;
+				return <GetSummaryListEntries>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoEditInterface>c__AnonStorey1
+		{
+			internal GameConditionDef d;
+
+			internal ScenPart_PermaGameCondition $this;
+
+			public <DoEditInterface>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.gameCondition = this.d;
+			}
 		}
 	}
 }

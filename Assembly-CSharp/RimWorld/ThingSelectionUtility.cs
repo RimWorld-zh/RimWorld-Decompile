@@ -1,34 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000865 RID: 2149
 	public static class ThingSelectionUtility
 	{
-		// Token: 0x04001A62 RID: 6754
 		private static HashSet<Thing> yieldedThings = new HashSet<Thing>();
 
-		// Token: 0x04001A63 RID: 6755
 		private static HashSet<Zone> yieldedZones = new HashSet<Zone>();
 
-		// Token: 0x04001A64 RID: 6756
 		private static List<Pawn> tmpColonists = new List<Pawn>();
 
-		// Token: 0x04001A65 RID: 6757
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__mg$cache0;
 
-		// Token: 0x04001A66 RID: 6758
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__mg$cache1;
 
-		// Token: 0x060030BA RID: 12474 RVA: 0x001A74CC File Offset: 0x001A58CC
 		public static bool SelectableByMapClick(Thing t)
 		{
 			bool result;
@@ -60,13 +56,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030BB RID: 12475 RVA: 0x001A759C File Offset: 0x001A599C
 		public static bool SelectableByHotkey(Thing t)
 		{
 			return t.def.selectable && t.Spawned;
 		}
 
-		// Token: 0x060030BC RID: 12476 RVA: 0x001A75CC File Offset: 0x001A59CC
 		public static IEnumerable<Thing> MultiSelectableThingsInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
@@ -93,7 +87,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030BD RID: 12477 RVA: 0x001A75F8 File Offset: 0x001A59F8
 		public static IEnumerable<Zone> MultiSelectableZonesInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
@@ -119,7 +112,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030BE RID: 12478 RVA: 0x001A7624 File Offset: 0x001A5A24
 		private static CellRect GetMapRect(Rect rect)
 		{
 			Vector2 screenLoc = new Vector2(rect.x, (float)UI.screenHeight - rect.y);
@@ -135,7 +127,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060030BF RID: 12479 RVA: 0x001A76E8 File Offset: 0x001A5AE8
 		public static void SelectNextColonist()
 		{
 			ThingSelectionUtility.tmpColonists.Clear();
@@ -170,7 +161,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030C0 RID: 12480 RVA: 0x001A7824 File Offset: 0x001A5C24
 		public static void SelectPreviousColonist()
 		{
 			ThingSelectionUtility.tmpColonists.Clear();
@@ -202,6 +192,340 @@ namespace RimWorld
 					CameraJumper.TryJumpAndSelect(ThingSelectionUtility.tmpColonists[GenMath.PositiveMod(num - 1, ThingSelectionUtility.tmpColonists.Count)]);
 				}
 				ThingSelectionUtility.tmpColonists.Clear();
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingSelectionUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <MultiSelectableThingsInScreenRectDistinct>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Rect rect;
+
+			internal CellRect <mapRect>__0;
+
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__1;
+
+			internal List<Thing> <cellThings>__2;
+
+			internal int <k>__3;
+
+			internal Thing <t>__4;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MultiSelectableThingsInScreenRectDistinct>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					mapRect = ThingSelectionUtility.GetMapRect(rect);
+					ThingSelectionUtility.yieldedThings.Clear();
+					enumerator = mapRect.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						ThingSelectionUtility.yieldedThings.Add(t);
+						goto IL_14B;
+					}
+					IL_172:
+					while (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						if (c.InBounds(Find.CurrentMap))
+						{
+							cellThings = Find.CurrentMap.thingGrid.ThingsListAt(c);
+							if (cellThings != null)
+							{
+								i = 0;
+								goto IL_15A;
+							}
+						}
+					}
+					goto IL_1A2;
+					IL_14B:
+					i++;
+					IL_15A:
+					if (i < cellThings.Count)
+					{
+						t = cellThings[i];
+						if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
+						{
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_14B;
+					}
+					goto IL_172;
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_1A2:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator0 <MultiSelectableThingsInScreenRectDistinct>c__Iterator = new ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator0();
+				<MultiSelectableThingsInScreenRectDistinct>c__Iterator.rect = rect;
+				return <MultiSelectableThingsInScreenRectDistinct>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MultiSelectableZonesInScreenRectDistinct>c__Iterator1 : IEnumerable, IEnumerable<Zone>, IEnumerator, IDisposable, IEnumerator<Zone>
+		{
+			internal Rect rect;
+
+			internal CellRect <mapRect>__0;
+
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__1;
+
+			internal Zone <zone>__2;
+
+			internal Zone $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MultiSelectableZonesInScreenRectDistinct>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					mapRect = ThingSelectionUtility.GetMapRect(rect);
+					ThingSelectionUtility.yieldedZones.Clear();
+					enumerator = mapRect.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						ThingSelectionUtility.yieldedZones.Add(zone);
+						break;
+					}
+					IL_117:
+					while (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						if (c.InBounds(Find.CurrentMap))
+						{
+							zone = c.GetZone(Find.CurrentMap);
+							if (zone != null)
+							{
+								if (zone.IsMultiselectable)
+								{
+									if (!ThingSelectionUtility.yieldedZones.Contains(zone))
+									{
+										this.$current = zone;
+										if (!this.$disposing)
+										{
+											this.$PC = 1;
+										}
+										flag = true;
+										return true;
+									}
+								}
+							}
+						}
+					}
+					goto IL_147;
+					goto IL_117;
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_147:
+				this.$PC = -1;
+				return false;
+			}
+
+			Zone IEnumerator<Zone>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Zone>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Zone> IEnumerable<Zone>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator1 <MultiSelectableZonesInScreenRectDistinct>c__Iterator = new ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator1();
+				<MultiSelectableZonesInScreenRectDistinct>c__Iterator.rect = rect;
+				return <MultiSelectableZonesInScreenRectDistinct>c__Iterator;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -9,22 +10,16 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004ED RID: 1261
 	public static class PrisonBreakUtility
 	{
-		// Token: 0x04000D32 RID: 3378
 		private const float BaseInitiatePrisonBreakMtbDays = 45f;
 
-		// Token: 0x04000D33 RID: 3379
 		private const float DistanceToJoinPrisonBreak = 20f;
 
-		// Token: 0x04000D34 RID: 3380
 		private const float ChanceForRoomToJoinPrisonBreak = 0.5f;
 
-		// Token: 0x04000D35 RID: 3381
 		private const float SapperChance = 0.5f;
 
-		// Token: 0x04000D36 RID: 3382
 		private static readonly SimpleCurve PrisonBreakMTBFactorForDaysSincePrisonBreak = new SimpleCurve
 		{
 			{
@@ -41,19 +36,14 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000D37 RID: 3383
 		private static HashSet<Room> participatingRooms = new HashSet<Room>();
 
-		// Token: 0x04000D38 RID: 3384
 		private static List<Pawn> allEscapingPrisoners = new List<Pawn>();
 
-		// Token: 0x04000D39 RID: 3385
 		private static List<Room> tmpToRemove = new List<Room>();
 
-		// Token: 0x04000D3A RID: 3386
 		private static List<Pawn> escapingPrisonersGroup = new List<Pawn>();
 
-		// Token: 0x06001698 RID: 5784 RVA: 0x000C878C File Offset: 0x000C6B8C
 		public static float InitiatePrisonBreakMtbDays(Pawn pawn)
 		{
 			float result;
@@ -87,20 +77,17 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001699 RID: 5785 RVA: 0x000C8860 File Offset: 0x000C6C60
 		public static bool CanParticipateInPrisonBreak(Pawn pawn)
 		{
 			return !pawn.Downed && pawn.IsPrisoner && !PrisonBreakUtility.IsPrisonBreaking(pawn);
 		}
 
-		// Token: 0x0600169A RID: 5786 RVA: 0x000C88AC File Offset: 0x000C6CAC
 		public static bool IsPrisonBreaking(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
 			return lord != null && lord.LordJob is LordJob_PrisonBreak;
 		}
 
-		// Token: 0x0600169B RID: 5787 RVA: 0x000C88E0 File Offset: 0x000C6CE0
 		public static void StartPrisonBreak(Pawn initiator)
 		{
 			string text;
@@ -113,7 +100,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600169C RID: 5788 RVA: 0x000C891C File Offset: 0x000C6D1C
 		public static void StartPrisonBreak(Pawn initiator, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			PrisonBreakUtility.participatingRooms.Clear();
@@ -163,7 +149,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600169D RID: 5789 RVA: 0x000C8B04 File Offset: 0x000C6F04
 		private static void RemoveRandomRooms(HashSet<Room> participatingRooms, Pawn initiator)
 		{
 			Room room = initiator.GetRoom(RegionType.Set_Passable);
@@ -185,7 +170,6 @@ namespace RimWorld
 			PrisonBreakUtility.tmpToRemove.Clear();
 		}
 
-		// Token: 0x0600169E RID: 5790 RVA: 0x000C8BD0 File Offset: 0x000C6FD0
 		private static void StartPrisonBreakIn(Room room, List<Pawn> outAllEscapingPrisoners, int sapperThingID, HashSet<Room> participatingRooms)
 		{
 			PrisonBreakUtility.escapingPrisonersGroup.Clear();
@@ -230,7 +214,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600169F RID: 5791 RVA: 0x000C8D74 File Offset: 0x000C7174
 		private static void AddPrisonersFrom(Room room, List<Pawn> outEscapingPrisoners)
 		{
 			foreach (Thing thing in room.ContainedAndAdjacentThings)
@@ -243,7 +226,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016A0 RID: 5792 RVA: 0x000C8DF4 File Offset: 0x000C71F4
 		private static bool TryFindGroupUpLoc(List<Pawn> escapingPrisoners, IntVec3 exitPoint, out IntVec3 groupUpLoc)
 		{
 			groupUpLoc = IntVec3.Invalid;
@@ -278,7 +260,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060016A1 RID: 5793 RVA: 0x000C8F78 File Offset: 0x000C7378
 		private static bool RoomsAreCloseToEachOther(Room a, Room b)
 		{
 			IntVec3 anyCell = a.Regions[0].AnyCell;
@@ -307,6 +288,26 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PrisonBreakUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindGroupUpLoc>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <TryFindGroupUpLoc>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Standable(this.map);
+			}
 		}
 	}
 }

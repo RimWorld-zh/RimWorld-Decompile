@@ -4,20 +4,18 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000142 RID: 322
 	internal class WorkGiver_FightFires : WorkGiver_Scanner
 	{
-		// Token: 0x04000323 RID: 803
 		private const int NearbyPawnRadius = 15;
 
-		// Token: 0x04000324 RID: 804
 		private const int MaxReservationCheckDistance = 15;
 
-		// Token: 0x04000325 RID: 805
 		private const float HandledDistance = 5f;
 
-		// Token: 0x17000100 RID: 256
-		// (get) Token: 0x060006A5 RID: 1701 RVA: 0x00044CB0 File Offset: 0x000430B0
+		public WorkGiver_FightFires()
+		{
+		}
+
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -26,8 +24,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000101 RID: 257
-		// (get) Token: 0x060006A6 RID: 1702 RVA: 0x00044CD0 File Offset: 0x000430D0
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -36,13 +32,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006A7 RID: 1703 RVA: 0x00044CE8 File Offset: 0x000430E8
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006A8 RID: 1704 RVA: 0x00044D00 File Offset: 0x00043100
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Fire fire = t as Fire;
@@ -97,13 +91,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006A9 RID: 1705 RVA: 0x00044E94 File Offset: 0x00043294
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.BeatFire, t);
 		}
 
-		// Token: 0x060006AA RID: 1706 RVA: 0x00044EBC File Offset: 0x000432BC
 		public static bool FireIsBeingHandled(Fire f, Pawn potentialHandler)
 		{
 			bool result;

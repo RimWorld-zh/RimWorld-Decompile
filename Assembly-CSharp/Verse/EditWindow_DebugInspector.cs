@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld;
 using UnityEngine;
@@ -13,26 +14,25 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000E0D RID: 3597
 	public class EditWindow_DebugInspector : EditWindow
 	{
-		// Token: 0x0400356B RID: 13675
 		private StringBuilder debugStringBuilder = new StringBuilder();
 
-		// Token: 0x0400356C RID: 13676
 		public bool fullMode = false;
 
-		// Token: 0x0400356D RID: 13677
 		private float columnWidth = 360f;
 
-		// Token: 0x0600518D RID: 20877 RVA: 0x0029C9F9 File Offset: 0x0029ADF9
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache1;
+
 		public EditWindow_DebugInspector()
 		{
 			this.optionalTitle = "Debug inspector";
 		}
 
-		// Token: 0x17000D5C RID: 3420
-		// (get) Token: 0x0600518E RID: 20878 RVA: 0x0029CA2C File Offset: 0x0029AE2C
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,8 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D5D RID: 3421
-		// (get) Token: 0x0600518F RID: 20879 RVA: 0x0029CA50 File Offset: 0x0029AE50
 		public override bool IsDebug
 		{
 			get
@@ -51,7 +49,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005190 RID: 20880 RVA: 0x0029CA66 File Offset: 0x0029AE66
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -61,7 +58,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005191 RID: 20881 RVA: 0x0029CA80 File Offset: 0x0029AE80
 		public override void DoWindowContents(Rect inRect)
 		{
 			if (KeyBindingDefOf.Dev_ToggleDebugInspector.KeyDownEvent)
@@ -108,13 +104,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005192 RID: 20882 RVA: 0x0029CC7F File Offset: 0x0029B07F
 		public void AppendDebugString(string str)
 		{
 			this.debugStringBuilder.AppendLine(str);
 		}
 
-		// Token: 0x06005193 RID: 20883 RVA: 0x0029CC90 File Offset: 0x0029B090
 		private string CurrentDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -513,6 +507,18 @@ namespace Verse
 				}
 			}
 			return stringBuilder.ToString();
+		}
+
+		[CompilerGenerated]
+		private static bool <CurrentDebugString>m__0(Thing t)
+		{
+			return t is Pawn;
+		}
+
+		[CompilerGenerated]
+		private static bool <CurrentDebugString>m__1(Thing t)
+		{
+			return t is Pawn;
 		}
 	}
 }

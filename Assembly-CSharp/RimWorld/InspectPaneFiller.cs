@@ -1,38 +1,33 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200085E RID: 2142
 	[StaticConstructorOnStartup]
 	internal class InspectPaneFiller
 	{
-		// Token: 0x04001A41 RID: 6721
 		private const float BarHeight = 16f;
 
-		// Token: 0x04001A42 RID: 6722
 		private static readonly Texture2D MoodTex;
 
-		// Token: 0x04001A43 RID: 6723
 		private static readonly Texture2D BarBGTex;
 
-		// Token: 0x04001A44 RID: 6724
 		private static readonly Texture2D HealthTex;
 
-		// Token: 0x04001A45 RID: 6725
 		private const float BarWidth = 93f;
 
-		// Token: 0x04001A46 RID: 6726
 		private const float BarSpacing = 6f;
 
-		// Token: 0x04001A47 RID: 6727
 		private static bool debug_inspectStringExceptionErrored;
 
-		// Token: 0x04001A48 RID: 6728
 		private static Vector2 inspectStringScrollPos;
 
-		// Token: 0x06003086 RID: 12422 RVA: 0x001A5E7C File Offset: 0x001A427C
+		public InspectPaneFiller()
+		{
+		}
+
 		public static void DoPaneContentsFor(ISelectable sel, Rect rect)
 		{
 			try
@@ -77,7 +72,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003087 RID: 12423 RVA: 0x001A5F90 File Offset: 0x001A4390
 		public static void DrawHealth(WidgetRow row, Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -118,7 +112,6 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06003088 RID: 12424 RVA: 0x001A60B4 File Offset: 0x001A44B4
 		private static void DrawMood(WidgetRow row, Pawn pawn)
 		{
 			if (pawn.needs != null && pawn.needs.mood != null)
@@ -128,14 +121,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003089 RID: 12425 RVA: 0x001A6130 File Offset: 0x001A4530
 		private static void DrawTimetableSetting(WidgetRow row, Pawn pawn)
 		{
 			row.Gap(6f);
 			row.FillableBar(93f, 16f, 1f, pawn.timetable.CurrentAssignment.LabelCap, pawn.timetable.CurrentAssignment.ColorTexture, null);
 		}
 
-		// Token: 0x0600308A RID: 12426 RVA: 0x001A6180 File Offset: 0x001A4580
 		private static void DrawAreaAllowed(WidgetRow row, Pawn pawn)
 		{
 			if (pawn.playerSettings != null && pawn.playerSettings.RespectsAllowedArea)
@@ -171,7 +162,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600308B RID: 12427 RVA: 0x001A62B0 File Offset: 0x001A46B0
 		public static void DrawInspectStringFor(ISelectable sel, Rect rect)
 		{
 			string text;
@@ -208,14 +198,12 @@ namespace RimWorld
 			InspectPaneFiller.DrawInspectString(text, rect);
 		}
 
-		// Token: 0x0600308C RID: 12428 RVA: 0x001A6394 File Offset: 0x001A4794
 		public static void DrawInspectString(string str, Rect rect)
 		{
 			Text.Font = GameFont.Small;
 			Widgets.LabelScrollable(rect, str, ref InspectPaneFiller.inspectStringScrollPos, true);
 		}
 
-		// Token: 0x0600308D RID: 12429 RVA: 0x001A63AC File Offset: 0x001A47AC
 		// Note: this type is marked as 'beforefieldinit'.
 		static InspectPaneFiller()
 		{
@@ -226,6 +214,21 @@ namespace RimWorld
 			ColorInt colorInt3 = new ColorInt(35, 35, 35);
 			InspectPaneFiller.HealthTex = SolidColorMaterials.NewSolidColorTexture(colorInt3.ToColor);
 			InspectPaneFiller.debug_inspectStringExceptionErrored = false;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawAreaAllowed>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <DrawAreaAllowed>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0(Area a)
+			{
+				this.pawn.playerSettings.AreaRestriction = a;
+			}
 		}
 	}
 }

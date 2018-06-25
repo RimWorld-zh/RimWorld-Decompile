@@ -3,13 +3,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003DD RID: 989
 	public class SymbolResolver_Interior_Storage : SymbolResolver
 	{
-		// Token: 0x04000A51 RID: 2641
 		private const float SpawnPassiveCoolerIfTemperatureAbove = 15f;
 
-		// Token: 0x060010F6 RID: 4342 RVA: 0x0009095C File Offset: 0x0008ED5C
+		public SymbolResolver_Interior_Storage()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

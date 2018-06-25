@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020001BC RID: 444
 	public class ThinkNode_ConditionalPrisonerInPrisonCell : ThinkNode_Conditional
 	{
-		// Token: 0x0600092C RID: 2348 RVA: 0x00055E84 File Offset: 0x00054284
+		public ThinkNode_ConditionalPrisonerInPrisonCell()
+		{
+		}
+
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;

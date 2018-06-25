@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000712 RID: 1810
 	public class CompForbiddable : ThingComp
 	{
-		// Token: 0x040015E0 RID: 5600
 		private bool forbiddenInt = false;
 
-		// Token: 0x170005FD RID: 1533
-		// (get) Token: 0x060027BE RID: 10174 RVA: 0x00154854 File Offset: 0x00152C54
-		// (set) Token: 0x060027BF RID: 10175 RVA: 0x00154870 File Offset: 0x00152C70
+		public CompForbiddable()
+		{
+		}
+
 		public bool Forbidden
 		{
 			get
@@ -45,13 +48,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027C0 RID: 10176 RVA: 0x0015494D File Offset: 0x00152D4D
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.forbiddenInt, "forbidden", false, false);
 		}
 
-		// Token: 0x060027C1 RID: 10177 RVA: 0x00154964 File Offset: 0x00152D64
 		public override void PostDraw()
 		{
 			if (this.forbiddenInt)
@@ -78,13 +79,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027C2 RID: 10178 RVA: 0x00154A6E File Offset: 0x00152E6E
 		public override void PostSplitOff(Thing piece)
 		{
 			piece.SetForbidden(this.forbiddenInt, true);
 		}
 
-		// Token: 0x060027C3 RID: 10179 RVA: 0x00154A80 File Offset: 0x00152E80
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (this.parent is Building && this.parent.Faction != Faction.OfPlayer)
@@ -124,6 +123,146 @@ namespace RimWorld
 			}
 			yield return com;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Toggle <com>__0;
+
+			internal CompForbiddable $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (!(this.parent is Building) || this.parent.Faction == Faction.OfPlayer)
+					{
+						com = new Command_Toggle();
+						com.hotKey = KeyBindingDefOf.Command_ItemForbid;
+						com.icon = TexCommand.Forbidden;
+						com.isActive = (() => !this.forbiddenInt);
+						com.defaultLabel = "CommandForbid".Translate();
+						if (this.forbiddenInt)
+						{
+							com.defaultDesc = "CommandForbiddenDesc".Translate();
+						}
+						else
+						{
+							com.defaultDesc = "CommandNotForbiddenDesc".Translate();
+						}
+						if (this.parent.def.IsDoor)
+						{
+							com.tutorTag = "ToggleForbidden-Door";
+							com.toggleAction = delegate()
+							{
+								base.Forbidden = !base.Forbidden;
+								PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ForbiddingDoors, KnowledgeAmount.SpecificInteraction);
+							};
+						}
+						else
+						{
+							com.tutorTag = "ToggleForbidden";
+							com.toggleAction = delegate()
+							{
+								base.Forbidden = !base.Forbidden;
+								PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Forbidding, KnowledgeAmount.SpecificInteraction);
+							};
+						}
+						this.$current = com;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompForbiddable.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompForbiddable.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !this.forbiddenInt;
+			}
+
+			internal void <>m__1()
+			{
+				base.Forbidden = !base.Forbidden;
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ForbiddingDoors, KnowledgeAmount.SpecificInteraction);
+			}
+
+			internal void <>m__2()
+			{
+				base.Forbidden = !base.Forbidden;
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Forbidding, KnowledgeAmount.SpecificInteraction);
+			}
 		}
 	}
 }

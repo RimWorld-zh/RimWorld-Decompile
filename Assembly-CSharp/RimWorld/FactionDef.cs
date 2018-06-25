@@ -1,169 +1,129 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000295 RID: 661
 	public class FactionDef : Def
 	{
-		// Token: 0x040005AB RID: 1451
 		public bool isPlayer = false;
 
-		// Token: 0x040005AC RID: 1452
 		public RulePackDef factionNameMaker;
 
-		// Token: 0x040005AD RID: 1453
 		public RulePackDef settlementNameMaker;
 
-		// Token: 0x040005AE RID: 1454
 		public RulePackDef playerInitialSettlementNameMaker;
 
-		// Token: 0x040005AF RID: 1455
 		[MustTranslate]
 		public string fixedName = null;
 
-		// Token: 0x040005B0 RID: 1456
 		public bool humanlikeFaction = true;
 
-		// Token: 0x040005B1 RID: 1457
 		public bool hidden = false;
 
-		// Token: 0x040005B2 RID: 1458
 		public float listOrderPriority = 0f;
 
-		// Token: 0x040005B3 RID: 1459
 		public List<PawnGroupMaker> pawnGroupMakers = null;
 
-		// Token: 0x040005B4 RID: 1460
 		public SimpleCurve raidCommonalityFromPointsCurve = null;
 
-		// Token: 0x040005B5 RID: 1461
 		public bool autoFlee = true;
 
-		// Token: 0x040005B6 RID: 1462
 		public bool canSiege = false;
 
-		// Token: 0x040005B7 RID: 1463
 		public bool canStageAttacks = false;
 
-		// Token: 0x040005B8 RID: 1464
 		public bool canUseAvoidGrid = true;
 
-		// Token: 0x040005B9 RID: 1465
 		public float earliestRaidDays = 0f;
 
-		// Token: 0x040005BA RID: 1466
 		public FloatRange allowedArrivalTemperatureRange = new FloatRange(-1000f, 1000f);
 
-		// Token: 0x040005BB RID: 1467
 		public PawnKindDef basicMemberKind;
 
-		// Token: 0x040005BC RID: 1468
 		public List<ResearchProjectTagDef> startingResearchTags = null;
 
-		// Token: 0x040005BD RID: 1469
 		[NoTranslate]
 		public List<string> recipePrerequisiteTags = null;
 
-		// Token: 0x040005BE RID: 1470
 		public bool rescueesCanJoin = false;
 
-		// Token: 0x040005BF RID: 1471
 		[MustTranslate]
 		public string pawnSingular = "member";
 
-		// Token: 0x040005C0 RID: 1472
 		[MustTranslate]
 		public string pawnsPlural = "members";
 
-		// Token: 0x040005C1 RID: 1473
 		public string leaderTitle = "leader";
 
-		// Token: 0x040005C2 RID: 1474
 		public float forageabilityFactor = 1f;
 
-		// Token: 0x040005C3 RID: 1475
 		public SimpleCurve maxPawnCostPerTotalPointsCurve = null;
 
-		// Token: 0x040005C4 RID: 1476
 		public int requiredCountAtGameStart = 0;
 
-		// Token: 0x040005C5 RID: 1477
 		public int maxCountAtGameStart = 9999;
 
-		// Token: 0x040005C6 RID: 1478
 		public bool canMakeRandomly = false;
 
-		// Token: 0x040005C7 RID: 1479
 		public float settlementGenerationWeight = 0f;
 
-		// Token: 0x040005C8 RID: 1480
 		public RulePackDef pawnNameMaker;
 
-		// Token: 0x040005C9 RID: 1481
 		public TechLevel techLevel = TechLevel.Undefined;
 
-		// Token: 0x040005CA RID: 1482
 		[NoTranslate]
 		public string backstoryCategory = null;
 
-		// Token: 0x040005CB RID: 1483
 		[NoTranslate]
 		public List<string> hairTags = new List<string>();
 
-		// Token: 0x040005CC RID: 1484
 		public ThingFilter apparelStuffFilter = null;
 
-		// Token: 0x040005CD RID: 1485
 		public List<TraderKindDef> caravanTraderKinds = new List<TraderKindDef>();
 
-		// Token: 0x040005CE RID: 1486
 		public List<TraderKindDef> visitorTraderKinds = new List<TraderKindDef>();
 
-		// Token: 0x040005CF RID: 1487
 		public List<TraderKindDef> baseTraderKinds = new List<TraderKindDef>();
 
-		// Token: 0x040005D0 RID: 1488
 		public float geneticVariance = 1f;
 
-		// Token: 0x040005D1 RID: 1489
 		public IntRange startingGoodwill = IntRange.zero;
 
-		// Token: 0x040005D2 RID: 1490
 		public bool mustStartOneEnemy = false;
 
-		// Token: 0x040005D3 RID: 1491
 		public IntRange naturalColonyGoodwill = IntRange.zero;
 
-		// Token: 0x040005D4 RID: 1492
 		public float goodwillDailyGain = 0f;
 
-		// Token: 0x040005D5 RID: 1493
 		public float goodwillDailyFall = 0f;
 
-		// Token: 0x040005D6 RID: 1494
 		public bool permanentEnemy = false;
 
-		// Token: 0x040005D7 RID: 1495
 		[NoTranslate]
 		public string homeIconPath;
 
-		// Token: 0x040005D8 RID: 1496
 		[NoTranslate]
 		public string expandingIconTexture;
 
-		// Token: 0x040005D9 RID: 1497
 		public List<Color> colorSpectrum;
 
-		// Token: 0x040005DA RID: 1498
 		[Unsaved]
 		private Texture2D expandingIconTextureInt;
 
-		// Token: 0x1700019F RID: 415
-		// (get) Token: 0x06000B20 RID: 2848 RVA: 0x00065050 File Offset: 0x00063450
+		[CompilerGenerated]
+		private static Func<PawnGroupMaker, float> <>f__am$cache0;
+
+		public FactionDef()
+		{
+		}
+
 		public bool CanEverBeNonHostile
 		{
 			get
@@ -172,8 +132,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001A0 RID: 416
-		// (get) Token: 0x06000B21 RID: 2849 RVA: 0x00065070 File Offset: 0x00063470
 		public Texture2D ExpandingIconTexture
 		{
 			get
@@ -193,7 +151,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B22 RID: 2850 RVA: 0x000650D0 File Offset: 0x000634D0
 		public float MinPointsToGeneratePawnGroup(PawnGroupKindDef groupKind)
 		{
 			float result;
@@ -218,13 +175,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B23 RID: 2851 RVA: 0x0006515C File Offset: 0x0006355C
 		public bool CanUseStuffForApparel(ThingDef stuffDef)
 		{
 			return this.apparelStuffFilter == null || this.apparelStuffFilter.Allows(stuffDef);
 		}
 
-		// Token: 0x06000B24 RID: 2852 RVA: 0x00065190 File Offset: 0x00063590
 		public float RaidCommonalityFromPoints(float points)
 		{
 			float result;
@@ -239,7 +194,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B25 RID: 2853 RVA: 0x000651D2 File Offset: 0x000635D2
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -249,7 +203,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B26 RID: 2854 RVA: 0x000651F4 File Offset: 0x000635F4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -316,10 +269,331 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000B27 RID: 2855 RVA: 0x00065220 File Offset: 0x00063620
 		public static FactionDef Named(string defName)
 		{
 			return DefDatabase<FactionDef>.GetNamed(defName, true);
+		}
+
+		[CompilerGenerated]
+		private static float <MinPointsToGeneratePawnGroup>m__0(PawnGroupMaker pgm)
+		{
+			return pgm.MinPointsToGenerateAnything;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <MinPointsToGeneratePawnGroup>c__AnonStorey1
+		{
+			internal PawnGroupKindDef groupKind;
+
+			public <MinPointsToGeneratePawnGroup>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(PawnGroupMaker x)
+			{
+				return x.kindDef == this.groupKind;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <error>__1;
+
+			internal FactionDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_121;
+				case 3u:
+					goto IL_185;
+				case 4u:
+					goto IL_1C4;
+				case 5u:
+					goto IL_214;
+				case 6u:
+					goto IL_258;
+				case 7u:
+					IL_299:
+					if (this.factionNameMaker == null)
+					{
+						this.$current = "isPlayer is true but factionNameMaker is null";
+						if (!this.$disposing)
+						{
+							this.$PC = 8;
+						}
+						return true;
+					}
+					goto IL_2C8;
+				case 8u:
+					goto IL_2C8;
+				case 9u:
+					goto IL_2F8;
+				case 10u:
+					IL_33A:
+					if (this.goodwillDailyFall != 0f || this.goodwillDailyGain != 0f)
+					{
+						this.$current = "permanentEnemy has a goodwillDailyFall or goodwillDailyGain";
+						if (!this.$disposing)
+						{
+							this.$PC = 11;
+						}
+						return true;
+					}
+					goto IL_384;
+				case 11u:
+					goto IL_384;
+				case 12u:
+					goto IL_3BE;
+				case 13u:
+					goto IL_3F8;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						error = enumerator.Current;
+						this.$current = error;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.pawnGroupMakers != null && this.maxPawnCostPerTotalPointsCurve == null)
+				{
+					this.$current = "has pawnGroupMakers but missing maxPawnCostPerTotalPointsCurve";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_121:
+				if (!this.isPlayer && this.factionNameMaker == null && this.fixedName == null)
+				{
+					this.$current = "FactionTypeDef " + this.defName + " lacks a factionNameMaker and a fixedName.";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_185:
+				if (this.techLevel == TechLevel.Undefined)
+				{
+					this.$current = this.defName + " has no tech level.";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_1C4:
+				if (!this.humanlikeFaction)
+				{
+					goto IL_259;
+				}
+				if (this.backstoryCategory == null)
+				{
+					this.$current = this.defName + " is humanlikeFaction but has no backstory category.";
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_214:
+				if (this.hairTags.Count == 0)
+				{
+					this.$current = this.defName + " is humanlikeFaction but has no hairTags.";
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				}
+				IL_258:
+				IL_259:
+				if (!this.isPlayer)
+				{
+					goto IL_2F9;
+				}
+				if (this.settlementNameMaker == null)
+				{
+					this.$current = "isPlayer is true but settlementNameMaker is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				goto IL_299;
+				IL_2C8:
+				if (this.playerInitialSettlementNameMaker == null)
+				{
+					this.$current = "isPlayer is true but playerInitialSettlementNameMaker is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 9;
+					}
+					return true;
+				}
+				IL_2F8:
+				IL_2F9:
+				if (!this.permanentEnemy)
+				{
+					goto IL_3F9;
+				}
+				if (this.mustStartOneEnemy)
+				{
+					this.$current = "permanentEnemy has mustStartOneEnemy = true, which is redundant";
+					if (!this.$disposing)
+					{
+						this.$PC = 10;
+					}
+					return true;
+				}
+				goto IL_33A;
+				IL_384:
+				if (this.startingGoodwill != IntRange.zero)
+				{
+					this.$current = "permanentEnemy has a startingGoodwill defined";
+					if (!this.$disposing)
+					{
+						this.$PC = 12;
+					}
+					return true;
+				}
+				IL_3BE:
+				if (this.naturalColonyGoodwill != IntRange.zero)
+				{
+					this.$current = "permanentEnemy has a naturalColonyGoodwill defined";
+					if (!this.$disposing)
+					{
+						this.$PC = 13;
+					}
+					return true;
+				}
+				IL_3F8:
+				IL_3F9:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				FactionDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new FactionDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

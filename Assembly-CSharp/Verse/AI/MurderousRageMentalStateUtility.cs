@@ -3,13 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A89 RID: 2697
 	public static class MurderousRageMentalStateUtility
 	{
-		// Token: 0x04002595 RID: 9621
 		private static List<Pawn> tmpTargets = new List<Pawn>();
 
-		// Token: 0x06003BD9 RID: 15321 RVA: 0x001F8EAC File Offset: 0x001F72AC
 		public static Pawn FindPawnToKill(Pawn pawn)
 		{
 			Pawn result;
@@ -44,6 +41,11 @@ namespace Verse.AI
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MurderousRageMentalStateUtility()
+		{
 		}
 	}
 }

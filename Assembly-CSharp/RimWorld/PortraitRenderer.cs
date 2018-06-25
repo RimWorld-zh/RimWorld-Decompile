@@ -4,13 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004A2 RID: 1186
 	public class PortraitRenderer : MonoBehaviour
 	{
-		// Token: 0x04000C9F RID: 3231
 		private Pawn pawn;
 
-		// Token: 0x06001544 RID: 5444 RVA: 0x000BD860 File Offset: 0x000BBC60
+		public PortraitRenderer()
+		{
+		}
+
 		public void RenderPortrait(Pawn pawn, RenderTexture renderTexture, Vector3 cameraOffset, float cameraZoom)
 		{
 			Camera portraitCamera = Find.PortraitCamera;
@@ -27,7 +28,6 @@ namespace RimWorld
 			portraitCamera.targetTexture = null;
 		}
 
-		// Token: 0x06001545 RID: 5445 RVA: 0x000BD8E1 File Offset: 0x000BBCE1
 		public void OnPostRender()
 		{
 			this.pawn.Drawer.renderer.RenderPortrait();

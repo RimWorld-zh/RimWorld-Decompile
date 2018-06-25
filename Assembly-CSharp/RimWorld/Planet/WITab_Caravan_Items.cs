@@ -1,48 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E4 RID: 2276
 	public class WITab_Caravan_Items : WITab
 	{
-		// Token: 0x04001C4B RID: 7243
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001C4C RID: 7244
 		private float scrollViewHeight;
 
-		// Token: 0x04001C4D RID: 7245
 		private TransferableSorterDef sorter1;
 
-		// Token: 0x04001C4E RID: 7246
 		private TransferableSorterDef sorter2;
 
-		// Token: 0x04001C4F RID: 7247
 		private List<TransferableImmutable> cachedItems = new List<TransferableImmutable>();
 
-		// Token: 0x04001C50 RID: 7248
 		private int cachedItemsHash;
 
-		// Token: 0x04001C51 RID: 7249
 		private int cachedItemsCount;
 
-		// Token: 0x04001C52 RID: 7250
 		private const float SortersSpace = 25f;
 
-		// Token: 0x04001C53 RID: 7251
 		private const float AssignDrugPoliciesButtonHeight = 27f;
 
-		// Token: 0x06003450 RID: 13392 RVA: 0x001BFF7E File Offset: 0x001BE37E
+		[CompilerGenerated]
+		private static Func<TransferableImmutable, Transferable> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<TransferableImmutable, Transferable> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<TransferableImmutable, float> <>f__am$cache2;
+
 		public WITab_Caravan_Items()
 		{
 			this.labelKey = "TabCaravanItems";
 		}
 
-		// Token: 0x06003451 RID: 13393 RVA: 0x001BFFA0 File Offset: 0x001BE3A0
 		protected override void FillTab()
 		{
 			this.CheckCreateSorters();
@@ -70,7 +68,6 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003452 RID: 13394 RVA: 0x001C00CD File Offset: 0x001BE4CD
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -78,7 +75,6 @@ namespace RimWorld.Planet
 			this.size = CaravanItemsTabUtility.GetSize(this.cachedItems, this.PaneTopY, true);
 		}
 
-		// Token: 0x06003453 RID: 13395 RVA: 0x001C00F4 File Offset: 0x001BE4F4
 		private void CheckCacheItems()
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
@@ -100,7 +96,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003454 RID: 13396 RVA: 0x001C016C File Offset: 0x001BE56C
 		private void CacheItems()
 		{
 			this.CheckCreateSorters();
@@ -123,7 +118,6 @@ namespace RimWorld.Planet
 			this.cachedItemsHash = seed;
 		}
 
-		// Token: 0x06003455 RID: 13397 RVA: 0x001C02A5 File Offset: 0x001BE6A5
 		private void CheckCreateSorters()
 		{
 			if (this.sorter1 == null)
@@ -134,6 +128,38 @@ namespace RimWorld.Planet
 			{
 				this.sorter2 = TransferableSorterDefOf.MarketValue;
 			}
+		}
+
+		[CompilerGenerated]
+		private void <FillTab>m__0(TransferableSorterDef x)
+		{
+			this.sorter1 = x;
+			this.CacheItems();
+		}
+
+		[CompilerGenerated]
+		private void <FillTab>m__1(TransferableSorterDef x)
+		{
+			this.sorter2 = x;
+			this.CacheItems();
+		}
+
+		[CompilerGenerated]
+		private static Transferable <CacheItems>m__2(TransferableImmutable tr)
+		{
+			return tr;
+		}
+
+		[CompilerGenerated]
+		private static Transferable <CacheItems>m__3(TransferableImmutable tr)
+		{
+			return tr;
+		}
+
+		[CompilerGenerated]
+		private static float <CacheItems>m__4(TransferableImmutable tr)
+		{
+			return TransferableUIUtility.DefaultListOrderPriority(tr);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
@@ -7,38 +8,27 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083F RID: 2111
 	public static class DateReadout
 	{
-		// Token: 0x040019D0 RID: 6608
 		private static string dateString;
 
-		// Token: 0x040019D1 RID: 6609
 		private static int dateStringDay = -1;
 
-		// Token: 0x040019D2 RID: 6610
 		private static Season dateStringSeason = Season.Undefined;
 
-		// Token: 0x040019D3 RID: 6611
 		private static Quadrum dateStringQuadrum = Quadrum.Undefined;
 
-		// Token: 0x040019D4 RID: 6612
 		private static int dateStringYear = -1;
 
-		// Token: 0x040019D5 RID: 6613
 		private static readonly List<string> fastHourStrings = new List<string>();
 
-		// Token: 0x040019D6 RID: 6614
 		private const float DateRightPadding = 7f;
 
-		// Token: 0x06002FC5 RID: 12229 RVA: 0x0019E4AF File Offset: 0x0019C8AF
 		static DateReadout()
 		{
 			DateReadout.Reset();
 		}
 
-		// Token: 0x17000792 RID: 1938
-		// (get) Token: 0x06002FC6 RID: 12230 RVA: 0x0019E4DC File Offset: 0x0019C8DC
 		public static float Height
 		{
 			get
@@ -47,8 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000793 RID: 1939
-		// (get) Token: 0x06002FC7 RID: 12231 RVA: 0x0019E508 File Offset: 0x0019C908
 		private static bool SeasonLabelVisible
 		{
 			get
@@ -57,7 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FC8 RID: 12232 RVA: 0x0019E538 File Offset: 0x0019C938
 		public static void Reset()
 		{
 			DateReadout.dateString = null;
@@ -72,7 +59,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FC9 RID: 12233 RVA: 0x0019E5A4 File Offset: 0x0019C9A4
 		public static void DateOnGUI(Rect dateRect)
 		{
 			Vector2 location;
@@ -146,6 +132,37 @@ namespace RimWorld
 					stringBuilder.ToString()
 				});
 			}, 86423));
+		}
+
+		[CompilerGenerated]
+		private sealed class <DateOnGUI>c__AnonStorey0
+		{
+			internal Vector2 location;
+
+			internal Season season;
+
+			public <DateOnGUI>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				for (int i = 0; i < 4; i++)
+				{
+					Quadrum quadrum = (Quadrum)i;
+					stringBuilder.AppendLine(quadrum.Label() + " - " + quadrum.GetSeason(this.location.y).LabelCap());
+				}
+				return "DateReadoutTip".Translate(new object[]
+				{
+					GenDate.DaysPassed,
+					15,
+					this.season.LabelCap(),
+					15,
+					GenDate.Quadrum((long)GenTicks.TicksAbs, this.location.x).Label(),
+					stringBuilder.ToString()
+				});
+			}
 		}
 	}
 }

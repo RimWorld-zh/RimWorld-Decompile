@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000746 RID: 1862
 	[StaticConstructorOnStartup]
 	public class Command_LoadToTransporter : Command
 	{
-		// Token: 0x04001680 RID: 5760
 		public CompTransporter transComp;
 
-		// Token: 0x04001681 RID: 5761
 		private List<CompTransporter> transporters;
 
-		// Token: 0x04001682 RID: 5762
 		private static HashSet<Building> tmpFuelingPortGivers = new HashSet<Building>();
 
-		// Token: 0x0600293B RID: 10555 RVA: 0x0015F478 File Offset: 0x0015D878
+		public Command_LoadToTransporter()
+		{
+		}
+
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -68,7 +68,6 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_LoadTransporters(this.transComp.Map, this.transporters));
 		}
 
-		// Token: 0x0600293C RID: 10556 RVA: 0x0015F690 File Offset: 0x0015DA90
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_LoadToTransporter command_LoadToTransporter = (Command_LoadToTransporter)other;
@@ -87,6 +86,31 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Command_LoadToTransporter()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <ProcessInput>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <ProcessInput>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return FuelingPortUtility.AnyFuelingPortGiverAt(x, this.map);
+			}
+
+			internal void <>m__1(IntVec3 x)
+			{
+				Command_LoadToTransporter.tmpFuelingPortGivers.Add(FuelingPortUtility.FuelingPortGiverAt(x, this.map));
+			}
 		}
 	}
 }

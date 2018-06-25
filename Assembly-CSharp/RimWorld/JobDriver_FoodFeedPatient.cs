@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000096 RID: 150
 	public class JobDriver_FoodFeedPatient : JobDriver
 	{
-		// Token: 0x04000259 RID: 601
 		private const TargetIndex FoodSourceInd = TargetIndex.A;
 
-		// Token: 0x0400025A RID: 602
 		private const TargetIndex DelivereeInd = TargetIndex.B;
 
-		// Token: 0x0400025B RID: 603
 		private const float FeedDurationMultiplier = 1.5f;
 
-		// Token: 0x170000C0 RID: 192
-		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AF18 File Offset: 0x00029318
+		public JobDriver_FoodFeedPatient()
+		{
+		}
+
 		protected Thing Food
 		{
 			get
@@ -27,8 +29,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000C1 RID: 193
-		// (get) Token: 0x060003C7 RID: 967 RVA: 0x0002AF40 File Offset: 0x00029340
 		protected Pawn Deliveree
 		{
 			get
@@ -37,7 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003C8 RID: 968 RVA: 0x0002AF6C File Offset: 0x0002936C
 		public override string GetReport()
 		{
 			string result;
@@ -52,7 +51,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003C9 RID: 969 RVA: 0x0002AFF0 File Offset: 0x000293F0
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -74,7 +72,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003CA RID: 970 RVA: 0x0002B09C File Offset: 0x0002949C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
@@ -97,6 +94,158 @@ namespace RimWorld
 			yield return Toils_Ingest.ChewIngestible(this.Deliveree, 1.5f, TargetIndex.A, TargetIndex.None).FailOnCannotTouch(TargetIndex.B, PathEndMode.Touch);
 			yield return Toils_Ingest.FinalizeIngest(this.Deliveree, TargetIndex.A);
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_FoodFeedPatient $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
+					this.FailOn(() => !FoodUtility.ShouldBeFedBySomeone(base.Deliveree));
+					if (this.pawn.inventory != null && this.pawn.inventory.Contains(base.TargetThingA))
+					{
+						this.$current = Toils_Misc.TakeItemFromInventoryToCarrier(this.pawn, TargetIndex.A);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					if (base.TargetThingA is Building_NutrientPasteDispenser)
+					{
+						this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnForbidden(TargetIndex.A);
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 1u:
+					break;
+				case 2u:
+					this.$current = Toils_Ingest.TakeMealFromDispenser(TargetIndex.A, this.pawn);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					break;
+				case 4u:
+					this.$current = Toils_Ingest.PickupIngestible(TargetIndex.A, base.Deliveree);
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					break;
+				case 6u:
+					this.$current = Toils_Ingest.ChewIngestible(base.Deliveree, 1.5f, TargetIndex.A, TargetIndex.None).FailOnCannotTouch(TargetIndex.B, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				case 7u:
+					this.$current = Toils_Ingest.FinalizeIngest(base.Deliveree, TargetIndex.A);
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				case 8u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
+				if (!this.$disposing)
+				{
+					this.$PC = 6;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_FoodFeedPatient.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_FoodFeedPatient.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !FoodUtility.ShouldBeFedBySomeone(base.Deliveree);
+			}
 		}
 	}
 }

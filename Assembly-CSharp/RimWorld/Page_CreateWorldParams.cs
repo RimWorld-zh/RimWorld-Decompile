@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -8,25 +9,18 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000831 RID: 2097
 	public class Page_CreateWorldParams : Page
 	{
-		// Token: 0x04001990 RID: 6544
 		private bool initialized = false;
 
-		// Token: 0x04001991 RID: 6545
 		private string seedString;
 
-		// Token: 0x04001992 RID: 6546
 		private float planetCoverage;
 
-		// Token: 0x04001993 RID: 6547
 		private OverallRainfall rainfall;
 
-		// Token: 0x04001994 RID: 6548
 		private OverallTemperature temperature;
 
-		// Token: 0x04001995 RID: 6549
 		private static readonly float[] PlanetCoverages = new float[]
 		{
 			0.3f,
@@ -34,7 +28,6 @@ namespace RimWorld
 			1f
 		};
 
-		// Token: 0x04001996 RID: 6550
 		private static readonly float[] PlanetCoveragesDev = new float[]
 		{
 			0.3f,
@@ -43,8 +36,10 @@ namespace RimWorld
 			0.05f
 		};
 
-		// Token: 0x17000783 RID: 1923
-		// (get) Token: 0x06002F52 RID: 12114 RVA: 0x00194F20 File Offset: 0x00193320
+		public Page_CreateWorldParams()
+		{
+		}
+
 		public override string PageTitle
 		{
 			get
@@ -53,7 +48,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F53 RID: 12115 RVA: 0x00194F3F File Offset: 0x0019333F
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -64,14 +58,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F54 RID: 12116 RVA: 0x00194F62 File Offset: 0x00193362
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			TutorSystem.Notify_Event("PageStart-CreateWorldParams");
 		}
 
-		// Token: 0x06002F55 RID: 12117 RVA: 0x00194F7C File Offset: 0x0019337C
 		public void Reset()
 		{
 			this.seedString = GenText.RandomSeedString();
@@ -80,7 +72,6 @@ namespace RimWorld
 			this.temperature = OverallTemperature.Normal;
 		}
 
-		// Token: 0x06002F56 RID: 12118 RVA: 0x00194FCC File Offset: 0x001933CC
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -140,7 +131,6 @@ namespace RimWorld
 			base.DoBottomButtons(rect, "WorldGenerate".Translate(), "Reset".Translate(), new Action(this.Reset), true);
 		}
 
-		// Token: 0x06002F57 RID: 12119 RVA: 0x00195338 File Offset: 0x00193738
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -168,6 +158,64 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Page_CreateWorldParams()
+		{
+		}
+
+		[CompilerGenerated]
+		private void <CanDoNext>m__0()
+		{
+			Find.GameInitData.ResetWorldRelatedMapInitData();
+			Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
+			LongEventHandler.ExecuteWhenFinished(delegate
+			{
+				if (this.next != null)
+				{
+					Find.WindowStack.Add(this.next);
+				}
+				MemoryUtility.UnloadUnusedUnityAssets();
+				Find.World.renderer.RegenerateAllLayersNow();
+				this.Close(true);
+			});
+		}
+
+		[CompilerGenerated]
+		private void <CanDoNext>m__1()
+		{
+			if (this.next != null)
+			{
+				Find.WindowStack.Add(this.next);
+			}
+			MemoryUtility.UnloadUnusedUnityAssets();
+			Find.World.renderer.RegenerateAllLayersNow();
+			this.Close(true);
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoWindowContents>c__AnonStorey0
+		{
+			internal float coverage;
+
+			internal Page_CreateWorldParams $this;
+
+			public <DoWindowContents>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (this.$this.planetCoverage != this.coverage)
+				{
+					this.$this.planetCoverage = this.coverage;
+					if (this.$this.planetCoverage == 1f)
+					{
+						Messages.Message("MessageMaxPlanetCoveragePerformanceWarning".Translate(), MessageTypeDefOf.CautionInput, false);
+					}
+				}
+			}
 		}
 	}
 }

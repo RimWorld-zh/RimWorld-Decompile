@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -9,22 +10,17 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200083D RID: 2109
 	public static class FloatMenuMakerMap
 	{
-		// Token: 0x040019CE RID: 6606
 		public static Pawn makingFor;
 
-		// Token: 0x040019CF RID: 6607
 		private static FloatMenuOption[] equivalenceGroupTempStorage;
 
-		// Token: 0x06002FB8 RID: 12216 RVA: 0x001999B8 File Offset: 0x00197DB8
 		private static bool CanTakeOrder(Pawn pawn)
 		{
 			return pawn.IsColonistPlayerControlled;
 		}
 
-		// Token: 0x06002FB9 RID: 12217 RVA: 0x001999D4 File Offset: 0x00197DD4
 		public static void TryMakeFloatMenu(Pawn pawn)
 		{
 			if (FloatMenuMakerMap.CanTakeOrder(pawn))
@@ -70,7 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBA RID: 12218 RVA: 0x00199B0C File Offset: 0x00197F0C
 		public static List<FloatMenuOption> ChoicesAtFor(Vector3 clickPos, Pawn pawn)
 		{
 			IntVec3 intVec = IntVec3.FromVector3(clickPos);
@@ -129,7 +124,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FBB RID: 12219 RVA: 0x00199C68 File Offset: 0x00198068
 		private static void AddDraftedOrders(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			IntVec3 clickCell = IntVec3.FromVector3(clickPos);
@@ -265,7 +259,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBC RID: 12220 RVA: 0x0019A188 File Offset: 0x00198588
 		private static void AddHumanlikeOrders(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			IntVec3 c = IntVec3.FromVector3(clickPos);
@@ -933,7 +926,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBD RID: 12221 RVA: 0x0019BEF8 File Offset: 0x0019A2F8
 		private static void AddUndraftedOrders(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			if (FloatMenuMakerMap.equivalenceGroupTempStorage == null || FloatMenuMakerMap.equivalenceGroupTempStorage.Length != DefDatabase<WorkGiverEquivalenceGroupDef>.DefCount)
@@ -962,7 +954,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBE RID: 12222 RVA: 0x0019BFFC File Offset: 0x0019A3FC
 		private static void AddJobGiverWorkOrders(IntVec3 clickCell, Pawn pawn, List<FloatMenuOption> opts, bool drafted)
 		{
 			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
@@ -1333,7 +1324,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBF RID: 12223 RVA: 0x0019CDA4 File Offset: 0x0019B1A4
 		private static FloatMenuOption GotoLocationOption(IntVec3 clickCell, Pawn pawn)
 		{
 			int num = GenRadial.NumCellsInRadius(2.9f);
@@ -1384,6 +1374,703 @@ namespace RimWorld
 				}
 			}
 			return null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddDraftedOrders>c__AnonStorey4
+		{
+			internal Pawn pawn;
+
+			public <AddDraftedOrders>c__AnonStorey4()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddDraftedOrders>c__AnonStorey0
+		{
+			internal LocalTargetInfo attackTarg;
+
+			public <AddDraftedOrders>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddDraftedOrders>c__AnonStorey1
+		{
+			internal Action rangedAct;
+
+			internal FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey0 <>f__ref$0;
+
+			public <AddDraftedOrders>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				MoteMaker.MakeStaticMote(this.<>f__ref$0.attackTarg.Thing.DrawPos, this.<>f__ref$0.attackTarg.Thing.Map, ThingDefOf.Mote_FeedbackShoot, 1f);
+				this.rangedAct();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddDraftedOrders>c__AnonStorey2
+		{
+			internal Action meleeAct;
+
+			internal FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey0 <>f__ref$0;
+
+			public <AddDraftedOrders>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				MoteMaker.MakeStaticMote(this.<>f__ref$0.attackTarg.Thing.DrawPos, this.<>f__ref$0.attackTarg.Thing.Map, ThingDefOf.Mote_FeedbackMelee, 1f);
+				this.meleeAct();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddDraftedOrders>c__AnonStorey3
+		{
+			internal Pawn pTarg;
+
+			internal FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey4 <>f__ref$4;
+
+			public <AddDraftedOrders>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Building_Bed building_Bed = RestUtility.FindBedFor(this.pTarg, this.<>f__ref$4.pawn, true, false, false);
+				if (building_Bed == null)
+				{
+					building_Bed = RestUtility.FindBedFor(this.pTarg, this.<>f__ref$4.pawn, true, false, true);
+				}
+				if (building_Bed == null)
+				{
+					Messages.Message("CannotArrest".Translate() + ": " + "NoPrisonerBed".Translate(), this.pTarg, MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.Arrest, this.pTarg, building_Bed);
+					job.count = 1;
+					this.<>f__ref$4.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					if (this.pTarg.Faction != null)
+					{
+						TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.ArrestingCreatesEnemies);
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey6
+		{
+			internal Pawn pawn;
+
+			public <AddHumanlikeOrders>c__AnonStorey6()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.pawn.jobs.TryTakeOrderedJob(new Job(JobDefOf.DropEquipment, this.pawn.equipment.Primary), JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey5
+		{
+			internal Thing t;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStorey5()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.t.SetForbidden(false, true);
+				Job job = new Job(JobDefOf.Ingest, this.t);
+				job.count = FoodUtility.WillIngestStackCountOf(this.<>f__ref$6.pawn, this.t.def, this.t.GetStatValue(StatDefOf.Nutrition, true));
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey7
+		{
+			internal LocalTargetInfo toHelp;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStorey7()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				IntVec3 c = RCellFinder.BestOrderedGotoDestNear(this.toHelp.Cell, this.<>f__ref$6.pawn);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(new Job(JobDefOf.Goto, c), JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey8
+		{
+			internal Pawn victim;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStorey8()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Building_Bed building_Bed = RestUtility.FindBedFor(this.victim, this.<>f__ref$6.pawn, false, false, false);
+				if (building_Bed == null)
+				{
+					building_Bed = RestUtility.FindBedFor(this.victim, this.<>f__ref$6.pawn, false, false, true);
+				}
+				if (building_Bed == null)
+				{
+					string str;
+					if (this.victim.RaceProps.Animal)
+					{
+						str = "NoAnimalBed".Translate();
+					}
+					else
+					{
+						str = "NoNonPrisonerBed".Translate();
+					}
+					Messages.Message("CannotRescue".Translate() + ": " + str, this.victim, MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.Rescue, this.victim, building_Bed);
+					job.count = 1;
+					this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Rescuing, KnowledgeAmount.Total);
+				}
+			}
+
+			internal void <>m__1()
+			{
+				Building_Bed building_Bed = RestUtility.FindBedFor(this.victim, this.<>f__ref$6.pawn, true, false, false);
+				if (building_Bed == null)
+				{
+					building_Bed = RestUtility.FindBedFor(this.victim, this.<>f__ref$6.pawn, true, false, true);
+				}
+				if (building_Bed == null)
+				{
+					Messages.Message("CannotCapture".Translate() + ": " + "NoPrisonerBed".Translate(), this.victim, MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.Capture, this.victim, building_Bed);
+					job.count = 1;
+					this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Capturing, KnowledgeAmount.Total);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey9
+		{
+			internal Pawn victim;
+
+			public <AddHumanlikeOrders>c__AnonStorey9()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStoreyA
+		{
+			internal JobDef jDef;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey9 <>f__ref$9;
+
+			public <AddHumanlikeOrders>c__AnonStoreyA()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Building_CryptosleepCasket building_CryptosleepCasket = Building_CryptosleepCasket.FindCryptosleepCasketFor(this.<>f__ref$9.victim, this.<>f__ref$6.pawn, false);
+				if (building_CryptosleepCasket == null)
+				{
+					building_CryptosleepCasket = Building_CryptosleepCasket.FindCryptosleepCasketFor(this.<>f__ref$9.victim, this.<>f__ref$6.pawn, true);
+				}
+				if (building_CryptosleepCasket == null)
+				{
+					Messages.Message("CannotCarryToCryptosleepCasket".Translate() + ": " + "NoCryptosleepCasket".Translate(), this.<>f__ref$9.victim, MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					Job job = new Job(this.jDef, this.<>f__ref$9.victim, building_CryptosleepCasket);
+					job.count = 1;
+					this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStoreyB
+		{
+			internal LocalTargetInfo stripTarg;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStoreyB()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.stripTarg.Thing.SetForbidden(false, false);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(new Job(JobDefOf.Strip, this.stripTarg), JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStoreyC
+		{
+			internal ThingWithComps equipment;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStoreyC()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.equipment.SetForbidden(false, true);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(new Job(JobDefOf.Equip, this.equipment), JobTag.Misc);
+				MoteMaker.MakeStaticMote(this.equipment.DrawPos, this.equipment.Map, ThingDefOf.Mote_FeedbackEquip, 1f);
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.EquippingWeapons, KnowledgeAmount.Total);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStoreyD
+		{
+			internal Apparel apparel;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStoreyD()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.apparel.SetForbidden(false, true);
+				Job job = new Job(JobDefOf.Wear, this.apparel);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStoreyE
+		{
+			internal Thing item;
+
+			public <AddHumanlikeOrders>c__AnonStoreyE()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStoreyF
+		{
+			internal JobDef jobDef;
+
+			internal Pawn packTarget;
+
+			public <AddHumanlikeOrders>c__AnonStoreyF()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey10
+		{
+			internal float capacityLeft;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStoreyE <>f__ref$14;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStoreyF <>f__ref$15;
+
+			public <AddHumanlikeOrders>c__AnonStorey10()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$14.item.SetForbidden(false, false);
+				Job job = new Job(this.<>f__ref$15.jobDef, this.<>f__ref$14.item);
+				job.count = 1;
+				job.checkEncumbrance = (this.<>f__ref$15.packTarget == this.<>f__ref$6.pawn);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+
+			internal void <>m__1()
+			{
+				this.<>f__ref$14.item.SetForbidden(false, false);
+				Job job = new Job(this.<>f__ref$15.jobDef, this.<>f__ref$14.item);
+				job.count = this.<>f__ref$14.item.stackCount;
+				job.checkEncumbrance = (this.<>f__ref$15.packTarget == this.<>f__ref$6.pawn);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+
+			internal void <>m__2()
+			{
+				int to = Mathf.Min(MassUtility.CountToPickUpUntilOverEncumbered(this.<>f__ref$15.packTarget, this.<>f__ref$14.item), this.<>f__ref$14.item.stackCount);
+				Dialog_Slider window = new Dialog_Slider(delegate(int val)
+				{
+					float num = this.capacityLeft - (float)val * this.<>f__ref$14.item.GetStatValue(StatDefOf.Mass, true);
+					return CaravanFormingUtility.AppendOverweightInfo(string.Format("LoadIntoCaravanCount".Translate(new object[]
+					{
+						this.<>f__ref$14.item.LabelNoCount
+					}), val), num);
+				}, 1, to, delegate(int count)
+				{
+					this.<>f__ref$14.item.SetForbidden(false, false);
+					Job job = new Job(this.<>f__ref$15.jobDef, this.<>f__ref$14.item);
+					job.count = count;
+					job.checkEncumbrance = (this.<>f__ref$15.packTarget == this.<>f__ref$6.pawn);
+					this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				}, int.MinValue);
+				Find.WindowStack.Add(window);
+			}
+
+			internal string <>m__3(int val)
+			{
+				float num = this.capacityLeft - (float)val * this.<>f__ref$14.item.GetStatValue(StatDefOf.Mass, true);
+				return CaravanFormingUtility.AppendOverweightInfo(string.Format("LoadIntoCaravanCount".Translate(new object[]
+				{
+					this.<>f__ref$14.item.LabelNoCount
+				}), val), num);
+			}
+
+			internal void <>m__4(int count)
+			{
+				this.<>f__ref$14.item.SetForbidden(false, false);
+				Job job = new Job(this.<>f__ref$15.jobDef, this.<>f__ref$14.item);
+				job.count = count;
+				job.checkEncumbrance = (this.<>f__ref$15.packTarget == this.<>f__ref$6.pawn);
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey11
+		{
+			internal Thing item;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStorey11()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.item.SetForbidden(false, false);
+				Job job = new Job(JobDefOf.TakeInventory, this.item);
+				job.count = 1;
+				job.checkEncumbrance = true;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+
+			internal void <>m__1()
+			{
+				this.item.SetForbidden(false, false);
+				Job job = new Job(JobDefOf.TakeInventory, this.item);
+				job.count = this.item.stackCount;
+				job.checkEncumbrance = true;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+
+			internal void <>m__2()
+			{
+				int to = Mathf.Min(MassUtility.CountToPickUpUntilOverEncumbered(this.<>f__ref$6.pawn, this.item), this.item.stackCount);
+				Dialog_Slider window = new Dialog_Slider("PickUpCount".Translate(new object[]
+				{
+					this.item.LabelNoCount
+				}), 1, to, delegate(int count)
+				{
+					this.item.SetForbidden(false, false);
+					Job job = new Job(JobDefOf.TakeInventory, this.item);
+					job.count = count;
+					job.checkEncumbrance = true;
+					this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				}, int.MinValue);
+				Find.WindowStack.Add(window);
+			}
+
+			internal void <>m__3(int count)
+			{
+				this.item.SetForbidden(false, false);
+				Job job = new Job(JobDefOf.TakeInventory, this.item);
+				job.count = count;
+				job.checkEncumbrance = true;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey12
+		{
+			internal Thing item;
+
+			public <AddHumanlikeOrders>c__AnonStorey12()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey13
+		{
+			internal Pawn bestPackAnimal;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey12 <>f__ref$18;
+
+			public <AddHumanlikeOrders>c__AnonStorey13()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$18.item.SetForbidden(false, false);
+				Job job = new Job(JobDefOf.GiveToPackAnimal, this.<>f__ref$18.item);
+				job.count = 1;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+
+			internal void <>m__1()
+			{
+				this.<>f__ref$18.item.SetForbidden(false, false);
+				Job job = new Job(JobDefOf.GiveToPackAnimal, this.<>f__ref$18.item);
+				job.count = this.<>f__ref$18.item.stackCount;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+
+			internal void <>m__2()
+			{
+				int to = Mathf.Min(MassUtility.CountToPickUpUntilOverEncumbered(this.bestPackAnimal, this.<>f__ref$18.item), this.<>f__ref$18.item.stackCount);
+				Dialog_Slider window = new Dialog_Slider("GiveToPackAnimalCount".Translate(new object[]
+				{
+					this.<>f__ref$18.item.LabelNoCount
+				}), 1, to, delegate(int count)
+				{
+					this.<>f__ref$18.item.SetForbidden(false, false);
+					Job job = new Job(JobDefOf.GiveToPackAnimal, this.<>f__ref$18.item);
+					job.count = count;
+					this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				}, int.MinValue);
+				Find.WindowStack.Add(window);
+			}
+
+			internal void <>m__3(int count)
+			{
+				this.<>f__ref$18.item.SetForbidden(false, false);
+				Job job = new Job(JobDefOf.GiveToPackAnimal, this.<>f__ref$18.item);
+				job.count = count;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey14
+		{
+			internal Pawn p;
+
+			public <AddHumanlikeOrders>c__AnonStorey14()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey15
+		{
+			internal IntVec3 exitSpot;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey14 <>f__ref$20;
+
+			public <AddHumanlikeOrders>c__AnonStorey15()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Job job = new Job(JobDefOf.CarryDownedPawnToExit, this.<>f__ref$20.p, this.exitSpot);
+				job.count = 1;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddHumanlikeOrders>c__AnonStorey16
+		{
+			internal Pawn pTarg;
+
+			internal FloatMenuMakerMap.<AddHumanlikeOrders>c__AnonStorey6 <>f__ref$6;
+
+			public <AddHumanlikeOrders>c__AnonStorey16()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Job job = new Job(JobDefOf.TradeWithPawn, this.pTarg);
+				job.playerForced = true;
+				this.<>f__ref$6.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InteractingWithTraders, KnowledgeAmount.Total);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddJobGiverWorkOrders>c__AnonStorey17
+		{
+			internal Pawn pawn;
+
+			internal IntVec3 clickCell;
+
+			public <AddJobGiverWorkOrders>c__AnonStorey17()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddJobGiverWorkOrders>c__AnonStorey19
+		{
+			internal WorkGiverDef workGiver;
+
+			internal FloatMenuOption menuOption;
+
+			public <AddJobGiverWorkOrders>c__AnonStorey19()
+			{
+			}
+
+			internal bool <>m__0(FloatMenuOption op)
+			{
+				return op.Label == this.menuOption.Label;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddJobGiverWorkOrders>c__AnonStorey18
+		{
+			internal Job localJob;
+
+			internal WorkGiver_Scanner localScanner;
+
+			internal FloatMenuMakerMap.<AddJobGiverWorkOrders>c__AnonStorey17 <>f__ref$23;
+
+			internal FloatMenuMakerMap.<AddJobGiverWorkOrders>c__AnonStorey19 <>f__ref$25;
+
+			public <AddJobGiverWorkOrders>c__AnonStorey18()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				bool flag = this.<>f__ref$23.pawn.jobs.TryTakeOrderedJobPrioritizedWork(this.localJob, this.localScanner, this.<>f__ref$23.clickCell);
+				if (flag && this.<>f__ref$25.workGiver.forceMote != null)
+				{
+					MoteMaker.MakeStaticMote(this.<>f__ref$23.clickCell, this.<>f__ref$23.pawn.Map, this.<>f__ref$25.workGiver.forceMote, 1f);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddJobGiverWorkOrders>c__AnonStorey1B
+		{
+			internal WorkGiverDef workGiver;
+
+			internal string label;
+
+			public <AddJobGiverWorkOrders>c__AnonStorey1B()
+			{
+			}
+
+			internal bool <>m__0(FloatMenuOption op)
+			{
+				return op.Label == this.label.TrimEnd(new char[0]);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddJobGiverWorkOrders>c__AnonStorey1A
+		{
+			internal Job localJob;
+
+			internal WorkGiver_Scanner localScanner;
+
+			internal FloatMenuMakerMap.<AddJobGiverWorkOrders>c__AnonStorey17 <>f__ref$23;
+
+			internal FloatMenuMakerMap.<AddJobGiverWorkOrders>c__AnonStorey1B <>f__ref$27;
+
+			public <AddJobGiverWorkOrders>c__AnonStorey1A()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				bool flag = this.<>f__ref$23.pawn.jobs.TryTakeOrderedJobPrioritizedWork(this.localJob, this.localScanner, this.<>f__ref$23.clickCell);
+				if (flag && this.<>f__ref$27.workGiver.forceMote != null)
+				{
+					MoteMaker.MakeStaticMote(this.<>f__ref$23.clickCell, this.<>f__ref$23.pawn.Map, this.<>f__ref$27.workGiver.forceMote, 1f);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GotoLocationOption>c__AnonStorey1C
+		{
+			internal IntVec3 curLoc;
+
+			internal Pawn pawn;
+
+			public <GotoLocationOption>c__AnonStorey1C()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				IntVec3 intVec = RCellFinder.BestOrderedGotoDestNear(this.curLoc, this.pawn);
+				Job job = new Job(JobDefOf.Goto, intVec);
+				if (this.pawn.Map.exitMapGrid.IsExitCell(UI.MouseCell()))
+				{
+					job.exitMapOnArrival = true;
+				}
+				else if (!this.pawn.Map.IsPlayerHome && !this.pawn.Map.exitMapGrid.MapUsesExitGrid && CellRect.WholeMap(this.pawn.Map).IsOnEdge(UI.MouseCell(), 3) && this.pawn.Map.Parent.GetComponent<FormCaravanComp>() != null && MessagesRepeatAvoider.MessageShowAllowed("MessagePlayerTriedToLeaveMapViaExitGrid-" + this.pawn.Map.uniqueID, 60f))
+				{
+					Messages.Message("MessagePlayerTriedToLeaveMapViaExitGrid".Translate(), this.pawn.Map.Parent, MessageTypeDefOf.RejectInput, false);
+				}
+				if (this.pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc))
+				{
+					MoteMaker.MakeStaticMote(intVec, this.pawn.Map, ThingDefOf.Mote_FeedbackGoto, 1f);
+				}
+			}
 		}
 	}
 }

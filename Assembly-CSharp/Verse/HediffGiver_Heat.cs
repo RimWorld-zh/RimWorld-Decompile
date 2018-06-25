@@ -5,16 +5,12 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000D36 RID: 3382
 	public class HediffGiver_Heat : HediffGiver
 	{
-		// Token: 0x04003259 RID: 12889
 		private const int BurnCheckInterval = 420;
 
-		// Token: 0x0400325A RID: 12890
 		public static readonly string MemoPawnBurnedByAir = "PawnBurnedByAir";
 
-		// Token: 0x0400325B RID: 12891
 		public static readonly SimpleCurve TemperatureOverageAdjustmentCurve = new SimpleCurve
 		{
 			{
@@ -47,7 +43,10 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x06004A8A RID: 19082 RVA: 0x0026E180 File Offset: 0x0026C580
+		public HediffGiver_Heat()
+		{
+		}
+
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			float ambientTemperature = pawn.AmbientTemperature;
@@ -101,6 +100,11 @@ namespace Verse
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static HediffGiver_Heat()
+		{
 		}
 	}
 }

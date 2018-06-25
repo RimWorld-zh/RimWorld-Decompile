@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006C2 RID: 1730
 	public static class FilthMaker
 	{
-		// Token: 0x040014C3 RID: 5315
 		private static List<Filth> toBeRemoved = new List<Filth>();
 
-		// Token: 0x06002553 RID: 9555 RVA: 0x001405E4 File Offset: 0x0013E9E4
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, int count = 1)
 		{
 			for (int i = 0; i < count; i++)
@@ -20,7 +18,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002554 RID: 9556 RVA: 0x00140614 File Offset: 0x0013EA14
 		public static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count = 1)
 		{
 			bool flag = false;
@@ -31,13 +28,11 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x06002555 RID: 9557 RVA: 0x00140653 File Offset: 0x0013EA53
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, IEnumerable<string> sources)
 		{
 			FilthMaker.MakeFilth(c, map, filthDef, sources, true);
 		}
 
-		// Token: 0x06002556 RID: 9558 RVA: 0x00140664 File Offset: 0x0013EA64
 		private static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, IEnumerable<string> sources, bool shouldPropagate)
 		{
 			Filth filth = (Filth)(from t in c.GetThingList(map)
@@ -86,7 +81,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002557 RID: 9559 RVA: 0x00140788 File Offset: 0x0013EB88
 		public static void RemoveAllFilth(IntVec3 c, Map map)
 		{
 			FilthMaker.toBeRemoved.Clear();
@@ -104,6 +98,26 @@ namespace RimWorld
 				FilthMaker.toBeRemoved[j].Destroy(DestroyMode.Vanish);
 			}
 			FilthMaker.toBeRemoved.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FilthMaker()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeFilth>c__AnonStorey0
+		{
+			internal ThingDef filthDef;
+
+			public <MakeFilth>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return t.def == this.filthDef;
+			}
 		}
 	}
 }

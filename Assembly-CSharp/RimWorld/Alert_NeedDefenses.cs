@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000793 RID: 1939
 	public class Alert_NeedDefenses : Alert
 	{
-		// Token: 0x06002AFD RID: 11005 RVA: 0x0016B715 File Offset: 0x00169B15
+		[CompilerGenerated]
+		private static Predicate<Building> <>f__am$cache0;
+
 		public Alert_NeedDefenses()
 		{
 			this.defaultLabel = "NeedDefenses".Translate();
@@ -15,7 +17,6 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B748 File Offset: 0x00169B48
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -38,7 +39,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AFF RID: 11007 RVA: 0x0016B7C4 File Offset: 0x00169BC4
 		private bool NeedDefenses(Map map)
 		{
 			bool result;
@@ -55,6 +55,12 @@ namespace RimWorld
 				result = !map.listerBuildings.allBuildingsColonist.Any((Building b) => (b.def.building != null && (b.def.building.IsTurret || b.def.building.isTrap)) || b.def == ThingDefOf.Sandbags);
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <NeedDefenses>m__0(Building b)
+		{
+			return (b.def.building != null && (b.def.building.IsTurret || b.def.building.isTrap)) || b.def == ThingDefOf.Sandbags;
 		}
 	}
 }

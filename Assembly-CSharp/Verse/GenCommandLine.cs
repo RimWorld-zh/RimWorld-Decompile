@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000F3A RID: 3898
 	public static class GenCommandLine
 	{
-		// Token: 0x06005DED RID: 24045 RVA: 0x002FC838 File Offset: 0x002FAC38
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
 		public static bool CommandLineArgPassed(string key)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
@@ -22,7 +24,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005DEE RID: 24046 RVA: 0x002FC89C File Offset: 0x002FAC9C
 		public static bool TryGetCommandLineArg(string key, out string value)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
@@ -53,7 +54,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005DEF RID: 24047 RVA: 0x002FC93C File Offset: 0x002FAD3C
 		public static void Restart()
 		{
 			try
@@ -84,6 +84,12 @@ namespace Verse
 				Log.Error("Error restarting: " + arg, false);
 				Find.WindowStack.Add(new Dialog_MessageBox("FailedToRestart".Translate(), null, null, null, null, null, false, null, null));
 			}
+		}
+
+		[CompilerGenerated]
+		private static void <Restart>m__0()
+		{
+			Thread.Sleep(10000);
 		}
 	}
 }

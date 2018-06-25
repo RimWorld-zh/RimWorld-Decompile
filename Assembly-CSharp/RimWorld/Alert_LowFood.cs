@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000797 RID: 1943
 	public class Alert_LowFood : Alert
 	{
-		// Token: 0x0400172C RID: 5932
 		private const float NutritionThresholdPerColonist = 4f;
 
-		// Token: 0x06002B0A RID: 11018 RVA: 0x0016BFF0 File Offset: 0x0016A3F0
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
 		public Alert_LowFood()
 		{
 			this.defaultLabel = "LowFood".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B0B RID: 11019 RVA: 0x0016C010 File Offset: 0x0016A410
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowFood();
@@ -40,7 +40,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B0C RID: 11020 RVA: 0x0016C0BC File Offset: 0x0016A4BC
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -55,7 +54,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B0D RID: 11021 RVA: 0x0016C104 File Offset: 0x0016A504
 		private Map MapWithLowFood()
 		{
 			List<Map> maps = Find.Maps;
@@ -75,6 +73,12 @@ namespace RimWorld
 				}
 			}
 			return null;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetExplanation>m__0(Pawn pr)
+		{
+			return pr.guest.GetsFood;
 		}
 	}
 }

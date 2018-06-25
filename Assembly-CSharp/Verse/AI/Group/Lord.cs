@@ -1,75 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009E6 RID: 2534
 	[StaticConstructorOnStartup]
 	public class Lord : IExposable, ILoadReferenceable
 	{
-		// Token: 0x04002454 RID: 9300
 		public LordManager lordManager;
 
-		// Token: 0x04002455 RID: 9301
 		private LordToil curLordToil;
 
-		// Token: 0x04002456 RID: 9302
 		private StateGraph graph;
 
-		// Token: 0x04002457 RID: 9303
 		public int loadID = -1;
 
-		// Token: 0x04002458 RID: 9304
 		private LordJob curJob;
 
-		// Token: 0x04002459 RID: 9305
 		public Faction faction;
 
-		// Token: 0x0400245A RID: 9306
 		public List<Pawn> ownedPawns = new List<Pawn>();
 
-		// Token: 0x0400245B RID: 9307
 		public List<Thing> extraForbiddenThings = new List<Thing>();
 
-		// Token: 0x0400245C RID: 9308
 		private bool initialized;
 
-		// Token: 0x0400245D RID: 9309
 		public int ticksInToil = 0;
 
-		// Token: 0x0400245E RID: 9310
 		public int numPawnsLostViolently = 0;
 
-		// Token: 0x0400245F RID: 9311
 		public int numPawnsEverGained = 0;
 
-		// Token: 0x04002460 RID: 9312
 		public int initialColonyHealthTotal = 0;
 
-		// Token: 0x04002461 RID: 9313
 		public int lastPawnHarmTick = -99999;
 
-		// Token: 0x04002462 RID: 9314
 		private const int AttackTargetCacheInterval = 60;
 
-		// Token: 0x04002463 RID: 9315
 		private static readonly Material FlagTex = MaterialPool.MatFrom("UI/Overlays/SquadFlag");
 
-		// Token: 0x04002464 RID: 9316
 		private int tmpCurLordToilIdx = -1;
 
-		// Token: 0x04002465 RID: 9317
 		private Dictionary<int, LordToilData> tmpLordToilData = new Dictionary<int, LordToilData>();
 
-		// Token: 0x04002466 RID: 9318
 		private Dictionary<int, TriggerData> tmpTriggerData = new Dictionary<int, TriggerData>();
 
-		// Token: 0x170008BF RID: 2239
-		// (get) Token: 0x060038CB RID: 14539 RVA: 0x001E5228 File Offset: 0x001E3628
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> <>f__am$cache5;
+
+		public Lord()
+		{
+		}
+
 		public Map Map
 		{
 			get
@@ -78,8 +79,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C0 RID: 2240
-		// (get) Token: 0x060038CC RID: 14540 RVA: 0x001E5248 File Offset: 0x001E3648
 		public StateGraph Graph
 		{
 			get
@@ -88,8 +87,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C1 RID: 2241
-		// (get) Token: 0x060038CD RID: 14541 RVA: 0x001E5264 File Offset: 0x001E3664
 		public LordToil CurLordToil
 		{
 			get
@@ -98,8 +95,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C2 RID: 2242
-		// (get) Token: 0x060038CE RID: 14542 RVA: 0x001E5280 File Offset: 0x001E3680
 		public LordJob LordJob
 		{
 			get
@@ -108,8 +103,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C3 RID: 2243
-		// (get) Token: 0x060038CF RID: 14543 RVA: 0x001E529C File Offset: 0x001E369C
 		private bool CanExistWithoutPawns
 		{
 			get
@@ -118,8 +111,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C4 RID: 2244
-		// (get) Token: 0x060038D0 RID: 14544 RVA: 0x001E52C0 File Offset: 0x001E36C0
 		public bool AnyActivePawn
 		{
 			get
@@ -135,20 +126,17 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D1 RID: 14545 RVA: 0x001E532C File Offset: 0x001E372C
 		private void Init()
 		{
 			this.initialized = true;
 			this.initialColonyHealthTotal = this.Map.wealthWatcher.HealthTotal;
 		}
 
-		// Token: 0x060038D2 RID: 14546 RVA: 0x001E534C File Offset: 0x001E374C
 		public string GetUniqueLoadID()
 		{
 			return "Lord_" + this.loadID;
 		}
 
-		// Token: 0x060038D3 RID: 14547 RVA: 0x001E5378 File Offset: 0x001E3778
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.loadID, "loadID", 0, false);
@@ -169,7 +157,6 @@ namespace Verse.AI.Group
 			this.ExposeData_StateGraph();
 		}
 
-		// Token: 0x060038D4 RID: 14548 RVA: 0x001E5498 File Offset: 0x001E3898
 		private void ExposeData_StateGraph()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -270,7 +257,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D5 RID: 14549 RVA: 0x001E58C4 File Offset: 0x001E3CC4
 		public void SetJob(LordJob lordJob)
 		{
 			if (this.curJob != null)
@@ -312,7 +298,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D6 RID: 14550 RVA: 0x001E5A94 File Offset: 0x001E3E94
 		public void Cleanup()
 		{
 			this.curJob.Cleanup();
@@ -334,7 +319,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D7 RID: 14551 RVA: 0x001E5B70 File Offset: 0x001E3F70
 		public void AddPawn(Pawn p)
 		{
 			if (this.ownedPawns.Contains(p))
@@ -371,7 +355,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D8 RID: 14552 RVA: 0x001E5C65 File Offset: 0x001E4065
 		private void RemovePawn(Pawn p)
 		{
 			this.ownedPawns.Remove(p);
@@ -382,7 +365,6 @@ namespace Verse.AI.Group
 			this.Map.attackTargetsCache.UpdateTarget(p);
 		}
 
-		// Token: 0x060038D9 RID: 14553 RVA: 0x001E5CA0 File Offset: 0x001E40A0
 		public void GotoToil(LordToil newLordToil)
 		{
 			LordToil previousToil = this.curLordToil;
@@ -408,7 +390,6 @@ namespace Verse.AI.Group
 			this.curLordToil.UpdateAllDuties();
 		}
 
-		// Token: 0x060038DA RID: 14554 RVA: 0x001E5DBB File Offset: 0x001E41BB
 		public void LordTick()
 		{
 			if (!this.initialized)
@@ -420,7 +401,6 @@ namespace Verse.AI.Group
 			this.ticksInToil++;
 		}
 
-		// Token: 0x060038DB RID: 14555 RVA: 0x001E5DF4 File Offset: 0x001E41F4
 		private Trigger GetTriggerByIndex(int index)
 		{
 			int num = 0;
@@ -438,13 +418,11 @@ namespace Verse.AI.Group
 			return null;
 		}
 
-		// Token: 0x060038DC RID: 14556 RVA: 0x001E5E8A File Offset: 0x001E428A
 		public void ReceiveMemo(string memo)
 		{
 			this.CheckTransitionOnSignal(TriggerSignal.ForMemo(memo));
 		}
 
-		// Token: 0x060038DD RID: 14557 RVA: 0x001E5E9C File Offset: 0x001E429C
 		public void Notify_FactionRelationsChanged(Faction otherFaction, FactionRelationKind previousRelationKind)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -455,7 +433,6 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038DE RID: 14558 RVA: 0x001E5ED8 File Offset: 0x001E42D8
 		public void Notify_PawnLost(Pawn pawn, PawnLostCondition cond)
 		{
 			if (this.ownedPawns.Contains(pawn))
@@ -496,7 +473,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038DF RID: 14559 RVA: 0x001E5FDC File Offset: 0x001E43DC
 		public void Notify_BuildingDamaged(Building building, DamageInfo dinfo)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -507,7 +483,6 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038E0 RID: 14560 RVA: 0x001E6014 File Offset: 0x001E4414
 		public void Notify_PawnDamaged(Pawn victim, DamageInfo dinfo)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -518,7 +493,6 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038E1 RID: 14561 RVA: 0x001E604C File Offset: 0x001E444C
 		public void Notify_PawnAttemptArrested(Pawn victim)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -528,24 +502,20 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038E2 RID: 14562 RVA: 0x001E607A File Offset: 0x001E447A
 		public void Notify_PawnAcquiredTarget(Pawn detector, Thing newTarg)
 		{
 		}
 
-		// Token: 0x060038E3 RID: 14563 RVA: 0x001E607D File Offset: 0x001E447D
 		public void Notify_ReachedDutyLocation(Pawn pawn)
 		{
 			this.curLordToil.Notify_ReachedDutyLocation(pawn);
 		}
 
-		// Token: 0x060038E4 RID: 14564 RVA: 0x001E608C File Offset: 0x001E448C
 		public void Notify_ConstructionFailed(Pawn pawn, Frame frame, Blueprint_Build newBlueprint)
 		{
 			this.curLordToil.Notify_ConstructionFailed(pawn, frame, newBlueprint);
 		}
 
-		// Token: 0x060038E5 RID: 14565 RVA: 0x001E60A0 File Offset: 0x001E44A0
 		private bool CheckTransitionOnSignal(TriggerSignal signal)
 		{
 			if (Trigger_PawnHarmed.SignalIsHarm(signal))
@@ -565,7 +535,6 @@ namespace Verse.AI.Group
 			return false;
 		}
 
-		// Token: 0x060038E6 RID: 14566 RVA: 0x001E6144 File Offset: 0x001E4544
 		private Vector3 DebugCenter()
 		{
 			Vector3 result = this.Map.Center.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
@@ -583,7 +552,6 @@ namespace Verse.AI.Group
 			return result;
 		}
 
-		// Token: 0x060038E7 RID: 14567 RVA: 0x001E6248 File Offset: 0x001E4648
 		public void DebugDraw()
 		{
 			Vector3 a = this.DebugCenter();
@@ -600,7 +568,6 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038E8 RID: 14568 RVA: 0x001E6310 File Offset: 0x001E4710
 		public void DebugOnGUI()
 		{
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -625,7 +592,6 @@ namespace Verse.AI.Group
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x060038E9 RID: 14569 RVA: 0x001E63CC File Offset: 0x001E47CC
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -651,7 +617,6 @@ namespace Verse.AI.Group
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060038EA RID: 14570 RVA: 0x001E64EC File Offset: 0x001E48EC
 		private bool ShouldDoDebugOutput()
 		{
 			IntVec3 a = UI.MouseCell();
@@ -673,6 +638,47 @@ namespace Verse.AI.Group
 				result = false;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Lord()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__0(Thing x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <DebugCenter>m__1(Pawn p)
+		{
+			return p.Spawned;
+		}
+
+		[CompilerGenerated]
+		private static bool <DebugCenter>m__2(Pawn p)
+		{
+			return p.Spawned;
+		}
+
+		[CompilerGenerated]
+		private static float <DebugCenter>m__3(Pawn p)
+		{
+			return p.DrawPos.x;
+		}
+
+		[CompilerGenerated]
+		private static bool <DebugCenter>m__4(Pawn p)
+		{
+			return p.Spawned;
+		}
+
+		[CompilerGenerated]
+		private static float <DebugCenter>m__5(Pawn p)
+		{
+			return p.DrawPos.z;
 		}
 	}
 }

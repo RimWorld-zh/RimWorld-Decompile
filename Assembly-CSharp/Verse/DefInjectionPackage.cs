@@ -1,56 +1,48 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000BF0 RID: 3056
 	public class DefInjectionPackage
 	{
-		// Token: 0x04002D97 RID: 11671
 		public Type defType;
 
-		// Token: 0x04002D98 RID: 11672
 		private Dictionary<string, string> injections = new Dictionary<string, string>();
 
-		// Token: 0x04002D99 RID: 11673
 		private Dictionary<string, List<string>> fullListInjections = new Dictionary<string, List<string>>();
 
-		// Token: 0x04002D9A RID: 11674
 		private Dictionary<string, string> injectionsFileSource = new Dictionary<string, string>();
 
-		// Token: 0x04002D9B RID: 11675
 		private Dictionary<string, string> fullListInjectionsFileSource = new Dictionary<string, string>();
 
-		// Token: 0x04002D9C RID: 11676
 		public List<Pair<string, string>> autoFixedBackCompatKeys = new List<Pair<string, string>>();
 
-		// Token: 0x04002D9D RID: 11677
 		public List<string> loadErrors = new List<string>();
 
-		// Token: 0x04002D9E RID: 11678
 		public List<string> loadSyntaxSuggestions = new List<string>();
 
-		// Token: 0x04002D9F RID: 11679
 		public bool usedOldRepSyntax;
 
-		// Token: 0x04002DA0 RID: 11680
 		public const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-		// Token: 0x04002DA1 RID: 11681
 		public const string RepNodeName = "rep";
 
-		// Token: 0x060042A0 RID: 17056 RVA: 0x002323D0 File Offset: 0x002307D0
+		[CompilerGenerated]
+		private static Func<XElement, bool> <>f__am$cache0;
+
 		public DefInjectionPackage(Type defType)
 		{
 			this.defType = defType;
 		}
 
-		// Token: 0x060042A1 RID: 17057 RVA: 0x00232438 File Offset: 0x00230838
 		private string ProcessedPath(string path)
 		{
 			string result;
@@ -65,13 +57,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042A2 RID: 17058 RVA: 0x00232488 File Offset: 0x00230888
 		private string ProcessedTranslation(string rawTranslation)
 		{
 			return rawTranslation.Replace("\\n", "\n");
 		}
 
-		// Token: 0x060042A3 RID: 17059 RVA: 0x002324B0 File Offset: 0x002308B0
 		public void AddDataFromFile(FileInfo file)
 		{
 			try
@@ -122,7 +112,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A4 RID: 17060 RVA: 0x0023270C File Offset: 0x00230B0C
 		private void TryAddInjection(FileInfo file, string key, string translation)
 		{
 			string text = key;
@@ -138,7 +127,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A5 RID: 17061 RVA: 0x00232778 File Offset: 0x00230B78
 		private void TryAddFullListInjection(FileInfo file, string key, List<string> translation)
 		{
 			string text = key;
@@ -158,7 +146,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A6 RID: 17062 RVA: 0x002327F0 File Offset: 0x00230BF0
 		private string BackCompatibleKey(string key)
 		{
 			string[] array = key.Split(new char[]
@@ -169,7 +156,6 @@ namespace Verse
 			return string.Join(".", array);
 		}
 
-		// Token: 0x060042A7 RID: 17063 RVA: 0x00232834 File Offset: 0x00230C34
 		private bool CheckErrors(FileInfo file, string key, string nonBackCompatibleKey, bool replacingFullList)
 		{
 			bool result;
@@ -261,7 +247,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042A8 RID: 17064 RVA: 0x00232B1C File Offset: 0x00230F1C
 		public void InjectIntoDefs(bool errorOnDefNotFound)
 		{
 			foreach (KeyValuePair<string, string> keyValuePair in this.injections)
@@ -275,7 +260,6 @@ namespace Verse
 			GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "ClearCachedData");
 		}
 
-		// Token: 0x060042A9 RID: 17065 RVA: 0x00232C48 File Offset: 0x00231048
 		private void SetDefFieldAtPath(Type defType, string path, object value, Type ensureFieldType, bool errorOnDefNotFound, string fileSource)
 		{
 			int num = 0;
@@ -717,7 +701,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042AA RID: 17066 RVA: 0x0023378C File Offset: 0x00231B8C
 		private FieldInfo GetFieldNamed(Type type, string name)
 		{
 			FieldInfo field = type.GetField(name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -742,7 +725,6 @@ namespace Verse
 			return field;
 		}
 
-		// Token: 0x060042AB RID: 17067 RVA: 0x0023383C File Offset: 0x00231C3C
 		public IEnumerable<string> MissingInjections(List<string> outUnnecessaryDefInjections)
 		{
 			Type databaseType = typeof(DefDatabase<>).MakeGenericType(new Type[]
@@ -776,7 +758,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042AC RID: 17068 RVA: 0x00233870 File Offset: 0x00231C70
 		private IEnumerable<string> MissingInjectionsFromDef(Def def, List<string> outUnnecessaryDefInjections)
 		{
 			HashSet<object> visited = new HashSet<object>();
@@ -787,7 +768,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042AD RID: 17069 RVA: 0x002338A8 File Offset: 0x00231CA8
 		private IEnumerable<string> MissingInjectionsFromDefRecursive(object obj, string curPath, HashSet<object> visited, List<string> outUnnecessaryDefInjections, bool translationAllowed, bool defGenerated)
 		{
 			if (obj == null)
@@ -921,10 +901,830 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042AE RID: 17070 RVA: 0x00233900 File Offset: 0x00231D00
 		private static bool ShouldCheckMissingInjection(string str, FieldInfo fi)
 		{
 			return !str.NullOrEmpty() && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && !fi.HasAttribute<MayTranslateAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || str.Contains(' '));
+		}
+
+		[CompilerGenerated]
+		private static bool <AddDataFromFile>m__0(XElement x)
+		{
+			return x.Name != "li";
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheckErrors>c__AnonStorey3
+		{
+			internal string key;
+
+			public <CheckErrors>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Pair<string, string> x)
+			{
+				return x.Second == this.key;
+			}
+
+			internal bool <>m__1(Pair<string, string> x)
+			{
+				return x.Second == this.key;
+			}
+
+			internal bool <>m__2(KeyValuePair<string, string> x)
+			{
+				return x.Key.StartsWith(this.key + ".");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MissingInjections>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal Type <databaseType>__0;
+
+			internal PropertyInfo <allDefsProperty>__0;
+
+			internal MethodInfo <allDefsMethod>__0;
+
+			internal IEnumerable <allDefsEnum>__0;
+
+			internal IEnumerator $locvar0;
+
+			internal Def <def>__1;
+
+			internal IDisposable $locvar1;
+
+			internal List<string> outUnnecessaryDefInjections;
+
+			internal IEnumerator<string> $locvar2;
+
+			internal string <mi>__2;
+
+			internal DefInjectionPackage $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MissingInjections>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					databaseType = typeof(DefDatabase<>).MakeGenericType(new Type[]
+					{
+						this.defType
+					});
+					allDefsProperty = databaseType.GetProperty("AllDefs");
+					allDefsMethod = allDefsProperty.GetGetMethod();
+					allDefsEnum = (IEnumerable)allDefsMethod.Invoke(null, null);
+					enumerator = allDefsEnum.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_4:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator2.MoveNext())
+							{
+								mi = enumerator2.Current;
+								this.$current = mi;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						def = (Def)enumerator.Current;
+						enumerator2 = base.MissingInjectionsFromDef(def, outUnnecessaryDefInjections).GetEnumerator();
+						num = 4294967293u;
+						goto Block_4;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DefInjectionPackage.<MissingInjections>c__Iterator0 <MissingInjections>c__Iterator = new DefInjectionPackage.<MissingInjections>c__Iterator0();
+				<MissingInjections>c__Iterator.$this = this;
+				<MissingInjections>c__Iterator.outUnnecessaryDefInjections = outUnnecessaryDefInjections;
+				return <MissingInjections>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MissingInjectionsFromDef>c__Iterator1 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal HashSet<object> <visited>__0;
+
+			internal Def def;
+
+			internal List<string> outUnnecessaryDefInjections;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <missing>__1;
+
+			internal DefInjectionPackage $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MissingInjectionsFromDef>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					visited = new HashSet<object>();
+					enumerator = base.MissingInjectionsFromDefRecursive(def, def.defName, visited, outUnnecessaryDefInjections, true, def.generated).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						missing = enumerator.Current;
+						this.$current = missing;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1 <MissingInjectionsFromDef>c__Iterator = new DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1();
+				<MissingInjectionsFromDef>c__Iterator.$this = this;
+				<MissingInjectionsFromDef>c__Iterator.def = def;
+				<MissingInjectionsFromDef>c__Iterator.outUnnecessaryDefInjections = outUnnecessaryDefInjections;
+				return <MissingInjectionsFromDef>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MissingInjectionsFromDefRecursive>c__Iterator2 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal object obj;
+
+			internal HashSet<object> visited;
+
+			internal FieldInfo[] $locvar0;
+
+			internal int $locvar1;
+
+			internal FieldInfo <fi>__1;
+
+			internal object <val>__2;
+
+			internal bool translationAllowed;
+
+			internal bool <thisFieldTranslationAllowed>__2;
+
+			internal string <str>__3;
+
+			internal string curPath;
+
+			internal string <path>__3;
+
+			internal List<string> outUnnecessaryDefInjections;
+
+			internal bool defGenerated;
+
+			internal IEnumerable<string> <collection>__4;
+
+			internal bool <allowFullListTranslation>__4;
+
+			internal int <i>__5;
+
+			internal IEnumerator<string> $locvar2;
+
+			internal string <elem>__6;
+
+			internal string <path>__7;
+
+			internal IEnumerable <collection>__8;
+
+			internal int <i>__8;
+
+			internal IEnumerator $locvar3;
+
+			internal object <elem>__9;
+
+			internal IDisposable $locvar4;
+
+			internal string <handleOrIndex>__10;
+
+			internal IEnumerator<string> $locvar5;
+
+			internal string <missing>__11;
+
+			internal IEnumerator<string> $locvar6;
+
+			internal string <missing>__12;
+
+			internal DefInjectionPackage $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MissingInjectionsFromDefRecursive>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (obj == null)
+					{
+						return false;
+					}
+					if (visited.Contains(obj))
+					{
+						return false;
+					}
+					visited.Add(obj);
+					fields = obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+					k = 0;
+					goto IL_7F5;
+				case 1u:
+					IL_238:
+					break;
+				case 2u:
+					Block_17:
+					try
+					{
+						switch (num)
+						{
+						case 2u:
+							IL_4A8:
+							i++;
+							break;
+						}
+						if (enumerator.MoveNext())
+						{
+							elem = enumerator.Current;
+							path2 = string.Concat(new object[]
+							{
+								curPath,
+								".",
+								fi.Name,
+								".",
+								i
+							});
+							if (this.injections.ContainsKey(path2))
+							{
+								if (!thisFieldTranslationAllowed)
+								{
+									outUnnecessaryDefInjections.Add(path2 + " '" + this.injections[path2].Replace("\n", "\\n") + "'");
+								}
+								goto IL_4A8;
+							}
+							if (thisFieldTranslationAllowed && !defGenerated && DefInjectionPackage.ShouldCheckMissingInjection(elem, fi))
+							{
+								this.$current = string.Concat(new string[]
+								{
+									path2,
+									" '",
+									elem.Replace("\n", "\\n"),
+									"'",
+									(!allowFullListTranslation) ? "" : " (hint: this list allows full-list translation by using <li> nodes)"
+								});
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_4A8;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					break;
+				case 3u:
+					Block_19:
+					try
+					{
+						switch (num)
+						{
+						case 3u:
+							Block_41:
+							try
+							{
+								switch (num)
+								{
+								}
+								if (enumerator3.MoveNext())
+								{
+									missing = enumerator3.Current;
+									this.$current = missing;
+									if (!this.$disposing)
+									{
+										this.$PC = 3;
+									}
+									flag = true;
+									return true;
+								}
+							}
+							finally
+							{
+								if (!flag)
+								{
+									if (enumerator3 != null)
+									{
+										enumerator3.Dispose();
+									}
+								}
+							}
+							break;
+						default:
+							goto IL_6B7;
+						}
+						IL_6A8:
+						j++;
+						IL_6B7:
+						if (enumerator2.MoveNext())
+						{
+							elem2 = enumerator2.Current;
+							if (elem2 != null && !(elem2 is Def) && GenTypes.IsCustomType(elem2.GetType()))
+							{
+								handleOrIndex = TranslationHandleUtility.GetBestHandleWithIndexForListElement(collection2, elem2);
+								if (handleOrIndex.NullOrEmpty())
+								{
+									handleOrIndex = j.ToString();
+								}
+								enumerator3 = base.MissingInjectionsFromDefRecursive(elem2, string.Concat(new string[]
+								{
+									curPath,
+									".",
+									fi.Name,
+									".",
+									handleOrIndex
+								}), visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated).GetEnumerator();
+								num = 4294967293u;
+								goto Block_41;
+							}
+							goto IL_6A8;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if ((disposable = (enumerator2 as IDisposable)) != null)
+							{
+								disposable.Dispose();
+							}
+						}
+					}
+					break;
+				case 4u:
+					Block_22:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator4.MoveNext())
+						{
+							missing2 = enumerator4.Current;
+							this.$current = missing2;
+							if (!this.$disposing)
+							{
+								this.$PC = 4;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator4 != null)
+							{
+								enumerator4.Dispose();
+							}
+						}
+					}
+					break;
+				default:
+					return false;
+				}
+				IL_4E8:
+				IL_7E6:
+				IL_7E7:
+				k++;
+				IL_7F5:
+				if (k >= fields.Length)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					fi = fields[k];
+					val = fi.GetValue(obj);
+					thisFieldTranslationAllowed = (translationAllowed && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>());
+					if (val is Def)
+					{
+						goto IL_7E7;
+					}
+					if (typeof(string).IsAssignableFrom(fi.FieldType))
+					{
+						str = (string)val;
+						path = curPath + "." + fi.Name;
+						if (this.injections.ContainsKey(path))
+						{
+							if (!thisFieldTranslationAllowed)
+							{
+								outUnnecessaryDefInjections.Add(path + " '" + this.injections[path].Replace("\n", "\\n") + "'");
+							}
+							goto IL_238;
+						}
+						if (thisFieldTranslationAllowed && !defGenerated && DefInjectionPackage.ShouldCheckMissingInjection(str, fi))
+						{
+							this.$current = path + " '" + str.Replace("\n", "\\n") + "'";
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+						goto IL_238;
+					}
+					else if (val is IEnumerable<string>)
+					{
+						collection = (IEnumerable<string>)val;
+						allowFullListTranslation = fi.HasAttribute<TranslationCanChangeCountAttribute>();
+						if (this.fullListInjections.ContainsKey(curPath + "." + fi.Name))
+						{
+							string text = curPath + "." + fi.Name;
+							if (!thisFieldTranslationAllowed)
+							{
+								outUnnecessaryDefInjections.Add(text + " '" + this.fullListInjections[text].ToStringSafeEnumerable().Replace("\n", "\\n") + "'");
+							}
+							goto IL_4E8;
+						}
+						i = 0;
+						enumerator = collection.GetEnumerator();
+						num = 4294967293u;
+						goto Block_17;
+					}
+					else
+					{
+						if (val is IEnumerable)
+						{
+							collection2 = (IEnumerable)val;
+							j = 0;
+							enumerator2 = collection2.GetEnumerator();
+							num = 4294967293u;
+							goto Block_19;
+						}
+						if (val != null && GenTypes.IsCustomType(val.GetType()))
+						{
+							enumerator4 = base.MissingInjectionsFromDefRecursive(val, curPath + "." + fi.Name, visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated).GetEnumerator();
+							num = 4294967293u;
+							goto Block_22;
+						}
+						goto IL_7E6;
+					}
+				}
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if ((disposable = (enumerator2 as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					break;
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DefInjectionPackage.<MissingInjectionsFromDefRecursive>c__Iterator2 <MissingInjectionsFromDefRecursive>c__Iterator = new DefInjectionPackage.<MissingInjectionsFromDefRecursive>c__Iterator2();
+				<MissingInjectionsFromDefRecursive>c__Iterator.$this = this;
+				<MissingInjectionsFromDefRecursive>c__Iterator.obj = obj;
+				<MissingInjectionsFromDefRecursive>c__Iterator.visited = visited;
+				<MissingInjectionsFromDefRecursive>c__Iterator.translationAllowed = translationAllowed;
+				<MissingInjectionsFromDefRecursive>c__Iterator.curPath = curPath;
+				<MissingInjectionsFromDefRecursive>c__Iterator.outUnnecessaryDefInjections = outUnnecessaryDefInjections;
+				<MissingInjectionsFromDefRecursive>c__Iterator.defGenerated = defGenerated;
+				return <MissingInjectionsFromDefRecursive>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,37 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000618 RID: 1560
 	public class TravelingTransportPods : WorldObject, IThingHolder
 	{
-		// Token: 0x04001252 RID: 4690
 		public int destinationTile = -1;
 
-		// Token: 0x04001253 RID: 4691
 		public TransportPodsArrivalAction arrivalAction;
 
-		// Token: 0x04001254 RID: 4692
 		private List<ActiveDropPodInfo> pods = new List<ActiveDropPodInfo>();
 
-		// Token: 0x04001255 RID: 4693
 		private bool arrived;
 
-		// Token: 0x04001256 RID: 4694
 		private int initialTile = -1;
 
-		// Token: 0x04001257 RID: 4695
 		private float traveledPct;
 
-		// Token: 0x04001258 RID: 4696
 		private const float TravelSpeed = 0.00025f;
 
-		// Token: 0x1700049F RID: 1183
-		// (get) Token: 0x06001F72 RID: 8050 RVA: 0x00110F50 File Offset: 0x0010F350
+		public TravelingTransportPods()
+		{
+		}
+
 		private Vector3 Start
 		{
 			get
@@ -40,8 +38,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004A0 RID: 1184
-		// (get) Token: 0x06001F73 RID: 8051 RVA: 0x00110F78 File Offset: 0x0010F378
 		private Vector3 End
 		{
 			get
@@ -50,8 +46,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004A1 RID: 1185
-		// (get) Token: 0x06001F74 RID: 8052 RVA: 0x00110FA0 File Offset: 0x0010F3A0
 		public override Vector3 DrawPos
 		{
 			get
@@ -60,8 +54,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004A2 RID: 1186
-		// (get) Token: 0x06001F75 RID: 8053 RVA: 0x00110FCC File Offset: 0x0010F3CC
 		private float TraveledPctStepPerTick
 		{
 			get
@@ -89,8 +81,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004A3 RID: 1187
-		// (get) Token: 0x06001F76 RID: 8054 RVA: 0x00111038 File Offset: 0x0010F438
 		private bool PodsHaveAnyPotentialCaravanOwner
 		{
 			get
@@ -111,8 +101,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004A4 RID: 1188
-		// (get) Token: 0x06001F77 RID: 8055 RVA: 0x001110C8 File Offset: 0x0010F4C8
 		public bool PodsHaveAnyFreeColonist
 		{
 			get
@@ -133,8 +121,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170004A5 RID: 1189
-		// (get) Token: 0x06001F78 RID: 8056 RVA: 0x0011115C File Offset: 0x0010F55C
 		public IEnumerable<Pawn> Pawns
 		{
 			get
@@ -155,7 +141,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F79 RID: 8057 RVA: 0x00111188 File Offset: 0x0010F588
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -174,14 +159,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F7A RID: 8058 RVA: 0x00111252 File Offset: 0x0010F652
 		public override void PostAdd()
 		{
 			base.PostAdd();
 			this.initialTile = base.Tile;
 		}
 
-		// Token: 0x06001F7B RID: 8059 RVA: 0x00111267 File Offset: 0x0010F667
 		public override void Tick()
 		{
 			base.Tick();
@@ -193,7 +176,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F7C RID: 8060 RVA: 0x001112A8 File Offset: 0x0010F6A8
 		public void AddPod(ActiveDropPodInfo contents, bool justLeftTheMap)
 		{
 			contents.parent = this;
@@ -221,7 +203,6 @@ namespace RimWorld.Planet
 			contents.savePawnsWithReferenceMode = true;
 		}
 
-		// Token: 0x06001F7D RID: 8061 RVA: 0x00111354 File Offset: 0x0010F754
 		public bool ContainsPawn(Pawn p)
 		{
 			for (int i = 0; i < this.pods.Count; i++)
@@ -234,7 +215,6 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001F7E RID: 8062 RVA: 0x001113AC File Offset: 0x0010F7AC
 		private void Arrived()
 		{
 			if (!this.arrived)
@@ -286,7 +266,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F7F RID: 8063 RVA: 0x00111564 File Offset: 0x0010F964
 		private void DoArrivalAction()
 		{
 			for (int i = 0; i < this.pods.Count; i++)
@@ -318,19 +297,143 @@ namespace RimWorld.Planet
 			Find.WorldObjects.Remove(this);
 		}
 
-		// Token: 0x06001F80 RID: 8064 RVA: 0x00111688 File Offset: 0x0010FA88
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x06001F81 RID: 8065 RVA: 0x001116A0 File Offset: 0x0010FAA0
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 			for (int i = 0; i < this.pods.Count; i++)
 			{
 				outChildren.Add(this.pods[i]);
+			}
+		}
+
+		[CompilerGenerated]
+		private void <Arrived>m__0()
+		{
+			this.DoArrivalAction();
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal int <i>__1;
+
+			internal ThingOwner <things>__2;
+
+			internal int <j>__3;
+
+			internal Pawn <p>__4;
+
+			internal TravelingTransportPods $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_D8;
+				case 1u:
+					IL_A4:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_B3:
+				if (j >= things.Count)
+				{
+					i++;
+				}
+				else
+				{
+					p = (things[j] as Pawn);
+					if (p != null)
+					{
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_A4;
+				}
+				IL_D8:
+				if (i < this.pods.Count)
+				{
+					things = this.pods[i].innerContainer;
+					j = 0;
+					goto IL_B3;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TravelingTransportPods.<>c__Iterator0 <>c__Iterator = new TravelingTransportPods.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
 			}
 		}
 	}

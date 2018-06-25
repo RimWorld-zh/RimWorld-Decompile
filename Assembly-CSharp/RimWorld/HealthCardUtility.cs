@@ -1,83 +1,96 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000817 RID: 2071
 	[StaticConstructorOnStartup]
 	public static class HealthCardUtility
 	{
-		// Token: 0x0400189B RID: 6299
 		private static Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x0400189C RID: 6300
 		private static float scrollViewHeight = 0f;
 
-		// Token: 0x0400189D RID: 6301
 		private static bool highlight = true;
 
-		// Token: 0x0400189E RID: 6302
 		private static bool onOperationTab = false;
 
-		// Token: 0x0400189F RID: 6303
 		private static Vector2 billsScrollPosition = Vector2.zero;
 
-		// Token: 0x040018A0 RID: 6304
 		private static float billsScrollHeight = 1000f;
 
-		// Token: 0x040018A1 RID: 6305
 		private static bool showAllHediffs = false;
 
-		// Token: 0x040018A2 RID: 6306
 		private static bool showHediffsDebugInfo = false;
 
-		// Token: 0x040018A3 RID: 6307
 		public const float TopPadding = 20f;
 
-		// Token: 0x040018A4 RID: 6308
 		private const float ThoughtLevelHeight = 25f;
 
-		// Token: 0x040018A5 RID: 6309
 		private const float ThoughtLevelSpacing = 4f;
 
-		// Token: 0x040018A6 RID: 6310
 		private const float IconSize = 20f;
 
-		// Token: 0x040018A7 RID: 6311
 		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-		// Token: 0x040018A8 RID: 6312
 		private static readonly Color StaticHighlightColor = new Color(0.75f, 0.75f, 0.85f, 1f);
 
-		// Token: 0x040018A9 RID: 6313
 		private static readonly Color VeryPoorColor = new Color(0.4f, 0.4f, 0.4f);
 
-		// Token: 0x040018AA RID: 6314
 		private static readonly Color PoorColor = new Color(0.55f, 0.55f, 0.55f);
 
-		// Token: 0x040018AB RID: 6315
 		private static readonly Color WeakenedColor = new Color(0.7f, 0.7f, 0.7f);
 
-		// Token: 0x040018AC RID: 6316
 		private static readonly Color EnhancedColor = new Color(0.5f, 0.5f, 0.9f);
 
-		// Token: 0x040018AD RID: 6317
 		private static readonly Color MediumPainColor = new Color(0.9f, 0.9f, 0f);
 
-		// Token: 0x040018AE RID: 6318
 		private static readonly Color SeverePainColor = new Color(0.9f, 0.5f, 0f);
 
-		// Token: 0x040018AF RID: 6319
 		private static readonly Texture2D BleedingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Medical/Bleeding", true);
 
-		// Token: 0x040018B0 RID: 6320
 		private static List<ThingDef> tmpMedicineBestToWorst = new List<ThingDef>();
 
-		// Token: 0x06002E2E RID: 11822 RVA: 0x0018683C File Offset: 0x00184C3C
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<PawnCapacityDef, bool> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<PawnCapacityDef, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<PawnCapacityDef, bool> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<PawnCapacityDef, int> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<Hediff, int> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<Hediff, int> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<Hediff, int> <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cacheA;
+
 		public static void DrawPawnHealthCard(Rect outRect, Pawn pawn, bool allowOperations, bool showBloodLoss, Thing thingForMedBills)
 		{
 			if (pawn.Dead && allowOperations)
@@ -93,7 +106,6 @@ namespace RimWorld
 			HealthCardUtility.DrawHediffListing(rect2.ContractedBy(10f), pawn, showBloodLoss);
 		}
 
-		// Token: 0x06002E2F RID: 11823 RVA: 0x001868FC File Offset: 0x00184CFC
 		public static void DrawHealthSummary(Rect rect, Pawn pawn, bool allowOperations, Thing thingForMedBills)
 		{
 			GUI.color = Color.white;
@@ -143,7 +155,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E30 RID: 11824 RVA: 0x00186A80 File Offset: 0x00184E80
 		public static void DrawHediffListing(Rect rect, Pawn pawn, bool showBloodLoss)
 		{
 			GUI.color = Color.white;
@@ -210,7 +221,6 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06002E31 RID: 11825 RVA: 0x00186D1C File Offset: 0x0018511C
 		private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> VisibleHediffGroupsInOrder(Pawn pawn, bool showBloodLoss)
 		{
 			foreach (IGrouping<BodyPartRecord, Hediff> group in from x in HealthCardUtility.VisibleHediffs(pawn, showBloodLoss)
@@ -223,7 +233,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E32 RID: 11826 RVA: 0x00186D50 File Offset: 0x00185150
 		private static float GetListPriority(BodyPartRecord rec)
 		{
 			float result;
@@ -238,7 +247,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E33 RID: 11827 RVA: 0x00186D8C File Offset: 0x0018518C
 		private static IEnumerable<Hediff> VisibleHediffs(Pawn pawn, bool showBloodLoss)
 		{
 			if (!HealthCardUtility.showAllHediffs)
@@ -266,7 +274,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E34 RID: 11828 RVA: 0x00186DC0 File Offset: 0x001851C0
 		private static float DrawMedOperationsTab(Rect leftRect, Pawn pawn, Thing thingForMedBills, float curY)
 		{
 			curY += 2f;
@@ -307,7 +314,6 @@ namespace RimWorld
 			return curY;
 		}
 
-		// Token: 0x06002E35 RID: 11829 RVA: 0x00186E50 File Offset: 0x00185250
 		private static FloatMenuOption GenerateSurgeryOption(Pawn pawn, Thing thingForMedBills, RecipeDef recipe, IEnumerable<ThingDef> missingIngredients, BodyPartRecord part = null)
 		{
 			string text = recipe.Worker.GetLabelWhenUsedOn(pawn, part).CapitalizeFirst();
@@ -394,7 +400,6 @@ namespace RimWorld
 			return floatMenuOption;
 		}
 
-		// Token: 0x06002E36 RID: 11830 RVA: 0x00186FE0 File Offset: 0x001853E0
 		private static ThingDef GetMinRequiredMedicine(RecipeDef recipe)
 		{
 			HealthCardUtility.tmpMedicineBestToWorst.Clear();
@@ -427,7 +432,6 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06002E37 RID: 11831 RVA: 0x00187120 File Offset: 0x00185520
 		private static float DrawOverviewTab(Rect leftRect, Pawn pawn, float curY)
 		{
 			curY += 4f;
@@ -537,7 +541,6 @@ namespace RimWorld
 			return curY;
 		}
 
-		// Token: 0x06002E38 RID: 11832 RVA: 0x001876BC File Offset: 0x00185ABC
 		private static float DrawLeftRow(Rect leftRect, float curY, string leftLabel, string rightLabel, Color rightLabelColor, TipSignal tipSignal)
 		{
 			Rect rect = new Rect(0f, curY, leftRect.width, 20f);
@@ -555,7 +558,6 @@ namespace RimWorld
 			return curY;
 		}
 
-		// Token: 0x06002E39 RID: 11833 RVA: 0x00187794 File Offset: 0x00185B94
 		private static void DrawHediffRow(Rect rect, Pawn pawn, IEnumerable<Hediff> diffs, ref float curY)
 		{
 			float num = rect.width * 0.375f;
@@ -655,13 +657,11 @@ namespace RimWorld
 			TooltipHandler.TipRegion(rect2, new TipSignal(() => HealthCardUtility.GetTooltip(diffs, pawn, part), (int)curY + 7857));
 		}
 
-		// Token: 0x06002E3A RID: 11834 RVA: 0x00187C3C File Offset: 0x0018603C
 		public static string GetPainTip(Pawn pawn)
 		{
 			return "PainLevel".Translate() + ": " + (pawn.health.hediffSet.PainTotal * 100f).ToString("F0") + "%";
 		}
 
-		// Token: 0x06002E3B RID: 11835 RVA: 0x00187C90 File Offset: 0x00186090
 		public static string GetPawnCapacityTip(Pawn pawn, PawnCapacityDef capacity)
 		{
 			List<PawnCapacityUtility.CapacityImpactor> list = new List<PawnCapacityUtility.CapacityImpactor>();
@@ -704,7 +704,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06002E3C RID: 11836 RVA: 0x00187E5C File Offset: 0x0018625C
 		private static string GetTooltip(IEnumerable<Hediff> diffs, Pawn pawn, BodyPartRecord part)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -761,7 +760,6 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEnd(new char[0]);
 		}
 
-		// Token: 0x06002E3D RID: 11837 RVA: 0x00188134 File Offset: 0x00186534
 		private static void EntryClicked(IEnumerable<Hediff> diffs, Pawn pawn)
 		{
 			LogEntry combatLogEntry;
@@ -780,7 +778,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E3E RID: 11838 RVA: 0x001881D0 File Offset: 0x001865D0
 		private static bool GetCombatLogInfo(IEnumerable<Hediff> diffs, out string combatLogText, out LogEntry combatLogEntry)
 		{
 			combatLogText = null;
@@ -800,7 +797,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002E3F RID: 11839 RVA: 0x0018829C File Offset: 0x0018669C
 		private static void DoRightRowHighlight(Rect rowRect)
 		{
 			if (HealthCardUtility.highlight)
@@ -816,7 +812,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E40 RID: 11840 RVA: 0x001882FC File Offset: 0x001866FC
 		private static void DoDebugOptions(Rect rightRect, Pawn pawn)
 		{
 			Widgets.CheckboxLabeled(new Rect(rightRect.x, rightRect.y - 25f, 110f, 30f), "Dev: AllDiffs", ref HealthCardUtility.showAllHediffs, false, null, null, false);
@@ -1040,7 +1035,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E41 RID: 11841 RVA: 0x001885DC File Offset: 0x001869DC
 		public static Pair<string, Color> GetEfficiencyLabel(Pawn pawn, PawnCapacityDef activity)
 		{
 			float level = pawn.health.capacities.GetLevel(activity);
@@ -1079,7 +1073,6 @@ namespace RimWorld
 			return new Pair<string, Color>(first, second);
 		}
 
-		// Token: 0x06002E42 RID: 11842 RVA: 0x001886F0 File Offset: 0x00186AF0
 		public static Pair<string, Color> GetPainLabel(Pawn pawn)
 		{
 			float painTotal = pawn.health.hediffSet.PainTotal;
@@ -1111,6 +1104,987 @@ namespace RimWorld
 				second = HealthUtility.DarkRedColor;
 			}
 			return new Pair<string, Color>(first, second);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static HealthCardUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <DrawHealthSummary>m__0()
+		{
+			HealthCardUtility.onOperationTab = false;
+		}
+
+		[CompilerGenerated]
+		private static void <DrawHealthSummary>m__1()
+		{
+			HealthCardUtility.onOperationTab = true;
+		}
+
+		[CompilerGenerated]
+		private static float <GetMinRequiredMedicine>m__2(ThingDef x)
+		{
+			return x.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawOverviewTab>m__3(PawnCapacityDef x)
+		{
+			return x.showOnHumanlikes;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawOverviewTab>m__4(PawnCapacityDef x)
+		{
+			return x.showOnAnimals;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawOverviewTab>m__5(PawnCapacityDef x)
+		{
+			return x.showOnMechanoids;
+		}
+
+		[CompilerGenerated]
+		private static int <DrawOverviewTab>m__6(PawnCapacityDef act)
+		{
+			return act.listOrder;
+		}
+
+		[CompilerGenerated]
+		private static int <DrawHediffRow>m__7(Hediff x)
+		{
+			return x.UIGroupKey;
+		}
+
+		[CompilerGenerated]
+		private static int <DrawHediffRow>m__8(Hediff x)
+		{
+			return x.UIGroupKey;
+		}
+
+		[CompilerGenerated]
+		private static int <GetTooltip>m__9(Hediff x)
+		{
+			return x.UIGroupKey;
+		}
+
+		[CompilerGenerated]
+		private static void <DoDebugOptions>m__A()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			int num = 0;
+			int num2 = 0;
+			int num3 = 0;
+			float num4 = 0f;
+			int num5 = 10000;
+			for (int i = 0; i < num5; i++)
+			{
+				float randomPainFactor = PermanentInjuryUtility.GetRandomPainFactor();
+				if (randomPainFactor < 0f)
+				{
+					Log.Error("Pain factor < 0", false);
+				}
+				if (randomPainFactor == 0f)
+				{
+					num++;
+				}
+				if (randomPainFactor < 1f)
+				{
+					num2++;
+				}
+				if (randomPainFactor < 5f)
+				{
+					num3++;
+				}
+				if (randomPainFactor > num4)
+				{
+					num4 = randomPainFactor;
+				}
+			}
+			stringBuilder.AppendLine("total: " + num5);
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"0: ",
+				num,
+				" (",
+				((float)num / (float)num5).ToStringPercent(),
+				")"
+			}));
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"< 1: ",
+				num2,
+				" (",
+				((float)num2 / (float)num5).ToStringPercent(),
+				")"
+			}));
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"< 5: ",
+				num3,
+				" (",
+				((float)num3 / (float)num5).ToStringPercent(),
+				")"
+			}));
+			stringBuilder.AppendLine("max: " + num4);
+			Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+		}
+
+		[CompilerGenerated]
+		private sealed class <VisibleHediffGroupsInOrder>c__Iterator0 : IEnumerable, IEnumerable<IGrouping<BodyPartRecord, Hediff>>, IEnumerator, IDisposable, IEnumerator<IGrouping<BodyPartRecord, Hediff>>
+		{
+			internal Pawn pawn;
+
+			internal bool showBloodLoss;
+
+			internal IEnumerator<IGrouping<BodyPartRecord, Hediff>> $locvar0;
+
+			internal IGrouping<BodyPartRecord, Hediff> <group>__1;
+
+			internal IGrouping<BodyPartRecord, Hediff> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<Hediff, BodyPartRecord> <>f__am$cache0;
+
+			private static Func<IGrouping<BodyPartRecord, Hediff>, float> <>f__am$cache1;
+
+			[DebuggerHidden]
+			public <VisibleHediffGroupsInOrder>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = (from x in HealthCardUtility.VisibleHediffs(pawn, showBloodLoss)
+					group x by x.Part into x
+					orderby HealthCardUtility.GetListPriority(x.First<Hediff>().Part) descending
+					select x).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						group = enumerator.Current;
+						this.$current = group;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IGrouping<BodyPartRecord, Hediff> IEnumerator<IGrouping<BodyPartRecord, Hediff>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<System.Linq.IGrouping<Verse.BodyPartRecord,Verse.Hediff>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IGrouping<BodyPartRecord, Hediff>> IEnumerable<IGrouping<BodyPartRecord, Hediff>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator0 <VisibleHediffGroupsInOrder>c__Iterator = new HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator0();
+				<VisibleHediffGroupsInOrder>c__Iterator.pawn = pawn;
+				<VisibleHediffGroupsInOrder>c__Iterator.showBloodLoss = showBloodLoss;
+				return <VisibleHediffGroupsInOrder>c__Iterator;
+			}
+
+			private static BodyPartRecord <>m__0(Hediff x)
+			{
+				return x.Part;
+			}
+
+			private static float <>m__1(IGrouping<BodyPartRecord, Hediff> x)
+			{
+				return HealthCardUtility.GetListPriority(x.First<Hediff>().Part);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <VisibleHediffs>c__Iterator1 : IEnumerable, IEnumerable<Hediff>, IEnumerator, IDisposable, IEnumerator<Hediff>
+		{
+			internal Pawn pawn;
+
+			internal List<Hediff_MissingPart> <mpca>__1;
+
+			internal int <i>__2;
+
+			internal bool showBloodLoss;
+
+			internal IEnumerable<Hediff> <visibleDiffs>__1;
+
+			internal IEnumerator<Hediff> $locvar0;
+
+			internal Hediff <diff>__3;
+
+			internal List<Hediff>.Enumerator $locvar1;
+
+			internal Hediff <diff>__4;
+
+			internal Hediff $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private HealthCardUtility.<VisibleHediffs>c__Iterator1.<VisibleHediffs>c__AnonStorey2 $locvar2;
+
+			[DebuggerHidden]
+			public <VisibleHediffs>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (HealthCardUtility.showAllHediffs)
+					{
+						enumerator2 = pawn.health.hediffSet.hediffs.GetEnumerator();
+						num = 4294967293u;
+						goto Block_6;
+					}
+					mpca = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				case 2u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							diff = enumerator.Current;
+							this.$current = diff;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					goto IL_230;
+				case 3u:
+					goto IL_1BE;
+				default:
+					return false;
+				}
+				if (i >= mpca.Count)
+				{
+					visibleDiffs = from d in pawn.health.hediffSet.hediffs
+					where !(d is Hediff_MissingPart) && d.Visible && (<VisibleHediffs>c__AnonStorey.showBloodLoss || d.def != HediffDefOf.BloodLoss)
+					select d;
+					enumerator = visibleDiffs.GetEnumerator();
+					num = 4294967293u;
+					goto Block_5;
+				}
+				this.$current = mpca[i];
+				if (!this.$disposing)
+				{
+					this.$PC = 1;
+				}
+				return true;
+				Block_6:
+				try
+				{
+					IL_1BE:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						diff2 = enumerator2.Current;
+						this.$current = diff2;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				IL_230:
+				this.$PC = -1;
+				return false;
+			}
+
+			Hediff IEnumerator<Hediff>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Hediff>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Hediff> IEnumerable<Hediff>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				HealthCardUtility.<VisibleHediffs>c__Iterator1 <VisibleHediffs>c__Iterator = new HealthCardUtility.<VisibleHediffs>c__Iterator1();
+				<VisibleHediffs>c__Iterator.pawn = pawn;
+				<VisibleHediffs>c__Iterator.showBloodLoss = showBloodLoss;
+				return <VisibleHediffs>c__Iterator;
+			}
+
+			private sealed class <VisibleHediffs>c__AnonStorey2
+			{
+				internal bool showBloodLoss;
+
+				internal HealthCardUtility.<VisibleHediffs>c__Iterator1 <>f__ref$1;
+
+				public <VisibleHediffs>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(Hediff d)
+				{
+					return !(d is Hediff_MissingPart) && d.Visible && (this.showBloodLoss || d.def != HediffDefOf.BloodLoss);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawMedOperationsTab>c__AnonStorey3
+		{
+			internal Thing thingForMedBills;
+
+			internal Pawn pawn;
+
+			private static Func<ThingDef, bool> <>f__am$cache0;
+
+			private static Func<ThingDef, bool> <>f__am$cache1;
+
+			public <DrawMedOperationsTab>c__AnonStorey3()
+			{
+			}
+
+			internal List<FloatMenuOption> <>m__0()
+			{
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				foreach (RecipeDef recipeDef in this.thingForMedBills.def.AllRecipes)
+				{
+					if (recipeDef.AvailableNow)
+					{
+						IEnumerable<ThingDef> enumerable = recipeDef.PotentiallyMissingIngredients(null, this.thingForMedBills.Map);
+						if (!enumerable.Any((ThingDef x) => x.isTechHediff))
+						{
+							if (!enumerable.Any((ThingDef x) => x.IsDrug))
+							{
+								if (!enumerable.Any<ThingDef>() || !recipeDef.dontShowIfAnyIngredientMissing)
+								{
+									if (recipeDef.targetsBodyPart)
+									{
+										foreach (BodyPartRecord part in recipeDef.Worker.GetPartsToApplyOn(this.pawn, recipeDef))
+										{
+											list.Add(HealthCardUtility.GenerateSurgeryOption(this.pawn, this.thingForMedBills, recipeDef, enumerable, part));
+										}
+									}
+									else
+									{
+										list.Add(HealthCardUtility.GenerateSurgeryOption(this.pawn, this.thingForMedBills, recipeDef, enumerable, null));
+									}
+								}
+							}
+						}
+					}
+				}
+				return list;
+			}
+
+			private static bool <>m__1(ThingDef x)
+			{
+				return x.isTechHediff;
+			}
+
+			private static bool <>m__2(ThingDef x)
+			{
+				return x.IsDrug;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateSurgeryOption>c__AnonStorey4
+		{
+			internal Thing thingForMedBills;
+
+			internal RecipeDef recipe;
+
+			internal BodyPartRecord part;
+
+			internal Pawn pawn;
+
+			public <GenerateSurgeryOption>c__AnonStorey4()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn pawn = this.thingForMedBills as Pawn;
+				if (pawn != null)
+				{
+					Bill_Medical bill_Medical = new Bill_Medical(this.recipe);
+					pawn.BillStack.AddBill(bill_Medical);
+					bill_Medical.Part = this.part;
+					if (this.recipe.conceptLearned != null)
+					{
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(this.recipe.conceptLearned, KnowledgeAmount.Total);
+					}
+					Map map = this.thingForMedBills.Map;
+					if (!map.mapPawns.FreeColonists.Any((Pawn col) => this.recipe.PawnSatisfiesSkillRequirements(col)))
+					{
+						Bill.CreateNoPawnsWithSkillDialog(this.recipe);
+					}
+					if (!pawn.InBed() && pawn.RaceProps.IsFlesh)
+					{
+						if (pawn.RaceProps.Humanlike)
+						{
+							if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def) && ((Building_Bed)x).Medical))
+							{
+								Messages.Message("MessageNoMedicalBeds".Translate(), pawn, MessageTypeDefOf.CautionInput, false);
+							}
+						}
+						else if (!map.listerBuildings.allBuildingsColonist.Any((Building x) => x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def)))
+						{
+							Messages.Message("MessageNoAnimalBeds".Translate(), pawn, MessageTypeDefOf.CautionInput, false);
+						}
+					}
+					if (pawn.Faction != null && !pawn.Faction.def.hidden && !pawn.Faction.HostileTo(Faction.OfPlayer) && this.recipe.Worker.IsViolationOnPawn(pawn, this.part, Faction.OfPlayer))
+					{
+						Messages.Message("MessageMedicalOperationWillAngerFaction".Translate(new object[]
+						{
+							pawn.Faction
+						}), pawn, MessageTypeDefOf.CautionInput, false);
+					}
+					ThingDef minRequiredMedicine = HealthCardUtility.GetMinRequiredMedicine(this.recipe);
+					if (minRequiredMedicine != null && pawn.playerSettings != null && !pawn.playerSettings.medCare.AllowsMedicine(minRequiredMedicine))
+					{
+						Messages.Message("MessageTooLowMedCare".Translate(new object[]
+						{
+							minRequiredMedicine.label,
+							pawn.LabelShort,
+							pawn.playerSettings.medCare.GetLabel()
+						}), pawn, MessageTypeDefOf.CautionInput, false);
+					}
+				}
+			}
+
+			internal bool <>m__1(Rect rect)
+			{
+				return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, this.recipe);
+			}
+
+			internal bool <>m__2(Pawn col)
+			{
+				return this.recipe.PawnSatisfiesSkillRequirements(col);
+			}
+
+			internal bool <>m__3(Building x)
+			{
+				return x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def) && ((Building_Bed)x).Medical;
+			}
+
+			internal bool <>m__4(Building x)
+			{
+				return x is Building_Bed && RestUtility.CanUseBedEver(this.pawn, x.def);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawOverviewTab>c__AnonStorey5
+		{
+			internal Pawn pawn;
+
+			public <DrawOverviewTab>c__AnonStorey5()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.pawn.ageTracker.AgeTooltipString;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawOverviewTab>c__AnonStorey6
+		{
+			internal PawnCapacityDef activityLocal;
+
+			internal HealthCardUtility.<DrawOverviewTab>c__AnonStorey5 <>f__ref$5;
+
+			public <DrawOverviewTab>c__AnonStorey6()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return (!this.<>f__ref$5.pawn.Dead) ? HealthCardUtility.GetPawnCapacityTip(this.<>f__ref$5.pawn, this.activityLocal) : "";
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawHediffRow>c__AnonStorey7
+		{
+			internal IEnumerable<Hediff> diffs;
+
+			internal Pawn pawn;
+
+			internal BodyPartRecord part;
+
+			public <DrawHediffRow>c__AnonStorey7()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return HealthCardUtility.GetTooltip(this.diffs, this.pawn, this.part);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <EntryClicked>c__AnonStorey8
+		{
+			internal Pawn pawn;
+
+			internal LogEntry combatLogEntry;
+
+			public <EntryClicked>c__AnonStorey8()
+			{
+			}
+
+			internal bool <>m__0(Battle b)
+			{
+				return b.Concerns(this.pawn) && b.Entries.Any((LogEntry e) => e == this.combatLogEntry);
+			}
+
+			internal bool <>m__1(LogEntry e)
+			{
+				return e == this.combatLogEntry;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoDebugOptions>c__AnonStorey9
+		{
+			internal Pawn pawn;
+
+			private static Func<BodyPartRecord, float> <>f__am$cache0;
+
+			private static Func<BodyPartRecord, float> <>f__am$cache1;
+
+			public <DoDebugOptions>c__AnonStorey9()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in from x in this.pawn.RaceProps.body.AllParts
+				orderby x.coverageAbsWithChildren descending
+				select x)
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.coverageAbsWithChildren.ToStringPercent());
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__1()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				float num = 0f;
+				foreach (BodyPartRecord bodyPartRecord in from x in this.pawn.RaceProps.body.AllParts
+				orderby x.coverageAbs descending
+				select x)
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.coverageAbs.ToStringPercent());
+					num += bodyPartRecord.coverageAbs;
+				}
+				stringBuilder.AppendLine();
+				stringBuilder.AppendLine("Total " + num.ToStringPercent());
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__2()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.RaceProps.body.AllParts)
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + PawnCapacityUtility.CalculatePartEfficiency(this.pawn.health.hediffSet, bodyPartRecord, false, null).ToStringPercent());
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__3()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartGroupDef bodyPartGroupDef in from x in DefDatabase<BodyPartGroupDef>.AllDefs
+				where this.pawn.RaceProps.body.AllParts.Any((BodyPartRecord y) => y.groups.Contains(x))
+				select x)
+				{
+					stringBuilder.AppendLine(bodyPartGroupDef.LabelCap + " " + PawnCapacityUtility.CalculateNaturalPartsAverageEfficiency(this.pawn.health.hediffSet, bodyPartGroupDef).ToStringPercent());
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__4()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.def.IsSolid(bodyPartRecord, this.pawn.health.hediffSet.hediffs));
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__5()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + bodyPartRecord.def.IsSkinCovered(bodyPartRecord, this.pawn.health.hediffSet));
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__6()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + " " + this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(bodyPartRecord));
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__7()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap);
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__8()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (BodyPartRecord bodyPartRecord in from x in this.pawn.RaceProps.body.AllParts
+				orderby this.pawn.health.hediffSet.GetCoverageOfNotMissingNaturalParts(x) descending
+				select x)
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + ": " + this.pawn.health.hediffSet.GetCoverageOfNotMissingNaturalParts(bodyPartRecord).ToStringPercent());
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__9()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				float totalCorpseNutrition = StatDefOf.Nutrition.Worker.GetValueAbstract(this.pawn.RaceProps.corpseDef, null);
+				foreach (BodyPartRecord bodyPartRecord in from x in this.pawn.RaceProps.body.AllParts
+				orderby FoodUtility.GetBodyPartNutrition(totalCorpseNutrition, this.pawn, x) descending
+				select x)
+				{
+					stringBuilder.AppendLine(bodyPartRecord.LabelCap + ": " + FoodUtility.GetBodyPartNutrition(totalCorpseNutrition, this.pawn, bodyPartRecord));
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			internal void <>m__A()
+			{
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				foreach (HediffGiverSetDef hediffGiverSetDef in this.pawn.RaceProps.hediffGiverSets)
+				{
+					foreach (HediffGiver_Birthday hediffGiver_Birthday in hediffGiverSetDef.hediffGivers.OfType<HediffGiver_Birthday>())
+					{
+						HediffGiver_Birthday hLocal = hediffGiver_Birthday;
+						FloatMenuOption item = new FloatMenuOption(hediffGiverSetDef.defName + " - " + hediffGiver_Birthday.hediff.defName, delegate()
+						{
+							StringBuilder stringBuilder = new StringBuilder();
+							stringBuilder.AppendLine("% of pawns which will have at least 1 " + hLocal.hediff.label + " at age X:");
+							stringBuilder.AppendLine();
+							int num = 1;
+							while ((float)num < this.pawn.RaceProps.lifeExpectancy + 20f)
+							{
+								stringBuilder.AppendLine(num + ": " + hLocal.DebugChanceToHaveAtAge(this.pawn, num).ToStringPercent());
+								num++;
+							}
+							Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+						}, MenuOptionPriority.Default, null, null, 0f, null, null);
+						list.Add(item);
+					}
+				}
+				Find.WindowStack.Add(new FloatMenu(list));
+			}
+
+			internal void <>m__B()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.AppendLine("Average hediffs count (from HediffGiver_Birthday) at age X:");
+				stringBuilder.AppendLine();
+				int num = 1;
+				while ((float)num < this.pawn.RaceProps.lifeExpectancy + 20f)
+				{
+					float num2 = 0f;
+					foreach (HediffGiverSetDef hediffGiverSetDef in this.pawn.RaceProps.hediffGiverSets)
+					{
+						foreach (HediffGiver_Birthday hediffGiver_Birthday in hediffGiverSetDef.hediffGivers.OfType<HediffGiver_Birthday>())
+						{
+							num2 += hediffGiver_Birthday.DebugChanceToHaveAtAge(this.pawn, num);
+						}
+					}
+					stringBuilder.AppendLine(num + ": " + num2.ToStringDecimalIfSmall());
+					num++;
+				}
+				Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+			}
+
+			private static float <>m__C(BodyPartRecord x)
+			{
+				return x.coverageAbsWithChildren;
+			}
+
+			private static float <>m__D(BodyPartRecord x)
+			{
+				return x.coverageAbs;
+			}
+
+			internal bool <>m__E(BodyPartGroupDef x)
+			{
+				return this.pawn.RaceProps.body.AllParts.Any((BodyPartRecord y) => y.groups.Contains(x));
+			}
+
+			internal float <>m__F(BodyPartRecord x)
+			{
+				return this.pawn.health.hediffSet.GetCoverageOfNotMissingNaturalParts(x);
+			}
+
+			private sealed class <DoDebugOptions>c__AnonStoreyB
+			{
+				internal float totalCorpseNutrition;
+
+				internal HealthCardUtility.<DoDebugOptions>c__AnonStorey9 <>f__ref$9;
+
+				public <DoDebugOptions>c__AnonStoreyB()
+				{
+				}
+
+				internal float <>m__0(BodyPartRecord x)
+				{
+					return FoodUtility.GetBodyPartNutrition(this.totalCorpseNutrition, this.<>f__ref$9.pawn, x);
+				}
+			}
+
+			private sealed class <DoDebugOptions>c__AnonStoreyC
+			{
+				internal HediffGiver_Birthday hLocal;
+
+				internal HealthCardUtility.<DoDebugOptions>c__AnonStorey9 <>f__ref$9;
+
+				public <DoDebugOptions>c__AnonStoreyC()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.AppendLine("% of pawns which will have at least 1 " + this.hLocal.hediff.label + " at age X:");
+					stringBuilder.AppendLine();
+					int num = 1;
+					while ((float)num < this.<>f__ref$9.pawn.RaceProps.lifeExpectancy + 20f)
+					{
+						stringBuilder.AppendLine(num + ": " + this.hLocal.DebugChanceToHaveAtAge(this.<>f__ref$9.pawn, num).ToStringPercent());
+						num++;
+					}
+					Find.WindowStack.Add(new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false, null, null));
+				}
+			}
+
+			private sealed class <DoDebugOptions>c__AnonStoreyA
+			{
+				internal BodyPartGroupDef x;
+
+				internal HealthCardUtility.<DoDebugOptions>c__AnonStorey9 <>f__ref$9;
+
+				public <DoDebugOptions>c__AnonStoreyA()
+				{
+				}
+
+				internal bool <>m__0(BodyPartRecord y)
+				{
+					return y.groups.Contains(this.x);
+				}
+			}
 		}
 	}
 }

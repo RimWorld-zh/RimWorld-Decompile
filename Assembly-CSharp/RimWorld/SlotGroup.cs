@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000692 RID: 1682
 	public class SlotGroup
 	{
-		// Token: 0x040013EF RID: 5103
 		public ISlotGroupParent parent;
 
-		// Token: 0x060023A9 RID: 9129 RVA: 0x001322F8 File Offset: 0x001306F8
 		public SlotGroup(ISlotGroupParent parent)
 		{
 			this.parent = parent;
 		}
 
-		// Token: 0x17000550 RID: 1360
-		// (get) Token: 0x060023AA RID: 9130 RVA: 0x00132308 File Offset: 0x00130708
 		private Map Map
 		{
 			get
@@ -26,8 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000551 RID: 1361
-		// (get) Token: 0x060023AB RID: 9131 RVA: 0x00132328 File Offset: 0x00130728
 		public StorageSettings Settings
 		{
 			get
@@ -36,8 +33,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000552 RID: 1362
-		// (get) Token: 0x060023AC RID: 9132 RVA: 0x00132348 File Offset: 0x00130748
 		public IEnumerable<Thing> HeldThings
 		{
 			get
@@ -59,8 +54,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000553 RID: 1363
-		// (get) Token: 0x060023AD RID: 9133 RVA: 0x00132374 File Offset: 0x00130774
 		public List<IntVec3> CellsList
 		{
 			get
@@ -69,7 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023AE RID: 9134 RVA: 0x00132394 File Offset: 0x00130794
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
 			List<IntVec3> cellsList = this.CellsList;
@@ -80,7 +72,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060023AF RID: 9135 RVA: 0x001323B6 File Offset: 0x001307B6
 		public void Notify_AddedCell(IntVec3 c)
 		{
 			this.Map.haulDestinationManager.SetCellFor(c, this);
@@ -88,7 +79,6 @@ namespace RimWorld
 			this.Map.listerMergeables.RecalcAllInCell(c);
 		}
 
-		// Token: 0x060023B0 RID: 9136 RVA: 0x001323ED File Offset: 0x001307ED
 		public void Notify_LostCell(IntVec3 c)
 		{
 			this.Map.haulDestinationManager.ClearCellFor(c, this);
@@ -96,7 +86,6 @@ namespace RimWorld
 			this.Map.listerMergeables.RecalcAllInCell(c);
 		}
 
-		// Token: 0x060023B1 RID: 9137 RVA: 0x00132424 File Offset: 0x00130824
 		public override string ToString()
 		{
 			string result;
@@ -109,6 +98,210 @@ namespace RimWorld
 				result = "NullParent";
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal List<IntVec3> <cellsList>__0;
+
+			internal Map <map>__0;
+
+			internal int <i>__1;
+
+			internal List<Thing> <thingList>__2;
+
+			internal int <j>__3;
+
+			internal SlotGroup $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					cellsList = base.CellsList;
+					map = base.Map;
+					i = 0;
+					goto IL_105;
+				case 1u:
+					IL_D1:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_E0:
+				if (j >= thingList.Count)
+				{
+					i++;
+				}
+				else
+				{
+					if (thingList[j].def.EverStorable(false))
+					{
+						this.$current = thingList[j];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_D1;
+				}
+				IL_105:
+				if (i < cellsList.Count)
+				{
+					thingList = map.thingGrid.ThingsListAt(cellsList[i]);
+					j = 0;
+					goto IL_E0;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SlotGroup.<>c__Iterator0 <>c__Iterator = new SlotGroup.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetEnumerator>c__Iterator1 : IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal List<IntVec3> <cellsList>__0;
+
+			internal int <i>__1;
+
+			internal SlotGroup $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetEnumerator>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					cellsList = base.CellsList;
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < cellsList.Count)
+				{
+					this.$current = cellsList[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
 		}
 	}
 }

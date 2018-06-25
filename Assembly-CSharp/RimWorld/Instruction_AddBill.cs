@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008B6 RID: 2230
 	public class Instruction_AddBill : Lesson_Instruction
 	{
-		// Token: 0x1700081C RID: 2076
-		// (get) Token: 0x06003302 RID: 13058 RVA: 0x001B7C44 File Offset: 0x001B6044
+		public Instruction_AddBill()
+		{
+		}
+
 		protected override float ProgressPercent
 		{
 			get
@@ -29,7 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003303 RID: 13059 RVA: 0x001B7C9C File Offset: 0x001B609C
 		private Bill_Production RelevantBill()
 		{
 			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == this.def.thingDef)
@@ -43,7 +47,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003304 RID: 13060 RVA: 0x001B7D20 File Offset: 0x001B6120
 		private IEnumerable<Thing> ThingsToSelect()
 		{
 			if (Find.Selector.SingleSelectedThing == null || Find.Selector.SingleSelectedThing.def != this.def.thingDef)
@@ -57,7 +60,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003305 RID: 13061 RVA: 0x001B7D4C File Offset: 0x001B614C
 		public override void LessonOnGUI()
 		{
 			foreach (Thing t in this.ThingsToSelect())
@@ -71,7 +73,6 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003306 RID: 13062 RVA: 0x001B7DD0 File Offset: 0x001B61D0
 		public override void LessonUpdate()
 		{
 			foreach (Thing thing in this.ThingsToSelect())
@@ -81,6 +82,149 @@ namespace RimWorld
 			if (this.ProgressPercent > 0.999f)
 			{
 				Find.ActiveLesson.Deactivate();
+			}
+		}
+
+		[CompilerGenerated]
+		private bool <RelevantBill>m__0(Bill b)
+		{
+			return b.recipe == this.def.recipeDef;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ThingsToSelect>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal IEnumerator<Building> $locvar0;
+
+			internal Building <billGiver>__1;
+
+			internal Instruction_AddBill $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ThingsToSelect>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == this.def.thingDef)
+					{
+						return false;
+					}
+					enumerator = base.Map.listerBuildings.AllBuildingsColonistOfDef(this.def.thingDef).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						billGiver = enumerator.Current;
+						this.$current = billGiver;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Instruction_AddBill.<ThingsToSelect>c__Iterator0 <ThingsToSelect>c__Iterator = new Instruction_AddBill.<ThingsToSelect>c__Iterator0();
+				<ThingsToSelect>c__Iterator.$this = this;
+				return <ThingsToSelect>c__Iterator;
 			}
 		}
 	}

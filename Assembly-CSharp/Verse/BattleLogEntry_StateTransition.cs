@@ -1,41 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BC3 RID: 3011
 	public class BattleLogEntry_StateTransition : LogEntry
 	{
-		// Token: 0x04002CB7 RID: 11447
 		private RulePackDef transitionDef;
 
-		// Token: 0x04002CB8 RID: 11448
 		private Pawn subjectPawn;
 
-		// Token: 0x04002CB9 RID: 11449
 		private ThingDef subjectThing;
 
-		// Token: 0x04002CBA RID: 11450
 		private Pawn initiator;
 
-		// Token: 0x04002CBB RID: 11451
 		private HediffDef culpritHediffDef;
 
-		// Token: 0x04002CBC RID: 11452
 		private BodyPartRecord culpritHediffTargetPart;
 
-		// Token: 0x04002CBD RID: 11453
 		private BodyPartRecord culpritTargetPart;
 
-		// Token: 0x0600416F RID: 16751 RVA: 0x00228D6C File Offset: 0x0022716C
 		public BattleLogEntry_StateTransition() : base(null)
 		{
 		}
 
-		// Token: 0x06004170 RID: 16752 RVA: 0x00228D78 File Offset: 0x00227178
 		public BattleLogEntry_StateTransition(Thing subject, RulePackDef transitionDef, Pawn initiator, Hediff culpritHediff, BodyPartRecord culpritTargetDef) : base(null)
 		{
 			if (subject is Pawn)
@@ -59,8 +53,6 @@ namespace Verse
 			this.culpritTargetPart = culpritTargetDef;
 		}
 
-		// Token: 0x17000A38 RID: 2616
-		// (get) Token: 0x06004171 RID: 16753 RVA: 0x00228E00 File Offset: 0x00227200
 		private string SubjectName
 		{
 			get
@@ -69,13 +61,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004172 RID: 16754 RVA: 0x00228E38 File Offset: 0x00227238
 		public override bool Concerns(Thing t)
 		{
 			return t == this.subjectPawn || t == this.initiator;
 		}
 
-		// Token: 0x06004173 RID: 16755 RVA: 0x00228E68 File Offset: 0x00227268
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiator != null)
@@ -89,7 +79,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004174 RID: 16756 RVA: 0x00228E94 File Offset: 0x00227294
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.subjectPawn)
@@ -106,7 +95,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004175 RID: 16757 RVA: 0x00228EEC File Offset: 0x002272EC
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -125,7 +113,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004176 RID: 16758 RVA: 0x00228F6C File Offset: 0x0022736C
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -157,7 +144,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004177 RID: 16759 RVA: 0x002290A0 File Offset: 0x002274A0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -170,10 +156,113 @@ namespace Verse
 			Scribe_BodyParts.Look(ref this.culpritTargetPart, "culpritTargetPart", null);
 		}
 
-		// Token: 0x06004178 RID: 16760 RVA: 0x00229128 File Offset: 0x00227528
 		public override string ToString()
 		{
 			return this.transitionDef.defName + ": " + this.subjectPawn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetConcerns>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal BattleLogEntry_StateTransition $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetConcerns>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.initiator != null)
+					{
+						this.$current = this.initiator;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_90;
+				default:
+					return false;
+				}
+				if (this.subjectPawn != null)
+				{
+					this.$current = this.subjectPawn;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_90:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BattleLogEntry_StateTransition.<GetConcerns>c__Iterator0 <GetConcerns>c__Iterator = new BattleLogEntry_StateTransition.<GetConcerns>c__Iterator0();
+				<GetConcerns>c__Iterator.$this = this;
+				return <GetConcerns>c__Iterator;
+			}
 		}
 	}
 }

@@ -6,24 +6,23 @@ using System.Text;
 
 namespace Steamworks
 {
-	// Token: 0x02000030 RID: 48
 	public class DllCheck
 	{
-		// Token: 0x060000B9 RID: 185
+		public DllCheck()
+		{
+		}
+
 		[DllImport("kernel32.dll")]
 		public static extern IntPtr GetModuleHandle(string lpModuleName);
 
-		// Token: 0x060000BA RID: 186
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		private static extern int GetModuleFileName(IntPtr hModule, StringBuilder strFullPath, int nSize);
 
-		// Token: 0x060000BB RID: 187 RVA: 0x0000339C File Offset: 0x0000159C
 		public static bool Test()
 		{
 			return true;
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x000033B4 File Offset: 0x000015B4
 		private static bool CheckSteamAPIDLL()
 		{
 			string lpModuleName;

@@ -1,31 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200053C RID: 1340
 	public class TraitSet : IExposable
 	{
-		// Token: 0x04000EAF RID: 3759
 		protected Pawn pawn;
 
-		// Token: 0x04000EB0 RID: 3760
 		public List<Trait> allTraits = new List<Trait>();
 
-		// Token: 0x060018F3 RID: 6387 RVA: 0x000D9710 File Offset: 0x000D7B10
 		public TraitSet(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060018F4 RID: 6388 RVA: 0x000D972B File Offset: 0x000D7B2B
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Trait>(ref this.allTraits, "allTraits", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060018F5 RID: 6389 RVA: 0x000D9748 File Offset: 0x000D7B48
 		public void GainTrait(Trait trait)
 		{
 			if (this.HasTrait(trait.def))
@@ -51,7 +49,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018F6 RID: 6390 RVA: 0x000D982C File Offset: 0x000D7C2C
 		public bool HasTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -64,8 +61,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x17000386 RID: 902
-		// (get) Token: 0x060018F7 RID: 6391 RVA: 0x000D9880 File Offset: 0x000D7C80
 		public IEnumerable<MentalBreakDef> TheOnlyAllowedMentalBreaks
 		{
 			get
@@ -85,7 +80,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018F8 RID: 6392 RVA: 0x000D98AC File Offset: 0x000D7CAC
 		public Trait GetTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -98,7 +92,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060018F9 RID: 6393 RVA: 0x000D990C File Offset: 0x000D7D0C
 		public int DegreeOfTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -109,6 +102,123 @@ namespace RimWorld
 				}
 			}
 			return 0;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<MentalBreakDef>, IEnumerator, IDisposable, IEnumerator<MentalBreakDef>
+		{
+			internal int <i>__1;
+
+			internal Trait <trait>__2;
+
+			internal int <j>__3;
+
+			internal TraitSet $this;
+
+			internal MentalBreakDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_E2;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_B2:
+				if (j < trait.CurrentData.theOnlyAllowedMentalBreaks.Count)
+				{
+					this.$current = trait.CurrentData.theOnlyAllowedMentalBreaks[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				IL_D3:
+				i++;
+				IL_E2:
+				if (i >= this.allTraits.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					trait = this.allTraits[i];
+					if (trait.CurrentData.theOnlyAllowedMentalBreaks != null)
+					{
+						j = 0;
+						goto IL_B2;
+					}
+					goto IL_D3;
+				}
+				return false;
+			}
+
+			MentalBreakDef IEnumerator<MentalBreakDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.MentalBreakDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<MentalBreakDef> IEnumerable<MentalBreakDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TraitSet.<>c__Iterator0 <>c__Iterator = new TraitSet.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

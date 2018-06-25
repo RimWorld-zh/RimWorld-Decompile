@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000305 RID: 773
 	public sealed class ResearchManager : IExposable
 	{
-		// Token: 0x04000858 RID: 2136
 		public ResearchProjectDef currentProj = null;
 
-		// Token: 0x04000859 RID: 2137
 		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
 
-		// Token: 0x0400085A RID: 2138
 		private float GlobalProgressFactor = 0.007f;
 
-		// Token: 0x170001EF RID: 495
-		// (get) Token: 0x06000CD6 RID: 3286 RVA: 0x00070BA4 File Offset: 0x0006EFA4
+		[CompilerGenerated]
+		private static Predicate<ResearchProjectDef> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache1;
+
+		public ResearchManager()
+		{
+		}
+
 		public bool AnyProjectIsAvailable
 		{
 			get
@@ -26,14 +31,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CD7 RID: 3287 RVA: 0x00070BE6 File Offset: 0x0006EFE6
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ResearchProjectDef>(ref this.currentProj, "currentProj");
 			Scribe_Collections.Look<ResearchProjectDef, float>(ref this.progress, "progress", LookMode.Def, LookMode.Value);
 		}
 
-		// Token: 0x06000CD8 RID: 3288 RVA: 0x00070C0C File Offset: 0x0006F00C
 		public float GetProgress(ResearchProjectDef proj)
 		{
 			float num;
@@ -50,7 +53,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000CD9 RID: 3289 RVA: 0x00070C54 File Offset: 0x0006F054
 		public void ResearchPerformed(float amount, Pawn researcher)
 		{
 			if (this.currentProj == null)
@@ -92,7 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CDA RID: 3290 RVA: 0x00070D54 File Offset: 0x0006F154
 		public void ReapplyAllMods()
 		{
 			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefs)
@@ -104,7 +105,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CDB RID: 3291 RVA: 0x00070DBC File Offset: 0x0006F1BC
 		public void InstantFinish(ResearchProjectDef proj, bool doCompletionDialog = false)
 		{
 			if (proj.prerequisites != null)
@@ -129,7 +129,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CDC RID: 3292 RVA: 0x00070E58 File Offset: 0x0006F258
 		private void DoCompletionDialog(ResearchProjectDef proj, Pawn researcher)
 		{
 			string text = "ResearchFinished".Translate(new object[]
@@ -148,7 +147,6 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
 		}
 
-		// Token: 0x06000CDD RID: 3293 RVA: 0x00070F0C File Offset: 0x0006F30C
 		public void DebugSetAllProjectsFinished()
 		{
 			this.progress.Clear();
@@ -157,6 +155,18 @@ namespace RimWorld
 				this.progress.Add(researchProjectDef, researchProjectDef.baseCost);
 			}
 			this.ReapplyAllMods();
+		}
+
+		[CompilerGenerated]
+		private static bool <get_AnyProjectIsAvailable>m__0(ResearchProjectDef x)
+		{
+			return x.CanStartNow;
+		}
+
+		[CompilerGenerated]
+		private static void <DoCompletionDialog>m__1()
+		{
+			Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research, true);
 		}
 	}
 }

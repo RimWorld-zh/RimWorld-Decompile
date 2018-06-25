@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200011D RID: 285
 	public abstract class WorkGiver_GatherAnimalBodyResources : WorkGiver_Scanner
 	{
-		// Token: 0x170000D5 RID: 213
-		// (get) Token: 0x060005E5 RID: 1509
+		protected WorkGiver_GatherAnimalBodyResources()
+		{
+		}
+
 		protected abstract JobDef JobDef { get; }
 
-		// Token: 0x060005E6 RID: 1510
 		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
 
-		// Token: 0x060005E7 RID: 1511 RVA: 0x0003F444 File Offset: 0x0003D844
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Pawn> pawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
@@ -26,8 +29,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x170000D6 RID: 214
-		// (get) Token: 0x060005E8 RID: 1512 RVA: 0x0003F470 File Offset: 0x0003D870
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -36,7 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060005E9 RID: 1513 RVA: 0x0003F488 File Offset: 0x0003D888
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -61,10 +61,108 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005EA RID: 1514 RVA: 0x0003F51C File Offset: 0x0003D91C
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(this.JobDef, t);
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentialWorkThingsGlobal>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn pawn;
+
+			internal List<Pawn> <pawns>__0;
+
+			internal int <i>__1;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PotentialWorkThingsGlobal>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					pawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < pawns.Count)
+				{
+					this.$current = pawns[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkGiver_GatherAnimalBodyResources.<PotentialWorkThingsGlobal>c__Iterator0 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_GatherAnimalBodyResources.<PotentialWorkThingsGlobal>c__Iterator0();
+				<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
+				return <PotentialWorkThingsGlobal>c__Iterator;
+			}
 		}
 	}
 }

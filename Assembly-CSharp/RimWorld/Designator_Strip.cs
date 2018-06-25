@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DD RID: 2013
 	public class Designator_Strip : Designator
 	{
-		// Token: 0x06002C9D RID: 11421 RVA: 0x00177FFC File Offset: 0x001763FC
 		public Designator_Strip()
 		{
 			this.defaultLabel = "DesignatorStrip".Translate();
@@ -22,8 +24,6 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc11;
 		}
 
-		// Token: 0x17000705 RID: 1797
-		// (get) Token: 0x06002C9E RID: 11422 RVA: 0x00178074 File Offset: 0x00176474
 		public override int DraggableDimensions
 		{
 			get
@@ -32,8 +32,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000706 RID: 1798
-		// (get) Token: 0x06002C9F RID: 11423 RVA: 0x0017808C File Offset: 0x0017648C
 		protected override DesignationDef Designation
 		{
 			get
@@ -42,7 +40,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA0 RID: 11424 RVA: 0x001780A8 File Offset: 0x001764A8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -61,7 +58,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA1 RID: 11425 RVA: 0x00178108 File Offset: 0x00176508
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.StrippablesInCell(c))
@@ -70,7 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA2 RID: 11426 RVA: 0x00178168 File Offset: 0x00176568
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport result;
@@ -85,13 +80,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA3 RID: 11427 RVA: 0x001781B0 File Offset: 0x001765B0
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002CA4 RID: 11428 RVA: 0x001781D4 File Offset: 0x001765D4
 		private IEnumerable<Thing> StrippablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))
@@ -107,6 +100,120 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <StrippablesInCell>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal IntVec3 c;
+
+			internal List<Thing> <thingList>__0;
+
+			internal int <i>__1;
+
+			internal Designator_Strip $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <StrippablesInCell>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (c.Fogged(base.Map))
+					{
+						return false;
+					}
+					thingList = c.GetThingList(base.Map);
+					i = 0;
+					break;
+				case 1u:
+					IL_BF:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= thingList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						this.$current = thingList[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_BF;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Designator_Strip.<StrippablesInCell>c__Iterator0 <StrippablesInCell>c__Iterator = new Designator_Strip.<StrippablesInCell>c__Iterator0();
+				<StrippablesInCell>c__Iterator.$this = this;
+				<StrippablesInCell>c__Iterator.c = c;
+				return <StrippablesInCell>c__Iterator;
+			}
 		}
 	}
 }

@@ -2,20 +2,20 @@
 
 namespace Verse
 {
-	// Token: 0x02000DF3 RID: 3571
 	public class Projectile_Explosive : Projectile
 	{
-		// Token: 0x04003513 RID: 13587
 		private int ticksToDetonation = 0;
 
-		// Token: 0x06005014 RID: 20500 RVA: 0x002982D0 File Offset: 0x002966D0
+		public Projectile_Explosive()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToDetonation, "ticksToDetonation", 0, false);
 		}
 
-		// Token: 0x06005015 RID: 20501 RVA: 0x002982EB File Offset: 0x002966EB
 		public override void Tick()
 		{
 			base.Tick();
@@ -29,7 +29,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005016 RID: 20502 RVA: 0x00298324 File Offset: 0x00296724
 		protected override void Impact(Thing hitThing)
 		{
 			if (this.def.projectile.explosionDelay == 0)
@@ -44,7 +43,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005017 RID: 20503 RVA: 0x00298394 File Offset: 0x00296794
 		protected virtual void Explode()
 		{
 			Map map = base.Map;

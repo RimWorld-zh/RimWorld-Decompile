@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200053F RID: 1343
 	public class WorldPathFinder
 	{
-		// Token: 0x04000EBD RID: 3773
 		private FastPriorityQueue<WorldPathFinder.CostNode> openList;
 
-		// Token: 0x04000EBE RID: 3774
 		private WorldPathFinder.PathFinderNodeFast[] calcGrid;
 
-		// Token: 0x04000EBF RID: 3775
 		private ushort statusOpenValue = 1;
 
-		// Token: 0x04000EC0 RID: 3776
 		private ushort statusClosedValue = 2;
 
-		// Token: 0x04000EC1 RID: 3777
 		private const int SearchLimit = 500000;
 
-		// Token: 0x04000EC2 RID: 3778
 		private static readonly SimpleCurve HeuristicStrength_DistanceCurve = new SimpleCurve
 		{
 			{
@@ -40,17 +34,14 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000EC3 RID: 3779
 		private const float BestRoadDiscount = 0.5f;
 
-		// Token: 0x0600191D RID: 6429 RVA: 0x000DA8EC File Offset: 0x000D8CEC
 		public WorldPathFinder()
 		{
 			this.calcGrid = new WorldPathFinder.PathFinderNodeFast[Find.WorldGrid.TilesCount];
 			this.openList = new FastPriorityQueue<WorldPathFinder.CostNode>(new WorldPathFinder.CostNodeComparer());
 		}
 
-		// Token: 0x0600191E RID: 6430 RVA: 0x000DA928 File Offset: 0x000D8D28
 		public WorldPath FindPath(int startTile, int destTile, Caravan caravan, Func<float, bool> terminator = null)
 		{
 			WorldPath notFound;
@@ -194,7 +185,6 @@ namespace RimWorld.Planet
 			return notFound;
 		}
 
-		// Token: 0x0600191F RID: 6431 RVA: 0x000DAECC File Offset: 0x000D92CC
 		public void FloodPathsWithCost(List<int> startTiles, Func<int, int, int> costFunc, Func<int, bool> impassable = null, Func<int, float, bool> terminator = null)
 		{
 			if (startTiles.Count < 1 || startTiles.Contains(-1))
@@ -268,7 +258,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001920 RID: 6432 RVA: 0x000DB24C File Offset: 0x000D964C
 		public List<int>[] FloodPathsWithCostForTree(List<int> startTiles, Func<int, int, int> costFunc, Func<int, bool> impassable = null, Func<int, float, bool> terminator = null)
 		{
 			this.FloodPathsWithCost(startTiles, costFunc, impassable, terminator);
@@ -293,7 +282,6 @@ namespace RimWorld.Planet
 			return array;
 		}
 
-		// Token: 0x06001921 RID: 6433 RVA: 0x000DB2FC File Offset: 0x000D96FC
 		private WorldPath FinalizedPath(int lastTile)
 		{
 			WorldPath emptyWorldPath = Find.WorldPathPool.GetEmptyWorldPath();
@@ -314,7 +302,6 @@ namespace RimWorld.Planet
 			return emptyWorldPath;
 		}
 
-		// Token: 0x06001922 RID: 6434 RVA: 0x000DB378 File Offset: 0x000D9778
 		private void ResetStatuses()
 		{
 			int num = this.calcGrid.Length;
@@ -326,23 +313,23 @@ namespace RimWorld.Planet
 			this.statusClosedValue = 2;
 		}
 
-		// Token: 0x06001923 RID: 6435 RVA: 0x000DB3C4 File Offset: 0x000D97C4
 		private int CalculateHeuristicStrength(int startTile, int destTile)
 		{
 			float x = Find.WorldGrid.ApproxDistanceInTiles(startTile, destTile);
 			return Mathf.RoundToInt(WorldPathFinder.HeuristicStrength_DistanceCurve.Evaluate(x));
 		}
 
-		// Token: 0x02000540 RID: 1344
+		// Note: this type is marked as 'beforefieldinit'.
+		static WorldPathFinder()
+		{
+		}
+
 		private struct CostNode
 		{
-			// Token: 0x04000EC4 RID: 3780
 			public int tile;
 
-			// Token: 0x04000EC5 RID: 3781
 			public int cost;
 
-			// Token: 0x06001925 RID: 6437 RVA: 0x000DB453 File Offset: 0x000D9853
 			public CostNode(int tile, int cost)
 			{
 				this.tile = tile;
@@ -350,29 +337,25 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x02000541 RID: 1345
 		private struct PathFinderNodeFast
 		{
-			// Token: 0x04000EC6 RID: 3782
 			public int knownCost;
 
-			// Token: 0x04000EC7 RID: 3783
 			public int heuristicCost;
 
-			// Token: 0x04000EC8 RID: 3784
 			public int parentTile;
 
-			// Token: 0x04000EC9 RID: 3785
 			public int costNodeCost;
 
-			// Token: 0x04000ECA RID: 3786
 			public ushort status;
 		}
 
-		// Token: 0x02000542 RID: 1346
 		private class CostNodeComparer : IComparer<WorldPathFinder.CostNode>
 		{
-			// Token: 0x06001927 RID: 6439 RVA: 0x000DB46C File Offset: 0x000D986C
+			public CostNodeComparer()
+			{
+			}
+
 			public int Compare(WorldPathFinder.CostNode a, WorldPathFinder.CostNode b)
 			{
 				int cost = a.cost;
@@ -391,6 +374,21 @@ namespace RimWorld.Planet
 					result = 0;
 				}
 				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FloodPathsWithCost>c__AnonStorey0
+		{
+			internal World world;
+
+			public <FloodPathsWithCost>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int tid)
+			{
+				return this.world.Impassable(tid);
 			}
 		}
 	}

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000990 RID: 2448
 	public static class NativeVerbPropertiesDatabase
 	{
-		// Token: 0x04002388 RID: 9096
 		public static List<VerbProperties> allVerbDefs = VerbDefsHardcodedNative.AllVerbDefs().ToList<VerbProperties>();
 
-		// Token: 0x0600370C RID: 14092 RVA: 0x001D6C18 File Offset: 0x001D5018
+		static NativeVerbPropertiesDatabase()
+		{
+		}
+
 		public static VerbProperties VerbWithCategory(VerbCategory id)
 		{
 			VerbProperties verbProperties = (from v in NativeVerbPropertiesDatabase.allVerbDefs
@@ -22,6 +24,21 @@ namespace RimWorld
 				Log.Error("Failed to find Verb with id " + id, false);
 			}
 			return verbProperties;
+		}
+
+		[CompilerGenerated]
+		private sealed class <VerbWithCategory>c__AnonStorey0
+		{
+			internal VerbCategory id;
+
+			public <VerbWithCategory>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(VerbProperties v)
+			{
+				return v.category == this.id;
+			}
 		}
 	}
 }

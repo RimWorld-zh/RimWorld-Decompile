@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000839 RID: 2105
 	[StaticConstructorOnStartup]
 	public static class StorytellerUI
 	{
-		// Token: 0x040019BD RID: 6589
 		private static Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x040019BE RID: 6590
 		private static readonly Texture2D StorytellerHighlightTex = ContentFinder<Texture2D>.Get("UI/HeroArt/Storytellers/Highlight", true);
 
-		// Token: 0x06002FA3 RID: 12195 RVA: 0x00198090 File Offset: 0x00196490
+		[CompilerGenerated]
+		private static Func<StorytellerDef, int> <>f__am$cache0;
+
 		internal static void DrawStorytellerSelectionInterface(Rect rect, ref StorytellerDef chosenStoryteller, ref DifficultyDef difficulty, Listing_Standard selectedStorytellerInfoListing)
 		{
 			GUI.BeginGroup(rect);
@@ -84,6 +84,17 @@ namespace RimWorld
 				selectedStorytellerInfoListing.End();
 			}
 			GUI.EndGroup();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static StorytellerUI()
+		{
+		}
+
+		[CompilerGenerated]
+		private static int <DrawStorytellerSelectionInterface>m__0(StorytellerDef tel)
+		{
+			return tel.listOrder;
 		}
 	}
 }

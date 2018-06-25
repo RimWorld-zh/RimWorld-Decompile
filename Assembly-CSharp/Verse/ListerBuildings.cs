@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C2B RID: 3115
 	public sealed class ListerBuildings
 	{
-		// Token: 0x04002E80 RID: 11904
 		public List<Building> allBuildingsColonist = new List<Building>();
 
-		// Token: 0x04002E81 RID: 11905
 		public HashSet<Building> allBuildingsColonistCombatTargets = new HashSet<Building>();
 
-		// Token: 0x04002E82 RID: 11906
 		public HashSet<Building> allBuildingsColonistElecFire = new HashSet<Building>();
 
-		// Token: 0x06004478 RID: 17528 RVA: 0x002406BC File Offset: 0x0023EABC
+		public ListerBuildings()
+		{
+		}
+
 		public void Add(Building b)
 		{
 			if (b.def.building == null || !b.def.building.isNaturalRock)
@@ -38,7 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004479 RID: 17529 RVA: 0x00240754 File Offset: 0x0023EB54
 		public void Remove(Building b)
 		{
 			this.allBuildingsColonist.Remove(b);
@@ -53,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600447A RID: 17530 RVA: 0x002407B4 File Offset: 0x0023EBB4
 		public bool ColonistsHaveBuilding(ThingDef def)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -66,7 +67,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600447B RID: 17531 RVA: 0x00240808 File Offset: 0x0023EC08
 		public bool ColonistsHaveBuilding(Func<Thing, bool> predicate)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -79,7 +79,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600447C RID: 17532 RVA: 0x0024085C File Offset: 0x0023EC5C
 		public bool ColonistsHaveResearchBench()
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -92,7 +91,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600447D RID: 17533 RVA: 0x002408B0 File Offset: 0x0023ECB0
 		public bool ColonistsHaveBuildingWithPowerOn(ThingDef def)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -109,7 +107,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600447E RID: 17534 RVA: 0x00240928 File Offset: 0x0023ED28
 		public IEnumerable<Building> AllBuildingsColonistOfDef(ThingDef def)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -122,7 +119,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600447F RID: 17535 RVA: 0x0024095C File Offset: 0x0023ED5C
 		public IEnumerable<T> AllBuildingsColonistOfClass<T>() where T : Building
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -134,6 +130,220 @@ namespace Verse
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllBuildingsColonistOfDef>c__Iterator0 : IEnumerable, IEnumerable<Building>, IEnumerator, IDisposable, IEnumerator<Building>
+		{
+			internal int <i>__1;
+
+			internal ThingDef def;
+
+			internal ListerBuildings $this;
+
+			internal Building $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllBuildingsColonistOfDef>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_85:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= this.allBuildingsColonist.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.allBuildingsColonist[i].def == def)
+					{
+						this.$current = this.allBuildingsColonist[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_85;
+				}
+				return false;
+			}
+
+			Building IEnumerator<Building>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Building>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Building> IEnumerable<Building>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator0 <AllBuildingsColonistOfDef>c__Iterator = new ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator0();
+				<AllBuildingsColonistOfDef>c__Iterator.$this = this;
+				<AllBuildingsColonistOfDef>c__Iterator.def = def;
+				return <AllBuildingsColonistOfDef>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllBuildingsColonistOfClass>c__Iterator1<T> : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T> where T : Building
+		{
+			internal int <i>__1;
+
+			internal T <casted>__2;
+
+			internal ListerBuildings $this;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllBuildingsColonistOfClass>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					IL_85:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= this.allBuildingsColonist.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					casted = (this.allBuildingsColonist[i] as T);
+					if (casted != null)
+					{
+						this.$current = casted;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_85;
+				}
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1<T> <AllBuildingsColonistOfClass>c__Iterator = new ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1<T>();
+				<AllBuildingsColonistOfClass>c__Iterator.$this = this;
+				return <AllBuildingsColonistOfClass>c__Iterator;
+			}
 		}
 	}
 }

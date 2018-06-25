@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FB8 RID: 4024
 	[HasDebugOutput]
 	public struct ShootLine
 	{
-		// Token: 0x04003F9A RID: 16282
 		private IntVec3 source;
 
-		// Token: 0x04003F9B RID: 16283
 		private IntVec3 dest;
 
-		// Token: 0x0600614D RID: 24909 RVA: 0x00312B07 File Offset: 0x00310F07
+		[CompilerGenerated]
+		private static Func<int, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<int, string> <>f__am$cache1;
+
 		public ShootLine(IntVec3 source, IntVec3 dest)
 		{
 			this.source = source;
 			this.dest = dest;
 		}
 
-		// Token: 0x17000FB7 RID: 4023
-		// (get) Token: 0x0600614E RID: 24910 RVA: 0x00312B18 File Offset: 0x00310F18
 		public IntVec3 Source
 		{
 			get
@@ -32,8 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB8 RID: 4024
-		// (get) Token: 0x0600614F RID: 24911 RVA: 0x00312B34 File Offset: 0x00310F34
 		public IntVec3 Dest
 		{
 			get
@@ -42,7 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006150 RID: 24912 RVA: 0x00312B50 File Offset: 0x00310F50
 		public void ChangeDestToMissWild(float aimOnChance)
 		{
 			float num = ShootTuning.MissDistanceFromAimOnChanceCurves.Evaluate(aimOnChance, Rand.Value);
@@ -61,13 +59,11 @@ namespace Verse
 			this.dest = a;
 		}
 
-		// Token: 0x06006151 RID: 24913 RVA: 0x00312C1C File Offset: 0x0031101C
 		public IEnumerable<IntVec3> Points()
 		{
 			return GenSight.PointsOnLineOfSight(this.source, this.dest);
 		}
 
-		// Token: 0x06006152 RID: 24914 RVA: 0x00312C44 File Offset: 0x00311044
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -80,7 +76,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06006153 RID: 24915 RVA: 0x00312C98 File Offset: 0x00311098
 		[DebugOutput]
 		public static void WildMissResults()
 		{
@@ -115,6 +110,43 @@ namespace Verse
 				}
 				return result;
 			}, "");
+		}
+
+		[CompilerGenerated]
+		private static string <WildMissResults>m__0(int cells)
+		{
+			return cells.ToString() + "-away\ncell\nhit%";
+		}
+
+		[CompilerGenerated]
+		private static string <WildMissResults>m__1(int hitchance)
+		{
+			return ((float)hitchance / 100f).ToStringPercent() + " aimon chance";
+		}
+
+		[CompilerGenerated]
+		private sealed class <WildMissResults>c__AnonStorey0
+		{
+			internal int[,] results;
+
+			public <WildMissResults>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0(int cells, int hitchance)
+			{
+				float num = (float)hitchance / 100f;
+				string result;
+				if (cells == 0)
+				{
+					result = num.ToStringPercent();
+				}
+				else
+				{
+					result = ((float)this.results[hitchance, cells] / 10000f * (1f - num)).ToStringPercent();
+				}
+				return result;
+			}
 		}
 	}
 }

@@ -4,22 +4,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D78 RID: 3448
 	internal static class MeshMakerShadows
 	{
-		// Token: 0x04003388 RID: 13192
 		private static List<Vector3> vertsList = new List<Vector3>();
 
-		// Token: 0x04003389 RID: 13193
 		private static List<Color32> colorsList = new List<Color32>();
 
-		// Token: 0x0400338A RID: 13194
 		private static List<int> trianglesList = new List<int>();
 
-		// Token: 0x0400338B RID: 13195
 		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 
-		// Token: 0x06004D4A RID: 19786 RVA: 0x0028463C File Offset: 0x00282A3C
 		public static Mesh NewShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
 			Color32 item = new Color32(byte.MaxValue, 0, 0, (byte)(255f * tallness));
@@ -82,6 +76,11 @@ namespace Verse
 				colors32 = MeshMakerShadows.colorsList.ToArray(),
 				triangles = MeshMakerShadows.trianglesList.ToArray()
 			};
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MeshMakerShadows()
+		{
 		}
 	}
 }

@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000C03 RID: 3075
 	public class CompressibilityDecider
 	{
-		// Token: 0x04002E01 RID: 11777
 		private Map map;
 
-		// Token: 0x04002E02 RID: 11778
 		private HashSet<Thing> referencedThings = new HashSet<Thing>();
 
-		// Token: 0x06004341 RID: 17217 RVA: 0x00238F68 File Offset: 0x00237368
+		[CompilerGenerated]
+		private static Func<Designation, Thing> <>f__am$cache0;
+
 		public CompressibilityDecider(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004342 RID: 17218 RVA: 0x00238F84 File Offset: 0x00237384
 		public void DetermineReferences()
 		{
 			this.referencedThings.Clear();
@@ -90,10 +89,15 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004343 RID: 17219 RVA: 0x002392C4 File Offset: 0x002376C4
 		public bool IsReferenced(Thing th)
 		{
 			return this.referencedThings.Contains(th);
+		}
+
+		[CompilerGenerated]
+		private static Thing <DetermineReferences>m__0(Designation des)
+		{
+			return des.target.Thing;
 		}
 	}
 }

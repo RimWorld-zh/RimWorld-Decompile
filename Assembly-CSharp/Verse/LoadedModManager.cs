@@ -3,21 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CBF RID: 3263
 	public static class LoadedModManager
 	{
-		// Token: 0x040030CD RID: 12493
 		private static List<ModContentPack> runningMods = new List<ModContentPack>();
 
-		// Token: 0x040030CE RID: 12494
 		private static Dictionary<Type, Mod> runningModClasses = new Dictionary<Type, Mod>();
 
-		// Token: 0x17000B5C RID: 2908
-		// (get) Token: 0x060047F3 RID: 18419 RVA: 0x0025E418 File Offset: 0x0025C818
+		[CompilerGenerated]
+		private static Func<ModContentPack, IEnumerable<PatchOperation>> <>f__am$cache0;
+
 		public static List<ModContentPack> RunningModsListForReading
 		{
 			get
@@ -26,8 +25,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5D RID: 2909
-		// (get) Token: 0x060047F4 RID: 18420 RVA: 0x0025E434 File Offset: 0x0025C834
 		public static IEnumerable<ModContentPack> RunningMods
 		{
 			get
@@ -36,8 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5E RID: 2910
-		// (get) Token: 0x060047F5 RID: 18421 RVA: 0x0025E450 File Offset: 0x0025C850
 		public static IEnumerable<Mod> ModHandles
 		{
 			get
@@ -46,7 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F6 RID: 18422 RVA: 0x0025E470 File Offset: 0x0025C870
 		public static void LoadAllActiveMods()
 		{
 			XmlInheritance.Clear();
@@ -62,7 +56,6 @@ namespace Verse
 			XmlInheritance.Clear();
 		}
 
-		// Token: 0x060047F7 RID: 18423 RVA: 0x0025E4C0 File Offset: 0x0025C8C0
 		public static void InitializeMods()
 		{
 			int num = 0;
@@ -93,7 +86,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F8 RID: 18424 RVA: 0x0025E5C4 File Offset: 0x0025C9C4
 		public static void LoadModContent()
 		{
 			for (int i = 0; i < LoadedModManager.runningMods.Count; i++)
@@ -105,7 +97,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F9 RID: 18425 RVA: 0x0025E61C File Offset: 0x0025CA1C
 		public static void CreateModClasses()
 		{
 			using (IEnumerator<Type> enumerator = typeof(Mod).InstantiableDescendantsAndSelf().GetEnumerator())
@@ -127,7 +118,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FA RID: 18426 RVA: 0x0025E6E8 File Offset: 0x0025CAE8
 		public static List<LoadableXmlAsset> LoadModXML()
 		{
 			List<LoadableXmlAsset> list = new List<LoadableXmlAsset>();
@@ -141,7 +131,6 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x060047FB RID: 18427 RVA: 0x0025E750 File Offset: 0x0025CB50
 		public static void ApplyPatches(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
 		{
 			foreach (PatchOperation patchOperation in LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches))
@@ -150,7 +139,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FC RID: 18428 RVA: 0x0025E7D0 File Offset: 0x0025CBD0
 		public static XmlDocument CombineIntoUnifiedXML(List<LoadableXmlAsset> xmls, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -192,7 +180,6 @@ namespace Verse
 			return xmlDocument;
 		}
 
-		// Token: 0x060047FD RID: 18429 RVA: 0x0025E97C File Offset: 0x0025CD7C
 		public static void ParseAndProcessXML(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
 		{
 			XmlNodeList childNodes = xmlDoc.DocumentElement.ChildNodes;
@@ -235,7 +222,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FE RID: 18430 RVA: 0x0025EAD4 File Offset: 0x0025CED4
 		public static void ClearCachedPatches()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
@@ -248,7 +234,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FF RID: 18431 RVA: 0x0025EB84 File Offset: 0x0025CF84
 		public static void ClearDestroy()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
@@ -258,13 +243,11 @@ namespace Verse
 			LoadedModManager.runningMods.Clear();
 		}
 
-		// Token: 0x06004800 RID: 18432 RVA: 0x0025EBEC File Offset: 0x0025CFEC
 		public static T GetMod<T>() where T : Mod
 		{
 			return LoadedModManager.GetMod(typeof(T)) as T;
 		}
 
-		// Token: 0x06004801 RID: 18433 RVA: 0x0025EC1C File Offset: 0x0025D01C
 		public static Mod GetMod(Type type)
 		{
 			Mod result;
@@ -281,13 +264,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004802 RID: 18434 RVA: 0x0025EC8C File Offset: 0x0025D08C
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)
 		{
 			return Path.Combine(GenFilePaths.ConfigFolderPath, GenText.SanitizeFilename(string.Format("Mod_{0}_{1}.xml", modIdentifier, modHandleName)));
 		}
 
-		// Token: 0x06004803 RID: 18435 RVA: 0x0025ECBC File Offset: 0x0025D0BC
 		public static T ReadModSettings<T>(string modIdentifier, string modHandleName) where T : ModSettings, new()
 		{
 			string settingsFilename = LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName);
@@ -313,12 +294,52 @@ namespace Verse
 			return t;
 		}
 
-		// Token: 0x06004804 RID: 18436 RVA: 0x0025ED64 File Offset: 0x0025D164
 		public static void WriteModSettings(string modIdentifier, string modHandleName, ModSettings settings)
 		{
 			Scribe.saver.InitSaving(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), "SettingsBlock");
 			Scribe_Deep.Look<ModSettings>(ref settings, "ModSettings", new object[0]);
 			Scribe.saver.FinalizeSaving();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static LoadedModManager()
+		{
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<PatchOperation> <ApplyPatches>m__0(ModContentPack rm)
+		{
+			return rm.Patches;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CreateModClasses>c__AnonStorey0
+		{
+			internal Type type;
+
+			public <CreateModClasses>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ModContentPack modpack)
+			{
+				return modpack.assemblies.loadedAssemblies.Contains(this.type.Assembly);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetMod>c__AnonStorey1
+		{
+			internal Type type;
+
+			public <GetMod>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(KeyValuePair<Type, Mod> kvp)
+			{
+				return this.type.IsAssignableFrom(kvp.Key);
+			}
 		}
 	}
 }

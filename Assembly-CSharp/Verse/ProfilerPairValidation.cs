@@ -7,20 +7,16 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000F1D RID: 3869
 	public static class ProfilerPairValidation
 	{
-		// Token: 0x04003D99 RID: 15769
 		public static Stack<StackTrace> profilerSignatures = new Stack<StackTrace>();
 
-		// Token: 0x06005CC7 RID: 23751 RVA: 0x002F14E3 File Offset: 0x002EF8E3
 		public static void BeginSample(string token)
 		{
 			Profiler.BeginSample(token);
 			ProfilerPairValidation.profilerSignatures.Push(new StackTrace(1, true));
 		}
 
-		// Token: 0x06005CC8 RID: 23752 RVA: 0x002F1500 File Offset: 0x002EF900
 		public static void EndSample()
 		{
 			StackTrace stackTrace = ProfilerPairValidation.profilerSignatures.Pop();
@@ -47,6 +43,11 @@ namespace Verse
 				}
 			}
 			Profiler.EndSample();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ProfilerPairValidation()
+		{
 		}
 	}
 }

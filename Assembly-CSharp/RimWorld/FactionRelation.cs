@@ -4,19 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200055E RID: 1374
 	public class FactionRelation : IExposable
 	{
-		// Token: 0x04000F37 RID: 3895
 		public Faction other = null;
 
-		// Token: 0x04000F38 RID: 3896
 		public int goodwill = 100;
 
-		// Token: 0x04000F39 RID: 3897
 		public FactionRelationKind kind = FactionRelationKind.Neutral;
 
-		// Token: 0x060019ED RID: 6637 RVA: 0x000E18F4 File Offset: 0x000DFCF4
+		public FactionRelation()
+		{
+		}
+
 		public void CheckKindThresholds(Faction faction, bool canSendLetter, string reason, GlobalTargetInfo lookTarget, out bool sentLetter)
 		{
 			FactionRelationKind previousKind = this.kind;
@@ -43,7 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019EE RID: 6638 RVA: 0x000E19E0 File Offset: 0x000DFDE0
 		public void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.other, "other", false);
@@ -55,7 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019EF RID: 6639 RVA: 0x000E1A34 File Offset: 0x000DFE34
 		public override string ToString()
 		{
 			return string.Concat(new object[]

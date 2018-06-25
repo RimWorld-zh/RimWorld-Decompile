@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FC0 RID: 4032
 	public static class StaticConstructorOnStartupUtility
 	{
-		// Token: 0x04003FC4 RID: 16324
 		public static bool coreStaticAssetsLoaded;
 
-		// Token: 0x0600616F RID: 24943 RVA: 0x00313A9C File Offset: 0x00311E9C
+		[CompilerGenerated]
+		private static Func<FieldInfo, bool> <>f__am$cache0;
+
 		public static void CallAll()
 		{
 			IEnumerable<Type> enumerable = GenTypes.AllTypesWithAttribute<StaticConstructorOnStartup>();
@@ -24,7 +24,6 @@ namespace Verse
 			StaticConstructorOnStartupUtility.coreStaticAssetsLoaded = true;
 		}
 
-		// Token: 0x06006170 RID: 24944 RVA: 0x00313B04 File Offset: 0x00311F04
 		public static void ReportProbablyMissingAttributes()
 		{
 			BindingFlags bindingAttr = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -56,6 +55,17 @@ namespace Verse
 					}
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ReportProbablyMissingAttributes>m__0(FieldInfo x)
+		{
+			Type type = x.FieldType;
+			if (type.IsArray)
+			{
+				type = type.GetElementType();
+			}
+			return typeof(Texture).IsAssignableFrom(type) || typeof(Material).IsAssignableFrom(type) || typeof(Shader).IsAssignableFrom(type) || typeof(Graphic).IsAssignableFrom(type) || typeof(GameObject).IsAssignableFrom(type) || typeof(MaterialPropertyBlock).IsAssignableFrom(type);
 		}
 	}
 }

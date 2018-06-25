@@ -6,16 +6,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A3 RID: 2211
 	public static class TargetHighlighter
 	{
-		// Token: 0x04001B21 RID: 6945
 		private static List<Vector3> arrowPositions = new List<Vector3>();
 
-		// Token: 0x04001B22 RID: 6946
 		private static List<Pair<Vector3, float>> circleOverlays = new List<Pair<Vector3, float>>();
 
-		// Token: 0x0600329A RID: 12954 RVA: 0x001B42A0 File Offset: 0x001B26A0
 		public static void Highlight(GlobalTargetInfo target, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
 			if (target.IsValid)
@@ -86,7 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600329B RID: 12955 RVA: 0x001B450C File Offset: 0x001B290C
 		public static void TargetHighlighterUpdate()
 		{
 			for (int i = 0; i < TargetHighlighter.arrowPositions.Count; i++)
@@ -99,6 +94,11 @@ namespace RimWorld
 				GenDraw.DrawCircleOutline(TargetHighlighter.circleOverlays[j].First, TargetHighlighter.circleOverlays[j].Second);
 			}
 			TargetHighlighter.circleOverlays.Clear();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TargetHighlighter()
+		{
 		}
 	}
 }

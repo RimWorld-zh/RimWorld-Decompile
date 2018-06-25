@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006DC RID: 1756
 	public class WaterSplash : Projectile
 	{
-		// Token: 0x06002633 RID: 9779 RVA: 0x00147E7C File Offset: 0x0014627C
+		public WaterSplash()
+		{
+		}
+
 		protected override void Impact(Thing hitThing)
 		{
 			base.Impact(hitThing);

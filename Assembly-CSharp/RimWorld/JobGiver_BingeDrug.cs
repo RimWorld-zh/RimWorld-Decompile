@@ -1,19 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000AD RID: 173
 	public class JobGiver_BingeDrug : JobGiver_Binge
 	{
-		// Token: 0x0400027E RID: 638
 		private const int BaseIngestInterval = 600;
 
-		// Token: 0x0400027F RID: 639
 		private const float OverdoseSeverityToAvoid = 0.786f;
 
-		// Token: 0x04000280 RID: 640
 		private static readonly SimpleCurve IngestIntervalFactorCurve_Drunkness = new SimpleCurve
 		{
 			{
@@ -26,7 +23,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000281 RID: 641
 		private static readonly SimpleCurve IngestIntervalFactorCurve_DrugOverdose = new SimpleCurve
 		{
 			{
@@ -39,7 +35,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0600042E RID: 1070 RVA: 0x00031C7C File Offset: 0x0003007C
+		public JobGiver_BingeDrug()
+		{
+		}
+
 		protected override int IngestInterval(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
@@ -63,7 +62,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600042F RID: 1071 RVA: 0x00031D1C File Offset: 0x0003011C
 		protected override Thing BestIngestTarget(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
@@ -106,16 +104,56 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000430 RID: 1072 RVA: 0x00031E10 File Offset: 0x00030210
 		private ChemicalDef GetChemical(Pawn pawn)
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).chemical;
 		}
 
-		// Token: 0x06000431 RID: 1073 RVA: 0x00031E38 File Offset: 0x00030238
 		private DrugCategory GetDrugCategory(Pawn pawn)
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).drugCategory;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_BingeDrug()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <BestIngestTarget>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal ChemicalDef chemical;
+
+			internal Hediff overdose;
+
+			internal DrugCategory drugCategory;
+
+			internal JobGiver_BingeDrug $this;
+
+			public <BestIngestTarget>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				bool result;
+				if (!this.$this.IgnoreForbid(this.pawn) && t.IsForbidden(this.pawn))
+				{
+					result = false;
+				}
+				else if (!this.pawn.CanReserve(t, 1, -1, null, false))
+				{
+					result = false;
+				}
+				else
+				{
+					CompDrug compDrug = t.TryGetComp<CompDrug>();
+					result = (compDrug.Props.chemical == this.chemical && (this.overdose == null || !compDrug.Props.CanCauseOverdose || this.overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (this.pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || this.pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null) && t.def.ingestible.drugCategory.IncludedIn(this.drugCategory));
+				}
+				return result;
+			}
 		}
 	}
 }

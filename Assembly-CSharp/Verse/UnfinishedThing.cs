@@ -1,38 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFE RID: 3582
 	public class UnfinishedThing : ThingWithComps
 	{
-		// Token: 0x04003546 RID: 13638
 		private Pawn creatorInt;
 
-		// Token: 0x04003547 RID: 13639
 		private string creatorName = "ErrorCreatorName";
 
-		// Token: 0x04003548 RID: 13640
 		private RecipeDef recipeInt;
 
-		// Token: 0x04003549 RID: 13641
 		public List<Thing> ingredients = new List<Thing>();
 
-		// Token: 0x0400354A RID: 13642
 		private Bill_ProductionWithUft boundBillInt;
 
-		// Token: 0x0400354B RID: 13643
 		public float workLeft = -10000f;
 
-		// Token: 0x0400354C RID: 13644
 		private const float CancelIngredientRecoveryFraction = 0.75f;
 
-		// Token: 0x17000D40 RID: 3392
-		// (get) Token: 0x0600511C RID: 20764 RVA: 0x0029B1D4 File Offset: 0x002995D4
-		// (set) Token: 0x0600511D RID: 20765 RVA: 0x0029B1EF File Offset: 0x002995EF
+		public UnfinishedThing()
+		{
+		}
+
 		public Pawn Creator
 		{
 			get
@@ -53,8 +50,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D41 RID: 3393
-		// (get) Token: 0x0600511E RID: 20766 RVA: 0x0029B21C File Offset: 0x0029961C
 		public RecipeDef Recipe
 		{
 			get
@@ -63,9 +58,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D42 RID: 3394
-		// (get) Token: 0x0600511F RID: 20767 RVA: 0x0029B238 File Offset: 0x00299638
-		// (set) Token: 0x06005120 RID: 20768 RVA: 0x0029B288 File Offset: 0x00299688
 		public Bill_ProductionWithUft BoundBill
 		{
 			get
@@ -101,8 +93,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D43 RID: 3395
-		// (get) Token: 0x06005121 RID: 20769 RVA: 0x0029B2F8 File Offset: 0x002996F8
 		public Thing BoundWorkTable
 		{
 			get
@@ -129,8 +119,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D44 RID: 3396
-		// (get) Token: 0x06005122 RID: 20770 RVA: 0x0029B34C File Offset: 0x0029974C
 		public override string LabelNoCount
 		{
 			get
@@ -159,8 +147,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D45 RID: 3397
-		// (get) Token: 0x06005123 RID: 20771 RVA: 0x0029B3F4 File Offset: 0x002997F4
 		public override string DescriptionDetailed
 		{
 			get
@@ -178,8 +164,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D46 RID: 3398
-		// (get) Token: 0x06005124 RID: 20772 RVA: 0x0029B430 File Offset: 0x00299830
 		public override string DescriptionFlavor
 		{
 			get
@@ -197,8 +181,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D47 RID: 3399
-		// (get) Token: 0x06005125 RID: 20773 RVA: 0x0029B46C File Offset: 0x0029986C
 		public bool Initialized
 		{
 			get
@@ -207,7 +189,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005126 RID: 20774 RVA: 0x0029B490 File Offset: 0x00299890
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -226,7 +207,6 @@ namespace Verse
 			Scribe_Collections.Look<Thing>(ref this.ingredients, "ingredients", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06005127 RID: 20775 RVA: 0x0029B544 File Offset: 0x00299944
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (mode == DestroyMode.Cancel)
@@ -246,7 +226,6 @@ namespace Verse
 			this.BoundBill = null;
 		}
 
-		// Token: 0x06005128 RID: 20776 RVA: 0x0029B5EC File Offset: 0x002999EC
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -267,7 +246,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005129 RID: 20777 RVA: 0x0029B618 File Offset: 0x00299A18
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
 		{
 			if (this.Recipe.AllRecipeUsers.Contains(workTable.def))
@@ -291,7 +269,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600512A RID: 20778 RVA: 0x0029B6BB File Offset: 0x00299ABB
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -301,7 +278,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600512B RID: 20779 RVA: 0x0029B6E8 File Offset: 0x00299AE8
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -319,6 +295,169 @@ namespace Verse
 				": ",
 				this.workLeft.ToStringWorkAmount()
 			});
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command_Action <com>__0;
+
+			internal UnfinishedThing $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				Command_Action com = new Command_Action();
+				com.defaultLabel = "CommandCancelConstructionLabel".Translate();
+				com.defaultDesc = "CommandCancelConstructionDesc".Translate();
+				com.icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
+				com.hotKey = KeyBindingDefOf.Designator_Cancel;
+				com.action = delegate()
+				{
+					this.Destroy(DestroyMode.Cancel);
+				};
+				this.$current = com;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				UnfinishedThing.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new UnfinishedThing.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				this.Destroy(DestroyMode.Cancel);
+			}
 		}
 	}
 }

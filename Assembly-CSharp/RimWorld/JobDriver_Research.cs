@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200007C RID: 124
 	public class JobDriver_Research : JobDriver
 	{
-		// Token: 0x04000232 RID: 562
 		private const int JobEndInterval = 4000;
 
-		// Token: 0x04000233 RID: 563
 		private const float BaseResearchSpeed = 1.1f;
 
-		// Token: 0x170000AC RID: 172
-		// (get) Token: 0x0600034D RID: 845 RVA: 0x00024AA4 File Offset: 0x00022EA4
+		public JobDriver_Research()
+		{
+		}
+
 		private ResearchProjectDef Project
 		{
 			get
@@ -24,8 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170000AD RID: 173
-		// (get) Token: 0x0600034E RID: 846 RVA: 0x00024AC4 File Offset: 0x00022EC4
 		private Building_ResearchBench ResearchBench
 		{
 			get
@@ -34,13 +35,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x00024AE4 File Offset: 0x00022EE4
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.ResearchBench, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x00024B18 File Offset: 0x00022F18
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -79,6 +78,193 @@ namespace RimWorld
 			yield return research;
 			yield return Toils_General.Wait(2);
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_Research $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_Research.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			private static Func<SkillDef> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					<MakeNewToils>c__AnonStorey.research = new Toil();
+					<MakeNewToils>c__AnonStorey.research.tickAction = delegate()
+					{
+						Pawn actor = <MakeNewToils>c__AnonStorey.research.actor;
+						float num2 = 1.1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+						num2 *= <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
+						Find.ResearchManager.ResearchPerformed(num2, actor);
+						actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
+						actor.GainComfortFromCellIfPossible();
+					};
+					<MakeNewToils>c__AnonStorey.research.FailOn(() => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Project == null);
+					<MakeNewToils>c__AnonStorey.research.FailOn(() => !<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Project.CanBeResearchedAt(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ResearchBench, false));
+					<MakeNewToils>c__AnonStorey.research.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
+					<MakeNewToils>c__AnonStorey.research.WithEffect(EffecterDefOf.Research, TargetIndex.A);
+					<MakeNewToils>c__AnonStorey.research.WithProgressBar(TargetIndex.A, delegate
+					{
+						ResearchProjectDef project = <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Project;
+						float result;
+						if (project == null)
+						{
+							result = 0f;
+						}
+						else
+						{
+							result = project.ProgressPercent;
+						}
+						return result;
+					}, false, -0.5f);
+					<MakeNewToils>c__AnonStorey.research.defaultCompleteMode = ToilCompleteMode.Delay;
+					<MakeNewToils>c__AnonStorey.research.defaultDuration = 4000;
+					<MakeNewToils>c__AnonStorey.research.activeSkill = (() => SkillDefOf.Intellectual);
+					this.$current = <MakeNewToils>c__AnonStorey.research;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_General.Wait(2);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Research.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Research.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private static SkillDef <>m__0()
+			{
+				return SkillDefOf.Intellectual;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil research;
+
+				internal JobDriver_Research.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					Pawn actor = this.research.actor;
+					float num = 1.1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+					num *= this.<>f__ref$0.$this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
+					Find.ResearchManager.ResearchPerformed(num, actor);
+					actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
+					actor.GainComfortFromCellIfPossible();
+				}
+
+				internal bool <>m__1()
+				{
+					return this.<>f__ref$0.$this.Project == null;
+				}
+
+				internal bool <>m__2()
+				{
+					return !this.<>f__ref$0.$this.Project.CanBeResearchedAt(this.<>f__ref$0.$this.ResearchBench, false);
+				}
+
+				internal float <>m__3()
+				{
+					ResearchProjectDef project = this.<>f__ref$0.$this.Project;
+					float result;
+					if (project == null)
+					{
+						result = 0f;
+					}
+					else
+					{
+						result = project.ProgressPercent;
+					}
+					return result;
+				}
+			}
 		}
 	}
 }

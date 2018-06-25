@@ -3,31 +3,26 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AC1 RID: 2753
 	public abstract class JobGiver_ExitMap : ThinkNode_JobGiver
 	{
-		// Token: 0x040026AB RID: 9899
 		protected LocomotionUrgency defaultLocomotion = LocomotionUrgency.None;
 
-		// Token: 0x040026AC RID: 9900
 		protected int jobMaxDuration = 999999;
 
-		// Token: 0x040026AD RID: 9901
 		protected bool canBash = false;
 
-		// Token: 0x040026AE RID: 9902
 		protected bool forceCanDig = false;
 
-		// Token: 0x040026AF RID: 9903
 		protected bool forceCanDigIfAnyHostileActiveThreat = false;
 
-		// Token: 0x040026B0 RID: 9904
 		protected bool forceCanDigIfCantReachMapEdge = false;
 
-		// Token: 0x040026B1 RID: 9905
 		protected bool failIfCantJoinOrCreateCaravan = false;
 
-		// Token: 0x06003D46 RID: 15686 RVA: 0x00205A10 File Offset: 0x00203E10
+		protected JobGiver_ExitMap()
+		{
+		}
+
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_ExitMap jobGiver_ExitMap = (JobGiver_ExitMap)base.DeepCopy(resolve);
@@ -41,7 +36,6 @@ namespace Verse.AI
 			return jobGiver_ExitMap;
 		}
 
-		// Token: 0x06003D47 RID: 15687 RVA: 0x00205A88 File Offset: 0x00203E88
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			bool flag = false;
@@ -85,7 +79,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D48 RID: 15688
 		protected abstract bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 dest);
 	}
 }

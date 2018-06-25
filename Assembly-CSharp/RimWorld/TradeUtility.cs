@@ -1,34 +1,49 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000780 RID: 1920
 	public static class TradeUtility
 	{
-		// Token: 0x040016DF RID: 5855
 		public const float MinimumBuyPrice = 0.5f;
 
-		// Token: 0x040016E0 RID: 5856
 		public const float MinimumSellPrice = 0.01f;
 
-		// Token: 0x040016E1 RID: 5857
 		public const float PriceFactorBuy_Global = 1.5f;
 
-		// Token: 0x040016E2 RID: 5858
 		public const float PriceFactorSell_Global = 0.5f;
 
-		// Token: 0x06002A6B RID: 10859 RVA: 0x00167934 File Offset: 0x00165D34
+		[CompilerGenerated]
+		private static Func<Map, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Map, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Thing, int> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<Thing, int> <>f__am$cache5;
+
 		public static bool EverPlayerSellable(ThingDef def)
 		{
 			return def.tradeability.PlayerCanSell() && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0f && (def.category == ThingCategory.Item || def.category == ThingCategory.Pawn || def.category == ThingCategory.Building) && (def.category != ThingCategory.Building || def.Minifiable);
 		}
 
-		// Token: 0x06002A6C RID: 10860 RVA: 0x001679C8 File Offset: 0x00165DC8
 		public static bool PlayerSellableNow(Thing t)
 		{
 			t = t.GetInnerIfMinified();
@@ -49,7 +64,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A6D RID: 10861 RVA: 0x00167A30 File Offset: 0x00165E30
 		public static void SpawnDropPod(IntVec3 dropSpot, Map map, Thing t)
 		{
 			DropPodUtility.MakeDropPodAt(dropSpot, map, new ActiveDropPodInfo
@@ -59,7 +73,6 @@ namespace RimWorld
 			}, false);
 		}
 
-		// Token: 0x06002A6E RID: 10862 RVA: 0x00167A5C File Offset: 0x00165E5C
 		public static IEnumerable<Thing> AllLaunchableThingsForTrade(Map map)
 		{
 			HashSet<Thing> yieldedThings = new HashSet<Thing>();
@@ -82,7 +95,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A6F RID: 10863 RVA: 0x00167A88 File Offset: 0x00165E88
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
 		{
 			foreach (Pawn p in map.mapPawns.PrisonersOfColonySpawned)
@@ -102,7 +114,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A70 RID: 10864 RVA: 0x00167AB4 File Offset: 0x00165EB4
 		public static Thing ThingFromStockToMergeWith(ITrader trader, Thing thing)
 		{
 			Thing result;
@@ -124,7 +135,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A71 RID: 10865 RVA: 0x00167B58 File Offset: 0x00165F58
 		public static void LaunchThingsOfType(ThingDef resDef, int debt, Map map, TradeShip trader)
 		{
 			while (debt > 0)
@@ -163,13 +173,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A72 RID: 10866 RVA: 0x00167CCC File Offset: 0x001660CC
 		public static void LaunchSilver(Map map, int fee)
 		{
 			TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, fee, map, null);
 		}
 
-		// Token: 0x06002A73 RID: 10867 RVA: 0x00167CDC File Offset: 0x001660DC
 		public static Map PlayerHomeMapWithMostLaunchableSilver()
 		{
 			return (from x in Find.Maps
@@ -179,7 +187,6 @@ namespace RimWorld
 			select t).Sum((Thing t) => t.stackCount));
 		}
 
-		// Token: 0x06002A74 RID: 10868 RVA: 0x00167D3C File Offset: 0x0016613C
 		public static bool ColonyHasEnoughSilver(Map map, int fee)
 		{
 			return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
@@ -187,7 +194,6 @@ namespace RimWorld
 			select t).Sum((Thing t) => t.stackCount) >= fee;
 		}
 
-		// Token: 0x06002A75 RID: 10869 RVA: 0x00167DA4 File Offset: 0x001661A4
 		public static void CheckInteractWithTradersTeachOpportunity(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -200,7 +206,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A76 RID: 10870 RVA: 0x00167DF0 File Offset: 0x001661F0
 		public static float GetPricePlayerSell(Thing thing, float priceFactorSell_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
 		{
 			float statValue = thing.GetStatValue(StatDefOf.SellPriceFactor, true);
@@ -214,7 +219,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002A77 RID: 10871 RVA: 0x00167E64 File Offset: 0x00166264
 		public static float GetPricePlayerBuy(Thing thing, float priceFactorBuy_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
 		{
 			float num = thing.MarketValue * 1.5f * priceFactorBuy_TraderPriceType * (1f + Find.Storyteller.difficulty.tradePriceFactorLoss);
@@ -225,6 +229,429 @@ namespace RimWorld
 				num = Mathf.Round(num);
 			}
 			return num;
+		}
+
+		[CompilerGenerated]
+		private static bool <PlayerHomeMapWithMostLaunchableSilver>m__0(Map x)
+		{
+			return x.IsPlayerHome;
+		}
+
+		[CompilerGenerated]
+		private static int <PlayerHomeMapWithMostLaunchableSilver>m__1(Map x)
+		{
+			return (from t in TradeUtility.AllLaunchableThingsForTrade(x)
+			where t.def == ThingDefOf.Silver
+			select t).Sum((Thing t) => t.stackCount);
+		}
+
+		[CompilerGenerated]
+		private static bool <ColonyHasEnoughSilver>m__2(Thing t)
+		{
+			return t.def == ThingDefOf.Silver;
+		}
+
+		[CompilerGenerated]
+		private static int <ColonyHasEnoughSilver>m__3(Thing t)
+		{
+			return t.stackCount;
+		}
+
+		[CompilerGenerated]
+		private static bool <PlayerHomeMapWithMostLaunchableSilver>m__4(Thing t)
+		{
+			return t.def == ThingDefOf.Silver;
+		}
+
+		[CompilerGenerated]
+		private static int <PlayerHomeMapWithMostLaunchableSilver>m__5(Thing t)
+		{
+			return t.stackCount;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllLaunchableThingsForTrade>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal HashSet<Thing> <yieldedThings>__0;
+
+			internal Map map;
+
+			internal IEnumerator<Building_OrbitalTradeBeacon> $locvar0;
+
+			internal Building_OrbitalTradeBeacon <beacon>__1;
+
+			internal IEnumerator<IntVec3> $locvar1;
+
+			internal IntVec3 <c>__2;
+
+			internal List<Thing> <thingList>__3;
+
+			internal int <i>__4;
+
+			internal Thing <t>__5;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllLaunchableThingsForTrade>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					yieldedThings = new HashSet<Thing>();
+					enumerator = Building_OrbitalTradeBeacon.AllPowered(map).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						Block_4:
+						try
+						{
+							switch (num)
+							{
+							case 1u:
+								break;
+							default:
+								goto IL_17C;
+							}
+							IL_156:
+							i++;
+							IL_165:
+							if (i < thingList.Count)
+							{
+								t = thingList[i];
+								if (t.def.category == ThingCategory.Item && TradeUtility.PlayerSellableNow(t) && !yieldedThings.Contains(t))
+								{
+									yieldedThings.Add(t);
+									this.$current = t;
+									if (!this.$disposing)
+									{
+										this.$PC = 1;
+									}
+									flag = true;
+									return true;
+								}
+								goto IL_156;
+							}
+							IL_17C:
+							if (enumerator2.MoveNext())
+							{
+								c = enumerator2.Current;
+								thingList = c.GetThingList(map);
+								i = 0;
+								goto IL_165;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator2 != null)
+								{
+									enumerator2.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						beacon = enumerator.Current;
+						enumerator2 = beacon.TradeableCells.GetEnumerator();
+						num = 4294967293u;
+						goto Block_4;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TradeUtility.<AllLaunchableThingsForTrade>c__Iterator0 <AllLaunchableThingsForTrade>c__Iterator = new TradeUtility.<AllLaunchableThingsForTrade>c__Iterator0();
+				<AllLaunchableThingsForTrade>c__Iterator.map = map;
+				return <AllLaunchableThingsForTrade>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllSellableColonyPawns>c__Iterator1 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal Map map;
+
+			internal List<Pawn>.Enumerator $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal List<Pawn>.Enumerator $locvar1;
+
+			internal Pawn <p>__2;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllSellableColonyPawns>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = map.mapPawns.PrisonersOfColonySpawned.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_F1;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_A1:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.guest.PrisonerIsSecure)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_A1;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				enumerator2 = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_F1:
+					switch (num)
+					{
+					case 2u:
+						IL_19B:
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						p2 = enumerator2.Current;
+						if (p2.RaceProps.Animal && p2.HostFaction == null && !p2.InMentalState && !p2.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(p2.def))
+						{
+							this.$current = p2;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_19B;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TradeUtility.<AllSellableColonyPawns>c__Iterator1 <AllSellableColonyPawns>c__Iterator = new TradeUtility.<AllSellableColonyPawns>c__Iterator1();
+				<AllSellableColonyPawns>c__Iterator.map = map;
+				return <AllSellableColonyPawns>c__Iterator;
+			}
 		}
 	}
 }

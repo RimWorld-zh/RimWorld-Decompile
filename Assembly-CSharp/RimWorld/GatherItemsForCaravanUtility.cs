@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -8,13 +9,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000C4 RID: 196
 	public static class GatherItemsForCaravanUtility
 	{
-		// Token: 0x0400029B RID: 667
 		private static HashSet<Thing> neededItems = new HashSet<Thing>();
 
-		// Token: 0x0600048C RID: 1164 RVA: 0x00033DE0 File Offset: 0x000321E0
 		public static Thing FindThingToHaul(Pawn p, Lord lord)
 		{
 			GatherItemsForCaravanUtility.neededItems.Clear();
@@ -44,7 +42,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600048D RID: 1165 RVA: 0x00033F00 File Offset: 0x00032300
 		public static int CountLeftToTransfer(Pawn pawn, TransferableOneWay transferable, Lord lord)
 		{
 			int result;
@@ -59,7 +56,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600048E RID: 1166 RVA: 0x00033F48 File Offset: 0x00032348
 		private static int TransferableCountHauledByOthers(Pawn pawn, TransferableOneWay transferable, Lord lord)
 		{
 			int result;
@@ -90,6 +86,26 @@ namespace RimWorld
 				result = num;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GatherItemsForCaravanUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindThingToHaul>c__AnonStorey0
+		{
+			internal Pawn p;
+
+			public <FindThingToHaul>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return GatherItemsForCaravanUtility.neededItems.Contains(x) && this.p.CanReserve(x, 1, -1, null, false);
+			}
 		}
 	}
 }

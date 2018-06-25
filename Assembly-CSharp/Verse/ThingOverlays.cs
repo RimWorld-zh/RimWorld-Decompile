@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E90 RID: 3728
 	public class ThingOverlays
 	{
-		// Token: 0x06005804 RID: 22532 RVA: 0x002D2858 File Offset: 0x002D0C58
+		public ThingOverlays()
+		{
+		}
+
 		public void ThingOverlaysOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint)

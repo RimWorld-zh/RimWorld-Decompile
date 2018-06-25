@@ -1,36 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200059D RID: 1437
 	public static class ExpandableWorldObjectsUtility
 	{
-		// Token: 0x04001028 RID: 4136
 		private static float transitionPct;
 
-		// Token: 0x04001029 RID: 4137
 		private static float expandMoreTransitionPct;
 
-		// Token: 0x0400102A RID: 4138
 		private static List<WorldObject> tmpWorldObjects = new List<WorldObject>();
 
-		// Token: 0x0400102B RID: 4139
 		private const float WorldObjectIconSize = 30f;
 
-		// Token: 0x0400102C RID: 4140
 		private const float ExpandMoreWorldObjectIconSizeFactor = 1.35f;
 
-		// Token: 0x0400102D RID: 4141
 		private const float TransitionSpeed = 3f;
 
-		// Token: 0x0400102E RID: 4142
 		private const float ExpandMoreTransitionSpeed = 4f;
 
-		// Token: 0x17000409 RID: 1033
-		// (get) Token: 0x06001B66 RID: 7014 RVA: 0x000ECCAC File Offset: 0x000EB0AC
+		[CompilerGenerated]
+		private static Func<WorldObject, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<WorldObject, int> <>f__am$cache1;
+
 		public static float TransitionPct
 		{
 			get
@@ -48,8 +45,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700040A RID: 1034
-		// (get) Token: 0x06001B67 RID: 7015 RVA: 0x000ECCE0 File Offset: 0x000EB0E0
 		public static float ExpandMoreTransitionPct
 		{
 			get
@@ -67,7 +62,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B68 RID: 7016 RVA: 0x000ECD14 File Offset: 0x000EB114
 		public static void ExpandableWorldObjectsUpdate()
 		{
 			float num = Time.deltaTime * 3f;
@@ -92,7 +86,6 @@ namespace RimWorld.Planet
 			ExpandableWorldObjectsUtility.expandMoreTransitionPct = Mathf.Clamp01(ExpandableWorldObjectsUtility.expandMoreTransitionPct);
 		}
 
-		// Token: 0x06001B69 RID: 7017 RVA: 0x000ECDB4 File Offset: 0x000EB1B4
 		public static void ExpandableWorldObjectsOnGUI()
 		{
 			if (ExpandableWorldObjectsUtility.TransitionPct != 0f)
@@ -132,7 +125,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B6A RID: 7018 RVA: 0x000ECF14 File Offset: 0x000EB314
 		public static Rect ExpandedIconScreenRect(WorldObject o)
 		{
 			Vector2 vector = o.ScreenPos();
@@ -148,13 +140,11 @@ namespace RimWorld.Planet
 			return new Rect(vector.x - num / 2f, vector.y - num / 2f, num, num);
 		}
 
-		// Token: 0x06001B6B RID: 7019 RVA: 0x000ECF84 File Offset: 0x000EB384
 		public static bool IsExpanded(WorldObject o)
 		{
 			return ExpandableWorldObjectsUtility.TransitionPct > 0.5f && o.def.expandingIcon;
 		}
 
-		// Token: 0x06001B6C RID: 7020 RVA: 0x000ECFB8 File Offset: 0x000EB3B8
 		public static void GetExpandedWorldObjectUnderMouse(Vector2 mousePos, List<WorldObject> outList)
 		{
 			outList.Clear();
@@ -179,7 +169,6 @@ namespace RimWorld.Planet
 			outList.Reverse();
 		}
 
-		// Token: 0x06001B6D RID: 7021 RVA: 0x000ED05C File Offset: 0x000EB45C
 		private static void SortByExpandingIconPriority(List<WorldObject> worldObjects)
 		{
 			worldObjects.SortBy(delegate(WorldObject x)
@@ -191,6 +180,28 @@ namespace RimWorld.Planet
 				}
 				return num;
 			}, (WorldObject x) => x.ID);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ExpandableWorldObjectsUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <SortByExpandingIconPriority>m__0(WorldObject x)
+		{
+			float num = x.ExpandingIconPriority;
+			if (x.Faction != null && x.Faction.IsPlayer)
+			{
+				num += 0.001f;
+			}
+			return num;
+		}
+
+		[CompilerGenerated]
+		private static int <SortByExpandingIconPriority>m__1(WorldObject x)
+		{
+			return x.ID;
 		}
 	}
 }

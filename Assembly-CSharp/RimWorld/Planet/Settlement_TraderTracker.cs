@@ -1,35 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000607 RID: 1543
 	public abstract class Settlement_TraderTracker : IThingHolder, IExposable
 	{
-		// Token: 0x0400122F RID: 4655
 		public Settlement settlement;
 
-		// Token: 0x04001230 RID: 4656
 		private ThingOwner<Thing> stock;
 
-		// Token: 0x04001231 RID: 4657
 		private int lastStockGenerationTicks = -1;
 
-		// Token: 0x04001232 RID: 4658
 		private const float DefaultTradePriceImprovement = 0.02f;
 
-		// Token: 0x04001233 RID: 4659
 		private List<Pawn> tmpSavedPawns = new List<Pawn>();
 
-		// Token: 0x06001EEE RID: 7918 RVA: 0x0010B201 File Offset: 0x00109601
 		public Settlement_TraderTracker(Settlement settlement)
 		{
 			this.settlement = settlement;
 		}
 
-		// Token: 0x1700048F RID: 1167
-		// (get) Token: 0x06001EEF RID: 7919 RVA: 0x0010B224 File Offset: 0x00109624
 		protected virtual int RegenerateStockEveryDays
 		{
 			get
@@ -38,8 +33,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000490 RID: 1168
-		// (get) Token: 0x06001EF0 RID: 7920 RVA: 0x0010B23C File Offset: 0x0010963C
 		public IThingHolder ParentHolder
 		{
 			get
@@ -48,8 +41,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000491 RID: 1169
-		// (get) Token: 0x06001EF1 RID: 7921 RVA: 0x0010B258 File Offset: 0x00109658
 		public List<Thing> StockListForReading
 		{
 			get
@@ -62,12 +53,8 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000492 RID: 1170
-		// (get) Token: 0x06001EF2 RID: 7922
 		public abstract TraderKindDef TraderKind { get; }
 
-		// Token: 0x17000493 RID: 1171
-		// (get) Token: 0x06001EF3 RID: 7923 RVA: 0x0010B28C File Offset: 0x0010968C
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -76,8 +63,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000494 RID: 1172
-		// (get) Token: 0x06001EF4 RID: 7924 RVA: 0x0010B2B8 File Offset: 0x001096B8
 		public virtual string TraderName
 		{
 			get
@@ -99,8 +84,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000495 RID: 1173
-		// (get) Token: 0x06001EF5 RID: 7925 RVA: 0x0010B320 File Offset: 0x00109720
 		public virtual bool CanTradeNow
 		{
 			get
@@ -109,8 +92,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000496 RID: 1174
-		// (get) Token: 0x06001EF6 RID: 7926 RVA: 0x0010B370 File Offset: 0x00109770
 		public virtual float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -119,7 +100,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EF7 RID: 7927 RVA: 0x0010B38C File Offset: 0x0010978C
 		public virtual void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -151,7 +131,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EF8 RID: 7928 RVA: 0x0010B4AC File Offset: 0x001098AC
 		public virtual IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			Caravan caravan = playerNegotiator.GetCaravan();
@@ -170,7 +149,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EF9 RID: 7929 RVA: 0x0010B4D8 File Offset: 0x001098D8
 		public virtual void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			if (this.stock == null)
@@ -198,7 +176,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EFA RID: 7930 RVA: 0x0010B580 File Offset: 0x00109980
 		public virtual void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Caravan caravan = playerNegotiator.GetCaravan();
@@ -225,7 +202,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EFB RID: 7931 RVA: 0x0010B620 File Offset: 0x00109A20
 		public virtual void TraderTrackerTick()
 		{
 			if (this.stock != null)
@@ -257,7 +233,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EFC RID: 7932 RVA: 0x0010B718 File Offset: 0x00109B18
 		public void TryDestroyStock()
 		{
 			if (this.stock != null)
@@ -275,13 +250,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EFD RID: 7933 RVA: 0x0010B794 File Offset: 0x00109B94
 		public bool ContainsPawn(Pawn p)
 		{
 			return this.stock != null && this.stock.Contains(p);
 		}
 
-		// Token: 0x06001EFE RID: 7934 RVA: 0x0010B7C8 File Offset: 0x00109BC8
 		protected virtual void RegenerateStock()
 		{
 			this.TryDestroyStock();
@@ -305,16 +278,177 @@ namespace RimWorld.Planet
 			this.lastStockGenerationTicks = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06001EFF RID: 7935 RVA: 0x0010B8BC File Offset: 0x00109CBC
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.stock;
 		}
 
-		// Token: 0x06001F00 RID: 7936 RVA: 0x0010B8D7 File Offset: 0x00109CD7
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
+		}
+
+		[CompilerGenerated]
+		private bool <get_CanTradeNow>m__0(Thing x)
+		{
+			return this.TraderKind.WillTrade(x.def);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ColonyThingsWillingToBuy>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn playerNegotiator;
+
+			internal Caravan <caravan>__0;
+
+			internal List<Thing>.Enumerator $locvar0;
+
+			internal Thing <item>__1;
+
+			internal List<Pawn> <pawns>__0;
+
+			internal int <i>__2;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ColonyThingsWillingToBuy>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					caravan = playerNegotiator.GetCaravan();
+					enumerator = CaravanInventoryUtility.AllInventoryItems(caravan).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					IL_12E:
+					i++;
+					goto IL_13D;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						item = enumerator.Current;
+						this.$current = item;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				pawns = caravan.PawnsListForReading;
+				i = 0;
+				IL_13D:
+				if (i >= pawns.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (!caravan.IsOwner(pawns[i]))
+					{
+						this.$current = pawns[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					goto IL_12E;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator0 <ColonyThingsWillingToBuy>c__Iterator = new Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator0();
+				<ColonyThingsWillingToBuy>c__Iterator.playerNegotiator = playerNegotiator;
+				return <ColonyThingsWillingToBuy>c__Iterator;
+			}
 		}
 	}
 }

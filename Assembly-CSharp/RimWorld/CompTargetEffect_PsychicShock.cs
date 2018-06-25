@@ -3,10 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000758 RID: 1880
 	public class CompTargetEffect_PsychicShock : CompTargetEffect
 	{
-		// Token: 0x06002993 RID: 10643 RVA: 0x00161A34 File Offset: 0x0015FE34
+		public CompTargetEffect_PsychicShock()
+		{
+		}
+
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;

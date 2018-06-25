@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200064E RID: 1614
 	public class ScenPart_ScatterThingsNearPlayerStart : ScenPart_ScatterThings
 	{
-		// Token: 0x170004EE RID: 1262
-		// (get) Token: 0x06002183 RID: 8579 RVA: 0x0011CB4C File Offset: 0x0011AF4C
+		public ScenPart_ScatterThingsNearPlayerStart()
+		{
+		}
+
 		protected override bool NearPlayerStart
 		{
 			get
@@ -17,13 +22,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002184 RID: 8580 RVA: 0x0011CB64 File Offset: 0x0011AF64
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		// Token: 0x06002185 RID: 8581 RVA: 0x0011CB8C File Offset: 0x0011AF8C
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PlayerStartsWith")
@@ -31,6 +34,101 @@ namespace RimWorld
 				yield return GenLabel.ThingLabel(this.thingDef, this.stuff, this.count).CapitalizeFirst();
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetSummaryListEntries>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal string tag;
+
+			internal ScenPart_ScatterThingsNearPlayerStart $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetSummaryListEntries>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (tag == "PlayerStartsWith")
+					{
+						this.$current = GenLabel.ThingLabel(this.thingDef, this.stuff, this.count).CapitalizeFirst();
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenPart_ScatterThingsNearPlayerStart.<GetSummaryListEntries>c__Iterator0 <GetSummaryListEntries>c__Iterator = new ScenPart_ScatterThingsNearPlayerStart.<GetSummaryListEntries>c__Iterator0();
+				<GetSummaryListEntries>c__Iterator.$this = this;
+				<GetSummaryListEntries>c__Iterator.tag = tag;
+				return <GetSummaryListEntries>c__Iterator;
+			}
 		}
 	}
 }

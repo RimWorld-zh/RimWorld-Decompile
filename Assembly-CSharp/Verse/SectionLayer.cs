@@ -4,26 +4,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C42 RID: 3138
 	public abstract class SectionLayer
 	{
-		// Token: 0x04002F50 RID: 12112
 		protected Section section;
 
-		// Token: 0x04002F51 RID: 12113
 		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
 
-		// Token: 0x04002F52 RID: 12114
 		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
-		// Token: 0x06004527 RID: 17703 RVA: 0x00084DC4 File Offset: 0x000831C4
 		public SectionLayer(Section section)
 		{
 			this.section = section;
 		}
 
-		// Token: 0x17000AE8 RID: 2792
-		// (get) Token: 0x06004528 RID: 17704 RVA: 0x00084DE8 File Offset: 0x000831E8
 		protected Map Map
 		{
 			get
@@ -32,8 +25,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE9 RID: 2793
-		// (get) Token: 0x06004529 RID: 17705 RVA: 0x00084E08 File Offset: 0x00083208
 		public virtual bool Visible
 		{
 			get
@@ -42,7 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600452A RID: 17706 RVA: 0x00084E20 File Offset: 0x00083220
 		public LayerSubMesh GetSubMesh(Material material)
 		{
 			LayerSubMesh result;
@@ -77,7 +67,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600452B RID: 17707 RVA: 0x00084EFC File Offset: 0x000832FC
 		protected void FinalizeMesh(MeshParts tags)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
@@ -89,7 +78,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600452C RID: 17708 RVA: 0x00084F58 File Offset: 0x00083358
 		public virtual void DrawLayer()
 		{
 			if (this.Visible)
@@ -106,10 +94,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600452D RID: 17709
 		public abstract void Regenerate();
 
-		// Token: 0x0600452E RID: 17710 RVA: 0x00084FD8 File Offset: 0x000833D8
 		protected void ClearSubMeshes(MeshParts parts)
 		{
 			foreach (LayerSubMesh layerSubMesh in this.subMeshes)

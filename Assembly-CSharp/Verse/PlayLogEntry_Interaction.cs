@@ -1,33 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BD0 RID: 3024
 	[HasDebugOutput]
 	public class PlayLogEntry_Interaction : LogEntry
 	{
-		// Token: 0x04002CFE RID: 11518
 		private InteractionDef intDef;
 
-		// Token: 0x04002CFF RID: 11519
 		private Pawn initiator;
 
-		// Token: 0x04002D00 RID: 11520
 		private Pawn recipient;
 
-		// Token: 0x04002D01 RID: 11521
 		private List<RulePackDef> extraSentencePacks = null;
 
-		// Token: 0x060041DE RID: 16862 RVA: 0x0022B890 File Offset: 0x00229C90
 		public PlayLogEntry_Interaction() : base(null)
 		{
 		}
 
-		// Token: 0x060041DF RID: 16863 RVA: 0x0022B8A1 File Offset: 0x00229CA1
 		public PlayLogEntry_Interaction(InteractionDef intDef, Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks) : base(null)
 		{
 			this.intDef = intDef;
@@ -36,8 +33,6 @@ namespace Verse
 			this.extraSentencePacks = extraSentencePacks;
 		}
 
-		// Token: 0x17000A49 RID: 2633
-		// (get) Token: 0x060041E0 RID: 16864 RVA: 0x0022B8D0 File Offset: 0x00229CD0
 		private string InitiatorName
 		{
 			get
@@ -46,8 +41,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4A RID: 2634
-		// (get) Token: 0x060041E1 RID: 16865 RVA: 0x0022B908 File Offset: 0x00229D08
 		private string RecipientName
 		{
 			get
@@ -56,13 +49,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041E2 RID: 16866 RVA: 0x0022B940 File Offset: 0x00229D40
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiator || t == this.recipient;
 		}
 
-		// Token: 0x060041E3 RID: 16867 RVA: 0x0022B970 File Offset: 0x00229D70
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiator != null)
@@ -76,7 +67,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060041E4 RID: 16868 RVA: 0x0022B99C File Offset: 0x00229D9C
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.initiator)
@@ -93,19 +83,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041E5 RID: 16869 RVA: 0x0022B9F4 File Offset: 0x00229DF4
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			return this.intDef.Symbol;
 		}
 
-		// Token: 0x060041E6 RID: 16870 RVA: 0x0022BA14 File Offset: 0x00229E14
 		public override string GetTipString()
 		{
 			return this.intDef.LabelCap + "\n" + base.GetTipString();
 		}
 
-		// Token: 0x060041E7 RID: 16871 RVA: 0x0022BA44 File Offset: 0x00229E44
 		protected override string ToGameStringFromPOV_Worker(Thing pov, bool forceLog)
 		{
 			string result;
@@ -167,7 +154,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060041E8 RID: 16872 RVA: 0x0022BD58 File Offset: 0x0022A158
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -177,7 +163,6 @@ namespace Verse
 			Scribe_Collections.Look<RulePackDef>(ref this.extraSentencePacks, "extras", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x060041E9 RID: 16873 RVA: 0x0022BDB8 File Offset: 0x0022A1B8
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -188,6 +173,110 @@ namespace Verse
 				"->",
 				this.RecipientName
 			});
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetConcerns>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal PlayLogEntry_Interaction $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetConcerns>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.initiator != null)
+					{
+						this.$current = this.initiator;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_90;
+				default:
+					return false;
+				}
+				if (this.recipient != null)
+				{
+					this.$current = this.recipient;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_90:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PlayLogEntry_Interaction.<GetConcerns>c__Iterator0 <GetConcerns>c__Iterator = new PlayLogEntry_Interaction.<GetConcerns>c__Iterator0();
+				<GetConcerns>c__Iterator.$this = this;
+				return <GetConcerns>c__Iterator;
+			}
 		}
 	}
 }

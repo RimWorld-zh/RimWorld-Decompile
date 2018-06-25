@@ -4,17 +4,16 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000B9 RID: 185
 	public abstract class JobGiver_AIFollowPawn : ThinkNode_JobGiver
 	{
-		// Token: 0x06000467 RID: 1127
+		protected JobGiver_AIFollowPawn()
+		{
+		}
+
 		protected abstract Pawn GetFollowee(Pawn pawn);
 
-		// Token: 0x06000468 RID: 1128
 		protected abstract float GetRadius(Pawn pawn);
 
-		// Token: 0x170000C8 RID: 200
-		// (get) Token: 0x06000469 RID: 1129 RVA: 0x00032CB4 File Offset: 0x000310B4
 		protected virtual int FollowJobExpireInterval
 		{
 			get
@@ -23,7 +22,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600046A RID: 1130 RVA: 0x00032CD0 File Offset: 0x000310D0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn followee = this.GetFollowee(pawn);

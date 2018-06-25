@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BE RID: 2238
 	public class Instruction_ChopWood : Lesson_Instruction
 	{
-		// Token: 0x17000825 RID: 2085
-		// (get) Token: 0x06003332 RID: 13106 RVA: 0x001B8AF4 File Offset: 0x001B6EF4
+		[CompilerGenerated]
+		private static Func<Designation, bool> <>f__am$cache0;
+
+		public Instruction_ChopWood()
+		{
+		}
+
 		protected override float ProgressPercent
 		{
 			get
@@ -19,13 +24,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003333 RID: 13107 RVA: 0x001B8B53 File Offset: 0x001B6F53
 		public override void LessonUpdate()
 		{
 			if (this.ProgressPercent > 0.999f)
 			{
 				Find.ActiveLesson.Deactivate();
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <get_ProgressPercent>m__0(Designation d)
+		{
+			return d.target.Thing.def.plant.IsTree;
 		}
 	}
 }

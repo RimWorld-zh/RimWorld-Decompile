@@ -5,37 +5,26 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE4 RID: 3300
 	public static class PawnNameColorUtility
 	{
-		// Token: 0x04003135 RID: 12597
 		private static readonly List<Color> ColorsNeutral = new List<Color>();
 
-		// Token: 0x04003136 RID: 12598
 		private static readonly List<Color> ColorsHostile = new List<Color>();
 
-		// Token: 0x04003137 RID: 12599
 		private static readonly List<Color> ColorsPrisoner = new List<Color>();
 
-		// Token: 0x04003138 RID: 12600
 		private static readonly Color ColorBaseNeutral = new Color(0.4f, 0.85f, 0.9f);
 
-		// Token: 0x04003139 RID: 12601
 		private static readonly Color ColorBaseHostile = new Color(0.9f, 0.2f, 0.2f);
 
-		// Token: 0x0400313A RID: 12602
 		private static readonly Color ColorBasePrisoner = new Color(1f, 0.85f, 0.5f);
 
-		// Token: 0x0400313B RID: 12603
 		private static readonly Color ColorColony = new Color(0.9f, 0.9f, 0.9f);
 
-		// Token: 0x0400313C RID: 12604
 		private static readonly Color ColorWildMan = new Color(1f, 0.8f, 1f);
 
-		// Token: 0x0400313D RID: 12605
 		private const int ColorShiftCount = 10;
 
-		// Token: 0x0400313E RID: 12606
 		private static readonly List<Color> ColorShifts = new List<Color>
 		{
 			new Color(1f, 1f, 1f),
@@ -50,7 +39,6 @@ namespace Verse
 			new Color(1.2f, 1f, 0.8f)
 		};
 
-		// Token: 0x060048B5 RID: 18613 RVA: 0x00262BDC File Offset: 0x00260FDC
 		static PawnNameColorUtility()
 		{
 			for (int i = 0; i < 10; i++)
@@ -61,13 +49,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B6 RID: 18614 RVA: 0x00262DEC File Offset: 0x002611EC
 		private static Color RandomShiftOf(Color color, int i)
 		{
 			return new Color(Mathf.Clamp01(color.r * PawnNameColorUtility.ColorShifts[i].r), Mathf.Clamp01(color.g * PawnNameColorUtility.ColorShifts[i].g), Mathf.Clamp01(color.b * PawnNameColorUtility.ColorShifts[i].b), color.a);
 		}
 
-		// Token: 0x060048B7 RID: 18615 RVA: 0x00262E70 File Offset: 0x00261270
 		public static Color PawnNameColorOf(Pawn pawn)
 		{
 			Color result;

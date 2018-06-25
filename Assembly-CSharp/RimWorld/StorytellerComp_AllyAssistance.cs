@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000361 RID: 865
 	public class StorytellerComp_AllyAssistance : StorytellerComp
 	{
-		// Token: 0x1700021A RID: 538
-		// (get) Token: 0x06000F16 RID: 3862 RVA: 0x0007F738 File Offset: 0x0007DB38
+		public StorytellerComp_AllyAssistance()
+		{
+		}
+
 		private StorytellerCompProperties_AllyAssistance Props
 		{
 			get
@@ -17,7 +22,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F17 RID: 3863 RVA: 0x0007F758 File Offset: 0x0007DB58
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			Map map = target as Map;
@@ -37,6 +41,120 @@ namespace RimWorld
 			}
 			yield return new FiringIncident(incident, this, this.GenerateParms(incident.category, target));
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeIntervalIncidents>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal IIncidentTarget target;
+
+			internal Map <map>__0;
+
+			internal float <mtb>__0;
+
+			internal IncidentDef <incident>__0;
+
+			internal StorytellerComp_AllyAssistance $this;
+
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<IncidentDef, float> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <MakeIntervalIncidents>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					map = (target as Map);
+					if (map != null && map.dangerWatcher.DangerRating >= StoryDanger.High)
+					{
+						mtb = base.Props.baseMtbDays * StorytellerUtility.AllyIncidentMTBMultiplier(false);
+						if (mtb > 0f && Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+						{
+							if (base.UsableIncidentsInCategory(IncidentCategoryDefOf.AllyAssistance, target).TryRandomElementByWeight((IncidentDef d) => d.baseChance, out incident))
+							{
+								this.$current = new FiringIncident(incident, this, this.GenerateParms(incident.category, target));
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								return true;
+							}
+						}
+					}
+					break;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StorytellerComp_AllyAssistance.<MakeIntervalIncidents>c__Iterator0 <MakeIntervalIncidents>c__Iterator = new StorytellerComp_AllyAssistance.<MakeIntervalIncidents>c__Iterator0();
+				<MakeIntervalIncidents>c__Iterator.$this = this;
+				<MakeIntervalIncidents>c__Iterator.target = target;
+				return <MakeIntervalIncidents>c__Iterator;
+			}
+
+			private static float <>m__0(IncidentDef d)
+			{
+				return d.baseChance;
+			}
 		}
 	}
 }

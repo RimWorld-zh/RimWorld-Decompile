@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A34 RID: 2612
 	public class JobDriver_Follow : JobDriver
 	{
-		// Token: 0x0400250A RID: 9482
 		private const TargetIndex FolloweeInd = TargetIndex.A;
 
-		// Token: 0x0400250B RID: 9483
 		private const int Distance = 4;
 
-		// Token: 0x060039F7 RID: 14839 RVA: 0x001EA500 File Offset: 0x001E8900
+		public JobDriver_Follow()
+		{
+		}
+
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060039F8 RID: 14840 RVA: 0x001EA518 File Offset: 0x001E8918
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -44,10 +47,133 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x060039F9 RID: 14841 RVA: 0x001EA544 File Offset: 0x001E8944
 		public override bool IsContinuation(Job j)
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <follow>__0;
+
+			internal JobDriver_Follow $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					this.FailOnDespawnedOrNull(TargetIndex.A);
+					Toil follow = new Toil();
+					follow.tickAction = delegate()
+					{
+						Pawn pawn = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
+						if (!this.pawn.Position.InHorDistOf(pawn.Position, 4f) || !this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+						{
+							if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+							{
+								base.EndJobWith(JobCondition.Incompletable);
+							}
+							else if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
+							{
+								this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
+							}
+						}
+					};
+					follow.defaultCompleteMode = ToilCompleteMode.Never;
+					this.$current = follow;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Follow.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Follow.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				Pawn pawn = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
+				if (!this.pawn.Position.InHorDistOf(pawn.Position, 4f) || !this.pawn.Position.WithinRegions(pawn.Position, base.Map, 2, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+				{
+					if (!this.pawn.CanReach(pawn, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+					{
+						base.EndJobWith(JobCondition.Incompletable);
+					}
+					else if (!this.pawn.pather.Moving || this.pawn.pather.Destination != pawn)
+					{
+						this.pawn.pather.StartPath(pawn, PathEndMode.Touch);
+					}
+				}
+			}
 		}
 	}
 }

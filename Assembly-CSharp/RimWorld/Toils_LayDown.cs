@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200009C RID: 156
 	public static class Toils_LayDown
 	{
-		// Token: 0x04000266 RID: 614
 		private const int TicksBetweenSleepZs = 100;
 
-		// Token: 0x04000267 RID: 615
 		private const float GroundRestEffectiveness = 0.8f;
 
-		// Token: 0x04000268 RID: 616
 		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
 
-		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4C8 File Offset: 0x0002C8C8
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
 			Toil layDown = new Toil();
@@ -141,7 +137,6 @@ namespace RimWorld
 			return layDown;
 		}
 
-		// Token: 0x060003F2 RID: 1010 RVA: 0x0002E588 File Offset: 0x0002C988
 		private static void ApplyBedThoughts(Pawn actor)
 		{
 			if (actor.needs.mood != null)
@@ -189,6 +184,141 @@ namespace RimWorld
 						}
 					}
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <LayDown>c__AnonStorey0
+		{
+			internal Toil layDown;
+
+			internal bool hasBed;
+
+			internal TargetIndex bedOrRestSpotIndex;
+
+			internal bool canSleep;
+
+			internal bool gainRestAndHealth;
+
+			internal bool lookForOtherJobs;
+
+			public <LayDown>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Pawn actor = this.layDown.actor;
+				actor.pather.StopDead();
+				JobDriver curDriver = actor.jobs.curDriver;
+				if (this.hasBed)
+				{
+					Building_Bed t = (Building_Bed)actor.CurJob.GetTarget(this.bedOrRestSpotIndex).Thing;
+					if (!t.OccupiedRect().Contains(actor.Position))
+					{
+						Log.Error("Can't start LayDown toil because pawn is not in the bed. pawn=" + actor, false);
+						actor.jobs.EndCurrentJob(JobCondition.Errored, true);
+						return;
+					}
+					actor.jobs.posture = PawnPosture.LayingInBed;
+				}
+				else
+				{
+					actor.jobs.posture = PawnPosture.LayingOnGroundNormal;
+				}
+				curDriver.asleep = false;
+				if (actor.mindState.applyBedThoughtsTick == 0)
+				{
+					actor.mindState.applyBedThoughtsTick = Find.TickManager.TicksGame + Rand.Range(2500, 10000);
+					actor.mindState.applyBedThoughtsOnLeave = false;
+				}
+				if (actor.ownership != null && actor.CurrentBed() != actor.ownership.OwnedBed)
+				{
+					ThoughtUtility.RemovePositiveBedroomThoughts(actor);
+				}
+			}
+
+			internal void <>m__1()
+			{
+				Pawn actor = this.layDown.actor;
+				Job curJob = actor.CurJob;
+				JobDriver curDriver = actor.jobs.curDriver;
+				Building_Bed building_Bed = (Building_Bed)curJob.GetTarget(this.bedOrRestSpotIndex).Thing;
+				actor.GainComfortFromCellIfPossible();
+				if (!curDriver.asleep)
+				{
+					if (this.canSleep)
+					{
+						if ((actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor)) || curJob.forceSleep)
+						{
+							curDriver.asleep = true;
+						}
+					}
+				}
+				else if (!this.canSleep)
+				{
+					curDriver.asleep = false;
+				}
+				else if ((actor.needs.rest == null || actor.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor)) && !curJob.forceSleep)
+				{
+					curDriver.asleep = false;
+				}
+				if (curDriver.asleep)
+				{
+					if (this.gainRestAndHealth && actor.needs.rest != null)
+					{
+						float restEffectiveness;
+						if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
+						{
+							restEffectiveness = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
+						}
+						else
+						{
+							restEffectiveness = 0.8f;
+						}
+						actor.needs.rest.TickResting(restEffectiveness);
+					}
+				}
+				if (actor.mindState.applyBedThoughtsTick != 0 && actor.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
+				{
+					Toils_LayDown.ApplyBedThoughts(actor);
+					actor.mindState.applyBedThoughtsTick += 60000;
+					actor.mindState.applyBedThoughtsOnLeave = true;
+				}
+				if (actor.IsHashIntervalTick(100) && !actor.Position.Fogged(actor.Map))
+				{
+					if (curDriver.asleep)
+					{
+						MoteMaker.ThrowMetaIcon(actor.Position, actor.Map, ThingDefOf.Mote_SleepZ);
+					}
+					if (this.gainRestAndHealth && actor.health.hediffSet.GetNaturallyHealingInjuredParts().Any<BodyPartRecord>())
+					{
+						MoteMaker.ThrowMetaIcon(actor.Position, actor.Map, ThingDefOf.Mote_HealingCross);
+					}
+				}
+				if (actor.ownership != null && building_Bed != null && !building_Bed.Medical && !building_Bed.owners.Contains(actor))
+				{
+					if (actor.Downed)
+					{
+						actor.Position = CellFinder.RandomClosewalkCellNear(actor.Position, actor.Map, 1, null);
+					}
+					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+				}
+				else if (this.lookForOtherJobs && actor.IsHashIntervalTick(211))
+				{
+					actor.jobs.CheckForJobOverride();
+				}
+			}
+
+			internal void <>m__2()
+			{
+				Pawn actor = this.layDown.actor;
+				JobDriver curDriver = actor.jobs.curDriver;
+				if (actor.mindState.applyBedThoughtsOnLeave)
+				{
+					Toils_LayDown.ApplyBedThoughts(actor);
+				}
+				curDriver.asleep = false;
 			}
 		}
 	}

@@ -5,23 +5,20 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x020003FC RID: 1020
 	public class GenStep_RockChunks : GenStep
 	{
-		// Token: 0x04000AA5 RID: 2725
 		private ModuleBase freqFactorNoise = null;
 
-		// Token: 0x04000AA6 RID: 2726
 		private const float ThreshLooseRock = 0.55f;
 
-		// Token: 0x04000AA7 RID: 2727
 		private const float PlaceProbabilityPerCell = 0.006f;
 
-		// Token: 0x04000AA8 RID: 2728
 		private const float RubbleProbability = 0.5f;
 
-		// Token: 0x17000256 RID: 598
-		// (get) Token: 0x06001186 RID: 4486 RVA: 0x00097C0C File Offset: 0x0009600C
+		public GenStep_RockChunks()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -30,7 +27,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001187 RID: 4487 RVA: 0x00097C28 File Offset: 0x00096028
 		public override void Generate(Map map)
 		{
 			if (!map.TileInfo.WaterCovered)
@@ -51,7 +47,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001188 RID: 4488 RVA: 0x00097D40 File Offset: 0x00096140
 		private void GrowLowRockFormationFrom(IntVec3 root, Map map)
 		{
 			ThingDef filth_RubbleRock = ThingDefOf.Filth_RubbleRock;

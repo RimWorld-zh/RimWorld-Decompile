@@ -1,32 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200051B RID: 1307
 	public class Pawn_TraderTracker : IExposable
 	{
-		// Token: 0x04000DFF RID: 3583
 		private Pawn pawn;
 
-		// Token: 0x04000E00 RID: 3584
 		public TraderKindDef traderKind;
 
-		// Token: 0x04000E01 RID: 3585
 		private List<Pawn> soldPrisoners = new List<Pawn>();
 
-		// Token: 0x060017BB RID: 6075 RVA: 0x000CF631 File Offset: 0x000CDA31
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
 		public Pawn_TraderTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000349 RID: 841
-		// (get) Token: 0x060017BC RID: 6076 RVA: 0x000CF64C File Offset: 0x000CDA4C
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -69,8 +72,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700034A RID: 842
-		// (get) Token: 0x060017BD RID: 6077 RVA: 0x000CF678 File Offset: 0x000CDA78
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -79,8 +80,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700034B RID: 843
-		// (get) Token: 0x060017BE RID: 6078 RVA: 0x000CF6A4 File Offset: 0x000CDAA4
 		public string TraderName
 		{
 			get
@@ -89,8 +88,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700034C RID: 844
-		// (get) Token: 0x060017BF RID: 6079 RVA: 0x000CF6C4 File Offset: 0x000CDAC4
 		public bool CanTradeNow
 		{
 			get
@@ -99,7 +96,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C0 RID: 6080 RVA: 0x000CF798 File Offset: 0x000CDB98
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraderKindDef>(ref this.traderKind, "traderKind");
@@ -110,7 +106,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C1 RID: 6081 RVA: 0x000CF804 File Offset: 0x000CDC04
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> items = from x in this.pawn.Map.listerThings.AllThings
@@ -133,7 +128,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060017C2 RID: 6082 RVA: 0x000CF830 File Offset: 0x000CDC30
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			if (this.Goods.Contains(toGive))
@@ -168,7 +162,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C3 RID: 6083 RVA: 0x000CF8E4 File Offset: 0x000CDCE4
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Pawn pawn = toGive as Pawn;
@@ -213,7 +206,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C4 RID: 6084 RVA: 0x000CF9E4 File Offset: 0x000CDDE4
 		private void AddPawnToStock(Pawn newPawn)
 		{
 			if (!newPawn.Spawned)
@@ -253,7 +245,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C5 RID: 6085 RVA: 0x000CFAEC File Offset: 0x000CDEEC
 		private void AddThingToRandomInventory(Thing thing)
 		{
 			Lord lord = this.pawn.GetLord();
@@ -277,10 +268,408 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C6 RID: 6086 RVA: 0x000CFB98 File Offset: 0x000CDF98
 		private bool ReachableForTrade(Thing thing)
 		{
 			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
+		}
+
+		[CompilerGenerated]
+		private bool <get_CanTradeNow>m__0(Thing x)
+		{
+			return this.traderKind.WillTrade(x.def);
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__1(Pawn x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <AddThingToRandomInventory>m__2(Pawn x)
+		{
+			return x.GetTraderCaravanRole() == TraderCaravanRole.Carrier;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Lord <lord>__0;
+
+			internal bool <traderCaravan>__0;
+
+			internal int <i>__1;
+
+			internal Thing <t>__2;
+
+			internal int <i>__3;
+
+			internal Pawn <p>__4;
+
+			internal TraderCaravanRole <role>__4;
+
+			internal int <j>__5;
+
+			internal Pawn_TraderTracker $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					lord = this.pawn.GetLord();
+					bool traderCaravan = lord != null && lord.LordJob is LordJob_TradeWithColony;
+					if (traderCaravan)
+					{
+						goto IL_11B;
+					}
+					i = 0;
+					break;
+				}
+				case 1u:
+					IL_E6:
+					i++;
+					break;
+				case 2u:
+					k++;
+					goto IL_1BF;
+				case 3u:
+					IL_22D:
+					goto IL_22E;
+				default:
+					return false;
+				}
+				if (i < this.pawn.inventory.innerContainer.Count)
+				{
+					t = this.pawn.inventory.innerContainer[i];
+					if (!this.pawn.inventory.NotForSale(t))
+					{
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_E6;
+				}
+				IL_11B:
+				if (lord != null)
+				{
+					j = 0;
+					goto IL_23D;
+				}
+				goto IL_259;
+				IL_1BF:
+				if (k < p.inventory.innerContainer.Count)
+				{
+					this.$current = p.inventory.innerContainer[k];
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_22E:
+				j++;
+				IL_23D:
+				if (j < lord.ownedPawns.Count)
+				{
+					p = lord.ownedPawns[j];
+					role = p.GetTraderCaravanRole();
+					if (role == TraderCaravanRole.Carrier)
+					{
+						k = 0;
+						goto IL_1BF;
+					}
+					if (role != TraderCaravanRole.Chattel)
+					{
+						goto IL_22E;
+					}
+					if (!this.soldPrisoners.Contains(p))
+					{
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+					goto IL_22D;
+				}
+				IL_259:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_TraderTracker.<>c__Iterator0 <>c__Iterator = new Pawn_TraderTracker.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ColonyThingsWillingToBuy>c__Iterator1 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal IEnumerable<Thing> <items>__0;
+
+			internal IEnumerator<Thing> $locvar0;
+
+			internal Thing <t>__1;
+
+			internal bool <hasLord>__0;
+
+			internal IEnumerator<Pawn> $locvar1;
+
+			internal Pawn <p>__2;
+
+			internal Pawn_TraderTracker $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ColonyThingsWillingToBuy>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					items = from x in this.pawn.Map.listerThings.AllThings
+					where x.def.category == ThingCategory.Item && TradeUtility.PlayerSellableNow(x) && !x.Position.Fogged(x.Map) && (this.pawn.Map.areaManager.Home[x.Position] || x.IsInAnyStorage()) && base.ReachableForTrade(x)
+					select x;
+					enumerator = items.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_141;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				hasLord = (this.pawn.GetLord() != null);
+				if (!hasLord)
+				{
+					goto IL_1B8;
+				}
+				enumerator2 = (from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
+				where !x.Downed && base.ReachableForTrade(x)
+				select x).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_141:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						p = enumerator2.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_1B8:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator1 <ColonyThingsWillingToBuy>c__Iterator = new Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator1();
+				<ColonyThingsWillingToBuy>c__Iterator.$this = this;
+				return <ColonyThingsWillingToBuy>c__Iterator;
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x.def.category == ThingCategory.Item && TradeUtility.PlayerSellableNow(x) && !x.Position.Fogged(x.Map) && (this.pawn.Map.areaManager.Home[x.Position] || x.IsInAnyStorage()) && base.ReachableForTrade(x);
+			}
+
+			internal bool <>m__1(Pawn x)
+			{
+				return !x.Downed && base.ReachableForTrade(x);
+			}
 		}
 	}
 }

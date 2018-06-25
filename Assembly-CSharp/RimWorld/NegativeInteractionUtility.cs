@@ -3,13 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B6 RID: 1206
 	public static class NegativeInteractionUtility
 	{
-		// Token: 0x04000CB2 RID: 3250
 		public const float AbrasiveSelectionChanceFactor = 2.3f;
 
-		// Token: 0x04000CB3 RID: 3251
 		private static readonly SimpleCurve CompatibilityFactorCurve = new SimpleCurve
 		{
 			{
@@ -42,7 +39,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000CB4 RID: 3252
 		private static readonly SimpleCurve OpinionFactorCurve = new SimpleCurve
 		{
 			{
@@ -71,7 +67,6 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0600157E RID: 5502 RVA: 0x000BF05C File Offset: 0x000BD45C
 		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -91,6 +86,11 @@ namespace RimWorld
 				result = num;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static NegativeInteractionUtility()
+		{
 		}
 	}
 }

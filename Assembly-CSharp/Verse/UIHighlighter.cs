@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E96 RID: 3734
 	[StaticConstructorOnStartup]
 	public static class UIHighlighter
 	{
-		// Token: 0x04003A4B RID: 14923
 		private static List<Pair<string, int>> liveTags = new List<Pair<string, int>>();
 
-		// Token: 0x04003A4C RID: 14924
 		private const float PulseFrequency = 1.2f;
 
-		// Token: 0x04003A4D RID: 14925
 		private const float PulseAmplitude = 0.7f;
 
-		// Token: 0x04003A4E RID: 14926
 		private static readonly Texture2D TutorHighlightAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TutorHighlightAtlas", true);
 
-		// Token: 0x0600581C RID: 22556 RVA: 0x002D33B0 File Offset: 0x002D17B0
+		[CompilerGenerated]
+		private static Predicate<Pair<string, int>> <>f__am$cache0;
+
 		public static void HighlightTag(string tag)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -39,7 +37,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600581D RID: 22557 RVA: 0x002D3458 File Offset: 0x002D1858
 		public static void HighlightOpportunity(Rect rect, string tag)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -58,10 +55,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600581E RID: 22558 RVA: 0x002D3514 File Offset: 0x002D1914
 		public static void UIHighlighterUpdate()
 		{
 			UIHighlighter.liveTags.RemoveAll((Pair<string, int> pair) => Time.frameCount > pair.Second + 1);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static UIHighlighter()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <UIHighlighterUpdate>m__0(Pair<string, int> pair)
+		{
+			return Time.frameCount > pair.Second + 1;
 		}
 	}
 }

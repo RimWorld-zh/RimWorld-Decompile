@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD7 RID: 3543
 	public abstract class Graphic_Collection : Graphic
 	{
-		// Token: 0x040034BA RID: 13498
 		protected Graphic[] subGraphics;
 
-		// Token: 0x06004F57 RID: 20311 RVA: 0x0029563C File Offset: 0x00293A3C
+		[CompilerGenerated]
+		private static Func<Texture2D, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Texture2D, string> <>f__am$cache1;
+
+		protected Graphic_Collection()
+		{
+		}
+
 		public override void Init(GraphicRequest req)
 		{
 			this.data = req.graphicData;
@@ -47,6 +55,18 @@ namespace Verse
 					this.subGraphics[i] = GraphicDatabase.Get(typeof(Graphic_Single), path, req.shader, this.drawSize, this.color, Color.white, null, req.shaderParameters);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <Init>m__0(Texture2D x)
+		{
+			return !x.name.EndsWith(Graphic_Single.MaskSuffix);
+		}
+
+		[CompilerGenerated]
+		private static string <Init>m__1(Texture2D x)
+		{
+			return x.name;
 		}
 	}
 }

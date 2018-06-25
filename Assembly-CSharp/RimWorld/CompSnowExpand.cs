@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x02000735 RID: 1845
 	public class CompSnowExpand : ThingComp
 	{
-		// Token: 0x04001647 RID: 5703
 		private float snowRadius;
 
-		// Token: 0x04001648 RID: 5704
 		private ModuleBase snowNoise;
 
-		// Token: 0x04001649 RID: 5705
 		private const float MaxOutdoorTemp = 10f;
 
-		// Token: 0x0400164A RID: 5706
 		private static HashSet<IntVec3> reachableCells = new HashSet<IntVec3>();
 
-		// Token: 0x1700064E RID: 1614
-		// (get) Token: 0x060028B7 RID: 10423 RVA: 0x0015B914 File Offset: 0x00159D14
+		[CompilerGenerated]
+		private static Action<IntVec3> <>f__am$cache0;
+
+		public CompSnowExpand()
+		{
+		}
+
 		public CompProperties_SnowExpand Props
 		{
 			get
@@ -31,13 +32,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028B8 RID: 10424 RVA: 0x0015B934 File Offset: 0x00159D34
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.snowRadius, "snowRadius", 0f, false);
 		}
 
-		// Token: 0x060028B9 RID: 10425 RVA: 0x0015B94D File Offset: 0x00159D4D
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -49,7 +48,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028BA RID: 10426 RVA: 0x0015B988 File Offset: 0x00159D88
 		private void TryExpandSnow()
 		{
 			if (this.parent.Map.mapTemperature.OutdoorTemp > 10f)
@@ -109,6 +107,34 @@ namespace RimWorld
 						}
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CompSnowExpand()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <TryExpandSnow>m__0(IntVec3 x)
+		{
+			CompSnowExpand.reachableCells.Add(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExpandSnow>c__AnonStorey0
+		{
+			internal CellRect occupiedRect;
+
+			internal CompSnowExpand $this;
+
+			public <TryExpandSnow>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return (float)x.DistanceToSquared(this.$this.parent.Position) <= this.$this.snowRadius * this.$this.snowRadius && (this.occupiedRect.Contains(x) || !x.Filled(this.$this.parent.Map));
 			}
 		}
 	}

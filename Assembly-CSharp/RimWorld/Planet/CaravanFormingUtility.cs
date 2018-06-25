@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -9,32 +13,30 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005DC RID: 1500
 	[StaticConstructorOnStartup]
 	public static class CaravanFormingUtility
 	{
-		// Token: 0x0400118D RID: 4493
 		private static readonly Texture2D RemoveFromCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/RemoveFromCaravan", true);
 
-		// Token: 0x0400118E RID: 4494
 		private static readonly Texture2D AddToCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/AddToCaravan", true);
 
-		// Token: 0x0400118F RID: 4495
 		private static List<Thing> tmpReachableItems = new List<Thing>();
 
-		// Token: 0x04001190 RID: 4496
 		private static List<Pawn> tmpSendablePawns = new List<Pawn>();
 
-		// Token: 0x04001191 RID: 4497
 		private static List<ThingCount> tmpCaravanPawns = new List<ThingCount>();
 
-		// Token: 0x06001D87 RID: 7559 RVA: 0x000FE87A File Offset: 0x000FCC7A
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<TransferableOneWay> <>f__am$cache1;
+
 		public static void FormAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile, int destinationTile)
 		{
 			CaravanExitMapUtility.ExitMapAndCreateCaravan(pawns, faction, exitFromTile, directionTile, destinationTile, true);
 		}
 
-		// Token: 0x06001D88 RID: 7560 RVA: 0x000FE88C File Offset: 0x000FCC8C
 		public static void StartFormingCaravan(List<Pawn> pawns, Faction faction, List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile, int destinationTile)
 		{
 			if (startingTile < 0)
@@ -74,14 +76,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D89 RID: 7561 RVA: 0x000FE9CF File Offset: 0x000FCDCF
 		public static void StopFormingCaravan(Lord lord)
 		{
 			CaravanFormingUtility.SetToUnloadEverything(lord);
 			lord.lordManager.RemoveLord(lord);
 		}
 
-		// Token: 0x06001D8A RID: 7562 RVA: 0x000FE9E4 File Offset: 0x000FCDE4
 		public static void RemovePawnFromCaravan(Pawn pawn, Lord lord)
 		{
 			bool flag = false;
@@ -119,13 +119,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D8B RID: 7563 RVA: 0x000FEAD0 File Offset: 0x000FCED0
 		public static void Notify_FormAndSendCaravanLordFailed(Lord lord)
 		{
 			CaravanFormingUtility.SetToUnloadEverything(lord);
 		}
 
-		// Token: 0x06001D8C RID: 7564 RVA: 0x000FEADC File Offset: 0x000FCEDC
 		private static void SetToUnloadEverything(Lord lord)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
@@ -134,7 +132,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D8D RID: 7565 RVA: 0x000FEB20 File Offset: 0x000FCF20
 		public static List<Thing> AllReachableColonyItems(Map map, bool allowEvenIfOutsideHomeArea = false, bool allowEvenIfReserved = false, bool canMinify = false)
 		{
 			CaravanFormingUtility.tmpReachableItems.Clear();
@@ -151,7 +148,6 @@ namespace RimWorld.Planet
 			return CaravanFormingUtility.tmpReachableItems;
 		}
 
-		// Token: 0x06001D8E RID: 7566 RVA: 0x000FEC2C File Offset: 0x000FD02C
 		public static List<Pawn> AllSendablePawns(Map map, bool allowEvenIfDownedOrInMentalState = false, bool allowEvenIfPrisonerNotSecure = false, bool allowCapturableDownedPawns = false)
 		{
 			CaravanFormingUtility.tmpSendablePawns.Clear();
@@ -173,7 +169,6 @@ namespace RimWorld.Planet
 			return CaravanFormingUtility.tmpSendablePawns;
 		}
 
-		// Token: 0x06001D8F RID: 7567 RVA: 0x000FED34 File Offset: 0x000FD134
 		public static IEnumerable<Gizmo> GetGizmos(Pawn pawn)
 		{
 			if (pawn.IsFormingCaravan())
@@ -266,7 +261,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001D90 RID: 7568 RVA: 0x000FED60 File Offset: 0x000FD160
 		private static void LateJoinFormingCaravan(Pawn pawn, Lord lord)
 		{
 			Lord lord2 = pawn.GetLord();
@@ -281,14 +275,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D91 RID: 7569 RVA: 0x000FEDA4 File Offset: 0x000FD1A4
 		public static bool IsFormingCaravan(this Pawn p)
 		{
 			Lord lord = p.GetLord();
 			return lord != null && lord.LordJob is LordJob_FormAndSendCaravan;
 		}
 
-		// Token: 0x06001D92 RID: 7570 RVA: 0x000FEDD8 File Offset: 0x000FD1D8
 		public static float CapacityLeft(LordJob_FormAndSendCaravan lordJob)
 		{
 			float num = CollectionsMassCalculator.MassUsageTransferables(lordJob.transferables, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, false, false);
@@ -304,7 +296,6 @@ namespace RimWorld.Planet
 			return num2 - num;
 		}
 
-		// Token: 0x06001D93 RID: 7571 RVA: 0x000FEE7C File Offset: 0x000FD27C
 		public static string AppendOverweightInfo(string text, float capacityLeft)
 		{
 			if (capacityLeft < 0f)
@@ -312,6 +303,311 @@ namespace RimWorld.Planet
 				text = text + " (" + "OverweightLower".Translate() + ")";
 			}
 			return text;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CaravanFormingUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <StartFormingCaravan>m__0(Pawn x)
+		{
+			return x.Downed;
+		}
+
+		[CompilerGenerated]
+		private static bool <StartFormingCaravan>m__1(TransferableOneWay x)
+		{
+			return x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Pawn pawn;
+
+			internal Command_Action <cancelCaravan>__2;
+
+			internal Command_Action <removeFromCaravan>__3;
+
+			internal bool <anyCaravanToJoin>__4;
+
+			internal Command_Action <addToCaravan>__5;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private CaravanFormingUtility.<GetGizmos>c__Iterator0.<GetGizmos>c__AnonStorey2 $locvar0;
+
+			private CaravanFormingUtility.<GetGizmos>c__Iterator0.<GetGizmos>c__AnonStorey1 $locvar1;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (pawn.IsFormingCaravan())
+					{
+						Lord lord = pawn.GetLord();
+						Command_Action cancelCaravan = new Command_Action();
+						cancelCaravan.defaultLabel = "CommandCancelFormingCaravan".Translate();
+						cancelCaravan.defaultDesc = "CommandCancelFormingCaravanDesc".Translate();
+						cancelCaravan.icon = TexCommand.ClearPrioritizedWork;
+						cancelCaravan.activateSound = SoundDefOf.Tick_Low;
+						cancelCaravan.action = delegate()
+						{
+							CaravanFormingUtility.StopFormingCaravan(lord);
+						};
+						cancelCaravan.hotKey = KeyBindingDefOf.Designator_Cancel;
+						this.$current = cancelCaravan;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					if (Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
+					{
+						anyCaravanToJoin = false;
+						for (int i = 0; i < pawn.Map.lordManager.lords.Count; i++)
+						{
+							Lord lord2 = pawn.Map.lordManager.lords[i];
+							if (lord2.faction == Faction.OfPlayer && lord2.LordJob is LordJob_FormAndSendCaravan)
+							{
+								anyCaravanToJoin = true;
+								break;
+							}
+						}
+						if (anyCaravanToJoin)
+						{
+							Command_Action addToCaravan = new Command_Action();
+							addToCaravan.defaultLabel = "CommandAddToCaravan".Translate();
+							addToCaravan.defaultDesc = "CommandAddToCaravanDesc".Translate();
+							addToCaravan.icon = CaravanFormingUtility.AddToCaravanCommand;
+							addToCaravan.action = delegate()
+							{
+								List<Lord> list = new List<Lord>();
+								for (int j = 0; j < pawn.Map.lordManager.lords.Count; j++)
+								{
+									Lord lord3 = pawn.Map.lordManager.lords[j];
+									if (lord3.faction == Faction.OfPlayer && lord3.LordJob is LordJob_FormAndSendCaravan)
+									{
+										list.Add(lord3);
+									}
+								}
+								if (list.Count != 0)
+								{
+									if (list.Count == 1)
+									{
+										CaravanFormingUtility.LateJoinFormingCaravan(pawn, list[0]);
+										SoundDefOf.Click.PlayOneShotOnCamera(null);
+									}
+									else
+									{
+										List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+										for (int k = 0; k < list.Count; k++)
+										{
+											Lord caravanLocal = list[k];
+											string label = "Caravan".Translate() + " " + (k + 1);
+											list2.Add(new FloatMenuOption(label, delegate()
+											{
+												if (pawn.Spawned && pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
+												{
+													CaravanFormingUtility.LateJoinFormingCaravan(pawn, caravanLocal);
+												}
+											}, MenuOptionPriority.Default, null, null, 0f, null, null));
+										}
+										Find.WindowStack.Add(new FloatMenu(list2));
+									}
+								}
+							};
+							addToCaravan.hotKey = KeyBindingDefOf.Misc7;
+							this.$current = addToCaravan;
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+				{
+					Command_Action removeFromCaravan = new Command_Action();
+					removeFromCaravan.defaultLabel = "CommandRemoveFromCaravan".Translate();
+					removeFromCaravan.defaultDesc = "CommandRemoveFromCaravanDesc".Translate();
+					removeFromCaravan.icon = CaravanFormingUtility.RemoveFromCaravanCommand;
+					removeFromCaravan.action = delegate()
+					{
+						CaravanFormingUtility.RemovePawnFromCaravan(<GetGizmos>c__AnonStorey2.<>f__ref$2.pawn, <GetGizmos>c__AnonStorey2.lord);
+					};
+					removeFromCaravan.hotKey = KeyBindingDefOf.Misc6;
+					this.$current = removeFromCaravan;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				case 2u:
+					break;
+				case 3u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CaravanFormingUtility.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new CaravanFormingUtility.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.pawn = pawn;
+				return <GetGizmos>c__Iterator;
+			}
+
+			private sealed class <GetGizmos>c__AnonStorey2
+			{
+				internal Pawn pawn;
+
+				public <GetGizmos>c__AnonStorey2()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					List<Lord> list = new List<Lord>();
+					for (int i = 0; i < this.pawn.Map.lordManager.lords.Count; i++)
+					{
+						Lord lord = this.pawn.Map.lordManager.lords[i];
+						if (lord.faction == Faction.OfPlayer && lord.LordJob is LordJob_FormAndSendCaravan)
+						{
+							list.Add(lord);
+						}
+					}
+					if (list.Count != 0)
+					{
+						if (list.Count == 1)
+						{
+							CaravanFormingUtility.LateJoinFormingCaravan(this.pawn, list[0]);
+							SoundDefOf.Click.PlayOneShotOnCamera(null);
+						}
+						else
+						{
+							List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+							for (int j = 0; j < list.Count; j++)
+							{
+								Lord caravanLocal = list[j];
+								string label = "Caravan".Translate() + " " + (j + 1);
+								list2.Add(new FloatMenuOption(label, delegate()
+								{
+									if (this.pawn.Spawned && this.pawn.Map.lordManager.lords.Contains(caravanLocal) && Dialog_FormCaravan.AllSendablePawns(this.pawn.Map, false).Contains(this.pawn))
+									{
+										CaravanFormingUtility.LateJoinFormingCaravan(this.pawn, caravanLocal);
+									}
+								}, MenuOptionPriority.Default, null, null, 0f, null, null));
+							}
+							Find.WindowStack.Add(new FloatMenu(list2));
+						}
+					}
+				}
+
+				private sealed class <GetGizmos>c__AnonStorey3
+				{
+					internal Lord caravanLocal;
+
+					internal CaravanFormingUtility.<GetGizmos>c__Iterator0.<GetGizmos>c__AnonStorey2 <>f__ref$2;
+
+					public <GetGizmos>c__AnonStorey3()
+					{
+					}
+
+					internal void <>m__0()
+					{
+						if (this.<>f__ref$2.pawn.Spawned && this.<>f__ref$2.pawn.Map.lordManager.lords.Contains(this.caravanLocal) && Dialog_FormCaravan.AllSendablePawns(this.<>f__ref$2.pawn.Map, false).Contains(this.<>f__ref$2.pawn))
+						{
+							CaravanFormingUtility.LateJoinFormingCaravan(this.<>f__ref$2.pawn, this.caravanLocal);
+						}
+					}
+				}
+			}
+
+			private sealed class <GetGizmos>c__AnonStorey1
+			{
+				internal Lord lord;
+
+				internal CaravanFormingUtility.<GetGizmos>c__Iterator0 <>f__ref$0;
+
+				internal CaravanFormingUtility.<GetGizmos>c__Iterator0.<GetGizmos>c__AnonStorey2 <>f__ref$2;
+
+				public <GetGizmos>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					CaravanFormingUtility.StopFormingCaravan(this.lord);
+				}
+
+				internal void <>m__1()
+				{
+					CaravanFormingUtility.RemovePawnFromCaravan(this.<>f__ref$2.pawn, this.lord);
+				}
+			}
 		}
 	}
 }

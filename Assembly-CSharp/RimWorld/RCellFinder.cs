@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020008FE RID: 2302
 	public static class RCellFinder
 	{
-		// Token: 0x04001CEB RID: 7403
 		private static List<Region> regions = new List<Region>();
 
-		// Token: 0x04001CEC RID: 7404
 		private static HashSet<Thing> tmpBuildings = new HashSet<Thing>();
 
-		// Token: 0x06003553 RID: 13651 RVA: 0x001C9538 File Offset: 0x001C7938
+		[CompilerGenerated]
+		private static Func<Region, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Building, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Building, IntVec3> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Building, IntVec3> <>f__am$cache3;
+
 		public static IntVec3 BestOrderedGotoDestNear(IntVec3 root, Pawn searcher)
 		{
 			Map map = searcher.Map;
@@ -84,7 +93,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003554 RID: 13652 RVA: 0x001C9634 File Offset: 0x001C7A34
 		public static bool TryFindBestExitSpot(Pawn pawn, out IntVec3 spot, TraverseMode mode = TraverseMode.ByPawn)
 		{
 			bool result;
@@ -148,7 +156,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003555 RID: 13653 RVA: 0x001C9890 File Offset: 0x001C7C90
 		public static bool TryFindRandomExitSpot(Pawn pawn, out IntVec3 spot, TraverseMode mode = TraverseMode.ByPawn)
 		{
 			Danger danger = Danger.Some;
@@ -201,7 +208,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003556 RID: 13654 RVA: 0x001C99A4 File Offset: 0x001C7DA4
 		public static bool TryFindExitSpotNear(Pawn pawn, IntVec3 near, float radius, out IntVec3 spot, TraverseMode mode = TraverseMode.ByPawn)
 		{
 			if (mode == TraverseMode.PassAllDestroyableThings)
@@ -222,7 +228,6 @@ namespace RimWorld
 			}, out spot);
 		}
 
-		// Token: 0x06003557 RID: 13655 RVA: 0x001C9A28 File Offset: 0x001C7E28
 		public static IntVec3 RandomWanderDestFor(Pawn pawn, IntVec3 root, float radius, Func<Pawn, IntVec3, IntVec3, bool> validator, Danger maxDanger)
 		{
 			if (radius > 12f)
@@ -298,7 +303,6 @@ namespace RimWorld
 			return position;
 		}
 
-		// Token: 0x06003558 RID: 13656 RVA: 0x001C9E30 File Offset: 0x001C8230
 		private static bool CanWanderToCell(IntVec3 c, Pawn pawn, IntVec3 root, Func<Pawn, IntVec3, IntVec3, bool> validator, int tryIndex, Danger maxDanger)
 		{
 			bool flag = UnityData.isDebugBuild && DebugViewSettings.drawDestSearch;
@@ -429,7 +433,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003559 RID: 13657 RVA: 0x001CA1A8 File Offset: 0x001C85A8
 		public static bool TryFindGoodAdjacentSpotToTouch(Pawn toucher, Thing touchee, out IntVec3 result)
 		{
 			foreach (IntVec3 intVec in GenAdj.CellsAdjacent8Way(touchee).InRandomOrder(null))
@@ -452,13 +455,11 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600355A RID: 13658 RVA: 0x001CA2BC File Offset: 0x001C86BC
 		public static bool TryFindRandomPawnEntryCell(out IntVec3 result, Map map, float roadChance, Predicate<IntVec3> extraValidator = null)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => c.Standable(map) && !map.roofGrid.Roofed(c) && map.reachability.CanReachColony(c) && c.GetRoom(map, RegionType.Set_Passable).TouchesMapEdge && (extraValidator == null || extraValidator(c)), map, roadChance, out result);
 		}
 
-		// Token: 0x0600355B RID: 13659 RVA: 0x001CA300 File Offset: 0x001C8700
 		public static bool TryFindPrisonerReleaseCell(Pawn prisoner, Pawn warden, out IntVec3 result)
 		{
 			bool result2;
@@ -512,7 +513,6 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600355C RID: 13660 RVA: 0x001CA3E0 File Offset: 0x001C87E0
 		public static IntVec3 RandomAnimalSpawnCell_MapGen(Map map)
 		{
 			int numStand = 0;
@@ -571,7 +571,6 @@ namespace RimWorld
 			return intVec;
 		}
 
-		// Token: 0x0600355D RID: 13661 RVA: 0x001CA4C8 File Offset: 0x001C88C8
 		public static bool TryFindSkygazeCell(IntVec3 root, Pawn searcher, out IntVec3 result)
 		{
 			Predicate<IntVec3> cellValidator = (IntVec3 c) => !c.Roofed(searcher.Map) && !c.GetTerrain(searcher.Map).avoidWander;
@@ -593,7 +592,6 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600355E RID: 13662 RVA: 0x001CA578 File Offset: 0x001C8978
 		public static bool TryFindTravelDestFrom(IntVec3 root, Map map, out IntVec3 travelDest)
 		{
 			travelDest = root;
@@ -626,19 +624,16 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x0600355F RID: 13663 RVA: 0x001CA708 File Offset: 0x001C8B08
 		public static bool TryFindRandomSpotJustOutsideColony(IntVec3 originCell, Map map, out IntVec3 result)
 		{
 			return RCellFinder.TryFindRandomSpotJustOutsideColony(originCell, map, null, out result, null);
 		}
 
-		// Token: 0x06003560 RID: 13664 RVA: 0x001CA728 File Offset: 0x001C8B28
 		public static bool TryFindRandomSpotJustOutsideColony(Pawn searcher, out IntVec3 result)
 		{
 			return RCellFinder.TryFindRandomSpotJustOutsideColony(searcher.Position, searcher.Map, searcher, out result, null);
 		}
 
-		// Token: 0x06003561 RID: 13665 RVA: 0x001CA754 File Offset: 0x001C8B54
 		public static bool TryFindRandomSpotJustOutsideColony(IntVec3 root, Map map, Pawn searcher, out IntVec3 result, Predicate<IntVec3> extraValidator = null)
 		{
 			bool desperate = false;
@@ -799,7 +794,6 @@ namespace RimWorld
 			return CellFinderLoose.TryGetRandomCellWith(validator, map, 1000, out result);
 		}
 
-		// Token: 0x06003562 RID: 13666 RVA: 0x001CA9D4 File Offset: 0x001C8DD4
 		public static bool TryFindRandomCellInRegionUnforbidden(this Region reg, Pawn pawn, Predicate<IntVec3> validator, out IntVec3 result)
 		{
 			if (reg == null)
@@ -819,7 +813,6 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x06003563 RID: 13667 RVA: 0x001CAA48 File Offset: 0x001C8E48
 		public static bool TryFindDirectFleeDestination(IntVec3 root, float dist, Pawn pawn, out IntVec3 result)
 		{
 			for (int i = 0; i < 30; i++)
@@ -850,7 +843,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06003564 RID: 13668 RVA: 0x001CABCC File Offset: 0x001C8FCC
 		public static bool TryFindRandomCellOutsideColonyNearTheCenterOfTheMap(IntVec3 pos, Map map, float minDistToColony, out IntVec3 result)
 		{
 			int num = 30;
@@ -913,14 +905,12 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003565 RID: 13669 RVA: 0x001CADD0 File Offset: 0x001C91D0
 		public static bool TryFindRandomCellNearTheCenterOfTheMapWith(Predicate<IntVec3> validator, Map map, out IntVec3 result)
 		{
 			int startingSearchRadius = Mathf.Clamp(Mathf.Max(map.Size.x, map.Size.z) / 20, 3, 25);
 			return RCellFinder.TryFindRandomCellNearWith(map.Center, validator, map, out result, startingSearchRadius, int.MaxValue);
 		}
 
-		// Token: 0x06003566 RID: 13670 RVA: 0x001CAE28 File Offset: 0x001C9228
 		public static bool TryFindRandomCellNearWith(IntVec3 near, Predicate<IntVec3> validator, Map map, out IntVec3 result, int startingSearchRadius = 5, int maxSearchRadius = 2147483647)
 		{
 			int num = startingSearchRadius;
@@ -955,7 +945,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003567 RID: 13671 RVA: 0x001CAEFC File Offset: 0x001C92FC
 		public static IntVec3 SpotToChewStandingNear(Pawn pawn, Thing ingestible)
 		{
 			IntVec3 root = pawn.Position;
@@ -1060,7 +1049,6 @@ namespace RimWorld
 			return region.RandomCell;
 		}
 
-		// Token: 0x06003568 RID: 13672 RVA: 0x001CB118 File Offset: 0x001C9518
 		public static bool TryFindMarriageSite(Pawn firstFiance, Pawn secondFiance, out IntVec3 result)
 		{
 			bool result2;
@@ -1129,7 +1117,6 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x06003569 RID: 13673 RVA: 0x001CB300 File Offset: 0x001C9700
 		public static bool TryFindPartySpot(Pawn organizer, out IntVec3 result)
 		{
 			bool enjoyableOutside = JoyUtility.EnjoyableOutsideNow(organizer, null);
@@ -1204,7 +1191,6 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600356A RID: 13674 RVA: 0x001CB4CC File Offset: 0x001C98CC
 		internal static IntVec3 FindSiegePositionFrom(IntVec3 entrySpot, Map map)
 		{
 			IntVec3 result;
@@ -1247,7 +1233,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600356B RID: 13675 RVA: 0x001CB5D4 File Offset: 0x001C99D4
 		private static bool TryFindSiegePosition(IntVec3 entrySpot, float minDistToColony, Map map, out IntVec3 result)
 		{
 			CellRect cellRect = CellRect.CenteredOn(entrySpot, 60);
@@ -1320,6 +1305,700 @@ namespace RimWorld
 			IL_231:
 			result = randomCell;
 			return true;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static RCellFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <RandomWanderDestFor>m__0(Region reg)
+		{
+			return (float)reg.CellCount;
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindRandomSpotJustOutsideColony>m__1(Building b)
+		{
+			return b.def.designationCategory != DesignationCategoryDefOf.Structure && b.def.building.ai_chillDestination;
+		}
+
+		[CompilerGenerated]
+		private static IntVec3 <TryFindMarriageSite>m__2(Building x)
+		{
+			return x.Position;
+		}
+
+		[CompilerGenerated]
+		private static IntVec3 <TryFindPartySpot>m__3(Building x)
+		{
+			return x.Position;
+		}
+
+		[CompilerGenerated]
+		private sealed class <BestOrderedGotoDestNear>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal Pawn searcher;
+
+			public <BestOrderedGotoDestNear>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				bool result;
+				if (!this.map.pawnDestinationReservationManager.CanReserve(c, this.searcher, true) || !c.Standable(this.map) || !this.searcher.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+				{
+					result = false;
+				}
+				else
+				{
+					List<Thing> thingList = c.GetThingList(this.map);
+					for (int i = 0; i < thingList.Count; i++)
+					{
+						Pawn pawn = thingList[i] as Pawn;
+						if (pawn != null && pawn != this.searcher && pawn.RaceProps.Humanlike)
+						{
+							return false;
+						}
+					}
+					result = true;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindBestExitSpot>c__AnonStorey1
+		{
+			internal Pawn pawn;
+
+			internal TraverseMode mode;
+
+			public <TryFindBestExitSpot>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				Pawn pawn = this.pawn;
+				LocalTargetInfo dest = x;
+				PathEndMode peMode = PathEndMode.OnCell;
+				Danger maxDanger = Danger.Deadly;
+				TraverseMode traverseMode = this.mode;
+				return pawn.CanReach(dest, peMode, maxDanger, false, traverseMode);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindExitSpotNear>c__AnonStorey2
+		{
+			internal Pawn pawn;
+
+			internal TraverseMode mode;
+
+			public <TryFindExitSpotNear>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.pawn.CanReach(x, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn);
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				Pawn pawn = this.pawn;
+				LocalTargetInfo dest = x;
+				PathEndMode peMode = PathEndMode.OnCell;
+				Danger maxDanger = Danger.Deadly;
+				TraverseMode traverseMode = this.mode;
+				return pawn.CanReach(dest, peMode, maxDanger, false, traverseMode);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomWanderDestFor>c__AnonStorey3
+		{
+			internal IntVec3 root;
+
+			internal float radius;
+
+			internal Pawn pawn;
+
+			internal Func<Pawn, IntVec3, IntVec3, bool> validator;
+
+			public <RandomWanderDestFor>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(Region reg)
+			{
+				return reg.extentsClose.ClosestDistSquaredTo(this.root) <= this.radius * this.radius;
+			}
+
+			internal bool <>m__1(IntVec3 c)
+			{
+				return c.InBounds(this.pawn.Map) && this.pawn.CanReach(c, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !c.IsForbidden(this.pawn) && (this.validator == null || this.validator(this.pawn, c, this.root));
+			}
+
+			internal bool <>m__2(IntVec3 c)
+			{
+				return c.InBounds(this.pawn.Map) && this.pawn.CanReach(c, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !c.IsForbidden(this.pawn);
+			}
+
+			internal bool <>m__3(IntVec3 c)
+			{
+				return c.InBounds(this.pawn.Map) && this.pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn);
+			}
+
+			internal bool <>m__4(IntVec3 c)
+			{
+				return c.InBounds(this.pawn.Map) && this.pawn.CanReach(c, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !c.IsForbidden(this.pawn);
+			}
+
+			internal bool <>m__5(IntVec3 c)
+			{
+				return c.InBounds(this.pawn.Map) && this.pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn);
+			}
+
+			internal bool <>m__6(IntVec3 c)
+			{
+				return c.InBounds(this.pawn.Map) && this.pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomPawnEntryCell>c__AnonStorey4
+		{
+			internal Map map;
+
+			internal Predicate<IntVec3> extraValidator;
+
+			public <TryFindRandomPawnEntryCell>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return c.Standable(this.map) && !this.map.roofGrid.Roofed(c) && this.map.reachability.CanReachColony(c) && c.GetRoom(this.map, RegionType.Set_Passable).TouchesMapEdge && (this.extraValidator == null || this.extraValidator(c));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindPrisonerReleaseCell>c__AnonStorey5
+		{
+			internal bool needMapEdge;
+
+			internal IntVec3 foundResult;
+
+			internal TraverseParms traverseParms;
+
+			public <TryFindPrisonerReleaseCell>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(Region r)
+			{
+				if (this.needMapEdge)
+				{
+					if (!r.Room.TouchesMapEdge)
+					{
+						return false;
+					}
+				}
+				else if (r.Room.isPrisonCell)
+				{
+					return false;
+				}
+				this.foundResult = r.RandomCell;
+				return true;
+			}
+
+			internal bool <>m__1(Region from, Region r)
+			{
+				return r.Allows(this.traverseParms, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomAnimalSpawnCell_MapGen>c__AnonStorey6
+		{
+			internal Map map;
+
+			internal int numStand;
+
+			internal int numRoom;
+
+			internal int numTouch;
+
+			public <RandomAnimalSpawnCell_MapGen>c__AnonStorey6()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				bool result;
+				if (!c.Standable(this.map))
+				{
+					this.numStand++;
+					result = false;
+				}
+				else if (c.GetTerrain(this.map).avoidWander)
+				{
+					result = false;
+				}
+				else
+				{
+					Room room = c.GetRoom(this.map, RegionType.Set_Passable);
+					if (room == null)
+					{
+						this.numRoom++;
+						result = false;
+					}
+					else if (!room.TouchesMapEdge)
+					{
+						this.numTouch++;
+						result = false;
+					}
+					else
+					{
+						result = true;
+					}
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSkygazeCell>c__AnonStorey7
+		{
+			internal Pawn searcher;
+
+			internal Predicate<IntVec3> cellValidator;
+
+			internal IntVec3 unused;
+
+			public <TryFindSkygazeCell>c__AnonStorey7()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return !c.Roofed(this.searcher.Map) && !c.GetTerrain(this.searcher.Map).avoidWander;
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				return r.Room.PsychologicallyOutdoors && !r.IsForbiddenEntirely(this.searcher) && r.TryFindRandomCellInRegionUnforbidden(this.searcher, this.cellValidator, out this.unused);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindTravelDestFrom>c__AnonStorey8
+		{
+			internal Map map;
+
+			internal IntVec3 root;
+
+			internal Predicate<IntVec3> cellValidator;
+
+			public <TryFindTravelDestFrom>c__AnonStorey8()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return this.map.reachability.CanReach(this.root, c, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.None) && !this.map.roofGrid.Roofed(c);
+			}
+
+			internal bool <>m__1(IntVec3 c)
+			{
+				return c.x == this.map.Size.x - 1 && this.cellValidator(c);
+			}
+
+			internal bool <>m__2(IntVec3 c)
+			{
+				return c.x == 0 && this.cellValidator(c);
+			}
+
+			internal bool <>m__3(IntVec3 c)
+			{
+				return c.z == this.map.Size.z - 1 && this.cellValidator(c);
+			}
+
+			internal bool <>m__4(IntVec3 c)
+			{
+				return c.z == 0 && this.cellValidator(c);
+			}
+
+			internal bool <>m__5(IntVec3 c)
+			{
+				return (c - this.root).LengthHorizontalSquared > 10000 && this.cellValidator(c);
+			}
+
+			internal bool <>m__6(IntVec3 c)
+			{
+				return (c - this.root).LengthHorizontalSquared > 2500 && this.cellValidator(c);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomSpotJustOutsideColony>c__AnonStorey9
+		{
+			internal Map map;
+
+			internal IntVec3 root;
+
+			internal Pawn searcher;
+
+			internal bool desperate;
+
+			internal Predicate<IntVec3> extraValidator;
+
+			internal int minColonyBuildingsLOS;
+
+			private static RegionEntryPredicate <>f__am$cache0;
+
+			public <TryFindRandomSpotJustOutsideColony>c__AnonStorey9()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				bool result;
+				if (!c.Standable(this.map))
+				{
+					result = false;
+				}
+				else
+				{
+					Room room = c.GetRoom(this.map, RegionType.Set_Passable);
+					if (!room.PsychologicallyOutdoors || !room.TouchesMapEdge)
+					{
+						result = false;
+					}
+					else if (room == null || room.CellCount < 25)
+					{
+						result = false;
+					}
+					else
+					{
+						if (this.root.IsValid)
+						{
+							TraverseParms traverseParams = (this.searcher == null) ? TraverseMode.PassDoors : TraverseParms.For(this.searcher, Danger.Deadly, TraverseMode.ByPawn, false);
+							if (!this.map.reachability.CanReach(this.root, c, PathEndMode.Touch, traverseParams))
+							{
+								return false;
+							}
+						}
+						if (!this.desperate)
+						{
+							if (!this.map.reachability.CanReachColony(c))
+							{
+								return false;
+							}
+						}
+						if (this.extraValidator != null && !this.extraValidator(c))
+						{
+							result = false;
+						}
+						else
+						{
+							if (this.minColonyBuildingsLOS > 0)
+							{
+								int colonyBuildingsLOSFound = 0;
+								RCellFinder.tmpBuildings.Clear();
+								RegionTraverser.BreadthFirstTraverse(c, this.map, (Region from, Region to) => true, delegate(Region reg)
+								{
+									Faction ofPlayer = Faction.OfPlayer;
+									List<Thing> list = reg.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
+									for (int i = 0; i < list.Count; i++)
+									{
+										Thing thing = list[i];
+										if (thing.Faction == ofPlayer && thing.Position.InHorDistOf(c, 16f) && GenSight.LineOfSight(thing.Position, c, this.map, true, null, 0, 0) && !RCellFinder.tmpBuildings.Contains(thing))
+										{
+											RCellFinder.tmpBuildings.Add(thing);
+											colonyBuildingsLOSFound++;
+											if (colonyBuildingsLOSFound >= this.minColonyBuildingsLOS)
+											{
+												return true;
+											}
+										}
+									}
+									return false;
+								}, 12, RegionType.Set_Passable);
+								RCellFinder.tmpBuildings.Clear();
+								if (colonyBuildingsLOSFound < this.minColonyBuildingsLOS)
+								{
+									return false;
+								}
+							}
+							result = true;
+						}
+					}
+				}
+				return result;
+			}
+
+			private static bool <>m__1(Region from, Region to)
+			{
+				return true;
+			}
+
+			private sealed class <TryFindRandomSpotJustOutsideColony>c__AnonStoreyA
+			{
+				internal IntVec3 c;
+
+				internal RCellFinder.<TryFindRandomSpotJustOutsideColony>c__AnonStorey9 <>f__ref$9;
+
+				public <TryFindRandomSpotJustOutsideColony>c__AnonStoreyA()
+				{
+				}
+			}
+
+			private sealed class <TryFindRandomSpotJustOutsideColony>c__AnonStoreyB
+			{
+				internal int colonyBuildingsLOSFound;
+
+				internal RCellFinder.<TryFindRandomSpotJustOutsideColony>c__AnonStorey9 <>f__ref$9;
+
+				internal RCellFinder.<TryFindRandomSpotJustOutsideColony>c__AnonStorey9.<TryFindRandomSpotJustOutsideColony>c__AnonStoreyA <>f__ref$10;
+
+				public <TryFindRandomSpotJustOutsideColony>c__AnonStoreyB()
+				{
+				}
+
+				internal bool <>m__0(Region reg)
+				{
+					Faction ofPlayer = Faction.OfPlayer;
+					List<Thing> list = reg.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
+					for (int i = 0; i < list.Count; i++)
+					{
+						Thing thing = list[i];
+						if (thing.Faction == ofPlayer && thing.Position.InHorDistOf(this.<>f__ref$10.c, 16f) && GenSight.LineOfSight(thing.Position, this.<>f__ref$10.c, this.<>f__ref$9.map, true, null, 0, 0) && !RCellFinder.tmpBuildings.Contains(thing))
+						{
+							RCellFinder.tmpBuildings.Add(thing);
+							this.colonyBuildingsLOSFound++;
+							if (this.colonyBuildingsLOSFound >= this.<>f__ref$9.minColonyBuildingsLOS)
+							{
+								return true;
+							}
+						}
+					}
+					return false;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRandomCellInRegionUnforbidden>c__AnonStoreyC
+		{
+			internal Pawn pawn;
+
+			internal Predicate<IntVec3> validator;
+
+			public <TryFindRandomCellInRegionUnforbidden>c__AnonStoreyC()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return !c.IsForbidden(this.pawn) && (this.validator == null || this.validator(c));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpotToChewStandingNear>c__AnonStoreyD
+		{
+			internal IntVec3 root;
+
+			internal float maxDist;
+
+			internal Pawn pawn;
+
+			internal Room rootRoom;
+
+			internal bool desperate;
+
+			internal bool ignoreDanger;
+
+			internal Thing ingestible;
+
+			public <SpotToChewStandingNear>c__AnonStoreyD()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				bool result;
+				if ((float)(this.root - c).LengthHorizontalSquared > this.maxDist * this.maxDist)
+				{
+					result = false;
+				}
+				else
+				{
+					if (this.pawn.HostFaction != null)
+					{
+						if (c.GetRoom(this.pawn.Map, RegionType.Set_Passable) != this.rootRoom)
+						{
+							return false;
+						}
+					}
+					if (!this.desperate)
+					{
+						if (!c.Standable(this.pawn.Map))
+						{
+							return false;
+						}
+						if (GenPlace.HaulPlaceBlockerIn(null, c, this.pawn.Map, false) != null)
+						{
+							return false;
+						}
+						if (c.GetRegion(this.pawn.Map, RegionType.Set_Passable).type == RegionType.Portal)
+						{
+							return false;
+						}
+					}
+					IntVec3 intVec;
+					result = ((this.ignoreDanger || c.GetDangerFor(this.pawn, this.pawn.Map) == Danger.None) && !c.ContainsStaticFire(this.pawn.Map) && !c.ContainsTrap(this.pawn.Map) && this.pawn.Map.pawnDestinationReservationManager.CanReserve(c, this.pawn, false) && Toils_Ingest.TryFindAdjacentIngestionPlaceSpot(c, this.ingestible.def, this.pawn, out intVec));
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindMarriageSite>c__AnonStoreyE
+		{
+			internal Pawn firstFiance;
+
+			internal Pawn secondFiance;
+
+			internal Map map;
+
+			internal Predicate<IntVec3> noMarriageSpotValidator;
+
+			public <TryFindMarriageSite>c__AnonStoreyE()
+			{
+			}
+
+			internal bool <>m__0(Building x)
+			{
+				return MarriageSpotUtility.IsValidMarriageSpotFor(x.Position, this.firstFiance, this.secondFiance, null);
+			}
+
+			internal bool <>m__1(IntVec3 cell)
+			{
+				IntVec3 c = cell + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset;
+				bool result;
+				if (!c.InBounds(this.map))
+				{
+					result = false;
+				}
+				else if (c.IsForbidden(this.firstFiance) || c.IsForbidden(this.secondFiance))
+				{
+					result = false;
+				}
+				else if (!c.Standable(this.map))
+				{
+					result = false;
+				}
+				else
+				{
+					Room room = cell.GetRoom(this.map, RegionType.Set_Passable);
+					result = (room == null || room.IsHuge || room.PsychologicallyOutdoors || room.CellCount >= 10);
+				}
+				return result;
+			}
+
+			internal bool <>m__2(IntVec3 cell)
+			{
+				return MarriageSpotUtility.IsValidMarriageSpotFor(cell, this.firstFiance, this.secondFiance, null) && this.noMarriageSpotValidator(cell);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindPartySpot>c__AnonStoreyF
+		{
+			internal Map map;
+
+			internal Pawn organizer;
+
+			internal bool enjoyableOutside;
+
+			internal Predicate<IntVec3> baseValidator;
+
+			internal Predicate<IntVec3> noPartySpotValidator;
+
+			public <TryFindPartySpot>c__AnonStoreyF()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 cell)
+			{
+				bool result;
+				if (!cell.Standable(this.map))
+				{
+					result = false;
+				}
+				else if (cell.GetDangerFor(this.organizer, this.map) != Danger.None)
+				{
+					result = false;
+				}
+				else if (!this.enjoyableOutside && !cell.Roofed(this.map))
+				{
+					result = false;
+				}
+				else if (cell.IsForbidden(this.organizer))
+				{
+					result = false;
+				}
+				else if (!this.organizer.CanReserveAndReach(cell, PathEndMode.OnCell, Danger.None, 1, -1, null, false))
+				{
+					result = false;
+				}
+				else
+				{
+					Room room = cell.GetRoom(this.map, RegionType.Set_Passable);
+					bool flag = room != null && room.isPrisonCell;
+					result = (this.organizer.IsPrisoner == flag && PartyUtility.EnoughPotentialGuestsToStartParty(this.map, new IntVec3?(cell)));
+				}
+				return result;
+			}
+
+			internal bool <>m__1(Building x)
+			{
+				return this.baseValidator(x.Position);
+			}
+
+			internal bool <>m__2(IntVec3 cell)
+			{
+				Room room = cell.GetRoom(this.map, RegionType.Set_Passable);
+				return room == null || room.IsHuge || room.PsychologicallyOutdoors || room.CellCount >= 10;
+			}
+
+			internal bool <>m__3(IntVec3 cell)
+			{
+				return this.baseValidator(cell) && this.noPartySpotValidator(cell);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindSiegePositionFrom>c__AnonStorey10
+		{
+			internal Map map;
+
+			public <FindSiegePositionFrom>c__AnonStorey10()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Standable(this.map) && !x.Fogged(this.map);
+			}
 		}
 	}
 }

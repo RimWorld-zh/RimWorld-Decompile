@@ -1,62 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008FC RID: 2300
 	public static class InfestationCellFinder
 	{
-		// Token: 0x04001CD5 RID: 7381
 		private static List<InfestationCellFinder.LocationCandidate> locationCandidates = new List<InfestationCellFinder.LocationCandidate>();
 
-		// Token: 0x04001CD6 RID: 7382
 		private static Dictionary<Region, float> regionsDistanceToUnroofed = new Dictionary<Region, float>();
 
-		// Token: 0x04001CD7 RID: 7383
 		private static ByteGrid closedAreaSize;
 
-		// Token: 0x04001CD8 RID: 7384
 		private static ByteGrid distToColonyBuilding;
 
-		// Token: 0x04001CD9 RID: 7385
 		private const float MinRequiredScore = 7.5f;
 
-		// Token: 0x04001CDA RID: 7386
 		private const float MinMountainousnessScore = 0.17f;
 
-		// Token: 0x04001CDB RID: 7387
 		private const int MountainousnessScoreRadialPatternIdx = 700;
 
-		// Token: 0x04001CDC RID: 7388
 		private const int MountainousnessScoreRadialPatternSkip = 10;
 
-		// Token: 0x04001CDD RID: 7389
 		private const float MountainousnessScorePerRock = 1f;
 
-		// Token: 0x04001CDE RID: 7390
 		private const float MountainousnessScorePerThickRoof = 0.5f;
 
-		// Token: 0x04001CDF RID: 7391
 		private const float MinCellTempToSpawnHive = -17f;
 
-		// Token: 0x04001CE0 RID: 7392
 		private const float MaxDistanceToColonyBuilding = 30f;
 
-		// Token: 0x04001CE1 RID: 7393
 		private static List<Pair<IntVec3, float>> tmpCachedInfestationChanceCellColors;
 
-		// Token: 0x04001CE2 RID: 7394
 		private static HashSet<Region> tempUnroofedRegions = new HashSet<Region>();
 
-		// Token: 0x04001CE3 RID: 7395
 		private static List<IntVec3> tmpColonyBuildingsLocs = new List<IntVec3>();
 
-		// Token: 0x04001CE4 RID: 7396
 		private static List<KeyValuePair<IntVec3, float>> tmpDistanceResult = new List<KeyValuePair<IntVec3, float>>();
 
-		// Token: 0x06003541 RID: 13633 RVA: 0x001C8698 File Offset: 0x001C6A98
+		[CompilerGenerated]
+		private static Func<InfestationCellFinder.LocationCandidate, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Region, IEnumerable<Region>> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Region, Region, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<IntVec3, IntVec3, float> <>f__am$cache3;
+
 		public static bool TryFindCell(out IntVec3 cell, Map map)
 		{
 			InfestationCellFinder.CalculateLocationCandidates(map);
@@ -75,7 +70,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003542 RID: 13634 RVA: 0x001C8738 File Offset: 0x001C6B38
 		private static float GetScoreAt(IntVec3 cell, Map map)
 		{
 			float result;
@@ -158,7 +152,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003543 RID: 13635 RVA: 0x001C893C File Offset: 0x001C6D3C
 		public static void DebugDraw()
 		{
 			if (DebugViewSettings.drawInfestationChance)
@@ -220,7 +213,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003544 RID: 13636 RVA: 0x001C8B54 File Offset: 0x001C6F54
 		private static void CalculateLocationCandidates(Map map)
 		{
 			InfestationCellFinder.locationCandidates.Clear();
@@ -241,7 +233,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003545 RID: 13637 RVA: 0x001C8BF8 File Offset: 0x001C6FF8
 		private static bool CellHasBlockingThings(IntVec3 cell, Map map)
 		{
 			List<Thing> thingList = cell.GetThingList(map);
@@ -268,7 +259,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06003546 RID: 13638 RVA: 0x001C8CC0 File Offset: 0x001C70C0
 		private static int StraightLineDistToUnroofed(IntVec3 cell, Map map)
 		{
 			int num = int.MaxValue;
@@ -316,7 +306,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003547 RID: 13639 RVA: 0x001C8D84 File Offset: 0x001C7184
 		private static float DistToBlocker(IntVec3 cell, Map map)
 		{
 			int num = int.MinValue;
@@ -350,7 +339,6 @@ namespace RimWorld
 			return (float)Mathf.Min(num, num2);
 		}
 
-		// Token: 0x06003548 RID: 13640 RVA: 0x001C8E3C File Offset: 0x001C723C
 		private static bool NoRoofAroundAndWalkable(IntVec3 cell, Map map)
 		{
 			bool result;
@@ -378,7 +366,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003549 RID: 13641 RVA: 0x001C8EC4 File Offset: 0x001C72C4
 		private static float GetMountainousnessScoreAt(IntVec3 cell, Map map)
 		{
 			float num = 0f;
@@ -403,7 +390,6 @@ namespace RimWorld
 			return num / (float)num2;
 		}
 
-		// Token: 0x0600354A RID: 13642 RVA: 0x001C8F9C File Offset: 0x001C739C
 		private static void CalculateTraversalDistancesToUnroofed(Map map)
 		{
 			InfestationCellFinder.tempUnroofedRegions.Clear();
@@ -423,7 +409,6 @@ namespace RimWorld
 			InfestationCellFinder.tempUnroofedRegions.Clear();
 		}
 
-		// Token: 0x0600354B RID: 13643 RVA: 0x001C9084 File Offset: 0x001C7484
 		private static void CalculateClosedAreaSizeGrid(Map map)
 		{
 			if (InfestationCellFinder.closedAreaSize == null)
@@ -456,7 +441,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600354C RID: 13644 RVA: 0x001C91E0 File Offset: 0x001C75E0
 		private static void CalculateDistanceToColonyBuildingGrid(Map map)
 		{
 			if (InfestationCellFinder.distToColonyBuilding == null)
@@ -493,20 +477,126 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x020008FD RID: 2301
+		// Note: this type is marked as 'beforefieldinit'.
+		static InfestationCellFinder()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <TryFindCell>m__0(InfestationCellFinder.LocationCandidate x)
+		{
+			return x.score;
+		}
+
+		[CompilerGenerated]
+		private static IEnumerable<Region> <CalculateTraversalDistancesToUnroofed>m__1(Region x)
+		{
+			return x.Neighbors;
+		}
+
+		[CompilerGenerated]
+		private static float <CalculateTraversalDistancesToUnroofed>m__2(Region a, Region b)
+		{
+			return Mathf.Sqrt((float)a.extentsClose.CenterCell.DistanceToSquared(b.extentsClose.CenterCell));
+		}
+
+		[CompilerGenerated]
+		private static float <CalculateDistanceToColonyBuildingGrid>m__3(IntVec3 a, IntVec3 b)
+		{
+			float result;
+			if (a.x == b.x || a.z == b.z)
+			{
+				result = 1f;
+			}
+			else
+			{
+				result = 1.41421354f;
+			}
+			return result;
+		}
+
 		private struct LocationCandidate
 		{
-			// Token: 0x04001CE9 RID: 7401
 			public IntVec3 cell;
 
-			// Token: 0x04001CEA RID: 7402
 			public float score;
 
-			// Token: 0x06003552 RID: 13650 RVA: 0x001C941B File Offset: 0x001C781B
 			public LocationCandidate(IntVec3 cell, float score)
 			{
 				this.cell = cell;
 				this.score = score;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindCell>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <TryFindCell>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return InfestationCellFinder.GetScoreAt(x, this.map) > 0f && x.GetFirstThing(this.map, ThingDefOf.Hive) == null && x.GetFirstThing(this.map, ThingDefOf.TunnelHiveSpawner) == null;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateClosedAreaSizeGrid>c__AnonStorey1
+		{
+			internal Map map;
+
+			public <CalculateClosedAreaSizeGrid>c__AnonStorey1()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateClosedAreaSizeGrid>c__AnonStorey2
+		{
+			internal int area;
+
+			internal InfestationCellFinder.<CalculateClosedAreaSizeGrid>c__AnonStorey1 <>f__ref$1;
+
+			public <CalculateClosedAreaSizeGrid>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return !c.Impassable(this.<>f__ref$1.map);
+			}
+
+			internal void <>m__1(IntVec3 c)
+			{
+				this.area++;
+			}
+
+			internal bool <>m__2(IntVec3 c)
+			{
+				return !c.Impassable(this.<>f__ref$1.map);
+			}
+
+			internal void <>m__3(IntVec3 c)
+			{
+				InfestationCellFinder.closedAreaSize[c] = (byte)this.area;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateDistanceToColonyBuildingGrid>c__AnonStorey3
+		{
+			internal Map map;
+
+			public <CalculateDistanceToColonyBuildingGrid>c__AnonStorey3()
+			{
+			}
+
+			internal IEnumerable<IntVec3> <>m__0(IntVec3 x)
+			{
+				return DijkstraUtility.AdjacentCellsNeighborsGetter(x, this.map);
 			}
 		}
 	}

@@ -6,35 +6,25 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB0 RID: 3248
 	public class SkyManager
 	{
-		// Token: 0x04003097 RID: 12439
 		private Map map;
 
-		// Token: 0x04003098 RID: 12440
 		private float curSkyGlowInt;
 
-		// Token: 0x04003099 RID: 12441
 		private List<Pair<SkyOverlay, float>> tempOverlays = new List<Pair<SkyOverlay, float>>();
 
-		// Token: 0x0400309A RID: 12442
 		private static readonly Color FogOfWarBaseColor = new Color32(77, 69, 66, byte.MaxValue);
 
-		// Token: 0x0400309B RID: 12443
 		public const float NightMaxCelGlow = 0.1f;
 
-		// Token: 0x0400309C RID: 12444
 		public const float DuskMaxCelGlow = 0.6f;
 
-		// Token: 0x0600478F RID: 18319 RVA: 0x0025C188 File Offset: 0x0025A588
 		public SkyManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000B4A RID: 2890
-		// (get) Token: 0x06004790 RID: 18320 RVA: 0x0025C1A4 File Offset: 0x0025A5A4
 		public float CurSkyGlow
 		{
 			get
@@ -43,7 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004791 RID: 18321 RVA: 0x0025C1C0 File Offset: 0x0025A5C0
 		public void SkyManagerUpdate()
 		{
 			SkyTarget curSky = this.CurrentSkyTarget();
@@ -78,13 +67,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004792 RID: 18322 RVA: 0x0025C37F File Offset: 0x0025A77F
 		public void ForceSetCurSkyGlow(float curSkyGlow)
 		{
 			this.curSkyGlowInt = curSkyGlow;
 		}
 
-		// Token: 0x06004793 RID: 18323 RVA: 0x0025C38C File Offset: 0x0025A78C
 		private void UpdateOverlays(SkyTarget curSky)
 		{
 			this.tempOverlays.Clear();
@@ -118,7 +105,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004794 RID: 18324 RVA: 0x0025C560 File Offset: 0x0025A960
 		private void AddTempOverlay(Pair<SkyOverlay, float> pair)
 		{
 			for (int i = 0; i < this.tempOverlays.Count; i++)
@@ -132,13 +118,11 @@ namespace Verse
 			this.tempOverlays.Add(pair);
 		}
 
-		// Token: 0x06004795 RID: 18325 RVA: 0x0025C604 File Offset: 0x0025AA04
 		private void SetSunShadowVector(Vector2 vec)
 		{
 			Shader.SetGlobalVector(ShaderPropertyIDs.MapSunLightDirection, new Vector4(vec.x, 0f, vec.y, GenCelestial.CurShadowStrength(this.map)));
 		}
 
-		// Token: 0x06004796 RID: 18326 RVA: 0x0025C634 File Offset: 0x0025AA34
 		private SkyTarget CurrentSkyTarget()
 		{
 			SkyTarget b = this.map.weatherManager.curWeather.Worker.CurSkyTarget(this.map);
@@ -177,7 +161,6 @@ namespace Verse
 			return skyTarget;
 		}
 
-		// Token: 0x06004797 RID: 18327 RVA: 0x0025C7F8 File Offset: 0x0025ABF8
 		private Vector3? GetOverridenShadowVector()
 		{
 			List<WeatherEvent> liveEventsListForReading = this.map.weatherManager.eventHandler.LiveEventsListForReading;
@@ -201,7 +184,6 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004798 RID: 18328 RVA: 0x0025C918 File Offset: 0x0025AD18
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -210,6 +192,11 @@ namespace Verse
 			stringBuilder.AppendLine("CurSkyGlow: " + this.CurSkyGlow.ToStringPercent());
 			stringBuilder.AppendLine("CurrentSkyTarget: " + this.CurrentSkyTarget().ToString());
 			return stringBuilder.ToString();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SkyManager()
+		{
 		}
 	}
 }

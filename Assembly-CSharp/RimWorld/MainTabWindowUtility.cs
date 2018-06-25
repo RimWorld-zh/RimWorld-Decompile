@@ -3,10 +3,8 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B2 RID: 690
 	public static class MainTabWindowUtility
 	{
-		// Token: 0x06000B85 RID: 2949 RVA: 0x0006808C File Offset: 0x0006648C
 		public static void NotifyAllPawnTables_PawnsChanged()
 		{
 			if (Find.WindowStack != null)

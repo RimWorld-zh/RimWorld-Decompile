@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000102 RID: 258
 	public class JoyGiver_TakeDrug : JoyGiver_Ingest
 	{
-		// Token: 0x040002E3 RID: 739
 		private static List<ThingDef> takeableDrugs = new List<ThingDef>();
 
-		// Token: 0x0600056C RID: 1388 RVA: 0x0003AF7C File Offset: 0x0003937C
+		public JoyGiver_TakeDrug()
+		{
+		}
+
 		protected override Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing result;
@@ -63,7 +65,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600056D RID: 1389 RVA: 0x0003B140 File Offset: 0x00039540
 		public override float GetChance(Pawn pawn)
 		{
 			int num = 0;
@@ -92,10 +93,33 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600056E RID: 1390 RVA: 0x0003B1B8 File Offset: 0x000395B8
 		protected override Job CreateIngestJob(Thing ingestible, Pawn pawn)
 		{
 			return DrugAIUtility.IngestAndTakeToInventoryJob(ingestible, pawn, 9999);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JoyGiver_TakeDrug()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <BestIngestItem>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal Predicate<Thing> extraValidator;
+
+			internal JoyGiver_TakeDrug $this;
+
+			public <BestIngestItem>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return this.$this.CanIngestForJoy(this.pawn, t) && (this.extraValidator == null || this.extraValidator(t));
+			}
 		}
 	}
 }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B5 RID: 1717
 	public static class BillRepeatModeUtility
 	{
-		// Token: 0x060024E5 RID: 9445 RVA: 0x0013BFB4 File Offset: 0x0013A3B4
 		public static void MakeConfigFloatMenu(Bill_Production bill)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -32,6 +31,38 @@ namespace RimWorld
 				bill.repeatMode = BillRepeatModeDefOf.Forever;
 			}, MenuOptionPriority.Default, null, null, 0f, null, null));
 			Find.WindowStack.Add(new FloatMenu(list));
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeConfigFloatMenu>c__AnonStorey0
+		{
+			internal Bill_Production bill;
+
+			public <MakeConfigFloatMenu>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.bill.repeatMode = BillRepeatModeDefOf.RepeatCount;
+			}
+
+			internal void <>m__1()
+			{
+				if (!this.bill.recipe.WorkerCounter.CanCountProducts(this.bill))
+				{
+					Messages.Message("RecipeCannotHaveTargetCount".Translate(), MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					this.bill.repeatMode = BillRepeatModeDefOf.TargetCount;
+				}
+			}
+
+			internal void <>m__2()
+			{
+				this.bill.repeatMode = BillRepeatModeDefOf.Forever;
+			}
 		}
 	}
 }

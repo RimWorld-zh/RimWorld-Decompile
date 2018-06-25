@@ -4,10 +4,12 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A83 RID: 2691
 	public class MentalState_BedroomTantrum : MentalState_TantrumRandom
 	{
-		// Token: 0x06003BB8 RID: 15288 RVA: 0x001F8AF8 File Offset: 0x001F6EF8
+		public MentalState_BedroomTantrum()
+		{
+		}
+
 		protected override void GetPotentialTargets(List<Thing> outThings)
 		{
 			outThings.Clear();

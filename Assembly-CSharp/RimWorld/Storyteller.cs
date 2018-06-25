@@ -1,55 +1,51 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200035F RID: 863
 	public class Storyteller : IExposable
 	{
-		// Token: 0x04000935 RID: 2357
 		public StorytellerDef def;
 
-		// Token: 0x04000936 RID: 2358
 		public DifficultyDef difficulty;
 
-		// Token: 0x04000937 RID: 2359
 		public List<StorytellerComp> storytellerComps;
 
-		// Token: 0x04000938 RID: 2360
 		public IncidentQueue incidentQueue = new IncidentQueue();
 
-		// Token: 0x04000939 RID: 2361
 		public StoryIntender_Population intenderPopulation;
 
-		// Token: 0x0400093A RID: 2362
 		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
 
-		// Token: 0x0400093B RID: 2363
 		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
 
-		// Token: 0x0400093C RID: 2364
 		public const int IntervalsPerDay = 60;
 
-		// Token: 0x0400093D RID: 2365
 		public const int CheckInterval = 1000;
 
-		// Token: 0x0400093E RID: 2366
 		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
 
-		// Token: 0x0400093F RID: 2367
 		private string debugStringCached = "Generating data...";
 
-		// Token: 0x06000EF5 RID: 3829 RVA: 0x0007E27C File Offset: 0x0007C67C
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
 		public Storyteller()
 		{
 		}
 
-		// Token: 0x06000EF6 RID: 3830 RVA: 0x0007E29B File Offset: 0x0007C69B
 		public Storyteller(StorytellerDef def, DifficultyDef difficulty)
 		{
 			this.def = def;
@@ -58,8 +54,6 @@ namespace RimWorld
 			this.InitializeStorytellerComps();
 		}
 
-		// Token: 0x17000219 RID: 537
-		// (get) Token: 0x06000EF7 RID: 3831 RVA: 0x0007E2DC File Offset: 0x0007C6DC
 		public List<IIncidentTarget> AllIncidentTargets
 		{
 			get
@@ -83,13 +77,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF8 RID: 3832 RVA: 0x0007E387 File Offset: 0x0007C787
 		public static void StorytellerStaticUpdate()
 		{
 			Storyteller.tmpAllIncidentTargets.Clear();
 		}
 
-		// Token: 0x06000EF9 RID: 3833 RVA: 0x0007E394 File Offset: 0x0007C794
 		private void InitializeStorytellerComps()
 		{
 			this.storytellerComps = new List<StorytellerComp>();
@@ -101,7 +93,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EFA RID: 3834 RVA: 0x0007E414 File Offset: 0x0007C814
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<StorytellerDef>(ref this.def, "def");
@@ -122,7 +113,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EFB RID: 3835 RVA: 0x0007E4AC File Offset: 0x0007C8AC
 		public void StorytellerTick()
 		{
 			this.incidentQueue.IncidentQueueTick();
@@ -138,7 +128,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EFC RID: 3836 RVA: 0x0007E53C File Offset: 0x0007C93C
 		public void TryFire(FiringIncident fi)
 		{
 			if (fi.parms.forced || fi.def.Worker.CanFireNow(fi.parms))
@@ -150,7 +139,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EFD RID: 3837 RVA: 0x0007E5A8 File Offset: 0x0007C9A8
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval()
 		{
 			List<IIncidentTarget> targets = this.AllIncidentTargets;
@@ -164,7 +152,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000EFE RID: 3838 RVA: 0x0007E5D4 File Offset: 0x0007C9D4
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval(StorytellerComp comp, List<IIncidentTarget> targets)
 		{
 			if (GenDate.DaysPassedFloat <= comp.props.minDaysPassed)
@@ -188,13 +175,11 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000EFF RID: 3839 RVA: 0x0007E605 File Offset: 0x0007CA05
 		public void Notify_DefChanged()
 		{
 			this.InitializeStorytellerComps();
 		}
 
-		// Token: 0x06000F00 RID: 3840 RVA: 0x0007E610 File Offset: 0x0007CA10
 		public string DebugString()
 		{
 			if (Time.frameCount % 60 == 0)
@@ -252,6 +237,332 @@ namespace RimWorld
 				this.debugStringCached = stringBuilder.ToString();
 			}
 			return this.debugStringCached;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Storyteller()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DebugString>m__0(Pawn p)
+		{
+			return p.def.race.Humanlike;
+		}
+
+		[CompilerGenerated]
+		private static bool <DebugString>m__1(Pawn p)
+		{
+			return p.def.race.Animal;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeIncidentsForInterval>c__Iterator0 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal List<IIncidentTarget> <targets>__0;
+
+			internal int <i>__1;
+
+			internal IEnumerator<FiringIncident> $locvar0;
+
+			internal FiringIncident <incident>__2;
+
+			internal Storyteller $this;
+
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeIncidentsForInterval>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					targets = base.AllIncidentTargets;
+					i = 0;
+					break;
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							incident = enumerator.Current;
+							this.$current = incident;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.storytellerComps.Count)
+				{
+					enumerator = base.MakeIncidentsForInterval(this.storytellerComps[i], targets).GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Storyteller.<MakeIncidentsForInterval>c__Iterator0 <MakeIncidentsForInterval>c__Iterator = new Storyteller.<MakeIncidentsForInterval>c__Iterator0();
+				<MakeIncidentsForInterval>c__Iterator.$this = this;
+				return <MakeIncidentsForInterval>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeIncidentsForInterval>c__Iterator1 : IEnumerable, IEnumerable<FiringIncident>, IEnumerator, IDisposable, IEnumerator<FiringIncident>
+		{
+			internal StorytellerComp comp;
+
+			internal int <i>__1;
+
+			internal List<IIncidentTarget> targets;
+
+			internal IIncidentTarget <targ>__2;
+
+			internal IEnumerator<FiringIncident> $locvar0;
+
+			internal FiringIncident <fi>__3;
+
+			internal FiringIncident $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeIncidentsForInterval>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (GenDate.DaysPassedFloat <= comp.props.minDaysPassed)
+					{
+						return false;
+					}
+					i = 0;
+					goto IL_1B5;
+				case 1u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						while (enumerator.MoveNext())
+						{
+							fi = enumerator.Current;
+							if (Find.Storyteller.difficulty.allowBigThreats || (fi.def.category != IncidentCategoryDefOf.ThreatBig && fi.def.category != IncidentCategoryDefOf.RaidBeacon))
+							{
+								this.$current = fi;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					break;
+				default:
+					return false;
+				}
+				IL_1A6:
+				i++;
+				IL_1B5:
+				if (i >= targets.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					targ = targets[i];
+					if (comp.props.allowedTargetTypes == null || comp.props.allowedTargetTypes.Count == 0 || comp.props.allowedTargetTypes.Intersect(targ.AcceptedTypes()).Any<IncidentTargetTypeDef>())
+					{
+						enumerator = comp.MakeIntervalIncidents(targ).GetEnumerator();
+						num = 4294967293u;
+						goto Block_5;
+					}
+					goto IL_1A6;
+				}
+				return false;
+			}
+
+			FiringIncident IEnumerator<FiringIncident>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.FiringIncident>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FiringIncident> IEnumerable<FiringIncident>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Storyteller.<MakeIncidentsForInterval>c__Iterator1 <MakeIncidentsForInterval>c__Iterator = new Storyteller.<MakeIncidentsForInterval>c__Iterator1();
+				<MakeIncidentsForInterval>c__Iterator.comp = comp;
+				<MakeIncidentsForInterval>c__Iterator.targets = targets;
+				return <MakeIncidentsForInterval>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D4 RID: 980
 	public class SymbolResolver_Stockpile : SymbolResolver
 	{
-		// Token: 0x04000A44 RID: 2628
 		private List<IntVec3> cells = new List<IntVec3>();
 
-		// Token: 0x04000A45 RID: 2629
 		private const float FreeCellsFraction = 0.45f;
 
-		// Token: 0x060010DC RID: 4316 RVA: 0x0008FAA0 File Offset: 0x0008DEA0
+		public SymbolResolver_Stockpile()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -71,7 +72,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010DD RID: 4317 RVA: 0x0008FD44 File Offset: 0x0008E144
 		private void CalculateFreeCells(CellRect rect, float freeCellsFraction)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -89,6 +89,21 @@ namespace RimWorld.BaseGen
 				this.cells.RemoveAt(Rand.Range(0, this.cells.Count));
 			}
 			this.cells.Shuffle<IntVec3>();
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey0
+		{
+			internal ResolveParams rp;
+
+			public <Resolve>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return this.rp.faction == null || x.techLevel >= this.rp.faction.def.techLevel || !x.IsWeapon || x.GetStatValueAbstract(StatDefOf.MarketValue, GenStuff.DefaultStuffFor(x)) >= 100f;
+			}
 		}
 	}
 }

@@ -2,10 +2,8 @@
 
 namespace Verse
 {
-	// Token: 0x02000C32 RID: 3122
 	public static class ThingRequestGroupUtility
 	{
-		// Token: 0x0600449A RID: 17562 RVA: 0x00241308 File Offset: 0x0023F708
 		public static bool StoreInRegion(this ThingRequestGroup group)
 		{
 			bool result;

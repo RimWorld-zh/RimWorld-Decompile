@@ -1,31 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200071B RID: 1819
 	public class CompLongRangeMineralScanner : ThingComp
 	{
-		// Token: 0x040015F0 RID: 5616
 		private CompPowerTrader powerComp;
 
-		// Token: 0x040015F1 RID: 5617
 		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
 
-		// Token: 0x040015F2 RID: 5618
 		private float cachedEffectiveAreaPct;
 
-		// Token: 0x040015F3 RID: 5619
 		private const float NoSitePartChance = 0.6f;
 
-		// Token: 0x040015F4 RID: 5620
 		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
 
-		// Token: 0x1700061B RID: 1563
-		// (get) Token: 0x06002814 RID: 10260 RVA: 0x00157114 File Offset: 0x00155514
+		public CompLongRangeMineralScanner()
+		{
+		}
+
 		public CompProperties_LongRangeMineralScanner Props
 		{
 			get
@@ -34,8 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700061C RID: 1564
-		// (get) Token: 0x06002815 RID: 10261 RVA: 0x00157134 File Offset: 0x00155534
 		public bool Active
 		{
 			get
@@ -44,8 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700061D RID: 1565
-		// (get) Token: 0x06002816 RID: 10262 RVA: 0x00157194 File Offset: 0x00155594
 		private float EffectiveMtbDays
 		{
 			get
@@ -65,8 +61,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700061E RID: 1566
-		// (get) Token: 0x06002817 RID: 10263 RVA: 0x001571D8 File Offset: 0x001555D8
 		private float EffectiveAreaPct
 		{
 			get
@@ -75,7 +69,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002818 RID: 10264 RVA: 0x001571F3 File Offset: 0x001555F3
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -83,7 +76,6 @@ namespace RimWorld
 			this.RecacheEffectiveAreaPct();
 		}
 
-		// Token: 0x06002819 RID: 10265 RVA: 0x00157214 File Offset: 0x00155614
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -93,7 +85,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281A RID: 10266 RVA: 0x0015722E File Offset: 0x0015562E
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
@@ -101,7 +92,6 @@ namespace RimWorld
 			this.CheckTryFindMinerals(250);
 		}
 
-		// Token: 0x0600281B RID: 10267 RVA: 0x00157248 File Offset: 0x00155648
 		private void RecacheEffectiveAreaPct()
 		{
 			if (!this.Active)
@@ -148,7 +138,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281C RID: 10268 RVA: 0x00157384 File Offset: 0x00155784
 		private void CheckTryFindMinerals(int interval)
 		{
 			if (this.Active)
@@ -164,7 +153,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281D RID: 10269 RVA: 0x001573D4 File Offset: 0x001557D4
 		private void FoundMinerals()
 		{
 			int tile2;
@@ -182,7 +170,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281E RID: 10270 RVA: 0x00157478 File Offset: 0x00155878
 		private void CalculateOtherActiveMineralScanners()
 		{
 			this.otherActiveMineralScanners.Clear();
@@ -204,7 +191,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281F RID: 10271 RVA: 0x00157544 File Offset: 0x00155944
 		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
 		{
 			bool result;
@@ -227,7 +213,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002820 RID: 10272 RVA: 0x001575CC File Offset: 0x001559CC
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -246,7 +231,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002821 RID: 10273 RVA: 0x00157618 File Offset: 0x00155A18
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)
@@ -261,6 +245,116 @@ namespace RimWorld
 				};
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CompLongRangeMineralScanner()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Action <forceFindResourcesNow>__1;
+
+			internal CompLongRangeMineralScanner $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (Prefs.DevMode)
+					{
+						Command_Action forceFindResourcesNow = new Command_Action();
+						forceFindResourcesNow.defaultLabel = "Dev: Find resources now";
+						forceFindResourcesNow.action = delegate()
+						{
+							base.FoundMinerals();
+						};
+						this.$current = forceFindResourcesNow;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.FoundMinerals();
+			}
 		}
 	}
 }

@@ -1,20 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048D RID: 1165
 	public static class PawnWeaponGenerator
 	{
-		// Token: 0x04000C58 RID: 3160
 		private static List<ThingStuffPair> allWeaponPairs;
 
-		// Token: 0x04000C59 RID: 3161
 		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
 
-		// Token: 0x0600148C RID: 5260 RVA: 0x000B4D98 File Offset: 0x000B3198
+		[CompilerGenerated]
+		private static Predicate<ThingDef> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Func<ThingStuffPair, string> <>f__am$cacheA;
+
 		public static void Reset()
 		{
 			Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
@@ -45,7 +75,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600148D RID: 5261 RVA: 0x000B4F08 File Offset: 0x000B3308
 		public static void TryGenerateWeaponFor(Pawn pawn)
 		{
 			PawnWeaponGenerator.workingWeapons.Clear();
@@ -95,7 +124,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600148E RID: 5262 RVA: 0x000B5124 File Offset: 0x000B3524
 		public static bool IsDerpWeapon(ThingDef thing, ThingDef stuff)
 		{
 			bool result;
@@ -127,7 +155,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600148F RID: 5263 RVA: 0x000B51B8 File Offset: 0x000B35B8
 		public static float CheapestNonDerpPriceFor(ThingDef weaponDef)
 		{
 			float num = 9999999f;
@@ -145,7 +172,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001490 RID: 5264 RVA: 0x000B523C File Offset: 0x000B363C
 		[DebugOutput]
 		internal static void WeaponPairs()
 		{
@@ -163,11 +189,126 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<ThingStuffPair>(dataSources, array);
 		}
 
-		// Token: 0x06001491 RID: 5265 RVA: 0x000B53A2 File Offset: 0x000B37A2
 		[DebugOutput]
 		internal static void WeaponPairsByThing()
 		{
 			DebugOutputsGeneral.MakeTablePairsByThing(PawnWeaponGenerator.allWeaponPairs);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PawnWeaponGenerator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Reset>m__0(ThingDef td)
+		{
+			return td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
+		}
+
+		[CompilerGenerated]
+		private static float <Reset>m__1(ThingStuffPair pa)
+		{
+			return pa.Commonality;
+		}
+
+		[CompilerGenerated]
+		private static float <TryGenerateWeaponFor>m__2(ThingStuffPair w)
+		{
+			return w.Commonality * w.Price;
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__3(ThingStuffPair p)
+		{
+			return p.thing.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__4(ThingStuffPair p)
+		{
+			return p.thing.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__5(ThingStuffPair p)
+		{
+			return (p.stuff == null) ? "" : p.stuff.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__6(ThingStuffPair p)
+		{
+			return p.Price.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__7(ThingStuffPair p)
+		{
+			return p.Commonality.ToString("F5");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__8(ThingStuffPair p)
+		{
+			return p.commonalityMultiplier.ToString("F5");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__9(ThingStuffPair p)
+		{
+			return p.thing.generateCommonality.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponPairs>m__A(ThingStuffPair p)
+		{
+			return (!PawnWeaponGenerator.IsDerpWeapon(p.thing, p.stuff)) ? "" : "D";
+		}
+
+		[CompilerGenerated]
+		private sealed class <Reset>c__AnonStorey0
+		{
+			internal Predicate<ThingDef> isWeapon;
+
+			public <Reset>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef td)
+			{
+				return this.isWeapon(td);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Reset>c__AnonStorey1
+		{
+			internal ThingDef thingDef;
+
+			public <Reset>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingStuffPair pa)
+			{
+				return pa.thing == this.thingDef;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGenerateWeaponFor>c__AnonStorey2
+		{
+			internal ThingStuffPair w;
+
+			public <TryGenerateWeaponFor>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(string tag)
+			{
+				return this.w.thing.weaponTags.Contains(tag);
+			}
 		}
 	}
 }

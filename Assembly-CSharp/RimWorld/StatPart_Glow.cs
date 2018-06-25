@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009AB RID: 2475
 	public class StatPart_Glow : StatPart
 	{
-		// Token: 0x040023AB RID: 9131
 		private bool humanlikeOnly = false;
 
-		// Token: 0x040023AC RID: 9132
 		private SimpleCurve factorFromGlowCurve = null;
 
-		// Token: 0x06003779 RID: 14201 RVA: 0x001D9C58 File Offset: 0x001D8058
+		public StatPart_Glow()
+		{
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.factorFromGlowCurve == null)
@@ -23,7 +27,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600377A RID: 14202 RVA: 0x001D9C82 File Offset: 0x001D8082
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && this.ActiveFor(req.Thing))
@@ -32,7 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600377B RID: 14203 RVA: 0x001D9CB8 File Offset: 0x001D80B8
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -50,7 +52,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600377C RID: 14204 RVA: 0x001D9D34 File Offset: 0x001D8134
 		private bool ActiveFor(Thing t)
 		{
 			if (this.humanlikeOnly)
@@ -64,16 +65,106 @@ namespace RimWorld
 			return t.Spawned;
 		}
 
-		// Token: 0x0600377D RID: 14205 RVA: 0x001D9D80 File Offset: 0x001D8180
 		private float GlowLevel(Thing t)
 		{
 			return t.Map.glowGrid.GameGlowAt(t.Position, false);
 		}
 
-		// Token: 0x0600377E RID: 14206 RVA: 0x001D9DAC File Offset: 0x001D81AC
 		private float FactorFromGlow(Thing t)
 		{
 			return this.factorFromGlowCurve.Evaluate(this.GlowLevel(t));
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal StatPart_Glow $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.factorFromGlowCurve == null)
+					{
+						this.$current = "factorFromLightCurve is null.";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatPart_Glow.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new StatPart_Glow.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

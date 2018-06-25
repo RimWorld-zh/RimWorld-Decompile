@@ -1,32 +1,37 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E4 RID: 740
 	public abstract class ThingSetMaker
 	{
-		// Token: 0x040007A7 RID: 1959
 		public ThingSetMakerParams fixedParams;
 
-		// Token: 0x040007A8 RID: 1960
 		public static List<List<Thing>> thingsBeingGeneratedNow = new List<List<Thing>>();
 
-		// Token: 0x06000C1F RID: 3103 RVA: 0x0006BB14 File Offset: 0x00069F14
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
 		static ThingSetMaker()
 		{
 			Gen.EnsureAllFieldsNullable(typeof(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C21 RID: 3105 RVA: 0x0006BB38 File Offset: 0x00069F38
+		protected ThingSetMaker()
+		{
+		}
+
 		public List<Thing> Generate()
 		{
 			return this.Generate(default(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C22 RID: 3106 RVA: 0x0006BB5C File Offset: 0x00069F5C
 		public List<Thing> Generate(ThingSetMakerParams parms)
 		{
 			List<Thing> list = new List<Thing>();
@@ -53,29 +58,24 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000C23 RID: 3107 RVA: 0x0006BC18 File Offset: 0x0006A018
 		public bool CanGenerate(ThingSetMakerParams parms)
 		{
 			ThingSetMakerParams parms2 = this.ApplyFixedParams(parms);
 			return this.CanGenerateSub(parms2);
 		}
 
-		// Token: 0x06000C24 RID: 3108 RVA: 0x0006BC3C File Offset: 0x0006A03C
 		protected virtual bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			return true;
 		}
 
-		// Token: 0x06000C25 RID: 3109
 		protected abstract void Generate(ThingSetMakerParams parms, List<Thing> outThings);
 
-		// Token: 0x06000C26 RID: 3110 RVA: 0x0006BC54 File Offset: 0x0006A054
 		public IEnumerable<ThingDef> AllGeneratableThingsDebug()
 		{
 			return this.AllGeneratableThingsDebug(default(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C27 RID: 3111 RVA: 0x0006BC78 File Offset: 0x0006A078
 		public IEnumerable<ThingDef> AllGeneratableThingsDebug(ThingSetMakerParams parms)
 		{
 			if (!this.CanGenerate(parms))
@@ -90,10 +90,8 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C28 RID: 3112
 		protected abstract IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms);
 
-		// Token: 0x06000C29 RID: 3113 RVA: 0x0006BCAC File Offset: 0x0006A0AC
 		private void PostProcess(List<Thing> things)
 		{
 			if (things.RemoveAll((Thing x) => x == null) != 0)
@@ -124,7 +122,6 @@ namespace RimWorld
 			this.Minify(things);
 		}
 
-		// Token: 0x06000C2A RID: 3114 RVA: 0x0006BDD0 File Offset: 0x0006A1D0
 		private void Minify(List<Thing> things)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -140,7 +137,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C2B RID: 3115 RVA: 0x0006BE48 File Offset: 0x0006A248
 		private void ChangeDeadPawnsToTheirCorpses(List<Thing> things)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -152,7 +148,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C2C RID: 3116 RVA: 0x0006BEA0 File Offset: 0x0006A2A0
 		private ThingSetMakerParams ApplyFixedParams(ThingSetMakerParams parms)
 		{
 			ThingSetMakerParams result = this.fixedParams;
@@ -160,12 +155,160 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C2D RID: 3117 RVA: 0x0006BEC5 File Offset: 0x0006A2C5
 		public virtual void ResolveReferences()
 		{
 			if (this.fixedParams.filter != null)
 			{
 				this.fixedParams.filter.ResolveReferences();
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <PostProcess>m__0(Thing x)
+		{
+			return x == null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebug>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingSetMakerParams parms;
+
+			internal ThingSetMakerParams <parmsToUse>__0;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__1;
+
+			internal ThingSetMaker $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebug>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!base.CanGenerate(parms))
+					{
+						return false;
+					}
+					parmsToUse = base.ApplyFixedParams(parms);
+					enumerator = this.AllGeneratableThingsDebugSub(parmsToUse).Distinct<ThingDef>().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker.<AllGeneratableThingsDebug>c__Iterator0 <AllGeneratableThingsDebug>c__Iterator = new ThingSetMaker.<AllGeneratableThingsDebug>c__Iterator0();
+				<AllGeneratableThingsDebug>c__Iterator.$this = this;
+				<AllGeneratableThingsDebug>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebug>c__Iterator;
 			}
 		}
 	}

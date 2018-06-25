@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200014C RID: 332
 	public class WorkGiver_HunterHunt : WorkGiver_Scanner
 	{
-		// Token: 0x060006D8 RID: 1752 RVA: 0x00046340 File Offset: 0x00044740
+		public WorkGiver_HunterHunt()
+		{
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Hunt))
@@ -18,8 +24,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x17000109 RID: 265
-		// (get) Token: 0x060006D9 RID: 1753 RVA: 0x0004636C File Offset: 0x0004476C
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -28,19 +32,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006DA RID: 1754 RVA: 0x00046384 File Offset: 0x00044784
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006DB RID: 1755 RVA: 0x0004639C File Offset: 0x0004479C
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			return !WorkGiver_HunterHunt.HasHuntingWeapon(pawn) || WorkGiver_HunterHunt.HasShieldAndRangedWeapon(pawn);
 		}
 
-		// Token: 0x060006DC RID: 1756 RVA: 0x000463D8 File Offset: 0x000447D8
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -57,19 +58,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006DD RID: 1757 RVA: 0x00046454 File Offset: 0x00044854
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.Hunt, t);
 		}
 
-		// Token: 0x060006DE RID: 1758 RVA: 0x0004647C File Offset: 0x0004487C
 		public static bool HasHuntingWeapon(Pawn p)
 		{
 			return p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon && p.equipment.PrimaryEq.PrimaryVerb.HarmsHealth() && !p.equipment.PrimaryEq.PrimaryVerb.UsesExplosiveProjectiles();
 		}
 
-		// Token: 0x060006DF RID: 1759 RVA: 0x000464F8 File Offset: 0x000448F8
 		public static bool HasShieldAndRangedWeapon(Pawn p)
 		{
 			if (p.equipment.Primary != null && p.equipment.Primary.def.IsWeaponUsingProjectiles)
@@ -84,6 +82,139 @@ namespace RimWorld
 				}
 			}
 			return false;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentialWorkThingsGlobal>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn pawn;
+
+			internal IEnumerator<Designation> $locvar0;
+
+			internal Designation <des>__1;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PotentialWorkThingsGlobal>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Hunt).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						des = enumerator.Current;
+						this.$current = des.target.Thing;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkGiver_HunterHunt.<PotentialWorkThingsGlobal>c__Iterator0 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_HunterHunt.<PotentialWorkThingsGlobal>c__Iterator0();
+				<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
+				return <PotentialWorkThingsGlobal>c__Iterator;
+			}
 		}
 	}
 }

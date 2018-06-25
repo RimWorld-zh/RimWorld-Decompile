@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EFD RID: 3837
 	public class SimpleCurve2D : IEnumerable<CurveColumn>, IEnumerable
 	{
-		// Token: 0x04003CC5 RID: 15557
 		private List<CurveColumn> columns = new List<CurveColumn>();
 
-		// Token: 0x06005BC4 RID: 23492 RVA: 0x002EC168 File Offset: 0x002EA568
+		public SimpleCurve2D()
+		{
+		}
+
 		public float Evaluate(float x, float y)
 		{
 			float result;
@@ -50,19 +54,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005BC5 RID: 23493 RVA: 0x002EC301 File Offset: 0x002EA701
 		public void Add(CurveColumn newColumn)
 		{
 			this.columns.Add(newColumn);
 		}
 
-		// Token: 0x06005BC6 RID: 23494 RVA: 0x002EC310 File Offset: 0x002EA710
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
 		}
 
-		// Token: 0x06005BC7 RID: 23495 RVA: 0x002EC32C File Offset: 0x002EA72C
 		public IEnumerator<CurveColumn> GetEnumerator()
 		{
 			foreach (CurveColumn column in this.columns)
@@ -72,7 +73,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005BC8 RID: 23496 RVA: 0x002EC350 File Offset: 0x002EA750
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
 			for (int i = 0; i < this.columns.Count - 1; i++)
@@ -84,6 +84,215 @@ namespace Verse
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetEnumerator>c__Iterator0 : IEnumerator, IDisposable, IEnumerator<CurveColumn>
+		{
+			internal List<CurveColumn>.Enumerator $locvar0;
+
+			internal CurveColumn <column>__1;
+
+			internal SimpleCurve2D $this;
+
+			internal CurveColumn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetEnumerator>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = this.columns.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						column = enumerator.Current;
+						this.$current = column;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			CurveColumn IEnumerator<CurveColumn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator1 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal int <i>__1;
+
+			internal string prefix;
+
+			internal SimpleCurve2D $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					for (i = 0; i < this.columns.Count - 1; i++)
+					{
+						if (this.columns[i + 1].x < this.columns[i].x)
+						{
+							this.$current = prefix + ": columns are out of order";
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SimpleCurve2D.<ConfigErrors>c__Iterator1 <ConfigErrors>c__Iterator = new SimpleCurve2D.<ConfigErrors>c__Iterator1();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.prefix = prefix;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

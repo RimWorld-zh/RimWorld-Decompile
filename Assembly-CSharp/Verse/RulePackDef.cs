@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000B71 RID: 2929
 	public class RulePackDef : Def
 	{
-		// Token: 0x04002AD9 RID: 10969
 		public List<RulePackDef> include = null;
 
-		// Token: 0x04002ADA RID: 10970
 		private RulePack rulePack = null;
 
-		// Token: 0x04002ADB RID: 10971
 		[Unsaved]
 		private List<Rule> cachedRules = null;
 
-		// Token: 0x170009BD RID: 2493
-		// (get) Token: 0x06003FEF RID: 16367 RVA: 0x0021B3A4 File Offset: 0x002197A4
+		public RulePackDef()
+		{
+		}
+
 		public List<Rule> RulesPlusIncludes
 		{
 			get
@@ -42,8 +44,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009BE RID: 2494
-		// (get) Token: 0x06003FF0 RID: 16368 RVA: 0x0021B440 File Offset: 0x00219840
 		public List<Rule> RulesImmediate
 		{
 			get
@@ -52,7 +52,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FF1 RID: 16369 RVA: 0x0021B474 File Offset: 0x00219874
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -72,10 +71,175 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B4A0 File Offset: 0x002198A0
 		public static RulePackDef Named(string defName)
 		{
 			return DefDatabase<RulePackDef>.GetNamed(defName, true);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal int <i>__2;
+
+			internal RulePackDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					IL_160:
+					i++;
+					goto IL_16F;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.include == null)
+				{
+					goto IL_18B;
+				}
+				i = 0;
+				IL_16F:
+				if (i < this.include.Count)
+				{
+					if (this.include[i].include != null && this.include[i].include.Contains(this))
+					{
+						this.$current = "includes other RulePackDef which includes it: " + this.include[i].defName;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						return true;
+					}
+					goto IL_160;
+				}
+				IL_18B:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RulePackDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new RulePackDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

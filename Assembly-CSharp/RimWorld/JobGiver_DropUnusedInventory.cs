@@ -4,13 +4,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000DF RID: 223
 	public class JobGiver_DropUnusedInventory : ThinkNode_JobGiver
 	{
-		// Token: 0x040002B5 RID: 693
 		private const int RawFoodDropDelay = 150000;
 
-		// Token: 0x060004E0 RID: 1248 RVA: 0x00036530 File Offset: 0x00034930
+		public JobGiver_DropUnusedInventory()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -52,7 +53,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004E1 RID: 1249 RVA: 0x000366CC File Offset: 0x00034ACC
 		private void Drop(Pawn pawn, Thing thing)
 		{
 			Thing thing2;

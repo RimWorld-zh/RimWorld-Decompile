@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003F5 RID: 1013
 	public class GenStep_ScatterDeepResourceLumps : GenStep_Scatterer
 	{
-		// Token: 0x1700024F RID: 591
-		// (get) Token: 0x0600116D RID: 4461 RVA: 0x0009726C File Offset: 0x0009566C
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache0;
+
+		public GenStep_ScatterDeepResourceLumps()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -17,7 +22,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600116E RID: 4462 RVA: 0x00097288 File Offset: 0x00095688
 		public override void Generate(Map map)
 		{
 			if (!map.TileInfo.WaterCovered)
@@ -37,19 +41,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600116F RID: 4463 RVA: 0x000972FC File Offset: 0x000956FC
 		protected ThingDef ChooseThingDef()
 		{
 			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((ThingDef def) => def.deepCommonality);
 		}
 
-		// Token: 0x06001170 RID: 4464 RVA: 0x00097338 File Offset: 0x00095738
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			return !base.NearUsedSpot(c, this.minSpacing);
 		}
 
-		// Token: 0x06001171 RID: 4465 RVA: 0x00097368 File Offset: 0x00095768
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef thingDef = this.ChooseThingDef();
@@ -61,6 +62,12 @@ namespace RimWorld
 					map.deepResourceGrid.SetAt(c2, thingDef, thingDef.deepCountPerCell);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static float <ChooseThingDef>m__0(ThingDef def)
+		{
+			return def.deepCommonality;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -8,16 +9,19 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000331 RID: 817
 	public class IncidentWorker_HerdMigration : IncidentWorker
 	{
-		// Token: 0x040008D5 RID: 2261
 		private static readonly IntRange AnimalsCount = new IntRange(3, 5);
 
-		// Token: 0x040008D6 RID: 2262
 		private const float MinTotalBodySize = 4f;
 
-		// Token: 0x06000DEF RID: 3567 RVA: 0x00076E10 File Offset: 0x00075210
+		[CompilerGenerated]
+		private static Func<PawnKindDef, float> <>f__am$cache0;
+
+		public IncidentWorker_HerdMigration()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -27,7 +31,6 @@ namespace RimWorld
 			return this.TryFindAnimalKind(map.Tile, out pawnKindDef) && this.TryFindStartAndEndCells(map, out intVec, out intVec2);
 		}
 
-		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076E54 File Offset: 0x00075254
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -62,7 +65,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF1 RID: 3569 RVA: 0x00076F94 File Offset: 0x00075394
 		private bool TryFindAnimalKind(int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
@@ -70,7 +72,6 @@ namespace RimWorld
 			select k).TryRandomElementByWeight((PawnKindDef x) => Mathf.Lerp(0.2f, 1f, x.RaceProps.wildness), out animalKind);
 		}
 
-		// Token: 0x06000DF2 RID: 3570 RVA: 0x00076FF0 File Offset: 0x000753F0
 		private bool TryFindStartAndEndCells(Map map, out IntVec3 start, out IntVec3 end)
 		{
 			bool result;
@@ -100,7 +101,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF3 RID: 3571 RVA: 0x000770DC File Offset: 0x000754DC
 		private List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile)
 		{
 			int num = IncidentWorker_HerdMigration.AnimalsCount.RandomInRange;
@@ -113,6 +113,59 @@ namespace RimWorld
 				list.Add(item);
 			}
 			return list;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_HerdMigration()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <TryFindAnimalKind>m__0(PawnKindDef x)
+		{
+			return Mathf.Lerp(0.2f, 1f, x.RaceProps.wildness);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindAnimalKind>c__AnonStorey0
+		{
+			internal int tile;
+
+			public <TryFindAnimalKind>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(PawnKindDef k)
+			{
+				return k.RaceProps.CanDoHerdMigration && Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(this.tile, k.race);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindStartAndEndCells>c__AnonStorey1
+		{
+			internal Map map;
+
+			public <TryFindStartAndEndCells>c__AnonStorey1()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindStartAndEndCells>c__AnonStorey2
+		{
+			internal IntVec3 startLocal;
+
+			internal IncidentWorker_HerdMigration.<TryFindStartAndEndCells>c__AnonStorey1 <>f__ref$1;
+
+			public <TryFindStartAndEndCells>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.<>f__ref$1.map.reachability.CanReach(this.startLocal, x, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly);
+			}
 		}
 	}
 }

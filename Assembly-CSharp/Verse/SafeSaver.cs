@@ -4,34 +4,27 @@ using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000D90 RID: 3472
 	public static class SafeSaver
 	{
-		// Token: 0x040033D9 RID: 13273
 		private static readonly string NewFileSuffix = ".new";
 
-		// Token: 0x040033DA RID: 13274
 		private static readonly string OldFileSuffix = ".old";
 
-		// Token: 0x06004DA9 RID: 19881 RVA: 0x00289644 File Offset: 0x00287A44
 		private static string GetFileFullPath(string path)
 		{
 			return Path.GetFullPath(path);
 		}
 
-		// Token: 0x06004DAA RID: 19882 RVA: 0x00289660 File Offset: 0x00287A60
 		private static string GetNewFileFullPath(string path)
 		{
 			return Path.GetFullPath(path + SafeSaver.NewFileSuffix);
 		}
 
-		// Token: 0x06004DAB RID: 19883 RVA: 0x00289688 File Offset: 0x00287A88
 		private static string GetOldFileFullPath(string path)
 		{
 			return Path.GetFullPath(path + SafeSaver.OldFileSuffix);
 		}
 
-		// Token: 0x06004DAC RID: 19884 RVA: 0x002896B0 File Offset: 0x00287AB0
 		public static void Save(string path, string documentElementName, Action saveAction)
 		{
 			try
@@ -110,14 +103,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DAD RID: 19885 RVA: 0x002898C4 File Offset: 0x00287CC4
 		private static void CleanSafeSaverFiles(string path)
 		{
 			SafeSaver.RemoveFileIfExists(SafeSaver.GetOldFileFullPath(path), true);
 			SafeSaver.RemoveFileIfExists(SafeSaver.GetNewFileFullPath(path), true);
 		}
 
-		// Token: 0x06004DAE RID: 19886 RVA: 0x002898E0 File Offset: 0x00287CE0
 		private static void DoSave(string fullPath, string documentElementName, Action saveAction)
 		{
 			try
@@ -141,7 +132,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DAF RID: 19887 RVA: 0x00289960 File Offset: 0x00287D60
 		private static void RemoveFileIfExists(string path, bool rethrow)
 		{
 			try
@@ -167,7 +157,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DB0 RID: 19888 RVA: 0x002899D0 File Offset: 0x00287DD0
 		private static void SafeMove(string from, string to)
 		{
 			Exception ex = null;
@@ -188,6 +177,11 @@ namespace Verse
 				Thread.Sleep(1);
 			}
 			throw ex;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SafeSaver()
+		{
 		}
 	}
 }

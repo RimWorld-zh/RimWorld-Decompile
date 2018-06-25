@@ -1,40 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004EA RID: 1258
 	public class Pawn_DrugPolicyTracker : IExposable
 	{
-		// Token: 0x04000D21 RID: 3361
 		public Pawn pawn;
 
-		// Token: 0x04000D22 RID: 3362
 		private DrugPolicy curPolicy;
 
-		// Token: 0x04000D23 RID: 3363
 		private List<DrugTakeRecord> drugTakeRecords = new List<DrugTakeRecord>();
 
-		// Token: 0x04000D24 RID: 3364
 		private const float DangerousDrugOverdoseSeverity = 0.5f;
 
-		// Token: 0x06001676 RID: 5750 RVA: 0x000C752C File Offset: 0x000C592C
 		public Pawn_DrugPolicyTracker()
 		{
 		}
 
-		// Token: 0x06001677 RID: 5751 RVA: 0x000C7540 File Offset: 0x000C5940
 		public Pawn_DrugPolicyTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x170002F1 RID: 753
-		// (get) Token: 0x06001678 RID: 5752 RVA: 0x000C755C File Offset: 0x000C595C
-		// (set) Token: 0x06001679 RID: 5753 RVA: 0x000C7597 File Offset: 0x000C5997
 		public DrugPolicy CurrentPolicy
 		{
 			get
@@ -54,8 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002F2 RID: 754
-		// (get) Token: 0x0600167A RID: 5754 RVA: 0x000C75B4 File Offset: 0x000C59B4
 		private float DayPercentNotSleeping
 		{
 			get
@@ -100,8 +89,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002F3 RID: 755
-		// (get) Token: 0x0600167B RID: 5755 RVA: 0x000C76CC File Offset: 0x000C5ACC
 		private float HoursPerDayNotSleeping
 		{
 			get
@@ -127,14 +114,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600167C RID: 5756 RVA: 0x000C773A File Offset: 0x000C5B3A
 		public void ExposeData()
 		{
 			Scribe_References.Look<DrugPolicy>(ref this.curPolicy, "curAssignedDrugs", false);
 			Scribe_Collections.Look<DrugTakeRecord>(ref this.drugTakeRecords, "drugTakeRecords", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600167D RID: 5757 RVA: 0x000C7768 File Offset: 0x000C5B68
 		public bool HasEverTaken(ThingDef drug)
 		{
 			bool result;
@@ -150,7 +135,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600167E RID: 5758 RVA: 0x000C77D0 File Offset: 0x000C5BD0
 		public bool AllowedToTakeScheduledEver(ThingDef thingDef)
 		{
 			bool result;
@@ -172,7 +156,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600167F RID: 5759 RVA: 0x000C7870 File Offset: 0x000C5C70
 		public bool AllowedToTakeScheduledNow(ThingDef thingDef)
 		{
 			bool result;
@@ -230,7 +213,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001680 RID: 5760 RVA: 0x000C7A44 File Offset: 0x000C5E44
 		public bool ShouldTryToTakeScheduledNow(ThingDef ingestible)
 		{
 			bool result;
@@ -290,7 +272,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001681 RID: 5761 RVA: 0x000C7C54 File Offset: 0x000C6054
 		public void Notify_DrugIngested(Thing drug)
 		{
 			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((DrugTakeRecord x) => x.drug == drug.def);
@@ -304,7 +285,6 @@ namespace RimWorld
 			drugTakeRecord.TimesTakenThisDay++;
 		}
 
-		// Token: 0x06001682 RID: 5762 RVA: 0x000C7CD0 File Offset: 0x000C60D0
 		private int LastTicksWhenTakenDrugWhichCanCauseOverdose()
 		{
 			int num = -999999;
@@ -318,11 +298,70 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001683 RID: 5763 RVA: 0x000C7D44 File Offset: 0x000C6144
 		private bool CanCauseOverdose(ThingDef drug)
 		{
 			CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();
 			return compProperties != null && compProperties.CanCauseOverdose;
+		}
+
+		[CompilerGenerated]
+		private sealed class <HasEverTaken>c__AnonStorey0
+		{
+			internal ThingDef drug;
+
+			public <HasEverTaken>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(DrugTakeRecord x)
+			{
+				return x.drug == this.drug;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllowedToTakeScheduledNow>c__AnonStorey1
+		{
+			internal ThingDef thingDef;
+
+			public <AllowedToTakeScheduledNow>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(DrugTakeRecord x)
+			{
+				return x.drug == this.thingDef;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ShouldTryToTakeScheduledNow>c__AnonStorey2
+		{
+			internal ThingDef ingestible;
+
+			public <ShouldTryToTakeScheduledNow>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(DrugTakeRecord x)
+			{
+				return x.drug == this.ingestible;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Notify_DrugIngested>c__AnonStorey3
+		{
+			internal Thing drug;
+
+			public <Notify_DrugIngested>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(DrugTakeRecord x)
+			{
+				return x.drug == this.drug.def;
+			}
 		}
 	}
 }

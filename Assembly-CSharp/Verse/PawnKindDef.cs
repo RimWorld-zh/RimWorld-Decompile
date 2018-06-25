@@ -1,157 +1,118 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B5F RID: 2911
 	public class PawnKindDef : Def
 	{
-		// Token: 0x04002A50 RID: 10832
 		public ThingDef race = null;
 
-		// Token: 0x04002A51 RID: 10833
 		public FactionDef defaultFactionType;
 
-		// Token: 0x04002A52 RID: 10834
 		[NoTranslate]
 		public string backstoryCategory = null;
 
-		// Token: 0x04002A53 RID: 10835
 		[MustTranslate]
 		public string labelPlural = null;
 
-		// Token: 0x04002A54 RID: 10836
 		public List<PawnKindLifeStage> lifeStages = new List<PawnKindLifeStage>();
 
-		// Token: 0x04002A55 RID: 10837
 		public float backstoryCryptosleepCommonality = 0f;
 
-		// Token: 0x04002A56 RID: 10838
 		public int minGenerationAge = 0;
 
-		// Token: 0x04002A57 RID: 10839
 		public int maxGenerationAge = 999999;
 
-		// Token: 0x04002A58 RID: 10840
 		public bool factionLeader = false;
 
-		// Token: 0x04002A59 RID: 10841
 		public bool destroyGearOnDrop = false;
 
-		// Token: 0x04002A5A RID: 10842
 		public bool isFighter = true;
 
-		// Token: 0x04002A5B RID: 10843
 		public float combatPower = -1f;
 
-		// Token: 0x04002A5C RID: 10844
 		public bool canArriveManhunter = true;
 
-		// Token: 0x04002A5D RID: 10845
 		public bool canBeSapper = false;
 
-		// Token: 0x04002A5E RID: 10846
 		public float baseRecruitDifficulty = 0.5f;
 
-		// Token: 0x04002A5F RID: 10847
 		public bool aiAvoidCover = false;
 
-		// Token: 0x04002A60 RID: 10848
 		public FloatRange fleeHealthThresholdRange = new FloatRange(-0.4f, 0.4f);
 
-		// Token: 0x04002A61 RID: 10849
 		public QualityCategory itemQuality = QualityCategory.Normal;
 
-		// Token: 0x04002A62 RID: 10850
 		public bool forceNormalGearQuality = false;
 
-		// Token: 0x04002A63 RID: 10851
 		public FloatRange gearHealthRange = FloatRange.One;
 
-		// Token: 0x04002A64 RID: 10852
 		public FloatRange weaponMoney = FloatRange.Zero;
 
-		// Token: 0x04002A65 RID: 10853
 		[NoTranslate]
 		public List<string> weaponTags = null;
 
-		// Token: 0x04002A66 RID: 10854
 		public FloatRange apparelMoney = FloatRange.Zero;
 
-		// Token: 0x04002A67 RID: 10855
 		public List<ThingDef> apparelRequired = null;
 
-		// Token: 0x04002A68 RID: 10856
 		[NoTranslate]
 		public List<string> apparelTags = null;
 
-		// Token: 0x04002A69 RID: 10857
 		public float apparelAllowHeadgearChance = 1f;
 
-		// Token: 0x04002A6A RID: 10858
 		public bool apparelIgnoreSeasons = false;
 
-		// Token: 0x04002A6B RID: 10859
 		public FloatRange techHediffsMoney = FloatRange.Zero;
 
-		// Token: 0x04002A6C RID: 10860
 		[NoTranslate]
 		public List<string> techHediffsTags = null;
 
-		// Token: 0x04002A6D RID: 10861
 		public float techHediffsChance = 0f;
 
-		// Token: 0x04002A6E RID: 10862
 		public List<ThingDefCountClass> fixedInventory = new List<ThingDefCountClass>();
 
-		// Token: 0x04002A6F RID: 10863
 		public PawnInventoryOption inventoryOptions = null;
 
-		// Token: 0x04002A70 RID: 10864
 		public float invNutrition = 0f;
 
-		// Token: 0x04002A71 RID: 10865
 		public ThingDef invFoodDef = null;
 
-		// Token: 0x04002A72 RID: 10866
 		public float chemicalAddictionChance = 0f;
 
-		// Token: 0x04002A73 RID: 10867
 		public float combatEnhancingDrugsChance = 0f;
 
-		// Token: 0x04002A74 RID: 10868
 		public IntRange combatEnhancingDrugsCount = IntRange.zero;
 
-		// Token: 0x04002A75 RID: 10869
 		public bool trader = false;
 
-		// Token: 0x04002A76 RID: 10870
 		[MustTranslate]
 		public string labelMale = null;
 
-		// Token: 0x04002A77 RID: 10871
 		[MustTranslate]
 		public string labelMalePlural = null;
 
-		// Token: 0x04002A78 RID: 10872
 		[MustTranslate]
 		public string labelFemale = null;
 
-		// Token: 0x04002A79 RID: 10873
 		[MustTranslate]
 		public string labelFemalePlural = null;
 
-		// Token: 0x04002A7A RID: 10874
 		public IntRange wildGroupSize = IntRange.one;
 
-		// Token: 0x04002A7B RID: 10875
 		public float ecoSystemWeight = 1f;
 
-		// Token: 0x170009A4 RID: 2468
-		// (get) Token: 0x06003F8F RID: 16271 RVA: 0x00218050 File Offset: 0x00216450
+		public PawnKindDef()
+		{
+		}
+
 		public RaceProperties RaceProps
 		{
 			get
@@ -160,7 +121,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F90 RID: 16272 RVA: 0x00218070 File Offset: 0x00216470
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -170,7 +130,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F91 RID: 16273 RVA: 0x002180B4 File Offset: 0x002164B4
 		public string GetLabelPlural(int count = -1)
 		{
 			string result;
@@ -185,7 +144,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F92 RID: 16274 RVA: 0x002180F8 File Offset: 0x002164F8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -267,10 +225,319 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003F93 RID: 16275 RVA: 0x00218124 File Offset: 0x00216524
 		public static PawnKindDef Named(string defName)
 		{
 			return DefDatabase<PawnKindDef>.GetNamed(defName, true);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal float <minCost>__2;
+
+			internal int <i>__3;
+
+			internal int <j>__4;
+
+			internal PawnKindDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<ThingDef, float> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_14D;
+				case 3u:
+					goto IL_14D;
+				case 4u:
+					goto IL_191;
+				case 5u:
+					goto IL_1D5;
+				case 6u:
+					goto IL_315;
+				case 7u:
+					IL_3BF:
+					if (this.apparelRequired != null)
+					{
+						i = 0;
+						goto IL_4E4;
+					}
+					goto IL_500;
+				case 8u:
+					IL_4AB:
+					j++;
+					goto IL_4BA;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.race == null)
+				{
+					this.$current = "no race";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				if (base.RaceProps.Humanlike && this.backstoryCategory.NullOrEmpty())
+				{
+					this.$current = "Humanlike needs backstoryCategory.";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_14D:
+				if (this.baseRecruitDifficulty > 1.0001f)
+				{
+					this.$current = this.defName + " recruitDifficulty is greater than 1. 1 means impossible to recruit.";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_191:
+				if (this.combatPower < 0f)
+				{
+					this.$current = this.defName + " has no combatPower.";
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_1D5:
+				if (this.weaponMoney != FloatRange.Zero)
+				{
+					minCost = 999999f;
+					int i;
+					for (i = 0; i < this.weaponTags.Count; i++)
+					{
+						IEnumerable<ThingDef> source = from d in DefDatabase<ThingDef>.AllDefs
+						where d.weaponTags != null && d.weaponTags.Contains(this.weaponTags[i])
+						select d;
+						if (source.Any<ThingDef>())
+						{
+							minCost = Mathf.Min(minCost, source.Min((ThingDef d) => PawnWeaponGenerator.CheapestNonDerpPriceFor(d)));
+						}
+					}
+					if (minCost > this.weaponMoney.min)
+					{
+						this.$current = string.Concat(new object[]
+						{
+							"Cheapest weapon with one of my weaponTags costs ",
+							minCost,
+							" but weaponMoney min is ",
+							this.weaponMoney.min,
+							", so could end up weaponless."
+						});
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						return true;
+					}
+				}
+				IL_315:
+				if (!base.RaceProps.Humanlike && this.lifeStages.Count != base.RaceProps.lifeStageAges.Count)
+				{
+					this.$current = string.Concat(new object[]
+					{
+						"PawnKindDef defines ",
+						this.lifeStages.Count,
+						" lifeStages while race def defines ",
+						base.RaceProps.lifeStageAges.Count
+					});
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				goto IL_3BF;
+				IL_4BA:
+				if (j >= this.apparelRequired.Count)
+				{
+					i++;
+				}
+				else
+				{
+					if (!ApparelUtility.CanWearTogether(this.apparelRequired[i], this.apparelRequired[j], this.race.race.body))
+					{
+						this.$current = string.Concat(new object[]
+						{
+							"required apparel can't be worn together (",
+							this.apparelRequired[i],
+							", ",
+							this.apparelRequired[j],
+							")"
+						});
+						if (!this.$disposing)
+						{
+							this.$PC = 8;
+						}
+						return true;
+					}
+					goto IL_4AB;
+				}
+				IL_4E4:
+				if (i < this.apparelRequired.Count)
+				{
+					j = i + 1;
+					goto IL_4BA;
+				}
+				IL_500:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnKindDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new PawnKindDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+
+			private static float <>m__0(ThingDef d)
+			{
+				return PawnWeaponGenerator.CheapestNonDerpPriceFor(d);
+			}
+
+			private sealed class <ConfigErrors>c__AnonStorey1
+			{
+				internal int i;
+
+				internal PawnKindDef.<ConfigErrors>c__Iterator0 <>f__ref$0;
+
+				public <ConfigErrors>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(ThingDef d)
+				{
+					return d.weaponTags != null && d.weaponTags.Contains(this.<>f__ref$0.$this.weaponTags[this.i]);
+				}
+			}
 		}
 	}
 }

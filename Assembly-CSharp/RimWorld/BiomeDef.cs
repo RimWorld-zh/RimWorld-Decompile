@@ -1,135 +1,107 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200028F RID: 655
 	public class BiomeDef : Def
 	{
-		// Token: 0x0400056F RID: 1391
 		public Type workerClass = typeof(BiomeWorker);
 
-		// Token: 0x04000570 RID: 1392
 		public bool implemented = true;
 
-		// Token: 0x04000571 RID: 1393
 		public bool canBuildBase = true;
 
-		// Token: 0x04000572 RID: 1394
 		public bool canAutoChoose = true;
 
-		// Token: 0x04000573 RID: 1395
 		public bool allowRoads = true;
 
-		// Token: 0x04000574 RID: 1396
 		public bool allowRivers = true;
 
-		// Token: 0x04000575 RID: 1397
 		public float animalDensity = 0f;
 
-		// Token: 0x04000576 RID: 1398
 		public float plantDensity = 0f;
 
-		// Token: 0x04000577 RID: 1399
 		public float diseaseMtbDays = 60f;
 
-		// Token: 0x04000578 RID: 1400
 		public float factionBaseSelectionWeight = 1f;
 
-		// Token: 0x04000579 RID: 1401
 		public bool impassable;
 
-		// Token: 0x0400057A RID: 1402
 		public bool hasVirtualPlants = true;
 
-		// Token: 0x0400057B RID: 1403
 		public float forageability;
 
-		// Token: 0x0400057C RID: 1404
 		public ThingDef foragedFood;
 
-		// Token: 0x0400057D RID: 1405
 		public bool wildPlantsCareAboutLocalFertility = true;
 
-		// Token: 0x0400057E RID: 1406
 		public float wildPlantRegrowDays = 25f;
 
-		// Token: 0x0400057F RID: 1407
 		public float movementDifficulty = 1f;
 
-		// Token: 0x04000580 RID: 1408
 		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
 
-		// Token: 0x04000581 RID: 1409
 		public List<TerrainThreshold> terrainsByFertility = new List<TerrainThreshold>();
 
-		// Token: 0x04000582 RID: 1410
 		public List<SoundDef> soundsAmbient = new List<SoundDef>();
 
-		// Token: 0x04000583 RID: 1411
 		public List<TerrainPatchMaker> terrainPatchMakers = new List<TerrainPatchMaker>();
 
-		// Token: 0x04000584 RID: 1412
 		private List<BiomePlantRecord> wildPlants = new List<BiomePlantRecord>();
 
-		// Token: 0x04000585 RID: 1413
 		private List<BiomeAnimalRecord> wildAnimals = new List<BiomeAnimalRecord>();
 
-		// Token: 0x04000586 RID: 1414
 		private List<BiomeDiseaseRecord> diseases = new List<BiomeDiseaseRecord>();
 
-		// Token: 0x04000587 RID: 1415
 		private List<ThingDef> allowedPackAnimals = new List<ThingDef>();
 
-		// Token: 0x04000588 RID: 1416
 		public bool hasBedrock = true;
 
-		// Token: 0x04000589 RID: 1417
 		[NoTranslate]
 		public string texture;
 
-		// Token: 0x0400058A RID: 1418
 		[Unsaved]
 		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
 
-		// Token: 0x0400058B RID: 1419
 		[Unsaved]
 		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
 
-		// Token: 0x0400058C RID: 1420
 		[Unsaved]
 		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
 
-		// Token: 0x0400058D RID: 1421
 		[Unsaved]
 		private Material cachedMat;
 
-		// Token: 0x0400058E RID: 1422
 		[Unsaved]
 		private List<ThingDef> cachedWildPlants;
 
-		// Token: 0x0400058F RID: 1423
 		[Unsaved]
 		private int? cachedMaxWildPlantsClusterRadius;
 
-		// Token: 0x04000590 RID: 1424
 		[Unsaved]
 		private float cachedPlantCommonalitiesSum;
 
-		// Token: 0x04000591 RID: 1425
 		[Unsaved]
 		private float? cachedLowestWildPlantOrder;
 
-		// Token: 0x04000592 RID: 1426
 		[Unsaved]
 		private BiomeWorker workerInt;
 
-		// Token: 0x17000197 RID: 407
-		// (get) Token: 0x06000B05 RID: 2821 RVA: 0x00063EBC File Offset: 0x000622BC
+		[CompilerGenerated]
+		private static Func<KeyValuePair<ThingDef, float>, float> <>f__am$cache0;
+
+		public BiomeDef()
+		{
+		}
+
 		public BiomeWorker Worker
 		{
 			get
@@ -142,8 +114,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000198 RID: 408
-		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x00063EF8 File Offset: 0x000622F8
 		public Material DrawMaterial
 		{
 			get
@@ -172,8 +142,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000199 RID: 409
-		// (get) Token: 0x06000B07 RID: 2823 RVA: 0x00063FBC File Offset: 0x000623BC
 		public List<ThingDef> AllWildPlants
 		{
 			get
@@ -193,8 +161,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700019A RID: 410
-		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x00064064 File Offset: 0x00062464
 		public int MaxWildAndCavePlantsClusterRadius
 		{
 			get
@@ -224,8 +190,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700019B RID: 411
-		// (get) Token: 0x06000B09 RID: 2825 RVA: 0x00064188 File Offset: 0x00062588
 		public float LowestWildAndCavePlantOrder
 		{
 			get
@@ -252,8 +216,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700019C RID: 412
-		// (get) Token: 0x06000B0A RID: 2826 RVA: 0x00064298 File Offset: 0x00062698
 		public IEnumerable<PawnKindDef> AllWildAnimals
 		{
 			get
@@ -269,8 +231,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700019D RID: 413
-		// (get) Token: 0x06000B0B RID: 2827 RVA: 0x000642C4 File Offset: 0x000626C4
 		public float PlantCommonalitiesSum
 		{
 			get
@@ -280,7 +240,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B0C RID: 2828 RVA: 0x000642E8 File Offset: 0x000626E8
 		public float CommonalityOfAnimal(PawnKindDef animalDef)
 		{
 			if (this.cachedAnimalCommonalities == null)
@@ -317,7 +276,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0D RID: 2829 RVA: 0x00064440 File Offset: 0x00062840
 		public float CommonalityOfPlant(ThingDef plantDef)
 		{
 			this.CachePlantCommonalitiesIfShould();
@@ -334,13 +292,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0E RID: 2830 RVA: 0x0006447C File Offset: 0x0006287C
 		public float CommonalityPctOfPlant(ThingDef plantDef)
 		{
 			return this.CommonalityOfPlant(plantDef) / this.PlantCommonalitiesSum;
 		}
 
-		// Token: 0x06000B0F RID: 2831 RVA: 0x000644A0 File Offset: 0x000628A0
 		public float CommonalityOfDisease(IncidentDef diseaseInc)
 		{
 			if (this.cachedDiseaseCommonalities == null)
@@ -377,19 +333,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B10 RID: 2832 RVA: 0x000645F4 File Offset: 0x000629F4
 		public bool IsPackAnimalAllowed(ThingDef pawn)
 		{
 			return this.allowedPackAnimals.Contains(pawn);
 		}
 
-		// Token: 0x06000B11 RID: 2833 RVA: 0x00064618 File Offset: 0x00062A18
 		public static BiomeDef Named(string defName)
 		{
 			return DefDatabase<BiomeDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000B12 RID: 2834 RVA: 0x00064634 File Offset: 0x00062A34
 		private void CachePlantCommonalitiesIfShould()
 		{
 			if (this.cachedPlantCommonalities == null)
@@ -416,7 +369,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B13 RID: 2835 RVA: 0x00064798 File Offset: 0x00062B98
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -438,6 +390,362 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static float <CachePlantCommonalitiesIfShould>m__0(KeyValuePair<ThingDef, float> x)
+		{
+			return x.Value;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<PawnKindDef>, IEnumerator, IDisposable, IEnumerator<PawnKindDef>
+		{
+			internal IEnumerator<PawnKindDef> $locvar0;
+
+			internal PawnKindDef <kindDef>__1;
+
+			internal BiomeDef $this;
+
+			internal PawnKindDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = DefDatabase<PawnKindDef>.AllDefs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_98:
+						break;
+					}
+					if (enumerator.MoveNext())
+					{
+						kindDef = enumerator.Current;
+						if (base.CommonalityOfAnimal(kindDef) > 0f)
+						{
+							this.$current = kindDef;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_98;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			PawnKindDef IEnumerator<PawnKindDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.PawnKindDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<PawnKindDef> IEnumerable<PawnKindDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BiomeDef.<>c__Iterator0 <>c__Iterator = new BiomeDef.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator1 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal List<BiomeAnimalRecord>.Enumerator $locvar1;
+
+			internal BiomeDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private BiomeDef.<ConfigErrors>c__Iterator1.<ConfigErrors>c__AnonStorey2 $locvar2;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_DD;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!Prefs.DevMode)
+				{
+					goto IL_1AB;
+				}
+				enumerator2 = this.wildAnimals.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_DD:
+					switch (num)
+					{
+					case 2u:
+						IL_17E:
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						BiomeAnimalRecord wa = enumerator2.Current;
+						if (this.wildAnimals.Count((BiomeAnimalRecord a) => a.animal == wa.animal) > 1)
+						{
+							this.$current = "Duplicate animal record: " + wa.animal.defName;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_17E;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				IL_1AB:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BiomeDef.<ConfigErrors>c__Iterator1 <ConfigErrors>c__Iterator = new BiomeDef.<ConfigErrors>c__Iterator1();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+
+			private sealed class <ConfigErrors>c__AnonStorey2
+			{
+				internal BiomeAnimalRecord wa;
+
+				internal BiomeDef.<ConfigErrors>c__Iterator1 <>f__ref$1;
+
+				public <ConfigErrors>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(BiomeAnimalRecord a)
+				{
+					return a.animal == this.wa.animal;
+				}
+			}
 		}
 	}
 }

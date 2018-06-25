@@ -1,32 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E84 RID: 3716
 	public class Listing_TreeThingFilter : Listing_Tree
 	{
-		// Token: 0x040039FA RID: 14842
 		private ThingFilter filter;
 
-		// Token: 0x040039FB RID: 14843
 		private ThingFilter parentFilter;
 
-		// Token: 0x040039FC RID: 14844
 		private List<SpecialThingFilterDef> hiddenSpecialFilters;
 
-		// Token: 0x040039FD RID: 14845
 		private List<ThingDef> forceHiddenDefs = null;
 
-		// Token: 0x040039FE RID: 14846
 		private List<SpecialThingFilterDef> tempForceHiddenSpecialFilters;
 
-		// Token: 0x040039FF RID: 14847
 		private List<ThingDef> suppressSmallVolumeTags;
 
-		// Token: 0x060057AB RID: 22443 RVA: 0x002D018C File Offset: 0x002CE58C
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache0;
+
 		public Listing_TreeThingFilter(ThingFilter filter, ThingFilter parentFilter, IEnumerable<ThingDef> forceHiddenDefs, IEnumerable<SpecialThingFilterDef> forceHiddenFilters, List<ThingDef> suppressSmallVolumeTags)
 		{
 			this.filter = filter;
@@ -42,7 +38,6 @@ namespace Verse
 			this.suppressSmallVolumeTags = suppressSmallVolumeTags;
 		}
 
-		// Token: 0x060057AC RID: 22444 RVA: 0x002D01E4 File Offset: 0x002CE5E4
 		public void DoCategoryChildren(TreeNode_ThingCategory node, int indentLevel, int openMask, Map map, bool isRoot = false)
 		{
 			if (isRoot)
@@ -81,7 +76,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057AD RID: 22445 RVA: 0x002D0390 File Offset: 0x002CE790
 		private void DoSpecialFilter(SpecialThingFilterDef sfDef, int nestLevel)
 		{
 			if (sfDef.configurable)
@@ -98,7 +92,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057AE RID: 22446 RVA: 0x002D0418 File Offset: 0x002CE818
 		public void DoCategory(TreeNode_ThingCategory node, int indentLevel, int openMask, Map map)
 		{
 			base.OpenCloseWidget(node, indentLevel, openMask);
@@ -116,7 +109,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057AF RID: 22447 RVA: 0x002D04C0 File Offset: 0x002CE8C0
 		private void DoThingDef(ThingDef tDef, int nestLevel, Map map)
 		{
 			bool flag = (this.suppressSmallVolumeTags == null || !this.suppressSmallVolumeTags.Contains(tDef)) && tDef.IsStuff && tDef.smallVolume;
@@ -161,7 +153,6 @@ namespace Verse
 			base.EndLine();
 		}
 
-		// Token: 0x060057B0 RID: 22448 RVA: 0x002D0664 File Offset: 0x002CEA64
 		public MultiCheckboxState AllowanceStateOf(TreeNode_ThingCategory cat)
 		{
 			int num = 0;
@@ -202,7 +193,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057B1 RID: 22449 RVA: 0x002D0794 File Offset: 0x002CEB94
 		private bool Visible(ThingDef td)
 		{
 			bool result;
@@ -232,13 +222,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057B2 RID: 22450 RVA: 0x002D081C File Offset: 0x002CEC1C
 		private bool Visible(TreeNode_ThingCategory node)
 		{
 			return node.catDef.DescendantThingDefs.Any(new Func<ThingDef, bool>(this.Visible));
 		}
 
-		// Token: 0x060057B3 RID: 22451 RVA: 0x002D0850 File Offset: 0x002CEC50
 		private bool Visible(SpecialThingFilterDef filter)
 		{
 			bool result;
@@ -264,7 +252,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057B4 RID: 22452 RVA: 0x002D08D4 File Offset: 0x002CECD4
 		private void CalculateHiddenSpecialFilters()
 		{
 			this.hiddenSpecialFilters = new List<SpecialThingFilterDef>();
@@ -296,6 +283,18 @@ namespace Verse
 					this.hiddenSpecialFilters.Add(specialThingFilterDef);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static string <DoCategoryChildren>m__0(ThingDef n)
+		{
+			return n.label;
+		}
+
+		[CompilerGenerated]
+		private bool <CalculateHiddenSpecialFilters>m__1(ThingDef x)
+		{
+			return this.parentFilter.Allows(x);
 		}
 	}
 }

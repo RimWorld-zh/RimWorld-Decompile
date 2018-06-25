@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200097A RID: 2426
 	public static class FacilitiesUtility
 	{
-		// Token: 0x04002337 RID: 9015
 		private const float MaxDistToLinkToFacilityEver = 10f;
 
-		// Token: 0x04002338 RID: 9016
 		private static int RegionsToSearch = (1 + 2 * Mathf.CeilToInt(0.8333333f)) * (1 + 2 * Mathf.CeilToInt(0.8333333f));
 
-		// Token: 0x04002339 RID: 9017
 		private static HashSet<Region> visited = new HashSet<Region>();
 
-		// Token: 0x0400233A RID: 9018
 		private static HashSet<Thing> processed = new HashSet<Thing>();
 
-		// Token: 0x0400233B RID: 9019
 		private static bool working;
 
-		// Token: 0x0600368A RID: 13962 RVA: 0x001D1764 File Offset: 0x001CFB64
+		[CompilerGenerated]
+		private static RegionEntryPredicate <>f__am$cache0;
+
 		public static void NotifyFacilitiesAboutChangedLOSBlockers(List<Region> affectedRegions)
 		{
 			if (affectedRegions.Any<Region>())
@@ -89,6 +86,59 @@ namespace RimWorld
 						FacilitiesUtility.processed.Clear();
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FacilitiesUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <NotifyFacilitiesAboutChangedLOSBlockers>m__0(Region from, Region r)
+		{
+			return !FacilitiesUtility.visited.Contains(r);
+		}
+
+		[CompilerGenerated]
+		private sealed class <NotifyFacilitiesAboutChangedLOSBlockers>c__AnonStorey0
+		{
+			internal int facilitiesProcessed;
+
+			internal int affectedByFacilitiesProcessed;
+
+			internal int facilitiesToProcess;
+
+			internal int affectedByFacilitiesToProcess;
+
+			public <NotifyFacilitiesAboutChangedLOSBlockers>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region x)
+			{
+				FacilitiesUtility.visited.Add(x);
+				List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (!FacilitiesUtility.processed.Contains(list[i]))
+					{
+						FacilitiesUtility.processed.Add(list[i]);
+						CompFacility compFacility = list[i].TryGetComp<CompFacility>();
+						CompAffectedByFacilities compAffectedByFacilities = list[i].TryGetComp<CompAffectedByFacilities>();
+						if (compFacility != null)
+						{
+							compFacility.Notify_LOSBlockerSpawnedOrDespawned();
+							this.facilitiesProcessed++;
+						}
+						if (compAffectedByFacilities != null)
+						{
+							compAffectedByFacilities.Notify_LOSBlockerSpawnedOrDespawned();
+							this.affectedByFacilitiesProcessed++;
+						}
+					}
+				}
+				return this.facilitiesProcessed >= this.facilitiesToProcess && this.affectedByFacilitiesProcessed >= this.affectedByFacilitiesToProcess;
 			}
 		}
 	}

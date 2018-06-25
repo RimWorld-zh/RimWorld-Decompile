@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001A2 RID: 418
 	internal class Quads
 	{
-		// Token: 0x04000832 RID: 2098
 		private static Mesh[] meshes;
 
-		// Token: 0x04000833 RID: 2099
 		private static int currentQuads = 0;
 
-		// Token: 0x0600094F RID: 2383 RVA: 0x00017DA0 File Offset: 0x00015FA0
+		public Quads()
+		{
+		}
+
 		private static bool HasMeshes()
 		{
 			bool result;
@@ -34,7 +34,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000950 RID: 2384 RVA: 0x00017DFC File Offset: 0x00015FFC
 		public static void Cleanup()
 		{
 			if (Quads.meshes != null)
@@ -51,7 +50,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000951 RID: 2385 RVA: 0x00017E64 File Offset: 0x00016064
 		public static Mesh[] GetMeshes(int totalWidth, int totalHeight)
 		{
 			Mesh[] result;
@@ -78,7 +76,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x06000952 RID: 2386 RVA: 0x00017F20 File Offset: 0x00016120
 		private static Mesh GetMesh(int triCount, int triOffset, int totalWidth, int totalHeight)
 		{
 			Mesh mesh = new Mesh();
@@ -119,6 +116,11 @@ namespace UnityStandardAssets.ImageEffects
 			mesh.uv = array2;
 			mesh.uv2 = array3;
 			return mesh;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Quads()
+		{
 		}
 	}
 }

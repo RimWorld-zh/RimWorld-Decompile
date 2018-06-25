@@ -1,36 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000AA RID: 170
 	public class JobGiver_AnimalFlee : ThinkNode_JobGiver
 	{
-		// Token: 0x04000276 RID: 630
 		private const int FleeDistance = 24;
 
-		// Token: 0x04000277 RID: 631
 		private const int DistToDangerToFlee = 18;
 
-		// Token: 0x04000278 RID: 632
 		private const int DistToFireToFlee = 10;
 
-		// Token: 0x04000279 RID: 633
 		private const int MinFiresNearbyToFlee = 60;
 
-		// Token: 0x0400027A RID: 634
 		private const int MinFiresNearbyRadius = 20;
 
-		// Token: 0x0400027B RID: 635
 		private const int MinFiresNearbyRegionsToScan = 18;
 
-		// Token: 0x0400027C RID: 636
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06000421 RID: 1057 RVA: 0x0003164C File Offset: 0x0002FA4C
+		public JobGiver_AnimalFlee()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -91,7 +87,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000422 RID: 1058 RVA: 0x000317F0 File Offset: 0x0002FBF0
 		private Job FleeJob(Pawn pawn, Thing danger)
 		{
 			IntVec3 intVec;
@@ -118,7 +113,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000423 RID: 1059 RVA: 0x0003189C File Offset: 0x0002FC9C
 		private Job FleeLargeFireJob(Pawn pawn)
 		{
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Fire);
@@ -162,6 +156,53 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_AnimalFlee()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FleeLargeFireJob>c__AnonStorey0
+		{
+			internal TraverseParms tp;
+
+			internal Pawn pawn;
+
+			internal Fire closestFire;
+
+			internal float closestDistSq;
+
+			internal int firesCount;
+
+			public <FleeLargeFireJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region to)
+			{
+				return to.Allows(this.tp, false);
+			}
+
+			internal bool <>m__1(Region x)
+			{
+				List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Fire);
+				for (int i = 0; i < list.Count; i++)
+				{
+					float num = (float)this.pawn.Position.DistanceToSquared(list[i].Position);
+					if (num <= 400f)
+					{
+						if (this.closestFire == null || num < this.closestDistSq)
+						{
+							this.closestDistSq = num;
+							this.closestFire = (Fire)list[i];
+						}
+						this.firesCount++;
+					}
+				}
+				return this.closestDistSq <= 100f && this.firesCount >= 60;
+			}
 		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A58 RID: 2648
 	public static class CorpseObsessionMentalStateUtility
 	{
-		// Token: 0x06003AF4 RID: 15092 RVA: 0x001F4B4C File Offset: 0x001F2F4C
 		public static Corpse GetClosestCorpseToDigUp(Pawn pawn)
 		{
 			Corpse result;
@@ -26,7 +25,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AF5 RID: 15093 RVA: 0x001F4BE8 File Offset: 0x001F2FE8
 		public static bool IsCorpseValid(Corpse corpse, Pawn pawn, bool ignoreReachability = false)
 		{
 			bool result;
@@ -48,6 +46,22 @@ namespace Verse.AI
 				result = (building_Grave != null && building_Grave.Spawned && pawn.CanReserve(building_Grave, 1, -1, null, false) && (ignoreReachability || pawn.CanReach(building_Grave, PathEndMode.InteractionCell, Danger.Deadly, false, TraverseMode.ByPawn)));
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetClosestCorpseToDigUp>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <GetClosestCorpseToDigUp>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				Building_Grave building_Grave = (Building_Grave)x;
+				return building_Grave.HasCorpse && CorpseObsessionMentalStateUtility.IsCorpseValid(building_Grave.Corpse, this.pawn, true);
+			}
 		}
 	}
 }

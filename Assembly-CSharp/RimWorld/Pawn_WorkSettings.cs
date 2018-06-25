@@ -1,54 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020001B2 RID: 434
 	public class Pawn_WorkSettings : IExposable
 	{
-		// Token: 0x040003C5 RID: 965
 		private Pawn pawn;
 
-		// Token: 0x040003C6 RID: 966
 		private DefMap<WorkTypeDef, int> priorities = null;
 
-		// Token: 0x040003C7 RID: 967
 		private bool workGiversDirty = true;
 
-		// Token: 0x040003C8 RID: 968
 		private List<WorkGiver> workGiversInOrderEmerg = new List<WorkGiver>();
 
-		// Token: 0x040003C9 RID: 969
 		private List<WorkGiver> workGiversInOrderNormal = new List<WorkGiver>();
 
-		// Token: 0x040003CA RID: 970
 		public const int LowestPriority = 4;
 
-		// Token: 0x040003CB RID: 971
 		public const int DefaultPriority = 3;
 
-		// Token: 0x040003CC RID: 972
 		private const int MaxInitialActiveWorks = 6;
 
-		// Token: 0x040003CD RID: 973
 		private static List<WorkTypeDef> wtsByPrio = new List<WorkTypeDef>();
 
-		// Token: 0x060008E3 RID: 2275 RVA: 0x00053B05 File Offset: 0x00051F05
+		[CompilerGenerated]
+		private static Func<WorkTypeDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<WorkGiverDef> <>f__am$cache1;
+
 		public Pawn_WorkSettings()
 		{
 		}
 
-		// Token: 0x060008E4 RID: 2276 RVA: 0x00053B32 File Offset: 0x00051F32
 		public Pawn_WorkSettings(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x1700016F RID: 367
-		// (get) Token: 0x060008E5 RID: 2277 RVA: 0x00053B68 File Offset: 0x00051F68
 		public bool EverWork
 		{
 			get
@@ -57,8 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000170 RID: 368
-		// (get) Token: 0x060008E6 RID: 2278 RVA: 0x00053B8C File Offset: 0x00051F8C
 		public List<WorkGiver> WorkGiversInOrderNormal
 		{
 			get
@@ -71,8 +62,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000171 RID: 369
-		// (get) Token: 0x060008E7 RID: 2279 RVA: 0x00053BB8 File Offset: 0x00051FB8
 		public List<WorkGiver> WorkGiversInOrderEmergency
 		{
 			get
@@ -85,7 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008E8 RID: 2280 RVA: 0x00053BE4 File Offset: 0x00051FE4
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<DefMap<WorkTypeDef, int>>(ref this.priorities, "priorities", new object[0]);
@@ -99,7 +87,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008E9 RID: 2281 RVA: 0x00053C57 File Offset: 0x00052057
 		public void EnableAndInitializeIfNotAlreadyInitialized()
 		{
 			if (this.priorities == null)
@@ -108,7 +95,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008EA RID: 2282 RVA: 0x00053C6C File Offset: 0x0005206C
 		public void EnableAndInitialize()
 		{
 			if (this.priorities == null)
@@ -144,7 +130,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008EB RID: 2283 RVA: 0x00053E04 File Offset: 0x00052204
 		private void ConfirmInitializedDebug()
 		{
 			if (this.priorities == null)
@@ -154,7 +139,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008EC RID: 2284 RVA: 0x00053E30 File Offset: 0x00052230
 		public void SetPriority(WorkTypeDef w, int priority)
 		{
 			this.ConfirmInitializedDebug();
@@ -183,7 +167,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008ED RID: 2285 RVA: 0x00053EE8 File Offset: 0x000522E8
 		public int GetPriority(WorkTypeDef w)
 		{
 			this.ConfirmInitializedDebug();
@@ -200,21 +183,18 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060008EE RID: 2286 RVA: 0x00053F30 File Offset: 0x00052330
 		public bool WorkIsActive(WorkTypeDef w)
 		{
 			this.ConfirmInitializedDebug();
 			return this.GetPriority(w) > 0;
 		}
 
-		// Token: 0x060008EF RID: 2287 RVA: 0x00053F55 File Offset: 0x00052355
 		public void Disable(WorkTypeDef w)
 		{
 			this.ConfirmInitializedDebug();
 			this.SetPriority(w, 0);
 		}
 
-		// Token: 0x060008F0 RID: 2288 RVA: 0x00053F66 File Offset: 0x00052366
 		public void DisableAll()
 		{
 			this.ConfirmInitializedDebug();
@@ -222,13 +202,11 @@ namespace RimWorld
 			this.workGiversDirty = true;
 		}
 
-		// Token: 0x060008F1 RID: 2289 RVA: 0x00053F82 File Offset: 0x00052382
 		public void Notify_UseWorkPrioritiesChanged()
 		{
 			this.workGiversDirty = true;
 		}
 
-		// Token: 0x060008F2 RID: 2290 RVA: 0x00053F8C File Offset: 0x0005238C
 		public void Notify_GainedTrait()
 		{
 			if (this.priorities != null)
@@ -240,7 +218,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008F3 RID: 2291 RVA: 0x00054008 File Offset: 0x00052408
 		private void CacheWorkGiversInOrder()
 		{
 			Pawn_WorkSettings.wtsByPrio.Clear();
@@ -296,7 +273,6 @@ namespace RimWorld
 			this.workGiversDirty = false;
 		}
 
-		// Token: 0x060008F4 RID: 2292 RVA: 0x00054210 File Offset: 0x00052610
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -326,7 +302,6 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060008F5 RID: 2293 RVA: 0x00054328 File Offset: 0x00052728
 		private string DebugStringFor(WorkGiverDef wg)
 		{
 			return string.Concat(new object[]
@@ -341,6 +316,42 @@ namespace RimWorld
 				wg.priorityInType,
 				")"
 			});
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Pawn_WorkSettings()
+		{
+		}
+
+		[CompilerGenerated]
+		private bool <EnableAndInitialize>m__0(WorkTypeDef w)
+		{
+			return !w.alwaysStartActive && !this.pawn.story.WorkTypeIsDisabled(w);
+		}
+
+		[CompilerGenerated]
+		private float <EnableAndInitialize>m__1(WorkTypeDef w)
+		{
+			return this.pawn.skills.AverageOfRelevantSkillsFor(w);
+		}
+
+		[CompilerGenerated]
+		private static bool <EnableAndInitialize>m__2(WorkTypeDef w)
+		{
+			return w.alwaysStartActive;
+		}
+
+		[CompilerGenerated]
+		private static bool <CacheWorkGiversInOrder>m__3(WorkGiverDef wg)
+		{
+			return !wg.emergency;
+		}
+
+		[CompilerGenerated]
+		private int <CacheWorkGiversInOrder>m__4(WorkTypeDef a, WorkTypeDef b)
+		{
+			float value = (float)(a.naturalPriority + (4 - this.GetPriority(a)) * 100000);
+			return ((float)(b.naturalPriority + (4 - this.GetPriority(b)) * 100000)).CompareTo(value);
 		}
 	}
 }

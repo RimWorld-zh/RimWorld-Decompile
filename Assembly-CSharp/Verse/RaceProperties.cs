@@ -1,190 +1,136 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B25 RID: 2853
 	public class RaceProperties
 	{
-		// Token: 0x04002885 RID: 10373
 		public Intelligence intelligence = Intelligence.Animal;
 
-		// Token: 0x04002886 RID: 10374
 		private FleshTypeDef fleshType = null;
 
-		// Token: 0x04002887 RID: 10375
 		private ThingDef bloodDef = null;
 
-		// Token: 0x04002888 RID: 10376
 		public bool hasGenders = true;
 
-		// Token: 0x04002889 RID: 10377
 		public bool needsRest = true;
 
-		// Token: 0x0400288A RID: 10378
 		public ThinkTreeDef thinkTreeMain;
 
-		// Token: 0x0400288B RID: 10379
 		public ThinkTreeDef thinkTreeConstant;
 
-		// Token: 0x0400288C RID: 10380
 		public PawnNameCategory nameCategory = PawnNameCategory.NoName;
 
-		// Token: 0x0400288D RID: 10381
 		public FoodTypeFlags foodType = FoodTypeFlags.None;
 
-		// Token: 0x0400288E RID: 10382
 		public BodyDef body = null;
 
-		// Token: 0x0400288F RID: 10383
 		public Type deathActionWorkerClass;
 
-		// Token: 0x04002890 RID: 10384
 		public List<AnimalBiomeRecord> wildBiomes = null;
 
-		// Token: 0x04002891 RID: 10385
 		public SimpleCurve ageGenerationCurve = null;
 
-		// Token: 0x04002892 RID: 10386
 		public bool makesFootprints = false;
 
-		// Token: 0x04002893 RID: 10387
 		public int executionRange = 2;
 
-		// Token: 0x04002894 RID: 10388
 		public float lifeExpectancy = 10f;
 
-		// Token: 0x04002895 RID: 10389
 		public List<HediffGiverSetDef> hediffGiverSets = null;
 
-		// Token: 0x04002896 RID: 10390
 		public bool herdAnimal = false;
 
-		// Token: 0x04002897 RID: 10391
 		public bool packAnimal = false;
 
-		// Token: 0x04002898 RID: 10392
 		public bool predator = false;
 
-		// Token: 0x04002899 RID: 10393
 		public float maxPreyBodySize = 99999f;
 
-		// Token: 0x0400289A RID: 10394
 		public float wildness = 0f;
 
-		// Token: 0x0400289B RID: 10395
 		public float petness = 0f;
 
-		// Token: 0x0400289C RID: 10396
 		public float nuzzleMtbHours = -1f;
 
-		// Token: 0x0400289D RID: 10397
 		public float manhunterOnDamageChance = 0f;
 
-		// Token: 0x0400289E RID: 10398
 		public float manhunterOnTameFailChance = 0f;
 
-		// Token: 0x0400289F RID: 10399
 		public bool canBePredatorPrey = true;
 
-		// Token: 0x040028A0 RID: 10400
 		public bool herdMigrationAllowed = true;
 
-		// Token: 0x040028A1 RID: 10401
 		public float gestationPeriodDays = 10f;
 
-		// Token: 0x040028A2 RID: 10402
 		public SimpleCurve litterSizeCurve = null;
 
-		// Token: 0x040028A3 RID: 10403
 		public float mateMtbHours = 12f;
 
-		// Token: 0x040028A4 RID: 10404
 		[NoTranslate]
 		public List<string> untrainableTags = null;
 
-		// Token: 0x040028A5 RID: 10405
 		[NoTranslate]
 		public List<string> trainableTags = null;
 
-		// Token: 0x040028A6 RID: 10406
 		public TrainabilityDef trainability = null;
 
-		// Token: 0x040028A7 RID: 10407
 		private RulePackDef nameGenerator;
 
-		// Token: 0x040028A8 RID: 10408
 		private RulePackDef nameGeneratorFemale;
 
-		// Token: 0x040028A9 RID: 10409
 		public float nameOnTameChance = 0f;
 
-		// Token: 0x040028AA RID: 10410
 		public float nameOnNuzzleChance = 0f;
 
-		// Token: 0x040028AB RID: 10411
 		public float baseBodySize = 1f;
 
-		// Token: 0x040028AC RID: 10412
 		public float baseHealthScale = 1f;
 
-		// Token: 0x040028AD RID: 10413
 		public float baseHungerRate = 1f;
 
-		// Token: 0x040028AE RID: 10414
 		public List<LifeStageAge> lifeStageAges = new List<LifeStageAge>();
 
-		// Token: 0x040028AF RID: 10415
 		[MustTranslate]
 		public string meatLabel = null;
 
-		// Token: 0x040028B0 RID: 10416
 		public Color meatColor;
 
-		// Token: 0x040028B1 RID: 10417
 		public ThingDef useMeatFrom;
 
-		// Token: 0x040028B2 RID: 10418
 		public ThingDef useLeatherFrom;
 
-		// Token: 0x040028B3 RID: 10419
 		public ShadowData specialShadowData;
 
-		// Token: 0x040028B4 RID: 10420
 		public IntRange soundCallIntervalRange;
 
-		// Token: 0x040028B5 RID: 10421
 		public SoundDef soundMeleeHitPawn;
 
-		// Token: 0x040028B6 RID: 10422
 		public SoundDef soundMeleeHitBuilding;
 
-		// Token: 0x040028B7 RID: 10423
 		public SoundDef soundMeleeMiss;
 
-		// Token: 0x040028B8 RID: 10424
 		[Unsaved]
 		private DeathActionWorker deathActionWorkerInt;
 
-		// Token: 0x040028B9 RID: 10425
 		[Unsaved]
 		public ThingDef meatDef;
 
-		// Token: 0x040028BA RID: 10426
 		[Unsaved]
 		public ThingDef leatherDef;
 
-		// Token: 0x040028BB RID: 10427
 		[Unsaved]
 		public ThingDef corpseDef;
 
-		// Token: 0x040028BC RID: 10428
 		[Unsaved]
 		private PawnKindDef cachedAnyPawnKind;
 
-		// Token: 0x06003ED2 RID: 16082 RVA: 0x002117C0 File Offset: 0x0020FBC0
 		public RaceProperties()
 		{
 			ColorInt colorInt = new ColorInt(141, 56, 52);
@@ -203,8 +149,6 @@ namespace Verse
 			base..ctor();
 		}
 
-		// Token: 0x1700097A RID: 2426
-		// (get) Token: 0x06003ED3 RID: 16083 RVA: 0x00211994 File Offset: 0x0020FD94
 		public bool Humanlike
 		{
 			get
@@ -213,8 +157,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700097B RID: 2427
-		// (get) Token: 0x06003ED4 RID: 16084 RVA: 0x002119B8 File Offset: 0x0020FDB8
 		public bool ToolUser
 		{
 			get
@@ -223,8 +165,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700097C RID: 2428
-		// (get) Token: 0x06003ED5 RID: 16085 RVA: 0x002119DC File Offset: 0x0020FDDC
 		public bool Animal
 		{
 			get
@@ -233,8 +173,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700097D RID: 2429
-		// (get) Token: 0x06003ED6 RID: 16086 RVA: 0x00211A08 File Offset: 0x0020FE08
 		public bool EatsFood
 		{
 			get
@@ -243,8 +181,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700097E RID: 2430
-		// (get) Token: 0x06003ED7 RID: 16087 RVA: 0x00211A2C File Offset: 0x0020FE2C
 		public float FoodLevelPercentageWantEat
 		{
 			get
@@ -277,8 +213,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700097F RID: 2431
-		// (get) Token: 0x06003ED8 RID: 16088 RVA: 0x00211AB0 File Offset: 0x0020FEB0
 		public DietCategory ResolvedDietCategory
 		{
 			get
@@ -315,8 +249,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000980 RID: 2432
-		// (get) Token: 0x06003ED9 RID: 16089 RVA: 0x00211B38 File Offset: 0x0020FF38
 		public DeathActionWorker DeathActionWorker
 		{
 			get
@@ -336,8 +268,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000981 RID: 2433
-		// (get) Token: 0x06003EDA RID: 16090 RVA: 0x00211B94 File Offset: 0x0020FF94
 		public FleshTypeDef FleshType
 		{
 			get
@@ -355,8 +285,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000982 RID: 2434
-		// (get) Token: 0x06003EDB RID: 16091 RVA: 0x00211BC8 File Offset: 0x0020FFC8
 		public bool IsMechanoid
 		{
 			get
@@ -365,8 +293,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000983 RID: 2435
-		// (get) Token: 0x06003EDC RID: 16092 RVA: 0x00211BEC File Offset: 0x0020FFEC
 		public bool IsFlesh
 		{
 			get
@@ -375,8 +301,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000984 RID: 2436
-		// (get) Token: 0x06003EDD RID: 16093 RVA: 0x00211C14 File Offset: 0x00210014
 		public ThingDef BloodDef
 		{
 			get
@@ -398,8 +322,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000985 RID: 2437
-		// (get) Token: 0x06003EDE RID: 16094 RVA: 0x00211C58 File Offset: 0x00210058
 		public bool CanDoHerdMigration
 		{
 			get
@@ -408,8 +330,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000986 RID: 2438
-		// (get) Token: 0x06003EDF RID: 16095 RVA: 0x00211C84 File Offset: 0x00210084
 		public PawnKindDef AnyPawnKind
 		{
 			get
@@ -430,7 +350,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EE0 RID: 16096 RVA: 0x00211CF8 File Offset: 0x002100F8
 		public RulePackDef GetNameGenerator(Gender gender)
 		{
 			RulePackDef result;
@@ -445,31 +364,26 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EE1 RID: 16097 RVA: 0x00211D34 File Offset: 0x00210134
 		public bool WillAutomaticallyEat(Thing t)
 		{
 			return t.def.ingestible != null && this.CanEverEat(t);
 		}
 
-		// Token: 0x06003EE2 RID: 16098 RVA: 0x00211D74 File Offset: 0x00210174
 		public bool CanEverEat(Thing t)
 		{
 			return this.CanEverEat(t.def);
 		}
 
-		// Token: 0x06003EE3 RID: 16099 RVA: 0x00211D98 File Offset: 0x00210198
 		public bool CanEverEat(ThingDef t)
 		{
 			return this.EatsFood && t.ingestible != null && t.ingestible.preferability != FoodPreferability.Undefined && this.Eats(t.ingestible.foodType);
 		}
 
-		// Token: 0x06003EE4 RID: 16100 RVA: 0x00211DFC File Offset: 0x002101FC
 		public bool Eats(FoodTypeFlags food)
 		{
 			return this.EatsFood && (this.foodType & food) != FoodTypeFlags.None;
 		}
 
-		// Token: 0x06003EE5 RID: 16101 RVA: 0x00211E34 File Offset: 0x00210234
 		public void ResolveReferencesSpecial()
 		{
 			if (this.useMeatFrom != null)
@@ -482,7 +396,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EE6 RID: 16102 RVA: 0x00211E84 File Offset: 0x00210284
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.soundMeleeHitPawn == null)
@@ -561,7 +474,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003EE7 RID: 16103 RVA: 0x00211EB0 File Offset: 0x002102B0
 		public IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");
@@ -615,6 +527,542 @@ namespace Verse
 				};
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal int <i>__1;
+
+			internal int <j>__2;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__3;
+
+			internal RaceProperties $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.soundMeleeHitPawn == null)
+					{
+						this.$current = "soundMeleeHitPawn is null";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_B2;
+				case 3u:
+					goto IL_E1;
+				case 4u:
+					goto IL_121;
+				case 5u:
+					IL_195:
+					j++;
+					goto IL_1A4;
+				case 6u:
+					Block_16:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							e = enumerator.Current;
+							this.$current = e;
+							if (!this.$disposing)
+							{
+								this.$PC = 6;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					goto IL_28B;
+				case 7u:
+					IL_2CF:
+					if (base.Animal && this.wildness < 0f)
+					{
+						this.$current = "is animal but wildness is not defined";
+						if (!this.$disposing)
+						{
+							this.$PC = 8;
+						}
+						return true;
+					}
+					goto IL_313;
+				case 8u:
+					goto IL_313;
+				case 9u:
+					goto IL_369;
+				case 10u:
+					goto IL_3EF;
+				case 11u:
+					goto IL_445;
+				case 12u:
+					goto IL_4CB;
+				case 13u:
+					goto IL_50B;
+				default:
+					return false;
+				}
+				if (this.soundMeleeHitBuilding == null)
+				{
+					this.$current = "soundMeleeHitBuilding is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_B2:
+				if (this.soundMeleeMiss == null)
+				{
+					this.$current = "soundMeleeMiss is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_E1:
+				if (this.predator && !base.Eats(FoodTypeFlags.Meat))
+				{
+					this.$current = "predator but doesn't eat meat";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_121:
+				i = 0;
+				goto IL_1C4;
+				IL_1A4:
+				if (j >= i)
+				{
+					i++;
+				}
+				else
+				{
+					if (this.lifeStageAges[j].minAge > this.lifeStageAges[i].minAge)
+					{
+						this.$current = "lifeStages minAges are not in ascending order";
+						if (!this.$disposing)
+						{
+							this.$PC = 5;
+						}
+						return true;
+					}
+					goto IL_195;
+				}
+				IL_1C4:
+				if (i < this.lifeStageAges.Count)
+				{
+					j = 0;
+					goto IL_1A4;
+				}
+				if (this.litterSizeCurve != null)
+				{
+					enumerator = this.litterSizeCurve.ConfigErrors("litterSizeCurve").GetEnumerator();
+					num = 4294967293u;
+					goto Block_16;
+				}
+				IL_28B:
+				if (this.nameOnTameChance > 0f && this.nameGenerator == null)
+				{
+					this.$current = "can be named, but has no nameGenerator";
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				goto IL_2CF;
+				IL_313:
+				if (this.useMeatFrom != null && this.useMeatFrom.category != ThingCategory.Pawn)
+				{
+					this.$current = "tries to use meat from non-pawn " + this.useMeatFrom;
+					if (!this.$disposing)
+					{
+						this.$PC = 9;
+					}
+					return true;
+				}
+				IL_369:
+				if (this.useMeatFrom != null && this.useMeatFrom.race.useMeatFrom != null)
+				{
+					this.$current = string.Concat(new object[]
+					{
+						"tries to use meat from ",
+						this.useMeatFrom,
+						" which uses meat from ",
+						this.useMeatFrom.race.useMeatFrom
+					});
+					if (!this.$disposing)
+					{
+						this.$PC = 10;
+					}
+					return true;
+				}
+				IL_3EF:
+				if (this.useLeatherFrom != null && this.useLeatherFrom.category != ThingCategory.Pawn)
+				{
+					this.$current = "tries to use leather from non-pawn " + this.useLeatherFrom;
+					if (!this.$disposing)
+					{
+						this.$PC = 11;
+					}
+					return true;
+				}
+				IL_445:
+				if (this.useLeatherFrom != null && this.useLeatherFrom.race.useLeatherFrom != null)
+				{
+					this.$current = string.Concat(new object[]
+					{
+						"tries to use leather from ",
+						this.useLeatherFrom,
+						" which uses leather from ",
+						this.useLeatherFrom.race.useLeatherFrom
+					});
+					if (!this.$disposing)
+					{
+						this.$PC = 12;
+					}
+					return true;
+				}
+				IL_4CB:
+				if (base.Animal && this.trainability == null)
+				{
+					this.$current = "animal has trainability = null";
+					if (!this.$disposing)
+					{
+						this.$PC = 13;
+					}
+					return true;
+				}
+				IL_50B:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 6u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RaceProperties.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new RaceProperties.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal ThingDef parentDef;
+
+			internal StatDrawEntry <we>__1;
+
+			internal StatDrawEntry <hrc>__2;
+
+			internal StatDrawEntry <af>__3;
+
+			internal StatDrawEntry <pa>__4;
+
+			internal StatDrawEntry <nuzzle>__5;
+
+			internal RaceProperties $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					if (parentDef.race.leatherDef != null)
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LeatherType".Translate(), parentDef.race.leatherDef.LabelCap, 0, "");
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+					break;
+				case 3u:
+					break;
+				case 4u:
+					goto IL_1C8;
+				case 5u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					goto IL_2B1;
+				case 7u:
+					IL_316:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				case 8u:
+					if (this.intelligence < Intelligence.Humanlike)
+					{
+						StatDrawEntry af = new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), (PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000f).ToString("F2"), 0, "");
+						af.overrideReportText = "AnimalFilthRateExplanation".Translate(new object[]
+						{
+							1000.ToString()
+						});
+						this.$current = af;
+						if (!this.$disposing)
+						{
+							this.$PC = 9;
+						}
+						return true;
+					}
+					goto IL_40F;
+				case 9u:
+					goto IL_40F;
+				case 10u:
+					goto IL_481;
+				case 11u:
+					goto IL_513;
+				default:
+					return false;
+				}
+				if (parentDef.race.Animal || this.wildness > 0f)
+				{
+					StatDrawEntry we = new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0, "");
+					we.overrideReportText = TrainableUtility.GetWildnessExplanation(parentDef);
+					this.$current = we;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_1C8:
+				if (PawnUtility.GetManhunterOnDamageChance(parentDef.race) > 0f || parentDef.race.manhunterOnTameFailChance > 0f)
+				{
+					StatDrawEntry hrc = new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "");
+					hrc.overrideReportText = "HarmedRevengeChanceExplanation".Translate();
+					this.$current = hrc;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_2B1:
+				if (this.intelligence < Intelligence.Humanlike && this.trainability != null)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				goto IL_316;
+				IL_40F:
+				if (this.packAnimal)
+				{
+					StatDrawEntry pa = new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), "Yes".Translate(), 0, "");
+					pa.overrideReportText = "PackAnimalExplanation".Translate();
+					this.$current = pa;
+					if (!this.$disposing)
+					{
+						this.$PC = 10;
+					}
+					return true;
+				}
+				IL_481:
+				if (parentDef.race.nuzzleMtbHours > 0f)
+				{
+					StatDrawEntry nuzzle = new StatDrawEntry(StatCategoryDefOf.PawnSocial, "NuzzleInterval".Translate(), Mathf.RoundToInt(parentDef.race.nuzzleMtbHours * 2500f).ToStringTicksToPeriod(), 0, "");
+					nuzzle.overrideReportText = "NuzzleIntervalExplanation".Translate();
+					this.$current = nuzzle;
+					if (!this.$disposing)
+					{
+						this.$PC = 11;
+					}
+					return true;
+				}
+				IL_513:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RaceProperties.<SpecialDisplayStats>c__Iterator1 <SpecialDisplayStats>c__Iterator = new RaceProperties.<SpecialDisplayStats>c__Iterator1();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				<SpecialDisplayStats>c__Iterator.parentDef = parentDef;
+				return <SpecialDisplayStats>c__Iterator;
+			}
 		}
 	}
 }

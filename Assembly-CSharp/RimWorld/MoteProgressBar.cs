@@ -5,23 +5,21 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006D2 RID: 1746
 	[StaticConstructorOnStartup]
 	public class MoteProgressBar : MoteDualAttached
 	{
-		// Token: 0x0400151F RID: 5407
 		public float progress;
 
-		// Token: 0x04001520 RID: 5408
 		public float offsetZ;
 
-		// Token: 0x04001521 RID: 5409
 		private static readonly Material UnfilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f, 0.65f), ShaderDatabase.MetaOverlay);
 
-		// Token: 0x04001522 RID: 5410
 		private static readonly Material FilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f, 0.65f), ShaderDatabase.MetaOverlay);
 
-		// Token: 0x060025E8 RID: 9704 RVA: 0x00144E98 File Offset: 0x00143298
+		public MoteProgressBar()
+		{
+		}
+
 		public override void Draw()
 		{
 			base.UpdatePositionAndRotation();
@@ -43,7 +41,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025E9 RID: 9705 RVA: 0x00144F88 File Offset: 0x00143388
 		private bool AnyThingWithQualityHere()
 		{
 			IntVec3 c = this.exactPosition.ToIntVec3();
@@ -65,6 +62,11 @@ namespace RimWorld
 				result = false;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MoteProgressBar()
+		{
 		}
 	}
 }

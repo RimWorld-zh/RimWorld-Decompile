@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B16 RID: 2838
 	public class DamageWorker
 	{
-		// Token: 0x04002812 RID: 10258
 		public DamageDef def;
 
-		// Token: 0x04002813 RID: 10259
 		private const float ExplosionCamShakeMultiplier = 4f;
 
-		// Token: 0x04002814 RID: 10260
 		private static List<Thing> thingsToAffect = new List<Thing>();
 
-		// Token: 0x04002815 RID: 10261
 		private static List<IntVec3> openCells = new List<IntVec3>();
 
-		// Token: 0x04002816 RID: 10262
 		private static List<IntVec3> adjWallCells = new List<IntVec3>();
 
-		// Token: 0x06003EAA RID: 16042 RVA: 0x0020FF2C File Offset: 0x0020E32C
+		public DamageWorker()
+		{
+		}
+
 		public virtual DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
 			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
@@ -45,7 +43,6 @@ namespace Verse
 			return damageResult;
 		}
 
-		// Token: 0x06003EAB RID: 16043 RVA: 0x0020FFE0 File Offset: 0x0020E3E0
 		public virtual void ExplosionStart(Explosion explosion, List<IntVec3> cellsToAffect)
 		{
 			if (this.def.explosionHeatEnergyPerCell > 1.401298E-45f)
@@ -61,7 +58,6 @@ namespace Verse
 			this.ExplosionVisualEffectCenter(explosion);
 		}
 
-		// Token: 0x06003EAC RID: 16044 RVA: 0x002100B0 File Offset: 0x0020E4B0
 		protected virtual void ExplosionVisualEffectCenter(Explosion explosion)
 		{
 			for (int i = 0; i < 4; i++)
@@ -78,7 +74,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAD RID: 16045 RVA: 0x00210190 File Offset: 0x0020E590
 		public virtual void ExplosionAffectCell(Explosion explosion, IntVec3 c, List<Thing> damagedThings, bool canThrowMotes)
 		{
 			if (this.def.explosionCellMote != null && canThrowMotes)
@@ -138,7 +133,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAE RID: 16046 RVA: 0x00210428 File Offset: 0x0020E828
 		protected virtual void defaultDamageThing(Explosion explosion, Thing t, List<Thing> damagedThings, IntVec3 cell)
 		{
 			if (t.def.category != ThingCategory.Mote && t.def.category != ThingCategory.Ethereal)
@@ -199,7 +193,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAF RID: 16047 RVA: 0x0021063C File Offset: 0x0020EA3C
 		protected virtual void defaultDamageTerrain(Explosion explosion, IntVec3 c)
 		{
 			if (this.def == DamageDefOf.Bomb)
@@ -219,13 +212,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EB0 RID: 16048 RVA: 0x002106C4 File Offset: 0x0020EAC4
 		public IEnumerable<IntVec3> ExplosionCellsToHit(Explosion explosion)
 		{
 			return this.ExplosionCellsToHit(explosion.Position, explosion.Map, explosion.radius);
 		}
 
-		// Token: 0x06003EB1 RID: 16049 RVA: 0x002106F4 File Offset: 0x0020EAF4
 		public virtual IEnumerable<IntVec3> ExplosionCellsToHit(IntVec3 center, Map map, float radius)
 		{
 			DamageWorker.openCells.Clear();
@@ -272,35 +263,33 @@ namespace Verse
 			return DamageWorker.openCells.Concat(DamageWorker.adjWallCells);
 		}
 
-		// Token: 0x02000B17 RID: 2839
+		// Note: this type is marked as 'beforefieldinit'.
+		static DamageWorker()
+		{
+		}
+
 		public class DamageResult
 		{
-			// Token: 0x04002817 RID: 10263
 			public bool wounded = false;
 
-			// Token: 0x04002818 RID: 10264
 			public bool headshot = false;
 
-			// Token: 0x04002819 RID: 10265
 			public bool deflected = false;
 
-			// Token: 0x0400281A RID: 10266
 			public bool deflectedByMetalArmor;
 
-			// Token: 0x0400281B RID: 10267
 			public Thing hitThing = null;
 
-			// Token: 0x0400281C RID: 10268
 			public List<BodyPartRecord> parts = null;
 
-			// Token: 0x0400281D RID: 10269
 			public List<Hediff> hediffs = null;
 
-			// Token: 0x0400281E RID: 10270
 			public float totalDamageDealt = 0f;
 
-			// Token: 0x17000973 RID: 2419
-			// (get) Token: 0x06003EB4 RID: 16052 RVA: 0x002108D4 File Offset: 0x0020ECD4
+			public DamageResult()
+			{
+			}
+
 			public BodyPartRecord LastHitPart
 			{
 				get
@@ -322,7 +311,6 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06003EB5 RID: 16053 RVA: 0x0021092C File Offset: 0x0020ED2C
 			public void AddPart(Thing hitThing, BodyPartRecord part)
 			{
 				if (this.hitThing != null && this.hitThing != hitThing)
@@ -337,7 +325,6 @@ namespace Verse
 				this.parts.Add(part);
 			}
 
-			// Token: 0x06003EB6 RID: 16054 RVA: 0x0021098A File Offset: 0x0020ED8A
 			public void AddHediff(Hediff hediff)
 			{
 				if (this.hediffs == null)
@@ -347,7 +334,6 @@ namespace Verse
 				this.hediffs.Add(hediff);
 			}
 
-			// Token: 0x06003EB7 RID: 16055 RVA: 0x002109B0 File Offset: 0x0020EDB0
 			public void AssociateWithLog(LogEntry_DamageResult log)
 			{
 				if (log != null)
@@ -373,6 +359,21 @@ namespace Verse
 							this.hediffs[i].combatLogText = log.ToGameStringFromPOV(null, false);
 						}
 					}
+				}
+			}
+
+			[CompilerGenerated]
+			private sealed class <AssociateWithLog>c__AnonStorey0
+			{
+				internal Pawn hitPawn;
+
+				public <AssociateWithLog>c__AnonStorey0()
+				{
+				}
+
+				internal bool <>m__0(BodyPartRecord part)
+				{
+					return this.hitPawn.health.hediffSet.GetPartHealth(part) <= 0f;
 				}
 			}
 		}

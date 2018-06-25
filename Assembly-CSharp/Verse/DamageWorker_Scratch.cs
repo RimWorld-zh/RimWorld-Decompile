@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000CF9 RID: 3321
 	public class DamageWorker_Scratch : DamageWorker_AddInjury
 	{
-		// Token: 0x0600492C RID: 18732 RVA: 0x00267858 File Offset: 0x00265C58
+		public DamageWorker_Scratch()
+		{
+		}
+
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, BodyPartDepth.Outside);
 		}
 
-		// Token: 0x0600492D RID: 18733 RVA: 0x0026788C File Offset: 0x00265C8C
 		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			if (dinfo.HitPart.depth == BodyPartDepth.Inside)
@@ -61,6 +63,23 @@ namespace Verse
 					dinfo3.SetHitPart(bodyPartRecord2);
 					base.FinalizeAndAddInjury(pawn, base.ReduceDamageToPreserveOutsideParts(totalDamage * this.def.scratchSplitPercentage, dinfo3, pawn), dinfo3, result);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ApplySpecialEffectsToPart>c__AnonStorey0
+		{
+			internal DamageInfo dinfo;
+
+			internal Pawn pawn;
+
+			public <ApplySpecialEffectsToPart>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord target)
+			{
+				return target != this.dinfo.HitPart && !target.def.conceptual && target.depth == BodyPartDepth.Outside && !this.pawn.health.hediffSet.PartIsMissing(target);
 			}
 		}
 	}

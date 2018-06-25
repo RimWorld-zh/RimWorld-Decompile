@@ -1,30 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200071A RID: 1818
 	[StaticConstructorOnStartup]
 	public class CompLaunchable : ThingComp
 	{
-		// Token: 0x040015EC RID: 5612
 		private CompTransporter cachedCompTransporter;
 
-		// Token: 0x040015ED RID: 5613
 		public static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/LaunchableMouseAttachment", true);
 
-		// Token: 0x040015EE RID: 5614
 		private static readonly Texture2D LaunchCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
 
-		// Token: 0x040015EF RID: 5615
 		private const float FuelPerTile = 2.25f;
 
-		// Token: 0x17000609 RID: 1545
-		// (get) Token: 0x060027F6 RID: 10230 RVA: 0x00155DF8 File Offset: 0x001541F8
+		public CompLaunchable()
+		{
+		}
+
 		public Building FuelingPortSource
 		{
 			get
@@ -33,8 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700060A RID: 1546
-		// (get) Token: 0x060027F7 RID: 10231 RVA: 0x00155E28 File Offset: 0x00154228
 		public bool ConnectedToFuelingPort
 		{
 			get
@@ -43,8 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700060B RID: 1547
-		// (get) Token: 0x060027F8 RID: 10232 RVA: 0x00155E4C File Offset: 0x0015424C
 		public bool FuelingPortSourceHasAnyFuel
 		{
 			get
@@ -53,8 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700060C RID: 1548
-		// (get) Token: 0x060027F9 RID: 10233 RVA: 0x00155E80 File Offset: 0x00154280
 		public bool LoadingInProgressOrReadyToLaunch
 		{
 			get
@@ -63,8 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700060D RID: 1549
-		// (get) Token: 0x060027FA RID: 10234 RVA: 0x00155EA0 File Offset: 0x001542A0
 		public bool AnythingLeftToLoad
 		{
 			get
@@ -73,8 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700060E RID: 1550
-		// (get) Token: 0x060027FB RID: 10235 RVA: 0x00155EC0 File Offset: 0x001542C0
 		public Thing FirstThingLeftToLoad
 		{
 			get
@@ -83,8 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700060F RID: 1551
-		// (get) Token: 0x060027FC RID: 10236 RVA: 0x00155EE0 File Offset: 0x001542E0
 		public List<CompTransporter> TransportersInGroup
 		{
 			get
@@ -93,8 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000610 RID: 1552
-		// (get) Token: 0x060027FD RID: 10237 RVA: 0x00155F0C File Offset: 0x0015430C
 		public bool AnyInGroupHasAnythingLeftToLoad
 		{
 			get
@@ -103,8 +90,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000611 RID: 1553
-		// (get) Token: 0x060027FE RID: 10238 RVA: 0x00155F2C File Offset: 0x0015432C
 		public Thing FirstThingLeftToLoadInGroup
 		{
 			get
@@ -113,8 +98,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000612 RID: 1554
-		// (get) Token: 0x060027FF RID: 10239 RVA: 0x00155F4C File Offset: 0x0015434C
 		public bool AnyInGroupIsUnderRoof
 		{
 			get
@@ -131,8 +114,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000613 RID: 1555
-		// (get) Token: 0x06002800 RID: 10240 RVA: 0x00155FB0 File Offset: 0x001543B0
 		public CompTransporter Transporter
 		{
 			get
@@ -145,8 +126,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000614 RID: 1556
-		// (get) Token: 0x06002801 RID: 10241 RVA: 0x00155FE8 File Offset: 0x001543E8
 		public float FuelingPortSourceFuel
 		{
 			get
@@ -164,8 +143,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000615 RID: 1557
-		// (get) Token: 0x06002802 RID: 10242 RVA: 0x00156024 File Offset: 0x00154424
 		public bool AllInGroupConnectedToFuelingPort
 		{
 			get
@@ -182,8 +159,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000616 RID: 1558
-		// (get) Token: 0x06002803 RID: 10243 RVA: 0x00156078 File Offset: 0x00154478
 		public bool AllFuelingPortSourcesInGroupHaveAnyFuel
 		{
 			get
@@ -200,8 +175,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000617 RID: 1559
-		// (get) Token: 0x06002804 RID: 10244 RVA: 0x001560CC File Offset: 0x001544CC
 		private float FuelInLeastFueledFuelingPortSource
 		{
 			get
@@ -231,8 +204,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000618 RID: 1560
-		// (get) Token: 0x06002805 RID: 10245 RVA: 0x00156148 File Offset: 0x00154548
 		private int MaxLaunchDistance
 		{
 			get
@@ -250,8 +221,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000619 RID: 1561
-		// (get) Token: 0x06002806 RID: 10246 RVA: 0x0015617C File Offset: 0x0015457C
 		private int MaxLaunchDistanceEverPossible
 		{
 			get
@@ -279,8 +248,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700061A RID: 1562
-		// (get) Token: 0x06002807 RID: 10247 RVA: 0x00156204 File Offset: 0x00154604
 		private bool PodsHaveAnyPotentialCaravanOwner
 		{
 			get
@@ -302,7 +269,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002808 RID: 10248 RVA: 0x00156290 File Offset: 0x00154690
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo g in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -347,7 +313,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002809 RID: 10249 RVA: 0x001562BC File Offset: 0x001546BC
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -377,7 +342,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600280A RID: 10250 RVA: 0x0015638C File Offset: 0x0015478C
 		private void StartChoosingDestination()
 		{
 			CameraJumper.TryJump(CameraJumper.GetWorldTarget(this.parent));
@@ -444,7 +408,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600280B RID: 10251 RVA: 0x00156414 File Offset: 0x00154814
 		private bool ChoseWorldTarget(GlobalTargetInfo target)
 		{
 			bool result;
@@ -502,7 +465,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600280C RID: 10252 RVA: 0x00156580 File Offset: 0x00154980
 		public void TryLaunch(int destinationTile, TransportPodsArrivalAction arrivalAction)
 		{
 			if (!this.parent.Spawned)
@@ -551,7 +513,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600280D RID: 10253 RVA: 0x00156756 File Offset: 0x00154B56
 		public void Notify_FuelingPortSourceDeSpawned()
 		{
 			if (this.Transporter.CancelLoad())
@@ -560,19 +521,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600280E RID: 10254 RVA: 0x0015678C File Offset: 0x00154B8C
 		public static int MaxLaunchDistanceAtFuelLevel(float fuelLevel)
 		{
 			return Mathf.FloorToInt(fuelLevel / 2.25f);
 		}
 
-		// Token: 0x0600280F RID: 10255 RVA: 0x001567B0 File Offset: 0x00154BB0
 		public static float FuelNeededToLaunchAtDist(float dist)
 		{
 			return 2.25f * dist;
 		}
 
-		// Token: 0x06002810 RID: 10256 RVA: 0x001567CC File Offset: 0x00154BCC
 		public IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptionsAt(int tile)
 		{
 			bool anything = false;
@@ -604,6 +562,502 @@ namespace RimWorld
 				}, MenuOptionPriority.Default, null, null, 0f, null, null);
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CompLaunchable()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <CompGetGizmosExtra>__BaseCallProxy0()
+		{
+			return base.CompGetGizmosExtra();
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Action <launch>__2;
+
+			internal CompLaunchable $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<CompGetGizmosExtra>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_1CB;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!base.LoadingInProgressOrReadyToLaunch)
+				{
+					goto IL_1CB;
+				}
+				launch = new Command_Action();
+				launch.defaultLabel = "CommandLaunchGroup".Translate();
+				launch.defaultDesc = "CommandLaunchGroupDesc".Translate();
+				launch.icon = CompLaunchable.LaunchCommandTex;
+				launch.alsoClickIfOtherInGroupClicked = false;
+				launch.action = delegate()
+				{
+					if (base.AnyInGroupHasAnythingLeftToLoad)
+					{
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSendNotCompletelyLoadedPods".Translate(new object[]
+						{
+							base.FirstThingLeftToLoadInGroup.LabelCapNoCount
+						}), new Action(base.StartChoosingDestination), false, null));
+					}
+					else
+					{
+						base.StartChoosingDestination();
+					}
+				};
+				if (!base.AllInGroupConnectedToFuelingPort)
+				{
+					launch.Disable("CommandLaunchGroupFailNotConnectedToFuelingPort".Translate());
+				}
+				else if (!base.AllFuelingPortSourcesInGroupHaveAnyFuel)
+				{
+					launch.Disable("CommandLaunchGroupFailNoFuel".Translate());
+				}
+				else if (base.AnyInGroupIsUnderRoof)
+				{
+					launch.Disable("CommandLaunchGroupFailUnderRoof".Translate());
+				}
+				this.$current = launch;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_1CB:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompLaunchable.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompLaunchable.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				if (base.AnyInGroupHasAnythingLeftToLoad)
+				{
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSendNotCompletelyLoadedPods".Translate(new object[]
+					{
+						base.FirstThingLeftToLoadInGroup.LabelCapNoCount
+					}), new Action(base.StartChoosingDestination), false, null));
+				}
+				else
+				{
+					base.StartChoosingDestination();
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <StartChoosingDestination>c__AnonStorey2
+		{
+			internal int tile;
+
+			internal CompLaunchable $this;
+
+			public <StartChoosingDestination>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				GenDraw.DrawWorldRadiusRing(this.tile, this.$this.MaxLaunchDistance);
+			}
+
+			internal string <>m__1(GlobalTargetInfo target)
+			{
+				string result;
+				if (!target.IsValid)
+				{
+					result = null;
+				}
+				else
+				{
+					int num = Find.WorldGrid.TraversalDistanceBetween(this.tile, target.Tile, true, int.MaxValue);
+					if (num > this.$this.MaxLaunchDistance)
+					{
+						GUI.color = Color.red;
+						if (num > this.$this.MaxLaunchDistanceEverPossible)
+						{
+							result = "TransportPodDestinationBeyondMaximumRange".Translate();
+						}
+						else
+						{
+							result = "TransportPodNotEnoughFuel".Translate();
+						}
+					}
+					else
+					{
+						IEnumerable<FloatMenuOption> transportPodsFloatMenuOptionsAt = this.$this.GetTransportPodsFloatMenuOptionsAt(target.Tile);
+						if (!transportPodsFloatMenuOptionsAt.Any<FloatMenuOption>())
+						{
+							result = "";
+						}
+						else if (transportPodsFloatMenuOptionsAt.Count<FloatMenuOption>() == 1)
+						{
+							if (transportPodsFloatMenuOptionsAt.First<FloatMenuOption>().Disabled)
+							{
+								GUI.color = Color.red;
+							}
+							result = transportPodsFloatMenuOptionsAt.First<FloatMenuOption>().Label;
+						}
+						else
+						{
+							MapParent mapParent = target.WorldObject as MapParent;
+							if (mapParent != null)
+							{
+								result = "ClickToSeeAvailableOrders_WorldObject".Translate(new object[]
+								{
+									mapParent.LabelCap
+								});
+							}
+							else
+							{
+								result = "ClickToSeeAvailableOrders_Empty".Translate();
+							}
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetTransportPodsFloatMenuOptionsAt>c__Iterator1 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal bool <anything>__0;
+
+			internal int tile;
+
+			internal List<WorldObject> <worldObjects>__0;
+
+			internal int <i>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <o>__2;
+
+			internal CompLaunchable $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private CompLaunchable.<GetTransportPodsFloatMenuOptionsAt>c__Iterator1.<GetTransportPodsFloatMenuOptionsAt>c__AnonStorey3 $locvar1;
+
+			[DebuggerHidden]
+			public <GetTransportPodsFloatMenuOptionsAt>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					anything = false;
+					if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(base.TransportersInGroup.Cast<IThingHolder>(), tile) && !Find.WorldObjects.AnySettlementAt(tile) && !Find.WorldObjects.AnySiteAt(tile))
+					{
+						anything = true;
+						this.$current = new FloatMenuOption("FormCaravanHere".Translate(), delegate()
+						{
+							this.TryLaunch(tile, new TransportPodsArrivalAction_FormCaravan());
+						}, MenuOptionPriority.Default, null, null, 0f, null, null);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_7:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							o = enumerator.Current;
+							anything = true;
+							this.$current = o;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					goto IL_202;
+				case 3u:
+					IL_28F:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				worldObjects = Find.WorldObjects.AllWorldObjects;
+				i = 0;
+				goto IL_210;
+				IL_202:
+				i++;
+				IL_210:
+				if (i >= worldObjects.Count)
+				{
+					if (!anything && !Find.World.Impassable(<GetTransportPodsFloatMenuOptionsAt>c__AnonStorey.tile))
+					{
+						this.$current = new FloatMenuOption("TransportPodsContentsWillBeLost".Translate(), delegate()
+						{
+							<GetTransportPodsFloatMenuOptionsAt>c__AnonStorey.<>f__ref$1.$this.TryLaunch(<GetTransportPodsFloatMenuOptionsAt>c__AnonStorey.tile, null);
+						}, MenuOptionPriority.Default, null, null, 0f, null, null);
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+					goto IL_28F;
+				}
+				else
+				{
+					if (worldObjects[i].Tile != <GetTransportPodsFloatMenuOptionsAt>c__AnonStorey.tile)
+					{
+						goto IL_202;
+					}
+					enumerator = worldObjects[i].GetTransportPodsFloatMenuOptions(base.TransportersInGroup.Cast<IThingHolder>(), this).GetEnumerator();
+					num = 4294967293u;
+					goto Block_7;
+				}
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompLaunchable.<GetTransportPodsFloatMenuOptionsAt>c__Iterator1 <GetTransportPodsFloatMenuOptionsAt>c__Iterator = new CompLaunchable.<GetTransportPodsFloatMenuOptionsAt>c__Iterator1();
+				<GetTransportPodsFloatMenuOptionsAt>c__Iterator.$this = this;
+				<GetTransportPodsFloatMenuOptionsAt>c__Iterator.tile = tile;
+				return <GetTransportPodsFloatMenuOptionsAt>c__Iterator;
+			}
+
+			private sealed class <GetTransportPodsFloatMenuOptionsAt>c__AnonStorey3
+			{
+				internal int tile;
+
+				internal CompLaunchable.<GetTransportPodsFloatMenuOptionsAt>c__Iterator1 <>f__ref$1;
+
+				public <GetTransportPodsFloatMenuOptionsAt>c__AnonStorey3()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$1.$this.TryLaunch(this.tile, new TransportPodsArrivalAction_FormCaravan());
+				}
+
+				internal void <>m__1()
+				{
+					this.<>f__ref$1.$this.TryLaunch(this.tile, null);
+				}
+			}
 		}
 	}
 }

@@ -3,14 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200064C RID: 1612
 	public abstract class ScenPart_ScatterThings : ScenPart_ThingCount
 	{
-		// Token: 0x170004EC RID: 1260
-		// (get) Token: 0x0600217C RID: 8572
+		protected ScenPart_ScatterThings()
+		{
+		}
+
 		protected abstract bool NearPlayerStart { get; }
 
-		// Token: 0x0600217D RID: 8573 RVA: 0x0011C8F0 File Offset: 0x0011ACF0
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)

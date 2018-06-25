@@ -1,19 +1,318 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E19 RID: 3609
 	[HasDebugOutput]
 	internal static class DebugOutputsEconomy
 	{
-		// Token: 0x06005215 RID: 21013 RVA: 0x002A0BD8 File Offset: 0x0029EFD8
-		[DebugOutput]
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, float> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheA;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheB;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cacheC;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheD;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheE;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheF;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache10;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache11;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache12;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache13;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache14;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache15;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache16;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache17;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache18;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache19;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache20;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache21;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache22;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache23;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache24;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache25;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache26;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache27;
+
+		[CompilerGenerated]
+		private static Func<BuildableDef, bool> <>f__am$cache28;
+
+		[CompilerGenerated]
+		private static Func<BuildableDef, string> <>f__am$cache29;
+
+		[CompilerGenerated]
+		private static Func<BuildableDef, int> <>f__am$cache2A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache2B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache30;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache31;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache32;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache33;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache34;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache35;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache36;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache37;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache38;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache39;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache3C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache3D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache40;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache41;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache42;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache43;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache44;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache45;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache46;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache47;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache48;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache49;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache4F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache50;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache51;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, bool> <>f__am$cache52;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache53;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache54;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache55;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache56;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache57;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache58;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache59;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache5A;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache5B;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache5C;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache5D;
+
+		[CompilerGenerated]
+		private static Func<RecipeDef, string> <>f__am$cache5E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache5F;
+
+		[CompilerGenerated]
+		private static Func<SkillNeed, string> <>f__am$cache60;
+
+		[CompilerGenerated]
+		private static Predicate<StatModifier> <>f__am$cache61;
+
+		[CompilerGenerated]
+		private static Func<Pair<ThingDef, float>, string> <>f__am$cache62;
+
 		[Category("Economy")]
+		[DebugOutput]
 		public static void RecipeSkills()
 		{
 			IEnumerable<RecipeDef> allDefs = DefDatabase<RecipeDef>.AllDefs;
@@ -43,9 +342,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<RecipeDef>(allDefs, array);
 		}
 
-		// Token: 0x06005216 RID: 21014 RVA: 0x002A0CC8 File Offset: 0x0029F0C8
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void Drugs()
 		{
 			Func<ThingDef, float> realIngredientCost = (ThingDef d) => DebugOutputsEconomy.CostToMake(d, true);
@@ -66,9 +364,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005217 RID: 21015 RVA: 0x002A0E74 File Offset: 0x0029F274
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void Wool()
 		{
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
@@ -88,9 +385,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005218 RID: 21016 RVA: 0x002A0FB0 File Offset: 0x0029F3B0
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void AnimalGrowth()
 		{
 			Func<ThingDef, float> gestDaysEach = (ThingDef d) => DebugOutputsEconomy.GestationDaysEach(d);
@@ -165,9 +461,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005219 RID: 21017 RVA: 0x002A1318 File Offset: 0x0029F718
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void AnimalBreeding()
 		{
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
@@ -198,7 +493,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521A RID: 21018 RVA: 0x002A1478 File Offset: 0x0029F878
 		private static float GestationDaysEach(ThingDef d)
 		{
 			float result;
@@ -214,9 +508,8 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600521B RID: 21019 RVA: 0x002A14FC File Offset: 0x0029F8FC
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void BuildingSkills()
 		{
 			IEnumerable<BuildableDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs.Cast<BuildableDef>().Concat(DefDatabase<TerrainDef>.AllDefs.Cast<BuildableDef>())
@@ -228,9 +521,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<BuildableDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521C RID: 21020 RVA: 0x002A15A4 File Offset: 0x0029F9A4
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void Crops()
 		{
 			Func<ThingDef, float> workCost = delegate(ThingDef d)
@@ -261,9 +553,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521D RID: 21021 RVA: 0x002A1850 File Offset: 0x0029FC50
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void ItemAndBuildingAcquisition()
 		{
 			Func<ThingDef, string> recipes = delegate(ThingDef d)
@@ -384,9 +675,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521E RID: 21022 RVA: 0x002A1B98 File Offset: 0x0029FF98
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void ItemAccessibility()
 		{
 			IEnumerable<ThingDef> dataSources = from x in ThingSetMakerUtility.allGeneratableItems
@@ -402,9 +692,8 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521F RID: 21023 RVA: 0x002A1CD4 File Offset: 0x002A00D4
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void ThingSmeltProducts()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -424,9 +713,8 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005220 RID: 21024 RVA: 0x002A1DE4 File Offset: 0x002A01E4
-		[DebugOutput]
 		[Category("Economy")]
+		[DebugOutput]
 		public static void Recipes()
 		{
 			IEnumerable<RecipeDef> dataSources = from d in DefDatabase<RecipeDef>.AllDefs
@@ -449,7 +737,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<RecipeDef>(dataSources, array);
 		}
 
-		// Token: 0x06005221 RID: 21025 RVA: 0x002A2020 File Offset: 0x002A0420
 		private static bool Producible(BuildableDef b)
 		{
 			ThingDef d = b as ThingDef;
@@ -472,7 +759,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005222 RID: 21026 RVA: 0x002A20C0 File Offset: 0x002A04C0
 		public static string CostListString(BuildableDef d, bool divideByVolume, bool starIfOnlyBuyable)
 		{
 			string result;
@@ -509,14 +795,12 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005223 RID: 21027 RVA: 0x002A21DC File Offset: 0x002A05DC
 		private static float TrueWorkWithCarryTime(RecipeDef d)
 		{
 			ThingDef stuffDef = DebugOutputsEconomy.CheapestNonDerpStuff(d);
 			return (float)d.ingredients.Count * 90f + d.WorkAmountTotal(stuffDef) + 90f;
 		}
 
-		// Token: 0x06005224 RID: 21028 RVA: 0x002A2218 File Offset: 0x002A0618
 		private static float CheapestIngredientValue(RecipeDef d)
 		{
 			float num = 0f;
@@ -527,7 +811,6 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005225 RID: 21029 RVA: 0x002A2294 File Offset: 0x002A0694
 		private static IEnumerable<Pair<ThingDef, float>> CheapestIngredients(RecipeDef d)
 		{
 			foreach (IngredientCount ing in d.ingredients)
@@ -540,13 +823,11 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005226 RID: 21030 RVA: 0x002A22C0 File Offset: 0x002A06C0
 		private static float WorkValueEstimate(RecipeDef d)
 		{
 			return DebugOutputsEconomy.TrueWorkWithCarryTime(d) * 0.01f;
 		}
 
-		// Token: 0x06005227 RID: 21031 RVA: 0x002A22E4 File Offset: 0x002A06E4
 		private static ThingDef CheapestNonDerpStuff(RecipeDef d)
 		{
 			ThingDef productDef = d.products[0].thingDef;
@@ -564,7 +845,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005228 RID: 21032 RVA: 0x002A2378 File Offset: 0x002A0778
 		private static float CheapestProductsValue(RecipeDef d)
 		{
 			float num = 0f;
@@ -575,7 +855,6 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005229 RID: 21033 RVA: 0x002A2400 File Offset: 0x002A0800
 		private static string CostToMakeString(ThingDef d, bool real = false)
 		{
 			string result;
@@ -590,7 +869,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600522A RID: 21034 RVA: 0x002A2440 File Offset: 0x002A0840
 		private static float CostToMake(ThingDef d, bool real = false)
 		{
 			float result;
@@ -623,7 +901,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600522B RID: 21035 RVA: 0x002A253C File Offset: 0x002A093C
 		private static bool RequiresBuying(ThingDef def)
 		{
 			bool result;
@@ -645,7 +922,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600522C RID: 21036 RVA: 0x002A25F8 File Offset: 0x002A09F8
 		public static float WorkToProduceBest(BuildableDef d)
 		{
 			float num = float.MaxValue;
@@ -680,6 +956,1115 @@ namespace Verse
 				result = -1f;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <RecipeSkills>m__0(RecipeDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <RecipeSkills>m__1(RecipeDef d)
+		{
+			return (d.workSkill != null) ? d.workSkill.defName : "";
+		}
+
+		[CompilerGenerated]
+		private static string <RecipeSkills>m__2(RecipeDef d)
+		{
+			return (d.workSpeedStat != null) ? d.workSpeedStat.defName : "";
+		}
+
+		[CompilerGenerated]
+		private static string <RecipeSkills>m__3(RecipeDef d)
+		{
+			string result;
+			if (d.workSpeedStat == null)
+			{
+				result = "";
+			}
+			else if (d.workSpeedStat.skillNeedFactors.NullOrEmpty<SkillNeed>())
+			{
+				result = "";
+			}
+			else
+			{
+				result = (from fac in d.workSpeedStat.skillNeedFactors
+				select fac.skill.defName).ToCommaList(false);
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static float <RecipeSkills>m__4(RecipeDef d)
+		{
+			return d.workSkillLearnFactor;
+		}
+
+		[CompilerGenerated]
+		private static float <Drugs>m__5(ThingDef d)
+		{
+			return DebugOutputsEconomy.CostToMake(d, true);
+		}
+
+		[CompilerGenerated]
+		private static float <Drugs>m__6(ThingDef d)
+		{
+			return d.BaseMarketValue * 0.5f;
+		}
+
+		[CompilerGenerated]
+		private static float <Drugs>m__7(ThingDef d)
+		{
+			return d.BaseMarketValue * 1.5f;
+		}
+
+		[CompilerGenerated]
+		private static bool <Drugs>m__8(ThingDef d)
+		{
+			return d.IsWithinCategory(ThingCategoryDefOf.Medicine) || d.IsWithinCategory(ThingCategoryDefOf.Drugs);
+		}
+
+		[CompilerGenerated]
+		private static string <Drugs>m__9(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Drugs>m__A(ThingDef d)
+		{
+			return DebugOutputsEconomy.CostListString(d, true, true);
+		}
+
+		[CompilerGenerated]
+		private static string <Drugs>m__B(ThingDef d)
+		{
+			return DebugOutputsEconomy.WorkToProduceBest(d).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static bool <Wool>m__C(ThingDef d)
+		{
+			return d.category == ThingCategory.Pawn && d.race.IsFlesh && d.GetCompProperties<CompProperties_Shearable>() != null;
+		}
+
+		[CompilerGenerated]
+		private static string <Wool>m__D(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Wool>m__E(ThingDef d)
+		{
+			return d.GetCompProperties<CompProperties_Shearable>().woolDef.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Wool>m__F(ThingDef d)
+		{
+			return d.GetCompProperties<CompProperties_Shearable>().woolAmount.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <Wool>m__10(ThingDef d)
+		{
+			return d.GetCompProperties<CompProperties_Shearable>().woolDef.BaseMarketValue.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Wool>m__11(ThingDef d)
+		{
+			return d.GetCompProperties<CompProperties_Shearable>().shearIntervalDays.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Wool>m__12(ThingDef d)
+		{
+			CompProperties_Shearable compProperties = d.GetCompProperties<CompProperties_Shearable>();
+			return (compProperties.woolDef.BaseMarketValue * (float)compProperties.woolAmount * (60f / (float)compProperties.shearIntervalDays)).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static float <AnimalGrowth>m__13(ThingDef d)
+		{
+			return DebugOutputsEconomy.GestationDaysEach(d);
+		}
+
+		[CompilerGenerated]
+		private static float <AnimalGrowth>m__14(ThingDef d)
+		{
+			LifeStageAge lifeStageAge = d.race.lifeStageAges[0];
+			return d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f * lifeStageAge.def.bodySizeFactor;
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__15(ThingDef d)
+		{
+			CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
+			string result;
+			if (compProperties == null)
+			{
+				result = "";
+			}
+			else
+			{
+				result = compProperties.eggFertilizedDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <AnimalGrowth>m__16(ThingDef d)
+		{
+			return d.category == ThingCategory.Pawn && d.race.IsFlesh;
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__17(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__18(ThingDef d)
+		{
+			return d.race.baseHungerRate.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__19(ThingDef d)
+		{
+			return ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? "" : "Y";
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__1A(ThingDef d)
+		{
+			return "|";
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__1B(ThingDef d)
+		{
+			return d.race.baseBodySize.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__1C(ThingDef d)
+		{
+			return d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__1D(ThingDef d)
+		{
+			return (d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__1E(ThingDef d)
+		{
+			return "|";
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalGrowth>m__1F(ThingDef d)
+		{
+			return (d.race.lifeStageAges[0].def.bodySizeFactor * d.race.baseBodySize).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static bool <AnimalBreeding>m__20(ThingDef d)
+		{
+			return d.category == ThingCategory.Pawn && d.race.IsFlesh;
+		}
+
+		[CompilerGenerated]
+		private static float <AnimalBreeding>m__21(ThingDef d)
+		{
+			return DebugOutputsEconomy.GestationDaysEach(d);
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBreeding>m__22(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBreeding>m__23(ThingDef d)
+		{
+			return DebugOutputsEconomy.GestationDaysEach(d).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBreeding>m__24(ThingDef d)
+		{
+			return (!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)).ToString("F2") : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBreeding>m__25(ThingDef d)
+		{
+			return (!d.HasComp(typeof(CompEggLayer))) ? d.race.gestationPeriodDays.ToString("F1") : d.GetCompProperties<CompProperties_EggLayer>().eggLayIntervalDays.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBreeding>m__26(ThingDef d)
+		{
+			float f = 1f + ((!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)) : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average);
+			float num = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge * 60f;
+			float num2 = num + ((!d.HasComp(typeof(CompEggLayer))) ? d.race.gestationPeriodDays : d.GetCompProperties<CompProperties_EggLayer>().eggLayIntervalDays);
+			float p = 30f / num2;
+			return Mathf.Pow(f, p).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBreeding>m__27(ThingDef d)
+		{
+			float f = 1f + ((!d.HasComp(typeof(CompEggLayer))) ? ((d.race.litterSizeCurve == null) ? 1f : Rand.ByCurveAverage(d.race.litterSizeCurve)) : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.Average);
+			float num = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge * 60f;
+			float num2 = num + ((!d.HasComp(typeof(CompEggLayer))) ? d.race.gestationPeriodDays : d.GetCompProperties<CompProperties_EggLayer>().eggLayIntervalDays);
+			float p = 60f / num2;
+			return Mathf.Pow(f, p).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static bool <BuildingSkills>m__28(BuildableDef d)
+		{
+			return d.BuildableByPlayer;
+		}
+
+		[CompilerGenerated]
+		private static string <BuildingSkills>m__29(BuildableDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static int <BuildingSkills>m__2A(BuildableDef d)
+		{
+			return d.constructionSkillPrerequisite;
+		}
+
+		[CompilerGenerated]
+		private static float <Crops>m__2B(ThingDef d)
+		{
+			float num = 1.1f;
+			num += d.plant.growDays * 1f;
+			return num + (d.plant.sowWork + d.plant.harvestWork) * 0.00612f;
+		}
+
+		[CompilerGenerated]
+		private static bool <Crops>m__2C(ThingDef d)
+		{
+			return d.category == ThingCategory.Plant && d.plant.Harvestable && d.plant.Sowable;
+		}
+
+		[CompilerGenerated]
+		private static bool <Crops>m__2D(ThingDef d)
+		{
+			return d.plant.IsTree;
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__2E(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__2F(ThingDef d)
+		{
+			return d.plant.harvestedThingDef.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__30(ThingDef d)
+		{
+			return d.plant.growDays.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__31(ThingDef d)
+		{
+			return (d.plant.sowWork + d.plant.harvestWork).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__32(ThingDef d)
+		{
+			return d.plant.harvestYield.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__33(ThingDef d)
+		{
+			return d.plant.harvestedThingDef.BaseMarketValue.ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__34(ThingDef d)
+		{
+			return (d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__35(ThingDef d)
+		{
+			return (d.plant.harvestedThingDef.ingestible == null) ? "" : (d.plant.harvestYield * d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.plant.growDays).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__36(ThingDef d)
+		{
+			return (d.plant.harvestedThingDef.ingestible == null) ? "" : d.plant.harvestedThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__37(ThingDef d)
+		{
+			return d.plant.fertilityMin.ToStringPercent();
+		}
+
+		[CompilerGenerated]
+		private static string <Crops>m__38(ThingDef d)
+		{
+			return d.plant.fertilitySensitivity.ToStringPercent();
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__39(ThingDef d)
+		{
+			List<string> list = new List<string>();
+			foreach (RecipeDef recipeDef in DefDatabase<RecipeDef>.AllDefs)
+			{
+				if (!recipeDef.products.NullOrEmpty<ThingDefCountClass>())
+				{
+					for (int i = 0; i < recipeDef.products.Count; i++)
+					{
+						if (recipeDef.products[i].thingDef == d)
+						{
+							list.Add(recipeDef.defName);
+						}
+					}
+				}
+			}
+			string result;
+			if (list.Count == 0)
+			{
+				result = "";
+			}
+			else
+			{
+				result = list.ToCommaList(false);
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__3A(ThingDef d)
+		{
+			List<string> list = new List<string>();
+			if (d.StatBaseDefined(StatDefOf.WorkToMake))
+			{
+				list.Add("WorkToMake(" + d.GetStatValueAbstract(StatDefOf.WorkToMake, null) + ")");
+			}
+			if (d.StatBaseDefined(StatDefOf.WorkToBuild))
+			{
+				list.Add("WorkToBuild(" + d.GetStatValueAbstract(StatDefOf.WorkToBuild, null) + ")");
+			}
+			foreach (RecipeDef recipeDef in DefDatabase<RecipeDef>.AllDefs)
+			{
+				if (recipeDef.workAmount > 0f && !recipeDef.products.NullOrEmpty<ThingDefCountClass>())
+				{
+					for (int i = 0; i < recipeDef.products.Count; i++)
+					{
+						if (recipeDef.products[i].thingDef == d)
+						{
+							list.Add(string.Concat(new object[]
+							{
+								"RecipeDef-",
+								recipeDef.defName,
+								"(",
+								recipeDef.workAmount,
+								")"
+							}));
+						}
+					}
+				}
+			}
+			string result;
+			if (list.Count == 0)
+			{
+				result = "";
+			}
+			else
+			{
+				result = list.ToCommaList(false);
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__3B(ThingDef d)
+		{
+			string result;
+			if (!DebugOutputsEconomy.Producible(d))
+			{
+				result = "not producible";
+			}
+			else if (!d.StatBaseDefined(StatDefOf.MarketValue))
+			{
+				result = "used";
+			}
+			else
+			{
+				string text = StatWorker_MarketValue.CalculatedMarketValue(d, null).ToString("F1");
+				if (StatWorker_MarketValue.CalculableRecipe(d) != null)
+				{
+					result = text + " (recipe)";
+				}
+				else
+				{
+					result = text;
+				}
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ItemAndBuildingAcquisition>m__3C(ThingDef d)
+		{
+			return (d.category == ThingCategory.Item && d.BaseMarketValue > 0.01f) || (d.category == ThingCategory.Building && (d.BuildableByPlayer || d.Minifiable));
+		}
+
+		[CompilerGenerated]
+		private static float <ItemAndBuildingAcquisition>m__3D(ThingDef d)
+		{
+			return d.BaseMarketValue;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__3E(ThingDef d)
+		{
+			return d.category.ToString().Substring(0, 1).CapitalizeFirst();
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__3F(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__40(ThingDef d)
+		{
+			return (d.category == ThingCategory.Item || d.Minifiable).ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__41(ThingDef d)
+		{
+			return d.BaseMarketValue.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__42(ThingDef d)
+		{
+			return DebugOutputsEconomy.CostToMakeString(d, false);
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__43(ThingDef d)
+		{
+			return (DebugOutputsEconomy.WorkToProduceBest(d) <= 0f) ? "-" : DebugOutputsEconomy.WorkToProduceBest(d).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__44(ThingDef d)
+		{
+			return (d.BaseMarketValue - DebugOutputsEconomy.CostToMake(d, false)).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__45(ThingDef d)
+		{
+			return (d.recipeMaker == null) ? "-" : ((d.BaseMarketValue - DebugOutputsEconomy.CostToMake(d, false)) / DebugOutputsEconomy.WorkToProduceBest(d) * 10000f).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__46(ThingDef d)
+		{
+			return d.statBases.Any((StatModifier st) => st.stat == StatDefOf.MarketValue).ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__47(ThingDef d)
+		{
+			return DebugOutputsEconomy.Producible(d).ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__48(ThingDef d)
+		{
+			return (!d.thingSetMakerTags.NullOrEmpty<string>()) ? d.thingSetMakerTags.ToCommaList(false) : "";
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__49(ThingDef d)
+		{
+			return d.MadeFromStuff.ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAndBuildingAcquisition>m__4A(ThingDef d)
+		{
+			return DebugOutputsEconomy.CostListString(d, false, false);
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4B(ThingDef x)
+		{
+			return x.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4C(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4D(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1, Find.CurrentMap)) ? "" : "✓";
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4E(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10, Find.CurrentMap)) ? "" : "✓";
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__4F(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 100, Find.CurrentMap)) ? "" : "✓";
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__50(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 1000, Find.CurrentMap)) ? "" : "✓";
+		}
+
+		[CompilerGenerated]
+		private static string <ItemAccessibility>m__51(ThingDef d)
+		{
+			return (!PlayerItemAccessibilityUtility.PossiblyAccessible(d, 10000, Find.CurrentMap)) ? "" : "✓";
+		}
+
+		[CompilerGenerated]
+		private static bool <Recipes>m__52(RecipeDef d)
+		{
+			return !d.products.NullOrEmpty<ThingDefCountClass>() && !d.ingredients.NullOrEmpty<IngredientCount>();
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__53(RecipeDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__54(RecipeDef d)
+		{
+			return DebugOutputsEconomy.TrueWorkWithCarryTime(d).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__55(RecipeDef d)
+		{
+			return (DebugOutputsEconomy.TrueWorkWithCarryTime(d) / 60f).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__56(RecipeDef d)
+		{
+			return DebugOutputsEconomy.CheapestProductsValue(d).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__57(RecipeDef d)
+		{
+			return DebugOutputsEconomy.CheapestIngredientValue(d).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__58(RecipeDef d)
+		{
+			return DebugOutputsEconomy.WorkValueEstimate(d).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__59(RecipeDef d)
+		{
+			return (DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.CheapestIngredientValue(d)).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__5A(RecipeDef d)
+		{
+			return (DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.WorkValueEstimate(d) - DebugOutputsEconomy.CheapestIngredientValue(d)).ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__5B(RecipeDef d)
+		{
+			return ((DebugOutputsEconomy.CheapestProductsValue(d) - DebugOutputsEconomy.CheapestIngredientValue(d)) * 60000f / DebugOutputsEconomy.TrueWorkWithCarryTime(d)).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__5C(RecipeDef d)
+		{
+			return (!d.skillRequirements.NullOrEmpty<SkillRequirement>()) ? d.skillRequirements[0].Summary : "";
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__5D(RecipeDef d)
+		{
+			return (DebugOutputsEconomy.CheapestNonDerpStuff(d) == null) ? "" : DebugOutputsEconomy.CheapestNonDerpStuff(d).defName;
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__5E(RecipeDef d)
+		{
+			return (from pa in DebugOutputsEconomy.CheapestIngredients(d)
+			select pa.First.defName + " x" + pa.Second).ToCommaList(false);
+		}
+
+		[CompilerGenerated]
+		private static float <CheapestNonDerpStuff>m__5F(ThingDef td)
+		{
+			return td.BaseMarketValue / td.VolumePerUnit;
+		}
+
+		[CompilerGenerated]
+		private static string <RecipeSkills>m__60(SkillNeed fac)
+		{
+			return fac.skill.defName;
+		}
+
+		[CompilerGenerated]
+		private static bool <ItemAndBuildingAcquisition>m__61(StatModifier st)
+		{
+			return st.stat == StatDefOf.MarketValue;
+		}
+
+		[CompilerGenerated]
+		private static string <Recipes>m__62(Pair<ThingDef, float> pa)
+		{
+			return pa.First.defName + " x" + pa.Second;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Drugs>c__AnonStorey1
+		{
+			internal Func<ThingDef, float> realIngredientCost;
+
+			internal Func<ThingDef, float> realSellPrice;
+
+			internal Func<ThingDef, float> realBuyPrice;
+
+			public <Drugs>c__AnonStorey1()
+			{
+			}
+
+			internal string <>m__0(ThingDef d)
+			{
+				return this.realIngredientCost(d).ToString("F1");
+			}
+
+			internal string <>m__1(ThingDef d)
+			{
+				return this.realSellPrice(d).ToString("F1");
+			}
+
+			internal string <>m__2(ThingDef d)
+			{
+				return (this.realSellPrice(d) - this.realIngredientCost(d)).ToString("F1");
+			}
+
+			internal string <>m__3(ThingDef d)
+			{
+				return ((this.realSellPrice(d) - this.realIngredientCost(d)) / DebugOutputsEconomy.WorkToProduceBest(d) * 30000f).ToString("F1");
+			}
+
+			internal string <>m__4(ThingDef d)
+			{
+				return this.realBuyPrice(d).ToString("F1");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AnimalGrowth>c__AnonStorey2
+		{
+			internal Func<ThingDef, float> gestDaysEach;
+
+			internal Func<ThingDef, float> babyMeatNut;
+
+			internal Func<ThingDef, float> nutritionToGestate;
+
+			internal Func<ThingDef, float> nutritionToAdulthood;
+
+			internal Func<ThingDef, float> babyMeatNutPerInput;
+
+			internal Func<ThingDef, float> adultMeatNutPerInput;
+
+			internal Func<ThingDef, float> bestMeatPerInput;
+
+			internal Func<ThingDef, string> eggNut;
+
+			public <AnimalGrowth>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(ThingDef d)
+			{
+				float num = 0f;
+				LifeStageAge lifeStageAge = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1];
+				return num + this.gestDaysEach(d) * lifeStageAge.def.hungerRateFactor * d.race.baseHungerRate;
+			}
+
+			internal float <>m__1(ThingDef d)
+			{
+				return this.babyMeatNut(d) / this.nutritionToGestate(d);
+			}
+
+			internal float <>m__2(ThingDef d)
+			{
+				float num = 0f;
+				num += this.nutritionToGestate(d);
+				for (int i = 1; i < d.race.lifeStageAges.Count; i++)
+				{
+					LifeStageAge lifeStageAge = d.race.lifeStageAges[i];
+					float num2 = lifeStageAge.minAge - d.race.lifeStageAges[i - 1].minAge;
+					float num3 = num2 * 60f;
+					num += num3 * lifeStageAge.def.hungerRateFactor * d.race.baseHungerRate;
+				}
+				return num;
+			}
+
+			internal float <>m__3(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f / this.nutritionToAdulthood(d);
+			}
+
+			internal float <>m__4(ThingDef d)
+			{
+				float a = this.babyMeatNutPerInput(d);
+				float b = this.adultMeatNutPerInput(d);
+				return Mathf.Max(a, b);
+			}
+
+			internal float <>m__5(ThingDef d)
+			{
+				return this.bestMeatPerInput(d);
+			}
+
+			internal string <>m__6(ThingDef d)
+			{
+				return this.gestDaysEach(d).ToString("F2");
+			}
+
+			internal string <>m__7(ThingDef d)
+			{
+				return this.nutritionToAdulthood(d).ToString("F2");
+			}
+
+			internal string <>m__8(ThingDef d)
+			{
+				return this.adultMeatNutPerInput(d).ToString("F3");
+			}
+
+			internal string <>m__9(ThingDef d)
+			{
+				return this.nutritionToGestate(d).ToString("F2");
+			}
+
+			internal string <>m__A(ThingDef d)
+			{
+				return this.eggNut(d);
+			}
+
+			internal string <>m__B(ThingDef d)
+			{
+				return this.babyMeatNut(d).ToString("F2");
+			}
+
+			internal string <>m__C(ThingDef d)
+			{
+				return this.babyMeatNutPerInput(d).ToString("F2");
+			}
+
+			internal string <>m__D(ThingDef d)
+			{
+				return (this.babyMeatNutPerInput(d) <= this.adultMeatNutPerInput(d)) ? "" : "B";
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Crops>c__AnonStorey3
+		{
+			internal Func<ThingDef, float> workCost;
+
+			public <Crops>c__AnonStorey3()
+			{
+			}
+
+			internal string <>m__0(ThingDef d)
+			{
+				return this.workCost(d).ToString("F2");
+			}
+
+			internal string <>m__1(ThingDef d)
+			{
+				return (this.workCost(d) / d.plant.harvestYield).ToString("F2");
+			}
+
+			internal string <>m__2(ThingDef d)
+			{
+				return ((d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue - this.workCost(d)) / d.plant.growDays).ToString("F2");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ItemAndBuildingAcquisition>c__AnonStorey4
+		{
+			internal Func<ThingDef, string> calculatedMarketValue;
+
+			internal Func<ThingDef, string> recipes;
+
+			internal Func<ThingDef, string> workAmountSources;
+
+			public <ItemAndBuildingAcquisition>c__AnonStorey4()
+			{
+			}
+
+			internal string <>m__0(ThingDef d)
+			{
+				return this.calculatedMarketValue(d);
+			}
+
+			internal string <>m__1(ThingDef d)
+			{
+				return this.recipes(d);
+			}
+
+			internal string <>m__2(ThingDef d)
+			{
+				return this.workAmountSources(d);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Producible>c__AnonStorey5
+		{
+			internal ThingDef d;
+
+			public <Producible>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(RecipeDef r)
+			{
+				return r.products.Any((ThingDefCountClass pr) => pr.thingDef == this.d);
+			}
+
+			internal bool <>m__1(ThingDefCountClass pr)
+			{
+				return pr.thingDef == this.d;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheapestIngredients>c__Iterator0 : IEnumerable, IEnumerable<Pair<ThingDef, float>>, IEnumerator, IDisposable, IEnumerator<Pair<ThingDef, float>>
+		{
+			internal RecipeDef d;
+
+			internal List<IngredientCount>.Enumerator $locvar0;
+
+			internal IngredientCount <ing>__1;
+
+			internal ThingDef <thing>__2;
+
+			internal Pair<ThingDef, float> $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<ThingDef, bool> <>f__am$cache0;
+
+			private static Func<ThingDef, float> <>f__am$cache1;
+
+			[DebuggerHidden]
+			public <CheapestIngredients>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = d.ingredients.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						ing = enumerator.Current;
+						thing = (from td in ing.filter.AllowedThingDefs
+						where td != ThingDefOf.Meat_Human
+						select td).MinBy((ThingDef td) => td.BaseMarketValue / td.VolumePerUnit);
+						this.$current = new Pair<ThingDef, float>(thing, ing.GetBaseCount() / d.IngredientValueGetter.ValuePerUnitOf(thing));
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pair<ThingDef, float> IEnumerator<Pair<ThingDef, float>>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pair<Verse.ThingDef,float>>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pair<ThingDef, float>> IEnumerable<Pair<ThingDef, float>>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				DebugOutputsEconomy.<CheapestIngredients>c__Iterator0 <CheapestIngredients>c__Iterator = new DebugOutputsEconomy.<CheapestIngredients>c__Iterator0();
+				<CheapestIngredients>c__Iterator.d = d;
+				return <CheapestIngredients>c__Iterator;
+			}
+
+			private static bool <>m__0(ThingDef td)
+			{
+				return td != ThingDefOf.Meat_Human;
+			}
+
+			private static float <>m__1(ThingDef td)
+			{
+				return td.BaseMarketValue / td.VolumePerUnit;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheapestNonDerpStuff>c__AnonStorey6
+		{
+			internal ThingDef productDef;
+
+			public <CheapestNonDerpStuff>c__AnonStorey6()
+			{
+			}
+
+			internal bool <>m__0(ThingDef td)
+			{
+				return !this.productDef.IsWeapon || !PawnWeaponGenerator.IsDerpWeapon(this.productDef, td);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RequiresBuying>c__AnonStorey7
+		{
+			internal ThingDef def;
+
+			public <RequiresBuying>c__AnonStorey7()
+			{
+			}
+
+			internal bool <>m__0(ThingDef d)
+			{
+				return d.plant != null && d.plant.harvestedThingDef == this.def && d.plant.Sowable;
+			}
 		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000413 RID: 1043
 	public static class SiteGenStepUtility
 	{
-		// Token: 0x060011EE RID: 4590 RVA: 0x0009BB68 File Offset: 0x00099F68
 		public static bool TryFindRootToSpawnAroundRectOfInterest(out CellRect rectToDefend, out IntVec3 singleCellToSpawnNear, Map map)
 		{
 			singleCellToSpawnNear = IntVec3.Invalid;
@@ -21,7 +20,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060011EF RID: 4591 RVA: 0x0009BBD8 File Offset: 0x00099FD8
 		public static bool TryFindSpawnCellAroundOrNear(CellRect around, IntVec3 near, Map map, out IntVec3 spawnCell)
 		{
 			if (near.IsValid)
@@ -36,6 +34,38 @@ namespace RimWorld
 				return false;
 			}
 			return true;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRootToSpawnAroundRectOfInterest>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <TryFindRootToSpawnAroundRectOfInterest>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Standable(this.map) && !x.Fogged(this.map) && x.GetRoom(this.map, RegionType.Set_Passable).CellCount >= 225;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSpawnCellAroundOrNear>c__AnonStorey1
+		{
+			internal CellRect around;
+
+			internal Map map;
+
+			public <TryFindSpawnCellAroundOrNear>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !this.around.Contains(x) && x.InBounds(this.map) && x.Standable(this.map) && !x.Fogged(this.map);
+			}
 		}
 	}
 }

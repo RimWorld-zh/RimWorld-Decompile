@@ -5,10 +5,12 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020000C6 RID: 198
 	public class JobGiver_UnloadMyLordCarriers : ThinkNode_JobGiver
 	{
-		// Token: 0x06000494 RID: 1172 RVA: 0x00034228 File Offset: 0x00032628
+		public JobGiver_UnloadMyLordCarriers()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

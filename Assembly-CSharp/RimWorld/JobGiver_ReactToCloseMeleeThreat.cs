@@ -4,13 +4,14 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000EC RID: 236
 	public class JobGiver_ReactToCloseMeleeThreat : ThinkNode_JobGiver
 	{
-		// Token: 0x040002CB RID: 715
 		private const int MaxMeleeChaseTicks = 200;
 
-		// Token: 0x0600050A RID: 1290 RVA: 0x00037FBC File Offset: 0x000363BC
+		public JobGiver_ReactToCloseMeleeThreat()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn meleeThreat = pawn.mindState.meleeThreat;
@@ -51,7 +52,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600050B RID: 1291 RVA: 0x000380B0 File Offset: 0x000364B0
 		private bool IsHunting(Pawn pawn, Pawn prey)
 		{
 			bool result;

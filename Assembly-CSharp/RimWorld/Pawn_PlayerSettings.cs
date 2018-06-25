@@ -1,49 +1,40 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000521 RID: 1313
 	public class Pawn_PlayerSettings : IExposable
 	{
-		// Token: 0x04000E24 RID: 3620
 		private Pawn pawn;
 
-		// Token: 0x04000E25 RID: 3621
 		private Area areaAllowedInt = null;
 
-		// Token: 0x04000E26 RID: 3622
 		public int joinTick = -1;
 
-		// Token: 0x04000E27 RID: 3623
 		private Pawn master = null;
 
-		// Token: 0x04000E28 RID: 3624
 		public bool followDrafted = true;
 
-		// Token: 0x04000E29 RID: 3625
 		public bool followFieldwork = true;
 
-		// Token: 0x04000E2A RID: 3626
 		public bool animalsReleased = false;
 
-		// Token: 0x04000E2B RID: 3627
 		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
 
-		// Token: 0x04000E2C RID: 3628
 		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
 
-		// Token: 0x04000E2D RID: 3629
 		public bool selfTend = false;
 
-		// Token: 0x04000E2E RID: 3630
 		public int displayOrder;
 
-		// Token: 0x060017ED RID: 6125 RVA: 0x000D16F0 File Offset: 0x000CFAF0
 		public Pawn_PlayerSettings(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -58,9 +49,6 @@ namespace RimWorld
 			this.Notify_FactionChanged();
 		}
 
-		// Token: 0x1700034D RID: 845
-		// (get) Token: 0x060017EE RID: 6126 RVA: 0x000D1778 File Offset: 0x000CFB78
-		// (set) Token: 0x060017EF RID: 6127 RVA: 0x000D1794 File Offset: 0x000CFB94
 		public Pawn Master
 		{
 			get
@@ -88,8 +76,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700034E RID: 846
-		// (get) Token: 0x060017F0 RID: 6128 RVA: 0x000D1834 File Offset: 0x000CFC34
 		public Area EffectiveAreaRestrictionInPawnCurrentMap
 		{
 			get
@@ -107,8 +93,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700034F RID: 847
-		// (get) Token: 0x060017F1 RID: 6129 RVA: 0x000D187C File Offset: 0x000CFC7C
 		public Area EffectiveAreaRestriction
 		{
 			get
@@ -126,9 +110,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000350 RID: 848
-		// (get) Token: 0x060017F2 RID: 6130 RVA: 0x000D18AC File Offset: 0x000CFCAC
-		// (set) Token: 0x060017F3 RID: 6131 RVA: 0x000D18C7 File Offset: 0x000CFCC7
 		public Area AreaRestriction
 		{
 			get
@@ -141,8 +122,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000351 RID: 849
-		// (get) Token: 0x060017F4 RID: 6132 RVA: 0x000D18D4 File Offset: 0x000CFCD4
 		public bool RespectsAllowedArea
 		{
 			get
@@ -151,8 +130,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000352 RID: 850
-		// (get) Token: 0x060017F5 RID: 6133 RVA: 0x000D1928 File Offset: 0x000CFD28
 		public bool RespectsMaster
 		{
 			get
@@ -161,8 +138,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000353 RID: 851
-		// (get) Token: 0x060017F6 RID: 6134 RVA: 0x000D1980 File Offset: 0x000CFD80
 		public Pawn RespectedMaster
 		{
 			get
@@ -171,8 +146,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000354 RID: 852
-		// (get) Token: 0x060017F7 RID: 6135 RVA: 0x000D19AC File Offset: 0x000CFDAC
 		public bool UsesConfigurableHostilityResponse
 		{
 			get
@@ -181,7 +154,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017F8 RID: 6136 RVA: 0x000D19E4 File Offset: 0x000CFDE4
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.joinTick, "joinTick", 0, false);
@@ -196,7 +168,6 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.displayOrder, "displayOrder", 0, false);
 		}
 
-		// Token: 0x060017F9 RID: 6137 RVA: 0x000D1AA4 File Offset: 0x000CFEA4
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (this.pawn.Drafted)
@@ -231,19 +202,16 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060017FA RID: 6138 RVA: 0x000D1ACE File Offset: 0x000CFECE
 		public void Notify_FactionChanged()
 		{
 			this.ResetMedicalCare();
 		}
 
-		// Token: 0x060017FB RID: 6139 RVA: 0x000D1AD7 File Offset: 0x000CFED7
 		public void Notify_MadePrisoner()
 		{
 			this.ResetMedicalCare();
 		}
 
-		// Token: 0x060017FC RID: 6140 RVA: 0x000D1AE0 File Offset: 0x000CFEE0
 		public void ResetMedicalCare()
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -281,12 +249,157 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017FD RID: 6141 RVA: 0x000D1C07 File Offset: 0x000D0007
 		public void Notify_AreaRemoved(Area area)
 		{
 			if (this.areaAllowedInt == area)
 			{
 				this.areaAllowedInt = null;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Toggle <c>__1;
+
+			internal Pawn_PlayerSettings $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<Pawn, bool> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.pawn.Drafted)
+					{
+						if (PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Pawn p) => p.training.HasLearned(TrainableDefOf.Release)))
+						{
+							Command_Toggle c = new Command_Toggle();
+							c.defaultLabel = "CommandReleaseAnimalsLabel".Translate();
+							c.defaultDesc = "CommandReleaseAnimalsDesc".Translate();
+							c.icon = TexCommand.ReleaseAnimals;
+							c.hotKey = KeyBindingDefOf.Misc7;
+							c.isActive = (() => this.animalsReleased);
+							c.toggleAction = delegate()
+							{
+								this.animalsReleased = !this.animalsReleased;
+								if (this.animalsReleased)
+								{
+									foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
+									{
+										if (pawn.caller != null)
+										{
+											pawn.caller.Notify_Released();
+										}
+										pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+									}
+								}
+							};
+							this.$current = c;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn_PlayerSettings.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Pawn_PlayerSettings.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			private static bool <>m__0(Pawn p)
+			{
+				return p.training.HasLearned(TrainableDefOf.Release);
+			}
+
+			internal bool <>m__1()
+			{
+				return this.animalsReleased;
+			}
+
+			internal void <>m__2()
+			{
+				this.animalsReleased = !this.animalsReleased;
+				if (this.animalsReleased)
+				{
+					foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
+					{
+						if (pawn.caller != null)
+						{
+							pawn.caller.Notify_Released();
+						}
+						pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
+				}
 			}
 		}
 	}

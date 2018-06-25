@@ -4,10 +4,12 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000B2 RID: 178
 	public class JobGiver_AIFightEnemies : JobGiver_AIFightEnemy
 	{
-		// Token: 0x06000446 RID: 1094 RVA: 0x000304E8 File Offset: 0x0002E8E8
+		public JobGiver_AIFightEnemies()
+		{
+		}
+
 		protected override bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest)
 		{
 			Thing enemyTarget = pawn.mindState.enemyTarget;

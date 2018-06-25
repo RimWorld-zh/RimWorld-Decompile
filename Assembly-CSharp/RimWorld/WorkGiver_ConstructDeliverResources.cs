@@ -1,39 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000129 RID: 297
 	public abstract class WorkGiver_ConstructDeliverResources : WorkGiver_Scanner
 	{
-		// Token: 0x0400030B RID: 779
 		private static List<Thing> resourcesAvailable = new List<Thing>();
 
-		// Token: 0x0400030C RID: 780
 		private const float MultiPickupRadius = 5f;
 
-		// Token: 0x0400030D RID: 781
 		private const float NearbyConstructScanRadius = 8f;
 
-		// Token: 0x0400030E RID: 782
 		private static string MissingMaterialsTranslated;
 
-		// Token: 0x0400030F RID: 783
 		private static string ForbiddenLowerTranslated;
 
-		// Token: 0x04000310 RID: 784
 		private static string NoPathTranslated;
 
-		// Token: 0x0600061A RID: 1562 RVA: 0x0004099C File Offset: 0x0003ED9C
+		protected WorkGiver_ConstructDeliverResources()
+		{
+		}
+
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x0600061B RID: 1563 RVA: 0x000409B2 File Offset: 0x0003EDB2
 		public static void ResetStaticData()
 		{
 			WorkGiver_ConstructDeliverResources.MissingMaterialsTranslated = "MissingMaterials".Translate();
@@ -41,13 +37,11 @@ namespace RimWorld
 			WorkGiver_ConstructDeliverResources.NoPathTranslated = "NoPath".Translate();
 		}
 
-		// Token: 0x0600061C RID: 1564 RVA: 0x000409E4 File Offset: 0x0003EDE4
 		private static bool ResourceValidator(Pawn pawn, ThingDefCountClass need, Thing th)
 		{
 			return th.def == need.thingDef && !th.IsForbidden(pawn) && pawn.CanReserve(th, 1, -1, null, false);
 		}
 
-		// Token: 0x0600061D RID: 1565 RVA: 0x00040A44 File Offset: 0x0003EE44
 		protected Job ResourceDeliverJobFor(Pawn pawn, IConstructible c, bool canRemoveExistingFloorUnderNearbyNeeders = true)
 		{
 			Blueprint_Install blueprint_Install = c as Blueprint_Install;
@@ -134,7 +128,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600061E RID: 1566 RVA: 0x00040D9C File Offset: 0x0003F19C
 		private void FindAvailableNearbyResources(Thing firstFoundResource, Pawn pawn, out int resTotalAvailable)
 		{
 			int num = Mathf.Min(firstFoundResource.def.stackLimit, pawn.carryTracker.MaxStackSpaceEver(firstFoundResource.def));
@@ -162,7 +155,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600061F RID: 1567 RVA: 0x00040E9C File Offset: 0x0003F29C
 		private HashSet<Thing> FindNearbyNeeders(Pawn pawn, ThingDefCountClass need, IConstructible c, int resTotalAvailable, bool canRemoveExistingFloorUnderNearbyNeeders, out int neededTotal, out Job jobToMakeNeederAvailable)
 		{
 			neededTotal = need.count;
@@ -212,19 +204,16 @@ namespace RimWorld
 			return hashSet;
 		}
 
-		// Token: 0x06000620 RID: 1568 RVA: 0x00041078 File Offset: 0x0003F478
 		private bool IsNewValidNearbyNeeder(Thing t, HashSet<Thing> nearbyNeeders, IConstructible constructible, Pawn pawn)
 		{
 			return t is IConstructible && t != constructible && !(t is Blueprint_Install) && t.Faction == pawn.Faction && !t.IsForbidden(pawn) && !nearbyNeeders.Contains(t) && GenConstruct.CanConstruct(t, pawn, false, false);
 		}
 
-		// Token: 0x06000621 RID: 1569 RVA: 0x000410F0 File Offset: 0x0003F4F0
 		protected static bool ShouldRemoveExistingFloorFirst(Pawn pawn, Blueprint blue)
 		{
 			return blue.def.entityDefToBuild is TerrainDef && pawn.Map.terrainGrid.CanRemoveTopLayerAt(blue.Position);
 		}
 
-		// Token: 0x06000622 RID: 1570 RVA: 0x00041144 File Offset: 0x0003F544
 		protected Job RemoveExistingFloorJob(Pawn pawn, Blueprint blue)
 		{
 			Job result;
@@ -251,7 +240,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000623 RID: 1571 RVA: 0x000411B8 File Offset: 0x0003F5B8
 		private Job InstallJob(Pawn pawn, Blueprint_Install install)
 		{
 			Thing miniToInstallOrBuildingToReinstall = install.MiniToInstallOrBuildingToReinstall;
@@ -289,6 +277,45 @@ namespace RimWorld
 				};
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WorkGiver_ConstructDeliverResources()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <ResourceDeliverJobFor>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <ResourceDeliverJobFor>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ResourceDeliverJobFor>c__AnonStorey1
+		{
+			internal ThingDefCountClass need;
+
+			internal Thing foundRes;
+
+			internal WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey0 <>f__ref$0;
+
+			public <ResourceDeliverJobFor>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing r)
+			{
+				return WorkGiver_ConstructDeliverResources.ResourceValidator(this.<>f__ref$0.pawn, this.need, r);
+			}
+
+			internal int <>m__1(Thing nee)
+			{
+				return IntVec3Utility.ManhattanDistanceFlat(this.foundRes.Position, nee.Position);
+			}
 		}
 	}
 }

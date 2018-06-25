@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D1 RID: 977
 	public class SymbolResolver_RandomMechanoidGroup : SymbolResolver
 	{
-		// Token: 0x04000A40 RID: 2624
 		private static readonly IntRange DefaultMechanoidCountRange = new IntRange(1, 5);
 
-		// Token: 0x060010D2 RID: 4306 RVA: 0x0008F674 File Offset: 0x0008DA74
+		[CompilerGenerated]
+		private static Func<PawnKindDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<PawnKindDef, float> <>f__am$cache1;
+
+		public SymbolResolver_RandomMechanoidGroup()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			int? mechanoidsCount = rp.mechanoidsCount;
@@ -48,6 +56,38 @@ namespace RimWorld.BaseGen
 				resolveParams.singlePawnLord = lord;
 				resolveParams.faction = Faction.OfMechanoids;
 				BaseGen.symbolStack.Push("pawn", resolveParams);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_RandomMechanoidGroup()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Resolve>m__0(PawnKindDef kind)
+		{
+			return kind.RaceProps.IsMechanoid;
+		}
+
+		[CompilerGenerated]
+		private static float <Resolve>m__1(PawnKindDef kind)
+		{
+			return 1f / kind.combatPower;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <Resolve>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !x.Impassable(this.map);
 			}
 		}
 	}

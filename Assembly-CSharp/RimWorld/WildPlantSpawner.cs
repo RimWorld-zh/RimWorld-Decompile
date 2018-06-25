@@ -1,93 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000454 RID: 1108
 	public class WildPlantSpawner : IExposable
 	{
-		// Token: 0x04000BB7 RID: 2999
 		private Map map;
 
-		// Token: 0x04000BB8 RID: 3000
 		private int cycleIndex;
 
-		// Token: 0x04000BB9 RID: 3001
 		private float calculatedWholeMapNumDesiredPlants;
 
-		// Token: 0x04000BBA RID: 3002
 		private float calculatedWholeMapNumDesiredPlantsTmp;
 
-		// Token: 0x04000BBB RID: 3003
 		private int calculatedWholeMapNumNonZeroFertilityCells;
 
-		// Token: 0x04000BBC RID: 3004
 		private int calculatedWholeMapNumNonZeroFertilityCellsTmp;
 
-		// Token: 0x04000BBD RID: 3005
 		private bool hasWholeMapNumDesiredPlantsCalculated;
 
-		// Token: 0x04000BBE RID: 3006
 		private float? cachedCavePlantsCommonalitiesSum;
 
-		// Token: 0x04000BBF RID: 3007
 		private static List<ThingDef> allCavePlants = new List<ThingDef>();
 
-		// Token: 0x04000BC0 RID: 3008
 		private static List<ThingDef> tmpPossiblePlants = new List<ThingDef>();
 
-		// Token: 0x04000BC1 RID: 3009
 		private static List<KeyValuePair<ThingDef, float>> tmpPossiblePlantsWithWeight = new List<KeyValuePair<ThingDef, float>>();
 
-		// Token: 0x04000BC2 RID: 3010
 		private static Dictionary<ThingDef, float> distanceSqToNearbyClusters = new Dictionary<ThingDef, float>();
 
-		// Token: 0x04000BC3 RID: 3011
 		private static Dictionary<ThingDef, List<float>> nearbyClusters = new Dictionary<ThingDef, List<float>>();
 
-		// Token: 0x04000BC4 RID: 3012
 		private static List<KeyValuePair<ThingDef, List<float>>> nearbyClustersList = new List<KeyValuePair<ThingDef, List<float>>>();
 
-		// Token: 0x04000BC5 RID: 3013
 		private const float CavePlantsDensityFactor = 0.5f;
 
-		// Token: 0x04000BC6 RID: 3014
 		private const int PlantSaturationScanRadius = 20;
 
-		// Token: 0x04000BC7 RID: 3015
 		private const float MapFractionCheckPerTick = 0.0001f;
 
-		// Token: 0x04000BC8 RID: 3016
 		private const float ChanceToRegrow = 0.012f;
 
-		// Token: 0x04000BC9 RID: 3017
 		private const float CavePlantChanceToRegrow = 0.0001f;
 
-		// Token: 0x04000BCA RID: 3018
 		private const float BaseLowerOrderScanRadius = 7f;
 
-		// Token: 0x04000BCB RID: 3019
 		private const float LowerOrderScanRadiusWildClusterRadiusFactor = 1.5f;
 
-		// Token: 0x04000BCC RID: 3020
 		private const float MinDesiredLowerOrderPlantsToConsiderSkipping = 4f;
 
-		// Token: 0x04000BCD RID: 3021
 		private const float MinLowerOrderPlantsPct = 0.57f;
 
-		// Token: 0x04000BCE RID: 3022
 		private const float LocalPlantProportionsMaxScanRadius = 25f;
 
-		// Token: 0x04000BCF RID: 3023
 		private const float MaxLocalProportionsBias = 7f;
 
-		// Token: 0x04000BD0 RID: 3024
 		private const float CavePlantRegrowDays = 130f;
 
-		// Token: 0x04000BD1 RID: 3025
 		private static readonly SimpleCurve GlobalPctSelectionWeightBias = new SimpleCurve
 		{
 			{
@@ -108,17 +81,19 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000BD2 RID: 3026
 		private static List<ThingDef> tmpPlantDefsLowerOrder = new List<ThingDef>();
 
-		// Token: 0x06001348 RID: 4936 RVA: 0x000A5EA5 File Offset: 0x000A42A5
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<ThingDef, float>, float> <>f__am$cache1;
+
 		public WildPlantSpawner(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x170002A1 RID: 673
-		// (get) Token: 0x06001349 RID: 4937 RVA: 0x000A5EB8 File Offset: 0x000A42B8
 		public float CurrentPlantDensity
 		{
 			get
@@ -127,8 +102,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002A2 RID: 674
-		// (get) Token: 0x0600134A RID: 4938 RVA: 0x000A5EF4 File Offset: 0x000A42F4
 		public float CurrentWholeMapNumDesiredPlants
 		{
 			get
@@ -146,8 +119,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002A3 RID: 675
-		// (get) Token: 0x0600134B RID: 4939 RVA: 0x000A5F60 File Offset: 0x000A4360
 		public int CurrentWholeMapNumNonZeroFertilityCells
 		{
 			get
@@ -167,8 +138,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002A4 RID: 676
-		// (get) Token: 0x0600134C RID: 4940 RVA: 0x000A5FCC File Offset: 0x000A43CC
 		public float CavePlantsCommonalitiesSum
 		{
 			get
@@ -187,7 +156,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600134D RID: 4941 RVA: 0x000A6075 File Offset: 0x000A4475
 		public static void ResetStaticData()
 		{
 			WildPlantSpawner.allCavePlants.Clear();
@@ -196,7 +164,6 @@ namespace RimWorld
 			select x);
 		}
 
-		// Token: 0x0600134E RID: 4942 RVA: 0x000A60B4 File Offset: 0x000A44B4
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.cycleIndex, "cycleIndex", 0, false);
@@ -207,7 +174,6 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.calculatedWholeMapNumNonZeroFertilityCellsTmp, "calculatedWholeMapNumNonZeroFertilityCellsTmp", 0, false);
 		}
 
-		// Token: 0x0600134F RID: 4943 RVA: 0x000A6138 File Offset: 0x000A4538
 		public void WildPlantSpawnerTick()
 		{
 			if (DebugSettings.fastEcology || DebugSettings.fastEcologyRegrowRateOnly)
@@ -223,7 +189,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001350 RID: 4944 RVA: 0x000A6188 File Offset: 0x000A4588
 		private void WildPlantSpawnerTickInternal()
 		{
 			int area = this.map.Area;
@@ -262,7 +227,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001351 RID: 4945 RVA: 0x000A6328 File Offset: 0x000A4728
 		public bool CheckSpawnWildPlantAt(IntVec3 c, float plantDensity, float wholeMapNumDesiredPlants, bool setRandomGrowth = false)
 		{
 			bool result;
@@ -318,7 +282,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001352 RID: 4946 RVA: 0x000A650C File Offset: 0x000A490C
 		private float PlantChoiceWeight(ThingDef plantDef, IntVec3 c, Dictionary<ThingDef, float> distanceSqToNearbyClusters, float wholeMapNumDesiredPlants, float plantDensity)
 		{
 			float commonalityOfPlant = this.GetCommonalityOfPlant(plantDef);
@@ -374,7 +337,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001353 RID: 4947 RVA: 0x000A6780 File Offset: 0x000A4B80
 		private float LocalPlantProportionsWeightFactor(IntVec3 c, float commonalityPct, float plantDensity, float radiusToScan, ThingDef plantDef)
 		{
 			float numDesiredPlantsLocally = 0f;
@@ -405,7 +367,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001354 RID: 4948 RVA: 0x000A686C File Offset: 0x000A4C6C
 		private void CalculatePlantsWhichCanGrowAt(IntVec3 c, List<ThingDef> outPlants, bool cavePlants, float plantDensity)
 		{
 			outPlants.Clear();
@@ -446,7 +407,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001355 RID: 4949 RVA: 0x000A6994 File Offset: 0x000A4D94
 		private bool EnoughLowerOrderPlantsNearby(IntVec3 c, float plantDensity, float radiusToScan, ThingDef plantDef)
 		{
 			float num = 0f;
@@ -475,7 +435,6 @@ namespace RimWorld
 			return num2 < 4f || (float)numPlantsLowerOrder / num2 >= 0.57f;
 		}
 
-		// Token: 0x06001356 RID: 4950 RVA: 0x000A6AC0 File Offset: 0x000A4EC0
 		private bool SaturatedAt(IntVec3 c, float plantDensity, bool cavePlants, float wholeMapNumDesiredPlants)
 		{
 			int num = GenRadial.NumCellsInRadius(20f);
@@ -500,7 +459,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001357 RID: 4951 RVA: 0x000A6BA8 File Offset: 0x000A4FA8
 		private void CalculateDistancesToNearbyClusters(IntVec3 c)
 		{
 			WildPlantSpawner.nearbyClusters.Clear();
@@ -541,32 +499,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001358 RID: 4952 RVA: 0x000A6D70 File Offset: 0x000A5170
 		private bool CanRegrowAt(IntVec3 c)
 		{
 			return c.GetTemperature(this.map) > 0f && (!c.Roofed(this.map) || this.GoodRoofForCavePlant(c));
 		}
 
-		// Token: 0x06001359 RID: 4953 RVA: 0x000A6DBC File Offset: 0x000A51BC
 		private bool GoodRoofForCavePlant(IntVec3 c)
 		{
 			RoofDef roof = c.GetRoof(this.map);
 			return roof != null && roof.isNatural;
 		}
 
-		// Token: 0x0600135A RID: 4954 RVA: 0x000A6DF0 File Offset: 0x000A51F0
 		private float GetCommonalityOfPlant(ThingDef plant)
 		{
 			return (!plant.plant.cavePlant) ? this.map.Biome.CommonalityOfPlant(plant) : plant.plant.cavePlantWeight;
 		}
 
-		// Token: 0x0600135B RID: 4955 RVA: 0x000A6E38 File Offset: 0x000A5238
 		private float GetCommonalityPctOfPlant(ThingDef plant)
 		{
 			return (!plant.plant.cavePlant) ? this.map.Biome.CommonalityPctOfPlant(plant) : (this.GetCommonalityOfPlant(plant) / this.CavePlantsCommonalitiesSum);
 		}
 
-		// Token: 0x0600135C RID: 4956 RVA: 0x000A6E84 File Offset: 0x000A5284
 		public float GetBaseDesiredPlantsCountAt(IntVec3 c)
 		{
 			float num = c.GetTerrain(this.map).fertility;
@@ -577,16 +530,133 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600135D RID: 4957 RVA: 0x000A6EC0 File Offset: 0x000A52C0
 		public float GetDesiredPlantsCountAt(IntVec3 c, IntVec3 forCell, float plantDensity)
 		{
 			return Mathf.Min(this.GetBaseDesiredPlantsCountAt(c) * plantDensity * forCell.GetTerrain(this.map).fertility, 1f);
 		}
 
-		// Token: 0x0600135E RID: 4958 RVA: 0x000A6EFC File Offset: 0x000A52FC
 		public float GetDesiredPlantsCountIn(Region reg, IntVec3 forCell, float plantDensity)
 		{
 			return Mathf.Min(reg.GetBaseDesiredPlantsCount(true) * plantDensity * forCell.GetTerrain(this.map).fertility, (float)reg.CellCount);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WildPlantSpawner()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <ResetStaticData>m__0(ThingDef x)
+		{
+			return x.category == ThingCategory.Plant && x.plant.cavePlant;
+		}
+
+		[CompilerGenerated]
+		private static float <CheckSpawnWildPlantAt>m__1(KeyValuePair<ThingDef, float> x)
+		{
+			return x.Value;
+		}
+
+		[CompilerGenerated]
+		private sealed class <LocalPlantProportionsWeightFactor>c__AnonStorey0
+		{
+			internal IntVec3 c;
+
+			internal float radiusToScan;
+
+			internal float plantDensity;
+
+			internal float numDesiredPlantsLocally;
+
+			internal int numPlants;
+
+			internal ThingDef plantDef;
+
+			internal int numPlantsThisDef;
+
+			internal WildPlantSpawner $this;
+
+			public <LocalPlantProportionsWeightFactor>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region to)
+			{
+				return this.c.InHorDistOf(to.extentsClose.ClosestCellTo(this.c), this.radiusToScan);
+			}
+
+			internal bool <>m__1(Region reg)
+			{
+				this.numDesiredPlantsLocally += this.$this.GetDesiredPlantsCountIn(reg, this.c, this.plantDensity);
+				this.numPlants += reg.ListerThings.ThingsInGroup(ThingRequestGroup.Plant).Count;
+				this.numPlantsThisDef += reg.ListerThings.ThingsOfDef(this.plantDef).Count;
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <EnoughLowerOrderPlantsNearby>c__AnonStorey1
+		{
+			internal IntVec3 c;
+
+			internal float radiusToScan;
+
+			internal float plantDensity;
+
+			internal float numDesiredPlantsLocally;
+
+			internal int numPlantsLowerOrder;
+
+			internal WildPlantSpawner $this;
+
+			public <EnoughLowerOrderPlantsNearby>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region to)
+			{
+				return this.c.InHorDistOf(to.extentsClose.ClosestCellTo(this.c), this.radiusToScan);
+			}
+
+			internal bool <>m__1(Region reg)
+			{
+				this.numDesiredPlantsLocally += this.$this.GetDesiredPlantsCountIn(reg, this.c, this.plantDensity);
+				for (int i = 0; i < WildPlantSpawner.tmpPlantDefsLowerOrder.Count; i++)
+				{
+					this.numPlantsLowerOrder += reg.ListerThings.ThingsOfDef(WildPlantSpawner.tmpPlantDefsLowerOrder[i]).Count;
+				}
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SaturatedAt>c__AnonStorey2
+		{
+			internal IntVec3 c;
+
+			internal float plantDensity;
+
+			internal float numDesiredPlantsLocally;
+
+			internal int numPlants;
+
+			internal WildPlantSpawner $this;
+
+			public <SaturatedAt>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region to)
+			{
+				return this.c.InHorDistOf(to.extentsClose.ClosestCellTo(this.c), 20f);
+			}
+
+			internal bool <>m__1(Region reg)
+			{
+				this.numDesiredPlantsLocally += this.$this.GetDesiredPlantsCountIn(reg, this.c, this.plantDensity);
+				this.numPlants += reg.ListerThings.ThingsInGroup(ThingRequestGroup.Plant).Count;
+				return false;
+			}
 		}
 	}
 }

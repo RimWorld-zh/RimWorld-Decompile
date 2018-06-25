@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F4 RID: 2036
 	public class Dialog_AddPreferredName : Window
 	{
-		// Token: 0x040017BC RID: 6076
 		private string searchName = "";
 
-		// Token: 0x040017BD RID: 6077
 		private string[] searchWords;
 
-		// Token: 0x040017BE RID: 6078
 		private List<NameTriple> cachedNames;
 
-		// Token: 0x06002D26 RID: 11558 RVA: 0x0017B840 File Offset: 0x00179C40
+		[CompilerGenerated]
+		private static Func<PawnBio, NameTriple> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<NameTriple, string> <>f__am$cache1;
+
 		public Dialog_AddPreferredName()
 		{
 			this.doCloseButton = true;
@@ -29,8 +31,6 @@ namespace RimWorld
 			select n).ToList<NameTriple>();
 		}
 
-		// Token: 0x17000726 RID: 1830
-		// (get) Token: 0x06002D27 RID: 11559 RVA: 0x0017B8CC File Offset: 0x00179CCC
 		public override Vector2 InitialSize
 		{
 			get
@@ -39,7 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D28 RID: 11560 RVA: 0x0017B8F0 File Offset: 0x00179CF0
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -72,7 +71,6 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002D29 RID: 11561 RVA: 0x0017BA3C File Offset: 0x00179E3C
 		private bool FilterMatch(NameTriple n)
 		{
 			bool result;
@@ -95,7 +93,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D2A RID: 11562 RVA: 0x0017BB50 File Offset: 0x00179F50
 		private void TryChooseName(NameTriple name)
 		{
 			if (this.AlreadyPreferred(name))
@@ -109,10 +106,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D2B RID: 11563 RVA: 0x0017BBA0 File Offset: 0x00179FA0
 		private bool AlreadyPreferred(NameTriple name)
 		{
 			return Prefs.PreferredNames.Contains(name.ToString());
+		}
+
+		[CompilerGenerated]
+		private static NameTriple <Dialog_AddPreferredName>m__0(PawnBio b)
+		{
+			return b.name;
+		}
+
+		[CompilerGenerated]
+		private static string <Dialog_AddPreferredName>m__1(NameTriple n)
+		{
+			return n.Last;
 		}
 	}
 }

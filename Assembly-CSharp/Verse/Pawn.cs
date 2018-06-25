@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -11,150 +15,134 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000D4C RID: 3404
 	public class Pawn : ThingWithComps, IStrippable, IBillGiver, IVerbOwner, ITrader, IAttackTarget, IAttackTargetSearcher, IThingHolder, ILoadReferenceable
 	{
-		// Token: 0x0400328B RID: 12939
 		public PawnKindDef kindDef;
 
-		// Token: 0x0400328C RID: 12940
 		private Name nameInt;
 
-		// Token: 0x0400328D RID: 12941
 		public Gender gender = Gender.None;
 
-		// Token: 0x0400328E RID: 12942
 		public Pawn_AgeTracker ageTracker;
 
-		// Token: 0x0400328F RID: 12943
 		public Pawn_HealthTracker health;
 
-		// Token: 0x04003290 RID: 12944
 		public Pawn_RecordsTracker records;
 
-		// Token: 0x04003291 RID: 12945
 		public Pawn_InventoryTracker inventory;
 
-		// Token: 0x04003292 RID: 12946
 		public Pawn_MeleeVerbs meleeVerbs;
 
-		// Token: 0x04003293 RID: 12947
 		public VerbTracker verbTracker;
 
-		// Token: 0x04003294 RID: 12948
 		public Pawn_CarryTracker carryTracker;
 
-		// Token: 0x04003295 RID: 12949
 		public Pawn_NeedsTracker needs;
 
-		// Token: 0x04003296 RID: 12950
 		public Pawn_MindState mindState;
 
-		// Token: 0x04003297 RID: 12951
 		public Pawn_RotationTracker rotationTracker;
 
-		// Token: 0x04003298 RID: 12952
 		public Pawn_PathFollower pather;
 
-		// Token: 0x04003299 RID: 12953
 		public Pawn_Thinker thinker;
 
-		// Token: 0x0400329A RID: 12954
 		public Pawn_JobTracker jobs;
 
-		// Token: 0x0400329B RID: 12955
 		public Pawn_StanceTracker stances;
 
-		// Token: 0x0400329C RID: 12956
 		public Pawn_NativeVerbs natives;
 
-		// Token: 0x0400329D RID: 12957
 		public Pawn_FilthTracker filth;
 
-		// Token: 0x0400329E RID: 12958
 		public Pawn_EquipmentTracker equipment;
 
-		// Token: 0x0400329F RID: 12959
 		public Pawn_ApparelTracker apparel;
 
-		// Token: 0x040032A0 RID: 12960
 		public Pawn_Ownership ownership;
 
-		// Token: 0x040032A1 RID: 12961
 		public Pawn_SkillTracker skills;
 
-		// Token: 0x040032A2 RID: 12962
 		public Pawn_StoryTracker story;
 
-		// Token: 0x040032A3 RID: 12963
 		public Pawn_GuestTracker guest;
 
-		// Token: 0x040032A4 RID: 12964
 		public Pawn_GuiltTracker guilt;
 
-		// Token: 0x040032A5 RID: 12965
 		public Pawn_WorkSettings workSettings;
 
-		// Token: 0x040032A6 RID: 12966
 		public Pawn_TraderTracker trader;
 
-		// Token: 0x040032A7 RID: 12967
 		public Pawn_TrainingTracker training;
 
-		// Token: 0x040032A8 RID: 12968
 		public Pawn_CallTracker caller;
 
-		// Token: 0x040032A9 RID: 12969
 		public Pawn_RelationsTracker relations;
 
-		// Token: 0x040032AA RID: 12970
 		public Pawn_InteractionsTracker interactions;
 
-		// Token: 0x040032AB RID: 12971
 		public Pawn_PlayerSettings playerSettings;
 
-		// Token: 0x040032AC RID: 12972
 		public Pawn_OutfitTracker outfits;
 
-		// Token: 0x040032AD RID: 12973
 		public Pawn_DrugPolicyTracker drugs;
 
-		// Token: 0x040032AE RID: 12974
 		public Pawn_TimetableTracker timetable;
 
-		// Token: 0x040032AF RID: 12975
 		public Pawn_DraftController drafter;
 
-		// Token: 0x040032B0 RID: 12976
 		private Pawn_DrawTracker drawer;
 
-		// Token: 0x040032B1 RID: 12977
 		private const float HumanSizedHeatOutput = 0.3f;
 
-		// Token: 0x040032B2 RID: 12978
 		private const float AnimalHeatOutputFactor = 0.6f;
 
-		// Token: 0x040032B3 RID: 12979
 		private static string NotSurgeryReadyTrans;
 
-		// Token: 0x040032B4 RID: 12980
 		private static string CannotReachTrans;
 
-		// Token: 0x040032B5 RID: 12981
 		public const int MaxMoveTicks = 450;
 
-		// Token: 0x040032B6 RID: 12982
 		private static List<string> states = new List<string>();
 
-		// Token: 0x040032B7 RID: 12983
 		private int lastSleepDisturbedTick = 0;
 
-		// Token: 0x040032B8 RID: 12984
 		private const int SleepDisturbanceMinInterval = 300;
 
-		// Token: 0x17000C0A RID: 3082
-		// (get) Token: 0x06004B1C RID: 19228 RVA: 0x00272A84 File Offset: 0x00270E84
-		// (set) Token: 0x06004B1D RID: 19229 RVA: 0x00272A9F File Offset: 0x00270E9F
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<LifeStageAge, SoundDef> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Predicate<DirectPawnRelation> <>f__am$cache9;
+
+		public Pawn()
+		{
+		}
+
 		public Name Name
 		{
 			get
@@ -167,8 +155,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C0B RID: 3083
-		// (get) Token: 0x06004B1E RID: 19230 RVA: 0x00272AAC File Offset: 0x00270EAC
 		public RaceProperties RaceProps
 		{
 			get
@@ -177,8 +163,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C0C RID: 3084
-		// (get) Token: 0x06004B1F RID: 19231 RVA: 0x00272ACC File Offset: 0x00270ECC
 		public Job CurJob
 		{
 			get
@@ -187,8 +171,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C0D RID: 3085
-		// (get) Token: 0x06004B20 RID: 19232 RVA: 0x00272B00 File Offset: 0x00270F00
 		public JobDef CurJobDef
 		{
 			get
@@ -197,8 +179,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C0E RID: 3086
-		// (get) Token: 0x06004B21 RID: 19233 RVA: 0x00272B34 File Offset: 0x00270F34
 		public bool Downed
 		{
 			get
@@ -207,8 +187,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C0F RID: 3087
-		// (get) Token: 0x06004B22 RID: 19234 RVA: 0x00272B54 File Offset: 0x00270F54
 		public bool Dead
 		{
 			get
@@ -217,8 +195,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C10 RID: 3088
-		// (get) Token: 0x06004B23 RID: 19235 RVA: 0x00272B74 File Offset: 0x00270F74
 		public string KindLabel
 		{
 			get
@@ -227,8 +203,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C11 RID: 3089
-		// (get) Token: 0x06004B24 RID: 19236 RVA: 0x00272B94 File Offset: 0x00270F94
 		public bool InMentalState
 		{
 			get
@@ -237,8 +211,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C12 RID: 3090
-		// (get) Token: 0x06004B25 RID: 19237 RVA: 0x00272BCC File Offset: 0x00270FCC
 		public MentalState MentalState
 		{
 			get
@@ -256,8 +228,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C13 RID: 3091
-		// (get) Token: 0x06004B26 RID: 19238 RVA: 0x00272C04 File Offset: 0x00271004
 		public MentalStateDef MentalStateDef
 		{
 			get
@@ -275,8 +245,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C14 RID: 3092
-		// (get) Token: 0x06004B27 RID: 19239 RVA: 0x00272C3C File Offset: 0x0027103C
 		public bool InAggroMentalState
 		{
 			get
@@ -285,8 +253,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C15 RID: 3093
-		// (get) Token: 0x06004B28 RID: 19240 RVA: 0x00272C90 File Offset: 0x00271090
 		public bool Inspired
 		{
 			get
@@ -295,8 +261,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C16 RID: 3094
-		// (get) Token: 0x06004B29 RID: 19241 RVA: 0x00272CC8 File Offset: 0x002710C8
 		public Inspiration Inspiration
 		{
 			get
@@ -314,8 +278,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C17 RID: 3095
-		// (get) Token: 0x06004B2A RID: 19242 RVA: 0x00272D00 File Offset: 0x00271100
 		public InspirationDef InspirationDef
 		{
 			get
@@ -333,8 +295,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C18 RID: 3096
-		// (get) Token: 0x06004B2B RID: 19243 RVA: 0x00272D38 File Offset: 0x00271138
 		public override Vector3 DrawPos
 		{
 			get
@@ -343,8 +303,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C19 RID: 3097
-		// (get) Token: 0x06004B2C RID: 19244 RVA: 0x00272D58 File Offset: 0x00271158
 		public VerbTracker VerbTracker
 		{
 			get
@@ -353,8 +311,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C1A RID: 3098
-		// (get) Token: 0x06004B2D RID: 19245 RVA: 0x00272D74 File Offset: 0x00271174
 		public List<VerbProperties> VerbProperties
 		{
 			get
@@ -363,8 +319,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C1B RID: 3099
-		// (get) Token: 0x06004B2E RID: 19246 RVA: 0x00272D94 File Offset: 0x00271194
 		public List<Tool> Tools
 		{
 			get
@@ -373,8 +327,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C1C RID: 3100
-		// (get) Token: 0x06004B2F RID: 19247 RVA: 0x00272DAC File Offset: 0x002711AC
 		public bool IsColonist
 		{
 			get
@@ -383,8 +335,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C1D RID: 3101
-		// (get) Token: 0x06004B30 RID: 19248 RVA: 0x00272DEC File Offset: 0x002711EC
 		public bool IsFreeColonist
 		{
 			get
@@ -393,8 +343,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C1E RID: 3102
-		// (get) Token: 0x06004B31 RID: 19249 RVA: 0x00272E18 File Offset: 0x00271218
 		public Faction HostFaction
 		{
 			get
@@ -412,8 +360,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C1F RID: 3103
-		// (get) Token: 0x06004B32 RID: 19250 RVA: 0x00272E4C File Offset: 0x0027124C
 		public bool Drafted
 		{
 			get
@@ -422,8 +368,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C20 RID: 3104
-		// (get) Token: 0x06004B33 RID: 19251 RVA: 0x00272E7C File Offset: 0x0027127C
 		public bool IsPrisoner
 		{
 			get
@@ -432,8 +376,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C21 RID: 3105
-		// (get) Token: 0x06004B34 RID: 19252 RVA: 0x00272EAC File Offset: 0x002712AC
 		public bool IsPrisonerOfColony
 		{
 			get
@@ -442,8 +384,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C22 RID: 3106
-		// (get) Token: 0x06004B35 RID: 19253 RVA: 0x00272EF0 File Offset: 0x002712F0
 		public bool IsColonistPlayerControlled
 		{
 			get
@@ -452,8 +392,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C23 RID: 3107
-		// (get) Token: 0x06004B36 RID: 19254 RVA: 0x00272F34 File Offset: 0x00271334
 		public IEnumerable<IntVec3> IngredientStackCells
 		{
 			get
@@ -463,8 +401,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C24 RID: 3108
-		// (get) Token: 0x06004B37 RID: 19255 RVA: 0x00272F60 File Offset: 0x00271360
 		public bool InContainerEnclosed
 		{
 			get
@@ -473,8 +409,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C25 RID: 3109
-		// (get) Token: 0x06004B38 RID: 19256 RVA: 0x00272F80 File Offset: 0x00271380
 		public Corpse Corpse
 		{
 			get
@@ -483,8 +417,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C26 RID: 3110
-		// (get) Token: 0x06004B39 RID: 19257 RVA: 0x00272FA0 File Offset: 0x002713A0
 		public Pawn CarriedBy
 		{
 			get
@@ -510,8 +442,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C27 RID: 3111
-		// (get) Token: 0x06004B3A RID: 19258 RVA: 0x00272FE8 File Offset: 0x002713E8
 		public override string LabelNoCount
 		{
 			get
@@ -536,8 +466,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C28 RID: 3112
-		// (get) Token: 0x06004B3B RID: 19259 RVA: 0x00273068 File Offset: 0x00271468
 		public override string LabelShort
 		{
 			get
@@ -555,8 +483,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C29 RID: 3113
-		// (get) Token: 0x06004B3C RID: 19260 RVA: 0x002730A0 File Offset: 0x002714A0
 		public Pawn_DrawTracker Drawer
 		{
 			get
@@ -569,8 +495,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C2A RID: 3114
-		// (get) Token: 0x06004B3D RID: 19261 RVA: 0x002730D4 File Offset: 0x002714D4
 		public BillStack BillStack
 		{
 			get
@@ -579,8 +503,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C2B RID: 3115
-		// (get) Token: 0x06004B3E RID: 19262 RVA: 0x002730F4 File Offset: 0x002714F4
 		public override IntVec3 InteractionCell
 		{
 			get
@@ -683,8 +605,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C2C RID: 3116
-		// (get) Token: 0x06004B3F RID: 19263 RVA: 0x002734E4 File Offset: 0x002718E4
 		public TraderKindDef TraderKind
 		{
 			get
@@ -693,8 +613,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C2D RID: 3117
-		// (get) Token: 0x06004B40 RID: 19264 RVA: 0x00273518 File Offset: 0x00271918
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -703,8 +621,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C2E RID: 3118
-		// (get) Token: 0x06004B41 RID: 19265 RVA: 0x00273538 File Offset: 0x00271938
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -713,8 +629,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C2F RID: 3119
-		// (get) Token: 0x06004B42 RID: 19266 RVA: 0x00273558 File Offset: 0x00271958
 		public string TraderName
 		{
 			get
@@ -723,8 +637,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C30 RID: 3120
-		// (get) Token: 0x06004B43 RID: 19267 RVA: 0x00273578 File Offset: 0x00271978
 		public bool CanTradeNow
 		{
 			get
@@ -733,8 +645,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C31 RID: 3121
-		// (get) Token: 0x06004B44 RID: 19268 RVA: 0x002735A8 File Offset: 0x002719A8
 		public float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -743,8 +653,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C32 RID: 3122
-		// (get) Token: 0x06004B45 RID: 19269 RVA: 0x002735C4 File Offset: 0x002719C4
 		public float BodySize
 		{
 			get
@@ -753,8 +661,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C33 RID: 3123
-		// (get) Token: 0x06004B46 RID: 19270 RVA: 0x002735F8 File Offset: 0x002719F8
 		public float HealthScale
 		{
 			get
@@ -763,8 +669,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C08 RID: 3080
-		// (get) Token: 0x06004B47 RID: 19271 RVA: 0x0027362C File Offset: 0x00271A2C
 		Thing IAttackTarget.Thing
 		{
 			get
@@ -773,8 +677,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C34 RID: 3124
-		// (get) Token: 0x06004B48 RID: 19272 RVA: 0x00273644 File Offset: 0x00271A44
 		public LocalTargetInfo TargetCurrentlyAimingAt
 		{
 			get
@@ -800,8 +702,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C09 RID: 3081
-		// (get) Token: 0x06004B49 RID: 19273 RVA: 0x002736A8 File Offset: 0x00271AA8
 		Thing IAttackTargetSearcher.Thing
 		{
 			get
@@ -810,8 +710,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C35 RID: 3125
-		// (get) Token: 0x06004B4A RID: 19274 RVA: 0x002736C0 File Offset: 0x00271AC0
 		public LocalTargetInfo LastAttackedTarget
 		{
 			get
@@ -820,8 +718,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C36 RID: 3126
-		// (get) Token: 0x06004B4B RID: 19275 RVA: 0x002736E0 File Offset: 0x00271AE0
 		public int LastAttackTargetTick
 		{
 			get
@@ -830,8 +726,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C37 RID: 3127
-		// (get) Token: 0x06004B4C RID: 19276 RVA: 0x00273700 File Offset: 0x00271B00
 		public Verb CurrentEffectiveVerb
 		{
 			get
@@ -850,19 +744,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B4D RID: 19277 RVA: 0x00273744 File Offset: 0x00271B44
 		public int GetRootTile()
 		{
 			return base.Tile;
 		}
 
-		// Token: 0x06004B4E RID: 19278 RVA: 0x00273760 File Offset: 0x00271B60
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x06004B4F RID: 19279 RVA: 0x00273778 File Offset: 0x00271B78
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
@@ -884,20 +775,17 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B50 RID: 19280 RVA: 0x002737F0 File Offset: 0x00271BF0
 		public string GetKindLabelPlural(int count = -1)
 		{
 			return GenLabel.BestKindLabel(this, false, false, true, count);
 		}
 
-		// Token: 0x06004B51 RID: 19281 RVA: 0x00273813 File Offset: 0x00271C13
 		public static void ResetStaticData()
 		{
 			Pawn.NotSurgeryReadyTrans = "NotSurgeryReady".Translate();
 			Pawn.CannotReachTrans = "CannotReach".Translate();
 		}
 
-		// Token: 0x06004B52 RID: 19282 RVA: 0x00273834 File Offset: 0x00271C34
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -1035,7 +923,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B53 RID: 19283 RVA: 0x00273BD0 File Offset: 0x00271FD0
 		public override string ToString()
 		{
 			string result;
@@ -1062,7 +949,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B54 RID: 19284 RVA: 0x00273C60 File Offset: 0x00272060
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			if (this.Dead)
@@ -1128,26 +1014,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B55 RID: 19285 RVA: 0x00273E78 File Offset: 0x00272278
 		public override void PostMapInit()
 		{
 			base.PostMapInit();
 			this.pather.TryResumePathingAfterLoading();
 		}
 
-		// Token: 0x06004B56 RID: 19286 RVA: 0x00273E8C File Offset: 0x0027228C
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			this.Drawer.DrawAt(drawLoc);
 		}
 
-		// Token: 0x06004B57 RID: 19287 RVA: 0x00273E9B File Offset: 0x0027229B
 		public override void DrawGUIOverlay()
 		{
 			this.Drawer.ui.DrawPawnGUIOverlay();
 		}
 
-		// Token: 0x06004B58 RID: 19288 RVA: 0x00273EB0 File Offset: 0x002722B0
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -1161,7 +1043,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B59 RID: 19289 RVA: 0x00273F00 File Offset: 0x00272300
 		public override void TickRare()
 		{
 			base.TickRare();
@@ -1183,7 +1064,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B5A RID: 19290 RVA: 0x00273FB0 File Offset: 0x002723B0
 		public override void Tick()
 		{
 			if (DebugSettings.noAnimals && base.Spawned && this.RaceProps.Animal)
@@ -1288,7 +1168,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B5B RID: 19291 RVA: 0x00274244 File Offset: 0x00272644
 		public void TickMothballed(int interval)
 		{
 			if (!base.Suspended)
@@ -1298,7 +1177,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B5C RID: 19292 RVA: 0x0027426C File Offset: 0x0027266C
 		public void Notify_Teleported(bool endCurrentJob = true)
 		{
 			this.Drawer.tweener.ResetTweenedPosToRoot();
@@ -1309,7 +1187,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B5D RID: 19293 RVA: 0x002742C4 File Offset: 0x002726C4
 		public void Notify_PassedToWorld()
 		{
 			if (((base.Faction == null && this.RaceProps.Humanlike) || (base.Faction != null && base.Faction.IsPlayer) || base.Faction == Faction.OfAncients || base.Faction == Faction.OfAncientsHostile) && !this.Dead && Find.WorldPawns.GetSituation(this) == WorldPawnSituation.Free)
@@ -1345,7 +1222,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B5E RID: 19294 RVA: 0x00274410 File Offset: 0x00272810
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -1359,7 +1235,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B5F RID: 19295 RVA: 0x0027448C File Offset: 0x0027288C
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -1379,7 +1254,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B60 RID: 19296 RVA: 0x0027453C File Offset: 0x0027293C
 		public override Thing SplitOff(int count)
 		{
 			if (count <= 0 || count >= this.stackCount)
@@ -1389,8 +1263,6 @@ namespace Verse
 			throw new NotImplementedException("Split off on Pawns is not supported (unless we're taking a full stack).");
 		}
 
-		// Token: 0x17000C38 RID: 3128
-		// (get) Token: 0x06004B61 RID: 19297 RVA: 0x00274578 File Offset: 0x00272978
 		public int TicksPerMoveCardinal
 		{
 			get
@@ -1399,8 +1271,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C39 RID: 3129
-		// (get) Token: 0x06004B62 RID: 19298 RVA: 0x00274594 File Offset: 0x00272994
 		public int TicksPerMoveDiagonal
 		{
 			get
@@ -1409,7 +1279,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B63 RID: 19299 RVA: 0x002745B0 File Offset: 0x002729B0
 		private int TicksPerMove(bool diagonal)
 		{
 			float num = this.GetStatValue(StatDefOf.MoveSpeed, true);
@@ -1443,7 +1312,6 @@ namespace Verse
 			return Mathf.Clamp(value, 1, 450);
 		}
 
-		// Token: 0x06004B64 RID: 19300 RVA: 0x002746AC File Offset: 0x00272AAC
 		public override void Kill(DamageInfo? dinfo, Hediff exactCulprit = null)
 		{
 			IntVec3 positionHeld = base.PositionHeld;
@@ -1661,7 +1529,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B65 RID: 19301 RVA: 0x00274DD0 File Offset: 0x002731D0
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (mode != DestroyMode.Vanish && mode != DestroyMode.KillFinalize)
@@ -1718,7 +1585,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B66 RID: 19302 RVA: 0x00274F6C File Offset: 0x0027336C
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -1747,7 +1613,6 @@ namespace Verse
 			PawnComponentsUtility.RemoveComponentsOnDespawned(this);
 		}
 
-		// Token: 0x06004B67 RID: 19303 RVA: 0x00275030 File Offset: 0x00273430
 		public override void Discard(bool silentlyRemoveReferences = false)
 		{
 			if (Find.WorldPawns.Contains(this))
@@ -1778,7 +1643,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B68 RID: 19304 RVA: 0x00275130 File Offset: 0x00273530
 		private Corpse MakeCorpse(Building_Grave assignedGrave, bool inBed, float bedRotation)
 		{
 			Corpse result;
@@ -1804,7 +1668,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B69 RID: 19305 RVA: 0x002751CC File Offset: 0x002735CC
 		public void ExitMap(bool allowedToJoinOrCreateCaravan, Rot4 exitDir)
 		{
 			if (this.IsWorldPawn())
@@ -1877,7 +1740,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B6A RID: 19306 RVA: 0x0027539C File Offset: 0x0027379C
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
 			base.PreTraded(action, playerNegotiator, trader);
@@ -1927,7 +1789,6 @@ namespace Verse
 			this.ClearMind(false);
 		}
 
-		// Token: 0x06004B6B RID: 19307 RVA: 0x002754F4 File Offset: 0x002738F4
 		public void PreKidnapped(Pawn kidnapper)
 		{
 			if (this.IsColonist && kidnapper != null)
@@ -1953,7 +1814,6 @@ namespace Verse
 			this.ClearMind(false);
 		}
 
-		// Token: 0x06004B6C RID: 19308 RVA: 0x0027557C File Offset: 0x0027397C
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
 		{
 			if (newFaction == base.Faction)
@@ -2050,7 +1910,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B6D RID: 19309 RVA: 0x00275868 File Offset: 0x00273C68
 		public void ClearMind(bool ifLayingKeepLaying = false)
 		{
 			if (this.pather != null)
@@ -2068,7 +1927,6 @@ namespace Verse
 			this.VerifyReservations();
 		}
 
-		// Token: 0x06004B6E RID: 19310 RVA: 0x002758C0 File Offset: 0x00273CC0
 		public void ClearAllReservations(bool releaseDestinationsOnlyIfObsolete = true)
 		{
 			List<Map> maps = Find.Maps;
@@ -2088,7 +1946,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B6F RID: 19311 RVA: 0x00275954 File Offset: 0x00273D54
 		public void ClearReservationsForJob(Job job)
 		{
 			List<Map> maps = Find.Maps;
@@ -2101,7 +1958,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B70 RID: 19312 RVA: 0x002759D0 File Offset: 0x00273DD0
 		public void VerifyReservations()
 		{
 			if (this.jobs != null)
@@ -2152,7 +2008,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B71 RID: 19313 RVA: 0x00275BB8 File Offset: 0x00273FB8
 		public void DropAndForbidEverything(bool keepInventoryAndEquipmentIfInBed = false)
 		{
 			if (this.kindDef.destroyGearOnDrop)
@@ -2196,7 +2051,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B72 RID: 19314 RVA: 0x00275D40 File Offset: 0x00274140
 		public void GenerateNecessaryName()
 		{
 			if (base.Faction == Faction.OfPlayer && this.RaceProps.Animal)
@@ -2215,7 +2069,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B73 RID: 19315 RVA: 0x00275DC8 File Offset: 0x002741C8
 		public Verb TryGetAttackVerb(Thing target, bool allowManualCastWeapons = false)
 		{
 			Verb result;
@@ -2230,7 +2083,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B74 RID: 19316 RVA: 0x00275E7C File Offset: 0x0027427C
 		public bool TryStartAttack(LocalTargetInfo targ)
 		{
 			bool result;
@@ -2251,7 +2103,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B75 RID: 19317 RVA: 0x00275EFC File Offset: 0x002742FC
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
 			if (this.RaceProps.meatDef != null)
@@ -2312,7 +2163,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004B76 RID: 19318 RVA: 0x00275F34 File Offset: 0x00274334
 		public string MainDesc(bool writeAge)
 		{
 			string text = GenLabel.BestKindLabel(this, true, true, false, -1);
@@ -2334,7 +2184,6 @@ namespace Verse
 			return text.CapitalizeFirst();
 		}
 
-		// Token: 0x06004B77 RID: 19319 RVA: 0x00275FD8 File Offset: 0x002743D8
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -2443,7 +2292,6 @@ namespace Verse
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06004B78 RID: 19320 RVA: 0x00276410 File Offset: 0x00274810
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			if (this.IsColonistPlayerControlled)
@@ -2495,13 +2343,11 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004B79 RID: 19321 RVA: 0x0027643C File Offset: 0x0027483C
 		public virtual IEnumerable<FloatMenuOption> GetExtraFloatMenuOptionsFor(IntVec3 sq)
 		{
 			yield break;
 		}
 
-		// Token: 0x06004B7A RID: 19322 RVA: 0x00276460 File Offset: 0x00274860
 		public override TipSignal GetTooltip()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -2532,8 +2378,6 @@ namespace Verse
 			return new TipSignal(stringBuilder.ToString().TrimEndNewlines(), this.thingIDNumber * 152317, TooltipPriority.Pawn);
 		}
 
-		// Token: 0x17000C3A RID: 3130
-		// (get) Token: 0x06004B7B RID: 19323 RVA: 0x00276574 File Offset: 0x00274974
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
 		{
 			get
@@ -2547,7 +2391,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B7C RID: 19324 RVA: 0x002765A0 File Offset: 0x002749A0
 		public bool CurrentlyUsableForBills()
 		{
 			bool result;
@@ -2568,19 +2411,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B7D RID: 19325 RVA: 0x0027661C File Offset: 0x00274A1C
 		public bool UsableForBillsAfterFueling()
 		{
 			return this.CurrentlyUsableForBills();
 		}
 
-		// Token: 0x06004B7E RID: 19326 RVA: 0x00276638 File Offset: 0x00274A38
 		public bool AnythingToStrip()
 		{
 			return (this.equipment != null && this.equipment.HasAnything()) || (this.apparel != null && this.apparel.WornApparelCount > 0) || (this.inventory != null && this.inventory.innerContainer.Count > 0);
 		}
 
-		// Token: 0x06004B7F RID: 19327 RVA: 0x002766A8 File Offset: 0x00274AA8
 		public void Strip()
 		{
 			Caravan caravan = this.GetCaravan();
@@ -2614,25 +2454,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B80 RID: 19328 RVA: 0x00276774 File Offset: 0x00274B74
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
 		}
 
-		// Token: 0x06004B81 RID: 19329 RVA: 0x00276795 File Offset: 0x00274B95
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToTrader(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06004B82 RID: 19330 RVA: 0x002767A6 File Offset: 0x00274BA6
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06004B83 RID: 19331 RVA: 0x002767B8 File Offset: 0x00274BB8
 		public void HearClamor(Thing source, ClamorDef type)
 		{
 			if (!this.Dead && !this.Downed)
@@ -2678,7 +2514,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B84 RID: 19332 RVA: 0x00276940 File Offset: 0x00274D40
 		private void CheckForDisturbedSleep(Pawn source)
 		{
 			if (this.needs.mood != null)
@@ -2715,7 +2550,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B85 RID: 19333 RVA: 0x00276A50 File Offset: 0x00274E50
 		public bool CheckAcceptArrest(Pawn arrester)
 		{
 			bool result;
@@ -2754,7 +2588,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B86 RID: 19334 RVA: 0x00276B58 File Offset: 0x00274F58
 		public bool ThreatDisabled(IAttackTargetSearcher disabledFor)
 		{
 			bool result;
@@ -2793,7 +2626,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B87 RID: 19335 RVA: 0x00276C70 File Offset: 0x00275070
 		public override bool PreventPlayerSellingThingsNearby(out string reason)
 		{
 			bool result;
@@ -2810,7 +2642,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B88 RID: 19336 RVA: 0x00276CE0 File Offset: 0x002750E0
 		public void ChangeKind(PawnKindDef newKindDef)
 		{
 			if (this.kindDef != newKindDef)
@@ -2828,6 +2659,1094 @@ namespace Verse
 						base.Map.reachability.ClearCache();
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Pawn()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__0(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__1(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__2(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__3(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__4(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__5(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__6(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static bool <get_InteractionCell>m__7(Thing x)
+		{
+			return x.def.IsBed;
+		}
+
+		[CompilerGenerated]
+		private static SoundDef <Kill>m__8(LifeStageAge ls)
+		{
+			return ls.soundDeath;
+		}
+
+		[CompilerGenerated]
+		private bool <Destroy>m__9(Pawn p)
+		{
+			return p.playerSettings != null && p.playerSettings.Master == this;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Thing> <ButcherProducts>__BaseCallProxy0(Pawn butcher, float efficiency)
+		{
+			return base.ButcherProducts(butcher, efficiency);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy1()
+		{
+			return base.GetGizmos();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<StatDrawEntry> <get_SpecialDisplayStats>__BaseCallProxy2()
+		{
+			return base.SpecialDisplayStats;
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckForDisturbedSleep>m__A(DirectPawnRelation dr)
+		{
+			return dr.def == PawnRelationDefOf.Bond;
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal Pawn $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = this.InteractionCell;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn.<>c__Iterator0 <>c__Iterator = new Pawn.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ButcherProducts>c__Iterator1 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal float efficiency;
+
+			internal int <meatCount>__1;
+
+			internal Thing <meat>__2;
+
+			internal Pawn butcher;
+
+			internal IEnumerator<Thing> $locvar0;
+
+			internal Thing <t>__3;
+
+			internal int <leatherCount>__4;
+
+			internal Thing <leather>__5;
+
+			internal BodyPartRecord <record>__7;
+
+			internal Thing <thing>__7;
+
+			internal Pawn $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private Pawn.<ButcherProducts>c__Iterator1.<ButcherProducts>c__AnonStorey5 $locvar1;
+
+			[DebuggerHidden]
+			public <ButcherProducts>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (base.RaceProps.meatDef != null)
+					{
+						meatCount = GenMath.RoundRandom(this.GetStatValue(StatDefOf.MeatAmount, true) * efficiency);
+						if (meatCount > 0)
+						{
+							meat = ThingMaker.MakeThing(base.RaceProps.meatDef, null);
+							meat.stackCount = meatCount;
+							this.$current = meat;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							return true;
+						}
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							t = enumerator.Current;
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					if (base.RaceProps.leatherDef == null)
+					{
+						goto IL_1F6;
+					}
+					leatherCount = GenMath.RoundRandom(this.GetStatValue(StatDefOf.LeatherAmount, true) * efficiency);
+					if (leatherCount > 0)
+					{
+						leather = ThingMaker.MakeThing(base.RaceProps.leatherDef, null);
+						leather.stackCount = leatherCount;
+						this.$current = leather;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						return true;
+					}
+					goto IL_1F5;
+				case 3u:
+					goto IL_1F5;
+				case 4u:
+					goto IL_2BB;
+				default:
+					return false;
+				}
+				enumerator = base.<ButcherProducts>__BaseCallProxy0(butcher, efficiency).GetEnumerator();
+				num = 4294967293u;
+				goto Block_5;
+				IL_1F5:
+				IL_1F6:
+				if (base.RaceProps.Humanlike)
+				{
+					goto IL_3BC;
+				}
+				PawnKindLifeStage lifeStage = this.ageTracker.CurKindLifeStage;
+				if (lifeStage.butcherBodyPart == null)
+				{
+					goto IL_3BB;
+				}
+				if (this.gender != Gender.None && (this.gender != Gender.Male || !lifeStage.butcherBodyPart.allowMale) && (this.gender != Gender.Female || !lifeStage.butcherBodyPart.allowFemale))
+				{
+					goto IL_3BA;
+				}
+				IL_2BB:
+				record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				where x.IsInGroup(lifeStage.butcherBodyPart.bodyPartGroup)
+				select x).FirstOrDefault<BodyPartRecord>();
+				if (record != null)
+				{
+					this.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this, record), null, null, null);
+					if (lifeStage.butcherBodyPart.thing != null)
+					{
+						thing = ThingMaker.MakeThing(lifeStage.butcherBodyPart.thing, null);
+					}
+					else
+					{
+						thing = ThingMaker.MakeThing(record.def.spawnThingOnRemoved, null);
+					}
+					this.$current = thing;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_3BA:
+				IL_3BB:
+				IL_3BC:
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn.<ButcherProducts>c__Iterator1 <ButcherProducts>c__Iterator = new Pawn.<ButcherProducts>c__Iterator1();
+				<ButcherProducts>c__Iterator.$this = this;
+				<ButcherProducts>c__Iterator.efficiency = efficiency;
+				<ButcherProducts>c__Iterator.butcher = butcher;
+				return <ButcherProducts>c__Iterator;
+			}
+
+			private sealed class <ButcherProducts>c__AnonStorey5
+			{
+				internal PawnKindLifeStage lifeStage;
+
+				internal Pawn.<ButcherProducts>c__Iterator1 <>f__ref$1;
+
+				public <ButcherProducts>c__AnonStorey5()
+				{
+				}
+
+				internal bool <>m__0(BodyPartRecord x)
+				{
+					return x.IsInGroup(this.lifeStage.butcherBodyPart.bodyPartGroup);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator2 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal IEnumerator<Gizmo> $locvar1;
+
+			internal Gizmo <c>__2;
+
+			internal IEnumerator<Gizmo> $locvar2;
+
+			internal Gizmo <attack>__3;
+
+			internal IEnumerator<Gizmo> $locvar3;
+
+			internal Gizmo <g>__4;
+
+			internal IEnumerator<Gizmo> $locvar4;
+
+			internal Gizmo <g>__5;
+
+			internal IEnumerator<Gizmo> $locvar5;
+
+			internal Gizmo <g>__6;
+
+			internal IEnumerator<Gizmo> $locvar6;
+
+			internal Gizmo <g>__7;
+
+			internal Pawn $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!base.IsColonistPlayerControlled)
+					{
+						goto IL_215;
+					}
+					enumerator = base.<GetGizmos>__BaseCallProxy1().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_10D;
+				case 3u:
+					Block_6:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator3.MoveNext())
+						{
+							attack = enumerator3.Current;
+							this.$current = attack;
+							if (!this.$disposing)
+							{
+								this.$PC = 3;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					goto IL_215;
+				case 4u:
+					Block_8:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator4.MoveNext())
+						{
+							g = enumerator4.Current;
+							this.$current = g;
+							if (!this.$disposing)
+							{
+								this.$PC = 4;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator4 != null)
+							{
+								enumerator4.Dispose();
+							}
+						}
+					}
+					goto IL_2BC;
+				case 5u:
+					Block_11:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator5.MoveNext())
+						{
+							g2 = enumerator5.Current;
+							this.$current = g2;
+							if (!this.$disposing)
+							{
+								this.$PC = 5;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator5 != null)
+							{
+								enumerator5.Dispose();
+							}
+						}
+					}
+					goto IL_374;
+				case 6u:
+					Block_13:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator6.MoveNext())
+						{
+							g3 = enumerator6.Current;
+							this.$current = g3;
+							if (!this.$disposing)
+							{
+								this.$PC = 6;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator6 != null)
+							{
+								enumerator6.Dispose();
+							}
+						}
+					}
+					goto IL_41B;
+				case 7u:
+					Block_14:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator7.MoveNext())
+						{
+							g4 = enumerator7.Current;
+							this.$current = g4;
+							if (!this.$disposing)
+							{
+								this.$PC = 7;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator7 != null)
+							{
+								enumerator7.Dispose();
+							}
+						}
+					}
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.drafter == null)
+				{
+					goto IL_184;
+				}
+				enumerator2 = this.drafter.GetGizmos().GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_10D:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						c2 = enumerator2.Current;
+						this.$current = c2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_184:
+				enumerator3 = PawnAttackGizmoUtility.GetAttackGizmos(this).GetEnumerator();
+				num = 4294967293u;
+				goto Block_6;
+				IL_215:
+				if (this.equipment != null)
+				{
+					enumerator4 = this.equipment.GetGizmos().GetEnumerator();
+					num = 4294967293u;
+					goto Block_8;
+				}
+				IL_2BC:
+				if (!base.IsColonistPlayerControlled)
+				{
+					goto IL_41C;
+				}
+				if (this.apparel != null)
+				{
+					enumerator5 = this.apparel.GetGizmos().GetEnumerator();
+					num = 4294967293u;
+					goto Block_11;
+				}
+				IL_374:
+				if (this.playerSettings != null)
+				{
+					enumerator6 = this.playerSettings.GetGizmos().GetEnumerator();
+					num = 4294967293u;
+					goto Block_13;
+				}
+				IL_41B:
+				IL_41C:
+				enumerator7 = this.mindState.GetGizmos().GetEnumerator();
+				num = 4294967293u;
+				goto Block_14;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				case 4u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator4 != null)
+						{
+							enumerator4.Dispose();
+						}
+					}
+					break;
+				case 5u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator5 != null)
+						{
+							enumerator5.Dispose();
+						}
+					}
+					break;
+				case 6u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator6 != null)
+						{
+							enumerator6.Dispose();
+						}
+					}
+					break;
+				case 7u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator7 != null)
+						{
+							enumerator7.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn.<GetGizmos>c__Iterator2 <GetGizmos>c__Iterator = new Pawn.<GetGizmos>c__Iterator2();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetExtraFloatMenuOptionsFor>c__Iterator3 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetExtraFloatMenuOptionsFor>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator3();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator4 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <s>__1;
+
+			internal Pawn $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<get_SpecialDisplayStats>__BaseCallProxy2().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						s = enumerator.Current;
+						this.$current = s;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$current = new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), base.BodySize.ToString("F2"), 0, "");
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Pawn.<>c__Iterator4 <>c__Iterator = new Pawn.<>c__Iterator4();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
 			}
 		}
 	}

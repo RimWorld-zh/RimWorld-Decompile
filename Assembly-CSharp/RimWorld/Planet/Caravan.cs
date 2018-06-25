@@ -1,80 +1,67 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005D4 RID: 1492
 	[StaticConstructorOnStartup]
 	public class Caravan : WorldObject, IThingHolder, IIncidentTarget, ITrader, ILoadReferenceable
 	{
-		// Token: 0x0400115E RID: 4446
 		private string nameInt;
 
-		// Token: 0x0400115F RID: 4447
 		public ThingOwner<Pawn> pawns;
 
-		// Token: 0x04001160 RID: 4448
 		public bool autoJoinable;
 
-		// Token: 0x04001161 RID: 4449
 		public Caravan_PathFollower pather;
 
-		// Token: 0x04001162 RID: 4450
 		public Caravan_GotoMoteRenderer gotoMote;
 
-		// Token: 0x04001163 RID: 4451
 		public Caravan_Tweener tweener;
 
-		// Token: 0x04001164 RID: 4452
 		public Caravan_TraderTracker trader;
 
-		// Token: 0x04001165 RID: 4453
 		public Caravan_ForageTracker forage;
 
-		// Token: 0x04001166 RID: 4454
 		public StoryState storyState;
 
-		// Token: 0x04001167 RID: 4455
 		private Material cachedMat;
 
-		// Token: 0x04001168 RID: 4456
 		private bool cachedImmobilized;
 
-		// Token: 0x04001169 RID: 4457
 		private int cachedImmobilizedForTicks = -99999;
 
-		// Token: 0x0400116A RID: 4458
 		private Pair<float, float> cachedDaysWorthOfFood;
 
-		// Token: 0x0400116B RID: 4459
 		private int cachedDaysWorthOfFoodForTicks = -99999;
 
-		// Token: 0x0400116C RID: 4460
 		public bool notifiedOutOfFood;
 
-		// Token: 0x0400116D RID: 4461
 		private const int ImmobilizedCacheDuration = 60;
 
-		// Token: 0x0400116E RID: 4462
 		private const int DaysWorthOfFoodCacheDuration = 3000;
 
-		// Token: 0x0400116F RID: 4463
 		private const int TendIntervalTicks = 2000;
 
-		// Token: 0x04001170 RID: 4464
 		private const int TryTakeScheduledDrugsIntervalTicks = 120;
 
-		// Token: 0x04001171 RID: 4465
 		private static readonly Texture2D SplitCommand = ContentFinder<Texture2D>.Get("UI/Commands/SplitCaravan", true);
 
-		// Token: 0x04001172 RID: 4466
 		private static readonly Color PlayerCaravanColor = new Color(1f, 0.863f, 0.33f);
 
-		// Token: 0x06001D12 RID: 7442 RVA: 0x000FA270 File Offset: 0x000F8670
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache1;
+
 		public Caravan()
 		{
 			this.pawns = new ThingOwner<Pawn>(this, false, LookMode.Reference);
@@ -86,8 +73,6 @@ namespace RimWorld.Planet
 			this.storyState = new StoryState(this);
 		}
 
-		// Token: 0x17000441 RID: 1089
-		// (get) Token: 0x06001D13 RID: 7443 RVA: 0x000FA2F0 File Offset: 0x000F86F0
 		public List<Pawn> PawnsListForReading
 		{
 			get
@@ -96,8 +81,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000442 RID: 1090
-		// (get) Token: 0x06001D14 RID: 7444 RVA: 0x000FA310 File Offset: 0x000F8710
 		public override Material Material
 		{
 			get
@@ -123,9 +106,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000443 RID: 1091
-		// (get) Token: 0x06001D15 RID: 7445 RVA: 0x000FA39C File Offset: 0x000F879C
-		// (set) Token: 0x06001D16 RID: 7446 RVA: 0x000FA3B7 File Offset: 0x000F87B7
 		public string Name
 		{
 			get
@@ -138,8 +118,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000444 RID: 1092
-		// (get) Token: 0x06001D17 RID: 7447 RVA: 0x000FA3C4 File Offset: 0x000F87C4
 		public override Vector3 DrawPos
 		{
 			get
@@ -148,8 +126,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000445 RID: 1093
-		// (get) Token: 0x06001D18 RID: 7448 RVA: 0x000FA3E4 File Offset: 0x000F87E4
 		public bool IsPlayerControlled
 		{
 			get
@@ -158,8 +134,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000446 RID: 1094
-		// (get) Token: 0x06001D19 RID: 7449 RVA: 0x000FA408 File Offset: 0x000F8808
 		public bool ImmobilizedByMass
 		{
 			get
@@ -179,8 +153,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000447 RID: 1095
-		// (get) Token: 0x06001D1A RID: 7450 RVA: 0x000FA46C File Offset: 0x000F886C
 		public Pair<float, float> DaysWorthOfFood
 		{
 			get
@@ -200,8 +172,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000448 RID: 1096
-		// (get) Token: 0x06001D1B RID: 7451 RVA: 0x000FA4D8 File Offset: 0x000F88D8
 		public bool CantMove
 		{
 			get
@@ -210,8 +180,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000449 RID: 1097
-		// (get) Token: 0x06001D1C RID: 7452 RVA: 0x000FA518 File Offset: 0x000F8918
 		public float MassCapacity
 		{
 			get
@@ -220,8 +188,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700044A RID: 1098
-		// (get) Token: 0x06001D1D RID: 7453 RVA: 0x000FA53C File Offset: 0x000F893C
 		public string MassCapacityExplanation
 		{
 			get
@@ -232,8 +198,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700044B RID: 1099
-		// (get) Token: 0x06001D1E RID: 7454 RVA: 0x000FA56C File Offset: 0x000F896C
 		public float MassUsage
 		{
 			get
@@ -242,8 +206,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700044C RID: 1100
-		// (get) Token: 0x06001D1F RID: 7455 RVA: 0x000FA590 File Offset: 0x000F8990
 		public bool AllOwnersDowned
 		{
 			get
@@ -259,8 +221,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700044D RID: 1101
-		// (get) Token: 0x06001D20 RID: 7456 RVA: 0x000FA5F8 File Offset: 0x000F89F8
 		public bool AllOwnersHaveMentalBreak
 		{
 			get
@@ -276,8 +236,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700044E RID: 1102
-		// (get) Token: 0x06001D21 RID: 7457 RVA: 0x000FA660 File Offset: 0x000F8A60
 		public bool Resting
 		{
 			get
@@ -286,8 +244,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700044F RID: 1103
-		// (get) Token: 0x06001D22 RID: 7458 RVA: 0x000FA6E8 File Offset: 0x000F8AE8
 		public int LeftRestTicks
 		{
 			get
@@ -305,8 +261,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000450 RID: 1104
-		// (get) Token: 0x06001D23 RID: 7459 RVA: 0x000FA71C File Offset: 0x000F8B1C
 		public int LeftNonRestTicks
 		{
 			get
@@ -324,8 +278,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000451 RID: 1105
-		// (get) Token: 0x06001D24 RID: 7460 RVA: 0x000FA750 File Offset: 0x000F8B50
 		public override string Label
 		{
 			get
@@ -343,8 +295,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000452 RID: 1106
-		// (get) Token: 0x06001D25 RID: 7461 RVA: 0x000FA784 File Offset: 0x000F8B84
 		public int TicksPerMove
 		{
 			get
@@ -353,8 +303,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000453 RID: 1107
-		// (get) Token: 0x06001D26 RID: 7462 RVA: 0x000FA7A0 File Offset: 0x000F8BA0
 		public override bool AppendFactionToInspectString
 		{
 			get
@@ -363,8 +311,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000454 RID: 1108
-		// (get) Token: 0x06001D27 RID: 7463 RVA: 0x000FA7B8 File Offset: 0x000F8BB8
 		public float Visibility
 		{
 			get
@@ -373,8 +319,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000455 RID: 1109
-		// (get) Token: 0x06001D28 RID: 7464 RVA: 0x000FA7D4 File Offset: 0x000F8BD4
 		public string VisibilityExplanation
 		{
 			get
@@ -385,8 +329,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000456 RID: 1110
-		// (get) Token: 0x06001D29 RID: 7465 RVA: 0x000FA800 File Offset: 0x000F8C00
 		public string TicksPerMoveExplanation
 		{
 			get
@@ -397,8 +339,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000457 RID: 1111
-		// (get) Token: 0x06001D2A RID: 7466 RVA: 0x000FA82C File Offset: 0x000F8C2C
 		public StoryState StoryState
 		{
 			get
@@ -407,8 +347,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000458 RID: 1112
-		// (get) Token: 0x06001D2B RID: 7467 RVA: 0x000FA848 File Offset: 0x000F8C48
 		public GameConditionManager GameConditionManager
 		{
 			get
@@ -418,8 +356,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000459 RID: 1113
-		// (get) Token: 0x06001D2C RID: 7468 RVA: 0x000FA870 File Offset: 0x000F8C70
 		public float PlayerWealthForStoryteller
 		{
 			get
@@ -446,8 +382,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700045A RID: 1114
-		// (get) Token: 0x06001D2D RID: 7469 RVA: 0x000FA924 File Offset: 0x000F8D24
 		public IEnumerable<Pawn> PlayerPawnsForStoryteller
 		{
 			get
@@ -467,8 +401,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700045B RID: 1115
-		// (get) Token: 0x06001D2E RID: 7470 RVA: 0x000FA978 File Offset: 0x000F8D78
 		public FloatRange IncidentPointsRandomFactorRange
 		{
 			get
@@ -477,8 +409,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700045C RID: 1116
-		// (get) Token: 0x06001D2F RID: 7471 RVA: 0x000FA994 File Offset: 0x000F8D94
 		public IEnumerable<Thing> AllThings
 		{
 			get
@@ -487,8 +417,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700045D RID: 1117
-		// (get) Token: 0x06001D30 RID: 7472 RVA: 0x000FA9BC File Offset: 0x000F8DBC
 		public TraderKindDef TraderKind
 		{
 			get
@@ -497,8 +425,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700045E RID: 1118
-		// (get) Token: 0x06001D31 RID: 7473 RVA: 0x000FA9DC File Offset: 0x000F8DDC
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -507,8 +433,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700045F RID: 1119
-		// (get) Token: 0x06001D32 RID: 7474 RVA: 0x000FA9FC File Offset: 0x000F8DFC
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -517,8 +441,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000460 RID: 1120
-		// (get) Token: 0x06001D33 RID: 7475 RVA: 0x000FAA1C File Offset: 0x000F8E1C
 		public string TraderName
 		{
 			get
@@ -527,8 +449,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000461 RID: 1121
-		// (get) Token: 0x06001D34 RID: 7476 RVA: 0x000FAA3C File Offset: 0x000F8E3C
 		public bool CanTradeNow
 		{
 			get
@@ -537,8 +457,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000462 RID: 1122
-		// (get) Token: 0x06001D35 RID: 7477 RVA: 0x000FAA5C File Offset: 0x000F8E5C
 		public float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -547,25 +465,21 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D36 RID: 7478 RVA: 0x000FAA78 File Offset: 0x000F8E78
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
 		}
 
-		// Token: 0x06001D37 RID: 7479 RVA: 0x000FAA99 File Offset: 0x000F8E99
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToTrader(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06001D38 RID: 7480 RVA: 0x000FAAAA File Offset: 0x000F8EAA
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06001D39 RID: 7481 RVA: 0x000FAABC File Offset: 0x000F8EBC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -601,14 +515,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D3A RID: 7482 RVA: 0x000FABBB File Offset: 0x000F8FBB
 		public override void PostAdd()
 		{
 			base.PostAdd();
 			Find.ColonistBar.MarkColonistsDirty();
 		}
 
-		// Token: 0x06001D3B RID: 7483 RVA: 0x000FABCE File Offset: 0x000F8FCE
 		public override void PostRemove()
 		{
 			base.PostRemove();
@@ -616,7 +528,6 @@ namespace RimWorld.Planet
 			Find.ColonistBar.MarkColonistsDirty();
 		}
 
-		// Token: 0x06001D3C RID: 7484 RVA: 0x000FABEC File Offset: 0x000F8FEC
 		public override void Tick()
 		{
 			base.Tick();
@@ -635,14 +546,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D3D RID: 7485 RVA: 0x000FAC56 File Offset: 0x000F9056
 		public override void SpawnSetup()
 		{
 			base.SpawnSetup();
 			this.tweener.ResetTweenedPosToRoot();
 		}
 
-		// Token: 0x06001D3E RID: 7486 RVA: 0x000FAC6A File Offset: 0x000F906A
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -653,7 +562,6 @@ namespace RimWorld.Planet
 			this.gotoMote.RenderMote();
 		}
 
-		// Token: 0x06001D3F RID: 7487 RVA: 0x000FACAC File Offset: 0x000F90AC
 		public void AddPawn(Pawn p, bool addCarriedPawnToWorldPawnsIfAny)
 		{
 			if (p == null)
@@ -705,7 +613,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D40 RID: 7488 RVA: 0x000FADDC File Offset: 0x000F91DC
 		public void AddPawnOrItem(Thing thing, bool addCarriedPawnToWorldPawnsIfAny)
 		{
 			if (thing == null)
@@ -726,31 +633,26 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D41 RID: 7489 RVA: 0x000FAE28 File Offset: 0x000F9228
 		public bool ContainsPawn(Pawn p)
 		{
 			return this.pawns.Contains(p);
 		}
 
-		// Token: 0x06001D42 RID: 7490 RVA: 0x000FAE49 File Offset: 0x000F9249
 		public void RemovePawn(Pawn p)
 		{
 			this.pawns.Remove(p);
 		}
 
-		// Token: 0x06001D43 RID: 7491 RVA: 0x000FAE59 File Offset: 0x000F9259
 		public void RemoveAllPawns()
 		{
 			this.pawns.Clear();
 		}
 
-		// Token: 0x06001D44 RID: 7492 RVA: 0x000FAE68 File Offset: 0x000F9268
 		public bool IsOwner(Pawn p)
 		{
 			return this.pawns.Contains(p) && CaravanUtility.IsOwner(p, base.Faction);
 		}
 
-		// Token: 0x06001D45 RID: 7493 RVA: 0x000FAEA0 File Offset: 0x000F92A0
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -912,7 +814,6 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001D46 RID: 7494 RVA: 0x000FB338 File Offset: 0x000F9738
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			if (Find.WorldSelector.SingleSelectedObject == this)
@@ -1067,7 +968,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001D47 RID: 7495 RVA: 0x000FB364 File Offset: 0x000F9764
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy1(pods, representative))
@@ -1081,19 +981,16 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001D48 RID: 7496 RVA: 0x000FB39C File Offset: 0x000F979C
 		public void RecacheImmobilizedNow()
 		{
 			this.cachedImmobilizedForTicks = -99999;
 		}
 
-		// Token: 0x06001D49 RID: 7497 RVA: 0x000FB3AA File Offset: 0x000F97AA
 		public void RecacheDaysWorthOfFood()
 		{
 			this.cachedDaysWorthOfFoodForTicks = -99999;
 		}
 
-		// Token: 0x06001D4A RID: 7498 RVA: 0x000FB3B8 File Offset: 0x000F97B8
 		public virtual void Notify_MemberDied(Pawn member)
 		{
 			if (!this.PawnsListForReading.Any((Pawn x) => x != member && this.IsOwner(x)))
@@ -1115,19 +1012,16 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D4B RID: 7499 RVA: 0x000FB488 File Offset: 0x000F9888
 		public virtual void Notify_Merged(List<Caravan> group)
 		{
 			this.notifiedOutOfFood = false;
 		}
 
-		// Token: 0x06001D4C RID: 7500 RVA: 0x000FB492 File Offset: 0x000F9892
 		public virtual void Notify_StartedTrading()
 		{
 			this.notifiedOutOfFood = false;
 		}
 
-		// Token: 0x06001D4D RID: 7501 RVA: 0x000FB49C File Offset: 0x000F989C
 		private void CheckAnyNonWorldPawns()
 		{
 			for (int i = this.pawns.Count - 1; i >= 0; i--)
@@ -1140,13 +1034,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D4E RID: 7502 RVA: 0x000FB51C File Offset: 0x000F991C
 		private bool ShouldAutoCapture(Pawn p)
 		{
 			return CaravanUtility.ShouldAutoCapture(p, base.Faction);
 		}
 
-		// Token: 0x06001D4F RID: 7503 RVA: 0x000FB53D File Offset: 0x000F993D
 		public void Notify_PawnRemoved(Pawn p)
 		{
 			Find.ColonistBar.MarkColonistsDirty();
@@ -1154,7 +1046,6 @@ namespace RimWorld.Planet
 			this.RecacheDaysWorthOfFood();
 		}
 
-		// Token: 0x06001D50 RID: 7504 RVA: 0x000FB556 File Offset: 0x000F9956
 		public void Notify_PawnAdded(Pawn p)
 		{
 			Find.ColonistBar.MarkColonistsDirty();
@@ -1162,29 +1053,869 @@ namespace RimWorld.Planet
 			this.RecacheDaysWorthOfFood();
 		}
 
-		// Token: 0x06001D51 RID: 7505 RVA: 0x000FB56F File Offset: 0x000F996F
 		public void Notify_DestinationOrPauseStatusChanged()
 		{
 			this.RecacheDaysWorthOfFood();
 		}
 
-		// Token: 0x06001D52 RID: 7506 RVA: 0x000FB578 File Offset: 0x000F9978
 		public void Notify_Teleported()
 		{
 			this.tweener.ResetTweenedPosToRoot();
 			this.pather.Notify_Teleported_Int();
 		}
 
-		// Token: 0x06001D53 RID: 7507 RVA: 0x000FB594 File Offset: 0x000F9994
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.pawns;
 		}
 
-		// Token: 0x06001D54 RID: 7508 RVA: 0x000FB5AF File Offset: 0x000F99AF
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Caravan()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <get_PlayerPawnsForStoryteller>m__0(Pawn x)
+		{
+			return x.Faction == Faction.OfPlayer;
+		}
+
+		[CompilerGenerated]
+		private static bool <ExposeData>m__1(Pawn x)
+		{
+			return x.Destroyed;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<FloatMenuOption> <GetTransportPodsFloatMenuOptions>__BaseCallProxy1(IEnumerable<IThingHolder> pods, CompLaunchable representative)
+		{
+			return base.GetTransportPodsFloatMenuOptions(pods, representative);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Action <split>__2;
+
+			internal Command_Toggle <pause>__3;
+
+			internal IEnumerator<Gizmo> $locvar1;
+
+			internal Gizmo <g>__4;
+
+			internal IEnumerator<WorldObject> $locvar2;
+
+			internal WorldObject <wo>__5;
+
+			internal IEnumerator<Gizmo> $locvar3;
+
+			internal Gizmo <gizmo>__6;
+
+			internal Command_Action <mentalBreak>__7;
+
+			internal Command_Action <makeHungry>__8;
+
+			internal Command_Action <kill>__9;
+
+			internal Command_Action <harm>__10;
+
+			internal Command_Action <down>__11;
+
+			internal Command_Action <action>__12;
+
+			internal Caravan $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private static Func<Pawn, bool> <>f__am$cache0;
+
+			private static Func<Pawn, bool> <>f__am$cache1;
+
+			private static Func<Pawn, bool> <>f__am$cache2;
+
+			private static Func<Pawn, bool> <>f__am$cache3;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (Find.WorldSelector.SingleSelectedObject == this)
+					{
+						this.$current = new Gizmo_CaravanInfo(this);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_AC;
+				case 3u:
+					goto IL_16D;
+				case 4u:
+					goto IL_233;
+				case 5u:
+					goto IL_315;
+				case 6u:
+					IL_344:
+					enumerator2 = this.forage.GetGizmos().GetEnumerator();
+					num = 4294967293u;
+					goto Block_16;
+				case 7u:
+					goto IL_363;
+				case 8u:
+					goto IL_3FD;
+				case 9u:
+				{
+					Command_Action makeHungry = new Command_Action();
+					makeHungry.defaultLabel = "Dev: Make random pawn hungry";
+					makeHungry.action = delegate()
+					{
+						Pawn pawn;
+						if ((from x in base.PawnsListForReading
+						where x.needs.food != null
+						select x).TryRandomElement(out pawn))
+						{
+							pawn.needs.food.CurLevelPercentage = 0f;
+						}
+					};
+					this.$current = makeHungry;
+					if (!this.$disposing)
+					{
+						this.$PC = 10;
+					}
+					return true;
+				}
+				case 10u:
+				{
+					Command_Action kill = new Command_Action();
+					kill.defaultLabel = "Dev: Kill random pawn";
+					kill.action = delegate()
+					{
+						Pawn pawn;
+						if (base.PawnsListForReading.TryRandomElement(out pawn))
+						{
+							pawn.Kill(null, null);
+							Messages.Message("Dev: Killed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+						}
+					};
+					this.$current = kill;
+					if (!this.$disposing)
+					{
+						this.$PC = 11;
+					}
+					return true;
+				}
+				case 11u:
+				{
+					Command_Action harm = new Command_Action();
+					harm.defaultLabel = "Dev: Harm random pawn";
+					harm.action = delegate()
+					{
+						Pawn pawn;
+						if (base.PawnsListForReading.TryRandomElement(out pawn))
+						{
+							DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+							pawn.TakeDamage(dinfo);
+						}
+					};
+					this.$current = harm;
+					if (!this.$disposing)
+					{
+						this.$PC = 12;
+					}
+					return true;
+				}
+				case 12u:
+				{
+					Command_Action down = new Command_Action();
+					down.defaultLabel = "Dev: Down random pawn";
+					down.action = delegate()
+					{
+						Pawn pawn;
+						if ((from x in base.PawnsListForReading
+						where !x.Downed
+						select x).TryRandomElement(out pawn))
+						{
+							HealthUtility.DamageUntilDowned(pawn);
+							Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+						}
+					};
+					this.$current = down;
+					if (!this.$disposing)
+					{
+						this.$PC = 13;
+					}
+					return true;
+				}
+				case 13u:
+				{
+					Command_Action action = new Command_Action();
+					action.defaultLabel = "Dev: Teleport to destination";
+					action.action = delegate()
+					{
+						base.Tile = this.pather.Destination;
+						this.pather.StopDead();
+					};
+					this.$current = action;
+					if (!this.$disposing)
+					{
+						this.$PC = 14;
+					}
+					return true;
+				}
+				case 14u:
+					goto IL_6F2;
+				default:
+					return false;
+				}
+				enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_AC:
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!base.IsPlayerControlled)
+				{
+					goto IL_4E8;
+				}
+				if (Find.WorldSelector.SingleSelectedObject == this)
+				{
+					this.$current = SettleInEmptyTileUtility.SettleCommand(this);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_16D:
+				if (Find.WorldSelector.SingleSelectedObject == this)
+				{
+					if (base.PawnsListForReading.Count((Pawn x) => x.IsColonist) >= 2)
+					{
+						Command_Action split = new Command_Action();
+						split.defaultLabel = "CommandSplitCaravan".Translate();
+						split.defaultDesc = "CommandSplitCaravanDesc".Translate();
+						split.icon = Caravan.SplitCommand;
+						split.action = delegate()
+						{
+							Find.WindowStack.Add(new Dialog_SplitCaravan(this));
+						};
+						this.$current = split;
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						return true;
+					}
+				}
+				IL_233:
+				if (this.pather.Moving)
+				{
+					Command_Toggle pause = new Command_Toggle();
+					pause.hotKey = KeyBindingDefOf.Misc1;
+					pause.isActive = (() => this.pather.Paused);
+					pause.toggleAction = delegate()
+					{
+						if (this.pather.Moving)
+						{
+							this.pather.Paused = !this.pather.Paused;
+						}
+					};
+					pause.defaultDesc = "CommandToggleCaravanPauseDesc".Translate(new object[]
+					{
+						2f.ToString("0.#"),
+						0.3f.ToStringPercent()
+					});
+					pause.icon = TexCommand.PauseCaravan;
+					pause.defaultLabel = "CommandPauseCaravan".Translate();
+					this.$current = pause;
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_315:
+				if (CaravanMergeUtility.ShouldShowMergeCommand)
+				{
+					this.$current = CaravanMergeUtility.MergeCommand(this);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				}
+				goto IL_344;
+				Block_16:
+				try
+				{
+					IL_363:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						g2 = enumerator2.Current;
+						this.$current = g2;
+						if (!this.$disposing)
+						{
+							this.$PC = 7;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				enumerator3 = Find.WorldObjects.ObjectsAt(base.Tile).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_3FD:
+					switch (num)
+					{
+					case 8u:
+						Block_38:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator4.MoveNext())
+							{
+								gizmo = enumerator4.Current;
+								this.$current = gizmo;
+								if (!this.$disposing)
+								{
+									this.$PC = 8;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator4 != null)
+								{
+									enumerator4.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator3.MoveNext())
+					{
+						wo = enumerator3.Current;
+						enumerator4 = wo.GetCaravanGizmos(this).GetEnumerator();
+						num = 4294967293u;
+						goto Block_38;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+				}
+				IL_4E8:
+				if (Prefs.DevMode)
+				{
+					Command_Action mentalBreak = new Command_Action();
+					mentalBreak.defaultLabel = "Dev: Mental break";
+					mentalBreak.action = delegate()
+					{
+						Pawn pawn;
+						if ((from x in base.PawnsListForReading
+						where x.RaceProps.Humanlike && !x.InMentalState
+						select x).TryRandomElement(out pawn))
+						{
+							pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Wander_Sad, null, false, false, null, false);
+						}
+					};
+					this.$current = mentalBreak;
+					if (!this.$disposing)
+					{
+						this.$PC = 9;
+					}
+					return true;
+				}
+				IL_6F2:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 7u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 8u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator4 != null)
+							{
+								enumerator4.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Caravan.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Caravan.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			private static bool <>m__0(Pawn x)
+			{
+				return x.IsColonist;
+			}
+
+			internal void <>m__1()
+			{
+				Find.WindowStack.Add(new Dialog_SplitCaravan(this));
+			}
+
+			internal bool <>m__2()
+			{
+				return this.pather.Paused;
+			}
+
+			internal void <>m__3()
+			{
+				if (this.pather.Moving)
+				{
+					this.pather.Paused = !this.pather.Paused;
+				}
+			}
+
+			internal void <>m__4()
+			{
+				Pawn pawn;
+				if ((from x in base.PawnsListForReading
+				where x.RaceProps.Humanlike && !x.InMentalState
+				select x).TryRandomElement(out pawn))
+				{
+					pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Wander_Sad, null, false, false, null, false);
+				}
+			}
+
+			internal void <>m__5()
+			{
+				Pawn pawn;
+				if ((from x in base.PawnsListForReading
+				where x.needs.food != null
+				select x).TryRandomElement(out pawn))
+				{
+					pawn.needs.food.CurLevelPercentage = 0f;
+				}
+			}
+
+			internal void <>m__6()
+			{
+				Pawn pawn;
+				if (base.PawnsListForReading.TryRandomElement(out pawn))
+				{
+					pawn.Kill(null, null);
+					Messages.Message("Dev: Killed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+				}
+			}
+
+			internal void <>m__7()
+			{
+				Pawn pawn;
+				if (base.PawnsListForReading.TryRandomElement(out pawn))
+				{
+					DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+					pawn.TakeDamage(dinfo);
+				}
+			}
+
+			internal void <>m__8()
+			{
+				Pawn pawn;
+				if ((from x in base.PawnsListForReading
+				where !x.Downed
+				select x).TryRandomElement(out pawn))
+				{
+					HealthUtility.DamageUntilDowned(pawn);
+					Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+				}
+			}
+
+			internal void <>m__9()
+			{
+				base.Tile = this.pather.Destination;
+				this.pather.StopDead();
+			}
+
+			private static bool <>m__A(Pawn x)
+			{
+				return x.RaceProps.Humanlike && !x.InMentalState;
+			}
+
+			private static bool <>m__B(Pawn x)
+			{
+				return x.needs.food != null;
+			}
+
+			private static bool <>m__C(Pawn x)
+			{
+				return !x.Downed;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetTransportPodsFloatMenuOptions>c__Iterator1 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal IEnumerable<IThingHolder> pods;
+
+			internal CompLaunchable representative;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <o>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <f>__2;
+
+			internal Caravan $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetTransportPodsFloatMenuOptions>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetTransportPodsFloatMenuOptions>__BaseCallProxy1(pods, representative).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_EA;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						this.$current = o;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = TransportPodsArrivalAction_GiveToCaravan.GetFloatMenuOptions(representative, pods, this).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_EA:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						f = enumerator2.Current;
+						this.$current = f;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Caravan.<GetTransportPodsFloatMenuOptions>c__Iterator1 <GetTransportPodsFloatMenuOptions>c__Iterator = new Caravan.<GetTransportPodsFloatMenuOptions>c__Iterator1();
+				<GetTransportPodsFloatMenuOptions>c__Iterator.$this = this;
+				<GetTransportPodsFloatMenuOptions>c__Iterator.pods = pods;
+				<GetTransportPodsFloatMenuOptions>c__Iterator.representative = representative;
+				return <GetTransportPodsFloatMenuOptions>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Notify_MemberDied>c__AnonStorey2
+		{
+			internal Pawn member;
+
+			internal Caravan $this;
+
+			public <Notify_MemberDied>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return x != this.member && this.$this.IsOwner(x);
+			}
 		}
 	}
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048B RID: 1163
 	public static class PawnInventoryGenerator
 	{
-		// Token: 0x06001485 RID: 5253 RVA: 0x000B45E8 File Offset: 0x000B29E8
 		public static void GenerateInventoryFor(Pawn p, PawnGenerationRequest request)
 		{
 			p.inventory.DestroyAll(DestroyMode.Vanish);
@@ -34,7 +33,6 @@ namespace RimWorld
 			PawnInventoryGenerator.GiveCombatEnhancingDrugs(p);
 		}
 
-		// Token: 0x06001486 RID: 5254 RVA: 0x000B4700 File Offset: 0x000B2B00
 		public static void GiveRandomFood(Pawn p)
 		{
 			if (p.kindDef.invNutrition > 0.001f)
@@ -66,7 +64,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001487 RID: 5255 RVA: 0x000B47BC File Offset: 0x000B2BBC
 		private static void GiveDrugsIfAddicted(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
@@ -108,7 +105,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001488 RID: 5256 RVA: 0x000B48B8 File Offset: 0x000B2CB8
 		private static void GiveCombatEnhancingDrugs(Pawn pawn)
 		{
 			if (Rand.Value < pawn.kindDef.combatEnhancingDrugsChance)
@@ -155,6 +151,76 @@ namespace RimWorld
 						}
 					}
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GiveDrugsIfAddicted>c__AnonStorey0
+		{
+			internal Pawn p;
+
+			public <GiveDrugsIfAddicted>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GiveDrugsIfAddicted>c__AnonStorey1
+		{
+			internal Hediff_Addiction addiction;
+
+			internal PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey0 <>f__ref$0;
+
+			public <GiveDrugsIfAddicted>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				bool result;
+				if (x.category != ThingCategory.Item)
+				{
+					result = false;
+				}
+				else if (this.<>f__ref$0.p.Faction != null && x.techLevel > this.<>f__ref$0.p.Faction.def.techLevel)
+				{
+					result = false;
+				}
+				else
+				{
+					CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+					result = (compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == this.addiction.def);
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GiveCombatEnhancingDrugs>c__AnonStorey2
+		{
+			internal Pawn pawn;
+
+			public <GiveCombatEnhancingDrugs>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				bool result;
+				if (x.category != ThingCategory.Item)
+				{
+					result = false;
+				}
+				else if (this.pawn.Faction != null && x.techLevel > this.pawn.Faction.def.techLevel)
+				{
+					result = false;
+				}
+				else
+				{
+					CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+					result = (compProperties != null && compProperties.isCombatEnhancingDrug);
+				}
+				return result;
 			}
 		}
 	}

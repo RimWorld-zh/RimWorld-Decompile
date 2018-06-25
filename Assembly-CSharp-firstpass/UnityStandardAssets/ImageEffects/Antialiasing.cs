@@ -3,79 +3,59 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x02000173 RID: 371
+	[AddComponentMenu("Image Effects/Other/Antialiasing")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Other/Antialiasing")]
 	public class Antialiasing : PostEffectsBase
 	{
-		// Token: 0x0400069B RID: 1691
 		public AAMode mode = AAMode.FXAA3Console;
 
-		// Token: 0x0400069C RID: 1692
 		public bool showGeneratedNormals = false;
 
-		// Token: 0x0400069D RID: 1693
 		public float offsetScale = 0.2f;
 
-		// Token: 0x0400069E RID: 1694
 		public float blurRadius = 18f;
 
-		// Token: 0x0400069F RID: 1695
 		public float edgeThresholdMin = 0.05f;
 
-		// Token: 0x040006A0 RID: 1696
 		public float edgeThreshold = 0.2f;
 
-		// Token: 0x040006A1 RID: 1697
 		public float edgeSharpness = 4f;
 
-		// Token: 0x040006A2 RID: 1698
 		public bool dlaaSharp = false;
 
-		// Token: 0x040006A3 RID: 1699
 		public Shader ssaaShader;
 
-		// Token: 0x040006A4 RID: 1700
 		private Material ssaa;
 
-		// Token: 0x040006A5 RID: 1701
 		public Shader dlaaShader;
 
-		// Token: 0x040006A6 RID: 1702
 		private Material dlaa;
 
-		// Token: 0x040006A7 RID: 1703
 		public Shader nfaaShader;
 
-		// Token: 0x040006A8 RID: 1704
 		private Material nfaa;
 
-		// Token: 0x040006A9 RID: 1705
 		public Shader shaderFXAAPreset2;
 
-		// Token: 0x040006AA RID: 1706
 		private Material materialFXAAPreset2;
 
-		// Token: 0x040006AB RID: 1707
 		public Shader shaderFXAAPreset3;
 
-		// Token: 0x040006AC RID: 1708
 		private Material materialFXAAPreset3;
 
-		// Token: 0x040006AD RID: 1709
 		public Shader shaderFXAAII;
 
-		// Token: 0x040006AE RID: 1710
 		private Material materialFXAAII;
 
-		// Token: 0x040006AF RID: 1711
 		public Shader shaderFXAAIII;
 
-		// Token: 0x040006B0 RID: 1712
 		private Material materialFXAAIII;
 
-		// Token: 0x060008AD RID: 2221 RVA: 0x0000FC50 File Offset: 0x0000DE50
+		public Antialiasing()
+		{
+		}
+
 		public Material CurrentAAMaterial()
 		{
 			Material result;
@@ -109,7 +89,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x060008AE RID: 2222 RVA: 0x0000FCF4 File Offset: 0x0000DEF4
 		public override bool CheckResources()
 		{
 			base.CheckSupport(false);
@@ -128,7 +107,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x060008AF RID: 2223 RVA: 0x0000FDE0 File Offset: 0x0000DFE0
 		public void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources())

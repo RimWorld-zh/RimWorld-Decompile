@@ -1,64 +1,54 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using RimWorld;
 using RimWorld.Planet;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A5F RID: 2655
 	public class MentalBreaker : IExposable
 	{
-		// Token: 0x04002557 RID: 9559
 		private Pawn pawn;
 
-		// Token: 0x04002558 RID: 9560
 		private int ticksBelowExtreme = 0;
 
-		// Token: 0x04002559 RID: 9561
 		private int ticksBelowMajor = 0;
 
-		// Token: 0x0400255A RID: 9562
 		private int ticksBelowMinor = 0;
 
-		// Token: 0x0400255B RID: 9563
 		private const int CheckInterval = 150;
 
-		// Token: 0x0400255C RID: 9564
 		private const float ExtremeBreakMTBDays = 0.7f;
 
-		// Token: 0x0400255D RID: 9565
 		private const float MajorBreakMTBDays = 3f;
 
-		// Token: 0x0400255E RID: 9566
 		private const float MinorBreakMTBDays = 10f;
 
-		// Token: 0x0400255F RID: 9567
 		private const int MinTicksBelowToBreak = 1500;
 
-		// Token: 0x04002560 RID: 9568
 		private const float MajorBreakMoodSpan = 0.15f;
 
-		// Token: 0x04002561 RID: 9569
 		private const float MinorBreakMoodSpan = 0.15f;
 
-		// Token: 0x04002562 RID: 9570
 		private static List<Thought> tmpThoughts = new List<Thought>();
 
-		// Token: 0x06003B08 RID: 15112 RVA: 0x001F56C5 File Offset: 0x001F3AC5
+		[CompilerGenerated]
+		private static Func<Thought, float> <>f__am$cache0;
+
 		public MentalBreaker()
 		{
 		}
 
-		// Token: 0x06003B09 RID: 15113 RVA: 0x001F56E3 File Offset: 0x001F3AE3
 		public MentalBreaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000902 RID: 2306
-		// (get) Token: 0x06003B0A RID: 15114 RVA: 0x001F5708 File Offset: 0x001F3B08
 		public float BreakThresholdExtreme
 		{
 			get
@@ -67,8 +57,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000903 RID: 2307
-		// (get) Token: 0x06003B0B RID: 15115 RVA: 0x001F5730 File Offset: 0x001F3B30
 		public float BreakThresholdMajor
 		{
 			get
@@ -77,8 +65,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000904 RID: 2308
-		// (get) Token: 0x06003B0C RID: 15116 RVA: 0x001F575C File Offset: 0x001F3B5C
 		public float BreakThresholdMinor
 		{
 			get
@@ -87,8 +73,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000905 RID: 2309
-		// (get) Token: 0x06003B0D RID: 15117 RVA: 0x001F5790 File Offset: 0x001F3B90
 		private bool CanDoRandomMentalBreaks
 		{
 			get
@@ -97,8 +81,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000906 RID: 2310
-		// (get) Token: 0x06003B0E RID: 15118 RVA: 0x001F57DC File Offset: 0x001F3BDC
 		public bool BreakExtremeIsImminent
 		{
 			get
@@ -107,8 +89,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000907 RID: 2311
-		// (get) Token: 0x06003B0F RID: 15119 RVA: 0x001F5814 File Offset: 0x001F3C14
 		public bool BreakMajorIsImminent
 		{
 			get
@@ -117,8 +97,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000908 RID: 2312
-		// (get) Token: 0x06003B10 RID: 15120 RVA: 0x001F5858 File Offset: 0x001F3C58
 		public bool BreakMinorIsImminent
 		{
 			get
@@ -127,8 +105,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000909 RID: 2313
-		// (get) Token: 0x06003B11 RID: 15121 RVA: 0x001F58A4 File Offset: 0x001F3CA4
 		public bool BreakExtremeIsApproaching
 		{
 			get
@@ -137,8 +113,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700090A RID: 2314
-		// (get) Token: 0x06003B12 RID: 15122 RVA: 0x001F58EC File Offset: 0x001F3CEC
 		private float CurMood
 		{
 			get
@@ -156,8 +130,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700090B RID: 2315
-		// (get) Token: 0x06003B13 RID: 15123 RVA: 0x001F5938 File Offset: 0x001F3D38
 		private IEnumerable<MentalBreakDef> CurrentPossibleMoodBreaks
 		{
 			get
@@ -183,8 +155,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700090C RID: 2316
-		// (get) Token: 0x06003B14 RID: 15124 RVA: 0x001F5964 File Offset: 0x001F3D64
 		private MentalBreakIntensity CurrentDesiredMoodBreakIntensity
 		{
 			get
@@ -210,14 +180,12 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B15 RID: 15125 RVA: 0x001F59BF File Offset: 0x001F3DBF
 		internal void Reset()
 		{
 			this.ticksBelowExtreme = 0;
 			this.ticksBelowMajor = 0;
 		}
 
-		// Token: 0x06003B16 RID: 15126 RVA: 0x001F59D0 File Offset: 0x001F3DD0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksBelowExtreme, "ticksBelowExtreme", 0, false);
@@ -225,7 +193,6 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksBelowMinor, "ticksBelowMinor", 0, false);
 		}
 
-		// Token: 0x06003B17 RID: 15127 RVA: 0x001F5A0C File Offset: 0x001F3E0C
 		public void MentalBreakerTick()
 		{
 			if (this.CanDoRandomMentalBreaks && this.pawn.MentalStateDef == null && this.pawn.IsHashIntervalTick(150))
@@ -289,7 +256,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B18 RID: 15128 RVA: 0x001F5BD0 File Offset: 0x001F3FD0
 		private bool TestMoodMentalBreak()
 		{
 			bool result;
@@ -308,7 +274,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B19 RID: 15129 RVA: 0x001F5C64 File Offset: 0x001F4064
 		public bool TryDoRandomMoodCausedMentalBreak()
 		{
 			bool result;
@@ -333,7 +298,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B1A RID: 15130 RVA: 0x001F5D24 File Offset: 0x001F4124
 		private Thought RandomFinalStraw()
 		{
 			this.pawn.needs.mood.thoughts.GetAllMoodThoughts(MentalBreaker.tmpThoughts);
@@ -355,7 +319,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B1B RID: 15131 RVA: 0x001F5DF4 File Offset: 0x001F41F4
 		public float MentalBreakThresholdFor(MentalBreakIntensity intensity)
 		{
 			float result;
@@ -381,7 +344,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B1C RID: 15132 RVA: 0x001F5E48 File Offset: 0x001F4248
 		internal string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -427,7 +389,6 @@ namespace Verse.AI
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003B1D RID: 15133 RVA: 0x001F6024 File Offset: 0x001F4424
 		internal void LogPossibleMentalBreaks()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -438,6 +399,218 @@ namespace Verse.AI
 				stringBuilder.AppendLine("  " + arg);
 			}
 			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MentalBreaker()
+		{
+		}
+
+		[CompilerGenerated]
+		private float <TryDoRandomMoodCausedMentalBreak>m__0(MentalBreakDef d)
+		{
+			return d.Worker.CommonalityFor(this.pawn);
+		}
+
+		[CompilerGenerated]
+		private static float <RandomFinalStraw>m__1(Thought x)
+		{
+			return -x.MoodOffset();
+		}
+
+		[CompilerGenerated]
+		private float <DebugString>m__2(MentalBreakDef d)
+		{
+			return d.Worker.CommonalityFor(this.pawn);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<MentalBreakDef>, IEnumerator, IDisposable, IEnumerator<MentalBreakDef>
+		{
+			internal IEnumerable<MentalBreakDef> <breaks>__1;
+
+			internal bool <yieldedAny>__1;
+
+			internal IEnumerator<MentalBreakDef> $locvar0;
+
+			internal MentalBreakDef <b>__2;
+
+			internal MentalBreaker $this;
+
+			internal MentalBreakDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private MentalBreaker.<>c__Iterator0.<>c__AnonStorey1 $locvar1;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+				{
+					MentalBreakIntensity intensity = base.CurrentDesiredMoodBreakIntensity;
+					break;
+				}
+				case 1u:
+					Block_2:
+					try
+					{
+						switch (num)
+						{
+						case 1u:
+							yieldedAny = true;
+							break;
+						}
+						if (enumerator.MoveNext())
+						{
+							b = enumerator.Current;
+							this.$current = b;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					if (yieldedAny)
+					{
+						return false;
+					}
+					<>c__AnonStorey.intensity = (MentalBreakIntensity)(<>c__AnonStorey.intensity - MentalBreakIntensity.Minor);
+					break;
+				default:
+					return false;
+				}
+				if (<>c__AnonStorey.intensity != MentalBreakIntensity.None)
+				{
+					breaks = from d in DefDatabase<MentalBreakDef>.AllDefsListForReading
+					where d.intensity == <>c__AnonStorey.intensity && d.Worker.BreakCanOccur(<>c__AnonStorey.<>f__ref$0.$this.pawn)
+					select d;
+					yieldedAny = false;
+					enumerator = breaks.GetEnumerator();
+					num = 4294967293u;
+					goto Block_2;
+				}
+				return false;
+			}
+
+			MentalBreakDef IEnumerator<MentalBreakDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.MentalBreakDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<MentalBreakDef> IEnumerable<MentalBreakDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				MentalBreaker.<>c__Iterator0 <>c__Iterator = new MentalBreaker.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+
+			private sealed class <>c__AnonStorey1
+			{
+				internal MentalBreakIntensity intensity;
+
+				internal MentalBreaker.<>c__Iterator0 <>f__ref$0;
+
+				public <>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(MentalBreakDef d)
+				{
+					return d.intensity == this.intensity && d.Worker.BreakCanOccur(this.<>f__ref$0.$this.pawn);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomFinalStraw>c__AnonStorey2
+		{
+			internal float maxMoodOffset;
+
+			public <RandomFinalStraw>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(Thought x)
+			{
+				return x.MoodOffset() <= this.maxMoodOffset;
+			}
 		}
 	}
 }

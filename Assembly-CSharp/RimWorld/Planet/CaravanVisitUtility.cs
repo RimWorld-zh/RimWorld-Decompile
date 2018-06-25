@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E8 RID: 1512
 	[StaticConstructorOnStartup]
 	public static class CaravanVisitUtility
 	{
-		// Token: 0x040011B4 RID: 4532
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true);
 
-		// Token: 0x06001DEA RID: 7658 RVA: 0x00101E0C File Offset: 0x0010020C
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
 			Settlement result;
@@ -37,7 +35,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DEB RID: 7659 RVA: 0x00101EA8 File Offset: 0x001002A8
 		public static Command TradeCommand(Caravan caravan)
 		{
 			Pawn bestNegotiator = BestCaravanPawnUtility.FindBestNegotiator(caravan);
@@ -66,6 +63,36 @@ namespace RimWorld.Planet
 				command_Action.Disable("CommandTradeFailSocialDisabled".Translate());
 			}
 			return command_Action;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CaravanVisitUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <TradeCommand>c__AnonStorey0
+		{
+			internal Caravan caravan;
+
+			internal Pawn bestNegotiator;
+
+			public <TradeCommand>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(this.caravan);
+				if (settlement != null && settlement.CanTradeNow)
+				{
+					Find.WindowStack.Add(new Dialog_Trade(this.bestNegotiator, settlement, false));
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(settlement.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradingWithSettlement".Translate(new object[]
+					{
+						Faction.OfPlayer.def.pawnsPlural
+					}), LetterDefOf.NeutralEvent, false, true);
+				}
+			}
 		}
 	}
 }

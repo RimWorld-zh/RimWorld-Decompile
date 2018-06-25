@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006AD RID: 1709
 	public class Building_PlantGrower : Building, IPlantToGrowSettable
 	{
-		// Token: 0x04001441 RID: 5185
 		private ThingDef plantDefToGrow;
 
-		// Token: 0x04001442 RID: 5186
 		private CompPowerTrader compPower;
 
-		// Token: 0x1700058A RID: 1418
-		// (get) Token: 0x060024A8 RID: 9384 RVA: 0x0013A264 File Offset: 0x00138664
+		public Building_PlantGrower()
+		{
+		}
+
 		public IEnumerable<Plant> PlantsOnMe
 		{
 			get
@@ -42,8 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000589 RID: 1417
-		// (get) Token: 0x060024A9 RID: 9385 RVA: 0x0013A290 File Offset: 0x00138690
 		IEnumerable<IntVec3> IPlantToGrowSettable.Cells
 		{
 			get
@@ -52,7 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024AA RID: 9386 RVA: 0x0013A2B4 File Offset: 0x001386B4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -63,14 +63,12 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024AB RID: 9387 RVA: 0x0013A2DE File Offset: 0x001386DE
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.plantDefToGrow = this.def.building.defaultPlantToGrow;
 		}
 
-		// Token: 0x060024AC RID: 9388 RVA: 0x0013A2FD File Offset: 0x001386FD
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -78,14 +76,12 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.GrowingFood, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x060024AD RID: 9389 RVA: 0x0013A31F File Offset: 0x0013871F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.plantDefToGrow, "plantDefToGrow");
 		}
 
-		// Token: 0x060024AE RID: 9390 RVA: 0x0013A338 File Offset: 0x00138738
 		public override void TickRare()
 		{
 			if (this.compPower != null && !this.compPower.PowerOn)
@@ -98,7 +94,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024AF RID: 9391 RVA: 0x0013A3D0 File Offset: 0x001387D0
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			foreach (Plant plant in this.PlantsOnMe.ToList<Plant>())
@@ -108,7 +103,6 @@ namespace RimWorld
 			base.DeSpawn(mode);
 		}
 
-		// Token: 0x060024B0 RID: 9392 RVA: 0x0013A43C File Offset: 0x0013883C
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -126,22 +120,290 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060024B1 RID: 9393 RVA: 0x0013A4B0 File Offset: 0x001388B0
 		public ThingDef GetPlantDefToGrow()
 		{
 			return this.plantDefToGrow;
 		}
 
-		// Token: 0x060024B2 RID: 9394 RVA: 0x0013A4CB File Offset: 0x001388CB
 		public void SetPlantDefToGrow(ThingDef plantDef)
 		{
 			this.plantDefToGrow = plantDef;
 		}
 
-		// Token: 0x060024B3 RID: 9395 RVA: 0x0013A4D8 File Offset: 0x001388D8
 		public bool CanAcceptSowNow()
 		{
 			return this.compPower == null || this.compPower.PowerOn;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Plant>, IEnumerator, IDisposable, IEnumerator<Plant>
+		{
+			internal CellRect.CellRectIterator <cri>__1;
+
+			internal List<Thing> <thingList>__2;
+
+			internal int <i>__3;
+
+			internal Plant <p>__4;
+
+			internal Building_PlantGrower $this;
+
+			internal Plant $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (!base.Spawned)
+					{
+						return false;
+					}
+					cri = this.OccupiedRect().GetIterator();
+					goto IL_101;
+				case 1u:
+					IL_D0:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				IL_DF:
+				if (i >= thingList.Count)
+				{
+					cri.MoveNext();
+				}
+				else
+				{
+					p = (thingList[i] as Plant);
+					if (p != null)
+					{
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_D0;
+				}
+				IL_101:
+				if (!cri.Done())
+				{
+					thingList = base.Map.thingGrid.ThingsListAt(cri.Current);
+					i = 0;
+					goto IL_DF;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Plant IEnumerator<Plant>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Plant>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Plant> IEnumerable<Plant>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_PlantGrower.<>c__Iterator0 <>c__Iterator = new Building_PlantGrower.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Building_PlantGrower $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$current = PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_PlantGrower.<GetGizmos>c__Iterator1 <GetGizmos>c__Iterator = new Building_PlantGrower.<GetGizmos>c__Iterator1();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
 		}
 	}
 }

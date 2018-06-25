@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A08 RID: 2568
 	public class TransitionAction_CheckForJobOverride : TransitionAction
 	{
-		// Token: 0x06003988 RID: 14728 RVA: 0x001E812C File Offset: 0x001E652C
+		public TransitionAction_CheckForJobOverride()
+		{
+		}
+
 		public override void DoAction(Transition trans)
 		{
 			List<Pawn> ownedPawns = trans.target.lord.ownedPawns;

@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000EE RID: 238
 	public class JobGiver_SeekAllowedArea : ThinkNode_JobGiver
 	{
-		// Token: 0x06000510 RID: 1296 RVA: 0x000382F0 File Offset: 0x000366F0
+		public JobGiver_SeekAllowedArea()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -71,14 +74,12 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000511 RID: 1297 RVA: 0x000383F0 File Offset: 0x000367F0
 		private bool HasJobWithSpawnedAllowedTarget(Pawn pawn)
 		{
 			Job curJob = pawn.CurJob;
 			return curJob != null && (this.IsSpawnedAllowedTarget(curJob.targetA, pawn) || this.IsSpawnedAllowedTarget(curJob.targetB, pawn) || this.IsSpawnedAllowedTarget(curJob.targetC, pawn));
 		}
 
-		// Token: 0x06000512 RID: 1298 RVA: 0x00038450 File Offset: 0x00036850
 		private bool IsSpawnedAllowedTarget(LocalTargetInfo target, Pawn pawn)
 		{
 			bool result;
@@ -95,6 +96,44 @@ namespace RimWorld
 				result = (target.Cell.InBounds(pawn.Map) && !target.Cell.IsForbidden(pawn));
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal TraverseParms traverseParms;
+
+			internal Pawn pawn;
+
+			internal Region reg;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region r)
+			{
+				return r.Allows(this.traverseParms, false);
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				bool result;
+				if (r.portal != null)
+				{
+					result = false;
+				}
+				else if (!r.IsForbiddenEntirely(this.pawn))
+				{
+					this.reg = r;
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
 		}
 	}
 }

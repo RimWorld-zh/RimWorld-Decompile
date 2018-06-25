@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -8,54 +9,41 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EF RID: 2287
 	[StaticConstructorOnStartup]
 	public class WorldRoutePlanner
 	{
-		// Token: 0x04001C7D RID: 7293
 		private bool active;
 
-		// Token: 0x04001C7E RID: 7294
 		private CaravanTicksPerMoveUtility.CaravanInfo? caravanInfoFromFormCaravanDialog;
 
-		// Token: 0x04001C7F RID: 7295
 		private Dialog_FormCaravan currentFormCaravanDialog;
 
-		// Token: 0x04001C80 RID: 7296
 		private List<WorldPath> paths = new List<WorldPath>();
 
-		// Token: 0x04001C81 RID: 7297
 		private List<int> cachedTicksToWaypoint = new List<int>();
 
-		// Token: 0x04001C82 RID: 7298
 		public List<RoutePlannerWaypoint> waypoints = new List<RoutePlannerWaypoint>();
 
-		// Token: 0x04001C83 RID: 7299
 		private bool cantRemoveFirstWaypoint;
 
-		// Token: 0x04001C84 RID: 7300
 		private const int MaxCount = 25;
 
-		// Token: 0x04001C85 RID: 7301
 		private static readonly Texture2D ButtonTex = ContentFinder<Texture2D>.Get("UI/Misc/WorldRoutePlanner", true);
 
-		// Token: 0x04001C86 RID: 7302
 		private static readonly Texture2D MouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/WaypointMouseAttachment", true);
 
-		// Token: 0x04001C87 RID: 7303
 		private static readonly Vector2 BottomWindowSize = new Vector2(500f, 95f);
 
-		// Token: 0x04001C88 RID: 7304
 		private static readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 
-		// Token: 0x04001C89 RID: 7305
 		private const float BottomWindowBotMargin = 45f;
 
-		// Token: 0x04001C8A RID: 7306
 		private const float BottomWindowEntryExtraBotMargin = 22f;
 
-		// Token: 0x17000880 RID: 2176
-		// (get) Token: 0x060034B3 RID: 13491 RVA: 0x001C2898 File Offset: 0x001C0C98
+		public WorldRoutePlanner()
+		{
+		}
+
 		public bool Active
 		{
 			get
@@ -64,8 +52,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000881 RID: 2177
-		// (get) Token: 0x060034B4 RID: 13492 RVA: 0x001C28B4 File Offset: 0x001C0CB4
 		private bool ShouldStop
 		{
 			get
@@ -74,8 +60,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000882 RID: 2178
-		// (get) Token: 0x060034B5 RID: 13493 RVA: 0x001C2910 File Offset: 0x001C0D10
 		private int CaravanTicksPerMove
 		{
 			get
@@ -94,8 +78,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000883 RID: 2179
-		// (get) Token: 0x060034B6 RID: 13494 RVA: 0x001C296C File Offset: 0x001C0D6C
 		private CaravanTicksPerMoveUtility.CaravanInfo? CaravanInfo
 		{
 			get
@@ -121,8 +103,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000884 RID: 2180
-		// (get) Token: 0x060034B7 RID: 13495 RVA: 0x001C29C0 File Offset: 0x001C0DC0
 		private Caravan CaravanAtTheFirstWaypoint
 		{
 			get
@@ -140,7 +120,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034B8 RID: 13496 RVA: 0x001C2A08 File Offset: 0x001C0E08
 		public void Start()
 		{
 			if (this.active)
@@ -155,7 +134,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034B9 RID: 13497 RVA: 0x001C2A58 File Offset: 0x001C0E58
 		public void Start(Dialog_FormCaravan formCaravanDialog)
 		{
 			if (this.active)
@@ -171,7 +149,6 @@ namespace RimWorld.Planet
 			this.cantRemoveFirstWaypoint = true;
 		}
 
-		// Token: 0x060034BA RID: 13498 RVA: 0x001C2AC0 File Offset: 0x001C0EC0
 		public void Stop()
 		{
 			this.active = false;
@@ -192,7 +169,6 @@ namespace RimWorld.Planet
 			this.ReleasePaths();
 		}
 
-		// Token: 0x060034BB RID: 13499 RVA: 0x001C2B5C File Offset: 0x001C0F5C
 		public void WorldRoutePlannerUpdate()
 		{
 			if (this.active && this.ShouldStop)
@@ -208,7 +184,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034BC RID: 13500 RVA: 0x001C2BC8 File Offset: 0x001C0FC8
 		public void WorldRoutePlannerOnGUI()
 		{
 			if (this.active)
@@ -272,7 +247,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034BD RID: 13501 RVA: 0x001C2DB8 File Offset: 0x001C11B8
 		private void DoRouteDetailsBox()
 		{
 			WorldRoutePlanner.<DoRouteDetailsBox>c__AnonStorey2 <DoRouteDetailsBox>c__AnonStorey = new WorldRoutePlanner.<DoRouteDetailsBox>c__AnonStorey2();
@@ -339,7 +313,6 @@ namespace RimWorld.Planet
 			}, true, false, 1f);
 		}
 
-		// Token: 0x060034BE RID: 13502 RVA: 0x001C2E78 File Offset: 0x001C1278
 		private bool DoChooseRouteButton()
 		{
 			bool result;
@@ -365,7 +338,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060034BF RID: 13503 RVA: 0x001C2F70 File Offset: 0x001C1370
 		private void DoTileTooltips()
 		{
 			if (!Mouse.IsInputBlockedNow)
@@ -397,7 +369,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C0 RID: 13504 RVA: 0x001C307C File Offset: 0x001C147C
 		private string GetTileTip(int tile, int pathIndex)
 		{
 			int num = this.paths[pathIndex].NodesReversed.IndexOf(tile);
@@ -441,7 +412,6 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060034C1 RID: 13505 RVA: 0x001C32B0 File Offset: 0x001C16B0
 		public void DoRoutePlannerButton(ref float curBaseY)
 		{
 			float num = (float)WorldRoutePlanner.ButtonTex.width;
@@ -464,13 +434,11 @@ namespace RimWorld.Planet
 			curBaseY -= num2 + 20f;
 		}
 
-		// Token: 0x060034C2 RID: 13506 RVA: 0x001C337C File Offset: 0x001C177C
 		public int GetTicksToWaypoint(int index)
 		{
 			return this.cachedTicksToWaypoint[index];
 		}
 
-		// Token: 0x060034C3 RID: 13507 RVA: 0x001C33A0 File Offset: 0x001C17A0
 		private void TryAddWaypoint(int tile, bool playSound = true)
 		{
 			if (Find.World.Impassable(tile))
@@ -502,7 +470,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C4 RID: 13508 RVA: 0x001C34B4 File Offset: 0x001C18B4
 		public void TryRemoveWaypoint(RoutePlannerWaypoint point, bool playSound = true)
 		{
 			if (this.cantRemoveFirstWaypoint && this.waypoints.Any<RoutePlannerWaypoint>() && point == this.waypoints[0])
@@ -529,7 +496,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C5 RID: 13509 RVA: 0x001C35A8 File Offset: 0x001C19A8
 		private void ReleasePaths()
 		{
 			for (int i = 0; i < this.paths.Count; i++)
@@ -539,7 +505,6 @@ namespace RimWorld.Planet
 			this.paths.Clear();
 		}
 
-		// Token: 0x060034C6 RID: 13510 RVA: 0x001C35F0 File Offset: 0x001C19F0
 		private void RecreatePaths()
 		{
 			this.ReleasePaths();
@@ -565,7 +530,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C7 RID: 13511 RVA: 0x001C3708 File Offset: 0x001C1B08
 		private RoutePlannerWaypoint MostRecentWaypointAt(int tile)
 		{
 			for (int i = this.waypoints.Count - 1; i >= 0; i--)
@@ -576,6 +540,131 @@ namespace RimWorld.Planet
 				}
 			}
 			return null;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WorldRoutePlanner()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <WorldRoutePlannerOnGUI>c__AnonStorey0
+		{
+			internal int tile;
+
+			internal WorldRoutePlanner $this;
+
+			public <WorldRoutePlannerOnGUI>c__AnonStorey0()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <WorldRoutePlannerOnGUI>c__AnonStorey1
+		{
+			internal RoutePlannerWaypoint waypoint;
+
+			internal WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey0 <>f__ref$0;
+
+			public <WorldRoutePlannerOnGUI>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$0.$this.TryAddWaypoint(this.<>f__ref$0.tile, true);
+			}
+
+			internal void <>m__1()
+			{
+				this.<>f__ref$0.$this.TryRemoveWaypoint(this.waypoint, true);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoRouteDetailsBox>c__AnonStorey2
+		{
+			internal Rect rect;
+
+			internal WorldRoutePlanner $this;
+
+			public <DoRouteDetailsBox>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (this.$this.active)
+				{
+					GUI.color = Color.white;
+					Text.Anchor = TextAnchor.UpperCenter;
+					Text.Font = GameFont.Small;
+					float num = 6f;
+					if (this.$this.waypoints.Count >= 2)
+					{
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerEstTimeToFinalDest".Translate(new object[]
+						{
+							this.$this.GetTicksToWaypoint(this.$this.waypoints.Count - 1).ToStringTicksToDays("0.#")
+						}));
+					}
+					else if (this.$this.cantRemoveFirstWaypoint)
+					{
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerAddOneOrMoreWaypoints".Translate());
+					}
+					else
+					{
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerAddTwoOrMoreWaypoints".Translate());
+					}
+					num += 20f;
+					if (this.$this.CaravanInfo == null || !this.$this.CaravanInfo.Value.pawns.Any<Pawn>())
+					{
+						GUI.color = new Color(0.8f, 0.6f, 0.6f);
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerUsingAverageTicksPerMoveWarning".Translate());
+					}
+					else if (this.$this.currentFormCaravanDialog == null && this.$this.CaravanAtTheFirstWaypoint != null)
+					{
+						GUI.color = Color.gray;
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerUsingTicksPerMoveOfCaravan".Translate(new object[]
+						{
+							this.$this.CaravanAtTheFirstWaypoint.LabelCap
+						}));
+					}
+					num += 20f;
+					GUI.color = Color.gray;
+					Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerPressRMBToAddAndRemoveWaypoints".Translate());
+					num += 20f;
+					if (this.$this.currentFormCaravanDialog != null)
+					{
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerPressEscapeToReturnToCaravanFormationDialog".Translate());
+					}
+					else
+					{
+						Widgets.Label(new Rect(0f, num, this.rect.width, 25f), "RoutePlannerPressEscapeToExit".Translate());
+					}
+					num += 20f;
+					GUI.color = Color.white;
+					Text.Anchor = TextAnchor.UpperLeft;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoTileTooltips>c__AnonStorey3
+		{
+			internal Rect rect;
+
+			internal string str;
+
+			public <DoTileTooltips>c__AnonStorey3()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				Text.Font = GameFont.Small;
+				Rect rect = this.rect.AtZero().ContractedBy(10f);
+				Widgets.Label(rect, this.str);
+			}
 		}
 	}
 }

@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D6 RID: 2006
 	public class Designator_RearmTrap : Designator
 	{
-		// Token: 0x06002C77 RID: 11383 RVA: 0x001770C0 File Offset: 0x001754C0
 		public Designator_RearmTrap()
 		{
 			this.defaultLabel = "DesignatorRearmTrap".Translate();
@@ -24,8 +26,6 @@ namespace RimWorld
 			this.designateAllLabel = "RearmAllTraps".Translate();
 		}
 
-		// Token: 0x170006FD RID: 1789
-		// (get) Token: 0x06002C78 RID: 11384 RVA: 0x00177150 File Offset: 0x00175550
 		public override int DraggableDimensions
 		{
 			get
@@ -34,8 +34,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006FE RID: 1790
-		// (get) Token: 0x06002C79 RID: 11385 RVA: 0x00177168 File Offset: 0x00175568
 		protected override DesignationDef Designation
 		{
 			get
@@ -44,7 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C7A RID: 11386 RVA: 0x00177184 File Offset: 0x00175584
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -63,7 +60,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C7B RID: 11387 RVA: 0x001771DC File Offset: 0x001755DC
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.RearmablesInCell(c))
@@ -72,20 +68,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C7C RID: 11388 RVA: 0x0017723C File Offset: 0x0017563C
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building_TrapRearmable building_TrapRearmable = t as Building_TrapRearmable;
 			return building_TrapRearmable != null && !building_TrapRearmable.Armed && base.Map.designationManager.DesignationOn(building_TrapRearmable, this.Designation) == null;
 		}
 
-		// Token: 0x06002C7D RID: 11389 RVA: 0x0017728B File Offset: 0x0017568B
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002C7E RID: 11390 RVA: 0x001772B0 File Offset: 0x001756B0
 		private IEnumerable<Thing> RearmablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))
@@ -101,6 +94,120 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RearmablesInCell>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal IntVec3 c;
+
+			internal List<Thing> <thingList>__0;
+
+			internal int <i>__1;
+
+			internal Designator_RearmTrap $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <RearmablesInCell>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (c.Fogged(base.Map))
+					{
+						return false;
+					}
+					thingList = c.GetThingList(base.Map);
+					i = 0;
+					break;
+				case 1u:
+					IL_BF:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= thingList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						this.$current = thingList[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_BF;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Designator_RearmTrap.<RearmablesInCell>c__Iterator0 <RearmablesInCell>c__Iterator = new Designator_RearmTrap.<RearmablesInCell>c__Iterator0();
+				<RearmablesInCell>c__Iterator.$this = this;
+				<RearmablesInCell>c__Iterator.c = c;
+				return <RearmablesInCell>c__Iterator;
+			}
 		}
 	}
 }

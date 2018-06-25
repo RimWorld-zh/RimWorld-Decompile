@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld;
 using UnityEngine;
@@ -8,43 +9,30 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E51 RID: 3665
 	public class Window_DebugTable : Window
 	{
-		// Token: 0x0400391F RID: 14623
 		private string[,] tableRaw;
 
-		// Token: 0x04003920 RID: 14624
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04003921 RID: 14625
 		private string[,] tableSorted;
 
-		// Token: 0x04003922 RID: 14626
 		private List<float> colWidths = new List<float>();
 
-		// Token: 0x04003923 RID: 14627
 		private List<float> rowHeights = new List<float>();
 
-		// Token: 0x04003924 RID: 14628
 		private int sortColumn = -1;
 
-		// Token: 0x04003925 RID: 14629
 		private Window_DebugTable.SortMode sortMode = Window_DebugTable.SortMode.Off;
 
-		// Token: 0x04003926 RID: 14630
 		private bool[] colVisible;
 
-		// Token: 0x04003927 RID: 14631
 		private const float ColExtraWidth = 2f;
 
-		// Token: 0x04003928 RID: 14632
 		private const float RowExtraHeight = 2f;
 
-		// Token: 0x04003929 RID: 14633
 		private const float HiddenColumnWidth = 10f;
 
-		// Token: 0x06005667 RID: 22119 RVA: 0x002C8CE8 File Offset: 0x002C70E8
 		public Window_DebugTable(string[,] tables)
 		{
 			this.tableRaw = tables;
@@ -59,8 +47,6 @@ namespace Verse
 			this.BuildTableSorted();
 		}
 
-		// Token: 0x17000D85 RID: 3461
-		// (get) Token: 0x06005668 RID: 22120 RVA: 0x002C8D88 File Offset: 0x002C7188
 		public override Vector2 InitialSize
 		{
 			get
@@ -69,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005669 RID: 22121 RVA: 0x002C8DB0 File Offset: 0x002C71B0
 		private void BuildTableSorted()
 		{
 			if (this.sortMode == Window_DebugTable.SortMode.Off)
@@ -164,7 +149,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600566A RID: 22122 RVA: 0x002C90C4 File Offset: 0x002C74C4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Tiny;
@@ -266,21 +250,31 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000E52 RID: 3666
+		[CompilerGenerated]
+		private string <BuildTableSorted>m__0(List<string> x)
+		{
+			return x[this.sortColumn];
+		}
+
+		[CompilerGenerated]
+		private string <BuildTableSorted>m__1(List<string> x)
+		{
+			return x[this.sortColumn];
+		}
+
 		private enum SortMode
 		{
-			// Token: 0x0400392B RID: 14635
 			Off,
-			// Token: 0x0400392C RID: 14636
 			Ascending,
-			// Token: 0x0400392D RID: 14637
 			Descending
 		}
 
-		// Token: 0x02000E53 RID: 3667
 		public class NumericStringComparer : IComparer<string>
 		{
-			// Token: 0x0600566E RID: 22126 RVA: 0x002C949C File Offset: 0x002C789C
+			public NumericStringComparer()
+			{
+			}
+
 			public int Compare(string x, string y)
 			{
 				if (x.Contains("~"))

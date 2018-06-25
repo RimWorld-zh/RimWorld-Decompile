@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F4 RID: 1780
 	public class ThingSetMaker_StackCount : ThingSetMaker
 	{
-		// Token: 0x060026C2 RID: 9922 RVA: 0x0014CA9C File Offset: 0x0014AE9C
+		public ThingSetMaker_StackCount()
+		{
+		}
+
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			bool result;
@@ -45,7 +51,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026C3 RID: 9923 RVA: 0x0014CBB8 File Offset: 0x0014AFB8
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
@@ -86,13 +91,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026C4 RID: 9924 RVA: 0x0014CD5C File Offset: 0x0014B15C
 		protected virtual IEnumerable<ThingDef> AllowedThingDefs(ThingSetMakerParams parms)
 		{
 			return ThingSetMakerUtility.GetAllowedThingDefs(parms);
 		}
 
-		// Token: 0x060026C5 RID: 9925 RVA: 0x0014CD78 File Offset: 0x0014B178
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			TechLevel? techLevel2 = parms.techLevel;
@@ -111,6 +114,157 @@ namespace RimWorld
 				yield return t;
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingSetMakerParams parms;
+
+			internal TechLevel <techLevel>__0;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__1;
+
+			internal ThingSetMaker_StackCount $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+				{
+					TechLevel? techLevel2 = parms.techLevel;
+					techLevel = ((techLevel2 == null) ? TechLevel.Undefined : techLevel2.Value);
+					enumerator = this.AllowedThingDefs(parms).GetEnumerator();
+					num = 4294967293u;
+					break;
+				}
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					while (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						float? maxTotalMass = parms.maxTotalMass;
+						if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
+						{
+							float? maxTotalMass2 = parms.maxTotalMass;
+							if (ThingSetMakerUtility.GetMinMass(t, techLevel) > maxTotalMass2)
+							{
+								continue;
+							}
+						}
+						this.$current = t;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker_StackCount.<AllGeneratableThingsDebugSub>c__Iterator0 <AllGeneratableThingsDebugSub>c__Iterator = new ThingSetMaker_StackCount.<AllGeneratableThingsDebugSub>c__Iterator0();
+				<AllGeneratableThingsDebugSub>c__Iterator.$this = this;
+				<AllGeneratableThingsDebugSub>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebugSub>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000348 RID: 840
 	public class IncidentWorker_RaidEnemy : IncidentWorker_Raid
 	{
-		// Token: 0x06000E5F RID: 3679 RVA: 0x0007AA48 File Offset: 0x00078E48
+		[CompilerGenerated]
+		private static Predicate<Pawn> <>f__am$cache0;
+
+		public IncidentWorker_RaidEnemy()
+		{
+		}
+
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			return base.FactionCanBeGroupSource(f, map, desperate) && f.HostileTo(Faction.OfPlayer) && (desperate || (float)GenDate.DaysPassed >= f.def.earliestRaidDays);
 		}
 
-		// Token: 0x06000E60 RID: 3680 RVA: 0x0007AAA0 File Offset: 0x00078EA0
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			bool result;
@@ -31,7 +36,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E61 RID: 3681 RVA: 0x0007AAF0 File Offset: 0x00078EF0
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -52,7 +56,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E62 RID: 3682 RVA: 0x0007AB9E File Offset: 0x00078F9E
 		protected override void ResolveRaidPoints(IncidentParms parms)
 		{
 			if (parms.points <= 0f)
@@ -62,7 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E63 RID: 3683 RVA: 0x0007ABD0 File Offset: 0x00078FD0
 		protected override void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind)
 		{
 			if (parms.raidStrategy == null)
@@ -91,13 +93,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E64 RID: 3684 RVA: 0x0007ACD4 File Offset: 0x000790D4
 		protected override string GetLetterLabel(IncidentParms parms)
 		{
 			return parms.raidStrategy.letterLabelEnemy;
 		}
 
-		// Token: 0x06000E65 RID: 3685 RVA: 0x0007ACF4 File Offset: 0x000790F4
 		protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
 		{
 			string text = string.Format(parms.raidArrivalMode.textEnemy, parms.faction.def.pawnsPlural, parms.faction.Name);
@@ -116,13 +116,11 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06000E66 RID: 3686 RVA: 0x0007ADC0 File Offset: 0x000791C0
 		protected override LetterDef GetLetterDef()
 		{
 			return LetterDefOf.ThreatBig;
 		}
 
-		// Token: 0x06000E67 RID: 3687 RVA: 0x0007ADDC File Offset: 0x000791DC
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)
 		{
 			return "LetterRelatedPawnsRaidEnemy".Translate(new object[]
@@ -130,6 +128,63 @@ namespace RimWorld
 				Faction.OfPlayer.def.pawnsPlural,
 				parms.faction.def.pawnsPlural
 			});
+		}
+
+		[CompilerGenerated]
+		private static bool <GetLetterText>m__0(Pawn x)
+		{
+			return x.Faction.leader == x;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryResolveRaidFaction>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal IncidentWorker_RaidEnemy $this;
+
+			public <TryResolveRaidFaction>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Faction f)
+			{
+				return this.$this.FactionCanBeGroupSource(f, this.map, false);
+			}
+
+			internal bool <>m__1(Faction f)
+			{
+				return this.$this.FactionCanBeGroupSource(f, this.map, true);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ResolveRaidStrategy>c__AnonStorey1
+		{
+			internal IncidentParms parms;
+
+			internal PawnGroupKindDef groupKind;
+
+			internal Map map;
+
+			public <ResolveRaidStrategy>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(RaidStrategyDef d)
+			{
+				return d.Worker.CanUseWith(this.parms, this.groupKind) && (this.parms.raidArrivalMode != null || (d.arriveModes != null && d.arriveModes.Any((PawnsArrivalModeDef x) => x.Worker.CanUseWith(this.parms))));
+			}
+
+			internal float <>m__1(RaidStrategyDef d)
+			{
+				return d.Worker.SelectionWeight(this.map, this.parms.points);
+			}
+
+			internal bool <>m__2(PawnsArrivalModeDef x)
+			{
+				return x.Worker.CanUseWith(this.parms);
+			}
 		}
 	}
 }

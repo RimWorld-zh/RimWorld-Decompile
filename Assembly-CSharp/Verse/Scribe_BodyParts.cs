@@ -2,10 +2,8 @@
 
 namespace Verse
 {
-	// Token: 0x02000DA6 RID: 3494
 	public static class Scribe_BodyParts
 	{
-		// Token: 0x06004E15 RID: 19989 RVA: 0x0028D0B4 File Offset: 0x0028B4B4
 		public static void Look(ref BodyPartRecord part, string label, BodyPartRecord defaultValue = null)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

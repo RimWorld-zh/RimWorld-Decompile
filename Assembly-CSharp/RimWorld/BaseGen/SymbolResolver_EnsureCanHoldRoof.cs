@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003B0 RID: 944
 	public class SymbolResolver_EnsureCanHoldRoof : SymbolResolver
 	{
-		// Token: 0x04000A1C RID: 2588
 		private static HashSet<IntVec3> roofsAboutToCollapse = new HashSet<IntVec3>();
 
-		// Token: 0x04000A1D RID: 2589
 		private static List<IntVec3> edgeRoofs = new List<IntVec3>();
 
-		// Token: 0x04000A1E RID: 2590
 		private static HashSet<IntVec3> visited = new HashSet<IntVec3>();
 
-		// Token: 0x06001059 RID: 4185 RVA: 0x0008A090 File Offset: 0x00088490
+		[CompilerGenerated]
+		private static Action<IntVec3> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<IntVec3> <>f__am$cache1;
+
+		public SymbolResolver_EnsureCanHoldRoof()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef wallStuff = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
@@ -29,7 +35,6 @@ namespace RimWorld.BaseGen
 			while (this.TrySpawnPillar(rp.faction, wallStuff));
 		}
 
-		// Token: 0x0600105A RID: 4186 RVA: 0x0008A0F8 File Offset: 0x000884F8
 		private void CalculateRoofsAboutToCollapse(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -69,7 +74,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600105B RID: 4187 RVA: 0x0008A244 File Offset: 0x00088644
 		private void CalculateEdgeRoofs(CellRect rect)
 		{
 			SymbolResolver_EnsureCanHoldRoof.edgeRoofs.Clear();
@@ -87,7 +91,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600105C RID: 4188 RVA: 0x0008A2F4 File Offset: 0x000886F4
 		private bool TrySpawnPillar(Faction faction, ThingDef wallStuff)
 		{
 			bool result;
@@ -129,7 +132,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600105D RID: 4189 RVA: 0x0008A3E0 File Offset: 0x000887E0
 		private float GetPillarSpawnScore(IntVec3 c)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -160,6 +162,62 @@ namespace RimWorld.BaseGen
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SymbolResolver_EnsureCanHoldRoof()
+		{
+		}
+
+		[CompilerGenerated]
+		private static void <CalculateRoofsAboutToCollapse>m__0(IntVec3 x)
+		{
+			SymbolResolver_EnsureCanHoldRoof.roofsAboutToCollapse.Add(x);
+		}
+
+		[CompilerGenerated]
+		private static bool <TrySpawnPillar>m__1(IntVec3 x)
+		{
+			return SymbolResolver_EnsureCanHoldRoof.roofsAboutToCollapse.Contains(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateRoofsAboutToCollapse>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <CalculateRoofsAboutToCollapse>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return x.Roofed(this.map);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TrySpawnPillar>c__AnonStorey1
+		{
+			internal IntVec3 bestCell;
+
+			internal float bestScore;
+
+			internal SymbolResolver_EnsureCanHoldRoof $this;
+
+			public <TrySpawnPillar>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0(IntVec3 x)
+			{
+				float pillarSpawnScore = this.$this.GetPillarSpawnScore(x);
+				if (pillarSpawnScore > 0f && (!this.bestCell.IsValid || pillarSpawnScore >= this.bestScore))
+				{
+					this.bestCell = x;
+					this.bestScore = pillarSpawnScore;
+				}
+			}
 		}
 	}
 }

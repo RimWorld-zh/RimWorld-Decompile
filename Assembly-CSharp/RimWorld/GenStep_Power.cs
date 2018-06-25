@@ -1,50 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020003ED RID: 1005
 	public class GenStep_Power : GenStep
 	{
-		// Token: 0x04000A81 RID: 2689
 		public bool canSpawnBatteries = true;
 
-		// Token: 0x04000A82 RID: 2690
 		public bool canSpawnPowerGenerators = true;
 
-		// Token: 0x04000A83 RID: 2691
 		public bool spawnRoofOverNewBatteries = true;
 
-		// Token: 0x04000A84 RID: 2692
 		public FloatRange newBatteriesInitialStoredEnergyPctRange = new FloatRange(0.2f, 0.5f);
 
-		// Token: 0x04000A85 RID: 2693
 		private List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04000A86 RID: 2694
 		private List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x04000A87 RID: 2695
 		private const int MaxDistToExistingNetForTurrets = 13;
 
-		// Token: 0x04000A88 RID: 2696
 		private const int RoofPadding = 2;
 
-		// Token: 0x04000A89 RID: 2697
 		private static readonly IntRange MaxDistanceBetweenBatteryAndTransmitter = new IntRange(20, 50);
 
-		// Token: 0x04000A8A RID: 2698
 		private Dictionary<PowerNet, bool> tmpPowerNetPredicateResults = new Dictionary<PowerNet, bool>();
 
-		// Token: 0x04000A8B RID: 2699
 		private static List<IntVec3> tmpTransmitterCells = new List<IntVec3>();
 
-		// Token: 0x1700024D RID: 589
-		// (get) Token: 0x0600113E RID: 4414 RVA: 0x00094110 File Offset: 0x00092510
+		[CompilerGenerated]
+		private static Predicate<PowerNet> <>f__am$cache0;
+
+		public GenStep_Power()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -53,7 +47,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113F RID: 4415 RVA: 0x0009412C File Offset: 0x0009252C
 		public override void Generate(Map map)
 		{
 			map.skyManager.ForceSetCurSkyGlow(1f);
@@ -65,7 +58,6 @@ namespace RimWorld
 			this.tmpThings.Clear();
 		}
 
-		// Token: 0x06001140 RID: 4416 RVA: 0x0009417C File Offset: 0x0009257C
 		private void UpdateDesiredPowerOutputForAllGenerators(Map map)
 		{
 			this.tmpThings.Clear();
@@ -83,7 +75,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001141 RID: 4417 RVA: 0x00094208 File Offset: 0x00092608
 		private void EnsureBatteriesConnectedAndMakeSense(Map map)
 		{
 			this.tmpThings.Clear();
@@ -134,7 +125,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001142 RID: 4418 RVA: 0x000943F0 File Offset: 0x000927F0
 		private void EnsurePowerUsersConnected(Map map)
 		{
 			this.tmpThings.Clear();
@@ -194,7 +184,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001143 RID: 4419 RVA: 0x000946B4 File Offset: 0x00092AB4
 		private void EnsureGeneratorsConnectedAndMakeSense(Map map)
 		{
 			this.tmpThings.Clear();
@@ -219,14 +208,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001144 RID: 4420 RVA: 0x000947B8 File Offset: 0x00092BB8
 		private bool IsPowerUser(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
 			return compPowerTrader != null && (compPowerTrader.PowerOutput < 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption > 0f));
 		}
 
-		// Token: 0x06001145 RID: 4421 RVA: 0x00094810 File Offset: 0x00092C10
 		private bool IsPowerGenerator(Thing thing)
 		{
 			bool result;
@@ -242,7 +229,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001146 RID: 4422 RVA: 0x0009487C File Offset: 0x00092C7C
 		private bool HasAnyPowerGenerator(PowerNet net)
 		{
 			List<CompPowerTrader> powerComps = net.powerComps;
@@ -256,7 +242,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001147 RID: 4423 RVA: 0x000948D0 File Offset: 0x00092CD0
 		private bool HasAnyPowerUser(PowerNet net)
 		{
 			List<CompPowerTrader> powerComps = net.powerComps;
@@ -270,7 +255,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001148 RID: 4424 RVA: 0x00094924 File Offset: 0x00092D24
 		private bool TryFindClosestReachableNet(IntVec3 root, Predicate<PowerNet> predicate, Map map, out PowerNet foundNet, out IntVec3 closestTransmitter)
 		{
 			this.tmpPowerNetPredicateResults.Clear();
@@ -323,7 +307,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001149 RID: 4425 RVA: 0x000949E8 File Offset: 0x00092DE8
 		private void SpawnTransmitters(List<IntVec3> cells, Map map, Faction faction)
 		{
 			for (int i = 0; i < cells.Count; i++)
@@ -336,7 +319,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600114A RID: 4426 RVA: 0x00094A44 File Offset: 0x00092E44
 		private void SpawnTransmitters(IntVec3 start, IntVec3 end, Map map, Faction faction)
 		{
 			bool foundPath = false;
@@ -361,7 +343,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600114B RID: 4427 RVA: 0x00094AE0 File Offset: 0x00092EE0
 		private bool TrySpawnPowerTransmittingBuildingNear(IntVec3 position, Map map, Faction faction, ThingDef def, out Building newBuilding, Predicate<IntVec3> extraValidator = null)
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false);
@@ -407,7 +388,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114C RID: 4428 RVA: 0x00094B98 File Offset: 0x00092F98
 		private bool TrySpawnPowerGeneratorNear(IntVec3 position, Map map, Faction faction, out Building newPowerGenerator)
 		{
 			bool result;
@@ -424,7 +404,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114D RID: 4429 RVA: 0x00094BE4 File Offset: 0x00092FE4
 		private bool TrySpawnBatteryNear(IntVec3 position, Map map, Faction faction, out Building newBattery)
 		{
 			Predicate<IntVec3> extraValidator = null;
@@ -473,7 +452,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114E RID: 4430 RVA: 0x00094C74 File Offset: 0x00093074
 		private bool TrySpawnPowerGeneratorAndBatteryIfCanAndConnect(Thing forThing, Map map)
 		{
 			bool result;
@@ -511,13 +489,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114F RID: 4431 RVA: 0x00094D48 File Offset: 0x00093148
 		private bool EverPossibleToTransmitPowerAt(IntVec3 c, Map map)
 		{
 			return c.GetTransmitter(map) != null || GenConstruct.CanBuildOnTerrain(ThingDefOf.PowerConduit, c, map, Rot4.North, null);
 		}
 
-		// Token: 0x06001150 RID: 4432 RVA: 0x00094D80 File Offset: 0x00093180
 		private void TryTurnOnImmediately(CompPowerTrader powerComp, Map map)
 		{
 			if (!powerComp.PowerOn)
@@ -530,7 +506,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001151 RID: 4433 RVA: 0x00094DD0 File Offset: 0x000931D0
 		private void SpawnRoofOver(Thing thing)
 		{
 			CellRect cellRect = thing.OccupiedRect();
@@ -596,6 +571,239 @@ namespace RimWorld
 						iterator3.MoveNext();
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenStep_Power()
+		{
+		}
+
+		[CompilerGenerated]
+		private bool <EnsureBatteriesConnectedAndMakeSense>m__0(PowerNet x)
+		{
+			return this.HasAnyPowerGenerator(x);
+		}
+
+		[CompilerGenerated]
+		private static bool <EnsurePowerUsersConnected>m__1(PowerNet x)
+		{
+			return x.CurrentStoredEnergy() > 1E-07f;
+		}
+
+		[CompilerGenerated]
+		private bool <EnsureGeneratorsConnectedAndMakeSense>m__2(PowerNet x)
+		{
+			return this.HasAnyPowerUser(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <EnsurePowerUsersConnected>c__AnonStorey0
+		{
+			internal CompPowerTrader powerComp;
+
+			public <EnsurePowerUsersConnected>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(PowerNet x)
+			{
+				return x.CurrentEnergyGainRate() - this.powerComp.Props.basePowerConsumption * CompPower.WattsToWattDaysPerTick > 1E-07f;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindClosestReachableNet>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal Predicate<PowerNet> predicate;
+
+			internal PowerNet foundNetLocal;
+
+			internal IntVec3 closestTransmitterLocal;
+
+			internal GenStep_Power $this;
+
+			public <TryFindClosestReachableNet>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.$this.EverPossibleToTransmitPowerAt(x, this.map);
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				Building transmitter = x.GetTransmitter(this.map);
+				PowerNet powerNet = (transmitter == null) ? null : transmitter.GetComp<CompPower>().PowerNet;
+				bool result;
+				if (powerNet == null)
+				{
+					result = false;
+				}
+				else
+				{
+					bool flag;
+					if (!this.$this.tmpPowerNetPredicateResults.TryGetValue(powerNet, out flag))
+					{
+						flag = this.predicate(powerNet);
+						this.$this.tmpPowerNetPredicateResults.Add(powerNet, flag);
+					}
+					if (flag)
+					{
+						this.foundNetLocal = powerNet;
+						this.closestTransmitterLocal = x;
+						result = true;
+					}
+					else
+					{
+						result = false;
+					}
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpawnTransmitters>c__AnonStorey2
+		{
+			internal Map map;
+
+			internal IntVec3 end;
+
+			internal bool foundPath;
+
+			internal GenStep_Power $this;
+
+			public <SpawnTransmitters>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.$this.EverPossibleToTransmitPowerAt(x, this.map);
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				bool result;
+				if (x == this.end)
+				{
+					this.foundPath = true;
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TrySpawnPowerTransmittingBuildingNear>c__AnonStorey3
+		{
+			internal Map map;
+
+			internal IntVec3 position;
+
+			internal TraverseParms traverseParams;
+
+			internal ThingDef def;
+
+			internal Predicate<IntVec3> extraValidator;
+
+			internal GenStep_Power $this;
+
+			public <TrySpawnPowerTransmittingBuildingNear>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				bool result;
+				if (!x.Standable(this.map) || x.Roofed(this.map) || !this.$this.EverPossibleToTransmitPowerAt(x, this.map))
+				{
+					result = false;
+				}
+				else if (!this.map.reachability.CanReach(this.position, x, PathEndMode.OnCell, this.traverseParams))
+				{
+					result = false;
+				}
+				else
+				{
+					CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, this.def.size).GetIterator();
+					while (!iterator.Done())
+					{
+						IntVec3 c = iterator.Current;
+						if (!c.InBounds(this.map) || c.Roofed(this.map) || c.GetEdifice(this.map) != null || c.GetFirstItem(this.map) != null || c.GetTransmitter(this.map) != null)
+						{
+							return false;
+						}
+						iterator.MoveNext();
+					}
+					result = (this.extraValidator == null || this.extraValidator(x));
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TrySpawnBatteryNear>c__AnonStorey4
+		{
+			internal Map map;
+
+			private static Predicate<PlaceWorker> <>f__am$cache0;
+
+			public <TrySpawnBatteryNear>c__AnonStorey4()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, ThingDefOf.Battery.size).ExpandedBy(3).GetIterator();
+				while (!iterator.Done())
+				{
+					IntVec3 c = iterator.Current;
+					if (c.InBounds(this.map))
+					{
+						List<Thing> thingList = c.GetThingList(this.map);
+						for (int i = 0; i < thingList.Count; i++)
+						{
+							if (thingList[i].def.PlaceWorkers != null)
+							{
+								if (thingList[i].def.PlaceWorkers.Any((PlaceWorker y) => y is PlaceWorker_NotUnderRoof))
+								{
+									return false;
+								}
+							}
+						}
+					}
+					iterator.MoveNext();
+				}
+				return true;
+			}
+
+			private static bool <>m__1(PlaceWorker y)
+			{
+				return y is PlaceWorker_NotUnderRoof;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpawnRoofOver>c__AnonStorey5
+		{
+			internal Thing thing;
+
+			public <SpawnRoofOver>c__AnonStorey5()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return !x.InBounds(this.thing.Map) || !x.Walkable(this.thing.Map);
 			}
 		}
 	}

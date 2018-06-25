@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000300 RID: 768
 	public class HistoryAutoRecorderWorker_WealthBuildings : HistoryAutoRecorderWorker
 	{
-		// Token: 0x06000CC6 RID: 3270 RVA: 0x000704FC File Offset: 0x0006E8FC
+		public HistoryAutoRecorderWorker_WealthBuildings()
+		{
+		}
+
 		public override float PullRecord()
 		{
 			float num = 0f;

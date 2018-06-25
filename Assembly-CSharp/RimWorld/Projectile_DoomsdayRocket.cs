@@ -3,10 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006DA RID: 1754
 	public class Projectile_DoomsdayRocket : Projectile
 	{
-		// Token: 0x0600262E RID: 9774 RVA: 0x00147CE4 File Offset: 0x001460E4
+		public Projectile_DoomsdayRocket()
+		{
+		}
+
 		protected override void Impact(Thing hitThing)
 		{
 			Map map = base.Map;
@@ -28,7 +30,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600262F RID: 9775 RVA: 0x00147DC4 File Offset: 0x001461C4
 		protected void FireExplosion(IntVec3 pos, Map map, float radius)
 		{
 			DamageDef flame = DamageDefOf.Flame;

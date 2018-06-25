@@ -5,13 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9D RID: 3741
 	public static class GhostUtility
 	{
-		// Token: 0x04003A78 RID: 14968
 		private static Dictionary<int, Graphic> ghostGraphics = new Dictionary<int, Graphic>();
 
-		// Token: 0x06005862 RID: 22626 RVA: 0x002D4FEC File Offset: 0x002D33EC
 		public static Graphic GhostGraphicFor(Graphic baseGraphic, ThingDef thingDef, Color ghostCol)
 		{
 			int num = 0;
@@ -43,6 +40,11 @@ namespace Verse
 				GhostUtility.ghostGraphics.Add(num, graphic);
 			}
 			return graphic;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GhostUtility()
+		{
 		}
 	}
 }

@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000038 RID: 56
 	public class JobDriver_GiveToPackAnimal : JobDriver
 	{
-		// Token: 0x040001C2 RID: 450
 		private const TargetIndex ItemInd = TargetIndex.A;
 
-		// Token: 0x040001C3 RID: 451
 		private const TargetIndex AnimalInd = TargetIndex.B;
 
-		// Token: 0x17000061 RID: 97
-		// (get) Token: 0x060001E2 RID: 482 RVA: 0x00014960 File Offset: 0x00012D60
+		public JobDriver_GiveToPackAnimal()
+		{
+		}
+
 		private Thing Item
 		{
 			get
@@ -26,8 +29,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000062 RID: 98
-		// (get) Token: 0x060001E3 RID: 483 RVA: 0x0001498C File Offset: 0x00012D8C
 		private Pawn Animal
 		{
 			get
@@ -36,13 +37,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x000149BC File Offset: 0x00012DBC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Item, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x000149F0 File Offset: 0x00012DF0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
@@ -55,7 +54,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060001E6 RID: 486 RVA: 0x00014A1C File Offset: 0x00012E1C
 		private Toil FindCarrierToil()
 		{
 			return new Toil
@@ -75,7 +73,6 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060001E7 RID: 487 RVA: 0x00014A4C File Offset: 0x00012E4C
 		private Pawn FindCarrier()
 		{
 			IEnumerable<Pawn> enumerable = GiveToPackAnimalUtility.CarrierCandidatesFor(this.pawn);
@@ -106,13 +103,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060001E8 RID: 488 RVA: 0x00014B50 File Offset: 0x00012F50
 		private bool CanCarryAtLeastOne(Pawn carrier)
 		{
 			return !MassUtility.WillBeOverEncumberedAfterPickingUp(carrier, this.Item, 1);
 		}
 
-		// Token: 0x060001E9 RID: 489 RVA: 0x00014B78 File Offset: 0x00012F78
 		private Toil GiveToCarrierAsMuchAsPossibleToil()
 		{
 			return new Toil
@@ -130,6 +125,168 @@ namespace RimWorld
 					}
 				}
 			};
+		}
+
+		[CompilerGenerated]
+		private void <FindCarrierToil>m__0()
+		{
+			Pawn pawn = this.FindCarrier();
+			if (pawn == null)
+			{
+				this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+			}
+			else
+			{
+				this.job.SetTarget(TargetIndex.B, pawn);
+			}
+		}
+
+		[CompilerGenerated]
+		private void <GiveToCarrierAsMuchAsPossibleToil>m__1()
+		{
+			if (this.Item == null)
+			{
+				this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+			}
+			else
+			{
+				int count = Mathf.Min(MassUtility.CountToPickUpUntilOverEncumbered(this.Animal, this.Item), this.Item.stackCount);
+				this.pawn.carryTracker.innerContainer.TryTransferToContainer(this.Item, this.Animal.inventory.innerContainer, count, true);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <findNearestCarrier>__0;
+
+			internal JobDriver_GiveToPackAnimal $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					findNearestCarrier = base.FindCarrierToil();
+					this.$current = findNearestCarrier;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedNullOrForbidden(TargetIndex.B).JumpIf(() => !base.CanCarryAtLeastOne(base.Animal), findNearestCarrier);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = base.GiveToCarrierAsMuchAsPossibleToil();
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					this.$current = Toils_Jump.JumpIf(findNearestCarrier, () => this.pawn.carryTracker.CarriedThing != null);
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				case 6u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_GiveToPackAnimal.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_GiveToPackAnimal.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return !base.CanCarryAtLeastOne(base.Animal);
+			}
+
+			internal bool <>m__1()
+			{
+				return this.pawn.carryTracker.CarriedThing != null;
+			}
 		}
 	}
 }

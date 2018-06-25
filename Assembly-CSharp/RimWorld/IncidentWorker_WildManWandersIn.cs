@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000346 RID: 838
 	public class IncidentWorker_WildManWandersIn : IncidentWorker
 	{
-		// Token: 0x06000E4B RID: 3659 RVA: 0x00079548 File Offset: 0x00077948
+		public IncidentWorker_WildManWandersIn()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -28,7 +31,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E4C RID: 3660 RVA: 0x000795D4 File Offset: 0x000779D4
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -57,16 +59,29 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E4D RID: 3661 RVA: 0x000796A8 File Offset: 0x00077AA8
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Ignore, out cell);
 		}
 
-		// Token: 0x06000E4E RID: 3662 RVA: 0x000796E8 File Offset: 0x00077AE8
 		private bool TryFindFormerFaction(out Faction formerFaction)
 		{
 			return Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out formerFaction, false, true, TechLevel.Undefined);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindEntryCell>c__AnonStorey0
+		{
+			internal Map map;
+
+			public <TryFindEntryCell>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 c)
+			{
+				return this.map.reachability.CanReachColony(c);
+			}
 		}
 	}
 }

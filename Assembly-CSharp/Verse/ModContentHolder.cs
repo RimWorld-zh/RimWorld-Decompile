@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC3 RID: 3267
 	public class ModContentHolder<T> where T : class
 	{
-		// Token: 0x040030D6 RID: 12502
 		private ModContentPack mod;
 
-		// Token: 0x040030D7 RID: 12503
 		public Dictionary<string, T> contentList = new Dictionary<string, T>();
 
-		// Token: 0x06004814 RID: 18452 RVA: 0x0025F372 File Offset: 0x0025D772
 		public ModContentHolder(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
-		// Token: 0x06004815 RID: 18453 RVA: 0x0025F390 File Offset: 0x0025D790
 		public void ClearDestroy()
 		{
 			if (typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)))
@@ -36,7 +35,6 @@ namespace Verse
 			this.contentList.Clear();
 		}
 
-		// Token: 0x06004816 RID: 18454 RVA: 0x0025F438 File Offset: 0x0025D838
 		public void ReloadAll()
 		{
 			foreach (LoadedContentItem<T> loadedContentItem in ModContentLoader<T>.LoadAllForMod(this.mod))
@@ -58,7 +56,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004817 RID: 18455 RVA: 0x0025F500 File Offset: 0x0025D900
 		public T Get(string path)
 		{
 			T t;
@@ -74,7 +71,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004818 RID: 18456 RVA: 0x0025F538 File Offset: 0x0025D938
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
 			foreach (KeyValuePair<string, T> kvp in this.contentList)
@@ -85,6 +81,156 @@ namespace Verse
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ClearDestroy>c__AnonStorey1
+		{
+			internal T localObj;
+
+			public <ClearDestroy>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				UnityEngine.Object.Destroy((UnityEngine.Object)((object)this.localObj));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetAllUnderPath>c__Iterator0 : IEnumerable, IEnumerable<T>, IEnumerator, IDisposable, IEnumerator<T>
+		{
+			internal Dictionary<string, T>.Enumerator $locvar0;
+
+			internal KeyValuePair<string, T> <kvp>__1;
+
+			internal string pathRoot;
+
+			internal ModContentHolder<T> $this;
+
+			internal T $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetAllUnderPath>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = this.contentList.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					IL_A5:
+					if (enumerator.MoveNext())
+					{
+						kvp = enumerator.Current;
+						if (kvp.Key.StartsWith(pathRoot))
+						{
+							this.$current = kvp.Value;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_A5;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			T IEnumerator<T>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<T>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<T> IEnumerable<T>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ModContentHolder<T>.<GetAllUnderPath>c__Iterator0 <GetAllUnderPath>c__Iterator = new ModContentHolder<T>.<GetAllUnderPath>c__Iterator0();
+				<GetAllUnderPath>c__Iterator.$this = this;
+				<GetAllUnderPath>c__Iterator.pathRoot = pathRoot;
+				return <GetAllUnderPath>c__Iterator;
+			}
 		}
 	}
 }

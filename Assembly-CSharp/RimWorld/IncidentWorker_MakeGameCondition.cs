@@ -5,10 +5,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000322 RID: 802
 	public class IncidentWorker_MakeGameCondition : IncidentWorker
 	{
-		// Token: 0x06000DAF RID: 3503 RVA: 0x000752E4 File Offset: 0x000736E4
+		public IncidentWorker_MakeGameCondition()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
@@ -37,7 +39,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB0 RID: 3504 RVA: 0x00075394 File Offset: 0x00073794
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;

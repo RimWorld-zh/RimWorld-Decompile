@@ -4,19 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200047D RID: 1149
 	public struct IndividualThoughtToAdd
 	{
-		// Token: 0x04000C07 RID: 3079
 		public Thought_Memory thought;
 
-		// Token: 0x04000C08 RID: 3080
 		public Pawn addTo;
 
-		// Token: 0x04000C09 RID: 3081
 		private Pawn otherPawn;
 
-		// Token: 0x06001423 RID: 5155 RVA: 0x000AF6D8 File Offset: 0x000ADAD8
 		public IndividualThoughtToAdd(ThoughtDef thoughtDef, Pawn addTo, Pawn otherPawn = null, float moodPowerFactor = 1f, float opinionOffsetFactor = 1f)
 		{
 			this.addTo = addTo;
@@ -31,8 +26,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170002BB RID: 699
-		// (get) Token: 0x06001424 RID: 5156 RVA: 0x000AF740 File Offset: 0x000ADB40
 		public string LabelCap
 		{
 			get
@@ -47,7 +40,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001425 RID: 5157 RVA: 0x000AF790 File Offset: 0x000ADB90
 		public void Add()
 		{
 			if (this.addTo.needs != null && this.addTo.needs.mood != null)

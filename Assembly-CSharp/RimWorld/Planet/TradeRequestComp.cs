@@ -1,38 +1,33 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000627 RID: 1575
 	[StaticConstructorOnStartup]
 	public class TradeRequestComp : WorldObjectComp, IThingHolder
 	{
-		// Token: 0x04001279 RID: 4729
 		public ThingDef requestThingDef;
 
-		// Token: 0x0400127A RID: 4730
 		public int requestCount;
 
-		// Token: 0x0400127B RID: 4731
 		public ThingOwner rewards;
 
-		// Token: 0x0400127C RID: 4732
 		public int expiration = -1;
 
-		// Token: 0x0400127D RID: 4733
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/FulfillTradeRequest", true);
 
-		// Token: 0x0600200E RID: 8206 RVA: 0x001139C4 File Offset: 0x00111DC4
 		public TradeRequestComp()
 		{
 			this.rewards = new ThingOwner<Thing>(this);
 		}
 
-		// Token: 0x170004CD RID: 1229
-		// (get) Token: 0x0600200F RID: 8207 RVA: 0x001139E0 File Offset: 0x00111DE0
 		public bool ActiveRequest
 		{
 			get
@@ -41,7 +36,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002010 RID: 8208 RVA: 0x00113A08 File Offset: 0x00111E08
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -61,7 +55,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06002011 RID: 8209 RVA: 0x00113A90 File Offset: 0x00111E90
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			if (this.ActiveRequest && CaravanVisitUtility.SettlementVisitedNow(caravan) == this.parent)
@@ -71,25 +64,21 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06002012 RID: 8210 RVA: 0x00113AC1 File Offset: 0x00111EC1
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06002013 RID: 8211 RVA: 0x00113AD0 File Offset: 0x00111ED0
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.rewards;
 		}
 
-		// Token: 0x06002014 RID: 8212 RVA: 0x00113AEB File Offset: 0x00111EEB
 		public void Disable()
 		{
 			this.expiration = -1;
 		}
 
-		// Token: 0x06002015 RID: 8213 RVA: 0x00113AF8 File Offset: 0x00111EF8
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -106,14 +95,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002016 RID: 8214 RVA: 0x00113B6B File Offset: 0x00111F6B
 		public override void PostPostRemove()
 		{
 			base.PostPostRemove();
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06002017 RID: 8215 RVA: 0x00113B80 File Offset: 0x00111F80
 		private Command FulfillRequestCommand(Caravan caravan)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -155,7 +142,6 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06002018 RID: 8216 RVA: 0x00113C40 File Offset: 0x00112040
 		private void Fulfill(Caravan caravan)
 		{
 			int remaining = this.requestCount;
@@ -200,7 +186,6 @@ namespace RimWorld.Planet
 			this.Disable();
 		}
 
-		// Token: 0x06002019 RID: 8217 RVA: 0x00113D34 File Offset: 0x00112134
 		private bool PlayerCanGive(Thing thing)
 		{
 			bool result;
@@ -214,6 +199,181 @@ namespace RimWorld.Planet
 				result = (apparel == null || !apparel.WornByCorpse);
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static TradeRequestComp()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetCaravanGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Caravan caravan;
+
+			internal TradeRequestComp $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetCaravanGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (base.ActiveRequest && CaravanVisitUtility.SettlementVisitedNow(caravan) == this.parent)
+					{
+						this.$current = base.FulfillRequestCommand(caravan);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TradeRequestComp.<GetCaravanGizmos>c__Iterator0 <GetCaravanGizmos>c__Iterator = new TradeRequestComp.<GetCaravanGizmos>c__Iterator0();
+				<GetCaravanGizmos>c__Iterator.$this = this;
+				<GetCaravanGizmos>c__Iterator.caravan = caravan;
+				return <GetCaravanGizmos>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FulfillRequestCommand>c__AnonStorey1
+		{
+			internal Caravan caravan;
+
+			internal TradeRequestComp $this;
+
+			public <FulfillRequestCommand>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (!this.$this.ActiveRequest)
+				{
+					Log.Error("Attempted to fulfill an unavailable request", false);
+				}
+				else if (!CaravanInventoryUtility.HasThings(this.caravan, this.$this.requestThingDef, this.$this.requestCount, new Func<Thing, bool>(this.$this.PlayerCanGive)))
+				{
+					Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
+					{
+						GenLabel.ThingLabel(this.$this.requestThingDef, null, this.$this.requestCount)
+					}), MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
+					{
+						GenLabel.ThingLabel(this.$this.requestThingDef, null, this.$this.requestCount),
+						GenThing.ThingsToCommaList(this.$this.rewards, true, true, -1)
+					}), delegate
+					{
+						this.$this.Fulfill(this.caravan);
+					}, false, null));
+				}
+			}
+
+			internal void <>m__1()
+			{
+				this.$this.Fulfill(this.caravan);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Fulfill>c__AnonStorey2
+		{
+			internal int remaining;
+
+			internal TradeRequestComp $this;
+
+			public <Fulfill>c__AnonStorey2()
+			{
+			}
+
+			internal int <>m__0(Thing thing)
+			{
+				int result;
+				if (this.$this.requestThingDef != thing.def)
+				{
+					result = 0;
+				}
+				else if (!this.$this.PlayerCanGive(thing))
+				{
+					result = 0;
+				}
+				else
+				{
+					int num = Mathf.Min(this.remaining, thing.stackCount);
+					this.remaining -= num;
+					result = num;
+				}
+				return result;
+			}
 		}
 	}
 }

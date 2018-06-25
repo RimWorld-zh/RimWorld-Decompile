@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Steamworks;
 using UnityEngine;
 using Verse;
@@ -9,30 +10,25 @@ using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000835 RID: 2101
 	[StaticConstructorOnStartup]
 	public class Page_SelectScenario : Page
 	{
-		// Token: 0x040019B0 RID: 6576
 		private Scenario curScen = null;
 
-		// Token: 0x040019B1 RID: 6577
 		private Vector2 infoScrollPosition = Vector2.zero;
 
-		// Token: 0x040019B2 RID: 6578
 		private const float ScenarioEntryHeight = 62f;
 
-		// Token: 0x040019B3 RID: 6579
 		private static readonly Texture2D CanUploadIcon = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/CanUpload", true);
 
-		// Token: 0x040019B4 RID: 6580
 		private Vector2 scenariosScrollPosition = Vector2.zero;
 
-		// Token: 0x040019B5 RID: 6581
 		private float totalScenarioListHeight;
 
-		// Token: 0x17000789 RID: 1929
-		// (get) Token: 0x06002F89 RID: 12169 RVA: 0x0019736C File Offset: 0x0019576C
+		public Page_SelectScenario()
+		{
+		}
+
 		public override string PageTitle
 		{
 			get
@@ -41,7 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F8A RID: 12170 RVA: 0x0019738B File Offset: 0x0019578B
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -50,7 +45,6 @@ namespace RimWorld
 			this.EnsureValidSelection();
 		}
 
-		// Token: 0x06002F8B RID: 12171 RVA: 0x001973AC File Offset: 0x001957AC
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -65,13 +59,11 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, midLabel, new Action(this.GoToScenarioEditor), true);
 		}
 
-		// Token: 0x06002F8C RID: 12172 RVA: 0x0019747C File Offset: 0x0019587C
 		private bool CanEditScenario(Scenario scen)
 		{
 			return scen.Category == ScenarioCategory.CustomLocal || scen.CanToUploadToWorkshop();
 		}
 
-		// Token: 0x06002F8D RID: 12173 RVA: 0x001974B8 File Offset: 0x001958B8
 		private void GoToScenarioEditor()
 		{
 			Scenario scen = (!this.CanEditScenario(this.curScen)) ? this.curScen.CopyForEditing() : this.curScen;
@@ -81,7 +73,6 @@ namespace RimWorld
 			this.Close(true);
 		}
 
-		// Token: 0x06002F8E RID: 12174 RVA: 0x00197510 File Offset: 0x00195910
 		private void DoScenarioSelectionList(Rect rect)
 		{
 			rect.xMax += 2f;
@@ -111,7 +102,6 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06002F8F RID: 12175 RVA: 0x00197650 File Offset: 0x00195A50
 		private void ListScenariosOnListing(Listing_Standard listing, IEnumerable<Scenario> scenarios)
 		{
 			bool flag = false;
@@ -134,7 +124,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F90 RID: 12176 RVA: 0x00197724 File Offset: 0x00195B24
 		private void DoScenarioListEntry(Rect rect, Scenario scen)
 		{
 			bool flag = this.curScen == scen;
@@ -204,7 +193,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F91 RID: 12177 RVA: 0x001979A0 File Offset: 0x00195DA0
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -224,7 +212,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F92 RID: 12178 RVA: 0x001979E8 File Offset: 0x00195DE8
 		public static void BeginScenarioConfiguration(Scenario scen, Page originPage)
 		{
 			Current.Game = new Game();
@@ -243,7 +230,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F93 RID: 12179 RVA: 0x00197A58 File Offset: 0x00195E58
 		private void EnsureValidSelection()
 		{
 			if (this.curScen == null || !ScenarioLister.ScenarioIsListedAnywhere(this.curScen))
@@ -252,7 +238,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F94 RID: 12180 RVA: 0x00197A88 File Offset: 0x00195E88
 		internal void Notify_ScenarioListChanged()
 		{
 			PublishedFileId_t selModId = this.curScen.GetPublishedFileId();
@@ -260,7 +245,6 @@ namespace RimWorld
 			this.EnsureValidSelection();
 		}
 
-		// Token: 0x06002F95 RID: 12181 RVA: 0x00197ACF File Offset: 0x00195ECF
 		internal void Notify_SteamItemUnsubscribed(PublishedFileId_t pfid)
 		{
 			if (this.curScen != null && this.curScen.GetPublishedFileId() == pfid)
@@ -268,6 +252,55 @@ namespace RimWorld
 				this.curScen = null;
 			}
 			this.EnsureValidSelection();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Page_SelectScenario()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoScenarioListEntry>c__AnonStorey0
+		{
+			internal Scenario scen;
+
+			internal Page_SelectScenario $this;
+
+			public <DoScenarioListEntry>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.scen.File.Delete();
+				ScenarioLister.MarkDirty();
+			}
+
+			internal void <>m__1()
+			{
+				this.scen.enabled = false;
+				if (this.$this.curScen == this.scen)
+				{
+					this.$this.curScen = null;
+					this.$this.EnsureValidSelection();
+				}
+				Workshop.Unsubscribe(this.scen);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Notify_ScenarioListChanged>c__AnonStorey1
+		{
+			internal PublishedFileId_t selModId;
+
+			public <Notify_ScenarioListChanged>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Scenario sc)
+			{
+				return sc.GetPublishedFileId() == this.selModId;
+			}
 		}
 	}
 }

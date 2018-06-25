@@ -5,178 +5,120 @@ using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x02000393 RID: 915
 	public struct ResolveParams
 	{
-		// Token: 0x040009BE RID: 2494
 		public CellRect rect;
 
-		// Token: 0x040009BF RID: 2495
 		public Faction faction;
 
-		// Token: 0x040009C0 RID: 2496
 		private Dictionary<string, object> custom;
 
-		// Token: 0x040009C1 RID: 2497
 		public int? ancientTempleEntranceHeight;
 
-		// Token: 0x040009C2 RID: 2498
 		public PawnGroupMakerParms pawnGroupMakerParams;
 
-		// Token: 0x040009C3 RID: 2499
 		public PawnGroupKindDef pawnGroupKindDef;
 
-		// Token: 0x040009C4 RID: 2500
 		public RoofDef roofDef;
 
-		// Token: 0x040009C5 RID: 2501
 		public bool? noRoof;
 
-		// Token: 0x040009C6 RID: 2502
 		public bool? addRoomCenterToRootsToUnfog;
 
-		// Token: 0x040009C7 RID: 2503
 		public Thing singleThingToSpawn;
 
-		// Token: 0x040009C8 RID: 2504
 		public ThingDef singleThingDef;
 
-		// Token: 0x040009C9 RID: 2505
 		public ThingDef singleThingStuff;
 
-		// Token: 0x040009CA RID: 2506
 		public int? singleThingStackCount;
 
-		// Token: 0x040009CB RID: 2507
 		public bool? skipSingleThingIfHasToWipeBuildingOrDoesntFit;
 
-		// Token: 0x040009CC RID: 2508
 		public Pawn singlePawnToSpawn;
 
-		// Token: 0x040009CD RID: 2509
 		public PawnKindDef singlePawnKindDef;
 
-		// Token: 0x040009CE RID: 2510
 		public bool? disableSinglePawn;
 
-		// Token: 0x040009CF RID: 2511
 		public Lord singlePawnLord;
 
-		// Token: 0x040009D0 RID: 2512
 		public Predicate<IntVec3> singlePawnSpawnCellExtraPredicate;
 
-		// Token: 0x040009D1 RID: 2513
 		public PawnGenerationRequest? singlePawnGenerationRequest;
 
-		// Token: 0x040009D2 RID: 2514
 		public Action<Thing> postThingSpawn;
 
-		// Token: 0x040009D3 RID: 2515
 		public Action<Thing> postThingGenerate;
 
-		// Token: 0x040009D4 RID: 2516
 		public int? mechanoidsCount;
 
-		// Token: 0x040009D5 RID: 2517
 		public int? hivesCount;
 
-		// Token: 0x040009D6 RID: 2518
 		public bool? disableHives;
 
-		// Token: 0x040009D7 RID: 2519
 		public Rot4? thingRot;
 
-		// Token: 0x040009D8 RID: 2520
 		public ThingDef wallStuff;
 
-		// Token: 0x040009D9 RID: 2521
 		public float? chanceToSkipWallBlock;
 
-		// Token: 0x040009DA RID: 2522
 		public TerrainDef floorDef;
 
-		// Token: 0x040009DB RID: 2523
 		public float? chanceToSkipFloor;
 
-		// Token: 0x040009DC RID: 2524
 		public ThingDef filthDef;
 
-		// Token: 0x040009DD RID: 2525
 		public FloatRange? filthDensity;
 
-		// Token: 0x040009DE RID: 2526
 		public bool? clearEdificeOnly;
 
-		// Token: 0x040009DF RID: 2527
 		public bool? clearFillageOnly;
 
-		// Token: 0x040009E0 RID: 2528
 		public bool? clearRoof;
 
-		// Token: 0x040009E1 RID: 2529
 		public int? ancientCryptosleepCasketGroupID;
 
-		// Token: 0x040009E2 RID: 2530
 		public PodContentsType? podContentsType;
 
-		// Token: 0x040009E3 RID: 2531
 		public ThingSetMakerDef thingSetMakerDef;
 
-		// Token: 0x040009E4 RID: 2532
 		public ThingSetMakerParams? thingSetMakerParams;
 
-		// Token: 0x040009E5 RID: 2533
 		public IList<Thing> stockpileConcreteContents;
 
-		// Token: 0x040009E6 RID: 2534
 		public float? stockpileMarketValue;
 
-		// Token: 0x040009E7 RID: 2535
 		public int? innerStockpileSize;
 
-		// Token: 0x040009E8 RID: 2536
 		public int? edgeDefenseWidth;
 
-		// Token: 0x040009E9 RID: 2537
 		public int? edgeDefenseTurretsCount;
 
-		// Token: 0x040009EA RID: 2538
 		public int? edgeDefenseMortarsCount;
 
-		// Token: 0x040009EB RID: 2539
 		public int? edgeDefenseGuardsCount;
 
-		// Token: 0x040009EC RID: 2540
 		public ThingDef mortarDef;
 
-		// Token: 0x040009ED RID: 2541
 		public TerrainDef pathwayFloorDef;
 
-		// Token: 0x040009EE RID: 2542
 		public ThingDef cultivatedPlantDef;
 
-		// Token: 0x040009EF RID: 2543
 		public int? fillWithThingsPadding;
 
-		// Token: 0x040009F0 RID: 2544
 		public float? factionBasePawnGroupPointsFactor;
 
-		// Token: 0x040009F1 RID: 2545
 		public bool? streetHorizontal;
 
-		// Token: 0x040009F2 RID: 2546
 		public bool? edgeThingAvoidOtherEdgeThings;
 
-		// Token: 0x040009F3 RID: 2547
 		public bool? allowPlacementOffEdge;
 
-		// Token: 0x040009F4 RID: 2548
 		public Rot4? thrustAxis;
 
-		// Token: 0x040009F5 RID: 2549
 		public FloatRange? hpPercentRange;
 
-		// Token: 0x06000FF6 RID: 4086 RVA: 0x00085EA8 File Offset: 0x000842A8
 		public void SetCustom<T>(string name, T obj, bool inherit = false)
 		{
 			if (this.custom == null)
@@ -197,7 +139,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FF7 RID: 4087 RVA: 0x00085F22 File Offset: 0x00084322
 		public void RemoveCustom(string name)
 		{
 			if (this.custom != null)
@@ -207,7 +148,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FF8 RID: 4088 RVA: 0x00085F54 File Offset: 0x00084354
 		public bool TryGetCustom<T>(string name, out T obj)
 		{
 			object obj2;
@@ -225,7 +165,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FF9 RID: 4089 RVA: 0x00085FAC File Offset: 0x000843AC
 		public T GetCustom<T>(string name)
 		{
 			object obj;
@@ -241,7 +180,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FFA RID: 4090 RVA: 0x00085FF4 File Offset: 0x000843F4
 		public override string ToString()
 		{
 			object[] array = new object[110];

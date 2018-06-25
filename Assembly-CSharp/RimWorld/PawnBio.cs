@@ -1,30 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E2 RID: 1250
 	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
-		// Token: 0x04000D01 RID: 3329
 		public GenderPossibility gender;
 
-		// Token: 0x04000D02 RID: 3330
 		public NameTriple name;
 
-		// Token: 0x04000D03 RID: 3331
 		public Backstory childhood;
 
-		// Token: 0x04000D04 RID: 3332
 		public Backstory adulthood;
 
-		// Token: 0x04000D05 RID: 3333
 		public bool pirateKing = false;
 
-		// Token: 0x170002E9 RID: 745
-		// (get) Token: 0x06001649 RID: 5705 RVA: 0x000C5FD4 File Offset: 0x000C43D4
+		public PawnBio()
+		{
+		}
+
 		public PawnBioType BioType
 		{
 			get
@@ -46,7 +46,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600164A RID: 5706 RVA: 0x000C600E File Offset: 0x000C440E
 		public void PostLoad()
 		{
 			if (this.childhood != null)
@@ -59,7 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600164B RID: 5707 RVA: 0x000C6040 File Offset: 0x000C4440
 		public void ResolveReferences()
 		{
 			if (this.adulthood.spawnCategories.Count == 1 && this.adulthood.spawnCategories[0] == "Trader")
@@ -76,7 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600164C RID: 5708 RVA: 0x000C60C8 File Offset: 0x000C44C8
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.childhood != null)
@@ -110,10 +107,214 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600164D RID: 5709 RVA: 0x000C60F4 File Offset: 0x000C44F4
 		public override string ToString()
 		{
 			return "PawnBio(" + this.name + ")";
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <error>__1;
+
+			internal IEnumerator<string> $locvar1;
+
+			internal string <error>__2;
+
+			internal PawnBio $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.childhood == null)
+					{
+						goto IL_10F;
+					}
+					enumerator = this.childhood.ConfigErrors(true).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_5:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							error2 = enumerator2.Current;
+							this.$current = string.Concat(new object[]
+							{
+								this.name,
+								", ",
+								this.adulthood.title,
+								": ",
+								error2
+							});
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					goto IL_1F6;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						error = enumerator.Current;
+						this.$current = string.Concat(new object[]
+						{
+							this.name,
+							", ",
+							this.childhood.title,
+							": ",
+							error
+						});
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_10F:
+				if (this.adulthood != null)
+				{
+					enumerator2 = this.adulthood.ConfigErrors(false).GetEnumerator();
+					num = 4294967293u;
+					goto Block_5;
+				}
+				IL_1F6:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnBio.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new PawnBio.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

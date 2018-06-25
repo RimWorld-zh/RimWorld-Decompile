@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000150 RID: 336
 	public class WorkGiver_Miner : WorkGiver_Scanner
 	{
-		// Token: 0x0400032E RID: 814
 		private static string NoPathTrans;
 
-		// Token: 0x1700010C RID: 268
-		// (get) Token: 0x060006EF RID: 1775 RVA: 0x00046D28 File Offset: 0x00045128
+		public WorkGiver_Miner()
+		{
+		}
+
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -21,19 +25,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006F0 RID: 1776 RVA: 0x00046D40 File Offset: 0x00045140
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006F1 RID: 1777 RVA: 0x00046D56 File Offset: 0x00045156
 		public static void ResetStaticData()
 		{
 			WorkGiver_Miner.NoPathTrans = "NoPath".Translate();
 		}
 
-		// Token: 0x060006F2 RID: 1778 RVA: 0x00046D68 File Offset: 0x00045168
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine))
@@ -60,7 +61,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060006F3 RID: 1779 RVA: 0x00046D94 File Offset: 0x00045194
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;
@@ -132,6 +132,160 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentialWorkThingsGlobal>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn pawn;
+
+			internal IEnumerator<Designation> $locvar0;
+
+			internal Designation <des>__1;
+
+			internal bool <mayBeAccessible>__2;
+
+			internal Mineable <m>__2;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PotentialWorkThingsGlobal>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					while (enumerator.MoveNext())
+					{
+						des = enumerator.Current;
+						mayBeAccessible = false;
+						for (int j = 0; j < 8; j++)
+						{
+							IntVec3 c = des.target.Cell + GenAdj.AdjacentCells[j];
+							if (c.InBounds(pawn.Map) && c.Walkable(pawn.Map))
+							{
+								mayBeAccessible = true;
+								break;
+							}
+						}
+						if (mayBeAccessible)
+						{
+							i = des.target.Cell.GetFirstMineable(pawn.Map);
+							if (i != null)
+							{
+								this.$current = i;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkGiver_Miner.<PotentialWorkThingsGlobal>c__Iterator0 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_Miner.<PotentialWorkThingsGlobal>c__Iterator0();
+				<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
+				return <PotentialWorkThingsGlobal>c__Iterator;
+			}
 		}
 	}
 }

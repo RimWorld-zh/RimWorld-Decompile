@@ -1,43 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E3A RID: 3642
 	public class EditWindow_CurveEditor : EditWindow
 	{
-		// Token: 0x040038F1 RID: 14577
 		private SimpleCurve curve;
 
-		// Token: 0x040038F2 RID: 14578
 		public List<float> debugInputValues = null;
 
-		// Token: 0x040038F3 RID: 14579
 		private int draggingPointIndex = -1;
 
-		// Token: 0x040038F4 RID: 14580
 		private int draggingButton = -1;
 
-		// Token: 0x040038F5 RID: 14581
 		private const float ViewDragPanSpeed = 0.002f;
 
-		// Token: 0x040038F6 RID: 14582
 		private const float ScrollZoomSpeed = 0.025f;
 
-		// Token: 0x040038F7 RID: 14583
 		private const float PointClickDistanceLimit = 7f;
 
-		// Token: 0x0600562E RID: 22062 RVA: 0x002C6D0E File Offset: 0x002C510E
 		public EditWindow_CurveEditor(SimpleCurve curve, string title)
 		{
 			this.curve = curve;
 			this.optionalTitle = title;
 		}
 
-		// Token: 0x17000D7A RID: 3450
-		// (get) Token: 0x0600562F RID: 22063 RVA: 0x002C6D3C File Offset: 0x002C513C
 		private bool DraggingView
 		{
 			get
@@ -46,8 +39,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7B RID: 3451
-		// (get) Token: 0x06005630 RID: 22064 RVA: 0x002C6D60 File Offset: 0x002C5160
 		public override Vector2 InitialSize
 		{
 			get
@@ -56,8 +47,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7C RID: 3452
-		// (get) Token: 0x06005631 RID: 22065 RVA: 0x002C6D84 File Offset: 0x002C5184
 		public override bool IsDebug
 		{
 			get
@@ -66,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005632 RID: 22066 RVA: 0x002C6D9C File Offset: 0x002C519C
 		public override void DoWindowContents(Rect inRect)
 		{
 			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
@@ -118,7 +106,6 @@ namespace Verse
 			this.DoCurveEditor(screenRect);
 		}
 
-		// Token: 0x06005633 RID: 22067 RVA: 0x002C70A4 File Offset: 0x002C54A4
 		private void DoCurveEditor(Rect screenRect)
 		{
 			Widgets.DrawMenuSection(screenRect);
@@ -244,7 +231,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005634 RID: 22068 RVA: 0x002C7814 File Offset: 0x002C5C14
 		private IEnumerable<int> PointsNearMouse(Rect screenRect)
 		{
 			GUI.BeginGroup(screenRect);
@@ -264,6 +250,186 @@ namespace Verse
 				GUI.EndGroup();
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoCurveEditor>c__AnonStorey1
+		{
+			internal Vector2 mouseCurveCoords;
+
+			internal EditWindow_CurveEditor $this;
+
+			public <DoCurveEditor>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.curve.Add(new CurvePoint(this.mouseCurveCoords), true);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoCurveEditor>c__AnonStorey2
+		{
+			internal CurvePoint point;
+
+			internal EditWindow_CurveEditor.<DoCurveEditor>c__AnonStorey1 <>f__ref$1;
+
+			public <DoCurveEditor>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$1.$this.curve.RemovePointNear(this.point);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PointsNearMouse>c__Iterator0 : IEnumerable, IEnumerable<int>, IEnumerator, IDisposable, IEnumerator<int>
+		{
+			internal Rect screenRect;
+
+			internal int <i>__1;
+
+			internal Vector2 <screenPoint>__2;
+
+			internal EditWindow_CurveEditor $this;
+
+			internal int $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PointsNearMouse>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					GUI.BeginGroup(screenRect);
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_D9:
+						i++;
+						break;
+					default:
+						i = 0;
+						break;
+					}
+					if (i < this.curve.PointsCount)
+					{
+						screenPoint = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(screenRect, this.curve.View.rect, this.curve[i].Loc);
+						if ((screenPoint - Event.current.mousePosition).sqrMagnitude < 49f)
+						{
+							this.$current = i;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_D9;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			int IEnumerator<int>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<int>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<int> IEnumerable<int>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				EditWindow_CurveEditor.<PointsNearMouse>c__Iterator0 <PointsNearMouse>c__Iterator = new EditWindow_CurveEditor.<PointsNearMouse>c__Iterator0();
+				<PointsNearMouse>c__Iterator.$this = this;
+				<PointsNearMouse>c__Iterator.screenRect = screenRect;
+				return <PointsNearMouse>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				GUI.EndGroup();
+			}
 		}
 	}
 }

@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000E4 RID: 228
 	public class JobGiver_JumpInWater : ThinkNode_JobGiver
 	{
-		// Token: 0x040002BA RID: 698
 		private const float ActivateChance = 1f;
 
-		// Token: 0x040002BB RID: 699
 		private readonly IntRange MaxDistance = new IntRange(10, 16);
 
-		// Token: 0x060004F0 RID: 1264 RVA: 0x00036F54 File Offset: 0x00035354
+		public JobGiver_JumpInWater()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			if (Rand.Value < 1f)
@@ -30,6 +31,21 @@ namespace RimWorld
 				}
 			}
 			return null;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 pos)
+			{
+				return pos.GetTerrain(this.pawn.Map).extinguishesFire;
+			}
 		}
 	}
 }

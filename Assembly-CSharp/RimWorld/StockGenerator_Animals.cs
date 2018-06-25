@@ -1,36 +1,32 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000774 RID: 1908
 	[HasDebugOutput]
 	public class StockGenerator_Animals : StockGenerator
 	{
-		// Token: 0x040016BD RID: 5821
 		[NoTranslate]
 		private List<string> tradeTagsSell = null;
 
-		// Token: 0x040016BE RID: 5822
 		[NoTranslate]
 		private List<string> tradeTagsBuy = null;
 
-		// Token: 0x040016BF RID: 5823
 		private IntRange kindCountRange = new IntRange(1, 1);
 
-		// Token: 0x040016C0 RID: 5824
 		private float minWildness = 0f;
 
-		// Token: 0x040016C1 RID: 5825
 		private float maxWildness = 1f;
 
-		// Token: 0x040016C2 RID: 5826
 		private bool checkTemperature = false;
 
-		// Token: 0x040016C3 RID: 5827
 		private static readonly SimpleCurve SelectionChanceFromWildnessCurve = new SimpleCurve
 		{
 			{
@@ -55,7 +51,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06002A1F RID: 10783 RVA: 0x0016587C File Offset: 0x00163C7C
+		public StockGenerator_Animals()
+		{
+		}
+
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			int numKinds = this.kindCountRange.RandomInRange;
@@ -87,19 +86,16 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A20 RID: 10784 RVA: 0x001658B0 File Offset: 0x00163CB0
 		private float SelectionChance(PawnKindDef k)
 		{
 			return StockGenerator_Animals.SelectionChanceFromWildnessCurve.Evaluate(k.RaceProps.wildness);
 		}
 
-		// Token: 0x06002A21 RID: 10785 RVA: 0x001658DC File Offset: 0x00163CDC
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.category == ThingCategory.Pawn && thingDef.race.Animal && thingDef.tradeability != Tradeability.None && (this.tradeTagsSell.Any((string tag) => thingDef.tradeTags.Contains(tag)) || this.tradeTagsBuy.Any((string tag) => thingDef.tradeTags.Contains(tag)));
 		}
 
-		// Token: 0x06002A22 RID: 10786 RVA: 0x00165970 File Offset: 0x00163D70
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
 			bool result;
@@ -126,7 +122,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A23 RID: 10787 RVA: 0x00165ABC File Offset: 0x00163EBC
 		public void LogAnimalChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -137,7 +132,6 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06002A24 RID: 10788 RVA: 0x00165B50 File Offset: 0x00163F50
 		[DebugOutput]
 		private static void StockGenerationAnimals()
 		{
@@ -150,6 +144,200 @@ namespace RimWorld
 					"AnimalUncommon"
 				}
 			}.LogAnimalChances();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static StockGenerator_Animals()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateThings>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal int <numKinds>__0;
+
+			internal int <count>__0;
+
+			internal int forTile;
+
+			internal int <i>__1;
+
+			internal PawnKindDef <kind>__2;
+
+			internal PawnGenerationRequest <request>__2;
+
+			internal StockGenerator_Animals $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private StockGenerator_Animals.<GenerateThings>c__Iterator0.<GenerateThings>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <GenerateThings>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+				{
+					numKinds = this.kindCountRange.RandomInRange;
+					count = this.countRange.RandomInRange;
+					List<PawnKindDef> kinds = new List<PawnKindDef>();
+					for (int j = 0; j < numKinds; j++)
+					{
+						PawnKindDef item;
+						if (!(from k in DefDatabase<PawnKindDef>.AllDefs
+						where !kinds.Contains(k) && this.PawnKindAllowed(k, forTile)
+						select k).TryRandomElementByWeight((PawnKindDef k) => this.SelectionChance(k), out item))
+						{
+							break;
+						}
+						kinds.Add(item);
+					}
+					i = 0;
+					break;
+				}
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= count)
+				{
+					this.$PC = -1;
+				}
+				else if (<GenerateThings>c__AnonStorey.kinds.TryRandomElement(out kind))
+				{
+					PawnKindDef kind2 = kind;
+					int tile = <GenerateThings>c__AnonStorey.forTile;
+					request = new PawnGenerationRequest(kind2, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+					this.$current = PawnGenerator.GeneratePawn(request);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StockGenerator_Animals.<GenerateThings>c__Iterator0 <GenerateThings>c__Iterator = new StockGenerator_Animals.<GenerateThings>c__Iterator0();
+				<GenerateThings>c__Iterator.$this = this;
+				<GenerateThings>c__Iterator.forTile = forTile;
+				return <GenerateThings>c__Iterator;
+			}
+
+			private sealed class <GenerateThings>c__AnonStorey1
+			{
+				internal List<PawnKindDef> kinds;
+
+				internal int forTile;
+
+				internal StockGenerator_Animals.<GenerateThings>c__Iterator0 <>f__ref$0;
+
+				public <GenerateThings>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(PawnKindDef k)
+				{
+					return !this.kinds.Contains(k) && this.<>f__ref$0.$this.PawnKindAllowed(k, this.forTile);
+				}
+
+				internal float <>m__1(PawnKindDef k)
+				{
+					return this.<>f__ref$0.$this.SelectionChance(k);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <HandlesThingDef>c__AnonStorey2
+		{
+			internal ThingDef thingDef;
+
+			public <HandlesThingDef>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(string tag)
+			{
+				return this.thingDef.tradeTags.Contains(tag);
+			}
+
+			internal bool <>m__1(string tag)
+			{
+				return this.thingDef.tradeTags.Contains(tag);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <PawnKindAllowed>c__AnonStorey3
+		{
+			internal PawnKindDef kind;
+
+			public <PawnKindAllowed>c__AnonStorey3()
+			{
+			}
+
+			internal bool <>m__0(string x)
+			{
+				return this.kind.race.tradeTags.Contains(x);
+			}
 		}
 	}
 }

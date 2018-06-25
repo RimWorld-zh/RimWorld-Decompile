@@ -1,51 +1,41 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000F33 RID: 3891
 	public static class GenAdj
 	{
-		// Token: 0x04003DCA RID: 15818
 		public static IntVec3[] CardinalDirections = new IntVec3[4];
 
-		// Token: 0x04003DCB RID: 15819
 		public static IntVec3[] CardinalDirectionsAndInside = new IntVec3[5];
 
-		// Token: 0x04003DCC RID: 15820
 		public static IntVec3[] CardinalDirectionsAround = new IntVec3[4];
 
-		// Token: 0x04003DCD RID: 15821
 		public static IntVec3[] DiagonalDirections = new IntVec3[4];
 
-		// Token: 0x04003DCE RID: 15822
 		public static IntVec3[] DiagonalDirectionsAround = new IntVec3[4];
 
-		// Token: 0x04003DCF RID: 15823
 		public static IntVec3[] AdjacentCells = new IntVec3[8];
 
-		// Token: 0x04003DD0 RID: 15824
 		public static IntVec3[] AdjacentCellsAndInside = new IntVec3[9];
 
-		// Token: 0x04003DD1 RID: 15825
 		public static IntVec3[] AdjacentCellsAround = new IntVec3[8];
 
-		// Token: 0x04003DD2 RID: 15826
 		public static IntVec3[] AdjacentCellsAroundBottom = new IntVec3[9];
 
-		// Token: 0x04003DD3 RID: 15827
 		private static List<IntVec3> adjRandomOrderList;
 
-		// Token: 0x04003DD4 RID: 15828
 		private static List<IntVec3> validCells = new List<IntVec3>();
 
-		// Token: 0x06005D85 RID: 23941 RVA: 0x002F6DD4 File Offset: 0x002F51D4
 		static GenAdj()
 		{
 			GenAdj.SetupAdjacencyTables();
 		}
 
-		// Token: 0x06005D86 RID: 23942 RVA: 0x002F6E58 File Offset: 0x002F5258
 		private static void SetupAdjacencyTables()
 		{
 			GenAdj.CardinalDirections[0] = new IntVec3(0, 0, 1);
@@ -105,7 +95,6 @@ namespace Verse
 			GenAdj.AdjacentCellsAroundBottom[8] = new IntVec3(0, 0, 0);
 		}
 
-		// Token: 0x06005D87 RID: 23943 RVA: 0x002F7390 File Offset: 0x002F5790
 		public static List<IntVec3> AdjacentCells8WayRandomized()
 		{
 			if (GenAdj.adjRandomOrderList == null)
@@ -120,7 +109,6 @@ namespace Verse
 			return GenAdj.adjRandomOrderList;
 		}
 
-		// Token: 0x06005D88 RID: 23944 RVA: 0x002F73F8 File Offset: 0x002F57F8
 		public static IEnumerable<IntVec3> CellsOccupiedBy(Thing t)
 		{
 			if (t.def.size.x == 1 && t.def.size.z == 1)
@@ -137,7 +125,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D89 RID: 23945 RVA: 0x002F7424 File Offset: 0x002F5824
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rotation);
@@ -155,7 +142,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8A RID: 23946 RVA: 0x002F746C File Offset: 0x002F586C
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(TargetInfo pack)
 		{
 			if (pack.HasThing)
@@ -175,13 +161,11 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8B RID: 23947 RVA: 0x002F7498 File Offset: 0x002F5898
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(Thing t)
 		{
 			return GenAdj.CellsAdjacent8Way(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005D8C RID: 23948 RVA: 0x002F74CC File Offset: 0x002F58CC
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
 			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
@@ -217,13 +201,11 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8D RID: 23949 RVA: 0x002F7514 File Offset: 0x002F5914
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(Thing t)
 		{
 			return GenAdj.CellsAdjacentCardinal(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005D8E RID: 23950 RVA: 0x002F7548 File Offset: 0x002F5948
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -262,7 +244,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8F RID: 23951 RVA: 0x002F7590 File Offset: 0x002F5990
 		public static IEnumerable<IntVec3> CellsAdjacentAlongEdge(IntVec3 thingCent, Rot4 thingRot, IntVec2 thingSize, LinkDirections dir)
 		{
 			GenAdj.AdjustForRotation(ref thingCent, ref thingSize, thingRot);
@@ -301,7 +282,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D90 RID: 23952 RVA: 0x002F75E0 File Offset: 0x002F59E0
 		public static IEnumerable<IntVec3> CellsAdjacent8WayAndInside(this Thing thing)
 		{
 			IntVec3 center = thing.Position;
@@ -322,7 +302,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D91 RID: 23953 RVA: 0x002F760A File Offset: 0x002F5A0A
 		public static void GetAdjacentCorners(LocalTargetInfo target, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
 		{
 			if (target.HasThing)
@@ -335,7 +314,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005D92 RID: 23954 RVA: 0x002F764C File Offset: 0x002F5A4C
 		private static void GetAdjacentCorners(CellRect rect, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
 		{
 			BL = new IntVec3(rect.minX - 1, 0, rect.minZ - 1);
@@ -344,19 +322,16 @@ namespace Verse
 			BR = new IntVec3(rect.maxX + 1, 0, rect.minZ - 1);
 		}
 
-		// Token: 0x06005D93 RID: 23955 RVA: 0x002F76C0 File Offset: 0x002F5AC0
 		public static IntVec3 RandomAdjacentCell8Way(this IntVec3 root)
 		{
 			return root + GenAdj.AdjacentCells[Rand.RangeInclusive(0, 7)];
 		}
 
-		// Token: 0x06005D94 RID: 23956 RVA: 0x002F76F4 File Offset: 0x002F5AF4
 		public static IntVec3 RandomAdjacentCellCardinal(this IntVec3 root)
 		{
 			return root + GenAdj.CardinalDirections[Rand.RangeInclusive(0, 3)];
 		}
 
-		// Token: 0x06005D95 RID: 23957 RVA: 0x002F7728 File Offset: 0x002F5B28
 		public static IntVec3 RandomAdjacentCell8Way(this Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
@@ -370,7 +345,6 @@ namespace Verse
 			return randomCell;
 		}
 
-		// Token: 0x06005D96 RID: 23958 RVA: 0x002F776C File Offset: 0x002F5B6C
 		public static IntVec3 RandomAdjacentCellCardinal(this Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
@@ -397,13 +371,11 @@ namespace Verse
 			return randomCell;
 		}
 
-		// Token: 0x06005D97 RID: 23959 RVA: 0x002F7814 File Offset: 0x002F5C14
 		public static bool TryFindRandomAdjacentCell8WayWithRoomGroup(Thing t, out IntVec3 result)
 		{
 			return GenAdj.TryFindRandomAdjacentCell8WayWithRoomGroup(t.Position, t.Rotation, t.def.size, t.Map, out result);
 		}
 
-		// Token: 0x06005D98 RID: 23960 RVA: 0x002F784C File Offset: 0x002F5C4C
 		public static bool TryFindRandomAdjacentCell8WayWithRoomGroup(IntVec3 center, Rot4 rot, IntVec2 size, Map map, out IntVec3 result)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -418,7 +390,6 @@ namespace Verse
 			return GenAdj.validCells.TryRandomElement(out result);
 		}
 
-		// Token: 0x06005D99 RID: 23961 RVA: 0x002F78F0 File Offset: 0x002F5CF0
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
 		{
 			bool result;
@@ -433,7 +404,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9A RID: 23962 RVA: 0x002F7934 File Offset: 0x002F5D34
 		public static bool AdjacentTo8Way(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
@@ -458,7 +428,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9B RID: 23963 RVA: 0x002F79A4 File Offset: 0x002F5DA4
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
@@ -474,7 +443,6 @@ namespace Verse
 			return num <= 1 && num2 <= 1;
 		}
 
-		// Token: 0x06005D9C RID: 23964 RVA: 0x002F7A00 File Offset: 0x002F5E00
 		public static bool IsAdjacentToCardinalOrInside(this IntVec3 me, CellRect other)
 		{
 			bool result;
@@ -490,13 +458,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9D RID: 23965 RVA: 0x002F7A4C File Offset: 0x002F5E4C
 		public static bool IsAdjacentToCardinalOrInside(this Thing t1, Thing t2)
 		{
 			return GenAdj.IsAdjacentToCardinalOrInside(t1.OccupiedRect(), t2.OccupiedRect());
 		}
 
-		// Token: 0x06005D9E RID: 23966 RVA: 0x002F7A74 File Offset: 0x002F5E74
 		public static bool IsAdjacentToCardinalOrInside(CellRect rect1, CellRect rect2)
 		{
 			bool result;
@@ -550,13 +516,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9F RID: 23967 RVA: 0x002F7CE0 File Offset: 0x002F60E0
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, Thing t)
 		{
 			return root.AdjacentTo8WayOrInside(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005DA0 RID: 23968 RVA: 0x002F7D14 File Offset: 0x002F6114
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -567,25 +531,21 @@ namespace Verse
 			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
 		}
 
-		// Token: 0x06005DA1 RID: 23969 RVA: 0x002F7DB8 File Offset: 0x002F61B8
 		public static bool AdjacentTo8WayOrInside(this Thing a, Thing b)
 		{
 			return GenAdj.AdjacentTo8WayOrInside(a.OccupiedRect(), b.OccupiedRect());
 		}
 
-		// Token: 0x06005DA2 RID: 23970 RVA: 0x002F7DE0 File Offset: 0x002F61E0
 		public static bool AdjacentTo8WayOrInside(CellRect rect1, CellRect rect2)
 		{
 			return !rect1.IsEmpty && !rect2.IsEmpty && rect1.ExpandedBy(1).Overlaps(rect2);
 		}
 
-		// Token: 0x06005DA3 RID: 23971 RVA: 0x002F7E28 File Offset: 0x002F6228
 		public static bool IsInside(this IntVec3 root, Thing t)
 		{
 			return GenAdj.IsInside(root, t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005DA4 RID: 23972 RVA: 0x002F7E5C File Offset: 0x002F625C
 		public static bool IsInside(IntVec3 root, IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -596,20 +556,17 @@ namespace Verse
 			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
 		}
 
-		// Token: 0x06005DA5 RID: 23973 RVA: 0x002F7EFC File Offset: 0x002F62FC
 		public static CellRect OccupiedRect(this Thing t)
 		{
 			return GenAdj.OccupiedRect(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005DA6 RID: 23974 RVA: 0x002F7F30 File Offset: 0x002F6330
 		public static CellRect OccupiedRect(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			return new CellRect(center.x - (size.x - 1) / 2, center.z - (size.z - 1) / 2, size.x, size.z);
 		}
 
-		// Token: 0x06005DA7 RID: 23975 RVA: 0x002F7F88 File Offset: 0x002F6388
 		public static void AdjustForRotation(ref IntVec3 center, ref IntVec2 size, Rot4 rot)
 		{
 			if (size.x != 1 || size.z != 1)
@@ -645,6 +602,1078 @@ namespace Verse
 					}
 					break;
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsOccupiedBy>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal Thing t;
+
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__1;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsOccupiedBy>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (t.def.size.x == 1 && t.def.size.z == 1)
+					{
+						this.$current = t.Position;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					enumerator = GenAdj.CellsOccupiedBy(t.Position, t.Rotation, t.def.size).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					goto IL_13C;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				IL_13C:
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsOccupiedBy>c__Iterator0 <CellsOccupiedBy>c__Iterator = new GenAdj.<CellsOccupiedBy>c__Iterator0();
+				<CellsOccupiedBy>c__Iterator.t = t;
+				return <CellsOccupiedBy>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsOccupiedBy>c__Iterator1 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec3 center;
+
+			internal IntVec2 size;
+
+			internal Rot4 rotation;
+
+			internal int <minX>__0;
+
+			internal int <minZ>__0;
+
+			internal int <maxX>__0;
+
+			internal int <maxZ>__0;
+
+			internal int <i>__1;
+
+			internal int <j>__2;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal IntVec3 <$>center;
+
+			internal IntVec2 <$>size;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsOccupiedBy>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					GenAdj.AdjustForRotation(ref center, ref size, rotation);
+					minX = center.x - (size.x - 1) / 2;
+					minZ = center.z - (size.z - 1) / 2;
+					maxX = minX + size.x - 1;
+					maxZ = minZ + size.z - 1;
+					i = minX;
+					goto IL_12E;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_10E:
+				if (j <= maxZ)
+				{
+					this.$current = new IntVec3(i, 0, j);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_12E:
+				if (i <= maxX)
+				{
+					j = minZ;
+					goto IL_10E;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsOccupiedBy>c__Iterator1 <CellsOccupiedBy>c__Iterator = new GenAdj.<CellsOccupiedBy>c__Iterator1();
+				<CellsOccupiedBy>c__Iterator.center = center;
+				<CellsOccupiedBy>c__Iterator.size = size;
+				<CellsOccupiedBy>c__Iterator.rotation = rotation;
+				return <CellsOccupiedBy>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsAdjacent8Way>c__Iterator2 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal TargetInfo pack;
+
+			internal IEnumerator<IntVec3> $locvar0;
+
+			internal IntVec3 <c>__1;
+
+			internal int <i>__2;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsAdjacent8Way>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!pack.HasThing)
+					{
+						i = 0;
+						goto IL_130;
+					}
+					enumerator = GenAdj.CellsAdjacent8Way(pack.Thing).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					i++;
+					goto IL_130;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				goto IL_13D;
+				IL_130:
+				if (i < 8)
+				{
+					this.$current = pack.Cell + GenAdj.AdjacentCells[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_13D:
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsAdjacent8Way>c__Iterator2 <CellsAdjacent8Way>c__Iterator = new GenAdj.<CellsAdjacent8Way>c__Iterator2();
+				<CellsAdjacent8Way>c__Iterator.pack = pack;
+				return <CellsAdjacent8Way>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsAdjacent8Way>c__Iterator3 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec3 thingCenter;
+
+			internal IntVec2 thingSize;
+
+			internal Rot4 thingRot;
+
+			internal int <minX>__0;
+
+			internal int <maxX>__0;
+
+			internal int <minZ>__0;
+
+			internal int <maxZ>__0;
+
+			internal IntVec3 <cur>__0;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal IntVec3 <$>thingCenter;
+
+			internal IntVec2 <$>thingSize;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsAdjacent8Way>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
+					minX = thingCenter.x - (thingSize.x - 1) / 2 - 1;
+					maxX = minX + thingSize.x + 1;
+					minZ = thingCenter.z - (thingSize.z - 1) / 2 - 1;
+					maxZ = minZ + thingSize.z + 1;
+					cur = new IntVec3(minX - 1, 0, minZ);
+					break;
+				case 1u:
+					if (cur.x >= maxX)
+					{
+						goto IL_124;
+					}
+					break;
+				case 2u:
+					if (cur.z >= maxZ)
+					{
+						goto IL_16F;
+					}
+					goto IL_124;
+				case 3u:
+					if (cur.x <= minX)
+					{
+						goto IL_1BA;
+					}
+					goto IL_16F;
+				case 4u:
+					if (cur.z <= minZ + 1)
+					{
+						this.$PC = -1;
+						return false;
+					}
+					goto IL_1BA;
+				default:
+					return false;
+				}
+				cur.x++;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 1;
+				}
+				return true;
+				IL_124:
+				cur.z++;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_16F:
+				cur.x--;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 3;
+				}
+				return true;
+				IL_1BA:
+				cur.z--;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 4;
+				}
+				return true;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsAdjacent8Way>c__Iterator3 <CellsAdjacent8Way>c__Iterator = new GenAdj.<CellsAdjacent8Way>c__Iterator3();
+				<CellsAdjacent8Way>c__Iterator.thingCenter = thingCenter;
+				<CellsAdjacent8Way>c__Iterator.thingSize = thingSize;
+				<CellsAdjacent8Way>c__Iterator.thingRot = thingRot;
+				return <CellsAdjacent8Way>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsAdjacentCardinal>c__Iterator4 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec3 center;
+
+			internal IntVec2 size;
+
+			internal Rot4 rot;
+
+			internal int <minX>__0;
+
+			internal int <maxX>__0;
+
+			internal int <minZ>__0;
+
+			internal int <maxZ>__0;
+
+			internal IntVec3 <cur>__0;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal IntVec3 <$>center;
+
+			internal IntVec2 <$>size;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsAdjacentCardinal>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					GenAdj.AdjustForRotation(ref center, ref size, rot);
+					minX = center.x - (size.x - 1) / 2 - 1;
+					maxX = minX + size.x + 1;
+					minZ = center.z - (size.z - 1) / 2 - 1;
+					maxZ = minZ + size.z + 1;
+					cur = new IntVec3(minX, 0, minZ);
+					break;
+				case 1u:
+					if (cur.x >= maxX - 1)
+					{
+						cur.x++;
+						goto IL_137;
+					}
+					break;
+				case 2u:
+					if (cur.z >= maxZ - 1)
+					{
+						cur.z++;
+						goto IL_197;
+					}
+					goto IL_137;
+				case 3u:
+					if (cur.x <= minX + 1)
+					{
+						cur.x--;
+						goto IL_1F7;
+					}
+					goto IL_197;
+				case 4u:
+					if (cur.z <= minZ + 1)
+					{
+						this.$PC = -1;
+						return false;
+					}
+					goto IL_1F7;
+				default:
+					return false;
+				}
+				cur.x++;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 1;
+				}
+				return true;
+				IL_137:
+				cur.z++;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_197:
+				cur.x--;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 3;
+				}
+				return true;
+				IL_1F7:
+				cur.z--;
+				this.$current = cur;
+				if (!this.$disposing)
+				{
+					this.$PC = 4;
+				}
+				return true;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsAdjacentCardinal>c__Iterator4 <CellsAdjacentCardinal>c__Iterator = new GenAdj.<CellsAdjacentCardinal>c__Iterator4();
+				<CellsAdjacentCardinal>c__Iterator.center = center;
+				<CellsAdjacentCardinal>c__Iterator.size = size;
+				<CellsAdjacentCardinal>c__Iterator.rot = rot;
+				return <CellsAdjacentCardinal>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsAdjacentAlongEdge>c__Iterator5 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec3 thingCent;
+
+			internal IntVec2 thingSize;
+
+			internal Rot4 thingRot;
+
+			internal int <minX>__0;
+
+			internal int <minZ>__0;
+
+			internal int <maxX>__0;
+
+			internal int <maxZ>__0;
+
+			internal LinkDirections dir;
+
+			internal int <x>__1;
+
+			internal int <x>__2;
+
+			internal int <z>__3;
+
+			internal int <z>__4;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal IntVec3 <$>thingCent;
+
+			internal IntVec2 <$>thingSize;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsAdjacentAlongEdge>c__Iterator5()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					GenAdj.AdjustForRotation(ref thingCent, ref thingSize, thingRot);
+					minX = thingCent.x - (thingSize.x - 1) / 2 - 1;
+					minZ = thingCent.z - (thingSize.z - 1) / 2 - 1;
+					maxX = minX + thingSize.x + 1;
+					maxZ = minZ + thingSize.z + 1;
+					if (dir != LinkDirections.Down)
+					{
+						goto IL_137;
+					}
+					x = minX;
+					break;
+				case 1u:
+					x++;
+					break;
+				case 2u:
+					x2++;
+					goto IL_19D;
+				case 3u:
+					z++;
+					goto IL_215;
+				case 4u:
+					z2++;
+					goto IL_28D;
+				default:
+					return false;
+				}
+				if (x <= maxX)
+				{
+					this.$current = new IntVec3(x, thingCent.y, minZ - 1);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				IL_137:
+				if (dir != LinkDirections.Up)
+				{
+					goto IL_1AF;
+				}
+				x2 = minX;
+				IL_19D:
+				if (x2 <= maxX)
+				{
+					this.$current = new IntVec3(x2, thingCent.y, maxZ + 1);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_1AF:
+				if (dir != LinkDirections.Left)
+				{
+					goto IL_227;
+				}
+				z = minZ;
+				IL_215:
+				if (z <= maxZ)
+				{
+					this.$current = new IntVec3(minX - 1, thingCent.y, z);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_227:
+				if (dir != LinkDirections.Right)
+				{
+					goto IL_29F;
+				}
+				z2 = minZ;
+				IL_28D:
+				if (z2 <= maxZ)
+				{
+					this.$current = new IntVec3(maxX + 1, thingCent.y, z2);
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_29F:
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsAdjacentAlongEdge>c__Iterator5 <CellsAdjacentAlongEdge>c__Iterator = new GenAdj.<CellsAdjacentAlongEdge>c__Iterator5();
+				<CellsAdjacentAlongEdge>c__Iterator.thingCent = thingCent;
+				<CellsAdjacentAlongEdge>c__Iterator.thingSize = thingSize;
+				<CellsAdjacentAlongEdge>c__Iterator.thingRot = thingRot;
+				<CellsAdjacentAlongEdge>c__Iterator.dir = dir;
+				return <CellsAdjacentAlongEdge>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CellsAdjacent8WayAndInside>c__Iterator6 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal Thing thing;
+
+			internal IntVec3 <center>__0;
+
+			internal IntVec2 <size>__0;
+
+			internal Rot4 <rotation>__0;
+
+			internal int <minX>__0;
+
+			internal int <minZ>__0;
+
+			internal int <maxX>__0;
+
+			internal int <maxZ>__0;
+
+			internal int <i>__1;
+
+			internal int <j>__2;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CellsAdjacent8WayAndInside>c__Iterator6()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					center = thing.Position;
+					size = thing.def.size;
+					rotation = thing.Rotation;
+					GenAdj.AdjustForRotation(ref center, ref size, rotation);
+					minX = center.x - (size.x - 1) / 2 - 1;
+					minZ = center.z - (size.z - 1) / 2 - 1;
+					maxX = minX + size.x + 1;
+					maxZ = minZ + size.z + 1;
+					i = minX;
+					goto IL_16A;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_14A:
+				if (j <= maxZ)
+				{
+					this.$current = new IntVec3(i, 0, j);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_16A:
+				if (i <= maxX)
+				{
+					j = minZ;
+					goto IL_14A;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenAdj.<CellsAdjacent8WayAndInside>c__Iterator6 <CellsAdjacent8WayAndInside>c__Iterator = new GenAdj.<CellsAdjacent8WayAndInside>c__Iterator6();
+				<CellsAdjacent8WayAndInside>c__Iterator.thing = thing;
+				return <CellsAdjacent8WayAndInside>c__Iterator;
 			}
 		}
 	}

@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000D31 RID: 3377
 	public static class HediffGiveUtility
 	{
-		// Token: 0x06004A7A RID: 19066 RVA: 0x0026DAF8 File Offset: 0x0026BEF8
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<BodyPartRecord, float> <>f__am$cache1;
+
 		public static bool TryApply(Pawn pawn, HediffDef hediff, List<BodyPartDef> partsToAffect, bool canAffectAnyLivePart = false, int countToAffect = 1, List<Hediff> outAddedHediffs = null)
 		{
 			bool result;
@@ -62,6 +67,42 @@ namespace Verse
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <TryApply>m__0(BodyPartRecord p)
+		{
+			return p.def.alive;
+		}
+
+		[CompilerGenerated]
+		private static float <TryApply>m__1(BodyPartRecord x)
+		{
+			return x.coverageAbs;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryApply>c__AnonStorey0
+		{
+			internal List<BodyPartDef> partsToAffect;
+
+			internal Pawn pawn;
+
+			internal HediffDef hediff;
+
+			public <TryApply>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord p)
+			{
+				return this.partsToAffect.Contains(p.def);
+			}
+
+			internal bool <>m__1(BodyPartRecord p)
+			{
+				return !this.pawn.health.hediffSet.HasHediff(this.hediff, p, false) && !this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(p);
+			}
 		}
 	}
 }

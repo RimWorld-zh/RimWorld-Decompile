@@ -3,11 +3,12 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000177 RID: 375
 	public class LordJob_Steal : LordJob
 	{
-		// Token: 0x17000134 RID: 308
-		// (get) Token: 0x060007BA RID: 1978 RVA: 0x0004BAA8 File Offset: 0x00049EA8
+		public LordJob_Steal()
+		{
+		}
+
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -16,7 +17,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007BB RID: 1979 RVA: 0x0004BAC0 File Offset: 0x00049EC0
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();

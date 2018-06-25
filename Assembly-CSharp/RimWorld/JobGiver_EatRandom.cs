@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000A4 RID: 164
 	public class JobGiver_EatRandom : ThinkNode_JobGiver
 	{
-		// Token: 0x06000410 RID: 1040 RVA: 0x00030AC8 File Offset: 0x0002EEC8
+		public JobGiver_EatRandom()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -29,6 +32,21 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return t.def.category == ThingCategory.Item && t.IngestibleNow && this.pawn.RaceProps.CanEverEat(t) && this.pawn.CanReserve(t, 1, -1, null, false);
+			}
 		}
 	}
 }

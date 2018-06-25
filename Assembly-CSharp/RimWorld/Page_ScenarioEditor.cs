@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -7,25 +8,27 @@ using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000833 RID: 2099
 	public class Page_ScenarioEditor : Page
 	{
-		// Token: 0x040019A6 RID: 6566
 		private Scenario curScen = null;
 
-		// Token: 0x040019A7 RID: 6567
 		private Vector2 infoScrollPosition = Vector2.zero;
 
-		// Token: 0x040019A8 RID: 6568
 		private string seed;
 
-		// Token: 0x040019A9 RID: 6569
 		private bool seedIsValid = true;
 
-		// Token: 0x040019AA RID: 6570
 		private bool editMode = false;
 
-		// Token: 0x06002F69 RID: 12137 RVA: 0x00196528 File Offset: 0x00194928
+		[CompilerGenerated]
+		private static Func<ScenPartDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ScenPartDef, string> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ScenPartDef, string> <>f__am$cache2;
+
 		public Page_ScenarioEditor(Scenario scen)
 		{
 			if (scen != null)
@@ -39,8 +42,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000784 RID: 1924
-		// (get) Token: 0x06002F6A RID: 12138 RVA: 0x00196580 File Offset: 0x00194980
 		public override string PageTitle
 		{
 			get
@@ -49,8 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000785 RID: 1925
-		// (get) Token: 0x06002F6B RID: 12139 RVA: 0x001965A0 File Offset: 0x001949A0
 		public Scenario EditingScenario
 		{
 			get
@@ -59,14 +58,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F6C RID: 12140 RVA: 0x001965BB File Offset: 0x001949BB
 		public override void PreOpen()
 		{
 			base.PreOpen();
 			this.infoScrollPosition = Vector2.zero;
 		}
 
-		// Token: 0x06002F6D RID: 12141 RVA: 0x001965D0 File Offset: 0x001949D0
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -87,14 +84,12 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002F6E RID: 12142 RVA: 0x001966A8 File Offset: 0x00194AA8
 		private void RandomizeSeedAndScenario()
 		{
 			this.seed = GenText.RandomSeedString();
 			this.curScen = ScenarioMaker.GenerateNewRandomScenario(this.seed);
 		}
 
-		// Token: 0x06002F6F RID: 12143 RVA: 0x001966C8 File Offset: 0x00194AC8
 		private void DoConfigControls(Rect rect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -174,7 +169,6 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002F70 RID: 12144 RVA: 0x00196928 File Offset: 0x00194D28
 		private static bool CheckAllPartsCompatible(Scenario scen)
 		{
 			foreach (ScenPart scenPart in scen.AllParts)
@@ -211,7 +205,6 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06002F71 RID: 12145 RVA: 0x00196AC8 File Offset: 0x00194EC8
 		private void OpenAddScenPartMenu()
 		{
 			FloatMenuUtility.MakeMenu<ScenPartDef>(from p in ScenarioMaker.AddableParts(this.curScen)
@@ -223,7 +216,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F72 RID: 12146 RVA: 0x00196B54 File Offset: 0x00194F54
 		private void AddScenPart(ScenPartDef def)
 		{
 			ScenPart scenPart = ScenarioMaker.MakeScenPart(def);
@@ -231,7 +223,6 @@ namespace RimWorld
 			this.curScen.parts.Add(scenPart);
 		}
 
-		// Token: 0x06002F73 RID: 12147 RVA: 0x00196B80 File Offset: 0x00194F80
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -253,6 +244,75 @@ namespace RimWorld
 				result = true;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private void <DoConfigControls>m__0(Scenario loadedScen)
+		{
+			this.curScen = loadedScen;
+			this.seedIsValid = false;
+		}
+
+		[CompilerGenerated]
+		private void <DoConfigControls>m__1()
+		{
+			SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+			Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), delegate
+			{
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+				Workshop.Upload(this.curScen);
+			}, true, null));
+		}
+
+		[CompilerGenerated]
+		private static bool <OpenAddScenPartMenu>m__2(ScenPartDef p)
+		{
+			return p.category != ScenPartCategory.Fixed;
+		}
+
+		[CompilerGenerated]
+		private static string <OpenAddScenPartMenu>m__3(ScenPartDef p)
+		{
+			return p.label;
+		}
+
+		[CompilerGenerated]
+		private static string <OpenAddScenPartMenu>m__4(ScenPartDef p)
+		{
+			return p.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private Action <OpenAddScenPartMenu>m__5(ScenPartDef p)
+		{
+			return delegate()
+			{
+				this.AddScenPart(p);
+			};
+		}
+
+		[CompilerGenerated]
+		private void <DoConfigControls>m__6()
+		{
+			SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+			Workshop.Upload(this.curScen);
+		}
+
+		[CompilerGenerated]
+		private sealed class <OpenAddScenPartMenu>c__AnonStorey0
+		{
+			internal ScenPartDef p;
+
+			internal Page_ScenarioEditor $this;
+
+			public <OpenAddScenPartMenu>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.AddScenPart(this.p);
+			}
 		}
 	}
 }

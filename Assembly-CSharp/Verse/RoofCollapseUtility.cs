@@ -1,17 +1,14 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000CA0 RID: 3232
 	public static class RoofCollapseUtility
 	{
-		// Token: 0x04003065 RID: 12389
 		public const float RoofMaxSupportDistance = 6.9f;
 
-		// Token: 0x04003066 RID: 12390
 		public static readonly int RoofSupportRadialCellsCount = GenRadial.NumCellsInRadius(6.9f);
 
-		// Token: 0x0600472B RID: 18219 RVA: 0x0025909C File Offset: 0x0025749C
 		public static bool WithinRangeOfRoofHolder(IntVec3 c, Map map, bool assumeNonNoRoofCellsAreRoofed = false)
 		{
 			bool connected = false;
@@ -35,7 +32,6 @@ namespace Verse
 			return connected;
 		}
 
-		// Token: 0x0600472C RID: 18220 RVA: 0x00259110 File Offset: 0x00257510
 		public static bool ConnectedToRoofHolder(IntVec3 c, Map map, bool assumeRoofAtRoot)
 		{
 			bool connected = false;
@@ -56,6 +52,88 @@ namespace Verse
 				}
 			}, int.MaxValue, false, null);
 			return connected;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static RoofCollapseUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <WithinRangeOfRoofHolder>c__AnonStorey0
+		{
+			internal Map map;
+
+			internal IntVec3 c;
+
+			internal bool assumeNonNoRoofCellsAreRoofed;
+
+			internal bool connected;
+
+			public <WithinRangeOfRoofHolder>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return (x.Roofed(this.map) || x == this.c || (this.assumeNonNoRoofCellsAreRoofed && !this.map.areaManager.NoRoof[x])) && x.InHorDistOf(this.c, 6.9f);
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					IntVec3 intVec = x + GenAdj.CardinalDirectionsAndInside[i];
+					if (intVec.InBounds(this.map) && intVec.InHorDistOf(this.c, 6.9f))
+					{
+						Building edifice = intVec.GetEdifice(this.map);
+						if (edifice != null && edifice.def.holdsRoof)
+						{
+							this.connected = true;
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConnectedToRoofHolder>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal IntVec3 c;
+
+			internal bool assumeRoofAtRoot;
+
+			internal bool connected;
+
+			public <ConnectedToRoofHolder>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return (x.Roofed(this.map) || (x == this.c && this.assumeRoofAtRoot)) && !this.connected;
+			}
+
+			internal void <>m__1(IntVec3 x)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					IntVec3 intVec = x + GenAdj.CardinalDirectionsAndInside[i];
+					if (intVec.InBounds(this.map))
+					{
+						Building edifice = intVec.GetEdifice(this.map);
+						if (edifice != null && edifice.def.holdsRoof)
+						{
+							this.connected = true;
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }

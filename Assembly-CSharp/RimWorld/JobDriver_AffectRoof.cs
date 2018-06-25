@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200003F RID: 63
 	public abstract class JobDriver_AffectRoof : JobDriver
 	{
-		// Token: 0x040001CC RID: 460
 		private float workLeft;
 
-		// Token: 0x040001CD RID: 461
 		private const TargetIndex CellInd = TargetIndex.A;
 
-		// Token: 0x040001CE RID: 462
 		private const TargetIndex GotoTargetInd = TargetIndex.B;
 
-		// Token: 0x040001CF RID: 463
 		private const float BaseWorkAmount = 65f;
 
-		// Token: 0x17000071 RID: 113
-		// (get) Token: 0x0600021C RID: 540 RVA: 0x00016440 File Offset: 0x00014840
+		protected JobDriver_AffectRoof()
+		{
+		}
+
 		protected IntVec3 Cell
 		{
 			get
@@ -30,24 +31,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000072 RID: 114
-		// (get) Token: 0x0600021D RID: 541
 		protected abstract PathEndMode PathEndMode { get; }
 
-		// Token: 0x0600021E RID: 542
 		protected abstract void DoEffect();
 
-		// Token: 0x0600021F RID: 543
 		protected abstract bool DoWorkFailOn();
 
-		// Token: 0x06000220 RID: 544 RVA: 0x00016469 File Offset: 0x00014869
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 		}
 
-		// Token: 0x06000221 RID: 545 RVA: 0x00016488 File Offset: 0x00014888
 		public override bool TryMakePreToilReservations()
 		{
 			Pawn pawn = this.pawn;
@@ -57,7 +52,6 @@ namespace RimWorld
 			return pawn.Reserve(target, job, 1, -1, ceiling);
 		}
 
-		// Token: 0x06000222 RID: 546 RVA: 0x000164CC File Offset: 0x000148CC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.B);
@@ -86,6 +80,156 @@ namespace RimWorld
 			doWork.defaultCompleteMode = ToilCompleteMode.Never;
 			yield return doWork;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal JobDriver_AffectRoof $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_AffectRoof.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedOrNull(TargetIndex.B);
+					this.$current = Toils_Goto.Goto(TargetIndex.B, this.PathEndMode);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					<MakeNewToils>c__AnonStorey.doWork = new Toil();
+					<MakeNewToils>c__AnonStorey.doWork.initAction = delegate()
+					{
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft = 65f;
+					};
+					<MakeNewToils>c__AnonStorey.doWork.tickAction = delegate()
+					{
+						float statValue = <MakeNewToils>c__AnonStorey.doWork.actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
+						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft -= statValue;
+						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft <= 0f)
+						{
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.DoEffect();
+							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.ReadyForNextToil();
+						}
+					};
+					<MakeNewToils>c__AnonStorey.doWork.FailOnCannotTouch(TargetIndex.B, this.PathEndMode);
+					<MakeNewToils>c__AnonStorey.doWork.PlaySoundAtStart(SoundDefOf.Roof_Start);
+					<MakeNewToils>c__AnonStorey.doWork.PlaySoundAtEnd(SoundDefOf.Roof_Finish);
+					<MakeNewToils>c__AnonStorey.doWork.WithEffect(EffecterDefOf.RoofWork, TargetIndex.A);
+					<MakeNewToils>c__AnonStorey.doWork.FailOn(new Func<bool>(this.DoWorkFailOn));
+					<MakeNewToils>c__AnonStorey.doWork.WithProgressBar(TargetIndex.A, () => 1f - <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.workLeft / 65f, false, -0.5f);
+					<MakeNewToils>c__AnonStorey.doWork.defaultCompleteMode = ToilCompleteMode.Never;
+					this.$current = <MakeNewToils>c__AnonStorey.doWork;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_AffectRoof.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_AffectRoof.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil doWork;
+
+				internal JobDriver_AffectRoof.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$0.$this.workLeft = 65f;
+				}
+
+				internal void <>m__1()
+				{
+					float statValue = this.doWork.actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
+					this.<>f__ref$0.$this.workLeft -= statValue;
+					if (this.<>f__ref$0.$this.workLeft <= 0f)
+					{
+						this.<>f__ref$0.$this.DoEffect();
+						this.<>f__ref$0.$this.ReadyForNextToil();
+					}
+				}
+
+				internal float <>m__2()
+				{
+					return 1f - this.<>f__ref$0.$this.workLeft / 65f;
+				}
+			}
 		}
 	}
 }

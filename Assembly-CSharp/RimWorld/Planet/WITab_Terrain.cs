@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E8 RID: 2280
 	public class WITab_Terrain : WITab
 	{
-		// Token: 0x04001C64 RID: 7268
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001C65 RID: 7269
 		private float lastDrawnHeight;
 
-		// Token: 0x04001C66 RID: 7270
 		private static readonly Vector2 WinSize = new Vector2(440f, 540f);
 
-		// Token: 0x0600346F RID: 13423 RVA: 0x001C0D8E File Offset: 0x001BF18E
+		[CompilerGenerated]
+		private static Func<Tile.RoadLink, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Tile.RiverLink, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2;
+
 		public WITab_Terrain()
 		{
 			this.size = WITab_Terrain.WinSize;
@@ -26,8 +31,6 @@ namespace RimWorld.Planet
 			this.tutorTag = "Terrain";
 		}
 
-		// Token: 0x17000868 RID: 2152
-		// (get) Token: 0x06003470 RID: 13424 RVA: 0x001C0DB8 File Offset: 0x001BF1B8
 		public override bool IsVisible
 		{
 			get
@@ -36,7 +39,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003471 RID: 13425 RVA: 0x001C0DDC File Offset: 0x001BF1DC
 		protected override void FillTab()
 		{
 			Rect outRect = new Rect(0f, 0f, WITab_Terrain.WinSize.x, WITab_Terrain.WinSize.y).ContractedBy(10f);
@@ -135,6 +137,29 @@ namespace RimWorld.Planet
 			this.lastDrawnHeight = rect4.y + listing_Standard.CurHeight;
 			listing_Standard.End();
 			Widgets.EndScrollView();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static WITab_Terrain()
+		{
+		}
+
+		[CompilerGenerated]
+		private static string <FillTab>m__0(Tile.RoadLink roadlink)
+		{
+			return roadlink.road.label;
+		}
+
+		[CompilerGenerated]
+		private static int <FillTab>m__1(Tile.RiverLink riverlink)
+		{
+			return riverlink.river.degradeThreshold;
+		}
+
+		[CompilerGenerated]
+		private static string <FillTab>m__2(ThingDef rt)
+		{
+			return rt.label;
 		}
 	}
 }

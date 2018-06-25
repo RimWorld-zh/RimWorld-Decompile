@@ -3,14 +3,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003DA RID: 986
 	public class SymbolResolver_Interior_Brewery : SymbolResolver
 	{
-		// Token: 0x04000A4F RID: 2639
 		private const float SpawnHeaterIfTemperatureBelow = 7f;
 
-		// Token: 0x17000243 RID: 579
-		// (get) Token: 0x060010EF RID: 4335 RVA: 0x000906B4 File Offset: 0x0008EAB4
+		public SymbolResolver_Interior_Brewery()
+		{
+		}
+
 		private float SpawnPassiveCoolerIfTemperatureAbove
 		{
 			get
@@ -19,7 +19,6 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010F0 RID: 4336 RVA: 0x000906D8 File Offset: 0x0008EAD8
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

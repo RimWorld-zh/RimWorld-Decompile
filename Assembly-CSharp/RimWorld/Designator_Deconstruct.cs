@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007CA RID: 1994
 	public class Designator_Deconstruct : Designator
 	{
-		// Token: 0x06002C22 RID: 11298 RVA: 0x00175748 File Offset: 0x00173B48
+		[CompilerGenerated]
+		private static Func<Thing, AltitudeLayer> <>f__am$cache0;
+
 		public Designator_Deconstruct()
 		{
 			this.defaultLabel = "DesignatorDeconstruct".Translate();
@@ -21,8 +23,6 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Designator_Deconstruct;
 		}
 
-		// Token: 0x170006E8 RID: 1768
-		// (get) Token: 0x06002C23 RID: 11299 RVA: 0x001757C0 File Offset: 0x00173BC0
 		public override int DraggableDimensions
 		{
 			get
@@ -31,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006E9 RID: 1769
-		// (get) Token: 0x06002C24 RID: 11300 RVA: 0x001757D8 File Offset: 0x00173BD8
 		protected override DesignationDef Designation
 		{
 			get
@@ -41,7 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C25 RID: 11301 RVA: 0x001757F4 File Offset: 0x00173BF4
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -64,13 +61,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C26 RID: 11302 RVA: 0x0017586D File Offset: 0x00173C6D
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
 			this.DesignateThing(this.TopDeconstructibleInCell(loc));
 		}
 
-		// Token: 0x06002C27 RID: 11303 RVA: 0x00175880 File Offset: 0x00173C80
 		private Thing TopDeconstructibleInCell(IntVec3 loc)
 		{
 			foreach (Thing thing in from t in base.Map.thingGrid.ThingsAt(loc)
@@ -85,7 +80,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002C28 RID: 11304 RVA: 0x00175928 File Offset: 0x00173D28
 		public override void DesignateThing(Thing t)
 		{
 			Thing innerIfMinified = t.GetInnerIfMinified();
@@ -99,7 +93,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C29 RID: 11305 RVA: 0x001759A0 File Offset: 0x00173DA0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t.GetInnerIfMinified() as Building;
@@ -131,10 +124,15 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C2A RID: 11306 RVA: 0x00175A61 File Offset: 0x00173E61
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
+		}
+
+		[CompilerGenerated]
+		private static AltitudeLayer <TopDeconstructibleInCell>m__0(Thing t)
+		{
+			return t.def.altitudeLayer;
 		}
 	}
 }

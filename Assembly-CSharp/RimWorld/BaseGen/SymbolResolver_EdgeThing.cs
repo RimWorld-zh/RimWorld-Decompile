@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003AD RID: 941
 	public class SymbolResolver_EdgeThing : SymbolResolver
 	{
-		// Token: 0x04000A1A RID: 2586
 		private List<int> randomRotations = new List<int>
 		{
 			0,
@@ -18,10 +17,12 @@ namespace RimWorld.BaseGen
 			3
 		};
 
-		// Token: 0x04000A1B RID: 2587
 		private int MaxTriesToAvoidOtherEdgeThings = 4;
 
-		// Token: 0x0600104E RID: 4174 RVA: 0x000895CC File Offset: 0x000879CC
+		public SymbolResolver_EdgeThing()
+		{
+		}
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -74,7 +75,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600104F RID: 4175 RVA: 0x00089704 File Offset: 0x00087B04
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.singleThingDef ?? (from x in DefDatabase<ThingDef>.AllDefsListForReading
@@ -125,7 +125,6 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("thing", rp2);
 		}
 
-		// Token: 0x06001050 RID: 4176 RVA: 0x000898E0 File Offset: 0x00087CE0
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
 		{
 			bool result;
@@ -159,7 +158,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001051 RID: 4177 RVA: 0x0008998C File Offset: 0x00087D8C
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, out IntVec3 spawnCell)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -212,7 +210,6 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001052 RID: 4178 RVA: 0x00089AE8 File Offset: 0x00087EE8
 		private int GetDistanceSquaredToExistingEdgeThing(IntVec3 cell, CellRect rect, ThingDef thingDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -235,6 +232,69 @@ namespace RimWorld.BaseGen
 				}
 			}
 			return num;
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey0
+		{
+			internal ResolveParams rp;
+
+			public <Resolve>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return (x.IsWeapon || x.IsMedicine || x.IsDrug) && x.graphicData != null && !x.destroyOnDrop && x.size.x <= this.rp.rect.Width && x.size.z <= this.rp.rect.Width && x.size.x <= this.rp.rect.Height && x.size.z <= this.rp.rect.Height;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindSpawnCell>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal ThingDef thingDef;
+
+			internal Predicate<CellRect> basePredicate;
+
+			private static Predicate<Thing> <>f__am$cache0;
+
+			public <TryFindSpawnCell>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(CellRect x)
+			{
+				if (x.Cells.All((IntVec3 y) => y.Standable(this.map)))
+				{
+					if (!GenSpawn.WouldWipeAnythingWith(x, this.thingDef, this.map, (Thing z) => z.def.category == ThingCategory.Building))
+					{
+						return this.thingDef.category != ThingCategory.Item || x.CenterCell.GetFirstItem(this.map) == null;
+					}
+				}
+				return false;
+			}
+
+			internal bool <>m__1(CellRect x)
+			{
+				return this.basePredicate(x) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(x, this.map) && GenConstruct.TerrainCanSupport(x, this.map, this.thingDef);
+			}
+
+			internal bool <>m__2(CellRect x)
+			{
+				return this.basePredicate(x) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(x, this.map);
+			}
+
+			internal bool <>m__3(IntVec3 y)
+			{
+				return y.Standable(this.map);
+			}
+
+			private static bool <>m__4(Thing z)
+			{
+				return z.def.category == ThingCategory.Building;
+			}
 		}
 	}
 }

@@ -1,26 +1,24 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020001A1 RID: 417
 	public class LordToil_MarriageCeremony : LordToil
 	{
-		// Token: 0x040003A4 RID: 932
 		private Pawn firstPawn;
 
-		// Token: 0x040003A5 RID: 933
 		private Pawn secondPawn;
 
-		// Token: 0x040003A6 RID: 934
 		private IntVec3 spot;
 
-		// Token: 0x040003A7 RID: 935
 		public static readonly IntVec3 OtherFianceNoMarriageSpotCellOffset = new IntVec3(-1, 0, 0);
 
-		// Token: 0x0600089F RID: 2207 RVA: 0x00051A9E File Offset: 0x0004FE9E
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
 		public LordToil_MarriageCeremony(Pawn firstPawn, Pawn secondPawn, IntVec3 spot)
 		{
 			this.firstPawn = firstPawn;
@@ -29,8 +27,6 @@ namespace RimWorld
 			this.data = new LordToilData_MarriageCeremony();
 		}
 
-		// Token: 0x1700016A RID: 362
-		// (get) Token: 0x060008A0 RID: 2208 RVA: 0x00051AC8 File Offset: 0x0004FEC8
 		public LordToilData_MarriageCeremony Data
 		{
 			get
@@ -39,7 +35,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008A1 RID: 2209 RVA: 0x00051AE8 File Offset: 0x0004FEE8
 		public override void Init()
 		{
 			base.Init();
@@ -56,7 +51,6 @@ namespace RimWorld
 			this.Data.spectateRectAllowedSides = SpectatorCellFinder.FindSingleBestSide(this.Data.spectateRect, base.Map, allowedSides, 1);
 		}
 
-		// Token: 0x060008A2 RID: 2210 RVA: 0x00051B88 File Offset: 0x0004FF88
 		public override ThinkTreeDutyHook VoluntaryJoinDutyHookFor(Pawn p)
 		{
 			ThinkTreeDutyHook hook;
@@ -71,7 +65,6 @@ namespace RimWorld
 			return hook;
 		}
 
-		// Token: 0x060008A3 RID: 2211 RVA: 0x00051BC4 File Offset: 0x0004FFC4
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
@@ -91,13 +84,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008A4 RID: 2212 RVA: 0x00051C7C File Offset: 0x0005007C
 		private bool IsFiance(Pawn p)
 		{
 			return p == this.firstPawn || p == this.secondPawn;
 		}
 
-		// Token: 0x060008A5 RID: 2213 RVA: 0x00051CAC File Offset: 0x000500AC
 		public IntVec3 FianceStandingSpotFor(Pawn pawn)
 		{
 			Pawn pawn2;
@@ -130,13 +121,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060008A6 RID: 2214 RVA: 0x00051D5C File Offset: 0x0005015C
 		private Thing GetMarriageSpotAt(IntVec3 cell)
 		{
 			return cell.GetThingList(base.Map).Find((Thing x) => x.def == ThingDefOf.MarriageSpot);
 		}
 
-		// Token: 0x060008A7 RID: 2215 RVA: 0x00051DA0 File Offset: 0x000501A0
 		private IntVec3 FindCellForOtherPawnAtMarriageSpot(IntVec3 cell)
 		{
 			Thing marriageSpotAt = this.GetMarriageSpotAt(cell);
@@ -155,12 +144,22 @@ namespace RimWorld
 			return IntVec3.Invalid;
 		}
 
-		// Token: 0x060008A8 RID: 2216 RVA: 0x00051E40 File Offset: 0x00050240
 		private CellRect CalculateSpectateRect()
 		{
 			IntVec3 first = this.FianceStandingSpotFor(this.firstPawn);
 			IntVec3 second = this.FianceStandingSpotFor(this.secondPawn);
 			return CellRect.FromLimits(first, second);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static LordToil_MarriageCeremony()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <GetMarriageSpotAt>m__0(Thing x)
+		{
+			return x.def == ThingDefOf.MarriageSpot;
 		}
 	}
 }

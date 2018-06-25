@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DF RID: 2015
 	public static class TameUtility
 	{
-		// Token: 0x06002CAF RID: 11439 RVA: 0x00178908 File Offset: 0x00176D08
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, int> <>f__am$cache1;
+
 		public static void ShowDesignationWarnings(Pawn pawn)
 		{
 			float manhunterOnTameFailChance = PawnUtility.GetManhunterOnTameFailChance(pawn);
@@ -46,6 +51,18 @@ namespace RimWorld
 					Messages.Message(text2, pawn, MessageTypeDefOf.CautionInput, false);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static bool <ShowDesignationWarnings>m__0(Pawn c)
+		{
+			return c.workSettings.WorkIsActive(WorkTypeDefOf.Handling);
+		}
+
+		[CompilerGenerated]
+		private static int <ShowDesignationWarnings>m__1(Pawn c)
+		{
+			return c.skills.GetSkill(SkillDefOf.Animals).Level;
 		}
 	}
 }

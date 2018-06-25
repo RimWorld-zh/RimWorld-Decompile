@@ -5,46 +5,32 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000C1A RID: 3098
 	public sealed class GlowGrid
 	{
-		// Token: 0x04002E46 RID: 11846
 		private Map map;
 
-		// Token: 0x04002E47 RID: 11847
 		public Color32[] glowGrid;
 
-		// Token: 0x04002E48 RID: 11848
 		public Color32[] glowGridNoCavePlants;
 
-		// Token: 0x04002E49 RID: 11849
 		private bool glowGridDirty = false;
 
-		// Token: 0x04002E4A RID: 11850
 		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
 
-		// Token: 0x04002E4B RID: 11851
 		private List<IntVec3> initialGlowerLocs = new List<IntVec3>();
 
-		// Token: 0x04002E4C RID: 11852
 		public const int AlphaOfNotOverlit = 0;
 
-		// Token: 0x04002E4D RID: 11853
 		public const int AlphaOfOverlit = 1;
 
-		// Token: 0x04002E4E RID: 11854
 		private const float GameGlowLitThreshold = 0.3f;
 
-		// Token: 0x04002E4F RID: 11855
 		private const float GameGlowOverlitThreshold = 0.9f;
 
-		// Token: 0x04002E50 RID: 11856
 		private const float GroundGameGlowFactor = 3.6f;
 
-		// Token: 0x04002E51 RID: 11857
 		private const float MaxGameGlowFromNonOverlitGroundLights = 0.5f;
 
-		// Token: 0x060043A8 RID: 17320 RVA: 0x0023C588 File Offset: 0x0023A988
 		public GlowGrid(Map map)
 		{
 			this.map = map;
@@ -52,13 +38,11 @@ namespace Verse
 			this.glowGridNoCavePlants = new Color32[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x060043A9 RID: 17321 RVA: 0x0023C5EC File Offset: 0x0023A9EC
 		public Color32 VisualGlowAt(IntVec3 c)
 		{
 			return this.glowGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x060043AA RID: 17322 RVA: 0x0023C624 File Offset: 0x0023AA24
 		public float GameGlowAt(IntVec3 c, bool ignoreCavePlants = false)
 		{
 			float num = 0f;
@@ -86,14 +70,12 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060043AB RID: 17323 RVA: 0x0023C70C File Offset: 0x0023AB0C
 		public PsychGlow PsychGlowAt(IntVec3 c)
 		{
 			float glow = this.GameGlowAt(c, false);
 			return GlowGrid.PsychGlowAtGlow(glow);
 		}
 
-		// Token: 0x060043AC RID: 17324 RVA: 0x0023C730 File Offset: 0x0023AB30
 		public static PsychGlow PsychGlowAtGlow(float glow)
 		{
 			PsychGlow result;
@@ -112,7 +94,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060043AD RID: 17325 RVA: 0x0023C76C File Offset: 0x0023AB6C
 		public void RegisterGlower(CompGlower newGlow)
 		{
 			this.litGlowers.Add(newGlow);
@@ -123,21 +104,18 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043AE RID: 17326 RVA: 0x0023C7B9 File Offset: 0x0023ABB9
 		public void DeRegisterGlower(CompGlower oldGlow)
 		{
 			this.litGlowers.Remove(oldGlow);
 			this.MarkGlowGridDirty(oldGlow.parent.Position);
 		}
 
-		// Token: 0x060043AF RID: 17327 RVA: 0x0023C7DA File Offset: 0x0023ABDA
 		public void MarkGlowGridDirty(IntVec3 loc)
 		{
 			this.glowGridDirty = true;
 			this.map.mapDrawer.MapMeshDirty(loc, MapMeshFlag.GroundGlow);
 		}
 
-		// Token: 0x060043B0 RID: 17328 RVA: 0x0023C7F6 File Offset: 0x0023ABF6
 		public void GlowGridUpdate_First()
 		{
 			if (this.glowGridDirty)
@@ -147,7 +125,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043B1 RID: 17329 RVA: 0x0023C814 File Offset: 0x0023AC14
 		private void RecalculateAllGlow()
 		{
 			if (Current.ProgramState == ProgramState.Playing)

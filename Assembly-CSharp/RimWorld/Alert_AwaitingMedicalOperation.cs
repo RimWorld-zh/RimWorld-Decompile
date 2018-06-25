@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A5 RID: 1957
 	public class Alert_AwaitingMedicalOperation : Alert
 	{
-		// Token: 0x170006B9 RID: 1721
-		// (get) Token: 0x06002B4C RID: 11084 RVA: 0x0016E2C8 File Offset: 0x0016C6C8
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		public Alert_AwaitingMedicalOperation()
+		{
+		}
+
 		private IEnumerable<Pawn> AwaitingMedicalOperation
 		{
 			get
@@ -21,13 +26,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B4D RID: 11085 RVA: 0x0016E314 File Offset: 0x0016C714
 		public override string GetLabel()
 		{
 			return string.Format("PatientsAwaitingMedicalOperation".Translate(), this.AwaitingMedicalOperation.Count<Pawn>().ToStringCached());
 		}
 
-		// Token: 0x06002B4E RID: 11086 RVA: 0x0016E348 File Offset: 0x0016C748
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -38,10 +41,15 @@ namespace RimWorld
 			return string.Format("PatientsAwaitingMedicalOperationDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B4F RID: 11087 RVA: 0x0016E3DC File Offset: 0x0016C7DC
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.AwaitingMedicalOperation);
+		}
+
+		[CompilerGenerated]
+		private static bool <get_AwaitingMedicalOperation>m__0(Pawn p)
+		{
+			return HealthAIUtility.ShouldHaveSurgeryDoneNow(p) && p.InBed();
 		}
 	}
 }

@@ -1,23 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F7 RID: 1783
 	public class ThingSetMaker_Meteorite : ThingSetMaker
 	{
-		// Token: 0x04001597 RID: 5527
 		public static List<ThingDef> nonSmoothedMineables = new List<ThingDef>();
 
-		// Token: 0x04001598 RID: 5528
 		public static readonly IntRange MineablesCountRange = new IntRange(8, 20);
 
-		// Token: 0x04001599 RID: 5529
 		private const float PreciousMineableMarketValue = 5f;
 
-		// Token: 0x060026D2 RID: 9938 RVA: 0x0014D751 File Offset: 0x0014BB51
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache3;
+
+		public ThingSetMaker_Meteorite()
+		{
+		}
+
 		public static void Reset()
 		{
 			ThingSetMaker_Meteorite.nonSmoothedMineables.Clear();
@@ -26,7 +38,6 @@ namespace RimWorld
 			select x);
 		}
 
-		// Token: 0x060026D3 RID: 9939 RVA: 0x0014D790 File Offset: 0x0014BB90
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IntRange? countRange = parms.countRange;
@@ -40,7 +51,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026D4 RID: 9940 RVA: 0x0014D80C File Offset: 0x0014BC0C
 		private ThingDef FindRandomMineableDef()
 		{
 			float value = Rand.Value;
@@ -66,10 +76,38 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026D5 RID: 9941 RVA: 0x0014D8D0 File Offset: 0x0014BCD0
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			return ThingSetMaker_Meteorite.nonSmoothedMineables;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingSetMaker_Meteorite()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <Reset>m__0(ThingDef x)
+		{
+			return x.mineable && x != ThingDefOf.CollapsedRocks && !x.IsSmoothed;
+		}
+
+		[CompilerGenerated]
+		private static bool <FindRandomMineableDef>m__1(ThingDef x)
+		{
+			return !x.building.isResourceRock;
+		}
+
+		[CompilerGenerated]
+		private static bool <FindRandomMineableDef>m__2(ThingDef x)
+		{
+			return x.building.isResourceRock && x.building.mineableThing.BaseMarketValue < 5f;
+		}
+
+		[CompilerGenerated]
+		private static bool <FindRandomMineableDef>m__3(ThingDef x)
+		{
+			return x.building.isResourceRock && x.building.mineableThing.BaseMarketValue >= 5f;
 		}
 	}
 }

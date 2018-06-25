@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A6 RID: 1958
 	public class Alert_BrawlerHasRangedWeapon : Alert
 	{
-		// Token: 0x06002B51 RID: 11089 RVA: 0x0016E424 File Offset: 0x0016C824
 		public Alert_BrawlerHasRangedWeapon()
 		{
 			this.defaultLabel = "BrawlerHasRangedWeapon".Translate();
 			this.defaultExplanation = "BrawlerHasRangedWeaponDesc".Translate();
 		}
 
-		// Token: 0x170006BA RID: 1722
-		// (get) Token: 0x06002B52 RID: 11090 RVA: 0x0016E450 File Offset: 0x0016C850
 		private IEnumerable<Pawn> BrawlersWithRangedWeapon
 		{
 			get
@@ -31,10 +31,143 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B53 RID: 11091 RVA: 0x0016E474 File Offset: 0x0016C874
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BrawlersWithRangedWeapon);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal IEnumerator<Pawn> $locvar0;
+
+			internal Pawn <p>__1;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					IL_D2:
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						if (p.story.traits.HasTrait(TraitDefOf.Brawler) && p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon)
+						{
+							this.$current = p;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_D2;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Alert_BrawlerHasRangedWeapon.<>c__Iterator0();
+			}
 		}
 	}
 }

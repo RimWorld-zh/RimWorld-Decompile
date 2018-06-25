@@ -5,13 +5,14 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020001B6 RID: 438
 	public class ThinkNode_DutyConstant : ThinkNode
 	{
-		// Token: 0x040003D9 RID: 985
 		private DefMap<DutyDef, int> dutyDefToSubNode;
 
-		// Token: 0x0600091B RID: 2331 RVA: 0x00055714 File Offset: 0x00053B14
+		public ThinkNode_DutyConstant()
+		{
+		}
+
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;
@@ -45,7 +46,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600091C RID: 2332 RVA: 0x000557E4 File Offset: 0x00053BE4
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_DutyConstant thinkNode_DutyConstant = (ThinkNode_DutyConstant)base.DeepCopy(resolve);
@@ -61,7 +61,6 @@ namespace RimWorld
 			return thinkNode_DutyConstant;
 		}
 
-		// Token: 0x0600091D RID: 2333 RVA: 0x0005588C File Offset: 0x00053C8C
 		protected override void ResolveSubnodes()
 		{
 			this.dutyDefToSubNode = new DefMap<DutyDef, int>();

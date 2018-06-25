@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000559 RID: 1369
 	public static class FactionGenerator
 	{
-		// Token: 0x04000F23 RID: 3875
 		private const int MinStartVisibleFactions = 5;
 
-		// Token: 0x04000F24 RID: 3876
 		private static readonly FloatRange FactionBasesPer100kTiles = new FloatRange(75f, 85f);
 
-		// Token: 0x060019BB RID: 6587 RVA: 0x000E01C8 File Offset: 0x000DE5C8
+		[CompilerGenerated]
+		private static Func<FactionDef, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Faction, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<Faction, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<Faction, string> <>f__am$cache3;
+
 		public static void GenerateFactionsIntoWorld()
 		{
 			int i = 0;
@@ -56,7 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019BC RID: 6588 RVA: 0x000E03A4 File Offset: 0x000DE7A4
 		public static void EnsureRequiredEnemies(Faction player)
 		{
 			using (IEnumerator<FactionDef> enumerator = DefDatabase<FactionDef>.AllDefs.GetEnumerator())
@@ -79,13 +87,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019BD RID: 6589 RVA: 0x000E0504 File Offset: 0x000DE904
 		public static Faction NewGeneratedFaction()
 		{
 			return FactionGenerator.NewGeneratedFaction(DefDatabase<FactionDef>.GetRandom());
 		}
 
-		// Token: 0x060019BE RID: 6590 RVA: 0x000E0524 File Offset: 0x000DE924
 		public static Faction NewGeneratedFaction(FactionDef facDef)
 		{
 			Faction faction = new Faction();
@@ -121,7 +127,6 @@ namespace RimWorld
 			return faction;
 		}
 
-		// Token: 0x060019BF RID: 6591 RVA: 0x000E068C File Offset: 0x000DEA8C
 		public static float NewRandomColorFromSpectrum(Faction faction)
 		{
 			float num = -1f;
@@ -150,6 +155,87 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FactionGenerator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateFactionsIntoWorld>m__0(FactionDef fa)
+		{
+			return fa.canMakeRandomly && Find.FactionManager.AllFactions.Count((Faction f) => f.def == fa) < fa.maxCountAtGameStart;
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateFactionsIntoWorld>m__1(Faction x)
+		{
+			return !x.def.isPlayer && !x.def.hidden;
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateFactionsIntoWorld>m__2(Faction x)
+		{
+			return x.def.settlementGenerationWeight;
+		}
+
+		[CompilerGenerated]
+		private static string <NewGeneratedFaction>m__3(Faction fac)
+		{
+			return fac.Name;
+		}
+
+		[CompilerGenerated]
+		private sealed class <EnsureRequiredEnemies>c__AnonStorey2
+		{
+			internal Faction player;
+
+			public <EnsureRequiredEnemies>c__AnonStorey2()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <EnsureRequiredEnemies>c__AnonStorey1
+		{
+			internal FactionDef facDef;
+
+			internal FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey2 <>f__ref$2;
+
+			public <EnsureRequiredEnemies>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Faction f)
+			{
+				return f.def == this.facDef;
+			}
+
+			internal bool <>m__1(Faction f)
+			{
+				return f.def == this.facDef && f.HostileTo(this.<>f__ref$2.player);
+			}
+
+			internal bool <>m__2(Faction f)
+			{
+				return f.def == this.facDef;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateFactionsIntoWorld>c__AnonStorey0
+		{
+			internal FactionDef fa;
+
+			public <GenerateFactionsIntoWorld>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Faction f)
+			{
+				return f.def == this.fa;
+			}
 		}
 	}
 }

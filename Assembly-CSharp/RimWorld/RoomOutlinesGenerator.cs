@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E8 RID: 1000
 	public static class RoomOutlinesGenerator
 	{
-		// Token: 0x04000A5D RID: 2653
 		private const int MinFreeRoomCellsToDivide = 32;
 
-		// Token: 0x04000A5E RID: 2654
 		private const int MinAllowedRoomWidthAndHeight = 2;
 
-		// Token: 0x06001119 RID: 4377 RVA: 0x000926C0 File Offset: 0x00090AC0
+		[CompilerGenerated]
+		private static Func<RoomOutline, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<RoomOutline, float> <>f__am$cache1;
+
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
 			int num = 0;
@@ -43,7 +46,6 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x0600111A RID: 4378 RVA: 0x00092734 File Offset: 0x00090B34
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells)
 		{
 			List<RoomOutline> list = new List<RoomOutline>();
@@ -81,7 +83,6 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x0600111B RID: 4379 RVA: 0x000928AC File Offset: 0x00090CAC
 		private static void Split(RoomOutline room, List<RoomOutline> allRooms, bool horizontalWall)
 		{
 			allRooms.Remove(room);
@@ -96,6 +97,38 @@ namespace RimWorld
 				int x = room.rect.CenterCell.x;
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, room.rect.minZ, x - room.rect.minX + 1, room.rect.Height)));
 				allRooms.Add(new RoomOutline(new CellRect(x, room.rect.minZ, room.rect.maxX - x + 1, room.rect.Height)));
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateRoomOutlines>m__0(RoomOutline x)
+		{
+			return x.CellsCountIgnoringWalls >= 32;
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateRoomOutlines>m__1(RoomOutline x)
+		{
+			return (float)Mathf.Max(x.rect.Width, x.rect.Height);
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateRoomOutlines>c__AnonStorey0
+		{
+			internal int maxRoomCells;
+
+			public <GenerateRoomOutlines>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(RoomOutline x)
+			{
+				return x.CellsCountIgnoringWalls > this.maxRoomCells;
+			}
+
+			internal bool <>m__1(RoomOutline x)
+			{
+				return x.CellsCountIgnoringWalls > this.maxRoomCells;
 			}
 		}
 	}

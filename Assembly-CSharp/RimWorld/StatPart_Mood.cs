@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B0 RID: 2480
 	public class StatPart_Mood : StatPart
 	{
-		// Token: 0x040023AF RID: 9135
 		private SimpleCurve factorFromMoodCurve = null;
 
-		// Token: 0x06003792 RID: 14226 RVA: 0x001DA284 File Offset: 0x001D8684
+		public StatPart_Mood()
+		{
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.factorFromMoodCurve == null)
@@ -20,7 +25,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003793 RID: 14227 RVA: 0x001DA2B0 File Offset: 0x001D86B0
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -33,7 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003794 RID: 14228 RVA: 0x001DA2FC File Offset: 0x001D86FC
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -50,16 +53,106 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003795 RID: 14229 RVA: 0x001DA384 File Offset: 0x001D8784
 		private bool ActiveFor(Pawn pawn)
 		{
 			return pawn.needs.mood != null;
 		}
 
-		// Token: 0x06003796 RID: 14230 RVA: 0x001DA3AC File Offset: 0x001D87AC
 		private float FactorFromMood(Pawn pawn)
 		{
 			return this.factorFromMoodCurve.Evaluate(pawn.needs.mood.CurLevel);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal StatPart_Mood $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.factorFromMoodCurve == null)
+					{
+						this.$current = "curve is null.";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StatPart_Mood.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new StatPart_Mood.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

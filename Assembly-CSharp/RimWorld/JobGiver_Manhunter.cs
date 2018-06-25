@@ -1,28 +1,32 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000110 RID: 272
 	public class JobGiver_Manhunter : ThinkNode_JobGiver
 	{
-		// Token: 0x040002F3 RID: 755
 		private const float WaitChance = 0.75f;
 
-		// Token: 0x040002F4 RID: 756
 		private const int WaitTicks = 90;
 
-		// Token: 0x040002F5 RID: 757
 		private const int MinMeleeChaseTicks = 420;
 
-		// Token: 0x040002F6 RID: 758
 		private const int MaxMeleeChaseTicks = 900;
 
-		// Token: 0x040002F7 RID: 759
 		private const int WanderOutsideDoorRegions = 9;
 
-		// Token: 0x06000598 RID: 1432 RVA: 0x0003C62C File Offset: 0x0003AA2C
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<Thing> <>f__am$cache1;
+
+		public JobGiver_Manhunter()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -75,7 +79,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000599 RID: 1433 RVA: 0x0003C798 File Offset: 0x0003AB98
 		private Job MeleeAttackJob(Pawn pawn, Thing target)
 		{
 			return new Job(JobDefOf.AttackMelee, target)
@@ -86,16 +89,26 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600059A RID: 1434 RVA: 0x0003C7E4 File Offset: 0x0003ABE4
 		private Pawn FindPawnTarget(Pawn pawn)
 		{
 			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedThreat, (Thing x) => x is Pawn && x.def.race.intelligence >= Intelligence.ToolUser, 0f, 9999f, default(IntVec3), float.MaxValue, true);
 		}
 
-		// Token: 0x0600059B RID: 1435 RVA: 0x0003C83C File Offset: 0x0003AC3C
 		private Building FindTurretTarget(Pawn pawn)
 		{
 			return (Building)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing t) => t is Building, 0f, 70f, default(IntVec3), float.MaxValue, false);
+		}
+
+		[CompilerGenerated]
+		private static bool <FindPawnTarget>m__0(Thing x)
+		{
+			return x is Pawn && x.def.race.intelligence >= Intelligence.ToolUser;
+		}
+
+		[CompilerGenerated]
+		private static bool <FindTurretTarget>m__1(Thing t)
+		{
+			return t is Building;
 		}
 	}
 }

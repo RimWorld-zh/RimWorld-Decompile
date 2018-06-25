@@ -5,13 +5,14 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200086A RID: 2154
 	public class MainButtonWorker_ToggleWorld : MainButtonWorker
 	{
-		// Token: 0x04001A7C RID: 6780
 		public bool resetViewNextTime = true;
 
-		// Token: 0x060030FA RID: 12538 RVA: 0x001AA014 File Offset: 0x001A8414
+		public MainButtonWorker_ToggleWorld()
+		{
+		}
+
 		public override void Activate()
 		{
 			if (Find.World.renderer.wantedMode == WorldRenderMode.None)

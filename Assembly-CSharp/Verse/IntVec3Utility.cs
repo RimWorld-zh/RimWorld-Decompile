@@ -3,28 +3,23 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EF0 RID: 3824
 	public static class IntVec3Utility
 	{
-		// Token: 0x06005B22 RID: 23330 RVA: 0x002E94FC File Offset: 0x002E78FC
 		public static IntVec3 ToIntVec3(this Vector3 vect)
 		{
 			return new IntVec3(vect);
 		}
 
-		// Token: 0x06005B23 RID: 23331 RVA: 0x002E9518 File Offset: 0x002E7918
 		public static float DistanceTo(this IntVec3 a, IntVec3 b)
 		{
 			return (a - b).LengthHorizontal;
 		}
 
-		// Token: 0x06005B24 RID: 23332 RVA: 0x002E953C File Offset: 0x002E793C
 		public static int DistanceToSquared(this IntVec3 a, IntVec3 b)
 		{
 			return (a - b).LengthHorizontalSquared;
 		}
 
-		// Token: 0x06005B25 RID: 23333 RVA: 0x002E9560 File Offset: 0x002E7960
 		public static IntVec3 RotatedBy(this IntVec3 orig, Rot4 rot)
 		{
 			IntVec3 result;
@@ -49,19 +44,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B26 RID: 23334 RVA: 0x002E9604 File Offset: 0x002E7A04
 		public static int ManhattanDistanceFlat(IntVec3 a, IntVec3 b)
 		{
 			return Math.Abs(a.x - b.x) + Math.Abs(a.z - b.z);
 		}
 
-		// Token: 0x06005B27 RID: 23335 RVA: 0x002E9644 File Offset: 0x002E7A44
 		public static IntVec3 RandomHorizontalOffset(float maxDist)
 		{
 			return Vector3Utility.RandomHorizontalOffset(maxDist).ToIntVec3();
 		}
 
-		// Token: 0x06005B28 RID: 23336 RVA: 0x002E9664 File Offset: 0x002E7A64
 		public static int DistanceToEdge(this IntVec3 v, Map map)
 		{
 			int a = Mathf.Min(v.x, v.z);

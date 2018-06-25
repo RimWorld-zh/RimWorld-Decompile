@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AD5 RID: 2773
 	public class JobGiver_WanderHerd : JobGiver_Wander
 	{
-		// Token: 0x040026C8 RID: 9928
 		private const int MinDistToHumanlike = 15;
 
-		// Token: 0x06003D88 RID: 15752 RVA: 0x002064DD File Offset: 0x002048DD
 		public JobGiver_WanderHerd()
 		{
 			this.wanderRadius = 5f;
 			this.ticksBetweenWandersRange = new IntRange(125, 200);
 		}
 
-		// Token: 0x06003D89 RID: 15753 RVA: 0x00206504 File Offset: 0x00204904
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)
@@ -69,6 +66,55 @@ namespace Verse.AI
 				position = pawn.Position;
 			}
 			return position;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetWanderRoot>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <GetWanderRoot>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				bool result;
+				if (((Pawn)t).RaceProps != this.pawn.RaceProps || t == this.pawn)
+				{
+					result = false;
+				}
+				else if (t.Faction != this.pawn.Faction)
+				{
+					result = false;
+				}
+				else if (t.Position.IsForbidden(this.pawn))
+				{
+					result = false;
+				}
+				else if (!this.pawn.CanReach(t, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+				{
+					result = false;
+				}
+				else if (Rand.Value < 0.5f)
+				{
+					result = false;
+				}
+				else
+				{
+					List<Pawn> allPawnsSpawned = this.pawn.Map.mapPawns.AllPawnsSpawned;
+					for (int i = 0; i < allPawnsSpawned.Count; i++)
+					{
+						Pawn pawn = allPawnsSpawned[i];
+						if (pawn.RaceProps.Humanlike && (pawn.Position - t.Position).LengthHorizontalSquared < 225)
+						{
+							return false;
+						}
+					}
+					result = true;
+				}
+				return result;
+			}
 		}
 	}
 }

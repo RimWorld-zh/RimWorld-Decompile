@@ -1,23 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F61 RID: 3937
 	public class KeyPrefsData
 	{
-		// Token: 0x04003E78 RID: 15992
 		public Dictionary<KeyBindingDef, KeyBindingData> keyPrefs = new Dictionary<KeyBindingDef, KeyBindingData>();
 
-		// Token: 0x06005F44 RID: 24388 RVA: 0x003095BF File Offset: 0x003079BF
+		public KeyPrefsData()
+		{
+		}
+
 		public void ResetToDefaults()
 		{
 			this.keyPrefs.Clear();
 			this.AddMissingDefaultBindings();
 		}
 
-		// Token: 0x06005F45 RID: 24389 RVA: 0x003095D4 File Offset: 0x003079D4
 		public void AddMissingDefaultBindings()
 		{
 			foreach (KeyBindingDef keyBindingDef in DefDatabase<KeyBindingDef>.AllDefs)
@@ -29,7 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F46 RID: 24390 RVA: 0x00309658 File Offset: 0x00307A58
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
 			KeyBindingData keyBindingData;
@@ -59,7 +62,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F47 RID: 24391 RVA: 0x00309700 File Offset: 0x00307B00
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyBindingData keyBindingData;
@@ -84,7 +86,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F48 RID: 24392 RVA: 0x00309778 File Offset: 0x00307B78
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
 			using (IEnumerator<KeyBindingDef> enumerator = DefDatabase<KeyBindingDef>.AllDefs.GetEnumerator())
@@ -105,7 +106,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005F49 RID: 24393 RVA: 0x003097B0 File Offset: 0x00307BB0
 		public void EraseConflictingBindingsForKeyCode(KeyBindingDef keyDef, KeyCode keyCode, Action<KeyBindingDef> callBackOnErase = null)
 		{
 			foreach (KeyBindingDef keyBindingDef in this.ConflictingBindings(keyDef, keyCode))
@@ -126,7 +126,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F4A RID: 24394 RVA: 0x00309848 File Offset: 0x00307C48
 		public void CheckConflictsFor(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
@@ -137,7 +136,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F4B RID: 24395 RVA: 0x0030987C File Offset: 0x00307C7C
 		public KeyPrefsData Clone()
 		{
 			KeyPrefsData keyPrefsData = new KeyPrefsData();
@@ -148,7 +146,6 @@ namespace Verse
 			return keyPrefsData;
 		}
 
-		// Token: 0x06005F4C RID: 24396 RVA: 0x00309914 File Offset: 0x00307D14
 		public void ErrorCheck()
 		{
 			foreach (KeyBindingDef keyDef in DefDatabase<KeyBindingDef>.AllDefs)
@@ -158,7 +155,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F4D RID: 24397 RVA: 0x0030997C File Offset: 0x00307D7C
 		private void ErrorCheckOn(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
@@ -190,6 +186,175 @@ namespace Verse
 						}
 						KeyPrefs.Save();
 					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConflictingBindings>c__Iterator0 : IEnumerable, IEnumerable<KeyBindingDef>, IEnumerator, IDisposable, IEnumerator<KeyBindingDef>
+		{
+			internal IEnumerator<KeyBindingDef> $locvar0;
+
+			internal KeyBindingDef keyDef;
+
+			internal KeyBindingData <prefData>__2;
+
+			internal KeyCode code;
+
+			internal KeyPrefsData $this;
+
+			internal KeyBindingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private KeyPrefsData.<ConflictingBindings>c__Iterator0.<ConflictingBindings>c__AnonStorey1 $locvar1;
+
+			[DebuggerHidden]
+			public <ConflictingBindings>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = DefDatabase<KeyBindingDef>.AllDefs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						IL_1B6:
+						break;
+					}
+					IL_1B7:
+					if (enumerator.MoveNext())
+					{
+						KeyBindingDef def = enumerator.Current;
+						if (def == keyDef || ((def.category != keyDef.category || !def.category.selfConflicting) && !keyDef.category.checkForConflicts.Contains(def.category) && (keyDef.extraConflictTags == null || def.extraConflictTags == null || !keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) || !this.keyPrefs.TryGetValue(def, out prefData))
+						{
+							goto IL_1B7;
+						}
+						if (prefData.keyBindingA == code || prefData.keyBindingB == code)
+						{
+							this.$current = def;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_1B6;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			KeyBindingDef IEnumerator<KeyBindingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.KeyBindingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<KeyBindingDef> IEnumerable<KeyBindingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				KeyPrefsData.<ConflictingBindings>c__Iterator0 <ConflictingBindings>c__Iterator = new KeyPrefsData.<ConflictingBindings>c__Iterator0();
+				<ConflictingBindings>c__Iterator.$this = this;
+				<ConflictingBindings>c__Iterator.keyDef = keyDef;
+				<ConflictingBindings>c__Iterator.code = code;
+				return <ConflictingBindings>c__Iterator;
+			}
+
+			private sealed class <ConflictingBindings>c__AnonStorey1
+			{
+				internal KeyBindingDef def;
+
+				internal KeyPrefsData.<ConflictingBindings>c__Iterator0 <>f__ref$0;
+
+				public <ConflictingBindings>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(string tag)
+				{
+					return this.def.extraConflictTags.Contains(tag);
 				}
 			}
 		}

@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000304 RID: 772
 	public sealed class OutfitDatabase : IExposable
 	{
-		// Token: 0x04000856 RID: 2134
 		private List<Outfit> outfits = new List<Outfit>();
 
-		// Token: 0x06000CCD RID: 3277 RVA: 0x00070694 File Offset: 0x0006EA94
+		[CompilerGenerated]
+		private static Func<Outfit, int> <>f__am$cache0;
+
 		public OutfitDatabase()
 		{
 			this.GenerateStartingOutfits();
 		}
 
-		// Token: 0x170001EE RID: 494
-		// (get) Token: 0x06000CCE RID: 3278 RVA: 0x000706B0 File Offset: 0x0006EAB0
 		public List<Outfit> AllOutfits
 		{
 			get
@@ -27,13 +26,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CCF RID: 3279 RVA: 0x000706CB File Offset: 0x0006EACB
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Outfit>(ref this.outfits, "outfits", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06000CD0 RID: 3280 RVA: 0x000706E8 File Offset: 0x0006EAE8
 		public Outfit DefaultOutfit()
 		{
 			if (this.outfits.Count == 0)
@@ -43,7 +40,6 @@ namespace RimWorld
 			return this.outfits[0];
 		}
 
-		// Token: 0x06000CD1 RID: 3281 RVA: 0x00070720 File Offset: 0x0006EB20
 		public AcceptanceReport TryDelete(Outfit outfit)
 		{
 			foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
@@ -67,7 +63,6 @@ namespace RimWorld
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x06000CD2 RID: 3282 RVA: 0x0007083C File Offset: 0x0006EC3C
 		public Outfit MakeNewOutfit()
 		{
 			int num;
@@ -86,7 +81,6 @@ namespace RimWorld
 			return outfit;
 		}
 
-		// Token: 0x06000CD3 RID: 3283 RVA: 0x000708DC File Offset: 0x0006ECDC
 		private void GenerateStartingOutfits()
 		{
 			Outfit outfit = this.MakeNewOutfit();
@@ -124,6 +118,12 @@ namespace RimWorld
 					outfit4.filter.SetAllow(thingDef3, true);
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static int <MakeNewOutfit>m__0(Outfit o)
+		{
+			return o.uniqueId;
 		}
 	}
 }

@@ -7,13 +7,10 @@ using Verse.AI.Group;
 
 namespace Verse.AI
 {
-	// Token: 0x020009E2 RID: 2530
 	public static class AvoidGridMaker
 	{
-		// Token: 0x04002443 RID: 9283
 		private static readonly int TrapRadialCells = GenRadial.NumCellsInRadius(2.9f);
 
-		// Token: 0x060038BF RID: 14527 RVA: 0x001E4BD4 File Offset: 0x001E2FD4
 		public static void RegenerateAllAvoidGridsFor(Faction faction)
 		{
 			if (faction.def.canUseAvoidGrid)
@@ -28,7 +25,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C0 RID: 14528 RVA: 0x001E4C38 File Offset: 0x001E3038
 		public static void RegenerateAvoidGridsFor(Faction faction, Map map)
 		{
 			if (faction.def.canUseAvoidGrid)
@@ -60,7 +56,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C1 RID: 14529 RVA: 0x001E4CEC File Offset: 0x001E30EC
 		internal static void Notify_CombatDangerousBuildingDespawned(Building building, Map map)
 		{
 			foreach (Faction faction in Find.FactionManager.AllFactions)
@@ -72,7 +67,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C2 RID: 14530 RVA: 0x001E4D74 File Offset: 0x001E3174
 		private static void GenerateAvoidGridInternal(ByteGrid grid, Faction faction, Map map, AvoidGridMode mode)
 		{
 			List<TrapMemory> list = faction.TacticalMemory.TrapMemories();
@@ -101,7 +95,6 @@ namespace Verse.AI
 			AvoidGridMaker.ExpandAvoidGridIntoEdifices(grid, map);
 		}
 
-		// Token: 0x060038C3 RID: 14531 RVA: 0x001E4E3C File Offset: 0x001E323C
 		private static void PrintAvoidGridAroundTrapLoc(TrapMemory mem, ByteGrid avoidGrid)
 		{
 			Room room = mem.Cell.GetRoom(mem.map, RegionType.Set_Passable);
@@ -117,7 +110,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C4 RID: 14532 RVA: 0x001E4F04 File Offset: 0x001E3304
 		private static void PrintAvoidGridAroundTurret(Building_TurretGun tur, ByteGrid avoidGrid)
 		{
 			int num = GenRadial.NumCellsInRadius(tur.GunCompEq.PrimaryVerb.verbProps.range + 4f);
@@ -131,7 +123,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C5 RID: 14533 RVA: 0x001E4FAC File Offset: 0x001E33AC
 		private static void IncrementAvoidGrid(ByteGrid avoidGrid, IntVec3 c, int num)
 		{
 			byte b = avoidGrid[c];
@@ -139,7 +130,6 @@ namespace Verse.AI
 			avoidGrid[c] = b;
 		}
 
-		// Token: 0x060038C6 RID: 14534 RVA: 0x001E4FDC File Offset: 0x001E33DC
 		private static void ExpandAvoidGridIntoEdifices(ByteGrid avoidGrid, Map map)
 		{
 			int numGridCells = map.cellIndices.NumGridCells;
@@ -163,6 +153,11 @@ namespace Verse.AI
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static AvoidGridMaker()
+		{
 		}
 	}
 }

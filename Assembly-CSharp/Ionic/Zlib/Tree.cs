@@ -2,13 +2,10 @@
 
 namespace Ionic.Zlib
 {
-	// Token: 0x02000015 RID: 21
 	internal sealed class Tree
 	{
-		// Token: 0x04000117 RID: 279
 		private static readonly int HEAP_SIZE = 2 * InternalConstants.L_CODES + 1;
 
-		// Token: 0x04000118 RID: 280
 		internal static readonly int[] ExtraLengthBits = new int[]
 		{
 			0,
@@ -42,7 +39,6 @@ namespace Ionic.Zlib
 			0
 		};
 
-		// Token: 0x04000119 RID: 281
 		internal static readonly int[] ExtraDistanceBits = new int[]
 		{
 			0,
@@ -77,7 +73,6 @@ namespace Ionic.Zlib
 			13
 		};
 
-		// Token: 0x0400011A RID: 282
 		internal static readonly int[] extra_blbits = new int[]
 		{
 			0,
@@ -101,7 +96,6 @@ namespace Ionic.Zlib
 			7
 		};
 
-		// Token: 0x0400011B RID: 283
 		internal static readonly sbyte[] bl_order = new sbyte[]
 		{
 			16,
@@ -125,10 +119,8 @@ namespace Ionic.Zlib
 			15
 		};
 
-		// Token: 0x0400011C RID: 284
 		internal const int Buf_size = 16;
 
-		// Token: 0x0400011D RID: 285
 		private static readonly sbyte[] _dist_code = new sbyte[]
 		{
 			0,
@@ -645,7 +637,6 @@ namespace Ionic.Zlib
 			29
 		};
 
-		// Token: 0x0400011E RID: 286
 		internal static readonly sbyte[] LengthCode = new sbyte[]
 		{
 			0,
@@ -906,7 +897,6 @@ namespace Ionic.Zlib
 			28
 		};
 
-		// Token: 0x0400011F RID: 287
 		internal static readonly int[] LengthBase = new int[]
 		{
 			0,
@@ -940,7 +930,6 @@ namespace Ionic.Zlib
 			0
 		};
 
-		// Token: 0x04000120 RID: 288
 		internal static readonly int[] DistanceBase = new int[]
 		{
 			0,
@@ -975,22 +964,21 @@ namespace Ionic.Zlib
 			24576
 		};
 
-		// Token: 0x04000121 RID: 289
 		internal short[] dyn_tree;
 
-		// Token: 0x04000122 RID: 290
 		internal int max_code;
 
-		// Token: 0x04000123 RID: 291
 		internal StaticTree staticTree;
 
-		// Token: 0x060000DF RID: 223 RVA: 0x0000AB48 File Offset: 0x00008F48
+		public Tree()
+		{
+		}
+
 		internal static int DistanceCode(int dist)
 		{
 			return (int)((dist >= 256) ? Tree._dist_code[256 + SharedUtils.URShift(dist, 7)] : Tree._dist_code[dist]);
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x0000AB88 File Offset: 0x00008F88
 		internal void gen_bitlen(DeflateManager s)
 		{
 			short[] array = this.dyn_tree;
@@ -1072,7 +1060,6 @@ namespace Ionic.Zlib
 			}
 		}
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x0000ADF4 File Offset: 0x000091F4
 		internal void build_tree(DeflateManager s)
 		{
 			short[] array = this.dyn_tree;
@@ -1131,7 +1118,6 @@ namespace Ionic.Zlib
 			Tree.gen_codes(array, num, s.bl_count);
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x0000B05C File Offset: 0x0000945C
 		internal static void gen_codes(short[] tree, int max_code, short[] bl_count)
 		{
 			short[] array = new short[InternalConstants.MAX_BITS + 1];
@@ -1155,7 +1141,6 @@ namespace Ionic.Zlib
 			}
 		}
 
-		// Token: 0x060000E3 RID: 227 RVA: 0x0000B0EC File Offset: 0x000094EC
 		internal static int bi_reverse(int code, int len)
 		{
 			int num = 0;
@@ -1167,6 +1152,11 @@ namespace Ionic.Zlib
 			}
 			while (--len > 0);
 			return num >> 1;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Tree()
+		{
 		}
 	}
 }

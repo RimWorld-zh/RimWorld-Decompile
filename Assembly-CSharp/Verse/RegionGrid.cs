@@ -1,41 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000C8C RID: 3212
 	public sealed class RegionGrid
 	{
-		// Token: 0x04003005 RID: 12293
 		private Map map;
 
-		// Token: 0x04003006 RID: 12294
 		private Region[] regionGrid;
 
-		// Token: 0x04003007 RID: 12295
 		private int curCleanIndex = 0;
 
-		// Token: 0x04003008 RID: 12296
 		public List<Room> allRooms = new List<Room>();
 
-		// Token: 0x04003009 RID: 12297
 		public static HashSet<Region> allRegionsYielded = new HashSet<Region>();
 
-		// Token: 0x0400300A RID: 12298
 		private const int CleanSquaresPerFrame = 16;
 
-		// Token: 0x0400300B RID: 12299
 		public HashSet<Region> drawnRegions = new HashSet<Region>();
 
-		// Token: 0x06004677 RID: 18039 RVA: 0x002532CC File Offset: 0x002516CC
 		public RegionGrid(Map map)
 		{
 			this.map = map;
 			this.regionGrid = new Region[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x17000B19 RID: 2841
-		// (get) Token: 0x06004678 RID: 18040 RVA: 0x0025331C File Offset: 0x0025171C
 		public Region[] DirectGrid
 		{
 			get
@@ -49,8 +42,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B1A RID: 2842
-		// (get) Token: 0x06004679 RID: 18041 RVA: 0x00253380 File Offset: 0x00251780
 		public IEnumerable<Region> AllRegions_NoRebuild_InvalidAllowed
 		{
 			get
@@ -76,8 +67,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B1B RID: 2843
-		// (get) Token: 0x0600467A RID: 18042 RVA: 0x002533AC File Offset: 0x002517AC
 		public IEnumerable<Region> AllRegions
 		{
 			get
@@ -108,7 +97,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600467B RID: 18043 RVA: 0x002533D8 File Offset: 0x002517D8
 		public Region GetValidRegionAt(IntVec3 c)
 		{
 			Region result;
@@ -137,7 +125,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600467C RID: 18044 RVA: 0x002534A8 File Offset: 0x002518A8
 		public Region GetValidRegionAt_NoRebuild(IntVec3 c)
 		{
 			Region result;
@@ -161,19 +148,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600467D RID: 18045 RVA: 0x00253520 File Offset: 0x00251920
 		public Region GetRegionAt_NoRebuild_InvalidAllowed(IntVec3 c)
 		{
 			return this.regionGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x0600467E RID: 18046 RVA: 0x0025354D File Offset: 0x0025194D
 		public void SetRegionAt(IntVec3 c, Region reg)
 		{
 			this.regionGrid[this.map.cellIndices.CellToIndex(c)] = reg;
 		}
 
-		// Token: 0x0600467F RID: 18047 RVA: 0x0025356C File Offset: 0x0025196C
 		public void UpdateClean()
 		{
 			for (int i = 0; i < 16; i++)
@@ -191,7 +175,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004680 RID: 18048 RVA: 0x002535E4 File Offset: 0x002519E4
 		public void DebugDraw()
 		{
 			if (this.map == Find.CurrentMap)
@@ -239,6 +222,306 @@ namespace Verse
 						}
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static RegionGrid()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Region>, IEnumerator, IDisposable, IEnumerator<Region>
+		{
+			internal int <count>__1;
+
+			internal int <i>__2;
+
+			internal RegionGrid $this;
+
+			internal Region $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					RegionGrid.allRegionsYielded.Clear();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						RegionGrid.allRegionsYielded.Add(this.regionGrid[i]);
+						break;
+					default:
+						count = this.map.cellIndices.NumGridCells;
+						i = 0;
+						goto IL_FA;
+					}
+					IL_EB:
+					i++;
+					IL_FA:
+					if (i < count)
+					{
+						if (this.regionGrid[i] != null && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+						{
+							this.$current = this.regionGrid[i];
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_EB;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Region IEnumerator<Region>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Region>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Region> IEnumerable<Region>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RegionGrid.<>c__Iterator0 <>c__Iterator = new RegionGrid.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				RegionGrid.allRegionsYielded.Clear();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<Region>, IEnumerator, IDisposable, IEnumerator<Region>
+		{
+			internal int <count>__1;
+
+			internal int <i>__2;
+
+			internal RegionGrid $this;
+
+			internal Region $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
+					{
+						Log.Warning("Trying to get all valid regions but RegionAndRoomUpdater is disabled. The result may be incorrect.", false);
+					}
+					this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+					RegionGrid.allRegionsYielded.Clear();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						RegionGrid.allRegionsYielded.Add(this.regionGrid[i]);
+						break;
+					default:
+						count = this.map.cellIndices.NumGridCells;
+						i = 0;
+						goto IL_16C;
+					}
+					IL_15D:
+					i++;
+					IL_16C:
+					if (i < count)
+					{
+						if (this.regionGrid[i] != null && this.regionGrid[i].valid && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+						{
+							this.$current = this.regionGrid[i];
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_15D;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Region IEnumerator<Region>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Region>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Region> IEnumerable<Region>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				RegionGrid.<>c__Iterator1 <>c__Iterator = new RegionGrid.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				RegionGrid.allRegionsYielded.Clear();
 			}
 		}
 	}

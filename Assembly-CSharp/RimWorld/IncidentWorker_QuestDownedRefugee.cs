@@ -4,25 +4,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000351 RID: 849
 	public class IncidentWorker_QuestDownedRefugee : IncidentWorker
 	{
-		// Token: 0x04000900 RID: 2304
 		private const float NoSitePartChance = 0.3f;
 
-		// Token: 0x04000901 RID: 2305
 		private const int MinDistance = 2;
 
-		// Token: 0x04000902 RID: 2306
 		private const int MaxDistance = 13;
 
-		// Token: 0x04000903 RID: 2307
 		private static readonly string DownedRefugeeQuestThreatTag = "DownedRefugeeQuestThreat";
 
-		// Token: 0x04000904 RID: 2308
 		private static readonly IntRange TimeoutDaysRange = new IntRange(7, 15);
 
-		// Token: 0x06000EA4 RID: 3748 RVA: 0x0007BF70 File Offset: 0x0007A370
+		public IncidentWorker_QuestDownedRefugee()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
@@ -30,7 +27,6 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && this.TryFindTile(out num) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.DownedRefugee, null, out faction, true, null);
 		}
 
-		// Token: 0x06000EA5 RID: 3749 RVA: 0x0007BFB8 File Offset: 0x0007A3B8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile;
@@ -86,10 +82,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EA6 RID: 3750 RVA: 0x0007C194 File Offset: 0x0007A594
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 2, 13, true, false, -1);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_QuestDownedRefugee()
+		{
 		}
 	}
 }

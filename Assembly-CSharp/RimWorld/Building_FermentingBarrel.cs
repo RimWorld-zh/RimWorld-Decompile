@@ -1,48 +1,42 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A7 RID: 1703
 	[StaticConstructorOnStartup]
 	public class Building_FermentingBarrel : Building
 	{
-		// Token: 0x0400142A RID: 5162
 		private int wortCount;
 
-		// Token: 0x0400142B RID: 5163
 		private float progressInt;
 
-		// Token: 0x0400142C RID: 5164
 		private Material barFilledCachedMat;
 
-		// Token: 0x0400142D RID: 5165
 		public const int MaxCapacity = 25;
 
-		// Token: 0x0400142E RID: 5166
 		private const int BaseFermentationDuration = 360000;
 
-		// Token: 0x0400142F RID: 5167
 		public const float MinIdealTemperature = 7f;
 
-		// Token: 0x04001430 RID: 5168
 		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
 
-		// Token: 0x04001431 RID: 5169
 		private static readonly Color BarZeroProgressColor = new Color(0.4f, 0.27f, 0.22f);
 
-		// Token: 0x04001432 RID: 5170
 		private static readonly Color BarFermentedColor = new Color(0.9f, 0.85f, 0.2f);
 
-		// Token: 0x04001433 RID: 5171
 		private static readonly Material BarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 
-		// Token: 0x17000575 RID: 1397
-		// (get) Token: 0x06002459 RID: 9305 RVA: 0x00137C24 File Offset: 0x00136024
-		// (set) Token: 0x0600245A RID: 9306 RVA: 0x00137C3F File Offset: 0x0013603F
+		public Building_FermentingBarrel()
+		{
+		}
+
 		public float Progress
 		{
 			get
@@ -59,8 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000576 RID: 1398
-		// (get) Token: 0x0600245B RID: 9307 RVA: 0x00137C64 File Offset: 0x00136064
 		private Material BarFilledMat
 		{
 			get
@@ -73,8 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000577 RID: 1399
-		// (get) Token: 0x0600245C RID: 9308 RVA: 0x00137CB4 File Offset: 0x001360B4
 		public int SpaceLeftForWort
 		{
 			get
@@ -92,8 +82,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000578 RID: 1400
-		// (get) Token: 0x0600245D RID: 9309 RVA: 0x00137CE4 File Offset: 0x001360E4
 		private bool Empty
 		{
 			get
@@ -102,8 +90,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000579 RID: 1401
-		// (get) Token: 0x0600245E RID: 9310 RVA: 0x00137D08 File Offset: 0x00136108
 		public bool Fermented
 		{
 			get
@@ -112,8 +98,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700057A RID: 1402
-		// (get) Token: 0x0600245F RID: 9311 RVA: 0x00137D3C File Offset: 0x0013613C
 		private float CurrentTempProgressSpeedFactor
 		{
 			get
@@ -137,8 +121,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700057B RID: 1403
-		// (get) Token: 0x06002460 RID: 9312 RVA: 0x00137DAC File Offset: 0x001361AC
 		private float ProgressPerTickAtCurrentTemp
 		{
 			get
@@ -147,8 +129,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700057C RID: 1404
-		// (get) Token: 0x06002461 RID: 9313 RVA: 0x00137DD0 File Offset: 0x001361D0
 		private int EstimatedTicksLeft
 		{
 			get
@@ -157,7 +137,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002462 RID: 9314 RVA: 0x00137E03 File Offset: 0x00136203
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -165,7 +144,6 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.progressInt, "progress", 0f, false);
 		}
 
-		// Token: 0x06002463 RID: 9315 RVA: 0x00137E34 File Offset: 0x00136234
 		public override void TickRare()
 		{
 			base.TickRare();
@@ -175,7 +153,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002464 RID: 9316 RVA: 0x00137E6C File Offset: 0x0013626C
 		public void AddWort(int count)
 		{
 			base.GetComp<CompTemperatureRuinable>().Reset();
@@ -194,7 +171,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002465 RID: 9317 RVA: 0x00137EEA File Offset: 0x001362EA
 		protected override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "RuinedByTemperature")
@@ -203,14 +179,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002466 RID: 9318 RVA: 0x00137F03 File Offset: 0x00136303
 		private void Reset()
 		{
 			this.wortCount = 0;
 			this.Progress = 0f;
 		}
 
-		// Token: 0x06002467 RID: 9319 RVA: 0x00137F18 File Offset: 0x00136318
 		public void AddWort(Thing wort)
 		{
 			int num = Mathf.Min(wort.stackCount, 25 - this.wortCount);
@@ -221,7 +195,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002468 RID: 9320 RVA: 0x00137F58 File Offset: 0x00136358
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -284,7 +257,6 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06002469 RID: 9321 RVA: 0x00138148 File Offset: 0x00136548
 		public Thing TakeOutBeer()
 		{
 			Thing result;
@@ -303,7 +275,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600246A RID: 9322 RVA: 0x0013819C File Offset: 0x0013659C
 		public override void Draw()
 		{
 			base.Draw();
@@ -325,7 +296,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600246B RID: 9323 RVA: 0x00138254 File Offset: 0x00136654
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -344,6 +314,177 @@ namespace RimWorld
 				};
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Building_FermentingBarrel()
+		{
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal Command_Action <setProgress>__2;
+
+			internal Building_FermentingBarrel $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_126;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!Prefs.DevMode || base.Empty)
+				{
+					goto IL_126;
+				}
+				Command_Action setProgress = new Command_Action();
+				setProgress.defaultLabel = "Debug: Set progress to 1";
+				setProgress.action = delegate()
+				{
+					base.Progress = 1f;
+				};
+				this.$current = setProgress;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_126:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_FermentingBarrel.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Building_FermentingBarrel.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.Progress = 1f;
+			}
 		}
 	}
 }

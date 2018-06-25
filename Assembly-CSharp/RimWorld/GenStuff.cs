@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000981 RID: 2433
 	public static class GenStuff
 	{
-		// Token: 0x060036CB RID: 14027 RVA: 0x001D4698 File Offset: 0x001D2A98
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache1;
+
 		public static ThingDef DefaultStuffFor(BuildableDef bd)
 		{
 			ThingDef result;
@@ -80,7 +88,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036CC RID: 14028 RVA: 0x001D4854 File Offset: 0x001D2C54
 		public static ThingDef RandomStuffFor(ThingDef td)
 		{
 			ThingDef result;
@@ -95,7 +102,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036CD RID: 14029 RVA: 0x001D4888 File Offset: 0x001D2C88
 		public static ThingDef RandomStuffByCommonalityFor(ThingDef td, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			ThingDef result;
@@ -115,7 +121,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036CE RID: 14030 RVA: 0x001D48C8 File Offset: 0x001D2CC8
 		public static IEnumerable<ThingDef> AllowedStuffsFor(BuildableDef td, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			if (!td.MadeFromStuff)
@@ -134,7 +139,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060036CF RID: 14031 RVA: 0x001D48FC File Offset: 0x001D2CFC
 		public static bool TryRandomStuffByCommonalityFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			bool result;
@@ -151,7 +155,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D0 RID: 14032 RVA: 0x001D4954 File Offset: 0x001D2D54
 		public static bool TryRandomStuffFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			bool result;
@@ -168,13 +171,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D1 RID: 14033 RVA: 0x001D4990 File Offset: 0x001D2D90
 		public static ThingDef RandomStuffInexpensiveFor(ThingDef thingDef, Faction faction)
 		{
 			return GenStuff.RandomStuffInexpensiveFor(thingDef, (faction == null) ? TechLevel.Undefined : faction.def.techLevel);
 		}
 
-		// Token: 0x060036D2 RID: 14034 RVA: 0x001D49C4 File Offset: 0x001D2DC4
 		public static ThingDef RandomStuffInexpensiveFor(ThingDef thingDef, TechLevel maxTechLevel)
 		{
 			ThingDef result;
@@ -208,6 +209,151 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static float <TryRandomStuffByCommonalityFor>m__0(ThingDef x)
+		{
+			return x.stuffProps.commonality;
+		}
+
+		[CompilerGenerated]
+		private static float <RandomStuffInexpensiveFor>m__1(ThingDef x)
+		{
+			return x.stuffProps.commonality;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllowedStuffsFor>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal BuildableDef td;
+
+			internal List<ThingDef> <allDefs>__0;
+
+			internal int <i>__1;
+
+			internal ThingDef <d>__2;
+
+			internal TechLevel maxTechLevel;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllowedStuffsFor>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (!td.MadeFromStuff)
+					{
+						return false;
+					}
+					allDefs = DefDatabase<ThingDef>.AllDefsListForReading;
+					i = 0;
+					goto IL_E3;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_D4:
+				i++;
+				IL_E3:
+				if (i >= allDefs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					d = allDefs[i];
+					if (d.IsStuff && (maxTechLevel == TechLevel.Undefined || d.techLevel <= maxTechLevel) && d.stuffProps.CanMake(td))
+					{
+						this.$current = d;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_D4;
+				}
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenStuff.<AllowedStuffsFor>c__Iterator0 <AllowedStuffsFor>c__Iterator = new GenStuff.<AllowedStuffsFor>c__Iterator0();
+				<AllowedStuffsFor>c__Iterator.td = td;
+				<AllowedStuffsFor>c__Iterator.maxTechLevel = maxTechLevel;
+				return <AllowedStuffsFor>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomStuffInexpensiveFor>c__AnonStorey1
+		{
+			internal float cheapestPrice;
+
+			public <RandomStuffInexpensiveFor>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return x.BaseMarketValue / x.VolumePerUnit <= this.cheapestPrice * 4f;
+			}
 		}
 	}
 }

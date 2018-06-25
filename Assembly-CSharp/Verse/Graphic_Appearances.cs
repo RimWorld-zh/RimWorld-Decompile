@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD5 RID: 3541
 	public class Graphic_Appearances : Graphic
 	{
-		// Token: 0x040034B7 RID: 13495
 		protected Graphic[] subGraphics;
 
-		// Token: 0x17000CD2 RID: 3282
-		// (get) Token: 0x06004F4B RID: 20299 RVA: 0x002952E8 File Offset: 0x002936E8
+		public Graphic_Appearances()
+		{
+		}
+
 		public override Material MatSingle
 		{
 			get
@@ -22,7 +23,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F4C RID: 20300 RVA: 0x00295314 File Offset: 0x00293714
 		public override void Init(GraphicRequest req)
 		{
 			this.data = req.graphicData;
@@ -59,7 +59,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F4D RID: 20301 RVA: 0x00295488 File Offset: 0x00293888
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			if (newColorTwo != Color.white)
@@ -69,7 +68,6 @@ namespace Verse
 			return GraphicDatabase.Get<Graphic_Appearances>(this.path, newShader, this.drawSize, newColor, Color.white, this.data);
 		}
 
-		// Token: 0x06004F4E RID: 20302 RVA: 0x002954DC File Offset: 0x002938DC
 		public override Material MatSingleFor(Thing thing)
 		{
 			StuffAppearanceDef stuffAppearanceDef = StuffAppearanceDefOf.Smooth;
@@ -81,7 +79,6 @@ namespace Verse
 			return graphic.MatSingleFor(thing);
 		}
 
-		// Token: 0x06004F4F RID: 20303 RVA: 0x00295544 File Offset: 0x00293944
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			StuffAppearanceDef stuffAppearanceDef = StuffAppearanceDefOf.Smooth;
@@ -93,7 +90,6 @@ namespace Verse
 			graphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
 		}
 
-		// Token: 0x06004F50 RID: 20304 RVA: 0x002955B0 File Offset: 0x002939B0
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -104,6 +100,21 @@ namespace Verse
 				this.color,
 				", colorTwo=unsupported)"
 			});
+		}
+
+		[CompilerGenerated]
+		private sealed class <Init>c__AnonStorey0
+		{
+			internal StuffAppearanceDef stuffAppearance;
+
+			public <Init>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Texture2D x)
+			{
+				return x.name.EndsWith(this.stuffAppearance.defName);
+			}
 		}
 	}
 }

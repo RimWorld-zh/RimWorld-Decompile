@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200085F RID: 2143
 	internal static class InspectGizmoGrid
 	{
-		// Token: 0x04001A49 RID: 6729
 		private static List<object> objList = new List<object>();
 
-		// Token: 0x04001A4A RID: 6730
 		private static List<Gizmo> gizmoList = new List<Gizmo>();
 
-		// Token: 0x0600308E RID: 12430 RVA: 0x001A6434 File Offset: 0x001A4834
 		public static void DrawInspectGizmoGridFor(IEnumerable<object> selectedObjects, out Gizmo mouseoverGizmo)
 		{
 			mouseoverGizmo = null;
@@ -72,6 +69,42 @@ namespace RimWorld
 			catch (Exception ex)
 			{
 				Log.ErrorOnce(ex.ToString(), 3427734, false);
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static InspectGizmoGrid()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawInspectGizmoGridFor>c__AnonStorey1
+		{
+			internal Thing t;
+
+			public <DrawInspectGizmoGridFor>c__AnonStorey1()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawInspectGizmoGridFor>c__AnonStorey0
+		{
+			internal Designator des;
+
+			internal InspectGizmoGrid.<DrawInspectGizmoGridFor>c__AnonStorey1 <>f__ref$1;
+
+			public <DrawInspectGizmoGridFor>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				if (TutorSystem.AllowAction(this.des.TutorTagDesignate))
+				{
+					this.des.DesignateThing(this.<>f__ref$1.t);
+					this.des.Finalize(true);
+				}
 			}
 		}
 	}

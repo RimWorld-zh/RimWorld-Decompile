@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000061 RID: 97
 	public class JobDriver_WatchBuilding : JobDriver
 	{
-		// Token: 0x060002C6 RID: 710 RVA: 0x0001BF58 File Offset: 0x0001A358
+		public JobDriver_WatchBuilding()
+		{
+		}
+
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -41,13 +47,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060002C7 RID: 711 RVA: 0x0001C078 File Offset: 0x0001A478
 		public override bool CanBeginNowWhileLyingDown()
 		{
 			return base.TargetC.HasThing && base.TargetC.Thing is Building_Bed && JobInBedUtility.InBedOrRestSpotNow(this.pawn, base.TargetC);
 		}
 
-		// Token: 0x060002C8 RID: 712 RVA: 0x0001C0CC File Offset: 0x0001A4CC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
@@ -81,7 +85,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060002C9 RID: 713 RVA: 0x0001C0F8 File Offset: 0x0001A4F8
 		protected virtual void WatchTickAction()
 		{
 			this.pawn.rotationTracker.FaceCell(base.TargetA.Cell);
@@ -91,7 +94,6 @@ namespace RimWorld
 			JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
 		}
 
-		// Token: 0x060002CA RID: 714 RVA: 0x0001C150 File Offset: 0x0001A550
 		public override object[] TaleParameters()
 		{
 			return new object[]
@@ -99,6 +101,166 @@ namespace RimWorld
 				this.pawn,
 				base.TargetA.Thing.def
 			};
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal bool <hasBed>__0;
+
+			internal JobDriver_WatchBuilding $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private JobDriver_WatchBuilding.<MakeNewToils>c__Iterator0.<MakeNewToils>c__AnonStorey1 $locvar0;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
+					hasBed = (base.TargetC.HasThing && base.TargetC.Thing is Building_Bed);
+					if (hasBed)
+					{
+						this.KeepLyingDown(TargetIndex.C);
+						this.$current = Toils_Bed.ClaimBedIfNonMedical(TargetIndex.C, TargetIndex.None);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					this.$current = Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 1u:
+					this.$current = Toils_Bed.GotoBed(TargetIndex.C);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					<MakeNewToils>c__AnonStorey.watch = Toils_LayDown.LayDown(TargetIndex.C, true, false, true, true);
+					<MakeNewToils>c__AnonStorey.watch.AddFailCondition(() => !<MakeNewToils>c__AnonStorey.watch.actor.Awake());
+					break;
+				case 3u:
+					<MakeNewToils>c__AnonStorey.watch = new Toil();
+					break;
+				case 4u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				<MakeNewToils>c__AnonStorey.watch.AddPreTickAction(delegate
+				{
+					<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.WatchTickAction();
+				});
+				<MakeNewToils>c__AnonStorey.watch.AddFinishAction(delegate
+				{
+					JoyUtility.TryGainRecRoomThought(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn);
+				});
+				<MakeNewToils>c__AnonStorey.watch.defaultCompleteMode = ToilCompleteMode.Delay;
+				<MakeNewToils>c__AnonStorey.watch.defaultDuration = this.job.def.joyDuration;
+				<MakeNewToils>c__AnonStorey.watch.handlingFacing = true;
+				this.$current = <MakeNewToils>c__AnonStorey.watch;
+				if (!this.$disposing)
+				{
+					this.$PC = 4;
+				}
+				return true;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_WatchBuilding.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_WatchBuilding.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			private sealed class <MakeNewToils>c__AnonStorey1
+			{
+				internal Toil watch;
+
+				internal JobDriver_WatchBuilding.<MakeNewToils>c__Iterator0 <>f__ref$0;
+
+				public <MakeNewToils>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0()
+				{
+					return !this.watch.actor.Awake();
+				}
+
+				internal void <>m__1()
+				{
+					this.<>f__ref$0.$this.WatchTickAction();
+				}
+
+				internal void <>m__2()
+				{
+					JoyUtility.TryGainRecRoomThought(this.<>f__ref$0.$this.pawn);
+				}
+			}
 		}
 	}
 }

@@ -1,24 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D6E RID: 3438
 	[HasDebugOutput]
 	internal static class MaterialAllocator
 	{
-		// Token: 0x0400336D RID: 13165
 		private static Dictionary<Material, MaterialAllocator.MaterialInfo> references = new Dictionary<Material, MaterialAllocator.MaterialInfo>();
 
-		// Token: 0x0400336E RID: 13166
 		public static int nextWarningThreshold;
 
-		// Token: 0x0400336F RID: 13167
 		private static Dictionary<string, int> snapshot = new Dictionary<string, int>();
 
-		// Token: 0x06004D10 RID: 19728 RVA: 0x00282F6C File Offset: 0x0028136C
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>>, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<MaterialAllocator.MaterialInfo, string> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<Material, MaterialAllocator.MaterialInfo>, string> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<string, int>, int> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<KeyValuePair<string, int>, string> <>f__am$cache7;
+
 		public static Material Create(Material material)
 		{
 			Material material2 = new Material(material);
@@ -30,7 +50,6 @@ namespace Verse
 			return material2;
 		}
 
-		// Token: 0x06004D11 RID: 19729 RVA: 0x00282FC4 File Offset: 0x002813C4
 		public static Material Create(Shader shader)
 		{
 			Material material = new Material(shader);
@@ -42,7 +61,6 @@ namespace Verse
 			return material;
 		}
 
-		// Token: 0x06004D12 RID: 19730 RVA: 0x0028301A File Offset: 0x0028141A
 		public static void Destroy(Material material)
 		{
 			if (!MaterialAllocator.references.ContainsKey(material))
@@ -53,7 +71,6 @@ namespace Verse
 			UnityEngine.Object.Destroy(material);
 		}
 
-		// Token: 0x06004D13 RID: 19731 RVA: 0x00283050 File Offset: 0x00281450
 		public static void TryReport()
 		{
 			if (MaterialAllocator.MaterialWarningThreshold() > MaterialAllocator.nextWarningThreshold)
@@ -71,15 +88,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D14 RID: 19732 RVA: 0x002830CC File Offset: 0x002814CC
 		public static int MaterialWarningThreshold()
 		{
 			return int.MaxValue;
 		}
 
-		// Token: 0x06004D15 RID: 19733 RVA: 0x002830E8 File Offset: 0x002814E8
-		[DebugOutput]
 		[Category("System")]
+		[DebugOutput]
 		public static void MaterialReport()
 		{
 			foreach (string text in (from kvp in MaterialAllocator.references
@@ -91,9 +106,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D16 RID: 19734 RVA: 0x002831B4 File Offset: 0x002815B4
-		[DebugOutput]
 		[Category("System")]
+		[DebugOutput]
 		public static void MaterialSnapshot()
 		{
 			MaterialAllocator.snapshot = new Dictionary<string, int>();
@@ -104,9 +118,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D17 RID: 19735 RVA: 0x0028324C File Offset: 0x0028164C
-		[DebugOutput]
 		[Category("System")]
+		[DebugOutput]
 		public static void MaterialDelta()
 		{
 			IEnumerable<string> source = (from v in MaterialAllocator.references.Values
@@ -128,11 +141,77 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D6F RID: 3439
+		// Note: this type is marked as 'beforefieldinit'.
+		static MaterialAllocator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static string <MaterialReport>m__0(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
+		{
+			return kvp.Value.stackTrace;
+		}
+
+		[CompilerGenerated]
+		private static int <MaterialReport>m__1(IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>> g)
+		{
+			return g.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>();
+		}
+
+		[CompilerGenerated]
+		private static string <MaterialReport>m__2(IGrouping<string, KeyValuePair<Material, MaterialAllocator.MaterialInfo>> g)
+		{
+			return string.Format("{0}: {1}", g.Count<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>(), g.FirstOrDefault<KeyValuePair<Material, MaterialAllocator.MaterialInfo>>().Value.stackTrace);
+		}
+
+		[CompilerGenerated]
+		private static string <MaterialSnapshot>m__3(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
+		{
+			return kvp.Value.stackTrace;
+		}
+
+		[CompilerGenerated]
+		private static string <MaterialDelta>m__4(MaterialAllocator.MaterialInfo v)
+		{
+			return v.stackTrace;
+		}
+
+		[CompilerGenerated]
+		private static string <MaterialDelta>m__5(KeyValuePair<Material, MaterialAllocator.MaterialInfo> kvp)
+		{
+			return kvp.Value.stackTrace;
+		}
+
+		[CompilerGenerated]
+		private static int <MaterialDelta>m__6(KeyValuePair<string, int> kvp)
+		{
+			return kvp.Value;
+		}
+
+		[CompilerGenerated]
+		private static string <MaterialDelta>m__7(KeyValuePair<string, int> g)
+		{
+			return string.Format("{0}: {1}", g.Value, g.Key);
+		}
+
 		private struct MaterialInfo
 		{
-			// Token: 0x04003378 RID: 13176
 			public string stackTrace;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MaterialDelta>c__AnonStorey0
+		{
+			internal Dictionary<string, int> currentSnapshot;
+
+			public <MaterialDelta>c__AnonStorey0()
+			{
+			}
+
+			internal KeyValuePair<string, int> <>m__0(string k)
+			{
+				return new KeyValuePair<string, int>(k, this.currentSnapshot.TryGetValue(k, 0) - MaterialAllocator.snapshot.TryGetValue(k, 0));
+			}
 		}
 	}
 }

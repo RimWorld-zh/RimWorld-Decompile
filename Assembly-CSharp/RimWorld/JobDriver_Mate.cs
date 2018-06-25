@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200002E RID: 46
 	public class JobDriver_Mate : JobDriver
 	{
-		// Token: 0x040001AD RID: 429
 		private const int MateDuration = 500;
 
-		// Token: 0x040001AE RID: 430
 		private const TargetIndex FemInd = TargetIndex.A;
 
-		// Token: 0x040001AF RID: 431
 		private const int TicksBetweenHeartMotes = 100;
 
-		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x060001B1 RID: 433 RVA: 0x000122B4 File Offset: 0x000106B4
+		public JobDriver_Mate()
+		{
+		}
+
 		private Pawn Female
 		{
 			get
@@ -27,13 +29,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001B2 RID: 434 RVA: 0x000122E4 File Offset: 0x000106E4
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060001B3 RID: 435 RVA: 0x000122FC File Offset: 0x000106FC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -58,6 +58,143 @@ namespace RimWorld
 				PawnUtility.Mated(this.pawn, this.Female);
 			});
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <prepare>__0;
+
+			internal JobDriver_Mate $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+					this.FailOnDowned(TargetIndex.A);
+					this.FailOnNotCasualInterruptible(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					prepare = Toils_General.WaitWith(TargetIndex.A, 500, false, false);
+					prepare.tickAction = delegate()
+					{
+						if (this.pawn.IsHashIntervalTick(100))
+						{
+							MoteMaker.ThrowMetaIcon(this.pawn.Position, this.pawn.Map, ThingDefOf.Mote_Heart);
+						}
+						if (base.Female.IsHashIntervalTick(100))
+						{
+							MoteMaker.ThrowMetaIcon(base.Female.Position, this.pawn.Map, ThingDefOf.Mote_Heart);
+						}
+					};
+					this.$current = prepare;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = Toils_General.Do(delegate
+					{
+						PawnUtility.Mated(this.pawn, base.Female);
+					});
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_Mate.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_Mate.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				if (this.pawn.IsHashIntervalTick(100))
+				{
+					MoteMaker.ThrowMetaIcon(this.pawn.Position, this.pawn.Map, ThingDefOf.Mote_Heart);
+				}
+				if (base.Female.IsHashIntervalTick(100))
+				{
+					MoteMaker.ThrowMetaIcon(base.Female.Position, this.pawn.Map, ThingDefOf.Mote_Heart);
+				}
+			}
+
+			internal void <>m__1()
+			{
+				PawnUtility.Mated(this.pawn, base.Female);
+			}
 		}
 	}
 }

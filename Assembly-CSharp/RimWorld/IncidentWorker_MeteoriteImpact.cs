@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000335 RID: 821
 	public class IncidentWorker_MeteoriteImpact : IncidentWorker
 	{
-		// Token: 0x06000E06 RID: 3590 RVA: 0x00077A34 File Offset: 0x00075E34
+		public IncidentWorker_MeteoriteImpact()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -16,7 +19,6 @@ namespace RimWorld
 			return this.TryFindCell(out intVec, map);
 		}
 
-		// Token: 0x06000E07 RID: 3591 RVA: 0x00077A60 File Offset: 0x00075E60
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -38,7 +40,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E08 RID: 3592 RVA: 0x00077B34 File Offset: 0x00075F34
 		private bool TryFindCell(out IntVec3 cell, Map map)
 		{
 			int maxMineables = ThingSetMaker_Meteorite.MineablesCountRange.max;
@@ -58,6 +59,35 @@ namespace RimWorld
 				}
 				return num2 >= maxMineables;
 			});
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindCell>c__AnonStorey0
+		{
+			internal int maxMineables;
+
+			internal Map map;
+
+			public <TryFindCell>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				int num = Mathf.CeilToInt(Mathf.Sqrt((float)this.maxMineables)) + 2;
+				CellRect cellRect = CellRect.CenteredOn(x, num, num);
+				int num2 = 0;
+				CellRect.CellRectIterator iterator = cellRect.GetIterator();
+				while (!iterator.Done())
+				{
+					if (iterator.Current.InBounds(this.map) && iterator.Current.Standable(this.map))
+					{
+						num2++;
+					}
+					iterator.MoveNext();
+				}
+				return num2 >= this.maxMineables;
+			}
 		}
 	}
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C9 RID: 1993
 	public class Designator_Claim : Designator
 	{
-		// Token: 0x06002C1B RID: 11291 RVA: 0x00175500 File Offset: 0x00173900
 		public Designator_Claim()
 		{
 			this.defaultLabel = "DesignatorClaim".Translate();
@@ -22,8 +21,6 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc4;
 		}
 
-		// Token: 0x170006E7 RID: 1767
-		// (get) Token: 0x06002C1C RID: 11292 RVA: 0x00175578 File Offset: 0x00173978
 		public override int DraggableDimensions
 		{
 			get
@@ -32,7 +29,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C1D RID: 11293 RVA: 0x00175590 File Offset: 0x00173990
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -57,7 +53,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C1E RID: 11294 RVA: 0x00175624 File Offset: 0x00173A24
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);
@@ -70,14 +65,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C1F RID: 11295 RVA: 0x00175680 File Offset: 0x00173A80
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t as Building;
 			return building != null && building.Faction != Faction.OfPlayer && building.ClaimableBy(Faction.OfPlayer);
 		}
 
-		// Token: 0x06002C20 RID: 11296 RVA: 0x001756C8 File Offset: 0x00173AC8
 		public override void DesignateThing(Thing t)
 		{
 			t.SetFaction(Faction.OfPlayer, null);
@@ -87,6 +80,12 @@ namespace RimWorld
 				MoteMaker.ThrowMetaPuffs(new TargetInfo(iterator.Current, base.Map, false));
 				iterator.MoveNext();
 			}
+		}
+
+		[CompilerGenerated]
+		private bool <CanDesignateCell>m__0(Thing t)
+		{
+			return this.CanDesignateThing(t).Accepted;
 		}
 	}
 }

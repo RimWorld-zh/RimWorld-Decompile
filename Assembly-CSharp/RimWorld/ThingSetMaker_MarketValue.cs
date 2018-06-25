@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F2 RID: 1778
 	public class ThingSetMaker_MarketValue : ThingSetMaker
 	{
-		// Token: 0x04001588 RID: 5512
 		private int nextSeed;
 
-		// Token: 0x060026AB RID: 9899 RVA: 0x0014BA74 File Offset: 0x00149E74
+		[CompilerGenerated]
+		private static Func<Thing, float> <>f__am$cache0;
+
 		public ThingSetMaker_MarketValue()
 		{
 			this.nextSeed = Rand.Int;
 		}
 
-		// Token: 0x060026AC RID: 9900 RVA: 0x0014BA88 File Offset: 0x00149E88
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			bool result;
@@ -62,7 +65,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026AD RID: 9901 RVA: 0x0014BC00 File Offset: 0x0014A000
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			float? maxTotalMass = parms.maxTotalMass;
@@ -77,25 +79,21 @@ namespace RimWorld
 			this.nextSeed++;
 		}
 
-		// Token: 0x060026AE RID: 9902 RVA: 0x0014BCAC File Offset: 0x0014A0AC
 		protected virtual IEnumerable<ThingDef> AllowedThingDefs(ThingSetMakerParams parms)
 		{
 			return ThingSetMakerUtility.GetAllowedThingDefs(parms);
 		}
 
-		// Token: 0x060026AF RID: 9903 RVA: 0x0014BCC8 File Offset: 0x0014A0C8
 		private float GetMinValue(ThingStuffPairWithQuality thingStuffPair)
 		{
 			return thingStuffPair.GetStatValue(StatDefOf.MarketValue);
 		}
 
-		// Token: 0x060026B0 RID: 9904 RVA: 0x0014BCEC File Offset: 0x0014A0EC
 		private float GetMaxValue(ThingStuffPairWithQuality thingStuffPair)
 		{
 			return this.GetMinValue(thingStuffPair) * (float)thingStuffPair.thing.stackLimit;
 		}
 
-		// Token: 0x060026B1 RID: 9905 RVA: 0x0014BD18 File Offset: 0x0014A118
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalMarketValue, int seed)
 		{
 			Rand.PushState(seed);
@@ -104,7 +102,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026B2 RID: 9906 RVA: 0x0014BD44 File Offset: 0x0014A144
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalMarketValue)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
@@ -140,7 +137,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026B3 RID: 9907 RVA: 0x0014BE98 File Offset: 0x0014A298
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			TechLevel? techLevel2 = parms.techLevel;
@@ -163,6 +159,167 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private static float <Generate>m__0(Thing x)
+		{
+			return x.MarketValue;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllGeneratableThingsDebugSub>c__Iterator0 : IEnumerable, IEnumerable<ThingDef>, IEnumerator, IDisposable, IEnumerator<ThingDef>
+		{
+			internal ThingSetMakerParams parms;
+
+			internal TechLevel <techLevel>__0;
+
+			internal IEnumerator<ThingDef> $locvar0;
+
+			internal ThingDef <t>__1;
+
+			internal ThingSetMaker_MarketValue $this;
+
+			internal ThingDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllGeneratableThingsDebugSub>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+				{
+					TechLevel? techLevel2 = parms.techLevel;
+					techLevel = ((techLevel2 == null) ? TechLevel.Undefined : techLevel2.Value);
+					enumerator = this.AllowedThingDefs(parms).GetEnumerator();
+					num = 4294967293u;
+					break;
+				}
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					while (enumerator.MoveNext())
+					{
+						t = enumerator.Current;
+						float? maxTotalMass = parms.maxTotalMass;
+						if (maxTotalMass != null && parms.maxTotalMass != 3.40282347E+38f)
+						{
+							float? maxTotalMass2 = parms.maxTotalMass;
+							if (ThingSetMakerUtility.GetMinMass(t, techLevel) > maxTotalMass2)
+							{
+								continue;
+							}
+						}
+						FloatRange? totalMarketValueRange = parms.totalMarketValueRange;
+						if (totalMarketValueRange == null || parms.totalMarketValueRange.Value.max == 3.40282347E+38f || ThingSetMakerUtility.GetMinMarketValue(t, techLevel) <= parms.totalMarketValueRange.Value.max)
+						{
+							this.$current = t;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			ThingDef IEnumerator<ThingDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.ThingDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ThingDef> IEnumerable<ThingDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThingSetMaker_MarketValue.<AllGeneratableThingsDebugSub>c__Iterator0 <AllGeneratableThingsDebugSub>c__Iterator = new ThingSetMaker_MarketValue.<AllGeneratableThingsDebugSub>c__Iterator0();
+				<AllGeneratableThingsDebugSub>c__Iterator.$this = this;
+				<AllGeneratableThingsDebugSub>c__Iterator.parms = parms;
+				return <AllGeneratableThingsDebugSub>c__Iterator;
+			}
 		}
 	}
 }

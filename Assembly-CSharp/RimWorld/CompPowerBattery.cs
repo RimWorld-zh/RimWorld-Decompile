@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000417 RID: 1047
 	public class CompPowerBattery : CompPower
 	{
-		// Token: 0x04000AF9 RID: 2809
 		private float storedEnergy = 0f;
 
-		// Token: 0x04000AFA RID: 2810
 		private const float SelfDischargingWatts = 5f;
 
-		// Token: 0x17000267 RID: 615
-		// (get) Token: 0x060011FE RID: 4606 RVA: 0x0009CE68 File Offset: 0x0009B268
+		public CompPowerBattery()
+		{
+		}
+
 		public float AmountCanAccept
 		{
 			get
@@ -34,8 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000268 RID: 616
-		// (get) Token: 0x060011FF RID: 4607 RVA: 0x0009CEB4 File Offset: 0x0009B2B4
 		public float StoredEnergy
 		{
 			get
@@ -44,8 +45,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000269 RID: 617
-		// (get) Token: 0x06001200 RID: 4608 RVA: 0x0009CED0 File Offset: 0x0009B2D0
 		public float StoredEnergyPct
 		{
 			get
@@ -54,8 +53,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700026A RID: 618
-		// (get) Token: 0x06001201 RID: 4609 RVA: 0x0009CEF8 File Offset: 0x0009B2F8
 		public new CompProperties_Battery Props
 		{
 			get
@@ -64,7 +61,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001202 RID: 4610 RVA: 0x0009CF18 File Offset: 0x0009B318
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -76,14 +72,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001203 RID: 4611 RVA: 0x0009CF66 File Offset: 0x0009B366
 		public override void CompTick()
 		{
 			base.CompTick();
 			this.DrawPower(Mathf.Min(5f * CompPower.WattsToWattDaysPerTick, this.storedEnergy));
 		}
 
-		// Token: 0x06001204 RID: 4612 RVA: 0x0009CF8C File Offset: 0x0009B38C
 		public void AddEnergy(float amount)
 		{
 			if (amount < 0f)
@@ -101,7 +95,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001205 RID: 4613 RVA: 0x0009CFF4 File Offset: 0x0009B3F4
 		public void DrawPower(float amount)
 		{
 			this.storedEnergy -= amount;
@@ -112,14 +105,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001206 RID: 4614 RVA: 0x0009D043 File Offset: 0x0009B443
 		public void SetStoredEnergyPct(float pct)
 		{
 			pct = Mathf.Clamp01(pct);
 			this.storedEnergy = this.Props.storedEnergyMax * pct;
 		}
 
-		// Token: 0x06001207 RID: 4615 RVA: 0x0009D061 File Offset: 0x0009B461
 		public override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "Breakdown")
@@ -128,7 +119,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001208 RID: 4616 RVA: 0x0009D080 File Offset: 0x0009B480
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Battery props = this.Props;
@@ -167,7 +157,6 @@ namespace RimWorld
 			return text + "\n" + base.CompInspectStringExtra();
 		}
 
-		// Token: 0x06001209 RID: 4617 RVA: 0x0009D1B8 File Offset: 0x0009B5B8
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -194,6 +183,193 @@ namespace RimWorld
 				};
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <CompGetGizmosExtra>__BaseCallProxy0()
+		{
+			return base.CompGetGizmosExtra();
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command_Action <fill>__2;
+
+			internal Command_Action <empty>__2;
+
+			internal CompPowerBattery $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<CompGetGizmosExtra>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+				{
+					Command_Action empty = new Command_Action();
+					empty.defaultLabel = "DEBUG: Empty";
+					empty.action = delegate()
+					{
+						base.SetStoredEnergyPct(0f);
+					};
+					this.$current = empty;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				case 3u:
+					goto IL_16C;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (Prefs.DevMode)
+				{
+					Command_Action fill = new Command_Action();
+					fill.defaultLabel = "DEBUG: Fill";
+					fill.action = delegate()
+					{
+						base.SetStoredEnergyPct(1f);
+					};
+					this.$current = fill;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_16C:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompPowerBattery.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompPowerBattery.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				base.SetStoredEnergyPct(1f);
+			}
+
+			internal void <>m__1()
+			{
+				base.SetStoredEnergyPct(0f);
+			}
 		}
 	}
 }

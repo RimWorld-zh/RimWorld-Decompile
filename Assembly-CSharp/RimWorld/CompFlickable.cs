@@ -1,37 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000418 RID: 1048
 	public class CompFlickable : ThingComp
 	{
-		// Token: 0x04000AFB RID: 2811
 		private bool switchOnInt = true;
 
-		// Token: 0x04000AFC RID: 2812
 		private bool wantSwitchOn = true;
 
-		// Token: 0x04000AFD RID: 2813
 		private Graphic offGraphic;
 
-		// Token: 0x04000AFE RID: 2814
 		private Texture2D cachedCommandTex;
 
-		// Token: 0x04000AFF RID: 2815
 		private const string OffGraphicSuffix = "_Off";
 
-		// Token: 0x04000B00 RID: 2816
 		public const string FlickedOnSignal = "FlickedOn";
 
-		// Token: 0x04000B01 RID: 2817
 		public const string FlickedOffSignal = "FlickedOff";
 
-		// Token: 0x1700026B RID: 619
-		// (get) Token: 0x0600120C RID: 4620 RVA: 0x0009D4D4 File Offset: 0x0009B8D4
+		public CompFlickable()
+		{
+		}
+
 		private CompProperties_Flickable Props
 		{
 			get
@@ -40,8 +38,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700026C RID: 620
-		// (get) Token: 0x0600120D RID: 4621 RVA: 0x0009D4F4 File Offset: 0x0009B8F4
 		private Texture2D CommandTex
 		{
 			get
@@ -54,9 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700026D RID: 621
-		// (get) Token: 0x0600120E RID: 4622 RVA: 0x0009D538 File Offset: 0x0009B938
-		// (set) Token: 0x0600120F RID: 4623 RVA: 0x0009D554 File Offset: 0x0009B954
 		public bool SwitchIsOn
 		{
 			get
@@ -84,8 +77,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700026E RID: 622
-		// (get) Token: 0x06001210 RID: 4624 RVA: 0x0009D5DC File Offset: 0x0009B9DC
 		public Graphic CurrentGraphic
 		{
 			get
@@ -107,7 +98,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001211 RID: 4625 RVA: 0x0009D6A5 File Offset: 0x0009BAA5
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -115,27 +105,23 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.wantSwitchOn, "wantSwitchOn", true, false);
 		}
 
-		// Token: 0x06001212 RID: 4626 RVA: 0x0009D6D4 File Offset: 0x0009BAD4
 		public bool WantsFlick()
 		{
 			return this.wantSwitchOn != this.switchOnInt;
 		}
 
-		// Token: 0x06001213 RID: 4627 RVA: 0x0009D6FA File Offset: 0x0009BAFA
 		public void DoFlick()
 		{
 			this.SwitchIsOn = !this.SwitchIsOn;
 			SoundDefOf.FlickSwitch.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
 		}
 
-		// Token: 0x06001214 RID: 4628 RVA: 0x0009D737 File Offset: 0x0009BB37
 		public void ResetToOn()
 		{
 			this.switchOnInt = true;
 			this.wantSwitchOn = true;
 		}
 
-		// Token: 0x06001215 RID: 4629 RVA: 0x0009D748 File Offset: 0x0009BB48
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -159,6 +145,183 @@ namespace RimWorld
 				};
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <CompGetGizmosExtra>__BaseCallProxy0()
+		{
+			return base.CompGetGizmosExtra();
+		}
+
+		[CompilerGenerated]
+		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <c>__1;
+
+			internal Command_Toggle <com>__2;
+
+			internal CompFlickable $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <CompGetGizmosExtra>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<CompGetGizmosExtra>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_193;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						c = enumerator.Current;
+						this.$current = c;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.parent.Faction != Faction.OfPlayer)
+				{
+					goto IL_193;
+				}
+				Command_Toggle com = new Command_Toggle();
+				com.hotKey = KeyBindingDefOf.Command_TogglePower;
+				com.icon = base.CommandTex;
+				com.defaultLabel = base.Props.commandLabelKey.Translate();
+				com.defaultDesc = base.Props.commandDescKey.Translate();
+				com.isActive = (() => this.wantSwitchOn);
+				com.toggleAction = delegate()
+				{
+					this.wantSwitchOn = !this.wantSwitchOn;
+					FlickUtility.UpdateFlickDesignation(this.parent);
+				};
+				this.$current = com;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_193:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompFlickable.<CompGetGizmosExtra>c__Iterator0 <CompGetGizmosExtra>c__Iterator = new CompFlickable.<CompGetGizmosExtra>c__Iterator0();
+				<CompGetGizmosExtra>c__Iterator.$this = this;
+				return <CompGetGizmosExtra>c__Iterator;
+			}
+
+			internal bool <>m__0()
+			{
+				return this.wantSwitchOn;
+			}
+
+			internal void <>m__1()
+			{
+				this.wantSwitchOn = !this.wantSwitchOn;
+				FlickUtility.UpdateFlickDesignation(this.parent);
+			}
 		}
 	}
 }

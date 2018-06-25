@@ -1,31 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E9 RID: 1513
 	public class Caravan_ForageTracker : IExposable
 	{
-		// Token: 0x040011B5 RID: 4533
 		private Caravan caravan;
 
-		// Token: 0x040011B6 RID: 4534
 		private float progress;
 
-		// Token: 0x040011B7 RID: 4535
 		private const int UpdateProgressIntervalTicks = 10;
 
-		// Token: 0x06001DED RID: 7661 RVA: 0x0010200D File Offset: 0x0010040D
 		public Caravan_ForageTracker(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
-		// Token: 0x17000466 RID: 1126
-		// (get) Token: 0x06001DEE RID: 7662 RVA: 0x00102020 File Offset: 0x00100420
 		public Pair<ThingDef, float> ForagedFoodPerDay
 		{
 			get
@@ -34,8 +31,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000467 RID: 1127
-		// (get) Token: 0x06001DEF RID: 7663 RVA: 0x00102044 File Offset: 0x00100444
 		public string ForagedFoodPerDayExplanation
 		{
 			get
@@ -46,13 +41,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DF0 RID: 7664 RVA: 0x00102072 File Offset: 0x00100472
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.progress, "progress", 0f, false);
 		}
 
-		// Token: 0x06001DF1 RID: 7665 RVA: 0x0010208B File Offset: 0x0010048B
 		public void ForageTrackerTick()
 		{
 			if (this.caravan.IsHashIntervalTick(10))
@@ -61,7 +54,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DF2 RID: 7666 RVA: 0x001020A8 File Offset: 0x001004A8
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (Prefs.DevMode)
@@ -75,7 +67,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001DF3 RID: 7667 RVA: 0x001020D4 File Offset: 0x001004D4
 		private void UpdateProgressInterval()
 		{
 			float num = 10f * ForagedFoodPerDayCalculator.GetProgressPerTick(this.caravan, null);
@@ -87,7 +78,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DF4 RID: 7668 RVA: 0x00102128 File Offset: 0x00100528
 		private void Forage()
 		{
 			ThingDef foragedFood = this.caravan.Biome.foragedFood;
@@ -104,6 +94,103 @@ namespace RimWorld.Planet
 					i -= thing.stackCount;
 					CaravanInventoryUtility.GiveThing(this.caravan, thing);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Action <forage>__1;
+
+			internal Caravan_ForageTracker $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (Prefs.DevMode)
+					{
+						Command_Action forage = new Command_Action();
+						forage.defaultLabel = "Dev: Forage";
+						forage.action = new Action(base.Forage);
+						this.$current = forage;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Caravan_ForageTracker.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new Caravan_ForageTracker.<GetGizmos>c__Iterator0();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
 			}
 		}
 	}

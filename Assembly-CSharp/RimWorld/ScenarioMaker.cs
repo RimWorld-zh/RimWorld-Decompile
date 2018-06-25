@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000655 RID: 1621
 	public static class ScenarioMaker
 	{
-		// Token: 0x0400132F RID: 4911
 		private static Scenario scen;
 
-		// Token: 0x170004F5 RID: 1269
-		// (get) Token: 0x060021CF RID: 8655 RVA: 0x0011EEA4 File Offset: 0x0011D2A4
 		public static Scenario GeneratingScenario
 		{
 			get
@@ -21,7 +21,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021D0 RID: 8656 RVA: 0x0011EEC0 File Offset: 0x0011D2C0
 		public static Scenario GenerateNewRandomScenario(string seed)
 		{
 			Rand.PushState();
@@ -107,13 +106,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021D1 RID: 8657 RVA: 0x0011F28C File Offset: 0x0011D68C
 		private static void AddCategoryScenParts(Scenario scen, ScenPartCategory cat, int count)
 		{
 			scen.parts.AddRange(ScenarioMaker.RandomScenPartsOfCategory(scen, cat, count));
 		}
 
-		// Token: 0x060021D2 RID: 8658 RVA: 0x0011F2A4 File Offset: 0x0011D6A4
 		private static IEnumerable<ScenPart> RandomScenPartsOfCategory(Scenario scen, ScenPartCategory cat, int count)
 		{
 			if (count <= 0)
@@ -155,7 +152,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021D3 RID: 8659 RVA: 0x0011F2DC File Offset: 0x0011D6DC
 		public static IEnumerable<ScenPartDef> AddableParts(Scenario scen)
 		{
 			return from d in DefDatabase<ScenPartDef>.AllDefs
@@ -163,7 +159,6 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060021D4 RID: 8660 RVA: 0x0011F314 File Offset: 0x0011D714
 		private static bool CanAddPart(Scenario scen, ScenPart newPart)
 		{
 			for (int i = 0; i < scen.parts.Count; i++)
@@ -176,12 +171,209 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060021D5 RID: 8661 RVA: 0x0011F368 File Offset: 0x0011D768
 		public static ScenPart MakeScenPart(ScenPartDef def)
 		{
 			ScenPart scenPart = (ScenPart)Activator.CreateInstance(def.scenPartClass);
 			scenPart.def = def;
 			return scenPart;
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomScenPartsOfCategory>c__Iterator0 : IEnumerable, IEnumerable<ScenPart>, IEnumerator, IDisposable, IEnumerator<ScenPart>
+		{
+			internal int count;
+
+			internal Scenario scen;
+
+			internal ScenPartCategory cat;
+
+			internal IEnumerable<ScenPartDef> <allowedParts>__0;
+
+			internal int <numYielded>__0;
+
+			internal int <numTries>__0;
+
+			internal ScenPartDef <def>__1;
+
+			internal ScenPart <newPart>__1;
+
+			internal ScenPart $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			private ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator0.<RandomScenPartsOfCategory>c__AnonStorey1 $locvar0;
+
+			private static Func<ScenPartDef, float> <>f__am$cache0;
+
+			[DebuggerHidden]
+			public <RandomScenPartsOfCategory>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (count <= 0)
+					{
+						return false;
+					}
+					allowedParts = from d in ScenarioMaker.AddableParts(scen)
+					where d.category == cat
+					select d;
+					numYielded = 0;
+					numTries = 0;
+					goto IL_197;
+				case 1u:
+					numYielded++;
+					break;
+				default:
+					return false;
+				}
+				IL_130:
+				numTries++;
+				if (numTries > 100)
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"Could not add ScenPart of category ",
+						<RandomScenPartsOfCategory>c__AnonStorey.cat,
+						" to scenario ",
+						scen,
+						" after 50 tries."
+					}), false);
+					return false;
+				}
+				IL_197:
+				if (numYielded >= count)
+				{
+					this.$PC = -1;
+				}
+				else if (allowedParts.Any<ScenPartDef>())
+				{
+					def = allowedParts.RandomElementByWeight((ScenPartDef d) => d.selectionWeight);
+					newPart = ScenarioMaker.MakeScenPart(def);
+					if (ScenarioMaker.CanAddPart(scen, newPart))
+					{
+						this.$current = newPart;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_130;
+				}
+				return false;
+			}
+
+			ScenPart IEnumerator<ScenPart>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.ScenPart>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<ScenPart> IEnumerable<ScenPart>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator0 <RandomScenPartsOfCategory>c__Iterator = new ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator0();
+				<RandomScenPartsOfCategory>c__Iterator.count = count;
+				<RandomScenPartsOfCategory>c__Iterator.scen = scen;
+				<RandomScenPartsOfCategory>c__Iterator.cat = cat;
+				return <RandomScenPartsOfCategory>c__Iterator;
+			}
+
+			private static float <>m__0(ScenPartDef d)
+			{
+				return d.selectionWeight;
+			}
+
+			private sealed class <RandomScenPartsOfCategory>c__AnonStorey1
+			{
+				internal ScenPartCategory cat;
+
+				internal ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator0 <>f__ref$0;
+
+				public <RandomScenPartsOfCategory>c__AnonStorey1()
+				{
+				}
+
+				internal bool <>m__0(ScenPartDef d)
+				{
+					return d.category == this.cat;
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <AddableParts>c__AnonStorey2
+		{
+			internal Scenario scen;
+
+			public <AddableParts>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(ScenPartDef d)
+			{
+				return this.scen.AllParts.Count((ScenPart p) => p.def == d) < d.maxUses;
+			}
+
+			private sealed class <AddableParts>c__AnonStorey3
+			{
+				internal ScenPartDef d;
+
+				internal ScenarioMaker.<AddableParts>c__AnonStorey2 <>f__ref$2;
+
+				public <AddableParts>c__AnonStorey3()
+				{
+				}
+
+				internal bool <>m__0(ScenPart p)
+				{
+					return p.def == this.d;
+				}
+			}
 		}
 	}
 }

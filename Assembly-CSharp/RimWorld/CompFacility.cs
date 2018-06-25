@@ -6,17 +6,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070F RID: 1807
 	public class CompFacility : ThingComp
 	{
-		// Token: 0x040015DB RID: 5595
 		private List<Thing> linkedBuildings = new List<Thing>();
 
-		// Token: 0x040015DC RID: 5596
 		private HashSet<Thing> thingsToNotify = new HashSet<Thing>();
 
-		// Token: 0x170005F9 RID: 1529
-		// (get) Token: 0x060027A2 RID: 10146 RVA: 0x00154088 File Offset: 0x00152488
+		public CompFacility()
+		{
+		}
+
 		public bool CanBeActive
 		{
 			get
@@ -26,8 +25,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170005FA RID: 1530
-		// (get) Token: 0x060027A3 RID: 10147 RVA: 0x001540C4 File Offset: 0x001524C4
 		public CompProperties_Facility Props
 		{
 			get
@@ -36,7 +33,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027A4 RID: 10148 RVA: 0x001540E4 File Offset: 0x001524E4
 		public static void DrawLinesToPotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
 			CompProperties_Facility compProperties = myDef.GetCompProperties<CompProperties_Facility>();
@@ -55,7 +51,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027A5 RID: 10149 RVA: 0x001541C0 File Offset: 0x001525C0
 		public void Notify_NewLink(Thing thing)
 		{
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
@@ -69,7 +64,6 @@ namespace RimWorld
 			this.linkedBuildings.Add(thing);
 		}
 
-		// Token: 0x060027A6 RID: 10150 RVA: 0x0015421C File Offset: 0x0015261C
 		public void Notify_LinkRemoved(Thing thing)
 		{
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
@@ -83,25 +77,21 @@ namespace RimWorld
 			Log.Error("Notify_LinkRemoved was called but there is no such link here.", false);
 		}
 
-		// Token: 0x060027A7 RID: 10151 RVA: 0x00154277 File Offset: 0x00152677
 		public void Notify_LOSBlockerSpawnedOrDespawned()
 		{
 			this.RelinkAll();
 		}
 
-		// Token: 0x060027A8 RID: 10152 RVA: 0x00154280 File Offset: 0x00152680
 		public void Notify_ThingChanged()
 		{
 			this.RelinkAll();
 		}
 
-		// Token: 0x060027A9 RID: 10153 RVA: 0x00154289 File Offset: 0x00152689
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			this.LinkToNearbyBuildings();
 		}
 
-		// Token: 0x060027AA RID: 10154 RVA: 0x00154294 File Offset: 0x00152694
 		public override void PostDeSpawn(Map map)
 		{
 			this.thingsToNotify.Clear();
@@ -116,7 +106,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027AB RID: 10155 RVA: 0x00154340 File Offset: 0x00152740
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
@@ -133,7 +122,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027AC RID: 10156 RVA: 0x001543DC File Offset: 0x001527DC
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Facility props = this.Props;
@@ -169,13 +157,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060027AD RID: 10157 RVA: 0x001544D8 File Offset: 0x001528D8
 		private void RelinkAll()
 		{
 			this.LinkToNearbyBuildings();
 		}
 
-		// Token: 0x060027AE RID: 10158 RVA: 0x001544E4 File Offset: 0x001528E4
 		private void LinkToNearbyBuildings()
 		{
 			this.UnlinkAll();
@@ -197,7 +183,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027AF RID: 10159 RVA: 0x001545D0 File Offset: 0x001529D0
 		private bool AmIActiveForAnyone()
 		{
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
@@ -211,7 +196,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060027B0 RID: 10160 RVA: 0x00154630 File Offset: 0x00152A30
 		private void UnlinkAll()
 		{
 			for (int i = 0; i < this.linkedBuildings.Count; i++)

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2CF8ACA1-56FD-4D93-A529-9B1D3DC822BF}</ProjectGuid>
+    <ProjectGuid>{4C00761D-FA27-4B67-9E85-40AF233A00BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -65,6 +65,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="--__AnonType0.cs" />
+    <Compile Include="-PrivateImplementationDetails-.cs" />
     <Compile Include="Ionic\Crc\CRC32.cs" />
     <Compile Include="Ionic\Crc\CrcCalculatorStream.cs" />
     <Compile Include="Ionic\Zlib\Adler.cs" />
@@ -3972,7 +3974,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{2cf8aca1-56fd-4d93-a529-9b1d3dc822c0}</Project>
+      <Project>{4c00761d-fa27-4b67-9e85-40af233a00bd}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

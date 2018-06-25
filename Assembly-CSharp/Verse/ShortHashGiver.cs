@@ -2,16 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
-	// Token: 0x02000AF7 RID: 2807
 	public static class ShortHashGiver
 	{
-		// Token: 0x0400274F RID: 10063
 		private static Dictionary<Type, HashSet<ushort>> takenHashesPerDeftype = new Dictionary<Type, HashSet<ushort>>();
 
-		// Token: 0x06003E2B RID: 15915 RVA: 0x0020CDDC File Offset: 0x0020B1DC
+		[CompilerGenerated]
+		private static Func<Def, string> <>f__am$cache0;
+
 		public static void GiveAllShortHashes()
 		{
 			ShortHashGiver.takenHashesPerDeftype.Clear();
@@ -52,7 +53,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E2C RID: 15916 RVA: 0x0020CF48 File Offset: 0x0020B348
 		private static void GiveShortHash(Def def, Type defType)
 		{
 			if (def.shortHash != 0)
@@ -81,6 +81,17 @@ namespace Verse
 				def.shortHash = num;
 				hashSet.Add(num);
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ShortHashGiver()
+		{
+		}
+
+		[CompilerGenerated]
+		private static string <GiveAllShortHashes>m__0(Def d)
+		{
+			return d.defName;
 		}
 	}
 }

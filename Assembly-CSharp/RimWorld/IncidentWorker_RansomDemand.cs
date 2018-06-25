@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200033C RID: 828
 	public class IncidentWorker_RansomDemand : IncidentWorker
 	{
-		// Token: 0x040008E4 RID: 2276
 		private const int TimeoutTicks = 60000;
 
-		// Token: 0x040008E5 RID: 2277
 		private static List<Pawn> candidates = new List<Pawn>();
 
-		// Token: 0x06000E1C RID: 3612 RVA: 0x0007822C File Offset: 0x0007662C
+		public IncidentWorker_RansomDemand()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return CommsConsoleUtility.PlayerHasPoweredCommsConsole(map) && this.RandomKidnappedColonist() != null && base.CanFireNowSub(parms);
 		}
 
-		// Token: 0x06000E1D RID: 3613 RVA: 0x00078278 File Offset: 0x00076678
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -57,7 +57,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E1E RID: 3614 RVA: 0x00078388 File Offset: 0x00076788
 		private Pawn RandomKidnappedColonist()
 		{
 			IncidentWorker_RansomDemand.candidates.Clear();
@@ -96,16 +95,34 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E1F RID: 3615 RVA: 0x00078498 File Offset: 0x00076898
 		private Faction FactionWhichKidnapped(Pawn pawn)
 		{
 			return Find.FactionManager.AllFactionsListForReading.Find((Faction x) => x.kidnapped.KidnappedPawnsListForReading.Contains(pawn));
 		}
 
-		// Token: 0x06000E20 RID: 3616 RVA: 0x000784D8 File Offset: 0x000768D8
 		private int RandomFee(Pawn pawn)
 		{
 			return (int)(pawn.MarketValue * DiplomacyTuning.RansomFeeMarketValueFactorRange.RandomInRange);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static IncidentWorker_RansomDemand()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FactionWhichKidnapped>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <FactionWhichKidnapped>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Faction x)
+			{
+				return x.kidnapped.KidnappedPawnsListForReading.Contains(this.pawn);
+			}
 		}
 	}
 }

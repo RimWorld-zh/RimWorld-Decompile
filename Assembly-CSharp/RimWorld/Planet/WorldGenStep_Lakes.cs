@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C0 RID: 1472
 	public class WorldGenStep_Lakes : WorldGenStep
 	{
-		// Token: 0x040010EC RID: 4332
 		private const int LakeMaxSize = 15;
 
-		// Token: 0x17000420 RID: 1056
-		// (get) Token: 0x06001C41 RID: 7233 RVA: 0x000F312C File Offset: 0x000F152C
+		public WorldGenStep_Lakes()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -20,13 +21,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C42 RID: 7234 RVA: 0x000F3146 File Offset: 0x000F1546
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateLakes();
 		}
 
-		// Token: 0x06001C43 RID: 7235 RVA: 0x000F3150 File Offset: 0x000F1550
 		private void GenerateLakes()
 		{
 			WorldGrid grid = Find.WorldGrid;
@@ -53,6 +52,31 @@ namespace RimWorld.Planet
 						oceanChunk.Clear();
 					}
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateLakes>c__AnonStorey0
+		{
+			internal WorldGrid grid;
+
+			internal List<int> oceanChunk;
+
+			internal bool[] touched;
+
+			public <GenerateLakes>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int tid)
+			{
+				return this.grid[tid].biome == BiomeDefOf.Ocean;
+			}
+
+			internal void <>m__1(int tid)
+			{
+				this.oceanChunk.Add(tid);
+				this.touched[tid] = true;
 			}
 		}
 	}

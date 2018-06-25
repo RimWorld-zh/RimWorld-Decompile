@@ -1,33 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A0 RID: 2208
 	public class ResourceReadout
 	{
-		// Token: 0x04001B0A RID: 6922
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001B0B RID: 6923
 		private float lastDrawnHeight;
 
-		// Token: 0x04001B0C RID: 6924
 		private readonly List<ThingCategoryDef> RootThingCategories;
 
-		// Token: 0x04001B0D RID: 6925
 		private const float LineHeightSimple = 24f;
 
-		// Token: 0x04001B0E RID: 6926
 		private const float LineHeightCategorized = 24f;
 
-		// Token: 0x04001B0F RID: 6927
 		private const float DistFromScreenBottom = 200f;
 
-		// Token: 0x0600328D RID: 12941 RVA: 0x001B382D File Offset: 0x001B1C2D
+		[CompilerGenerated]
+		private static Func<ThingCategoryDef, bool> <>f__am$cache0;
+
 		public ResourceReadout()
 		{
 			this.RootThingCategories = (from cat in DefDatabase<ThingCategoryDef>.AllDefs
@@ -35,7 +31,6 @@ namespace RimWorld
 			select cat).ToList<ThingCategoryDef>();
 		}
 
-		// Token: 0x0600328E RID: 12942 RVA: 0x001B3868 File Offset: 0x001B1C68
 		public void ResourceReadoutOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -79,7 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328F RID: 12943 RVA: 0x001B39C0 File Offset: 0x001B1DC0
 		private void DoReadoutCategorized(Rect rect)
 		{
 			Listing_ResourceReadout listing_ResourceReadout = new Listing_ResourceReadout(Find.CurrentMap);
@@ -95,7 +89,6 @@ namespace RimWorld
 			this.lastDrawnHeight = listing_ResourceReadout.CurHeight;
 		}
 
-		// Token: 0x06003290 RID: 12944 RVA: 0x001B3A50 File Offset: 0x001B1E50
 		private void DoReadoutSimple(Rect rect, float outRectHeight)
 		{
 			GUI.BeginGroup(rect);
@@ -118,7 +111,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003291 RID: 12945 RVA: 0x001B3B58 File Offset: 0x001B1F58
 		public void DrawResourceSimple(Rect rect, ThingDef thingDef)
 		{
 			this.DrawIcon(rect.x, rect.y, thingDef);
@@ -128,7 +120,6 @@ namespace RimWorld
 			Widgets.Label(rect2, count.ToStringCached());
 		}
 
-		// Token: 0x06003292 RID: 12946 RVA: 0x001B3BD4 File Offset: 0x001B1FD4
 		private void DrawIcon(float x, float y, ThingDef thingDef)
 		{
 			Rect rect = new Rect(x, y, 27f, 27f);
@@ -136,6 +127,27 @@ namespace RimWorld
 			Widgets.ThingIcon(rect, thingDef);
 			GUI.color = color;
 			TooltipHandler.TipRegion(rect, new TipSignal(() => thingDef.LabelCap + ": " + thingDef.description.CapitalizeFirst(), thingDef.GetHashCode()));
+		}
+
+		[CompilerGenerated]
+		private static bool <ResourceReadout>m__0(ThingCategoryDef cat)
+		{
+			return cat.resourceReadoutRoot;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawIcon>c__AnonStorey0
+		{
+			internal ThingDef thingDef;
+
+			public <DrawIcon>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.thingDef.LabelCap + ": " + this.thingDef.description.CapitalizeFirst();
+			}
 		}
 	}
 }

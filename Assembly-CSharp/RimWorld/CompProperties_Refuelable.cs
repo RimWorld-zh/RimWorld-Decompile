@@ -1,84 +1,63 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200072A RID: 1834
 	public class CompProperties_Refuelable : CompProperties
 	{
-		// Token: 0x04001619 RID: 5657
 		public float fuelConsumptionRate = 1f;
 
-		// Token: 0x0400161A RID: 5658
 		public float fuelCapacity = 2f;
 
-		// Token: 0x0400161B RID: 5659
 		public float initialFuelPercent = 0f;
 
-		// Token: 0x0400161C RID: 5660
 		public float autoRefuelPercent = 0.3f;
 
-		// Token: 0x0400161D RID: 5661
 		public float fuelConsumptionPerTickInRain;
 
-		// Token: 0x0400161E RID: 5662
 		public ThingFilter fuelFilter;
 
-		// Token: 0x0400161F RID: 5663
 		public bool destroyOnNoFuel;
 
-		// Token: 0x04001620 RID: 5664
 		public bool consumeFuelOnlyWhenUsed;
 
-		// Token: 0x04001621 RID: 5665
 		public bool showFuelGizmo;
 
-		// Token: 0x04001622 RID: 5666
 		public bool targetFuelLevelConfigurable;
 
-		// Token: 0x04001623 RID: 5667
 		public float initialConfigurableTargetFuelLevel;
 
-		// Token: 0x04001624 RID: 5668
 		public bool drawOutOfFuelOverlay = true;
 
-		// Token: 0x04001625 RID: 5669
 		public float minimumFueledThreshold = 0f;
 
-		// Token: 0x04001626 RID: 5670
 		public bool drawFuelGaugeInMap = false;
 
-		// Token: 0x04001627 RID: 5671
 		public bool atomicFueling = false;
 
-		// Token: 0x04001628 RID: 5672
 		public float fuelMultiplier = 1f;
 
-		// Token: 0x04001629 RID: 5673
 		public string fuelLabel;
 
-		// Token: 0x0400162A RID: 5674
 		public string fuelGizmoLabel;
 
-		// Token: 0x0400162B RID: 5675
 		public string outOfFuelMessage;
 
-		// Token: 0x0400162C RID: 5676
 		public string fuelIconPath;
 
-		// Token: 0x0400162D RID: 5677
 		private Texture2D fuelIcon;
 
-		// Token: 0x06002865 RID: 10341 RVA: 0x0015909C File Offset: 0x0015749C
 		public CompProperties_Refuelable()
 		{
 			this.compClass = typeof(CompRefuelable);
 		}
 
-		// Token: 0x17000634 RID: 1588
-		// (get) Token: 0x06002866 RID: 10342 RVA: 0x00159118 File Offset: 0x00157518
 		public string FuelLabel
 		{
 			get
@@ -87,8 +66,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000635 RID: 1589
-		// (get) Token: 0x06002867 RID: 10343 RVA: 0x00159154 File Offset: 0x00157554
 		public string FuelGizmoLabel
 		{
 			get
@@ -97,8 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000636 RID: 1590
-		// (get) Token: 0x06002868 RID: 10344 RVA: 0x00159190 File Offset: 0x00157590
 		public Texture2D FuelIcon
 		{
 			get
@@ -127,14 +102,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002869 RID: 10345 RVA: 0x0015921A File Offset: 0x0015761A
 		public override void ResolveReferences(ThingDef parentDef)
 		{
 			base.ResolveReferences(parentDef);
 			this.fuelFilter.ResolveReferences();
 		}
 
-		// Token: 0x0600286A RID: 10346 RVA: 0x00159230 File Offset: 0x00157630
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -150,6 +123,173 @@ namespace RimWorld
 				yield return string.Format("Refuelable component set to consume fuel per tick, but parent tickertype is {0} instead of {1}", parentDef.tickerType, TickerType.Normal);
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0(ThingDef parentDef)
+		{
+			return base.ConfigErrors(parentDef);
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThingDef parentDef;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal CompProperties_Refuelable $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0(parentDef).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_106;
+				case 3u:
+					goto IL_176;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.destroyOnNoFuel && this.initialFuelPercent <= 0f)
+				{
+					this.$current = "Refuelable component has destroyOnNoFuel, but initialFuelPercent <= 0";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_106:
+				if ((!this.consumeFuelOnlyWhenUsed || this.fuelConsumptionPerTickInRain > 0f) && parentDef.tickerType != TickerType.Normal)
+				{
+					this.$current = string.Format("Refuelable component set to consume fuel per tick, but parent tickertype is {0} instead of {1}", parentDef.tickerType, TickerType.Normal);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_176:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				CompProperties_Refuelable.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new CompProperties_Refuelable.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				<ConfigErrors>c__Iterator.parentDef = parentDef;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

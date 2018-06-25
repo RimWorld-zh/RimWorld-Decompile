@@ -1,65 +1,54 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B3 RID: 691
 	public class NeedDef : Def
 	{
-		// Token: 0x0400068C RID: 1676
 		public Type needClass;
 
-		// Token: 0x0400068D RID: 1677
 		public Intelligence minIntelligence = Intelligence.Animal;
 
-		// Token: 0x0400068E RID: 1678
 		public bool colonistAndPrisonersOnly = false;
 
-		// Token: 0x0400068F RID: 1679
 		public bool colonistsOnly = false;
 
-		// Token: 0x04000690 RID: 1680
 		public bool onlyIfCausedByHediff = false;
 
-		// Token: 0x04000691 RID: 1681
 		public bool neverOnPrisoner = false;
 
-		// Token: 0x04000692 RID: 1682
 		public bool showOnNeedList = true;
 
-		// Token: 0x04000693 RID: 1683
 		public float baseLevel = 0.5f;
 
-		// Token: 0x04000694 RID: 1684
 		public bool major = false;
 
-		// Token: 0x04000695 RID: 1685
 		public int listPriority = 0;
 
-		// Token: 0x04000696 RID: 1686
 		[NoTranslate]
 		public string tutorHighlightTag = null;
 
-		// Token: 0x04000697 RID: 1687
 		public bool showForCaravanMembers = false;
 
-		// Token: 0x04000698 RID: 1688
 		public bool scaleBar = false;
 
-		// Token: 0x04000699 RID: 1689
 		public float fallPerDay = 0.5f;
 
-		// Token: 0x0400069A RID: 1690
 		public float seekerRisePerHour = 0f;
 
-		// Token: 0x0400069B RID: 1691
 		public float seekerFallPerHour = 0f;
 
-		// Token: 0x0400069C RID: 1692
 		public bool freezeWhileSleeping = false;
 
-		// Token: 0x06000B87 RID: 2951 RVA: 0x00068178 File Offset: 0x00066578
+		public NeedDef()
+		{
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -82,6 +71,185 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal NeedDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_104;
+				case 3u:
+					goto IL_133;
+				case 4u:
+					goto IL_197;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.description.NullOrEmpty() && this.showOnNeedList)
+				{
+					this.$current = "no description";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_104:
+				if (this.needClass == null)
+				{
+					this.$current = "needClass is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_133:
+				if (this.needClass == typeof(Need_Seeker))
+				{
+					if (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f)
+					{
+						this.$current = "seeker rise/fall rates not set";
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						return true;
+					}
+				}
+				IL_197:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				NeedDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new NeedDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

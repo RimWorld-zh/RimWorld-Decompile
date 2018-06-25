@@ -4,10 +4,12 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003E0 RID: 992
 	public class SymbolResolver_Ship_Pregen : SymbolResolver
 	{
-		// Token: 0x060010FD RID: 4349 RVA: 0x00090D20 File Offset: 0x0008F120
+		public SymbolResolver_Ship_Pregen()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_Ship_Pregen.SpawnDescriptor[] array = new SymbolResolver_Ship_Pregen.SpawnDescriptor[]
@@ -213,16 +215,12 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x020003E1 RID: 993
 		private struct SpawnDescriptor
 		{
-			// Token: 0x04000A52 RID: 2642
 			public IntVec3 offset;
 
-			// Token: 0x04000A53 RID: 2643
 			public ThingDef def;
 
-			// Token: 0x04000A54 RID: 2644
 			public Rot4 rot;
 		}
 	}

@@ -1,64 +1,54 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B68 RID: 2920
 	public class ResearchProjectDef : Def
 	{
-		// Token: 0x04002AB5 RID: 10933
 		public TechLevel techLevel = TechLevel.Undefined;
 
-		// Token: 0x04002AB6 RID: 10934
 		[MustTranslate]
 		private string descriptionDiscovered = null;
 
-		// Token: 0x04002AB7 RID: 10935
 		public float baseCost = 100f;
 
-		// Token: 0x04002AB8 RID: 10936
 		public List<ResearchProjectDef> prerequisites = null;
 
-		// Token: 0x04002AB9 RID: 10937
 		public List<ResearchProjectDef> requiredByThis = null;
 
-		// Token: 0x04002ABA RID: 10938
 		private List<ResearchMod> researchMods = null;
 
-		// Token: 0x04002ABB RID: 10939
 		public ThingDef requiredResearchBuilding = null;
 
-		// Token: 0x04002ABC RID: 10940
 		public List<ThingDef> requiredResearchFacilities = null;
 
-		// Token: 0x04002ABD RID: 10941
 		public List<ResearchProjectTagDef> tags = null;
 
-		// Token: 0x04002ABE RID: 10942
 		public ResearchTabDef tab;
 
-		// Token: 0x04002ABF RID: 10943
 		public float researchViewX = 1f;
 
-		// Token: 0x04002AC0 RID: 10944
 		public float researchViewY = 1f;
 
-		// Token: 0x04002AC1 RID: 10945
 		[Unsaved]
 		private float x = 1f;
 
-		// Token: 0x04002AC2 RID: 10946
 		[Unsaved]
 		private float y = 1f;
 
-		// Token: 0x04002AC3 RID: 10947
 		[Unsaved]
 		private bool positionModified = false;
 
-		// Token: 0x170009AF RID: 2479
-		// (get) Token: 0x06003FC4 RID: 16324 RVA: 0x0021A350 File Offset: 0x00218750
+		public ResearchProjectDef()
+		{
+		}
+
 		public float ResearchViewX
 		{
 			get
@@ -67,8 +57,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B0 RID: 2480
-		// (get) Token: 0x06003FC5 RID: 16325 RVA: 0x0021A36C File Offset: 0x0021876C
 		public float ResearchViewY
 		{
 			get
@@ -77,8 +65,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B1 RID: 2481
-		// (get) Token: 0x06003FC6 RID: 16326 RVA: 0x0021A388 File Offset: 0x00218788
 		public float CostApparent
 		{
 			get
@@ -87,8 +73,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B2 RID: 2482
-		// (get) Token: 0x06003FC7 RID: 16327 RVA: 0x0021A3BC File Offset: 0x002187BC
 		public float ProgressReal
 		{
 			get
@@ -97,8 +81,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B3 RID: 2483
-		// (get) Token: 0x06003FC8 RID: 16328 RVA: 0x0021A3DC File Offset: 0x002187DC
 		public float ProgressApparent
 		{
 			get
@@ -107,8 +89,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B4 RID: 2484
-		// (get) Token: 0x06003FC9 RID: 16329 RVA: 0x0021A410 File Offset: 0x00218810
 		public float ProgressPercent
 		{
 			get
@@ -117,8 +97,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B5 RID: 2485
-		// (get) Token: 0x06003FCA RID: 16330 RVA: 0x0021A438 File Offset: 0x00218838
 		public bool IsFinished
 		{
 			get
@@ -127,8 +105,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B6 RID: 2486
-		// (get) Token: 0x06003FCB RID: 16331 RVA: 0x0021A460 File Offset: 0x00218860
 		public bool CanStartNow
 		{
 			get
@@ -137,8 +113,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B7 RID: 2487
-		// (get) Token: 0x06003FCC RID: 16332 RVA: 0x0021A4A4 File Offset: 0x002188A4
 		public bool PrerequisitesCompleted
 		{
 			get
@@ -157,8 +131,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B8 RID: 2488
-		// (get) Token: 0x06003FCD RID: 16333 RVA: 0x0021A504 File Offset: 0x00218904
 		public string DescriptionDiscovered
 		{
 			get
@@ -176,8 +148,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B9 RID: 2489
-		// (get) Token: 0x06003FCE RID: 16334 RVA: 0x0021A538 File Offset: 0x00218938
 		private bool PlayerHasAnyAppropriateResearchBench
 		{
 			get
@@ -199,7 +169,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FCF RID: 16335 RVA: 0x0021A5C5 File Offset: 0x002189C5
 		public override void ResolveReferences()
 		{
 			if (this.tab == null)
@@ -208,7 +177,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FD0 RID: 16336 RVA: 0x0021A5E0 File Offset: 0x002189E0
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -245,7 +213,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FD1 RID: 16337 RVA: 0x0021A60C File Offset: 0x00218A0C
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
 			float result;
@@ -261,13 +228,11 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FD2 RID: 16338 RVA: 0x0021A64C File Offset: 0x00218A4C
 		public bool HasTag(ResearchProjectTagDef tag)
 		{
 			return this.tags != null && this.tags.Contains(tag);
 		}
 
-		// Token: 0x06003FD3 RID: 16339 RVA: 0x0021A680 File Offset: 0x00218A80
 		public bool CanBeResearchedAt(Building_ResearchBench bench, bool ignoreResearchBenchPowerStatus)
 		{
 			bool result;
@@ -309,7 +274,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FD4 RID: 16340 RVA: 0x0021A790 File Offset: 0x00218B90
 		public void ReapplyAllMods()
 		{
 			if (this.researchMods != null)
@@ -334,13 +298,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FD5 RID: 16341 RVA: 0x0021A828 File Offset: 0x00218C28
 		public static ResearchProjectDef Named(string defName)
 		{
 			return DefDatabase<ResearchProjectDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06003FD6 RID: 16342 RVA: 0x0021A844 File Offset: 0x00218C44
 		public static void GenerateNonOverlappingCoordinates()
 		{
 			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
@@ -408,7 +370,6 @@ namespace Verse
 			Log.Error("Couldn't relax research project coordinates apart after " + 200 + " passes.", false);
 		}
 
-		// Token: 0x06003FD7 RID: 16343 RVA: 0x0021AB4C File Offset: 0x00218F4C
 		private static void ClampInCoordinateLimits(ResearchProjectDef rp)
 		{
 			if (rp.x < 0f)
@@ -425,7 +386,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FD8 RID: 16344 RVA: 0x0021ABAB File Offset: 0x00218FAB
 		public void Debug_ApplyPositionDelta(Vector2 delta)
 		{
 			this.x += delta.x;
@@ -433,10 +393,240 @@ namespace Verse
 			this.positionModified = true;
 		}
 
-		// Token: 0x06003FD9 RID: 16345 RVA: 0x0021ABE0 File Offset: 0x00218FE0
 		public bool Debug_IsPositionModified()
 		{
 			return this.positionModified;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal List<ResearchProjectDef> <rpDefs>__0;
+
+			internal int <i>__2;
+
+			internal ResearchProjectDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_EF;
+				case 3u:
+					goto IL_138;
+				case 4u:
+					IL_274:
+					i++;
+					goto IL_283;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.techLevel == TechLevel.Undefined)
+				{
+					this.$current = "techLevel is Undefined";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_EF:
+				if (base.ResearchViewX < 0f || base.ResearchViewY < 0f)
+				{
+					this.$current = "researchViewX and/or researchViewY not set";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_138:
+				rpDefs = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
+				i = 0;
+				IL_283:
+				if (i >= rpDefs.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (rpDefs[i] != this && rpDefs[i].tab == this.tab && rpDefs[i].ResearchViewX == base.ResearchViewX && rpDefs[i].ResearchViewY == base.ResearchViewY)
+					{
+						this.$current = string.Concat(new object[]
+						{
+							"same research view coords and tab as ",
+							rpDefs[i],
+							": ",
+							base.ResearchViewX,
+							", ",
+							base.ResearchViewY,
+							"(",
+							this.tab,
+							")"
+						});
+						if (!this.$disposing)
+						{
+							this.$PC = 4;
+						}
+						return true;
+					}
+					goto IL_274;
+				}
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ResearchProjectDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ResearchProjectDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CanBeResearchedAt>c__AnonStorey2
+		{
+			internal CompAffectedByFacilities affectedByFacilities;
+
+			internal ResearchProjectDef $this;
+
+			public <CanBeResearchedAt>c__AnonStorey2()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CanBeResearchedAt>c__AnonStorey1
+		{
+			internal int i;
+
+			internal ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey2 <>f__ref$2;
+
+			public <CanBeResearchedAt>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return x.def == this.<>f__ref$2.$this.requiredResearchFacilities[this.i] && this.<>f__ref$2.affectedByFacilities.IsFacilityActive(x);
+			}
 		}
 	}
 }

@@ -3,67 +3,51 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x0200019E RID: 414
+	[AddComponentMenu("Image Effects/Noise/Noise And Grain (Filmic)")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Noise/Noise And Grain (Filmic)")]
 	public class NoiseAndGrain : PostEffectsBase
 	{
-		// Token: 0x0400080B RID: 2059
 		public float intensityMultiplier = 0.25f;
 
-		// Token: 0x0400080C RID: 2060
 		public float generalIntensity = 0.5f;
 
-		// Token: 0x0400080D RID: 2061
 		public float blackIntensity = 1f;
 
-		// Token: 0x0400080E RID: 2062
 		public float whiteIntensity = 1f;
 
-		// Token: 0x0400080F RID: 2063
 		public float midGrey = 0.2f;
 
-		// Token: 0x04000810 RID: 2064
 		public bool dx11Grain = false;
 
-		// Token: 0x04000811 RID: 2065
 		public float softness = 0f;
 
-		// Token: 0x04000812 RID: 2066
 		public bool monochrome = false;
 
-		// Token: 0x04000813 RID: 2067
 		public Vector3 intensities = new Vector3(1f, 1f, 1f);
 
-		// Token: 0x04000814 RID: 2068
 		public Vector3 tiling = new Vector3(64f, 64f, 64f);
 
-		// Token: 0x04000815 RID: 2069
 		public float monochromeTiling = 64f;
 
-		// Token: 0x04000816 RID: 2070
 		public FilterMode filterMode = FilterMode.Bilinear;
 
-		// Token: 0x04000817 RID: 2071
 		public Texture2D noiseTexture;
 
-		// Token: 0x04000818 RID: 2072
 		public Shader noiseShader;
 
-		// Token: 0x04000819 RID: 2073
 		private Material noiseMaterial = null;
 
-		// Token: 0x0400081A RID: 2074
 		public Shader dx11NoiseShader;
 
-		// Token: 0x0400081B RID: 2075
 		private Material dx11NoiseMaterial = null;
 
-		// Token: 0x0400081C RID: 2076
 		private static float TILE_AMOUNT = 64f;
 
-		// Token: 0x06000931 RID: 2353 RVA: 0x00016E00 File Offset: 0x00015000
+		public NoiseAndGrain()
+		{
+		}
+
 		public override bool CheckResources()
 		{
 			base.CheckSupport(false);
@@ -79,7 +63,6 @@ namespace UnityStandardAssets.ImageEffects
 			return this.isSupported;
 		}
 
-		// Token: 0x06000932 RID: 2354 RVA: 0x00016E7C File Offset: 0x0001507C
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
 			if (!this.CheckResources() || null == this.noiseTexture)
@@ -141,7 +124,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000933 RID: 2355 RVA: 0x00017250 File Offset: 0x00015450
 		private static void DrawNoiseQuadGrid(RenderTexture source, RenderTexture dest, Material fxMaterial, Texture2D noise, int passNr)
 		{
 			RenderTexture.active = dest;
@@ -181,6 +163,11 @@ namespace UnityStandardAssets.ImageEffects
 			}
 			GL.End();
 			GL.PopMatrix();
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static NoiseAndGrain()
+		{
 		}
 	}
 }

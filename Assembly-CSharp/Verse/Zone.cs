@@ -1,56 +1,48 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000CBA RID: 3258
 	public abstract class Zone : IExposable, ISelectable, ILoadReferenceable
 	{
-		// Token: 0x040030B8 RID: 12472
 		public ZoneManager zoneManager;
 
-		// Token: 0x040030B9 RID: 12473
 		public string label;
 
-		// Token: 0x040030BA RID: 12474
 		public List<IntVec3> cells = new List<IntVec3>();
 
-		// Token: 0x040030BB RID: 12475
 		private bool cellsShuffled = false;
 
-		// Token: 0x040030BC RID: 12476
 		public Color color = Color.white;
 
-		// Token: 0x040030BD RID: 12477
 		private Material materialInt = null;
 
-		// Token: 0x040030BE RID: 12478
 		public bool hidden = false;
 
-		// Token: 0x040030BF RID: 12479
 		private int lastStaticFireCheckTick = -9999;
 
-		// Token: 0x040030C0 RID: 12480
 		private bool lastStaticFireCheckResult = false;
 
-		// Token: 0x040030C1 RID: 12481
 		private const int StaticFireCheckInterval = 1000;
 
-		// Token: 0x040030C2 RID: 12482
 		private static BoolGrid extantGrid;
 
-		// Token: 0x040030C3 RID: 12483
 		private static BoolGrid foundGrid;
 
-		// Token: 0x060047C3 RID: 18371 RVA: 0x000A7258 File Offset: 0x000A5658
+		[CompilerGenerated]
+		private static Predicate<IntVec3> <>f__am$cache0;
+
 		public Zone()
 		{
 		}
 
-		// Token: 0x060047C4 RID: 18372 RVA: 0x000A72AC File Offset: 0x000A56AC
 		public Zone(string baseName, ZoneManager zoneManager)
 		{
 			this.label = zoneManager.NewZoneName(baseName);
@@ -58,8 +50,6 @@ namespace Verse
 			this.color = this.NextZoneColor;
 		}
 
-		// Token: 0x17000B53 RID: 2899
-		// (get) Token: 0x060047C5 RID: 18373 RVA: 0x000A7320 File Offset: 0x000A5720
 		public Map Map
 		{
 			get
@@ -68,8 +58,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B54 RID: 2900
-		// (get) Token: 0x060047C6 RID: 18374 RVA: 0x000A7340 File Offset: 0x000A5740
 		public IntVec3 Position
 		{
 			get
@@ -78,8 +66,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B55 RID: 2901
-		// (get) Token: 0x060047C7 RID: 18375 RVA: 0x000A737C File Offset: 0x000A577C
 		public Material Material
 		{
 			get
@@ -93,7 +79,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047C8 RID: 18376 RVA: 0x000A73CC File Offset: 0x000A57CC
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
 			for (int i = 0; i < this.cells.Count; i++)
@@ -103,8 +88,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x17000B56 RID: 2902
-		// (get) Token: 0x060047C9 RID: 18377 RVA: 0x000A73F0 File Offset: 0x000A57F0
 		public List<IntVec3> Cells
 		{
 			get
@@ -118,8 +101,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B57 RID: 2903
-		// (get) Token: 0x060047CA RID: 18378 RVA: 0x000A742C File Offset: 0x000A582C
 		public IEnumerable<Thing> AllContainedThings
 		{
 			get
@@ -137,8 +118,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B58 RID: 2904
-		// (get) Token: 0x060047CB RID: 18379 RVA: 0x000A7458 File Offset: 0x000A5858
 		public bool ContainsStaticFire
 		{
 			get
@@ -159,8 +138,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B59 RID: 2905
-		// (get) Token: 0x060047CC RID: 18380 RVA: 0x000A74E0 File Offset: 0x000A58E0
 		public virtual bool IsMultiselectable
 		{
 			get
@@ -169,11 +146,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5A RID: 2906
-		// (get) Token: 0x060047CD RID: 18381
 		protected abstract Color NextZoneColor { get; }
 
-		// Token: 0x060047CE RID: 18382 RVA: 0x000A74F8 File Offset: 0x000A58F8
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.label, "label", null, false);
@@ -186,7 +160,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047CF RID: 18383 RVA: 0x000A756C File Offset: 0x000A596C
 		public virtual void AddCell(IntVec3 c)
 		{
 			if (this.cells.Contains(c))
@@ -219,7 +192,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047D0 RID: 18384 RVA: 0x000A7658 File Offset: 0x000A5A58
 		public virtual void RemoveCell(IntVec3 c)
 		{
 			if (!this.cells.Contains(c))
@@ -245,7 +217,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047D1 RID: 18385 RVA: 0x000A76F8 File Offset: 0x000A5AF8
 		public virtual void Delete()
 		{
 			SoundDefOf.Designate_ZoneDelete.PlayOneShotOnCamera(this.Map);
@@ -263,19 +234,16 @@ namespace Verse
 			Find.Selector.Deselect(this);
 		}
 
-		// Token: 0x060047D2 RID: 18386 RVA: 0x000A7776 File Offset: 0x000A5B76
 		public void Deregister()
 		{
 			this.zoneManager.DeregisterZone(this);
 		}
 
-		// Token: 0x060047D3 RID: 18387 RVA: 0x000A7785 File Offset: 0x000A5B85
 		public virtual void PostRegister()
 		{
 			this.CheckAddHaulDestination();
 		}
 
-		// Token: 0x060047D4 RID: 18388 RVA: 0x000A7790 File Offset: 0x000A5B90
 		public virtual void PostDeregister()
 		{
 			IHaulDestination haulDestination = this as IHaulDestination;
@@ -285,7 +253,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047D5 RID: 18389 RVA: 0x000A77BC File Offset: 0x000A5BBC
 		public bool ContainsCell(IntVec3 c)
 		{
 			for (int i = 0; i < this.cells.Count; i++)
@@ -298,19 +265,16 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060047D6 RID: 18390 RVA: 0x000A7810 File Offset: 0x000A5C10
 		public virtual string GetInspectString()
 		{
 			return "";
 		}
 
-		// Token: 0x060047D7 RID: 18391 RVA: 0x000A782C File Offset: 0x000A5C2C
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
 			yield break;
 		}
 
-		// Token: 0x060047D8 RID: 18392 RVA: 0x000A7850 File Offset: 0x000A5C50
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
 			yield return new Command_Action
@@ -360,13 +324,11 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060047D9 RID: 18393 RVA: 0x000A787C File Offset: 0x000A5C7C
 		public virtual IEnumerable<Gizmo> GetZoneAddGizmos()
 		{
 			yield break;
 		}
 
-		// Token: 0x060047DA RID: 18394 RVA: 0x000A78A0 File Offset: 0x000A5CA0
 		public void CheckContiguous()
 		{
 			if (this.cells.Count != 0)
@@ -412,7 +374,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DB RID: 18395 RVA: 0x000A7A4C File Offset: 0x000A5E4C
 		private void CheckAddHaulDestination()
 		{
 			IHaulDestination haulDestination = this as IHaulDestination;
@@ -422,16 +383,593 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DC RID: 18396 RVA: 0x000A7A78 File Offset: 0x000A5E78
 		public override string ToString()
 		{
 			return this.label;
 		}
 
-		// Token: 0x060047DD RID: 18397 RVA: 0x000A7A94 File Offset: 0x000A5E94
 		public string GetUniqueLoadID()
 		{
 			return "Zone_" + this.zoneManager.AllZones.IndexOf(this);
+		}
+
+		[CompilerGenerated]
+		private static bool <CheckContiguous>m__0(IntVec3 c)
+		{
+			return Zone.extantGrid[c] && !Zone.foundGrid[c];
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetEnumerator>c__Iterator0 : IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal int <i>__1;
+
+			internal Zone $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetEnumerator>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.cells.Count)
+				{
+					this.$current = this.cells[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal ThingGrid <grids>__0;
+
+			internal int <i>__1;
+
+			internal List<Thing> <thingList>__2;
+
+			internal int <j>__3;
+
+			internal Zone $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					grids = base.Map.thingGrid;
+					i = 0;
+					goto IL_D8;
+				case 1u:
+					j++;
+					break;
+				default:
+					return false;
+				}
+				IL_B3:
+				if (j < thingList.Count)
+				{
+					this.$current = thingList[j];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				i++;
+				IL_D8:
+				if (i < this.cells.Count)
+				{
+					thingList = grids.ThingsListAt(this.cells[i]);
+					j = 0;
+					goto IL_B3;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Zone.<>c__Iterator1 <>c__Iterator = new Zone.<>c__Iterator1();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetInspectTabs>c__Iterator2 : IEnumerable, IEnumerable<InspectTabBase>, IEnumerator, IDisposable, IEnumerator<InspectTabBase>
+		{
+			internal InspectTabBase $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetInspectTabs>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			InspectTabBase IEnumerator<InspectTabBase>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.InspectTabBase>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<InspectTabBase> IEnumerable<InspectTabBase>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Zone.<GetInspectTabs>c__Iterator2();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator3 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Command_Action <rename>__1;
+
+			internal Command_Toggle <hide>__2;
+
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <gizmo>__3;
+
+			internal Designator <delete>__4;
+
+			internal Command_Action <delete>__5;
+
+			internal Zone $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator3()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+				{
+					Command_Action rename = new Command_Action();
+					rename.icon = ContentFinder<Texture2D>.Get("UI/Commands/RenameZone", true);
+					rename.defaultLabel = "CommandRenameZoneLabel".Translate();
+					rename.defaultDesc = "CommandRenameZoneDesc".Translate();
+					rename.action = delegate()
+					{
+						Find.WindowStack.Add(new Dialog_RenameZone(this));
+					};
+					rename.hotKey = KeyBindingDefOf.Misc1;
+					this.$current = rename;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				case 1u:
+				{
+					Command_Toggle hide = new Command_Toggle();
+					hide.icon = ContentFinder<Texture2D>.Get("UI/Commands/HideZone", true);
+					hide.defaultLabel = ((!this.hidden) ? "CommandHideZoneLabel".Translate() : "CommandUnhideZoneLabel".Translate());
+					hide.defaultDesc = "CommandHideZoneDesc".Translate();
+					hide.isActive = (() => this.hidden);
+					hide.toggleAction = delegate()
+					{
+						this.hidden = !this.hidden;
+						foreach (IntVec3 loc in base.Cells)
+						{
+							base.Map.mapDrawer.MapMeshDirty(loc, MapMeshFlag.Zone);
+						}
+					};
+					hide.hotKey = KeyBindingDefOf.Misc2;
+					this.$current = hide;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				case 2u:
+					enumerator = this.GetZoneAddGizmos().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 3u:
+					break;
+				case 4u:
+					goto IL_259;
+				case 5u:
+					this.$PC = -1;
+					return false;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						gizmo = enumerator.Current;
+						this.$current = gizmo;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				delete = DesignatorUtility.FindAllowedDesignator<Designator_ZoneDelete_Shrink>();
+				if (delete != null)
+				{
+					this.$current = delete;
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_259:
+				Command_Action delete2 = new Command_Action();
+				delete2.icon = ContentFinder<Texture2D>.Get("UI/Buttons/Delete", true);
+				delete2.defaultLabel = "CommandDeleteZoneLabel".Translate();
+				delete2.defaultDesc = "CommandDeleteZoneDesc".Translate();
+				delete2.action = new Action(this.Delete);
+				delete2.hotKey = KeyBindingDefOf.Misc3;
+				this.$current = delete2;
+				if (!this.$disposing)
+				{
+					this.$PC = 5;
+				}
+				return true;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Zone.<GetGizmos>c__Iterator3 <GetGizmos>c__Iterator = new Zone.<GetGizmos>c__Iterator3();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				Find.WindowStack.Add(new Dialog_RenameZone(this));
+			}
+
+			internal bool <>m__1()
+			{
+				return this.hidden;
+			}
+
+			internal void <>m__2()
+			{
+				this.hidden = !this.hidden;
+				foreach (IntVec3 loc in base.Cells)
+				{
+					base.Map.mapDrawer.MapMeshDirty(loc, MapMeshFlag.Zone);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetZoneAddGizmos>c__Iterator4 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetZoneAddGizmos>c__Iterator4()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Zone.<GetZoneAddGizmos>c__Iterator4();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CheckContiguous>c__AnonStorey5
+		{
+			internal int numFound;
+
+			public <CheckContiguous>c__AnonStorey5()
+			{
+			}
+
+			internal void <>m__0(IntVec3 c)
+			{
+				Zone.foundGrid.Set(c, true);
+				this.numFound++;
+			}
 		}
 	}
 }

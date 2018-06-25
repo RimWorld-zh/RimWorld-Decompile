@@ -3,11 +3,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008B9 RID: 2233
 	public class Instruction_BuildInRoom : Instruction_BuildAtRoom
 	{
-		// Token: 0x1700081F RID: 2079
-		// (get) Token: 0x06003313 RID: 13075 RVA: 0x001B828C File Offset: 0x001B668C
+		public Instruction_BuildInRoom()
+		{
+		}
+
 		protected override CellRect BuildableRect
 		{
 			get

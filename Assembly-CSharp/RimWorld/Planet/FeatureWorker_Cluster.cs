@@ -1,38 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000569 RID: 1385
 	public abstract class FeatureWorker_Cluster : FeatureWorker
 	{
-		// Token: 0x04000F50 RID: 3920
 		private List<int> roots = new List<int>();
 
-		// Token: 0x04000F51 RID: 3921
 		private HashSet<int> rootsSet = new HashSet<int>();
 
-		// Token: 0x04000F52 RID: 3922
 		private List<int> rootsWithAreaInBetween = new List<int>();
 
-		// Token: 0x04000F53 RID: 3923
 		private HashSet<int> rootsWithAreaInBetweenSet = new HashSet<int>();
 
-		// Token: 0x04000F54 RID: 3924
 		private List<int> currentGroup = new List<int>();
 
-		// Token: 0x04000F55 RID: 3925
 		private List<int> currentGroupMembers = new List<int>();
 
-		// Token: 0x04000F56 RID: 3926
 		private HashSet<int> visitedValidGroupIDs = new HashSet<int>();
 
-		// Token: 0x04000F57 RID: 3927
 		private static List<int> tmpGroup = new List<int>();
 
-		// Token: 0x170003B0 RID: 944
-		// (get) Token: 0x06001A2C RID: 6700 RVA: 0x000E3180 File Offset: 0x000E1580
+		protected FeatureWorker_Cluster()
+		{
+		}
+
 		protected virtual int MinRootGroupsInCluster
 		{
 			get
@@ -41,8 +35,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B1 RID: 945
-		// (get) Token: 0x06001A2D RID: 6701 RVA: 0x000E31A0 File Offset: 0x000E15A0
 		protected virtual int MinRootGroupSize
 		{
 			get
@@ -51,8 +43,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B2 RID: 946
-		// (get) Token: 0x06001A2E RID: 6702 RVA: 0x000E31C0 File Offset: 0x000E15C0
 		protected virtual int MaxRootGroupSize
 		{
 			get
@@ -61,8 +51,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B3 RID: 947
-		// (get) Token: 0x06001A2F RID: 6703 RVA: 0x000E31E0 File Offset: 0x000E15E0
 		protected virtual int MinOverallSize
 		{
 			get
@@ -71,8 +59,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B4 RID: 948
-		// (get) Token: 0x06001A30 RID: 6704 RVA: 0x000E3200 File Offset: 0x000E1600
 		protected virtual int MaxOverallSize
 		{
 			get
@@ -81,8 +67,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x170003B5 RID: 949
-		// (get) Token: 0x06001A31 RID: 6705 RVA: 0x000E3220 File Offset: 0x000E1620
 		protected virtual int MaxSpaceBetweenRootGroups
 		{
 			get
@@ -91,24 +75,20 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A32 RID: 6706
 		protected abstract bool IsRoot(int tile);
 
-		// Token: 0x06001A33 RID: 6707 RVA: 0x000E3240 File Offset: 0x000E1640
 		protected virtual bool CanTraverse(int tile, out bool ifRootThenRootGroupSizeMustMatch)
 		{
 			ifRootThenRootGroupSizeMustMatch = false;
 			return true;
 		}
 
-		// Token: 0x06001A34 RID: 6708 RVA: 0x000E325C File Offset: 0x000E165C
 		protected virtual bool IsMember(int tile, out bool ifRootThenRootGroupSizeMustMatch)
 		{
 			ifRootThenRootGroupSizeMustMatch = false;
 			return Find.WorldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A35 RID: 6709 RVA: 0x000E3287 File Offset: 0x000E1687
 		public override void GenerateWhereAppropriate()
 		{
 			this.CalculateRootTiles();
@@ -116,7 +96,6 @@ namespace RimWorld.Planet
 			this.CalculateContiguousGroups();
 		}
 
-		// Token: 0x06001A36 RID: 6710 RVA: 0x000E329C File Offset: 0x000E169C
 		private void CalculateRootTiles()
 		{
 			this.roots.Clear();
@@ -132,7 +111,6 @@ namespace RimWorld.Planet
 			this.rootsSet.AddRange(this.roots);
 		}
 
-		// Token: 0x06001A37 RID: 6711 RVA: 0x000E3308 File Offset: 0x000E1708
 		private void CalculateRootsWithAreaInBetween()
 		{
 			this.rootsWithAreaInBetween.Clear();
@@ -142,7 +120,6 @@ namespace RimWorld.Planet
 			this.rootsWithAreaInBetweenSet.AddRange(this.rootsWithAreaInBetween);
 		}
 
-		// Token: 0x06001A38 RID: 6712 RVA: 0x000E3360 File Offset: 0x000E1760
 		private void CalculateContiguousGroups()
 		{
 			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
@@ -239,6 +216,86 @@ namespace RimWorld.Planet
 							}
 						}
 					}
+				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static FeatureWorker_Cluster()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateContiguousGroups>c__AnonStorey1
+		{
+			internal int minRootGroupSize;
+
+			internal int maxRootGroupSize;
+
+			internal WorldGrid worldGrid;
+
+			internal FeatureWorker_Cluster $this;
+
+			public <CalculateContiguousGroups>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				bool flag;
+				return this.$this.rootsWithAreaInBetweenSet.Contains(x) && this.$this.CanTraverse(x, out flag) && (!flag || !this.$this.rootsSet.Contains(x) || (FeatureWorker.groupSize[x] >= this.minRootGroupSize && FeatureWorker.groupSize[x] <= this.maxRootGroupSize));
+			}
+
+			internal void <>m__1(int x)
+			{
+				FeatureWorker.visited[x] = true;
+				this.$this.currentGroup.Add(x);
+				if (FeatureWorker.groupID[x] != 0 && FeatureWorker.groupSize[x] >= this.minRootGroupSize && FeatureWorker.groupSize[x] <= this.maxRootGroupSize)
+				{
+					this.$this.visitedValidGroupIDs.Add(FeatureWorker.groupID[x]);
+				}
+			}
+
+			internal bool <>m__2(int x)
+			{
+				return this.worldGrid.IsOnEdge(x);
+			}
+
+			internal bool <>m__3(int x)
+			{
+				return this.worldGrid[x].feature == null;
+			}
+
+			internal bool <>m__4(int x)
+			{
+				return this.worldGrid[x].feature != null;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateContiguousGroups>c__AnonStorey0
+		{
+			internal bool anyMember;
+
+			internal FeatureWorker_Cluster.<CalculateContiguousGroups>c__AnonStorey1 <>f__ref$1;
+
+			public <CalculateContiguousGroups>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return this.<>f__ref$1.$this.rootsSet.Contains(x);
+			}
+
+			internal void <>m__1(int x)
+			{
+				FeatureWorker.visited[x] = true;
+				FeatureWorker_Cluster.tmpGroup.Add(x);
+				bool flag;
+				if (!this.anyMember && this.<>f__ref$1.$this.IsMember(x, out flag))
+				{
+					this.anyMember = true;
 				}
 			}
 		}

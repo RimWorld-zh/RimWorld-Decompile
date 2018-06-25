@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000116 RID: 278
 	public class JobGiver_WanderColony : JobGiver_Wander
 	{
-		// Token: 0x040002FA RID: 762
 		private static List<IntVec3> gatherSpots = new List<IntVec3>();
 
-		// Token: 0x060005A8 RID: 1448 RVA: 0x0003CBD4 File Offset: 0x0003AFD4
+		[CompilerGenerated]
+		private static Func<Pawn, IntVec3, IntVec3, bool> <>f__am$cache0;
+
 		public JobGiver_WanderColony()
 		{
 			this.wanderRadius = 7f;
@@ -20,7 +21,6 @@ namespace RimWorld
 			this.wanderDestValidator = ((Pawn pawn, IntVec3 loc, IntVec3 root) => true);
 		}
 
-		// Token: 0x060005A9 RID: 1449 RVA: 0x0003CC28 File Offset: 0x0003B028
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			if (pawn.RaceProps.Humanlike)
@@ -85,6 +85,32 @@ namespace RimWorld
 				result = intVec;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static JobGiver_WanderColony()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <JobGiver_WanderColony>m__0(Pawn pawn, IntVec3 loc, IntVec3 root)
+		{
+			return true;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetWanderRoot>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			public <GetWanderRoot>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn c)
+			{
+				return !c.Position.IsForbidden(this.pawn) && this.pawn.CanReach(c.Position, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn);
+			}
 		}
 	}
 }

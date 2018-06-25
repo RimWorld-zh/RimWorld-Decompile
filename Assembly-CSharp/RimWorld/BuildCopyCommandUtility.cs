@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008F9 RID: 2297
 	public static class BuildCopyCommandUtility
 	{
-		// Token: 0x06003532 RID: 13618 RVA: 0x001C7718 File Offset: 0x001C5B18
 		public static Command BuildCopyCommand(BuildableDef buildable, ThingDef stuff)
 		{
 			Designator_Build des = BuildCopyCommandUtility.FindAllowedDesignator(buildable, true);
@@ -49,7 +48,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003533 RID: 13619 RVA: 0x001C7840 File Offset: 0x001C5C40
 		public static Designator_Build FindAllowedDesignator(BuildableDef buildable, bool mustBeVisible = true)
 		{
 			List<DesignationCategoryDef> allDefsListForReading = DefDatabase<DesignationCategoryDef>.AllDefsListForReading;
@@ -68,7 +66,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003534 RID: 13620 RVA: 0x001C78C0 File Offset: 0x001C5CC0
 		private static Designator_Build FindAllowedDesignatorRecursive(Designator designator, BuildableDef buildable, bool mustBeVisible)
 		{
 			Designator_Build result;
@@ -105,6 +102,25 @@ namespace RimWorld
 				}
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <BuildCopyCommand>c__AnonStorey0
+		{
+			internal Designator_Build des;
+
+			internal ThingDef stuff;
+
+			public <BuildCopyCommand>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				SoundDefOf.SelectDesignator.PlayOneShotOnCamera(null);
+				this.des.SetStuffDef(this.stuff);
+				Find.DesignatorManager.Select(this.des);
+			}
 		}
 	}
 }

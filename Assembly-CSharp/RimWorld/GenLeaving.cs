@@ -1,36 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200097F RID: 2431
 	public static class GenLeaving
 	{
-		// Token: 0x0400234A RID: 9034
 		private const float LeaveFraction_Kill = 0.5f;
 
-		// Token: 0x0400234B RID: 9035
 		private const float LeaveFraction_Cancel = 1f;
 
-		// Token: 0x0400234C RID: 9036
 		public const float LeaveFraction_DeconstructDefault = 0.75f;
 
-		// Token: 0x0400234D RID: 9037
 		private const float LeaveFraction_FailConstruction = 0.5f;
 
-		// Token: 0x0400234E RID: 9038
 		private static List<IntVec3> tmpCellsCandidates = new List<IntVec3>();
 
-		// Token: 0x060036AF RID: 13999 RVA: 0x001D30B9 File Offset: 0x001D14B9
+		[CompilerGenerated]
+		private static Func<ThingDefCountClass, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<int, int> <>f__am$cache6;
+
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode)
 		{
 			GenLeaving.DoLeavingsFor(diedThing, map, mode, diedThing.OccupiedRect(), null);
 		}
 
-		// Token: 0x060036B0 RID: 14000 RVA: 0x001D30CC File Offset: 0x001D14CC
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode, CellRect leavingsRect, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			if ((Current.ProgramState == ProgramState.Playing || mode == DestroyMode.Refund) && mode != DestroyMode.Vanish)
@@ -134,7 +148,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036B1 RID: 14001 RVA: 0x001D34A0 File Offset: 0x001D18A0
 		public static void DoLeavingsFor(TerrainDef terrain, IntVec3 cell, Map map)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -170,7 +183,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036B2 RID: 14002 RVA: 0x001D3590 File Offset: 0x001D1990
 		public static bool CanBuildingLeaveResources(Thing diedThing, DestroyMode mode)
 		{
 			bool result;
@@ -214,7 +226,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036B3 RID: 14003 RVA: 0x001D3654 File Offset: 0x001D1A54
 		public static Func<int, int> GetBuildingResourcesLeaveCalculator(Thing diedThing, DestroyMode mode)
 		{
 			if (GenLeaving.CanBuildingLeaveResources(diedThing, mode))
@@ -239,7 +250,6 @@ namespace RimWorld
 			return (int count) => 0;
 		}
 
-		// Token: 0x060036B4 RID: 14004 RVA: 0x001D37A4 File Offset: 0x001D1BA4
 		public static void DropFilthDueToDamage(Thing t, float damageDealt)
 		{
 			if (t.def.useHitPoints && t.Spawned && t.def.filthLeaving != null)
@@ -261,6 +271,68 @@ namespace RimWorld
 						FilthMaker.MakeFilth(GenLeaving.tmpCellsCandidates.RandomElement<IntVec3>(), t.Map, t.def.filthLeaving, 1);
 					}
 				}
+			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenLeaving()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DoLeavingsFor>m__0(ThingDefCountClass pro)
+		{
+			return pro.thingDef == ThingDefOf.Steel;
+		}
+
+		[CompilerGenerated]
+		private static int <GetBuildingResourcesLeaveCalculator>m__1(int count)
+		{
+			return 0;
+		}
+
+		[CompilerGenerated]
+		private static int <GetBuildingResourcesLeaveCalculator>m__2(int count)
+		{
+			return 0;
+		}
+
+		[CompilerGenerated]
+		private static int <GetBuildingResourcesLeaveCalculator>m__3(int count)
+		{
+			return GenMath.RoundRandom((float)count * 0.5f);
+		}
+
+		[CompilerGenerated]
+		private static int <GetBuildingResourcesLeaveCalculator>m__4(int count)
+		{
+			return GenMath.RoundRandom((float)count * 1f);
+		}
+
+		[CompilerGenerated]
+		private static int <GetBuildingResourcesLeaveCalculator>m__5(int count)
+		{
+			return GenMath.RoundRandom((float)count * 0.5f);
+		}
+
+		[CompilerGenerated]
+		private static int <GetBuildingResourcesLeaveCalculator>m__6(int count)
+		{
+			return count;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetBuildingResourcesLeaveCalculator>c__AnonStorey0
+		{
+			internal Thing diedThing;
+
+			public <GetBuildingResourcesLeaveCalculator>c__AnonStorey0()
+			{
+			}
+
+			internal int <>m__0(int count)
+			{
+				return GenMath.RoundRandom(Mathf.Min((float)count * this.diedThing.def.resourcesFractionWhenDeconstructed, (float)(count - 1)));
 			}
 		}
 	}

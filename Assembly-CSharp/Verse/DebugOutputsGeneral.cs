@@ -2,17 +2,244 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E1A RID: 3610
 	[HasDebugOutput]
 	internal static class DebugOutputsGeneral
 	{
-		// Token: 0x06005290 RID: 21136 RVA: 0x002A4700 File Offset: 0x002A2B00
+		[CompilerGenerated]
+		private static Func<ThingDef, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, int> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache9;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheA;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheB;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheC;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheD;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheE;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cacheF;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache10;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache11;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache12;
+
+		[CompilerGenerated]
+		private static Func<Def, float> <>f__am$cache13;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache14;
+
+		[CompilerGenerated]
+		private static Func<HediffDef, bool> <>f__am$cache15;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache16;
+
+		[CompilerGenerated]
+		private static Func<Def, string> <>f__am$cache17;
+
+		[CompilerGenerated]
+		private static Action <>f__am$cache18;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache19;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache1B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache1C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache1D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache1E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache1F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache20;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache21;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache22;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache23;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache24;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache25;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache26;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache27;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache28;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache29;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache2A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, ThingCategory> <>f__am$cache2B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache2F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache30;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache31;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache32;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache33;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache34;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache35;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache36;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache37;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float, string> <>f__am$cache38;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache39;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3A;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3B;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3C;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache3D;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> <>f__am$cache3E;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache3F;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache40;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache41;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache42;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache43;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache44;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache45;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache46;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache47;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache48;
+
+		[CompilerGenerated]
+		private static Func<BodyPartGroupDef, string> <>f__am$cache49;
+
+		[CompilerGenerated]
+		private static Func<ApparelLayerDef, string> <>f__am$cache4A;
+
+		[CompilerGenerated]
+		private static Func<string, string> <>f__am$cache4B;
+
 		[DebugOutput]
 		public static void WeaponsRanged()
 		{
@@ -66,7 +293,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005291 RID: 21137 RVA: 0x002A4BF4 File Offset: 0x002A2FF4
 		[DebugOutput]
 		public static void MeleeByStuff()
 		{
@@ -97,7 +323,6 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005292 RID: 21138 RVA: 0x002A4D6C File Offset: 0x002A316C
 		private static void DoTablesInternalMelee(ThingDef stuff, bool doRaces = false)
 		{
 			Func<Def, float> meleeDamageGetter = delegate(Def d)
@@ -255,7 +480,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<Def>(dataSources, array);
 		}
 
-		// Token: 0x06005293 RID: 21139 RVA: 0x002A5044 File Offset: 0x002A3444
 		[DebugOutput]
 		public static void ApparelByStuff()
 		{
@@ -277,7 +501,6 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005294 RID: 21140 RVA: 0x002A5144 File Offset: 0x002A3544
 		[DebugOutput]
 		public static void ApparelArmor()
 		{
@@ -339,7 +562,6 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005295 RID: 21141 RVA: 0x002A52E8 File Offset: 0x002A36E8
 		[DebugOutput]
 		public static void ApparelInsulation()
 		{
@@ -387,7 +609,6 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005296 RID: 21142 RVA: 0x002A548C File Offset: 0x002A388C
 		private static void DoTableInternalApparel(ThingDef stuff)
 		{
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
@@ -414,7 +635,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005297 RID: 21143 RVA: 0x002A5670 File Offset: 0x002A3A70
 		[DebugOutput]
 		public static void ThingsExistingList()
 		{
@@ -455,7 +675,6 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005298 RID: 21144 RVA: 0x002A5738 File Offset: 0x002A3B38
 		[DebugOutput]
 		public static void ThingFillageAndPassability()
 		{
@@ -486,7 +705,6 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005299 RID: 21145 RVA: 0x002A5860 File Offset: 0x002A3C60
 		[DebugOutput]
 		public static void ThingDamageData()
 		{
@@ -505,7 +723,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600529A RID: 21146 RVA: 0x002A5A0C File Offset: 0x002A3E0C
 		[DebugOutput]
 		public static void ThingMasses()
 		{
@@ -557,7 +774,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600529B RID: 21147 RVA: 0x002A5BE4 File Offset: 0x002A3FE4
 		[DebugOutput]
 		public static void ThingFillPercents()
 		{
@@ -572,7 +788,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600529C RID: 21148 RVA: 0x002A5CC4 File Offset: 0x002A40C4
 		[DebugOutput]
 		public static void ThingNutritions()
 		{
@@ -587,7 +802,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600529D RID: 21149 RVA: 0x002A5DAC File Offset: 0x002A41AC
 		public static void MakeTablePairsByThing(List<ThingStuffPair> pairList)
 		{
 			DefMap<ThingDef, float> totalCommMult = new DefMap<ThingDef, float>();
@@ -616,7 +830,6 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600529E RID: 21150 RVA: 0x002A5F64 File Offset: 0x002A4364
 		public static string ToStringEmptyZero(this float f, string format)
 		{
 			string result;
@@ -631,7 +844,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600529F RID: 21151 RVA: 0x002A5F98 File Offset: 0x002A4398
 		public static string ToStringPercentEmptyZero(this float f, string format = "F0")
 		{
 			string result;
@@ -646,10 +858,1202 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060052A0 RID: 21152 RVA: 0x002A5FCC File Offset: 0x002A43CC
 		public static string ToStringCheckBlank(this bool b)
 		{
 			return (!b) ? "" : "✓";
+		}
+
+		[CompilerGenerated]
+		private static int <WeaponsRanged>m__0(ThingDef d)
+		{
+			return (d.Verbs[0].defaultProjectile == null) ? 0 : d.Verbs[0].defaultProjectile.projectile.DamageAmount;
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__1(ThingDef d)
+		{
+			return (d.Verbs[0].defaultProjectile == null) ? 0f : d.Verbs[0].defaultProjectile.projectile.stoppingPower;
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__2(ThingDef d)
+		{
+			return d.Verbs[0].warmupTime;
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__3(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.RangedWeapon_Cooldown, null);
+		}
+
+		[CompilerGenerated]
+		private static int <WeaponsRanged>m__4(ThingDef d)
+		{
+			return d.Verbs[0].burstShotCount;
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__5(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.AccuracyTouch, null);
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__6(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.AccuracyShort, null);
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__7(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.AccuracyMedium, null);
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__8(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.AccuracyLong, null);
+		}
+
+		[CompilerGenerated]
+		private static bool <WeaponsRanged>m__9(ThingDef d)
+		{
+			return d.IsRangedWeapon;
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__A(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__B(ThingDef d)
+		{
+			return d.Verbs[0].range.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__C(ThingDef d)
+		{
+			return (d.projectile == null) ? "" : d.projectile.speed.ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__D(ThingDef d)
+		{
+			return (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__E(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__F(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.WorkToMake, null).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static void <MeleeByStuff>m__10()
+		{
+			DebugOutputsGeneral.DoTableInternalApparel(null);
+		}
+
+		[CompilerGenerated]
+		private static bool <MeleeByStuff>m__11(ThingDef td)
+		{
+			return td.IsStuff;
+		}
+
+		[CompilerGenerated]
+		private static float <MeleeByStuff>m__12(ThingDef td)
+		{
+			return td.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null);
+		}
+
+		[CompilerGenerated]
+		private static float <DoTablesInternalMelee>m__13(Def d)
+		{
+			return 0f;
+		}
+
+		[CompilerGenerated]
+		private static bool <DoTablesInternalMelee>m__14(ThingDef d)
+		{
+			return d.IsWeapon;
+		}
+
+		[CompilerGenerated]
+		private static bool <DoTablesInternalMelee>m__15(HediffDef h)
+		{
+			return h.CompProps<HediffCompProperties_VerbGiver>() != null;
+		}
+
+		[CompilerGenerated]
+		private static bool <DoTablesInternalMelee>m__16(ThingDef d)
+		{
+			return d.race != null;
+		}
+
+		[CompilerGenerated]
+		private static string <DoTablesInternalMelee>m__17(Def d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static void <ApparelByStuff>m__18()
+		{
+			DebugOutputsGeneral.DoTableInternalApparel(null);
+		}
+
+		[CompilerGenerated]
+		private static bool <ApparelByStuff>m__19(ThingDef td)
+		{
+			return td.IsStuff;
+		}
+
+		[CompilerGenerated]
+		private static string <ApparelArmor>m__1A(ThingDef x)
+		{
+			return x.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private static string <ApparelArmor>m__1B(ThingDef x)
+		{
+			string result;
+			if (x.MadeFromStuff)
+			{
+				result = "";
+			}
+			else
+			{
+				result = string.Concat(new string[]
+				{
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null).ToStringPercent(),
+					" / ",
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null).ToStringPercent(),
+					" / ",
+					x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, null).ToStringPercent()
+				});
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ApparelArmor>m__1C(ThingDef x)
+		{
+			return x.IsStuff;
+		}
+
+		[CompilerGenerated]
+		private static float <ApparelArmor>m__1D(ThingDef x)
+		{
+			return x.BaseMarketValue;
+		}
+
+		[CompilerGenerated]
+		private static bool <ApparelArmor>m__1E(ThingDef x)
+		{
+			return x.IsApparel;
+		}
+
+		[CompilerGenerated]
+		private static float <ApparelArmor>m__1F(ThingDef x)
+		{
+			return x.BaseMarketValue;
+		}
+
+		[CompilerGenerated]
+		private static string <ApparelInsulation>m__20(ThingDef x)
+		{
+			return x.LabelCap;
+		}
+
+		[CompilerGenerated]
+		private static string <ApparelInsulation>m__21(ThingDef x)
+		{
+			string result;
+			if (x.MadeFromStuff)
+			{
+				result = "";
+			}
+			else
+			{
+				result = x.GetStatValueAbstract(StatDefOf.Insulation_Heat, null).ToStringTemperature("F1") + " / " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, null).ToStringTemperature("F1");
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <ApparelInsulation>m__22(ThingDef x)
+		{
+			return x.IsStuff;
+		}
+
+		[CompilerGenerated]
+		private static float <ApparelInsulation>m__23(ThingDef x)
+		{
+			return x.BaseMarketValue;
+		}
+
+		[CompilerGenerated]
+		private static bool <ApparelInsulation>m__24(ThingDef x)
+		{
+			return x.IsApparel;
+		}
+
+		[CompilerGenerated]
+		private static float <ApparelInsulation>m__25(ThingDef x)
+		{
+			return x.BaseMarketValue;
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__26(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__27(ThingDef d)
+		{
+			return GenText.ToSpaceList(from bp in d.apparel.bodyPartGroups
+			select bp.defName);
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__28(ThingDef d)
+		{
+			return GenText.ToSpaceList(from l in d.apparel.layers
+			select l.ToString());
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__29(ThingDef d)
+		{
+			return GenText.ToSpaceList(from t in d.apparel.tags
+			select t.ToString());
+		}
+
+		[CompilerGenerated]
+		private static bool <ThingDamageData>m__2A(ThingDef d)
+		{
+			return d.useHitPoints;
+		}
+
+		[CompilerGenerated]
+		private static ThingCategory <ThingDamageData>m__2B(ThingDef d)
+		{
+			return d.category;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__2C(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__2D(ThingDef d)
+		{
+			return d.category.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__2E(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__2F(ThingDef d)
+		{
+			return d.BaseMaxHitPoints.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__30(ThingDef d)
+		{
+			return (d.BaseFlammability <= 0f) ? "" : d.BaseFlammability.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__31(ThingDef d)
+		{
+			return d.MadeFromStuff.ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__32(ThingDef d)
+		{
+			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingDamageData>m__33(ThingDef d)
+		{
+			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString();
+		}
+
+		[CompilerGenerated]
+		private static bool <ThingMasses>m__34(ThingDef x)
+		{
+			return x.category == ThingCategory.Item || x.Minifiable;
+		}
+
+		[CompilerGenerated]
+		private static bool <ThingMasses>m__35(ThingDef x)
+		{
+			return x.thingClass != typeof(MinifiedThing) && x.thingClass != typeof(UnfinishedThing);
+		}
+
+		[CompilerGenerated]
+		private static float <ThingMasses>m__36(ThingDef x)
+		{
+			return x.GetStatValueAbstract(StatDefOf.Mass, null);
+		}
+
+		[CompilerGenerated]
+		private static float <ThingMasses>m__37(ThingDef x)
+		{
+			return x.GetStatValueAbstract(StatDefOf.MarketValue, null);
+		}
+
+		[CompilerGenerated]
+		private static string <ThingMasses>m__38(ThingDef d, float bodySize)
+		{
+			return (bodySize * 35f / d.GetStatValueAbstract(StatDefOf.Mass, null)).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <ThingMasses>m__39(ThingDef d)
+		{
+			string result;
+			if (d.ingestible == null || d.GetStatValueAbstract(StatDefOf.Nutrition, null) == 0f)
+			{
+				result = "";
+			}
+			else
+			{
+				result = (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.GetStatValueAbstract(StatDefOf.Nutrition, null)).ToString("F2");
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingMasses>m__3A(ThingDef d)
+		{
+			string result;
+			if (d.Minifiable)
+			{
+				result = d.defName + " (minified)";
+			}
+			else
+			{
+				string text = d.defName;
+				if (!d.EverHaulable)
+				{
+					text += " (not haulable)";
+				}
+				result = text;
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingMasses>m__3B(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.Mass, null).ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingMasses>m__3C(ThingDef d)
+		{
+			return (!d.smallVolume) ? "" : "small";
+		}
+
+		[CompilerGenerated]
+		private static bool <ThingFillPercents>m__3D(ThingDef d)
+		{
+			return d.fillPercent > 0f;
+		}
+
+		[CompilerGenerated]
+		private static float <ThingFillPercents>m__3E(ThingDef d)
+		{
+			return d.fillPercent;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingFillPercents>m__3F(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingFillPercents>m__40(ThingDef d)
+		{
+			return d.fillPercent.ToStringPercent();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingFillPercents>m__41(ThingDef d)
+		{
+			return d.category.ToString();
+		}
+
+		[CompilerGenerated]
+		private static bool <ThingNutritions>m__42(ThingDef d)
+		{
+			return d.ingestible != null;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingNutritions>m__43(ThingDef d)
+		{
+			return d.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <ThingNutritions>m__44(ThingDef d)
+		{
+			return d.BaseMarketValue.ToString("F1");
+		}
+
+		[CompilerGenerated]
+		private static string <ThingNutritions>m__45(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <ThingNutritions>m__46(ThingDef d)
+		{
+			return (d.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.BaseMarketValue).ToString("F3");
+		}
+
+		[CompilerGenerated]
+		private static string <MakeTablePairsByThing>m__47(ThingDef t)
+		{
+			return t.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <MakeTablePairsByThing>m__48(ThingDef t)
+		{
+			return t.generateCommonality.ToString("F4");
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__49(BodyPartGroupDef bp)
+		{
+			return bp.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__4A(ApparelLayerDef l)
+		{
+			return l.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <DoTableInternalApparel>m__4B(string t)
+		{
+			return t.ToString();
+		}
+
+		[CompilerGenerated]
+		private sealed class <WeaponsRanged>c__AnonStorey0
+		{
+			internal Func<ThingDef, float> warmup;
+
+			internal Func<ThingDef, float> cooldown;
+
+			internal Func<ThingDef, int> burstShots;
+
+			internal Func<ThingDef, int> damage;
+
+			internal Func<ThingDef, float> accTouch;
+
+			internal Func<ThingDef, float> accShort;
+
+			internal Func<ThingDef, float> accMed;
+
+			internal Func<ThingDef, float> accLong;
+
+			internal Func<ThingDef, float> dpsMissless;
+
+			internal Func<ThingDef, float> accAvg;
+
+			internal Func<ThingDef, float> stoppingPower;
+
+			internal Func<ThingDef, float> fullcycle;
+
+			internal Func<ThingDef, float> dpsAvg;
+
+			public <WeaponsRanged>c__AnonStorey0()
+			{
+			}
+
+			internal float <>m__0(ThingDef d)
+			{
+				return this.warmup(d) + this.cooldown(d) + ((d.Verbs[0].burstShotCount - 1) * d.Verbs[0].ticksBetweenBurstShots).TicksToSeconds();
+			}
+
+			internal float <>m__1(ThingDef d)
+			{
+				int num = this.burstShots(d);
+				float num2 = this.warmup(d) + this.cooldown(d);
+				num2 += (float)(num - 1) * ((float)d.Verbs[0].ticksBetweenBurstShots / 60f);
+				return (float)(this.damage(d) * num) / num2;
+			}
+
+			internal float <>m__2(ThingDef d)
+			{
+				return (this.accTouch(d) + this.accShort(d) + this.accMed(d) + this.accLong(d)) / 4f;
+			}
+
+			internal float <>m__3(ThingDef d)
+			{
+				return this.dpsMissless(d) * this.accAvg(d);
+			}
+
+			internal string <>m__4(ThingDef d)
+			{
+				return this.damage(d).ToString();
+			}
+
+			internal string <>m__5(ThingDef d)
+			{
+				return (this.stoppingPower(d) <= 0f) ? "" : this.stoppingPower(d).ToString("F1");
+			}
+
+			internal string <>m__6(ThingDef d)
+			{
+				return this.warmup(d).ToString("F2");
+			}
+
+			internal string <>m__7(ThingDef d)
+			{
+				return this.burstShots(d).ToString();
+			}
+
+			internal string <>m__8(ThingDef d)
+			{
+				return this.cooldown(d).ToString("F2");
+			}
+
+			internal string <>m__9(ThingDef d)
+			{
+				return this.fullcycle(d).ToString("F2");
+			}
+
+			internal string <>m__A(ThingDef d)
+			{
+				return this.dpsMissless(d).ToString("F2");
+			}
+
+			internal string <>m__B(ThingDef d)
+			{
+				return this.accTouch(d).ToStringPercent();
+			}
+
+			internal string <>m__C(ThingDef d)
+			{
+				return this.accShort(d).ToStringPercent();
+			}
+
+			internal string <>m__D(ThingDef d)
+			{
+				return this.accMed(d).ToStringPercent();
+			}
+
+			internal string <>m__E(ThingDef d)
+			{
+				return this.accLong(d).ToStringPercent();
+			}
+
+			internal string <>m__F(ThingDef d)
+			{
+				return this.accAvg(d).ToString("F2");
+			}
+
+			internal string <>m__10(ThingDef d)
+			{
+				return (this.dpsMissless(d) * this.accTouch(d)).ToString("F2");
+			}
+
+			internal string <>m__11(ThingDef d)
+			{
+				return (this.dpsMissless(d) * this.accShort(d)).ToString("F2");
+			}
+
+			internal string <>m__12(ThingDef d)
+			{
+				return (this.dpsMissless(d) * this.accMed(d)).ToString("F2");
+			}
+
+			internal string <>m__13(ThingDef d)
+			{
+				return (this.dpsMissless(d) * this.accLong(d)).ToString("F2");
+			}
+
+			internal string <>m__14(ThingDef d)
+			{
+				return this.dpsAvg(d).ToString("F2");
+			}
+
+			internal string <>m__15(ThingDef d)
+			{
+				return (this.dpsAvg(d) * 100f / d.GetStatValueAbstract(StatDefOf.MarketValue, null)).ToString("F3");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MeleeByStuff>c__AnonStorey1
+		{
+			internal ThingDef localStuff;
+
+			public <MeleeByStuff>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				DebugOutputsGeneral.DoTablesInternalMelee(this.localStuff, false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoTablesInternalMelee>c__AnonStorey2
+		{
+			internal ThingDef stuff;
+
+			internal Func<Def, float> meleeDamageGetter;
+
+			internal Func<Def, float> meleeWarmupGetter;
+
+			internal Func<Def, float> meleeCooldownGetter;
+
+			internal Func<Def, float> rangedDamageGetter;
+
+			internal Func<Def, float> rangedWarmupGetter;
+
+			internal Func<Def, float> rangedCooldownGetter;
+
+			internal Func<Def, float> meleeDpsGetter;
+
+			internal Func<Def, float> rangedDpsGetter;
+
+			internal Func<Def, float> dpsGetter;
+
+			internal Func<Def, float> marketValueGetter;
+
+			public <DoTablesInternalMelee>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(Def d)
+			{
+				Thing owner;
+				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, out owner, this.stuff);
+				float result;
+				if (concreteExampleVerbs.OfType<Verb_MeleeAttack>().Any<Verb_MeleeAttack>())
+				{
+					result = concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null, owner), (Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeDamageAmount(v, null, owner));
+				}
+				else
+				{
+					result = -1f;
+				}
+				return result;
+			}
+
+			internal float <>m__1(Def d)
+			{
+				Thing thing;
+				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, out thing, this.stuff);
+				Verb verb = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
+				float result;
+				if (verb != null && verb.GetProjectile() != null)
+				{
+					result = (float)verb.GetProjectile().projectile.DamageAmount;
+				}
+				else
+				{
+					result = -1f;
+				}
+				return result;
+			}
+
+			internal float <>m__2(Def d)
+			{
+				Thing thing;
+				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, out thing, this.stuff);
+				Verb verb = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
+				float result;
+				if (verb != null)
+				{
+					result = verb.verbProps.warmupTime;
+				}
+				else
+				{
+					result = -1f;
+				}
+				return result;
+			}
+
+			internal float <>m__3(Def d)
+			{
+				Thing owner;
+				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, out owner, this.stuff);
+				float result;
+				if (concreteExampleVerbs.OfType<Verb_MeleeAttack>().Any<Verb_MeleeAttack>())
+				{
+					result = concreteExampleVerbs.OfType<Verb_MeleeAttack>().AverageWeighted((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null, owner), (Verb_MeleeAttack v) => v.verbProps.AdjustedCooldown(v, null, owner));
+				}
+				else
+				{
+					result = -1f;
+				}
+				return result;
+			}
+
+			internal float <>m__4(Def d)
+			{
+				Thing thing;
+				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, out thing, this.stuff);
+				Verb verb = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault<Verb_LaunchProjectile>();
+				float result;
+				if (verb != null)
+				{
+					result = verb.verbProps.defaultCooldownTime;
+				}
+				else
+				{
+					result = -1f;
+				}
+				return result;
+			}
+
+			internal float <>m__5(Def d)
+			{
+				return this.meleeDamageGetter(d) / (this.meleeWarmupGetter(d) + this.meleeCooldownGetter(d));
+			}
+
+			internal float <>m__6(Def d)
+			{
+				return this.rangedDamageGetter(d) / (this.rangedWarmupGetter(d) + this.rangedCooldownGetter(d));
+			}
+
+			internal float <>m__7(Def d)
+			{
+				return Mathf.Max(this.meleeDpsGetter(d), this.rangedDpsGetter(d));
+			}
+
+			internal float <>m__8(Def d)
+			{
+				ThingDef thingDef = d as ThingDef;
+				float result;
+				if (thingDef != null)
+				{
+					result = thingDef.GetStatValueAbstract(StatDefOf.MarketValue, this.stuff);
+				}
+				else
+				{
+					HediffDef hediffDef = d as HediffDef;
+					if (hediffDef != null)
+					{
+						if (hediffDef.spawnThingOnRemoved == null)
+						{
+							result = 0f;
+						}
+						else
+						{
+							result = hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null);
+						}
+					}
+					else
+					{
+						result = -1f;
+					}
+				}
+				return result;
+			}
+
+			internal float <>m__9(Def h)
+			{
+				return this.dpsGetter(h);
+			}
+
+			internal string <>m__A(Def d)
+			{
+				return this.meleeDamageGetter(d).ToString();
+			}
+
+			internal string <>m__B(Def d)
+			{
+				return this.meleeWarmupGetter(d).ToString("F2");
+			}
+
+			internal string <>m__C(Def d)
+			{
+				return this.meleeCooldownGetter(d).ToString("F2");
+			}
+
+			internal string <>m__D(Def d)
+			{
+				return this.meleeDpsGetter(d).ToString("F2");
+			}
+
+			internal string <>m__E(Def d)
+			{
+				return this.rangedDamageGetter(d).ToString();
+			}
+
+			internal string <>m__F(Def d)
+			{
+				return this.rangedWarmupGetter(d).ToString("F2");
+			}
+
+			internal string <>m__10(Def d)
+			{
+				return this.rangedCooldownGetter(d).ToString("F2");
+			}
+
+			internal string <>m__11(Def d)
+			{
+				return this.rangedDpsGetter(d).ToString("F2");
+			}
+
+			internal string <>m__12(Def d)
+			{
+				return this.dpsGetter(d).ToString("F2");
+			}
+
+			internal string <>m__13(Def d)
+			{
+				return this.marketValueGetter(d).ToString("F0");
+			}
+
+			internal string <>m__14(Def d)
+			{
+				ThingDef thingDef = d as ThingDef;
+				string result;
+				if (thingDef == null)
+				{
+					result = "-";
+				}
+				else
+				{
+					result = thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, this.stuff).ToString("F0");
+				}
+				return result;
+			}
+
+			private sealed class <DoTablesInternalMelee>c__AnonStorey3
+			{
+				internal Thing owner;
+
+				internal DebugOutputsGeneral.<DoTablesInternalMelee>c__AnonStorey2 <>f__ref$2;
+
+				public <DoTablesInternalMelee>c__AnonStorey3()
+				{
+				}
+
+				internal float <>m__0(Verb_MeleeAttack v)
+				{
+					return v.verbProps.AdjustedMeleeSelectionWeight(v, null, this.owner);
+				}
+
+				internal float <>m__1(Verb_MeleeAttack v)
+				{
+					return v.verbProps.AdjustedMeleeDamageAmount(v, null, this.owner);
+				}
+			}
+
+			private sealed class <DoTablesInternalMelee>c__AnonStorey4
+			{
+				internal Thing owner;
+
+				internal DebugOutputsGeneral.<DoTablesInternalMelee>c__AnonStorey2 <>f__ref$2;
+
+				public <DoTablesInternalMelee>c__AnonStorey4()
+				{
+				}
+
+				internal float <>m__0(Verb_MeleeAttack v)
+				{
+					return v.verbProps.AdjustedMeleeSelectionWeight(v, null, this.owner);
+				}
+
+				internal float <>m__1(Verb_MeleeAttack v)
+				{
+					return v.verbProps.AdjustedCooldown(v, null, this.owner);
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ApparelByStuff>c__AnonStorey5
+		{
+			internal ThingDef localStuff;
+
+			public <ApparelByStuff>c__AnonStorey5()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				DebugOutputsGeneral.DoTableInternalApparel(this.localStuff);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ApparelArmor>c__AnonStorey6
+		{
+			internal ThingDef stuffLocal;
+
+			public <ApparelArmor>c__AnonStorey6()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return x.IsApparel && this.stuffLocal.stuffProps.CanMake(x);
+			}
+
+			internal string <>m__1(ThingDef x)
+			{
+				string result;
+				if (!this.stuffLocal.stuffProps.CanMake(x))
+				{
+					result = "";
+				}
+				else
+				{
+					result = string.Concat(new string[]
+					{
+						x.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, this.stuffLocal).ToStringPercent(),
+						" / ",
+						x.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, this.stuffLocal).ToStringPercent(),
+						" / ",
+						x.GetStatValueAbstract(StatDefOf.ArmorRating_Heat, this.stuffLocal).ToStringPercent()
+					});
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ApparelInsulation>c__AnonStorey7
+		{
+			internal ThingDef stuffLocal;
+
+			public <ApparelInsulation>c__AnonStorey7()
+			{
+			}
+
+			internal bool <>m__0(ThingDef x)
+			{
+				return x.IsApparel && this.stuffLocal.stuffProps.CanMake(x);
+			}
+
+			internal string <>m__1(ThingDef x)
+			{
+				string result;
+				if (!this.stuffLocal.stuffProps.CanMake(x))
+				{
+					result = "";
+				}
+				else
+				{
+					result = x.GetStatValueAbstract(StatDefOf.Insulation_Heat, this.stuffLocal).ToString("F1") + ", " + x.GetStatValueAbstract(StatDefOf.Insulation_Cold, this.stuffLocal).ToString("F1");
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoTableInternalApparel>c__AnonStorey8
+		{
+			internal ThingDef stuff;
+
+			public <DoTableInternalApparel>c__AnonStorey8()
+			{
+			}
+
+			internal bool <>m__0(ThingDef d)
+			{
+				return d.IsApparel && (this.stuff == null || (d.MadeFromStuff && this.stuff.stuffProps.CanMake(d)));
+			}
+
+			internal string <>m__1(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.WorkToMake, this.stuff).ToString("F0");
+			}
+
+			internal string <>m__2(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.MarketValue, this.stuff).ToString("F0");
+			}
+
+			internal string <>m__3(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.Insulation_Cold, this.stuff).ToString("F1");
+			}
+
+			internal string <>m__4(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.Insulation_Heat, this.stuff).ToString("F1");
+			}
+
+			internal string <>m__5(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, this.stuff).ToString("F2");
+			}
+
+			internal string <>m__6(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, this.stuff).ToString("F2");
+			}
+
+			internal string <>m__7(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.StuffEffectMultiplierArmor, this.stuff).ToString("F2");
+			}
+
+			internal string <>m__8(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.StuffEffectMultiplierInsulation_Cold, this.stuff).ToString("F2");
+			}
+
+			internal string <>m__9(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.StuffEffectMultiplierInsulation_Heat, this.stuff).ToString("F2");
+			}
+
+			internal string <>m__A(ThingDef d)
+			{
+				return d.GetStatValueAbstract(StatDefOf.EquipDelay, this.stuff).ToString("F1");
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ThingsExistingList>c__AnonStorey9
+		{
+			internal ThingRequestGroup localRg;
+
+			public <ThingsExistingList>c__AnonStorey9()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				List<Thing> list = Find.CurrentMap.listerThings.ThingsInGroup(this.localRg);
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					"Global things in group ",
+					this.localRg,
+					" (count ",
+					list.Count,
+					")"
+				}));
+				Log.Message(DebugLogsUtility.ThingListToUniqueCountString(list), false);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ThingMasses>c__AnonStoreyA
+		{
+			internal Func<ThingDef, float, string> perPawn;
+
+			internal Func<ThingDef, string> perNutrition;
+
+			public <ThingMasses>c__AnonStoreyA()
+			{
+			}
+
+			internal string <>m__0(ThingDef d)
+			{
+				return this.perPawn(d, ThingDefOf.Human.race.baseBodySize);
+			}
+
+			internal string <>m__1(ThingDef d)
+			{
+				return this.perPawn(d, ThingDefOf.Muffalo.race.baseBodySize);
+			}
+
+			internal string <>m__2(ThingDef d)
+			{
+				return this.perPawn(d, ThingDefOf.Dromedary.race.baseBodySize);
+			}
+
+			internal string <>m__3(ThingDef d)
+			{
+				return this.perNutrition(d);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <MakeTablePairsByThing>c__AnonStoreyB
+		{
+			internal List<ThingStuffPair> pairList;
+
+			internal DefMap<ThingDef, int> pairCount;
+
+			internal DefMap<ThingDef, float> totalCommMult;
+
+			internal DefMap<ThingDef, float> totalComm;
+
+			public <MakeTablePairsByThing>c__AnonStoreyB()
+			{
+			}
+
+			internal bool <>m__0(ThingDef d)
+			{
+				return this.pairList.Any((ThingStuffPair pa) => pa.thing == d);
+			}
+
+			internal string <>m__1(ThingDef t)
+			{
+				return this.pairCount[t].ToString();
+			}
+
+			internal string <>m__2(ThingDef t)
+			{
+				return this.totalCommMult[t].ToString("F4");
+			}
+
+			internal string <>m__3(ThingDef t)
+			{
+				return this.totalComm[t].ToString("F4");
+			}
+
+			private sealed class <MakeTablePairsByThing>c__AnonStoreyC
+			{
+				internal ThingDef d;
+
+				internal DebugOutputsGeneral.<MakeTablePairsByThing>c__AnonStoreyB <>f__ref$11;
+
+				public <MakeTablePairsByThing>c__AnonStoreyC()
+				{
+				}
+
+				internal bool <>m__0(ThingStuffPair pa)
+				{
+					return pa.thing == this.d;
+				}
+			}
 		}
 	}
 }

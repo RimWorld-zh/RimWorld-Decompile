@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000654 RID: 1620
 	public static class ScenarioLister
 	{
-		// Token: 0x0400132E RID: 4910
 		private static bool dirty = true;
 
-		// Token: 0x060021C7 RID: 8647 RVA: 0x0011E5A0 File Offset: 0x0011C9A0
 		public static IEnumerable<Scenario> AllScenarios()
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -29,7 +30,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021C8 RID: 8648 RVA: 0x0011E5C4 File Offset: 0x0011C9C4
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -57,7 +57,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021C9 RID: 8649 RVA: 0x0011E5F0 File Offset: 0x0011C9F0
 		public static bool ScenarioIsListedAnywhere(Scenario scen)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -78,13 +77,11 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060021CA RID: 8650 RVA: 0x0011E6BC File Offset: 0x0011CABC
 		public static void MarkDirty()
 		{
 			ScenarioLister.dirty = true;
 		}
 
-		// Token: 0x060021CB RID: 8651 RVA: 0x0011E6C5 File Offset: 0x0011CAC5
 		private static void RecacheIfDirty()
 		{
 			if (ScenarioLister.dirty)
@@ -93,7 +90,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021CC RID: 8652 RVA: 0x0011E6D8 File Offset: 0x0011CAD8
 		private static void RecacheData()
 		{
 			ScenarioLister.dirty = false;
@@ -109,7 +105,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021CD RID: 8653 RVA: 0x0011E728 File Offset: 0x0011CB28
 		public static int ScenarioListHash()
 		{
 			int num = 9826121;
@@ -118,6 +113,487 @@ namespace RimWorld
 				num ^= 791 * scenario.GetHashCode() * 6121;
 			}
 			return num;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ScenarioLister()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <AllScenarios>c__Iterator0 : IEnumerable, IEnumerable<Scenario>, IEnumerator, IDisposable, IEnumerator<Scenario>
+		{
+			internal IEnumerator<ScenarioDef> $locvar0;
+
+			internal ScenarioDef <scenDef>__1;
+
+			internal IEnumerator<Scenario> $locvar1;
+
+			internal Scenario <scen>__2;
+
+			internal IEnumerator<Scenario> $locvar2;
+
+			internal Scenario <scen>__3;
+
+			internal Scenario $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AllScenarios>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					ScenarioLister.RecacheIfDirty();
+					enumerator = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_D4;
+				case 3u:
+					goto IL_15E;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						scenDef = enumerator.Current;
+						this.$current = scenDef.scenario;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_D4:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						scen = enumerator2.Current;
+						this.$current = scen;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				enumerator3 = ScenarioFiles.AllScenariosWorkshop.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_15E:
+					switch (num)
+					{
+					}
+					if (enumerator3.MoveNext())
+					{
+						scen2 = enumerator3.Current;
+						this.$current = scen2;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Scenario IEnumerator<Scenario>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Scenario>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Scenario> IEnumerable<Scenario>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new ScenarioLister.<AllScenarios>c__Iterator0();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ScenariosInCategory>c__Iterator1 : IEnumerable, IEnumerable<Scenario>, IEnumerator, IDisposable, IEnumerator<Scenario>
+		{
+			internal ScenarioCategory cat;
+
+			internal IEnumerator<ScenarioDef> $locvar0;
+
+			internal ScenarioDef <scenDef>__1;
+
+			internal IEnumerator<Scenario> $locvar1;
+
+			internal Scenario <scen>__2;
+
+			internal IEnumerator<Scenario> $locvar2;
+
+			internal Scenario <scen>__3;
+
+			internal Scenario $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ScenariosInCategory>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					ScenarioLister.RecacheIfDirty();
+					if (cat == ScenarioCategory.FromDef)
+					{
+						enumerator = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator();
+						num = 4294967293u;
+					}
+					else
+					{
+						if (cat == ScenarioCategory.CustomLocal)
+						{
+							enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator();
+							num = 4294967293u;
+							goto Block_5;
+						}
+						if (cat == ScenarioCategory.SteamWorkshop)
+						{
+							enumerator3 = ScenarioFiles.AllScenariosWorkshop.GetEnumerator();
+							num = 4294967293u;
+							goto Block_7;
+						}
+						goto IL_208;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_F4;
+				case 3u:
+					goto IL_191;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						scenDef = enumerator.Current;
+						this.$current = scenDef.scenario;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				goto IL_208;
+				Block_5:
+				try
+				{
+					IL_F4:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						scen = enumerator2.Current;
+						this.$current = scen;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				goto IL_208;
+				Block_7:
+				try
+				{
+					IL_191:
+					switch (num)
+					{
+					}
+					if (enumerator3.MoveNext())
+					{
+						scen2 = enumerator3.Current;
+						this.$current = scen2;
+						if (!this.$disposing)
+						{
+							this.$PC = 3;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+				}
+				IL_208:
+				this.$PC = -1;
+				return false;
+			}
+
+			Scenario IEnumerator<Scenario>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				case 3u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator3 != null)
+						{
+							enumerator3.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Scenario>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Scenario> IEnumerable<Scenario>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ScenarioLister.<ScenariosInCategory>c__Iterator1 <ScenariosInCategory>c__Iterator = new ScenarioLister.<ScenariosInCategory>c__Iterator1();
+				<ScenariosInCategory>c__Iterator.cat = cat;
+				return <ScenariosInCategory>c__Iterator;
+			}
 		}
 	}
 }

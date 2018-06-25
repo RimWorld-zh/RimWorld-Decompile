@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200086B RID: 2155
 	public class MainButtonsRoot
 	{
-		// Token: 0x04001A7D RID: 6781
 		public MainTabsRoot tabs = new MainTabsRoot();
 
-		// Token: 0x04001A7E RID: 6782
 		private List<MainButtonDef> allButtonsInOrder;
 
-		// Token: 0x060030FB RID: 12539 RVA: 0x001AA0F0 File Offset: 0x001A84F0
+		[CompilerGenerated]
+		private static Func<MainButtonDef, int> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Predicate<MainButtonDef> <>f__am$cache1;
+
 		public MainButtonsRoot()
 		{
 			this.allButtonsInOrder = (from x in DefDatabase<MainButtonDef>.AllDefs
@@ -24,8 +27,6 @@ namespace RimWorld
 			select x).ToList<MainButtonDef>();
 		}
 
-		// Token: 0x170007D5 RID: 2005
-		// (get) Token: 0x060030FC RID: 12540 RVA: 0x001AA144 File Offset: 0x001A8544
 		private int VisibleButtonsCount
 		{
 			get
@@ -42,7 +43,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030FD RID: 12541 RVA: 0x001AA194 File Offset: 0x001A8594
 		public void MainButtonsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -60,7 +60,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030FE RID: 12542 RVA: 0x001AA254 File Offset: 0x001A8654
 		public void HandleLowPriorityShortcuts()
 		{
 			this.tabs.HandleLowPriorityShortcuts();
@@ -74,7 +73,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030FF RID: 12543 RVA: 0x001AA2BC File Offset: 0x001A86BC
 		private void DoButtons()
 		{
 			GUI.color = Color.white;
@@ -96,6 +94,18 @@ namespace RimWorld
 					num3 += num;
 				}
 			}
+		}
+
+		[CompilerGenerated]
+		private static int <MainButtonsRoot>m__0(MainButtonDef x)
+		{
+			return x.order;
+		}
+
+		[CompilerGenerated]
+		private static bool <DoButtons>m__1(MainButtonDef x)
+		{
+			return x.buttonVisible;
 		}
 	}
 }

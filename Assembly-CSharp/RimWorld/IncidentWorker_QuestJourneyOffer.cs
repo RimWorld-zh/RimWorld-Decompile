@@ -1,26 +1,29 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000355 RID: 853
 	public class IncidentWorker_QuestJourneyOffer : IncidentWorker
 	{
-		// Token: 0x0400090B RID: 2315
 		private const int MinTraversalDistance = 180;
 
-		// Token: 0x0400090C RID: 2316
 		private const int MaxTraversalDistance = 800;
 
-		// Token: 0x06000EB5 RID: 3765 RVA: 0x0007C714 File Offset: 0x0007AB14
+		[CompilerGenerated]
+		private static Predicate<int> <>f__am$cache0;
+
+		public IncidentWorker_QuestJourneyOffer()
+		{
+		}
+
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
 			return this.TryFindRootTile(out num);
 		}
 
-		// Token: 0x06000EB6 RID: 3766 RVA: 0x0007C734 File Offset: 0x0007AB34
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int rootTile;
@@ -57,14 +60,12 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EB7 RID: 3767 RVA: 0x0007C848 File Offset: 0x0007AC48
 		private bool TryFindRootTile(out int tile)
 		{
 			int unused;
 			return TileFinder.TryFindRandomPlayerTile(out tile, false, (int x) => this.TryFindDestinationTileActual(x, 180, out unused));
 		}
 
-		// Token: 0x06000EB8 RID: 3768 RVA: 0x0007C880 File Offset: 0x0007AC80
 		private bool TryFindDestinationTile(int rootTile, out int tile)
 		{
 			int num = 800;
@@ -96,10 +97,47 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000EB9 RID: 3769 RVA: 0x0007C904 File Offset: 0x0007AD04
 		private bool TryFindDestinationTileActual(int rootTile, int minDist, out int tile)
 		{
 			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, minDist, 800, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && Find.WorldGrid[x].biome.canBuildBase && Find.WorldGrid[x].biome.canAutoChoose, true, true);
+		}
+
+		[CompilerGenerated]
+		private static bool <TryFindDestinationTileActual>m__0(int x)
+		{
+			return !Find.WorldObjects.AnyWorldObjectAt(x) && Find.WorldGrid[x].biome.canBuildBase && Find.WorldGrid[x].biome.canAutoChoose;
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryExecuteWorker>c__AnonStorey0
+		{
+			internal WorldObject journeyDestination;
+
+			public <TryExecuteWorker>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				CameraJumper.TryJumpAndSelect(this.journeyDestination);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryFindRootTile>c__AnonStorey1
+		{
+			internal int unused;
+
+			internal IncidentWorker_QuestJourneyOffer $this;
+
+			public <TryFindRootTile>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(int x)
+			{
+				return this.$this.TryFindDestinationTileActual(x, 180, out this.unused);
+			}
 		}
 	}
 }

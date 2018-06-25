@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A79 RID: 2681
 	public class MentalState_BingingDrug : MentalState_Binging
 	{
-		// Token: 0x04002585 RID: 9605
 		public ChemicalDef chemical;
 
-		// Token: 0x04002586 RID: 9606
 		public DrugCategory drugCategory;
 
-		// Token: 0x04002587 RID: 9607
 		private static List<ChemicalDef> addictions = new List<ChemicalDef>();
 
-		// Token: 0x17000917 RID: 2327
-		// (get) Token: 0x06003B93 RID: 15251 RVA: 0x001F7FF8 File Offset: 0x001F63F8
+		public MentalState_BingingDrug()
+		{
+		}
+
 		public override string InspectLine
 		{
 			get
@@ -27,7 +26,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B94 RID: 15252 RVA: 0x001F8023 File Offset: 0x001F6423
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -35,7 +33,6 @@ namespace Verse.AI
 			Scribe_Values.Look<DrugCategory>(ref this.drugCategory, "drugCategory", DrugCategory.None, false);
 		}
 
-		// Token: 0x06003B95 RID: 15253 RVA: 0x001F8050 File Offset: 0x001F6450
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
@@ -62,7 +59,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B96 RID: 15254 RVA: 0x001F8130 File Offset: 0x001F6530
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -76,7 +72,6 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B97 RID: 15255 RVA: 0x001F8198 File Offset: 0x001F6598
 		private void ChooseRandomChemical()
 		{
 			MentalState_BingingDrug.addictions.Clear();
@@ -120,6 +115,23 @@ namespace Verse.AI
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static MentalState_BingingDrug()
+		{
+		}
+
+		[CompilerGenerated]
+		private bool <ChooseRandomChemical>m__0(ChemicalDef x)
+		{
+			return AddictionUtility.CanBingeOnNow(this.pawn, x, this.def.drugCategory);
+		}
+
+		[CompilerGenerated]
+		private bool <ChooseRandomChemical>m__1(ChemicalDef x)
+		{
+			return AddictionUtility.CanBingeOnNow(this.pawn, x, DrugCategory.Any);
 		}
 	}
 }

@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AE4 RID: 2788
 	public static class GenAI
 	{
-		// Token: 0x06003DBD RID: 15805 RVA: 0x002094A8 File Offset: 0x002078A8
+		[CompilerGenerated]
+		private static Func<Building, bool> <>f__am$cache0;
+
 		public static bool MachinesLike(Faction machineFaction, Pawn p)
 		{
 			return (p.Faction != null || !p.NonHumanlikeOrWildMan() || (p.HostFaction == machineFaction && !p.IsPrisoner)) && (!p.IsPrisoner || p.HostFaction != machineFaction) && (p.Faction == null || !p.Faction.HostileTo(machineFaction));
 		}
 
-		// Token: 0x06003DBE RID: 15806 RVA: 0x00209534 File Offset: 0x00207934
 		public static bool CanUseItemForWork(Pawn p, Thing item)
 		{
 			return !item.IsForbidden(p) && p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false);
 		}
 
-		// Token: 0x06003DBF RID: 15807 RVA: 0x00209580 File Offset: 0x00207980
 		public static bool CanBeArrestedBy(this Pawn pawn, Pawn arrester)
 		{
 			return pawn.RaceProps.Humanlike && (!pawn.InAggroMentalState || !pawn.HostileTo(arrester)) && !pawn.HostileTo(Faction.OfPlayer) && (!pawn.IsPrisonerOfColony || !pawn.Position.IsInPrisonCell(pawn.Map));
 		}
 
-		// Token: 0x06003DC0 RID: 15808 RVA: 0x00209604 File Offset: 0x00207A04
 		public static bool InDangerousCombat(Pawn pawn)
 		{
 			Region root = pawn.GetRegion(RegionType.Set_Passable);
@@ -49,7 +48,6 @@ namespace Verse.AI
 			return found;
 		}
 
-		// Token: 0x06003DC1 RID: 15809 RVA: 0x0020966C File Offset: 0x00207A6C
 		public static IntVec3 RandomRaidDest(IntVec3 raidSpawnLoc, Map map)
 		{
 			List<ThingDef> allBedDefBestToWorst = RestUtility.AllBedDefBestToWorst;
@@ -107,7 +105,6 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DC2 RID: 15810 RVA: 0x002098B0 File Offset: 0x00207CB0
 		public static bool EnemyIsNear(Pawn p, float radius)
 		{
 			bool result;
@@ -136,6 +133,88 @@ namespace Verse.AI
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private static bool <RandomRaidDest>m__0(Building b)
+		{
+			return !b.def.building.ai_combatDangerous && !b.def.building.isInert;
+		}
+
+		[CompilerGenerated]
+		private sealed class <InDangerousCombat>c__AnonStorey0
+		{
+			internal Region root;
+
+			internal Pawn pawn;
+
+			internal bool found;
+
+			public <InDangerousCombat>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Region r1, Region r2)
+			{
+				return r2.Room == this.root.Room;
+			}
+
+			internal bool <>m__1(Region r)
+			{
+				return r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn).Any(delegate(Thing t)
+				{
+					Pawn pawn = t as Pawn;
+					bool result;
+					if (pawn != null && !pawn.Downed && (float)(this.pawn.Position - pawn.Position).LengthHorizontalSquared < 144f && pawn.HostileTo(this.pawn.Faction))
+					{
+						this.found = true;
+						result = true;
+					}
+					else
+					{
+						result = false;
+					}
+					return result;
+				});
+			}
+
+			internal bool <>m__2(Thing t)
+			{
+				Pawn pawn = t as Pawn;
+				bool result;
+				if (pawn != null && !pawn.Downed && (float)(this.pawn.Position - pawn.Position).LengthHorizontalSquared < 144f && pawn.HostileTo(this.pawn.Faction))
+				{
+					this.found = true;
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RandomRaidDest>c__AnonStorey1
+		{
+			internal Map map;
+
+			internal IntVec3 raidSpawnLoc;
+
+			public <RandomRaidDest>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return this.map.reachability.CanReach(this.raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly);
+			}
+
+			internal bool <>m__1(IntVec3 x)
+			{
+				return this.map.reachability.CanReach(this.raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly);
+			}
 		}
 	}
 }

@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000E7 RID: 231
 	public class JobGiver_PackFood : ThinkNode_JobGiver
 	{
-		// Token: 0x040002C4 RID: 708
 		private const float MaxInvNutritionToConsiderLookingForFood = 0.4f;
 
-		// Token: 0x040002C5 RID: 709
 		private const float MinFinalInvNutritionToPickUp = 0.8f;
 
-		// Token: 0x040002C6 RID: 710
 		private const float MinNutritionPerColonistToDo = 1.5f;
 
-		// Token: 0x040002C7 RID: 711
 		public const FoodPreferability MinFoodPreferability = FoodPreferability.MealAwful;
 
-		// Token: 0x060004FA RID: 1274 RVA: 0x00037700 File Offset: 0x00035B00
+		public JobGiver_PackFood()
+		{
+		}
+
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -91,7 +90,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004FB RID: 1275 RVA: 0x00037870 File Offset: 0x00035C70
 		private float GetInventoryPackableFoodNutrition(Pawn pawn)
 		{
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
@@ -106,10 +104,58 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060004FC RID: 1276 RVA: 0x000378E8 File Offset: 0x00035CE8
 		private bool IsGoodPackableFoodFor(Thing food, Pawn forPawn)
 		{
 			return food.def.IsNutritionGivingIngestible && food.def.EverHaulable && food.def.ingestible.preferability >= FoodPreferability.MealAwful && forPawn.RaceProps.CanEverEat(food);
+		}
+
+		[CompilerGenerated]
+		private sealed class <TryGiveJob>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal float invNutrition;
+
+			internal JobGiver_PackFood $this;
+
+			public <TryGiveJob>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				bool result;
+				if (!this.$this.IsGoodPackableFoodFor(t, this.pawn) || t.IsForbidden(this.pawn) || !this.pawn.CanReserve(t, 1, -1, null, false) || !t.IsSociallyProper(this.pawn))
+				{
+					result = false;
+				}
+				else
+				{
+					float num = this.invNutrition + t.GetStatValue(StatDefOf.Nutrition, true) * (float)t.stackCount;
+					if (num < 0.8f)
+					{
+						result = false;
+					}
+					else
+					{
+						List<ThoughtDef> list = FoodUtility.ThoughtsFromIngesting(this.pawn, t, FoodUtility.GetFinalIngestibleDef(t, false));
+						for (int i = 0; i < list.Count; i++)
+						{
+							if (list[i].stages[0].baseMoodEffect < 0f)
+							{
+								return false;
+							}
+						}
+						result = true;
+					}
+				}
+				return result;
+			}
+
+			internal float <>m__1(Thing x)
+			{
+				return FoodUtility.FoodOptimality(this.pawn, x, FoodUtility.GetFinalIngestibleDef(x, false), 0f, false);
+			}
 		}
 	}
 }

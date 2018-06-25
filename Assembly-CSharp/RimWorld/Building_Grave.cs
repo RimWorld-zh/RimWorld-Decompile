@@ -1,26 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A8 RID: 1704
 	public class Building_Grave : Building_Casket, IStoreSettingsParent, IAssignableBuilding, IHaulDestination
 	{
-		// Token: 0x04001434 RID: 5172
 		private StorageSettings storageSettings = null;
 
-		// Token: 0x04001435 RID: 5173
 		private Graphic cachedGraphicFull = null;
 
-		// Token: 0x04001436 RID: 5174
 		public Pawn assignedPawn = null;
 
-		// Token: 0x1700057D RID: 1405
-		// (get) Token: 0x0600246F RID: 9327 RVA: 0x00138590 File Offset: 0x00136990
+		[CompilerGenerated]
+		private static Func<Corpse, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Corpse, Pawn> <>f__am$cache1;
+
+		public Building_Grave()
+		{
+		}
+
 		public override Graphic Graphic
 		{
 			get
@@ -49,8 +57,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700057E RID: 1406
-		// (get) Token: 0x06002470 RID: 9328 RVA: 0x0013860C File Offset: 0x00136A0C
 		public bool HasCorpse
 		{
 			get
@@ -59,8 +65,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700057F RID: 1407
-		// (get) Token: 0x06002471 RID: 9329 RVA: 0x00138630 File Offset: 0x00136A30
 		public Corpse Corpse
 		{
 			get
@@ -77,8 +81,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000580 RID: 1408
-		// (get) Token: 0x06002472 RID: 9330 RVA: 0x00138684 File Offset: 0x00136A84
 		public IEnumerable<Pawn> AssigningCandidates
 		{
 			get
@@ -99,8 +101,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000581 RID: 1409
-		// (get) Token: 0x06002473 RID: 9331 RVA: 0x00138720 File Offset: 0x00136B20
 		public IEnumerable<Pawn> AssignedPawns
 		{
 			get
@@ -113,8 +113,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000582 RID: 1410
-		// (get) Token: 0x06002474 RID: 9332 RVA: 0x0013874C File Offset: 0x00136B4C
 		public int MaxAssignedPawnsCount
 		{
 			get
@@ -123,13 +121,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002475 RID: 9333 RVA: 0x00138762 File Offset: 0x00136B62
 		public void TryAssignPawn(Pawn pawn)
 		{
 			pawn.ownership.ClaimGrave(this);
 		}
 
-		// Token: 0x06002476 RID: 9334 RVA: 0x00138771 File Offset: 0x00136B71
 		public void TryUnassignPawn(Pawn pawn)
 		{
 			if (pawn == this.assignedPawn)
@@ -138,14 +134,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002477 RID: 9335 RVA: 0x0013878C File Offset: 0x00136B8C
 		public bool AssignedAnything(Pawn pawn)
 		{
 			return pawn.ownership.AssignedGrave != null;
 		}
 
-		// Token: 0x17000583 RID: 1411
-		// (get) Token: 0x06002478 RID: 9336 RVA: 0x001387B4 File Offset: 0x00136BB4
 		public bool StorageTabVisible
 		{
 			get
@@ -154,19 +147,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002479 RID: 9337 RVA: 0x001387E0 File Offset: 0x00136BE0
 		public StorageSettings GetStoreSettings()
 		{
 			return this.storageSettings;
 		}
 
-		// Token: 0x0600247A RID: 9338 RVA: 0x001387FC File Offset: 0x00136BFC
 		public StorageSettings GetParentStoreSettings()
 		{
 			return this.def.building.fixedStorageSettings;
 		}
 
-		// Token: 0x0600247B RID: 9339 RVA: 0x00138824 File Offset: 0x00136C24
 		public override void PostMake()
 		{
 			base.PostMake();
@@ -177,7 +167,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600247C RID: 9340 RVA: 0x00138874 File Offset: 0x00136C74
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -187,7 +176,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600247D RID: 9341 RVA: 0x00138897 File Offset: 0x00136C97
 		public override void EjectContents()
 		{
 			base.EjectContents();
@@ -197,7 +185,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600247E RID: 9342 RVA: 0x001388C4 File Offset: 0x00136CC4
 		public virtual void Notify_CorpseBuried(Pawn worker)
 		{
 			CompArt comp = base.GetComp<CompArt>();
@@ -215,7 +202,6 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600247F RID: 9343 RVA: 0x00138960 File Offset: 0x00136D60
 		public override bool Accepts(Thing thing)
 		{
 			bool result;
@@ -250,7 +236,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002480 RID: 9344 RVA: 0x001389F4 File Offset: 0x00136DF4
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -277,7 +262,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002481 RID: 9345 RVA: 0x00138A88 File Offset: 0x00136E88
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -308,7 +292,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002482 RID: 9346 RVA: 0x00138AB4 File Offset: 0x00136EB4
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -333,6 +316,331 @@ namespace RimWorld
 				stringBuilder.Append(this.assignedPawn.LabelCap);
 			}
 			return stringBuilder.ToString();
+		}
+
+		[CompilerGenerated]
+		private static bool <get_AssigningCandidates>m__0(Corpse x)
+		{
+			return x.InnerPawn.IsColonist;
+		}
+
+		[CompilerGenerated]
+		private static Pawn <get_AssigningCandidates>m__1(Corpse x)
+		{
+			return x.InnerPawn;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<Gizmo> <GetGizmos>__BaseCallProxy0()
+		{
+			return base.GetGizmos();
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal Building_Grave $this;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.assignedPawn != null)
+					{
+						this.$current = this.assignedPawn;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_Grave.<>c__Iterator0 <>c__Iterator = new Building_Grave.<>c__Iterator0();
+				<>c__Iterator.$this = this;
+				return <>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		{
+			internal IEnumerator<Gizmo> $locvar0;
+
+			internal Gizmo <g>__1;
+
+			internal IEnumerator<Gizmo> $locvar1;
+
+			internal Gizmo <g>__2;
+
+			internal Command_Action <own>__3;
+
+			internal Building_Grave $this;
+
+			internal Gizmo $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetGizmos>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetGizmos>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_EC;
+				case 3u:
+					goto IL_207;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						g = enumerator.Current;
+						this.$current = g;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (!base.StorageTabVisible)
+				{
+					goto IL_163;
+				}
+				enumerator2 = StorageSettingsClipboard.CopyPasteGizmosFor(this.storageSettings).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_EC:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						g2 = enumerator2.Current;
+						this.$current = g2;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				IL_163:
+				if (!base.HasCorpse)
+				{
+					Command_Action own = new Command_Action();
+					own.defaultLabel = "CommandGraveAssignColonistLabel".Translate();
+					own.icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner", true);
+					own.defaultDesc = "CommandGraveAssignColonistDesc".Translate();
+					own.action = delegate()
+					{
+						Find.WindowStack.Add(new Dialog_AssignBuildingOwner(this));
+					};
+					own.hotKey = KeyBindingDefOf.Misc3;
+					this.$current = own;
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_207:
+				this.$PC = -1;
+				return false;
+			}
+
+			Gizmo IEnumerator<Gizmo>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Building_Grave.<GetGizmos>c__Iterator1 <GetGizmos>c__Iterator = new Building_Grave.<GetGizmos>c__Iterator1();
+				<GetGizmos>c__Iterator.$this = this;
+				return <GetGizmos>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				Find.WindowStack.Add(new Dialog_AssignBuildingOwner(this));
+			}
 		}
 	}
 }

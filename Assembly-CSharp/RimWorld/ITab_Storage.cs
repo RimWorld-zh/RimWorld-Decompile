@@ -2,21 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200085C RID: 2140
 	public class ITab_Storage : ITab
 	{
-		// Token: 0x04001A3F RID: 6719
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001A40 RID: 6720
 		private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 
-		// Token: 0x0600306D RID: 12397 RVA: 0x001A588D File Offset: 0x001A3C8D
 		public ITab_Storage()
 		{
 			this.size = ITab_Storage.WinSize;
@@ -24,8 +21,6 @@ namespace RimWorld
 			this.tutorTag = "Storage";
 		}
 
-		// Token: 0x170007BA RID: 1978
-		// (get) Token: 0x0600306E RID: 12398 RVA: 0x001A58B8 File Offset: 0x001A3CB8
 		protected virtual IStoreSettingsParent SelStoreSettingsParent
 		{
 			get
@@ -52,8 +47,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007BB RID: 1979
-		// (get) Token: 0x0600306F RID: 12399 RVA: 0x001A5908 File Offset: 0x001A3D08
 		public override bool IsVisible
 		{
 			get
@@ -62,8 +55,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007BC RID: 1980
-		// (get) Token: 0x06003070 RID: 12400 RVA: 0x001A5928 File Offset: 0x001A3D28
 		protected virtual bool IsPrioritySettingVisible
 		{
 			get
@@ -72,8 +63,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007BD RID: 1981
-		// (get) Token: 0x06003071 RID: 12401 RVA: 0x001A5940 File Offset: 0x001A3D40
 		private float TopAreaHeight
 		{
 			get
@@ -82,7 +71,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003072 RID: 12402 RVA: 0x001A596C File Offset: 0x001A3D6C
 		protected override void FillTab()
 		{
 			IStoreSettingsParent storeSettingsParent = this.SelStoreSettingsParent;
@@ -152,7 +140,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003073 RID: 12403 RVA: 0x001A5C94 File Offset: 0x001A4094
 		protected IStoreSettingsParent GetThingOrThingCompStoreSettingsParent(Thing t)
 		{
 			IStoreSettingsParent storeSettingsParent = t as IStoreSettingsParent;
@@ -179,6 +166,50 @@ namespace RimWorld
 				result = null;
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ITab_Storage()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FillTab>c__AnonStorey1
+		{
+			internal StorageSettings settings;
+
+			internal IStoreSettingsParent storeSettingsParent;
+
+			public <FillTab>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Bill b)
+			{
+				return b is Bill_Production && b.GetStoreZone() == this.storeSettingsParent && b.recipe.WorkerCounter.CanPossiblyStoreInStockpile((Bill_Production)b, b.GetStoreZone());
+			}
+
+			internal bool <>m__1(Bill b)
+			{
+				return b is Bill_Production && b.GetStoreZone() == this.storeSettingsParent && b.recipe.WorkerCounter.CanPossiblyStoreInStockpile((Bill_Production)b, b.GetStoreZone());
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FillTab>c__AnonStorey0
+		{
+			internal StoragePriority localPr;
+
+			internal ITab_Storage.<FillTab>c__AnonStorey1 <>f__ref$1;
+
+			public <FillTab>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$1.settings.Priority = this.localPr;
+			}
 		}
 	}
 }

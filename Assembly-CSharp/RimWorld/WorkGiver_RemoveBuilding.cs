@@ -1,22 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200012F RID: 303
 	public abstract class WorkGiver_RemoveBuilding : WorkGiver_Scanner
 	{
-		// Token: 0x170000E8 RID: 232
-		// (get) Token: 0x0600063B RID: 1595
+		protected WorkGiver_RemoveBuilding()
+		{
+		}
+
 		protected abstract DesignationDef Designation { get; }
 
-		// Token: 0x170000E9 RID: 233
-		// (get) Token: 0x0600063C RID: 1596
 		protected abstract JobDef RemoveBuildingJob { get; }
 
-		// Token: 0x0600063D RID: 1597 RVA: 0x00041A98 File Offset: 0x0003FE98
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(this.Designation))
@@ -26,8 +28,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x170000EA RID: 234
-		// (get) Token: 0x0600063E RID: 1598 RVA: 0x00041ACC File Offset: 0x0003FECC
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -36,17 +36,151 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600063F RID: 1599 RVA: 0x00041AE4 File Offset: 0x0003FEE4
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			LocalTargetInfo target = t;
 			return pawn.CanReserve(target, 1, -1, null, forced) && pawn.Map.designationManager.DesignationOn(t, this.Designation) != null;
 		}
 
-		// Token: 0x06000640 RID: 1600 RVA: 0x00041B40 File Offset: 0x0003FF40
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(this.RemoveBuildingJob, t);
+		}
+
+		[CompilerGenerated]
+		private sealed class <PotentialWorkThingsGlobal>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal Pawn pawn;
+
+			internal IEnumerator<Designation> $locvar0;
+
+			internal Designation <des>__1;
+
+			internal WorkGiver_RemoveBuilding $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PotentialWorkThingsGlobal>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(this.Designation).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						des = enumerator.Current;
+						this.$current = des.target.Thing;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorkGiver_RemoveBuilding.<PotentialWorkThingsGlobal>c__Iterator0 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_RemoveBuilding.<PotentialWorkThingsGlobal>c__Iterator0();
+				<PotentialWorkThingsGlobal>c__Iterator.$this = this;
+				<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
+				return <PotentialWorkThingsGlobal>c__Iterator;
+			}
 		}
 	}
 }

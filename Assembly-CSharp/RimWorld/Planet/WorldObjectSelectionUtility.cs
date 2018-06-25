@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EE RID: 2286
 	public static class WorldObjectSelectionUtility
 	{
-		// Token: 0x060034AD RID: 13485 RVA: 0x001C24E0 File Offset: 0x001C08E0
 		public static IEnumerable<WorldObject> MultiSelectableWorldObjectsInScreenRectDistinct(Rect rect)
 		{
 			List<WorldObject> allObjects = Find.WorldObjects.AllWorldObjects;
@@ -35,20 +37,17 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x060034AE RID: 13486 RVA: 0x001C250C File Offset: 0x001C090C
 		public static bool HiddenBehindTerrainNow(this WorldObject o)
 		{
 			return WorldRendererUtility.HiddenBehindTerrainNow(o.DrawPos);
 		}
 
-		// Token: 0x060034AF RID: 13487 RVA: 0x001C252C File Offset: 0x001C092C
 		public static Vector2 ScreenPos(this WorldObject o)
 		{
 			Vector3 drawPos = o.DrawPos;
 			return GenWorldUI.WorldToUIPosition(drawPos);
 		}
 
-		// Token: 0x060034B0 RID: 13488 RVA: 0x001C2550 File Offset: 0x001C0950
 		public static bool VisibleToCameraNow(this WorldObject o)
 		{
 			bool result;
@@ -69,7 +68,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060034B1 RID: 13489 RVA: 0x001C25B4 File Offset: 0x001C09B4
 		public static float DistanceToMouse(this WorldObject o, Vector2 mousePos)
 		{
 			Ray ray = Find.WorldCamera.ScreenPointToRay(mousePos * Prefs.UIScale);
@@ -85,6 +83,141 @@ namespace RimWorld.Planet
 				result = Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator0 : IEnumerable, IEnumerable<WorldObject>, IEnumerator, IDisposable, IEnumerator<WorldObject>
+		{
+			internal List<WorldObject> <allObjects>__0;
+
+			internal int <i>__1;
+
+			internal Rect rect;
+
+			internal WorldObject $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					allObjects = Find.WorldObjects.AllWorldObjects;
+					i = 0;
+					goto IL_158;
+				case 1u:
+					IL_F0:
+					break;
+				case 2u:
+					IL_148:
+					break;
+				default:
+					return false;
+				}
+				IL_14A:
+				i++;
+				IL_158:
+				if (i >= allObjects.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (allObjects[i].NeverMultiSelect)
+					{
+						goto IL_14A;
+					}
+					if (allObjects[i].HiddenBehindTerrainNow())
+					{
+						goto IL_14A;
+					}
+					if (ExpandableWorldObjectsUtility.IsExpanded(allObjects[i]))
+					{
+						if (!rect.Overlaps(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(allObjects[i])))
+						{
+							goto IL_F0;
+						}
+						this.$current = allObjects[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+					}
+					else
+					{
+						if (!rect.Contains(allObjects[i].ScreenPos()))
+						{
+							goto IL_148;
+						}
+						this.$current = allObjects[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+					}
+					return true;
+				}
+				return false;
+			}
+
+			WorldObject IEnumerator<WorldObject>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.Planet.WorldObject>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<WorldObject> IEnumerable<WorldObject>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator0 <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator = new WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator0();
+				<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator.rect = rect;
+				return <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator;
+			}
 		}
 	}
 }

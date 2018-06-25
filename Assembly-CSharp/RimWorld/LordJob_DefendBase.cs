@@ -4,28 +4,22 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200016D RID: 365
 	public class LordJob_DefendBase : LordJob
 	{
-		// Token: 0x0400033E RID: 830
 		private Faction faction;
 
-		// Token: 0x0400033F RID: 831
 		private IntVec3 baseCenter;
 
-		// Token: 0x06000779 RID: 1913 RVA: 0x0004A46C File Offset: 0x0004886C
 		public LordJob_DefendBase()
 		{
 		}
 
-		// Token: 0x0600077A RID: 1914 RVA: 0x0004A475 File Offset: 0x00048875
 		public LordJob_DefendBase(Faction faction, IntVec3 baseCenter)
 		{
 			this.faction = faction;
 			this.baseCenter = baseCenter;
 		}
 
-		// Token: 0x0600077B RID: 1915 RVA: 0x0004A48C File Offset: 0x0004888C
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -62,7 +56,6 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x0600077C RID: 1916 RVA: 0x0004A61C File Offset: 0x00048A1C
 		public override void ExposeData()
 		{
 			base.ExposeData();

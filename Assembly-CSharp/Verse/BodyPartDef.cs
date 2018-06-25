@@ -1,63 +1,52 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B00 RID: 2816
 	public class BodyPartDef : Def
 	{
-		// Token: 0x0400277A RID: 10106
 		[MustTranslate]
 		public string labelShort;
 
-		// Token: 0x0400277B RID: 10107
 		public List<BodyPartTagDef> tags = new List<BodyPartTagDef>();
 
-		// Token: 0x0400277C RID: 10108
 		public int hitPoints = 10;
 
-		// Token: 0x0400277D RID: 10109
 		public float permanentInjuryBaseChance = 0.08f;
 
-		// Token: 0x0400277E RID: 10110
 		public float bleedRate = 1f;
 
-		// Token: 0x0400277F RID: 10111
 		public float frostbiteVulnerability;
 
-		// Token: 0x04002780 RID: 10112
 		private bool skinCovered = false;
 
-		// Token: 0x04002781 RID: 10113
 		private bool solid = false;
 
-		// Token: 0x04002782 RID: 10114
 		public bool alive = true;
 
-		// Token: 0x04002783 RID: 10115
 		public bool beautyRelated;
 
-		// Token: 0x04002784 RID: 10116
 		public bool conceptual;
 
-		// Token: 0x04002785 RID: 10117
 		public bool socketed;
 
-		// Token: 0x04002786 RID: 10118
 		public ThingDef spawnThingOnRemoved;
 
-		// Token: 0x04002787 RID: 10119
 		public bool pawnGeneratorCanAmputate;
 
-		// Token: 0x04002788 RID: 10120
 		public bool canSuggestAmputation = true;
 
-		// Token: 0x04002789 RID: 10121
 		public Dictionary<DamageDef, float> hitChanceFactors;
 
-		// Token: 0x17000961 RID: 2401
-		// (get) Token: 0x06003E61 RID: 15969 RVA: 0x0020E6A8 File Offset: 0x0020CAA8
+		public BodyPartDef()
+		{
+		}
+
 		public bool IsDelicate
 		{
 			get
@@ -66,8 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000962 RID: 2402
-		// (get) Token: 0x06003E62 RID: 15970 RVA: 0x0020E6D0 File Offset: 0x0020CAD0
 		public bool IsSolidInDefinition_Debug
 		{
 			get
@@ -76,8 +63,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000963 RID: 2403
-		// (get) Token: 0x06003E63 RID: 15971 RVA: 0x0020E6EC File Offset: 0x0020CAEC
 		public bool IsSkinCoveredInDefinition_Debug
 		{
 			get
@@ -86,8 +71,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000964 RID: 2404
-		// (get) Token: 0x06003E64 RID: 15972 RVA: 0x0020E708 File Offset: 0x0020CB08
 		public string LabelShort
 		{
 			get
@@ -96,8 +79,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000965 RID: 2405
-		// (get) Token: 0x06003E65 RID: 15973 RVA: 0x0020E740 File Offset: 0x0020CB40
 		public string LabelShortCap
 		{
 			get
@@ -106,7 +87,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E66 RID: 15974 RVA: 0x0020E760 File Offset: 0x0020CB60
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -132,7 +112,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E67 RID: 15975 RVA: 0x0020E78C File Offset: 0x0020CB8C
 		public bool IsSolid(BodyPartRecord part, List<Hediff> hediffs)
 		{
 			for (BodyPartRecord bodyPartRecord = part; bodyPartRecord != null; bodyPartRecord = bodyPartRecord.parent)
@@ -148,19 +127,16 @@ namespace Verse
 			return this.solid;
 		}
 
-		// Token: 0x06003E68 RID: 15976 RVA: 0x0020E818 File Offset: 0x0020CC18
 		public bool IsSkinCovered(BodyPartRecord part, HediffSet body)
 		{
 			return !body.PartOrAnyAncestorHasDirectlyAddedParts(part) && this.skinCovered;
 		}
 
-		// Token: 0x06003E69 RID: 15977 RVA: 0x0020E848 File Offset: 0x0020CC48
 		public float GetMaxHealth(Pawn pawn)
 		{
 			return (float)Mathf.CeilToInt((float)this.hitPoints * pawn.HealthScale);
 		}
 
-		// Token: 0x06003E6A RID: 15978 RVA: 0x0020E874 File Offset: 0x0020CC74
 		public float GetHitChanceFactorFor(DamageDef damage)
 		{
 			float result;
@@ -182,6 +158,194 @@ namespace Verse
 				result = 1f;
 			}
 			return result;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal BodyPartDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_10D;
+				case 3u:
+					goto IL_16B;
+				case 4u:
+					goto IL_1AF;
+				case 5u:
+					goto IL_1F3;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.frostbiteVulnerability > 10f)
+				{
+					this.$current = "frostbitePriority > max 10: " + this.frostbiteVulnerability;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_10D:
+				if (this.solid && this.permanentInjuryBaseChance > 0f)
+				{
+					this.$current = "solid but permanentInjuryBaseChance is not zero; it is " + this.permanentInjuryBaseChance + ". Solid parts must have zero permanent injury chance.";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_16B:
+				if (this.solid && this.bleedRate > 0f)
+				{
+					this.$current = "solid but bleedRate is not zero";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_1AF:
+				if (this.solid && this.permanentInjuryBaseChance > 0f)
+				{
+					this.$current = "solid but permanentInjuryBaseChance is not zero";
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				}
+				IL_1F3:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyPartDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new BodyPartDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

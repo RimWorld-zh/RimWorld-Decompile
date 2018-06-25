@@ -1,143 +1,107 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000273 RID: 627
 	public class PlantProperties
 	{
-		// Token: 0x0400052B RID: 1323
 		public List<PlantBiomeRecord> wildBiomes = null;
 
-		// Token: 0x0400052C RID: 1324
 		public int wildClusterRadius = -1;
 
-		// Token: 0x0400052D RID: 1325
 		public float wildClusterWeight = 15f;
 
-		// Token: 0x0400052E RID: 1326
 		public float wildOrder = 2f;
 
-		// Token: 0x0400052F RID: 1327
 		public bool wildEqualLocalDistribution = true;
 
-		// Token: 0x04000530 RID: 1328
 		public bool cavePlant;
 
-		// Token: 0x04000531 RID: 1329
 		public float cavePlantWeight = 1f;
 
-		// Token: 0x04000532 RID: 1330
 		[NoTranslate]
 		public List<string> sowTags = new List<string>();
 
-		// Token: 0x04000533 RID: 1331
 		public float sowWork = 10f;
 
-		// Token: 0x04000534 RID: 1332
 		public int sowMinSkill = 0;
 
-		// Token: 0x04000535 RID: 1333
 		public bool blockAdjacentSow = false;
 
-		// Token: 0x04000536 RID: 1334
 		public List<ResearchProjectDef> sowResearchPrerequisites = null;
 
-		// Token: 0x04000537 RID: 1335
 		public bool mustBeWildToSow;
 
-		// Token: 0x04000538 RID: 1336
 		public float harvestWork = 10f;
 
-		// Token: 0x04000539 RID: 1337
 		public float harvestYield = 0f;
 
-		// Token: 0x0400053A RID: 1338
 		public ThingDef harvestedThingDef = null;
 
-		// Token: 0x0400053B RID: 1339
 		[NoTranslate]
 		public string harvestTag;
 
-		// Token: 0x0400053C RID: 1340
 		public float harvestMinGrowth = 0.65f;
 
-		// Token: 0x0400053D RID: 1341
 		public float harvestAfterGrowth = 0f;
 
-		// Token: 0x0400053E RID: 1342
 		public bool harvestFailable = true;
 
-		// Token: 0x0400053F RID: 1343
 		public SoundDef soundHarvesting = null;
 
-		// Token: 0x04000540 RID: 1344
 		public SoundDef soundHarvestFinish = null;
 
-		// Token: 0x04000541 RID: 1345
 		public float growDays = 2f;
 
-		// Token: 0x04000542 RID: 1346
 		public float lifespanFraction = 6f;
 
-		// Token: 0x04000543 RID: 1347
 		public float growMinGlow = 0.51f;
 
-		// Token: 0x04000544 RID: 1348
 		public float growOptimalGlow = 1f;
 
-		// Token: 0x04000545 RID: 1349
 		public float fertilityMin = 0.9f;
 
-		// Token: 0x04000546 RID: 1350
 		public float fertilitySensitivity = 0.5f;
 
-		// Token: 0x04000547 RID: 1351
 		public bool dieIfLeafless = false;
 
-		// Token: 0x04000548 RID: 1352
 		public bool neverBlightable = false;
 
-		// Token: 0x04000549 RID: 1353
 		public bool interferesWithRoof = false;
 
-		// Token: 0x0400054A RID: 1354
 		public PlantPurpose purpose = PlantPurpose.Misc;
 
-		// Token: 0x0400054B RID: 1355
 		public float topWindExposure = 0.25f;
 
-		// Token: 0x0400054C RID: 1356
 		public int maxMeshCount = 1;
 
-		// Token: 0x0400054D RID: 1357
 		public FloatRange visualSizeRange = new FloatRange(0.9f, 1.1f);
 
-		// Token: 0x0400054E RID: 1358
 		[NoTranslate]
 		private string leaflessGraphicPath = null;
 
-		// Token: 0x0400054F RID: 1359
 		[Unsaved]
 		public Graphic leaflessGraphic = null;
 
-		// Token: 0x04000550 RID: 1360
 		[NoTranslate]
 		private string immatureGraphicPath = null;
 
-		// Token: 0x04000551 RID: 1361
 		[Unsaved]
 		public Graphic immatureGraphic = null;
 
-		// Token: 0x04000552 RID: 1362
 		public bool dropLeaves = false;
 
-		// Token: 0x04000553 RID: 1363
 		public const int MaxMaxMeshCount = 25;
 
-		// Token: 0x1700018B RID: 395
-		// (get) Token: 0x06000ABE RID: 2750 RVA: 0x000615D4 File Offset: 0x0005F9D4
+		public PlantProperties()
+		{
+		}
+
 		public bool Sowable
 		{
 			get
@@ -146,8 +110,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700018C RID: 396
-		// (get) Token: 0x06000ABF RID: 2751 RVA: 0x000615F8 File Offset: 0x0005F9F8
 		public bool Harvestable
 		{
 			get
@@ -156,8 +118,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700018D RID: 397
-		// (get) Token: 0x06000AC0 RID: 2752 RVA: 0x0006161C File Offset: 0x0005FA1C
 		public bool HarvestDestroys
 		{
 			get
@@ -166,8 +126,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700018E RID: 398
-		// (get) Token: 0x06000AC1 RID: 2753 RVA: 0x00061644 File Offset: 0x0005FA44
 		public bool IsTree
 		{
 			get
@@ -176,8 +134,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700018F RID: 399
-		// (get) Token: 0x06000AC2 RID: 2754 RVA: 0x0006166C File Offset: 0x0005FA6C
 		public float LifespanDays
 		{
 			get
@@ -186,8 +142,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000190 RID: 400
-		// (get) Token: 0x06000AC3 RID: 2755 RVA: 0x00061690 File Offset: 0x0005FA90
 		public int LifespanTicks
 		{
 			get
@@ -196,8 +150,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000191 RID: 401
-		// (get) Token: 0x06000AC4 RID: 2756 RVA: 0x000616B4 File Offset: 0x0005FAB4
 		public bool LimitedLifespan
 		{
 			get
@@ -206,8 +158,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000192 RID: 402
-		// (get) Token: 0x06000AC5 RID: 2757 RVA: 0x000616D8 File Offset: 0x0005FAD8
 		public bool Blightable
 		{
 			get
@@ -216,8 +166,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000193 RID: 403
-		// (get) Token: 0x06000AC6 RID: 2758 RVA: 0x00061710 File Offset: 0x0005FB10
 		public bool GrowsInClusters
 		{
 			get
@@ -226,7 +174,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AC7 RID: 2759 RVA: 0x00061730 File Offset: 0x0005FB30
 		public void PostLoadSpecial(ThingDef parentDef)
 		{
 			if (!this.leaflessGraphicPath.NullOrEmpty())
@@ -245,7 +192,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AC8 RID: 2760 RVA: 0x00061798 File Offset: 0x0005FB98
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.maxMeshCount > 25)
@@ -255,7 +201,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000AC9 RID: 2761 RVA: 0x000617C4 File Offset: 0x0005FBC4
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.sowMinSkill > 0)
@@ -299,6 +244,300 @@ namespace RimWorld
 				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarvestYield".Translate(), this.harvestYield.ToString("F0"), 0, "");
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PostLoadSpecial>c__AnonStorey2
+		{
+			internal ThingDef parentDef;
+
+			internal PlantProperties $this;
+
+			public <PostLoadSpecial>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.leaflessGraphic = GraphicDatabase.Get(this.parentDef.graphicData.graphicClass, this.$this.leaflessGraphicPath, this.parentDef.graphic.Shader, this.parentDef.graphicData.drawSize, this.parentDef.graphicData.color, this.parentDef.graphicData.colorTwo);
+			}
+
+			internal void <>m__1()
+			{
+				this.$this.immatureGraphic = GraphicDatabase.Get(this.parentDef.graphicData.graphicClass, this.$this.immatureGraphicPath, this.parentDef.graphic.Shader, this.parentDef.graphicData.drawSize, this.parentDef.graphicData.color, this.parentDef.graphicData.colorTwo);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal PlantProperties $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.maxMeshCount > 25)
+					{
+						this.$current = "maxMeshCount > MaxMaxMeshCount";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PlantProperties.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new PlantProperties.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal string <attributes>__0;
+
+			internal StatDrawEntry <gt>__0;
+
+			internal PlantProperties $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.sowMinSkill > 0)
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, "");
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				case 4u:
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 5;
+					}
+					return true;
+				case 5u:
+					if (!attributes.NullOrEmpty())
+					{
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0, "");
+						if (!this.$disposing)
+						{
+							this.$PC = 6;
+						}
+						return true;
+					}
+					goto IL_2E0;
+				case 6u:
+					goto IL_2E0;
+				case 7u:
+					goto IL_352;
+				case 8u:
+					goto IL_3B2;
+				default:
+					return false;
+				}
+				attributes = "";
+				if (base.Harvestable)
+				{
+					if (!attributes.NullOrEmpty())
+					{
+						attributes += ", ";
+					}
+					attributes += "Harvestable".Translate();
+				}
+				if (base.LimitedLifespan)
+				{
+					if (!attributes.NullOrEmpty())
+					{
+						attributes += ", ";
+					}
+					attributes += "LimitedLifespan".Translate();
+				}
+				StatDrawEntry gt = new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, "");
+				gt.overrideReportText = "GrowingTimeDesc".Translate();
+				this.$current = gt;
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_2E0:
+				if (base.LimitedLifespan)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), base.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 7;
+					}
+					return true;
+				}
+				IL_352:
+				if (this.harvestYield > 0f)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "HarvestYield".Translate(), this.harvestYield.ToString("F0"), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 8;
+					}
+					return true;
+				}
+				IL_3B2:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PlantProperties.<SpecialDisplayStats>c__Iterator1 <SpecialDisplayStats>c__Iterator = new PlantProperties.<SpecialDisplayStats>c__Iterator1();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
+			}
 		}
 	}
 }

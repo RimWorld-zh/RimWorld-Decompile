@@ -1,22 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200005F RID: 95
 	public abstract class JobDriver_VisitJoyThing : JobDriver
 	{
-		// Token: 0x040001FC RID: 508
 		protected const TargetIndex TargetThingIndex = TargetIndex.A;
 
-		// Token: 0x060002BD RID: 701 RVA: 0x0001D5F0 File Offset: 0x0001B9F0
+		protected JobDriver_VisitJoyThing()
+		{
+		}
+
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x060002BE RID: 702 RVA: 0x0001D628 File Offset: 0x0001BA28
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
@@ -35,7 +39,122 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060002BF RID: 703
 		protected abstract void WaitTickAction();
+
+		[CompilerGenerated]
+		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
+		{
+			internal Toil <wait>__0;
+
+			internal JobDriver_VisitJoyThing $this;
+
+			internal Toil $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <MakeNewToils>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
+					this.$current = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					wait = Toils_General.Wait(this.job.def.joyDuration);
+					wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					wait.tickAction = delegate()
+					{
+						this.WaitTickAction();
+					};
+					wait.AddFinishAction(delegate
+					{
+						JoyUtility.TryGainRecRoomThought(this.pawn);
+					});
+					this.$current = wait;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			Toil IEnumerator<Toil>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.AI.Toil>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Toil> IEnumerable<Toil>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				JobDriver_VisitJoyThing.<MakeNewToils>c__Iterator0 <MakeNewToils>c__Iterator = new JobDriver_VisitJoyThing.<MakeNewToils>c__Iterator0();
+				<MakeNewToils>c__Iterator.$this = this;
+				return <MakeNewToils>c__Iterator;
+			}
+
+			internal void <>m__0()
+			{
+				this.WaitTickAction();
+			}
+
+			internal void <>m__1()
+			{
+				JoyUtility.TryGainRecRoomThought(this.pawn);
+			}
+		}
 	}
 }

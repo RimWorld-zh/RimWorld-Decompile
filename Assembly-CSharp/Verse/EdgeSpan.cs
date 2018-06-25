@@ -1,21 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000C8E RID: 3214
 	public struct EdgeSpan
 	{
-		// Token: 0x0400300F RID: 12303
 		public IntVec3 root;
 
-		// Token: 0x04003010 RID: 12304
 		public SpanDirection dir;
 
-		// Token: 0x04003011 RID: 12305
 		public int length;
 
-		// Token: 0x06004682 RID: 18050 RVA: 0x00253C56 File Offset: 0x00252056
 		public EdgeSpan(IntVec3 root, SpanDirection dir, int length)
 		{
 			this.root = root;
@@ -23,8 +22,6 @@ namespace Verse
 			this.length = length;
 		}
 
-		// Token: 0x17000B1C RID: 2844
-		// (get) Token: 0x06004683 RID: 18051 RVA: 0x00253C70 File Offset: 0x00252070
 		public bool IsValid
 		{
 			get
@@ -33,8 +30,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B1D RID: 2845
-		// (get) Token: 0x06004684 RID: 18052 RVA: 0x00253C90 File Offset: 0x00252090
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -54,7 +49,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004685 RID: 18053 RVA: 0x00253CC0 File Offset: 0x002520C0
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -69,7 +63,6 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004686 RID: 18054 RVA: 0x00253D30 File Offset: 0x00252130
 		public ulong UniqueHashCode()
 		{
 			ulong num = this.root.UniqueHashCode();
@@ -78,6 +71,121 @@ namespace Verse
 				num += 17592186044416UL;
 			}
 			return num + (ulong)(281474976710656L * (long)this.length);
+		}
+
+		[CompilerGenerated]
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal int <i>__1;
+
+			internal EdgeSpan $this;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_F6;
+				case 1u:
+					break;
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				IL_E7:
+				i++;
+				IL_F6:
+				if (i < this.length)
+				{
+					if (this.dir == SpanDirection.North)
+					{
+						this.$current = new IntVec3(this.root.x, 0, this.root.z + i);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+					}
+					else
+					{
+						if (this.dir != SpanDirection.East)
+						{
+							goto IL_E7;
+						}
+						this.$current = new IntVec3(this.root.x + i, 0, this.root.z);
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				EdgeSpan.<>c__Iterator0 <>c__Iterator = new EdgeSpan.<>c__Iterator0();
+				<>c__Iterator.$this = ref this;
+				return <>c__Iterator;
+			}
 		}
 	}
 }

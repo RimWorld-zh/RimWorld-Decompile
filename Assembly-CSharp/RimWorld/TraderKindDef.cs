@@ -1,29 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E8 RID: 744
 	public class TraderKindDef : Def
 	{
-		// Token: 0x040007D0 RID: 2000
 		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
 
-		// Token: 0x040007D1 RID: 2001
 		public float commonality = 1f;
 
-		// Token: 0x040007D2 RID: 2002
 		public bool orbital;
 
-		// Token: 0x040007D3 RID: 2003
 		public bool requestable = true;
 
-		// Token: 0x040007D4 RID: 2004
 		public SimpleCurve commonalityMultFromPopulationIntent;
 
-		// Token: 0x170001D5 RID: 469
-		// (get) Token: 0x06000C42 RID: 3138 RVA: 0x0006CBAC File Offset: 0x0006AFAC
+		public TraderKindDef()
+		{
+		}
+
 		public float CalculatedCommonality
 		{
 			get
@@ -37,7 +37,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C43 RID: 3139 RVA: 0x0006CBF4 File Offset: 0x0006AFF4
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -47,7 +46,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C44 RID: 3140 RVA: 0x0006CC5C File Offset: 0x0006B05C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -64,7 +62,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C45 RID: 3141 RVA: 0x0006CC88 File Offset: 0x0006B088
 		public bool WillTrade(ThingDef td)
 		{
 			for (int i = 0; i < this.stockGenerators.Count; i++)
@@ -77,7 +74,6 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C46 RID: 3142 RVA: 0x0006CCDC File Offset: 0x0006B0DC
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
 			PriceType result;
@@ -101,6 +97,228 @@ namespace RimWorld
 				result = PriceType.Normal;
 			}
 			return result;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal List<StockGenerator>.Enumerator $locvar1;
+
+			internal StockGenerator <stock>__2;
+
+			internal IEnumerator<string> $locvar2;
+
+			internal string <err>__3;
+
+			internal TraderKindDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_D2;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = this.stockGenerators.GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_D2:
+					switch (num)
+					{
+					case 2u:
+						Block_11:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator3.MoveNext())
+							{
+								err2 = enumerator3.Current;
+								this.$current = err2;
+								if (!this.$disposing)
+								{
+									this.$PC = 2;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator3 != null)
+								{
+									enumerator3.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						stock = enumerator2.Current;
+						enumerator3 = stock.ConfigErrors(this).GetEnumerator();
+						num = 4294967293u;
+						goto Block_11;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TraderKindDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new TraderKindDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

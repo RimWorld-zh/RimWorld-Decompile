@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C7C RID: 3196
 	public class PlaceWorker_WatermillGenerator : PlaceWorker
 	{
-		// Token: 0x06004600 RID: 17920 RVA: 0x0024E84C File Offset: 0x0024CC4C
+		public PlaceWorker_WatermillGenerator()
+		{
+		}
+
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			foreach (IntVec3 c in CompPowerPlantWater.GroundCells(loc, rot))
@@ -29,19 +35,106 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06004601 RID: 17921 RVA: 0x0024E968 File Offset: 0x0024CD68
 		public override void DrawGhost(ThingDef def, IntVec3 loc, Rot4 rot, Color ghostCol)
 		{
 			GenDraw.DrawFieldEdges(CompPowerPlantWater.GroundCells(loc, rot).ToList<IntVec3>(), new Color(0.7f, 0.65f, 0.6f));
 			GenDraw.DrawFieldEdges(CompPowerPlantWater.WaterCells(loc, rot).ToList<IntVec3>(), new Color(0.6f, 0.6f, 0.7f));
 		}
 
-		// Token: 0x06004602 RID: 17922 RVA: 0x0024E9C0 File Offset: 0x0024CDC0
 		public override IEnumerable<TerrainAffordanceDef> DisplayAffordances()
 		{
 			yield return TerrainAffordanceDefOf.Medium;
 			yield return TerrainAffordanceDefOf.MovingFluid;
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DisplayAffordances>c__Iterator0 : IEnumerable, IEnumerable<TerrainAffordanceDef>, IEnumerator, IDisposable, IEnumerator<TerrainAffordanceDef>
+		{
+			internal TerrainAffordanceDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <DisplayAffordances>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = TerrainAffordanceDefOf.Medium;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$current = TerrainAffordanceDefOf.MovingFluid;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			TerrainAffordanceDef IEnumerator<TerrainAffordanceDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.TerrainAffordanceDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<TerrainAffordanceDef> IEnumerable<TerrainAffordanceDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new PlaceWorker_WatermillGenerator.<DisplayAffordances>c__Iterator0();
+			}
 		}
 	}
 }

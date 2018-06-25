@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using RimWorld.Planet;
 using UnityEngine;
@@ -7,28 +8,21 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200030C RID: 780
 	public sealed class GameConditionManager : IExposable
 	{
-		// Token: 0x04000868 RID: 2152
 		public Map ownerMap;
 
-		// Token: 0x04000869 RID: 2153
 		private List<GameCondition> activeConditions = new List<GameCondition>();
 
-		// Token: 0x06000D09 RID: 3337 RVA: 0x0007180F File Offset: 0x0006FC0F
 		public GameConditionManager(Map map)
 		{
 			this.ownerMap = map;
 		}
 
-		// Token: 0x06000D0A RID: 3338 RVA: 0x0007182A File Offset: 0x0006FC2A
 		public GameConditionManager(World world)
 		{
 		}
 
-		// Token: 0x170001FA RID: 506
-		// (get) Token: 0x06000D0B RID: 3339 RVA: 0x00071840 File Offset: 0x0006FC40
 		public List<GameCondition> ActiveConditions
 		{
 			get
@@ -37,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170001FB RID: 507
-		// (get) Token: 0x06000D0C RID: 3340 RVA: 0x0007185C File Offset: 0x0006FC5C
 		public GameConditionManager Parent
 		{
 			get
@@ -47,7 +39,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0D RID: 3341 RVA: 0x0007188C File Offset: 0x0006FC8C
 		public void RegisterCondition(GameCondition cond)
 		{
 			this.activeConditions.Add(cond);
@@ -55,7 +46,6 @@ namespace RimWorld
 			cond.Init();
 		}
 
-		// Token: 0x06000D0E RID: 3342 RVA: 0x000718A8 File Offset: 0x0006FCA8
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<GameCondition>(ref this.activeConditions, "activeConditions", LookMode.Deep, new object[0]);
@@ -68,7 +58,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0F RID: 3343 RVA: 0x0007190C File Offset: 0x0006FD0C
 		public void GameConditionManagerTick()
 		{
 			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
@@ -85,7 +74,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D10 RID: 3344 RVA: 0x00071964 File Offset: 0x0006FD64
 		public void GameConditionManagerDraw(Map map)
 		{
 			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
@@ -98,7 +86,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D11 RID: 3345 RVA: 0x000719BC File Offset: 0x0006FDBC
 		public void DoSteadyEffects(IntVec3 c, Map map)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -111,13 +98,11 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D12 RID: 3346 RVA: 0x00071A14 File Offset: 0x0006FE14
 		public bool ConditionIsActive(GameConditionDef def)
 		{
 			return this.GetActiveCondition(def) != null;
 		}
 
-		// Token: 0x06000D13 RID: 3347 RVA: 0x00071A38 File Offset: 0x0006FE38
 		public GameCondition GetActiveCondition(GameConditionDef def)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -134,7 +119,6 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000D14 RID: 3348 RVA: 0x00071AB4 File Offset: 0x0006FEB4
 		public T GetActiveCondition<T>() where T : GameCondition
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -152,7 +136,6 @@ namespace RimWorld
 			return (T)((object)null);
 		}
 
-		// Token: 0x06000D15 RID: 3349 RVA: 0x00071B34 File Offset: 0x0006FF34
 		public void GetChildren(List<GameConditionManager> outChildren)
 		{
 			if (this == Find.World.gameConditionManager)
@@ -165,7 +148,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D16 RID: 3350 RVA: 0x00071B88 File Offset: 0x0006FF88
 		public float TotalHeightAt(float width)
 		{
 			float num = 0f;
@@ -180,7 +162,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D17 RID: 3351 RVA: 0x00071BF8 File Offset: 0x0006FFF8
 		public void DoConditionsUI(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -205,7 +186,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D18 RID: 3352 RVA: 0x00071CF8 File Offset: 0x000700F8
 		internal float AggregateSkyTargetLerpFactor(Map map)
 		{
 			float num = 0f;
@@ -220,7 +200,6 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x06000D19 RID: 3353 RVA: 0x00071D70 File Offset: 0x00070170
 		internal SkyTarget? AggregateSkyTarget(Map map)
 		{
 			SkyTarget value = default(SkyTarget);
@@ -238,7 +217,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D1A RID: 3354 RVA: 0x00071DC0 File Offset: 0x000701C0
 		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal, Map map)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -265,7 +243,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D1B RID: 3355 RVA: 0x00071E80 File Offset: 0x00070280
 		internal float AggregateTemperatureOffset()
 		{
 			float num = 0f;
@@ -280,7 +257,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1C RID: 3356 RVA: 0x00071EE8 File Offset: 0x000702E8
 		internal float AggregateAnimalDensityFactor(Map map)
 		{
 			float num = 1f;
@@ -295,7 +271,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1D RID: 3357 RVA: 0x00071F54 File Offset: 0x00070354
 		internal float AggregatePlantDensityFactor(Map map)
 		{
 			float num = 1f;
@@ -310,7 +285,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1E RID: 3358 RVA: 0x00071FC0 File Offset: 0x000703C0
 		internal float AggregateSkyGazeJoyGainFactor(Map map)
 		{
 			float num = 1f;
@@ -325,7 +299,6 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1F RID: 3359 RVA: 0x0007202C File Offset: 0x0007042C
 		internal float AggregateSkyGazeChanceFactor(Map map)
 		{
 			float num = 1f;
@@ -340,14 +313,12 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D20 RID: 3360 RVA: 0x00072098 File Offset: 0x00070498
 		internal bool AllowEnjoyableOutsideNow(Map map)
 		{
 			GameConditionDef gameConditionDef;
 			return this.AllowEnjoyableOutsideNow(map, out gameConditionDef);
 		}
 
-		// Token: 0x06000D21 RID: 3361 RVA: 0x000720B8 File Offset: 0x000704B8
 		internal bool AllowEnjoyableOutsideNow(Map map, out GameConditionDef reason)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -363,7 +334,6 @@ namespace RimWorld
 			return this.Parent == null || this.Parent.AllowEnjoyableOutsideNow(map, out reason);
 		}
 
-		// Token: 0x06000D22 RID: 3362 RVA: 0x00072138 File Offset: 0x00070538
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -372,6 +342,21 @@ namespace RimWorld
 				stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(saveable));
 			}
 			return stringBuilder.ToString();
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoConditionsUI>c__AnonStorey0
+		{
+			internal GameCondition localCond;
+
+			public <DoConditionsUI>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				return this.localCond.TooltipString;
+			}
 		}
 	}
 }

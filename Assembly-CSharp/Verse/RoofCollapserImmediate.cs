@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000CA1 RID: 3233
 	public static class RoofCollapserImmediate
 	{
-		// Token: 0x04003067 RID: 12391
 		private static readonly IntRange ThinRoofCrushDamageRange = new IntRange(15, 30);
 
-		// Token: 0x0600472E RID: 18222 RVA: 0x00259387 File Offset: 0x00257787
 		public static void DropRoofInCells(IntVec3 c, Map map, List<Thing> outCrushedThings = null)
 		{
 			if (c.Roofed(map))
@@ -24,7 +22,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600472F RID: 18223 RVA: 0x002593C4 File Offset: 0x002577C4
 		public static void DropRoofInCells(IEnumerable<IntVec3> cells, Map map, List<Thing> outCrushedThings = null)
 		{
 			IntVec3 cell = IntVec3.Invalid;
@@ -49,7 +46,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004730 RID: 18224 RVA: 0x002594B0 File Offset: 0x002578B0
 		public static void DropRoofInCells(List<IntVec3> cells, Map map, List<Thing> outCrushedThings = null)
 		{
 			if (!cells.NullOrEmpty<IntVec3>())
@@ -77,7 +73,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004731 RID: 18225 RVA: 0x00259574 File Offset: 0x00257974
 		private static void DropRoofInCellPhaseOne(IntVec3 c, Map map, List<Thing> outCrushedThings)
 		{
 			RoofDef roofDef = map.roofGrid.RoofAt(c);
@@ -163,7 +158,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004732 RID: 18226 RVA: 0x0025987C File Offset: 0x00257C7C
 		private static void DropRoofInCellPhaseTwo(IntVec3 c, Map map)
 		{
 			RoofDef roofDef = map.roofGrid.RoofAt(c);
@@ -190,7 +184,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004733 RID: 18227 RVA: 0x00259958 File Offset: 0x00257D58
 		private static void TryAddToCrushedThingsList(Thing t, List<Thing> outCrushedThings)
 		{
 			if (outCrushedThings != null)
@@ -202,7 +195,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004734 RID: 18228 RVA: 0x00259984 File Offset: 0x00257D84
 		private static bool WorthMentioningInCrushLetter(Thing t)
 		{
 			bool result;
@@ -216,6 +208,26 @@ namespace Verse
 				result = (category == ThingCategory.Building || category == ThingCategory.Pawn || (category == ThingCategory.Item && t.MarketValue > 0.01f));
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static RoofCollapserImmediate()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <DropRoofInCellPhaseTwo>c__AnonStorey0
+		{
+			internal CellRect bound;
+
+			public <DropRoofInCellPhaseTwo>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn pawn)
+			{
+				return this.bound.Contains(pawn.Position);
+			}
 		}
 	}
 }

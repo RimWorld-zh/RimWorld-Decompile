@@ -5,17 +5,12 @@ using UnityEngine;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC2 RID: 4034
 	public static class SteamManager
 	{
-		// Token: 0x04003FC6 RID: 16326
 		private static SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
-		// Token: 0x04003FC7 RID: 16327
 		private static bool initializedInt = false;
 
-		// Token: 0x17000FC3 RID: 4035
-		// (get) Token: 0x06006176 RID: 24950 RVA: 0x00313DC0 File Offset: 0x003121C0
 		public static bool Initialized
 		{
 			get
@@ -24,8 +19,6 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC4 RID: 4036
-		// (get) Token: 0x06006177 RID: 24951 RVA: 0x00313DDC File Offset: 0x003121DC
 		public static bool Active
 		{
 			get
@@ -34,7 +27,6 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006178 RID: 24952 RVA: 0x00313DF4 File Offset: 0x003121F4
 		public static void InitIfNeeded()
 		{
 			if (!SteamManager.initializedInt)
@@ -78,7 +70,6 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006179 RID: 24953 RVA: 0x00313EE0 File Offset: 0x003122E0
 		public static void Update()
 		{
 			if (SteamManager.initializedInt)
@@ -87,7 +78,6 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600617A RID: 24954 RVA: 0x00313EF7 File Offset: 0x003122F7
 		public static void ShutdownSteam()
 		{
 			if (SteamManager.initializedInt)
@@ -96,10 +86,14 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600617B RID: 24955 RVA: 0x00313F0E File Offset: 0x0031230E
 		private static void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText)
 		{
 			Log.Error(pchDebugText.ToString(), false);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SteamManager()
+		{
 		}
 	}
 }

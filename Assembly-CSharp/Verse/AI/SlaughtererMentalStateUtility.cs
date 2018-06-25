@@ -4,13 +4,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A8A RID: 2698
 	public static class SlaughtererMentalStateUtility
 	{
-		// Token: 0x04002596 RID: 9622
 		private static List<Pawn> tmpAnimals = new List<Pawn>();
 
-		// Token: 0x06003BDB RID: 15323 RVA: 0x001F8FD4 File Offset: 0x001F73D4
 		public static Pawn FindAnimal(Pawn pawn)
 		{
 			Pawn result;
@@ -42,6 +39,11 @@ namespace Verse.AI
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static SlaughtererMentalStateUtility()
+		{
 		}
 	}
 }

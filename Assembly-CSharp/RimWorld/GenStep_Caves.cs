@@ -1,57 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x020003EA RID: 1002
 	public class GenStep_Caves : GenStep
 	{
-		// Token: 0x04000A68 RID: 2664
 		private ModuleBase directionNoise;
 
-		// Token: 0x04000A69 RID: 2665
 		private static HashSet<IntVec3> tmpGroupSet = new HashSet<IntVec3>();
 
-		// Token: 0x04000A6A RID: 2666
 		private const float OpenTunnelsPer10k = 5.8f;
 
-		// Token: 0x04000A6B RID: 2667
 		private const float ClosedTunnelsPer10k = 2.5f;
 
-		// Token: 0x04000A6C RID: 2668
 		private const int MaxOpenTunnelsPerRockGroup = 3;
 
-		// Token: 0x04000A6D RID: 2669
 		private const int MaxClosedTunnelsPerRockGroup = 1;
 
-		// Token: 0x04000A6E RID: 2670
 		private const float DirectionChangeSpeed = 8f;
 
-		// Token: 0x04000A6F RID: 2671
 		private const float DirectionNoiseFrequency = 0.00205f;
 
-		// Token: 0x04000A70 RID: 2672
 		private const int MinRocksToGenerateAnyTunnel = 300;
 
-		// Token: 0x04000A71 RID: 2673
 		private const int AllowBranchingAfterThisManyCells = 15;
 
-		// Token: 0x04000A72 RID: 2674
 		private const float MinTunnelWidth = 1.4f;
 
-		// Token: 0x04000A73 RID: 2675
 		private const float WidthOffsetPerCell = 0.034f;
 
-		// Token: 0x04000A74 RID: 2676
 		private const float BranchChance = 0.1f;
 
-		// Token: 0x04000A75 RID: 2677
 		private static readonly FloatRange BranchedTunnelWidthOffset = new FloatRange(0.2f, 0.4f);
 
-		// Token: 0x04000A76 RID: 2678
 		private static readonly SimpleCurve TunnelsWidthPerRockCount = new SimpleCurve
 		{
 			{
@@ -68,20 +53,24 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000A77 RID: 2679
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x04000A78 RID: 2680
 		private static HashSet<IntVec3> groupSet = new HashSet<IntVec3>();
 
-		// Token: 0x04000A79 RID: 2681
 		private static HashSet<IntVec3> groupVisited = new HashSet<IntVec3>();
 
-		// Token: 0x04000A7A RID: 2682
 		private static List<IntVec3> subGroup = new List<IntVec3>();
 
-		// Token: 0x1700024A RID: 586
-		// (get) Token: 0x06001125 RID: 4389 RVA: 0x00092FB0 File Offset: 0x000913B0
+		[CompilerGenerated]
+		private static Predicate<IntVec3> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Action<IntVec3> <>f__am$cache1;
+
+		public GenStep_Caves()
+		{
+		}
+
 		public override int SeedPart
 		{
 			get
@@ -90,7 +79,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001126 RID: 4390 RVA: 0x00092FCC File Offset: 0x000913CC
 		public override void Generate(Map map)
 		{
 			if (Find.World.HasCaves(map.Tile))
@@ -121,19 +109,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001127 RID: 4391 RVA: 0x0009317C File Offset: 0x0009157C
 		private void Trim(List<IntVec3> group, Map map)
 		{
 			GenMorphology.Open(group, 6, map);
 		}
 
-		// Token: 0x06001128 RID: 4392 RVA: 0x00093188 File Offset: 0x00091588
 		private bool IsRock(IntVec3 c, MapGenFloatGrid elevation, Map map)
 		{
 			return c.InBounds(map) && elevation[c] > 0.7f;
 		}
 
-		// Token: 0x06001129 RID: 4393 RVA: 0x000931BC File Offset: 0x000915BC
 		private void DoOpenTunnels(List<IntVec3> group, Map map)
 		{
 			int num = GenMath.RoundRandom((float)group.Count * Rand.Range(0.9f, 1.1f) * 5.8f / 10000f);
@@ -168,7 +153,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600112A RID: 4394 RVA: 0x000932E4 File Offset: 0x000916E4
 		private void DoClosedTunnels(List<IntVec3> group, Map map)
 		{
 			int num = GenMath.RoundRandom((float)group.Count * Rand.Range(0.9f, 1.1f) * 2.5f / 10000f);
@@ -197,7 +181,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600112B RID: 4395 RVA: 0x000933E0 File Offset: 0x000917E0
 		private IntVec3 FindRandomEdgeCellForTunnel(List<IntVec3> group, Map map)
 		{
 			MapGenFloatGrid caves = MapGenerator.Caves;
@@ -233,7 +216,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600112C RID: 4396 RVA: 0x000934F4 File Offset: 0x000918F4
 		private float FindBestInitialDir(IntVec3 start, List<IntVec3> group, out float dist)
 		{
 			float num = (float)this.GetDistToNonRock(start, group, IntVec3.East, 40);
@@ -258,7 +240,6 @@ namespace RimWorld
 			return GenMath.MaxByRandomIfEqual<float>(0f, num + num8 / 2f + num6 / 2f, 45f, num8 + num3 / 2f + num / 2f, 90f, num3 + num8 / 2f + num7 / 2f, 135f, num7 + num3 / 2f + num2 / 2f, 180f, num2 + num7 / 2f + num5 / 2f, 225f, num5 + num4 / 2f + num2 / 2f, 270f, num4 + num6 / 2f + num5 / 2f, 315f, num6 + num4 / 2f + num / 2f, 0.0001f);
 		}
 
-		// Token: 0x0600112D RID: 4397 RVA: 0x00093690 File Offset: 0x00091A90
 		private void Dig(IntVec3 start, float dir, float width, List<IntVec3> group, Map map, bool closed, HashSet<IntVec3> visited = null)
 		{
 			Vector3 vector = start.ToVector3Shifted();
@@ -337,7 +318,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600112E RID: 4398 RVA: 0x00093958 File Offset: 0x00091D58
 		private void DigInBestDirection(IntVec3 curIntVec, float curDir, FloatRange dirOffset, float width, List<IntVec3> group, Map map, bool closed, HashSet<IntVec3> visited = null)
 		{
 			int num = -1;
@@ -358,7 +338,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600112F RID: 4399 RVA: 0x000939C8 File Offset: 0x00091DC8
 		private void SetCaveAround(IntVec3 around, float tunnelWidth, Map map, HashSet<IntVec3> visited, out bool hitAnotherTunnel)
 		{
 			hitAnotherTunnel = false;
@@ -380,7 +359,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001130 RID: 4400 RVA: 0x00093A74 File Offset: 0x00091E74
 		private int GetDistToNonRock(IntVec3 from, List<IntVec3> group, IntVec3 offset, int maxDist)
 		{
 			GenStep_Caves.groupSet.Clear();
@@ -396,7 +374,6 @@ namespace RimWorld
 			return maxDist;
 		}
 
-		// Token: 0x06001131 RID: 4401 RVA: 0x00093ADC File Offset: 0x00091EDC
 		private int GetDistToNonRock(IntVec3 from, List<IntVec3> group, float dir, int maxDist)
 		{
 			GenStep_Caves.groupSet.Clear();
@@ -413,7 +390,6 @@ namespace RimWorld
 			return maxDist;
 		}
 
-		// Token: 0x06001132 RID: 4402 RVA: 0x00093B58 File Offset: 0x00091F58
 		private float GetDistToCave(IntVec3 cell, List<IntVec3> group, Map map, float maxDist, bool treatOpenSpaceAsCave)
 		{
 			MapGenFloatGrid caves = MapGenerator.Caves;
@@ -432,7 +408,6 @@ namespace RimWorld
 			return maxDist;
 		}
 
-		// Token: 0x06001133 RID: 4403 RVA: 0x00093C08 File Offset: 0x00092008
 		private void RemoveSmallDisconnectedSubGroups(List<IntVec3> group, Map map)
 		{
 			GenStep_Caves.groupSet.Clear();
@@ -459,6 +434,53 @@ namespace RimWorld
 			}
 			group.Clear();
 			group.AddRange(GenStep_Caves.groupSet);
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static GenStep_Caves()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <RemoveSmallDisconnectedSubGroups>m__0(IntVec3 x)
+		{
+			return GenStep_Caves.groupSet.Contains(x);
+		}
+
+		[CompilerGenerated]
+		private static void <RemoveSmallDisconnectedSubGroups>m__1(IntVec3 x)
+		{
+			GenStep_Caves.subGroup.Add(x);
+			GenStep_Caves.groupVisited.Add(x);
+		}
+
+		[CompilerGenerated]
+		private sealed class <Generate>c__AnonStorey0
+		{
+			internal MapGenFloatGrid elevation;
+
+			internal Map map;
+
+			internal BoolGrid visited;
+
+			internal List<IntVec3> group;
+
+			internal GenStep_Caves $this;
+
+			public <Generate>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				return this.$this.IsRock(x, this.elevation, this.map);
+			}
+
+			internal void <>m__1(IntVec3 x)
+			{
+				this.visited[x] = true;
+				this.group.Add(x);
+			}
 		}
 	}
 }

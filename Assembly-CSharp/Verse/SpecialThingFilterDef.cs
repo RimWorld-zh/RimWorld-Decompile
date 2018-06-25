@@ -1,32 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000FCE RID: 4046
 	public class SpecialThingFilterDef : Def
 	{
-		// Token: 0x04003FE8 RID: 16360
 		public ThingCategoryDef parentCategory;
 
-		// Token: 0x04003FE9 RID: 16361
 		public string saveKey;
 
-		// Token: 0x04003FEA RID: 16362
 		public bool allowedByDefault = false;
 
-		// Token: 0x04003FEB RID: 16363
 		public bool configurable = true;
 
-		// Token: 0x04003FEC RID: 16364
 		public Type workerClass = null;
 
-		// Token: 0x04003FED RID: 16365
 		[Unsaved]
 		private SpecialThingFilterWorker workerInt = null;
 
-		// Token: 0x17000FD3 RID: 4051
-		// (get) Token: 0x060061C8 RID: 25032 RVA: 0x003154D4 File Offset: 0x003138D4
+		public SpecialThingFilterDef()
+		{
+		}
+
 		public SpecialThingFilterWorker Worker
 		{
 			get
@@ -39,7 +38,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061C9 RID: 25033 RVA: 0x00315514 File Offset: 0x00313914
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -53,10 +51,162 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060061CA RID: 25034 RVA: 0x00315540 File Offset: 0x00313940
 		public static SpecialThingFilterDef Named(string defName)
 		{
 			return DefDatabase<SpecialThingFilterDef>.GetNamed(defName, true);
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <err>__1;
+
+			internal SpecialThingFilterDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_FA;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						err = enumerator.Current;
+						this.$current = err;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.workerClass != null)
+				{
+					goto IL_FA;
+				}
+				this.$current = "SpecialThingFilterDef " + this.defName + " has no worker class.";
+				if (!this.$disposing)
+				{
+					this.$PC = 2;
+				}
+				return true;
+				IL_FA:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				SpecialThingFilterDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new SpecialThingFilterDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

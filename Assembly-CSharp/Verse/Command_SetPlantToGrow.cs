@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E68 RID: 3688
 	[StaticConstructorOnStartup]
 	public class Command_SetPlantToGrow : Command
 	{
-		// Token: 0x04003992 RID: 14738
 		public IPlantToGrowSettable settable;
 
-		// Token: 0x04003993 RID: 14739
 		private List<IPlantToGrowSettable> settables;
 
-		// Token: 0x04003994 RID: 14740
 		private static List<ThingDef> tmpAvailablePlants = new List<ThingDef>();
 
-		// Token: 0x04003995 RID: 14741
 		private static readonly Texture2D SetPlantToGrowTex = ContentFinder<Texture2D>.Get("UI/Commands/SetPlantToGrow", true);
 
-		// Token: 0x060056DF RID: 22239 RVA: 0x002CBF58 File Offset: 0x002CA358
+		[CompilerGenerated]
+		private static Func<ThingDef, string> <>f__am$cache0;
+
 		public Command_SetPlantToGrow()
 		{
 			this.tutorTag = "GrowingZoneSetPlant";
@@ -57,7 +55,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056E0 RID: 22240 RVA: 0x002CC06C File Offset: 0x002CA46C
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -130,7 +127,6 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060056E1 RID: 22241 RVA: 0x002CC26C File Offset: 0x002CA66C
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.settables == null)
@@ -141,7 +137,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060056E2 RID: 22242 RVA: 0x002CC2B0 File Offset: 0x002CA6B0
 		private void WarnAsAppropriate(ThingDef plantDef)
 		{
 			if (plantDef.plant.sowMinSkill > 0)
@@ -187,7 +182,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056E3 RID: 22243 RVA: 0x002CC4F4 File Offset: 0x002CA8F4
 		private bool IsPlantAvailable(ThingDef plantDef, Map map)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
@@ -210,7 +204,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056E4 RID: 22244 RVA: 0x002CC584 File Offset: 0x002CA984
 		private float GetPlantListPriority(ThingDef plantDef)
 		{
 			float result;
@@ -240,6 +233,71 @@ namespace Verse
 				}
 			}
 			return result;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Command_SetPlantToGrow()
+		{
+		}
+
+		[CompilerGenerated]
+		private float <ProcessInput>m__0(ThingDef x)
+		{
+			return -this.GetPlantListPriority(x);
+		}
+
+		[CompilerGenerated]
+		private static string <ProcessInput>m__1(ThingDef x)
+		{
+			return x.label;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ProcessInput>c__AnonStorey0
+		{
+			internal ThingDef plantDef;
+
+			internal Command_SetPlantToGrow $this;
+
+			public <ProcessInput>c__AnonStorey0()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				string s = this.$this.tutorTag + "-" + this.plantDef.defName;
+				if (TutorSystem.AllowAction(s))
+				{
+					bool flag = true;
+					for (int i = 0; i < this.$this.settables.Count; i++)
+					{
+						this.$this.settables[i].SetPlantDefToGrow(this.plantDef);
+						if (flag && this.plantDef.plant.interferesWithRoof)
+						{
+							foreach (IntVec3 c in this.$this.settables[i].Cells)
+							{
+								if (c.Roofed(this.$this.settables[i].Map))
+								{
+									Messages.Message("MessagePlantIncompatibleWithRoof".Translate(new object[]
+									{
+										Find.ActiveLanguageWorker.Pluralize(this.plantDef.LabelCap, -1)
+									}), MessageTypeDefOf.CautionInput, false);
+									flag = false;
+									break;
+								}
+							}
+						}
+					}
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
+					this.$this.WarnAsAppropriate(this.plantDef);
+					TutorSystem.Notify_Event(s);
+				}
+			}
+
+			internal bool <>m__1(Rect rect)
+			{
+				return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, this.plantDef);
+			}
 		}
 	}
 }

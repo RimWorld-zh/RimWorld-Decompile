@@ -1,51 +1,48 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E5 RID: 741
 	public class ThoughtStage
 	{
-		// Token: 0x040007AA RID: 1962
 		[MustTranslate]
 		public string label = null;
 
-		// Token: 0x040007AB RID: 1963
 		[MustTranslate]
 		public string labelSocial = null;
 
-		// Token: 0x040007AC RID: 1964
 		[MustTranslate]
 		public string description = null;
 
-		// Token: 0x040007AD RID: 1965
 		public float baseMoodEffect = 0f;
 
-		// Token: 0x040007AE RID: 1966
 		public float baseOpinionOffset = 0f;
 
-		// Token: 0x040007AF RID: 1967
 		public bool visible = true;
 
-		// Token: 0x040007B0 RID: 1968
-		[Unsaved]
 		[TranslationHandle(Priority = 100)]
+		[Unsaved]
 		public string untranslatedLabel = null;
 
-		// Token: 0x040007B1 RID: 1969
-		[Unsaved]
 		[TranslationHandle]
+		[Unsaved]
 		public string untranslatedLabelSocial = null;
 
-		// Token: 0x06000C30 RID: 3120 RVA: 0x0006C173 File Offset: 0x0006A573
+		public ThoughtStage()
+		{
+		}
+
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;
 			this.untranslatedLabelSocial = this.labelSocial;
 		}
 
-		// Token: 0x06000C31 RID: 3121 RVA: 0x0006C190 File Offset: 0x0006A590
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (!this.labelSocial.NullOrEmpty() && this.labelSocial == this.label)
@@ -57,6 +54,110 @@ namespace RimWorld
 				yield return "affects mood but doesn't have a description";
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ThoughtStage $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (!this.labelSocial.NullOrEmpty() && this.labelSocial == this.label)
+					{
+						this.$current = "labelSocial is the same as label. labelSocial is unnecessary in this case";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_C3;
+				default:
+					return false;
+				}
+				if (this.baseMoodEffect != 0f && this.description.NullOrEmpty())
+				{
+					this.$current = "affects mood but doesn't have a description";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_C3:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ThoughtStage.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ThoughtStage.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

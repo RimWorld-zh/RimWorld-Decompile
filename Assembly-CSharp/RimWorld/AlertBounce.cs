@@ -3,40 +3,32 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x02000788 RID: 1928
 	internal class AlertBounce
 	{
-		// Token: 0x04001714 RID: 5908
 		private float position = 0f;
 
-		// Token: 0x04001715 RID: 5909
 		private float velocity = 0f;
 
-		// Token: 0x04001716 RID: 5910
 		private float lastTime = Time.time;
 
-		// Token: 0x04001717 RID: 5911
 		private bool idle;
 
-		// Token: 0x04001718 RID: 5912
 		private const float StartPosition = 300f;
 
-		// Token: 0x04001719 RID: 5913
 		private const float StartVelocity = -200f;
 
-		// Token: 0x0400171A RID: 5914
 		private const float Acceleration = 1200f;
 
-		// Token: 0x0400171B RID: 5915
 		private const float DampingRatio = 3f;
 
-		// Token: 0x0400171C RID: 5916
 		private const float DampingConstant = 1f;
 
-		// Token: 0x0400171D RID: 5917
 		private const float MaxDelta = 0.05f;
 
-		// Token: 0x06002AC1 RID: 10945 RVA: 0x0016A144 File Offset: 0x00168544
+		public AlertBounce()
+		{
+		}
+
 		public void DoAlertStartEffect()
 		{
 			this.position = 300f;
@@ -45,7 +37,6 @@ namespace RimWorld
 			this.idle = false;
 		}
 
-		// Token: 0x06002AC2 RID: 10946 RVA: 0x0016A170 File Offset: 0x00168570
 		public float CalculateHorizontalOffset()
 		{
 			float result;

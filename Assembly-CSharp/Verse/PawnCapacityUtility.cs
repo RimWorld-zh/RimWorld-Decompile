@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D42 RID: 3394
 	public static class PawnCapacityUtility
 	{
-		// Token: 0x06004AD9 RID: 19161 RVA: 0x00271310 File Offset: 0x0026F710
 		public static bool BodyCanEverDoCapacity(BodyDef bodyDef, PawnCapacityDef capacity)
 		{
 			return capacity.Worker.CanHaveCapacity(bodyDef);
 		}
 
-		// Token: 0x06004ADA RID: 19162 RVA: 0x00271334 File Offset: 0x0026F734
 		public static float CalculateCapacityLevel(HediffSet diffSet, PawnCapacityDef capacity, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			float result;
@@ -75,7 +73,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ADB RID: 19163 RVA: 0x002714B8 File Offset: 0x0026F8B8
 		public static float CalculatePartEfficiency(HediffSet diffSet, BodyPartRecord part, bool ignoreAddedParts = false, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartRecord rec;
@@ -165,7 +162,6 @@ namespace Verse
 			return Mathf.Max(num, 0f);
 		}
 
-		// Token: 0x06004ADC RID: 19164 RVA: 0x002717A8 File Offset: 0x0026FBA8
 		public static float CalculateImmediatePartEfficiencyAndRecord(HediffSet diffSet, BodyPartRecord part, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			float result;
@@ -180,7 +176,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ADD RID: 19165 RVA: 0x002717E4 File Offset: 0x0026FBE4
 		public static float CalculateNaturalPartsAverageEfficiency(HediffSet diffSet, BodyPartGroupDef bodyPartGroup)
 		{
 			float num = 0f;
@@ -208,7 +203,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ADE RID: 19166 RVA: 0x002718B4 File Offset: 0x0026FCB4
 		public static float CalculateTagEfficiency(HediffSet diffSet, BodyPartTagDef tag, float maximum = 3.40282347E+38f, FloatRange lerp = default(FloatRange), List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyDef body = diffSet.pawn.RaceProps.body;
@@ -253,7 +247,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ADF RID: 19167 RVA: 0x00271A14 File Offset: 0x0026FE14
 		public static float CalculateLimbEfficiency(HediffSet diffSet, BodyPartTagDef limbCoreTag, BodyPartTagDef limbSegmentTag, BodyPartTagDef limbDigitTag, float appendageWeight, out float functionalPercentage, List<PawnCapacityUtility.CapacityImpactor> impactors)
 		{
 			BodyDef body = diffSet.pawn.RaceProps.body;
@@ -292,11 +285,12 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x02000D43 RID: 3395
 		public abstract class CapacityImpactor
 		{
-			// Token: 0x17000BEF RID: 3055
-			// (get) Token: 0x06004AE1 RID: 19169 RVA: 0x00271BA8 File Offset: 0x0026FFA8
+			protected CapacityImpactor()
+			{
+			}
+
 			public virtual bool IsDirect
 			{
 				get
@@ -305,31 +299,31 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06004AE2 RID: 19170
 			public abstract string Readable(Pawn pawn);
 		}
 
-		// Token: 0x02000D44 RID: 3396
 		public class CapacityImpactorBodyPartHealth : PawnCapacityUtility.CapacityImpactor
 		{
-			// Token: 0x0400327F RID: 12927
 			public BodyPartRecord bodyPart;
 
-			// Token: 0x06004AE4 RID: 19172 RVA: 0x00271BC8 File Offset: 0x0026FFC8
+			public CapacityImpactorBodyPartHealth()
+			{
+			}
+
 			public override string Readable(Pawn pawn)
 			{
 				return string.Format("{0}: {1} / {2}", this.bodyPart.LabelCap, pawn.health.hediffSet.GetPartHealth(this.bodyPart), this.bodyPart.def.GetMaxHealth(pawn));
 			}
 		}
 
-		// Token: 0x02000D45 RID: 3397
 		public class CapacityImpactorCapacity : PawnCapacityUtility.CapacityImpactor
 		{
-			// Token: 0x04003280 RID: 12928
 			public PawnCapacityDef capacity;
 
-			// Token: 0x17000BF0 RID: 3056
-			// (get) Token: 0x06004AE6 RID: 19174 RVA: 0x00271C2C File Offset: 0x0027002C
+			public CapacityImpactorCapacity()
+			{
+			}
+
 			public override bool IsDirect
 			{
 				get
@@ -338,31 +332,32 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06004AE7 RID: 19175 RVA: 0x00271C44 File Offset: 0x00270044
 			public override string Readable(Pawn pawn)
 			{
 				return string.Format("{0}: {1}%", this.capacity.LabelCap, (pawn.health.capacities.GetLevel(this.capacity) * 100f).ToString("F0"));
 			}
 		}
 
-		// Token: 0x02000D46 RID: 3398
 		public class CapacityImpactorHediff : PawnCapacityUtility.CapacityImpactor
 		{
-			// Token: 0x04003281 RID: 12929
 			public Hediff hediff;
 
-			// Token: 0x06004AE9 RID: 19177 RVA: 0x00271CA0 File Offset: 0x002700A0
+			public CapacityImpactorHediff()
+			{
+			}
+
 			public override string Readable(Pawn pawn)
 			{
 				return string.Format("{0}", this.hediff.LabelCap);
 			}
 		}
 
-		// Token: 0x02000D47 RID: 3399
 		public class CapacityImpactorPain : PawnCapacityUtility.CapacityImpactor
 		{
-			// Token: 0x17000BF1 RID: 3057
-			// (get) Token: 0x06004AEB RID: 19179 RVA: 0x00271CD4 File Offset: 0x002700D4
+			public CapacityImpactorPain()
+			{
+			}
+
 			public override bool IsDirect
 			{
 				get
@@ -371,10 +366,56 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06004AEC RID: 19180 RVA: 0x00271CEC File Offset: 0x002700EC
 			public override string Readable(Pawn pawn)
 			{
 				return string.Format("{0}: {1}%", "Pain".Translate(), (pawn.health.hediffSet.PainTotal * 100f).ToString("F0"));
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculatePartEfficiency>c__AnonStorey0
+		{
+			internal BodyPartRecord rec;
+
+			public <CalculatePartEfficiency>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Hediff_AddedPart x)
+			{
+				return x.Part == this.rec;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateNaturalPartsAverageEfficiency>c__AnonStorey1
+		{
+			internal BodyPartGroupDef bodyPartGroup;
+
+			public <CalculateNaturalPartsAverageEfficiency>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(BodyPartRecord x)
+			{
+				return x.groups.Contains(this.bodyPartGroup);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <CalculateLimbEfficiency>c__AnonStorey2
+		{
+			internal HediffSet diffSet;
+
+			internal List<PawnCapacityUtility.CapacityImpactor> impactors;
+
+			public <CalculateLimbEfficiency>c__AnonStorey2()
+			{
+			}
+
+			internal float <>m__0(BodyPartRecord digitPart)
+			{
+				return PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(this.diffSet, digitPart, this.impactors);
 			}
 		}
 	}

@@ -7,37 +7,26 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AF RID: 1967
 	public class AlertsReadout
 	{
-		// Token: 0x04001743 RID: 5955
 		private List<Alert> activeAlerts = new List<Alert>(16);
 
-		// Token: 0x04001744 RID: 5956
 		private int curAlertIndex = 0;
 
-		// Token: 0x04001745 RID: 5957
 		private float lastFinalY = 0f;
 
-		// Token: 0x04001746 RID: 5958
 		private int mouseoverAlertIndex = -1;
 
-		// Token: 0x04001747 RID: 5959
 		private readonly List<Alert> AllAlerts = new List<Alert>();
 
-		// Token: 0x04001748 RID: 5960
 		private const int StartTickDelay = 600;
 
-		// Token: 0x04001749 RID: 5961
 		public const float AlertListWidth = 164f;
 
-		// Token: 0x0400174A RID: 5962
 		private static int AlertCycleLength = 20;
 
-		// Token: 0x0400174B RID: 5963
 		private readonly List<AlertPriority> PriosInDrawOrder = null;
 
-		// Token: 0x06002B73 RID: 11123 RVA: 0x0016FD84 File Offset: 0x0016E184
 		public AlertsReadout()
 		{
 			this.AllAlerts.Clear();
@@ -70,7 +59,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B74 RID: 11124 RVA: 0x0016FECC File Offset: 0x0016E2CC
 		public void AlertsReadoutUpdate()
 		{
 			if (Mathf.Max(Find.TickManager.TicksGame, Find.TutorialState.endTick) >= 600)
@@ -149,7 +137,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B75 RID: 11125 RVA: 0x0017019C File Offset: 0x0016E59C
 		public void AlertsReadoutOnGUI()
 		{
 			if (Event.current.type != EventType.Layout && Event.current.type != EventType.MouseDrag)
@@ -205,6 +192,11 @@ namespace RimWorld
 					}
 				}
 			}
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static AlertsReadout()
+		{
 		}
 	}
 }

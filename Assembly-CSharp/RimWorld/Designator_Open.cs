@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D2 RID: 2002
 	public class Designator_Open : Designator
 	{
-		// Token: 0x06002C64 RID: 11364 RVA: 0x00176A58 File Offset: 0x00174E58
 		public Designator_Open()
 		{
 			this.defaultLabel = "DesignatorOpen".Translate();
@@ -21,8 +23,6 @@ namespace RimWorld
 			this.soundSucceeded = SoundDefOf.Designate_Claim;
 		}
 
-		// Token: 0x170006F8 RID: 1784
-		// (get) Token: 0x06002C65 RID: 11365 RVA: 0x00176AC8 File Offset: 0x00174EC8
 		public override int DraggableDimensions
 		{
 			get
@@ -31,8 +31,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006F9 RID: 1785
-		// (get) Token: 0x06002C66 RID: 11366 RVA: 0x00176AE0 File Offset: 0x00174EE0
 		protected override DesignationDef Designation
 		{
 			get
@@ -41,14 +39,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C67 RID: 11367 RVA: 0x00176AFA File Offset: 0x00174EFA
 		protected override void FinalizeDesignationFailed()
 		{
 			base.FinalizeDesignationFailed();
 			Messages.Message("MessageMustDesignateOpenable".Translate(), MessageTypeDefOf.RejectInput, false);
 		}
 
-		// Token: 0x06002C68 RID: 11368 RVA: 0x00176B18 File Offset: 0x00174F18
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -67,7 +63,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C69 RID: 11369 RVA: 0x00176B70 File Offset: 0x00174F70
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.OpenablesInCell(c))
@@ -76,7 +71,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C6A RID: 11370 RVA: 0x00176BD0 File Offset: 0x00174FD0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			IOpenable openable = t as IOpenable;
@@ -92,13 +86,11 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C6B RID: 11371 RVA: 0x00176C2B File Offset: 0x0017502B
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002C6C RID: 11372 RVA: 0x00176C50 File Offset: 0x00175050
 		private IEnumerable<Thing> OpenablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))
@@ -114,6 +106,120 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <OpenablesInCell>c__Iterator0 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		{
+			internal IntVec3 c;
+
+			internal List<Thing> <thingList>__0;
+
+			internal int <i>__1;
+
+			internal Designator_Open $this;
+
+			internal Thing $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <OpenablesInCell>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (c.Fogged(base.Map))
+					{
+						return false;
+					}
+					thingList = c.GetThingList(base.Map);
+					i = 0;
+					break;
+				case 1u:
+					IL_BF:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i >= thingList.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						this.$current = thingList[i];
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					goto IL_BF;
+				}
+				return false;
+			}
+
+			Thing IEnumerator<Thing>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Thing>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Designator_Open.<OpenablesInCell>c__Iterator0 <OpenablesInCell>c__Iterator = new Designator_Open.<OpenablesInCell>c__Iterator0();
+				<OpenablesInCell>c__Iterator.$this = this;
+				<OpenablesInCell>c__Iterator.c = c;
+				return <OpenablesInCell>c__Iterator;
+			}
 		}
 	}
 }

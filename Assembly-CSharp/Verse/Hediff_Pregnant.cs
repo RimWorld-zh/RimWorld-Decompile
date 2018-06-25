@@ -7,24 +7,20 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D2F RID: 3375
 	public class Hediff_Pregnant : HediffWithComps
 	{
-		// Token: 0x04003248 RID: 12872
 		public Pawn father;
 
-		// Token: 0x04003249 RID: 12873
 		private const int MiscarryCheckInterval = 1000;
 
-		// Token: 0x0400324A RID: 12874
 		private const float MTBMiscarryStarvingDays = 0.5f;
 
-		// Token: 0x0400324B RID: 12875
 		private const float MTBMiscarryWoundedDays = 0.5f;
 
-		// Token: 0x17000BE6 RID: 3046
-		// (get) Token: 0x06004A6D RID: 19053 RVA: 0x0026D388 File Offset: 0x0026B788
-		// (set) Token: 0x06004A6E RID: 19054 RVA: 0x0026D3A3 File Offset: 0x0026B7A3
+		public Hediff_Pregnant()
+		{
+		}
+
 		public float GestationProgress
 		{
 			get
@@ -37,8 +33,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BE7 RID: 3047
-		// (get) Token: 0x06004A6F RID: 19055 RVA: 0x0026D3B0 File Offset: 0x0026B7B0
 		private bool IsSeverelyWounded
 		{
 			get
@@ -64,7 +58,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A70 RID: 19056 RVA: 0x0026D4AC File Offset: 0x0026B8AC
 		public override void Tick()
 		{
 			this.ageTicks++;
@@ -110,13 +103,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A71 RID: 19057 RVA: 0x0026D707 File Offset: 0x0026BB07
 		private void Miscarry()
 		{
 			this.pawn.health.RemoveHediff(this);
 		}
 
-		// Token: 0x06004A72 RID: 19058 RVA: 0x0026D71C File Offset: 0x0026BB1C
 		public static void DoBirthSpawn(Pawn mother, Pawn father)
 		{
 			int num = (mother.RaceProps.litterSizeCurve == null) ? 1 : Mathf.RoundToInt(Rand.ByCurve(mother.RaceProps.litterSizeCurve));
@@ -168,14 +159,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A73 RID: 19059 RVA: 0x0026D8D7 File Offset: 0x0026BCD7
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.father, "father", false);
 		}
 
-		// Token: 0x06004A74 RID: 19060 RVA: 0x0026D8F4 File Offset: 0x0026BCF4
 		public override string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F41 RID: 3905
 	public static class GenFile
 	{
-		// Token: 0x06005E1A RID: 24090 RVA: 0x002FE178 File Offset: 0x002FC578
 		public static string TextFromRawFile(string filePath)
 		{
 			return File.ReadAllText(filePath);
 		}
 
-		// Token: 0x06005E1B RID: 24091 RVA: 0x002FE194 File Offset: 0x002FC594
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
@@ -32,7 +33,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E1C RID: 24092 RVA: 0x002FE1EC File Offset: 0x002FC5EC
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
 			string result = null;
@@ -46,7 +46,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E1D RID: 24093 RVA: 0x002FE264 File Offset: 0x002FC664
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
 			string rawText = GenFile.TextFromResourceFile(filePath);
@@ -57,7 +56,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005E1E RID: 24094 RVA: 0x002FE290 File Offset: 0x002FC690
 		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool useLinuxLineEndings = false)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirName);
@@ -96,7 +94,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E1F RID: 24095 RVA: 0x002FE3E4 File Offset: 0x002FC7E4
 		public static string SanitizedFileName(string fileName)
 		{
 			char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
@@ -113,6 +110,142 @@ namespace Verse
 				text = "unnamed";
 			}
 			return text;
+		}
+
+		[CompilerGenerated]
+		private sealed class <LinesFromFile>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal string filePath;
+
+			internal string <rawText>__0;
+
+			internal IEnumerator<string> $locvar0;
+
+			internal string <line>__1;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <LinesFromFile>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					rawText = GenFile.TextFromResourceFile(filePath);
+					enumerator = GenText.LinesFromString(rawText).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						line = enumerator.Current;
+						this.$current = line;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenFile.<LinesFromFile>c__Iterator0 <LinesFromFile>c__Iterator = new GenFile.<LinesFromFile>c__Iterator0();
+				<LinesFromFile>c__Iterator.filePath = filePath;
+				return <LinesFromFile>c__Iterator;
+			}
 		}
 	}
 }

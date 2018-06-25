@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003C3 RID: 963
 	public class SymbolResolver_EdgeDefense : SymbolResolver
 	{
-		// Token: 0x04000A31 RID: 2609
 		private const int DefaultCellsPerTurret = 30;
 
-		// Token: 0x04000A32 RID: 2610
 		private const int DefaultCellsPerMortar = 75;
 
-		// Token: 0x060010A3 RID: 4259 RVA: 0x0008D058 File Offset: 0x0008B458
+		public SymbolResolver_EdgeDefense()
+		{
+		}
+
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -150,6 +151,32 @@ namespace RimWorld.BaseGen
 				bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
 				rp5.edgeThingAvoidOtherEdgeThings = new bool?(edgeThingAvoidOtherEdgeThings == null || edgeThingAvoidOtherEdgeThings.Value);
 				BaseGen.symbolStack.Push("edgeThing", rp5);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Resolve>c__AnonStorey0
+		{
+			internal ResolveParams rp;
+
+			internal int width;
+
+			public <Resolve>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(IntVec3 x)
+			{
+				CellRect cellRect = this.rp.rect;
+				for (int i = 0; i < this.width; i++)
+				{
+					if (cellRect.IsOnEdge(x))
+					{
+						return true;
+					}
+					cellRect = cellRect.ContractedBy(1);
+				}
+				return true;
 			}
 		}
 	}

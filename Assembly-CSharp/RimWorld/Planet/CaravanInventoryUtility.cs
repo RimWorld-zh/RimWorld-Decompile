@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005DE RID: 1502
 	public static class CaravanInventoryUtility
 	{
-		// Token: 0x04001197 RID: 4503
 		private static List<Thing> inventoryItems = new List<Thing>();
 
-		// Token: 0x04001198 RID: 4504
 		private static List<Thing> inventoryToMove = new List<Thing>();
 
-		// Token: 0x04001199 RID: 4505
 		private static List<Apparel> tmpApparel = new List<Apparel>();
 
-		// Token: 0x0400119A RID: 4506
 		private static List<ThingWithComps> tmpEquipment = new List<ThingWithComps>();
 
-		// Token: 0x06001D9B RID: 7579 RVA: 0x000FF7C8 File Offset: 0x000FDBC8
 		public static List<Thing> AllInventoryItems(Caravan caravan)
 		{
 			CaravanInventoryUtility.inventoryItems.Clear();
@@ -37,13 +32,11 @@ namespace RimWorld.Planet
 			return CaravanInventoryUtility.inventoryItems;
 		}
 
-		// Token: 0x06001D9C RID: 7580 RVA: 0x000FF858 File Offset: 0x000FDC58
 		public static void CaravanInventoryUtilityStaticUpdate()
 		{
 			CaravanInventoryUtility.inventoryItems.Clear();
 		}
 
-		// Token: 0x06001D9D RID: 7581 RVA: 0x000FF868 File Offset: 0x000FDC68
 		public static Pawn GetOwnerOf(Caravan caravan, Thing item)
 		{
 			IThingHolder parentHolder = item.ParentHolder;
@@ -58,7 +51,6 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001D9E RID: 7582 RVA: 0x000FF8B4 File Offset: 0x000FDCB4
 		public static bool TryGetBestFood(Caravan caravan, Pawn forPawn, out Thing food, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
@@ -93,7 +85,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D9F RID: 7583 RVA: 0x000FF954 File Offset: 0x000FDD54
 		public static bool TryGetBestDrug(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
 		{
 			Hediff_Addiction addictionHediff = chemical.AddictionHediff;
@@ -143,7 +134,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA0 RID: 7584 RVA: 0x000FFAA4 File Offset: 0x000FDEA4
 		public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
 		{
 			bool result;
@@ -190,7 +180,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA1 RID: 7585 RVA: 0x000FFB9C File Offset: 0x000FDF9C
 		public static bool TryGetThingOfDef(Caravan caravan, ThingDef thingDef, out Thing thing, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
@@ -209,7 +198,6 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001DA2 RID: 7586 RVA: 0x000FFC00 File Offset: 0x000FE000
 		public static void MoveAllInventoryToSomeoneElse(Pawn from, List<Pawn> candidates, List<Pawn> ignoreCandidates = null)
 		{
 			CaravanInventoryUtility.inventoryToMove.Clear();
@@ -221,7 +209,6 @@ namespace RimWorld.Planet
 			CaravanInventoryUtility.inventoryToMove.Clear();
 		}
 
-		// Token: 0x06001DA3 RID: 7587 RVA: 0x000FFC78 File Offset: 0x000FE078
 		public static void MoveInventoryToSomeoneElse(Pawn itemOwner, Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, int numToMove)
 		{
 			if (numToMove < 0 || numToMove > item.stackCount)
@@ -247,7 +234,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DA4 RID: 7588 RVA: 0x000FFD24 File Offset: 0x000FE124
 		public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
 		{
 			Pawn result;
@@ -282,7 +268,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA5 RID: 7589 RVA: 0x000FFDE0 File Offset: 0x000FE1E0
 		public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
 			if (moveFrom.apparel != null)
@@ -302,7 +287,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DA6 RID: 7590 RVA: 0x000FFE94 File Offset: 0x000FE294
 		public static void MoveAllEquipmentToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
 			if (moveFrom.equipment != null)
@@ -322,13 +306,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DA7 RID: 7591 RVA: 0x000FFF48 File Offset: 0x000FE348
 		private static bool CanMoveInventoryTo(Pawn pawn)
 		{
 			return MassUtility.CanEverCarryAnything(pawn);
 		}
 
-		// Token: 0x06001DA8 RID: 7592 RVA: 0x000FFF64 File Offset: 0x000FE364
 		public static List<Thing> TakeThings(Caravan caravan, Func<Thing, int> takeQuantity)
 		{
 			List<Thing> list = new List<Thing>();
@@ -343,7 +325,6 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x06001DA9 RID: 7593 RVA: 0x000FFFF4 File Offset: 0x000FE3F4
 		public static void GiveThing(Caravan caravan, Thing thing)
 		{
 			if (CaravanInventoryUtility.AllInventoryItems(caravan).Contains(thing))
@@ -373,7 +354,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAA RID: 7594 RVA: 0x001000B4 File Offset: 0x000FE4B4
 		public static bool HasThings(Caravan caravan, ThingDef thingDef, int count, Func<Thing, bool> validator = null)
 		{
 			int num = 0;
@@ -387,6 +367,38 @@ namespace RimWorld.Planet
 				}
 			}
 			return num >= count;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static CaravanInventoryUtility()
+		{
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindPawnToMoveInventoryTo>c__AnonStorey0
+		{
+			internal List<Pawn> ignoreCandidates;
+
+			internal Pawn currentItemOwner;
+
+			public <FindPawnToMoveInventoryTo>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Pawn x)
+			{
+				return CaravanInventoryUtility.CanMoveInventoryTo(x) && (this.ignoreCandidates == null || !this.ignoreCandidates.Contains(x)) && x != this.currentItemOwner && !MassUtility.IsOverEncumbered(x);
+			}
+
+			internal bool <>m__1(Pawn x)
+			{
+				return CaravanInventoryUtility.CanMoveInventoryTo(x) && (this.ignoreCandidates == null || !this.ignoreCandidates.Contains(x)) && x != this.currentItemOwner;
+			}
+
+			internal bool <>m__2(Pawn x)
+			{
+				return (this.ignoreCandidates == null || !this.ignoreCandidates.Contains(x)) && x != this.currentItemOwner;
+			}
 		}
 	}
 }

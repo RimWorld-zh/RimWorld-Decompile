@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F4D RID: 3917
 	public static class GenSight
 	{
-		// Token: 0x06005EB4 RID: 24244 RVA: 0x003033FC File Offset: 0x003017FC
 		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, bool skipFirstCell = false, Func<IntVec3, bool> validator = null, int halfXOffset = 0, int halfZOffset = 0)
 		{
 			bool result;
@@ -71,7 +73,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EB5 RID: 24245 RVA: 0x003035B4 File Offset: 0x003019B4
 		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, CellRect startRect, CellRect endRect, Func<IntVec3, bool> validator = null)
 		{
 			bool result;
@@ -137,7 +138,6 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EB6 RID: 24246 RVA: 0x00303768 File Offset: 0x00301B68
 		public static IEnumerable<IntVec3> PointsOnLineOfSight(IntVec3 start, IntVec3 end)
 		{
 			bool sideOnEqual;
@@ -180,7 +180,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EB7 RID: 24247 RVA: 0x0030379C File Offset: 0x00301B9C
 		public static bool LineOfSightToEdges(IntVec3 start, IntVec3 end, Map map, bool skipFirstCell = false, Func<IntVec3, bool> validator = null)
 		{
 			bool result;
@@ -204,6 +203,153 @@ namespace Verse
 				result = false;
 			}
 			return result;
+		}
+
+		[CompilerGenerated]
+		private sealed class <PointsOnLineOfSight>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		{
+			internal IntVec3 start;
+
+			internal IntVec3 end;
+
+			internal bool <sideOnEqual>__0;
+
+			internal int <dx>__0;
+
+			internal int <dz>__0;
+
+			internal int <x>__0;
+
+			internal int <z>__0;
+
+			internal int <n>__0;
+
+			internal int <x_inc>__0;
+
+			internal int <z_inc>__0;
+
+			internal int <error>__0;
+
+			internal IntVec3 <c>__0;
+
+			internal IntVec3 $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <PointsOnLineOfSight>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (start.x == end.x)
+					{
+						sideOnEqual = (start.z < end.z);
+					}
+					else
+					{
+						sideOnEqual = (start.x < end.x);
+					}
+					dx = Mathf.Abs(end.x - start.x);
+					dz = Mathf.Abs(end.z - start.z);
+					x = start.x;
+					z = start.z;
+					i = 1 + dx + dz;
+					x_inc = ((end.x <= start.x) ? -1 : 1);
+					z_inc = ((end.z <= start.z) ? -1 : 1);
+					error = dx - dz;
+					dx *= 2;
+					dz *= 2;
+					c = default(IntVec3);
+					break;
+				case 1u:
+					if (error > 0 || (error == 0 && sideOnEqual))
+					{
+						x += x_inc;
+						error -= dz;
+					}
+					else
+					{
+						z += z_inc;
+						error += dx;
+					}
+					i--;
+					break;
+				default:
+					return false;
+				}
+				if (i > 1)
+				{
+					c.x = x;
+					c.z = z;
+					this.$current = c;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			IntVec3 IEnumerator<IntVec3>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.IntVec3>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IntVec3> IEnumerable<IntVec3>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				GenSight.<PointsOnLineOfSight>c__Iterator0 <PointsOnLineOfSight>c__Iterator = new GenSight.<PointsOnLineOfSight>c__Iterator0();
+				<PointsOnLineOfSight>c__Iterator.start = start;
+				<PointsOnLineOfSight>c__Iterator.end = end;
+				return <PointsOnLineOfSight>c__Iterator;
+			}
 		}
 	}
 }

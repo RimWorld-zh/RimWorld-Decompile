@@ -1,69 +1,58 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002DC RID: 732
 	public class StorytellerDef : Def
 	{
-		// Token: 0x0400076C RID: 1900
 		public int listOrder = 9999;
 
-		// Token: 0x0400076D RID: 1901
 		public bool listVisible = true;
 
-		// Token: 0x0400076E RID: 1902
 		public bool tutorialMode = false;
 
-		// Token: 0x0400076F RID: 1903
 		public bool disableAdaptiveTraining = false;
 
-		// Token: 0x04000770 RID: 1904
 		public bool disableAlerts = false;
 
-		// Token: 0x04000771 RID: 1905
 		public bool disablePermadeath = false;
 
-		// Token: 0x04000772 RID: 1906
 		public DifficultyDef forcedDifficulty = null;
 
-		// Token: 0x04000773 RID: 1907
 		[NoTranslate]
 		private string portraitLarge;
 
-		// Token: 0x04000774 RID: 1908
 		[NoTranslate]
 		private string portraitTiny;
 
-		// Token: 0x04000775 RID: 1909
 		public List<StorytellerCompProperties> comps = new List<StorytellerCompProperties>();
 
-		// Token: 0x04000776 RID: 1910
 		public float desiredPopulationMin = 3f;
 
-		// Token: 0x04000777 RID: 1911
 		public float desiredPopulationMax = 10f;
 
-		// Token: 0x04000778 RID: 1912
 		public float desiredPopulationCritical = 13f;
 
-		// Token: 0x04000779 RID: 1913
 		public SimpleCurve populationIntentFromPopCurve;
 
-		// Token: 0x0400077A RID: 1914
 		public SimpleCurve populationIntentFromTimeCurve;
 
-		// Token: 0x0400077B RID: 1915
 		[Unsaved]
 		public Texture2D portraitLargeTex;
 
-		// Token: 0x0400077C RID: 1916
 		[Unsaved]
 		public Texture2D portraitTinyTex;
 
-		// Token: 0x06000C10 RID: 3088 RVA: 0x0006B130 File Offset: 0x00069530
+		public StorytellerDef()
+		{
+		}
+
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -81,7 +70,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C11 RID: 3089 RVA: 0x0006B188 File Offset: 0x00069588
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -96,6 +84,213 @@ namespace RimWorld
 				}
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private void <ResolveReferences>m__0()
+		{
+			if (!this.portraitTiny.NullOrEmpty())
+			{
+				this.portraitTinyTex = ContentFinder<Texture2D>.Get(this.portraitTiny, true);
+				this.portraitLargeTex = ContentFinder<Texture2D>.Get(this.portraitLarge, true);
+			}
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<string> <ConfigErrors>__BaseCallProxy0()
+		{
+			return base.ConfigErrors();
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal IEnumerator<string> $locvar0;
+
+			internal string <e>__1;
+
+			internal int <i>__2;
+
+			internal IEnumerator<string> $locvar1;
+
+			internal string <e>__3;
+
+			internal StorytellerDef $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_3:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator2.MoveNext())
+						{
+							e2 = enumerator2.Current;
+							this.$current = e2;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator2 != null)
+							{
+								enumerator2.Dispose();
+							}
+						}
+					}
+					i++;
+					goto IL_17A;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						e = enumerator.Current;
+						this.$current = e;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				i = 0;
+				IL_17A:
+				if (i < this.comps.Count)
+				{
+					enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator();
+					num = 4294967293u;
+					goto Block_3;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				StorytellerDef.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new StorytellerDef.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

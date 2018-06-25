@@ -1,57 +1,50 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000AFC RID: 2812
 	public class BodyPartRecord
 	{
-		// Token: 0x04002762 RID: 10082
 		public BodyDef body;
 
-		// Token: 0x04002763 RID: 10083
 		[TranslationHandle]
 		public BodyPartDef def = null;
 
-		// Token: 0x04002764 RID: 10084
 		[MustTranslate]
 		public string customLabel;
 
-		// Token: 0x04002765 RID: 10085
-		[Unsaved]
 		[TranslationHandle(Priority = 100)]
+		[Unsaved]
 		public string untranslatedCustomLabel = null;
 
-		// Token: 0x04002766 RID: 10086
 		public List<BodyPartRecord> parts = new List<BodyPartRecord>();
 
-		// Token: 0x04002767 RID: 10087
 		public BodyPartHeight height = BodyPartHeight.Undefined;
 
-		// Token: 0x04002768 RID: 10088
 		public BodyPartDepth depth = BodyPartDepth.Undefined;
 
-		// Token: 0x04002769 RID: 10089
 		public float coverage = 1f;
 
-		// Token: 0x0400276A RID: 10090
 		public List<BodyPartGroupDef> groups = new List<BodyPartGroupDef>();
 
-		// Token: 0x0400276B RID: 10091
 		[Unsaved]
 		public BodyPartRecord parent = null;
 
-		// Token: 0x0400276C RID: 10092
 		[Unsaved]
 		public float coverageAbsWithChildren = 0f;
 
-		// Token: 0x0400276D RID: 10093
 		[Unsaved]
 		public float coverageAbs = 0f;
 
-		// Token: 0x17000959 RID: 2393
-		// (get) Token: 0x06003E47 RID: 15943 RVA: 0x0020D344 File Offset: 0x0020B744
+		public BodyPartRecord()
+		{
+		}
+
 		public bool IsCorePart
 		{
 			get
@@ -60,8 +53,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700095A RID: 2394
-		// (get) Token: 0x06003E48 RID: 15944 RVA: 0x0020D364 File Offset: 0x0020B764
 		public string Label
 		{
 			get
@@ -70,8 +61,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700095B RID: 2395
-		// (get) Token: 0x06003E49 RID: 15945 RVA: 0x0020D3A0 File Offset: 0x0020B7A0
 		public string LabelCap
 		{
 			get
@@ -80,8 +69,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700095C RID: 2396
-		// (get) Token: 0x06003E4A RID: 15946 RVA: 0x0020D3C0 File Offset: 0x0020B7C0
 		public string LabelShort
 		{
 			get
@@ -90,8 +77,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700095D RID: 2397
-		// (get) Token: 0x06003E4B RID: 15947 RVA: 0x0020D3E0 File Offset: 0x0020B7E0
 		public string LabelShortCap
 		{
 			get
@@ -100,8 +85,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700095E RID: 2398
-		// (get) Token: 0x06003E4C RID: 15948 RVA: 0x0020D400 File Offset: 0x0020B800
 		public int Index
 		{
 			get
@@ -110,7 +93,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E4D RID: 15949 RVA: 0x0020D424 File Offset: 0x0020B824
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -123,13 +105,11 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E4E RID: 15950 RVA: 0x0020D492 File Offset: 0x0020B892
 		public void PostLoad()
 		{
 			this.untranslatedCustomLabel = this.customLabel;
 		}
 
-		// Token: 0x06003E4F RID: 15951 RVA: 0x0020D4A4 File Offset: 0x0020B8A4
 		public bool IsInGroup(BodyPartGroupDef group)
 		{
 			for (int i = 0; i < this.groups.Count; i++)
@@ -142,7 +122,6 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003E50 RID: 15952 RVA: 0x0020D4F4 File Offset: 0x0020B8F4
 		public IEnumerable<BodyPartRecord> GetChildParts(BodyPartTagDef tag)
 		{
 			if (this.def.tags.Contains(tag))
@@ -159,7 +138,6 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E51 RID: 15953 RVA: 0x0020D528 File Offset: 0x0020B928
 		public IEnumerable<BodyPartRecord> GetDirectChildParts()
 		{
 			for (int i = 0; i < this.parts.Count; i++)
@@ -169,13 +147,11 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E52 RID: 15954 RVA: 0x0020D554 File Offset: 0x0020B954
 		public bool HasChildParts(BodyPartTagDef tag)
 		{
 			return this.GetChildParts(tag).Any<BodyPartRecord>();
 		}
 
-		// Token: 0x06003E53 RID: 15955 RVA: 0x0020D578 File Offset: 0x0020B978
 		public IEnumerable<BodyPartRecord> GetConnectedParts(BodyPartTagDef tag)
 		{
 			BodyPartRecord ancestor = this;
@@ -188,6 +164,402 @@ namespace Verse
 				yield return child;
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetChildParts>c__Iterator0 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal BodyPartTagDef tag;
+
+			internal int <i>__1;
+
+			internal IEnumerator<BodyPartRecord> $locvar0;
+
+			internal BodyPartRecord <record>__2;
+
+			internal BodyPartRecord $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetChildParts>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (this.def.tags.Contains(tag))
+					{
+						this.$current = this;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					Block_4:
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							record = enumerator.Current;
+							this.$current = record;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					i++;
+					goto IL_12C;
+				default:
+					return false;
+				}
+				i = 0;
+				IL_12C:
+				if (i < this.parts.Count)
+				{
+					enumerator = this.parts[i].GetChildParts(tag).GetEnumerator();
+					num = 4294967293u;
+					goto Block_4;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyPartRecord.<GetChildParts>c__Iterator0 <GetChildParts>c__Iterator = new BodyPartRecord.<GetChildParts>c__Iterator0();
+				<GetChildParts>c__Iterator.$this = this;
+				<GetChildParts>c__Iterator.tag = tag;
+				return <GetChildParts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetDirectChildParts>c__Iterator1 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal int <i>__1;
+
+			internal BodyPartRecord $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetDirectChildParts>c__Iterator1()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					break;
+				case 1u:
+					i++;
+					break;
+				default:
+					return false;
+				}
+				if (i < this.parts.Count)
+				{
+					this.$current = this.parts[i];
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyPartRecord.<GetDirectChildParts>c__Iterator1 <GetDirectChildParts>c__Iterator = new BodyPartRecord.<GetDirectChildParts>c__Iterator1();
+				<GetDirectChildParts>c__Iterator.$this = this;
+				return <GetDirectChildParts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetConnectedParts>c__Iterator2 : IEnumerable, IEnumerable<BodyPartRecord>, IEnumerator, IDisposable, IEnumerator<BodyPartRecord>
+		{
+			internal BodyPartRecord <ancestor>__0;
+
+			internal BodyPartTagDef tag;
+
+			internal IEnumerator<BodyPartRecord> $locvar0;
+
+			internal BodyPartRecord <child>__1;
+
+			internal BodyPartRecord $this;
+
+			internal BodyPartRecord $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetConnectedParts>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					ancestor = this;
+					while (ancestor.parent != null && ancestor.parent.def.tags.Contains(tag))
+					{
+						ancestor = ancestor.parent;
+					}
+					enumerator = ancestor.GetChildParts(tag).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						child = enumerator.Current;
+						this.$current = child;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			BodyPartRecord IEnumerator<BodyPartRecord>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.BodyPartRecord>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<BodyPartRecord> IEnumerable<BodyPartRecord>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				BodyPartRecord.<GetConnectedParts>c__Iterator2 <GetConnectedParts>c__Iterator = new BodyPartRecord.<GetConnectedParts>c__Iterator2();
+				<GetConnectedParts>c__Iterator.$this = this;
+				<GetConnectedParts>c__Iterator.tag = tag;
+				return <GetConnectedParts>c__Iterator;
+			}
 		}
 	}
 }

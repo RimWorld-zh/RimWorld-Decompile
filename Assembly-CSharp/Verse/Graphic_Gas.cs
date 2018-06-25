@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD9 RID: 3545
 	public class Graphic_Gas : Graphic_Single
 	{
-		// Token: 0x040034C0 RID: 13504
 		private const float PositionVariance = 0.45f;
 
-		// Token: 0x040034C1 RID: 13505
 		private const float SizeVariance = 0.2f;
 
-		// Token: 0x06004F5F RID: 20319 RVA: 0x00295EAC File Offset: 0x002942AC
+		public Graphic_Gas()
+		{
+		}
+
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Rand.PushState();

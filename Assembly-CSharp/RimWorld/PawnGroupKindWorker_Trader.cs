@@ -1,27 +1,49 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048F RID: 1167
 	public class PawnGroupKindWorker_Trader : PawnGroupKindWorker
 	{
-		// Token: 0x060014A5 RID: 5285 RVA: 0x000B5988 File Offset: 0x000B3D88
+		[CompilerGenerated]
+		private static Func<PawnGenOption, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<PawnGenOption, bool> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<TraderKindDef, float> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Func<PawnGenOption, float> <>f__am$cache3;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<PawnGenOption, float> <>f__am$cache5;
+
+		public PawnGroupKindWorker_Trader()
+		{
+		}
+
 		public override float MinPointsToGenerateAnything(PawnGroupMaker groupMaker)
 		{
 			return 0f;
 		}
 
-		// Token: 0x060014A6 RID: 5286 RVA: 0x000B59A4 File Offset: 0x000B3DA4
 		public override bool CanGenerateFrom(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
 		{
 			return base.CanGenerateFrom(parms, groupMaker) && groupMaker.traders.Any<PawnGenOption>() && (parms.tile == -1 || groupMaker.carriers.Any((PawnGenOption x) => Find.WorldGrid[parms.tile].biome.IsPackAnimalAllowed(x.kind.race)));
 		}
 
-		// Token: 0x060014A7 RID: 5287 RVA: 0x000B5A18 File Offset: 0x000B3E18
 		protected override void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true)
 		{
 			if (!this.CanGenerateFrom(parms, groupMaker))
@@ -93,7 +115,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014A8 RID: 5288 RVA: 0x000B5C9C File Offset: 0x000B409C
 		private Pawn GenerateTrader(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, TraderKindDef traderKind)
 		{
 			PawnKindDef kind = groupMaker.traders.RandomElementByWeight((PawnGenOption x) => x.selectionWeight).kind;
@@ -108,7 +129,6 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060014A9 RID: 5289 RVA: 0x000B5D8C File Offset: 0x000B418C
 		private void GenerateCarriers(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, Pawn trader, List<Thing> wares, List<Pawn> outPawns)
 		{
 			List<Thing> list = (from x in wares
@@ -142,7 +162,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014AA RID: 5290 RVA: 0x000B5F40 File Offset: 0x000B4340
 		private IEnumerable<Pawn> GetSlavesAndAnimalsFromWares(PawnGroupMakerParms parms, Pawn trader, List<Thing> wares)
 		{
 			for (int i = 0; i < wares.Count; i++)
@@ -160,7 +179,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060014AB RID: 5291 RVA: 0x000B5F74 File Offset: 0x000B4374
 		private void GenerateGuards(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, Pawn trader, List<Thing> wares, List<Pawn> outPawns)
 		{
 			if (groupMaker.guards.Any<PawnGenOption>())
@@ -176,6 +194,187 @@ namespace RimWorld
 					Pawn item = PawnGenerator.GeneratePawn(request);
 					outPawns.Add(item);
 				}
+			}
+		}
+
+		[CompilerGenerated]
+		private static bool <GeneratePawns>m__0(PawnGenOption x)
+		{
+			return !x.kind.trader;
+		}
+
+		[CompilerGenerated]
+		private static bool <GeneratePawns>m__1(PawnGenOption x)
+		{
+			return !x.kind.RaceProps.packAnimal;
+		}
+
+		[CompilerGenerated]
+		private static float <GeneratePawns>m__2(TraderKindDef traderDef)
+		{
+			return traderDef.CalculatedCommonality;
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateTrader>m__3(PawnGenOption x)
+		{
+			return x.selectionWeight;
+		}
+
+		[CompilerGenerated]
+		private static bool <GenerateCarriers>m__4(Thing x)
+		{
+			return !(x is Pawn);
+		}
+
+		[CompilerGenerated]
+		private static float <GenerateCarriers>m__5(PawnGenOption x)
+		{
+			return x.selectionWeight;
+		}
+
+		[CompilerGenerated]
+		private sealed class <CanGenerateFrom>c__AnonStorey1
+		{
+			internal PawnGroupMakerParms parms;
+
+			public <CanGenerateFrom>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(PawnGenOption x)
+			{
+				return Find.WorldGrid[this.parms.tile].biome.IsPackAnimalAllowed(x.kind.race);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GenerateCarriers>c__AnonStorey2
+		{
+			internal PawnGroupMakerParms parms;
+
+			public <GenerateCarriers>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(PawnGenOption x)
+			{
+				return this.parms.tile == -1 || Find.WorldGrid[this.parms.tile].biome.IsPackAnimalAllowed(x.kind.race);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetSlavesAndAnimalsFromWares>c__Iterator0 : IEnumerable, IEnumerable<Pawn>, IEnumerator, IDisposable, IEnumerator<Pawn>
+		{
+			internal int <i>__1;
+
+			internal List<Thing> wares;
+
+			internal Pawn <p>__2;
+
+			internal PawnGroupMakerParms parms;
+
+			internal Pawn $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetSlavesAndAnimalsFromWares>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					i = 0;
+					goto IL_BC;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				IL_AE:
+				i++;
+				IL_BC:
+				if (i >= wares.Count)
+				{
+					this.$PC = -1;
+				}
+				else
+				{
+					p = (wares[i] as Pawn);
+					if (p == null)
+					{
+						goto IL_AE;
+					}
+					if (p.Faction != parms.faction)
+					{
+						p.SetFaction(parms.faction, null);
+					}
+					this.$current = p;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				}
+				return false;
+			}
+
+			Pawn IEnumerator<Pawn>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Pawn>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Pawn> IEnumerable<Pawn>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__Iterator0 <GetSlavesAndAnimalsFromWares>c__Iterator = new PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__Iterator0();
+				<GetSlavesAndAnimalsFromWares>c__Iterator.wares = wares;
+				<GetSlavesAndAnimalsFromWares>c__Iterator.parms = parms;
+				return <GetSlavesAndAnimalsFromWares>c__Iterator;
 			}
 		}
 	}

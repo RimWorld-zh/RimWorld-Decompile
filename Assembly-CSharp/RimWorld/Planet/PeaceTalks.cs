@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000602 RID: 1538
 	[HasDebugOutput]
 	public class PeaceTalks : WorldObject
 	{
-		// Token: 0x0400121E RID: 4638
 		private Material cachedMat;
 
-		// Token: 0x0400121F RID: 4639
 		private static readonly SimpleCurve BadOutcomeFactorAtDiplomacyPower = new SimpleCurve
 		{
 			{
@@ -32,26 +33,25 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04001220 RID: 4640
 		private const float BaseWeight_Disaster = 0.05f;
 
-		// Token: 0x04001221 RID: 4641
 		private const float BaseWeight_Backfire = 0.1f;
 
-		// Token: 0x04001222 RID: 4642
 		private const float BaseWeight_TalksFlounder = 0.2f;
 
-		// Token: 0x04001223 RID: 4643
 		private const float BaseWeight_Success = 0.55f;
 
-		// Token: 0x04001224 RID: 4644
 		private const float BaseWeight_Triumph = 0.1f;
 
-		// Token: 0x04001225 RID: 4645
 		private static List<Pair<Action, float>> tmpPossibleOutcomes = new List<Pair<Action, float>>();
 
-		// Token: 0x17000484 RID: 1156
-		// (get) Token: 0x06001EAF RID: 7855 RVA: 0x0010BCE0 File Offset: 0x0010A0E0
+		[CompilerGenerated]
+		private static Func<Pair<Action, float>, float> <>f__am$cache0;
+
+		public PeaceTalks()
+		{
+		}
+
 		public override Material Material
 		{
 			get
@@ -73,7 +73,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EB0 RID: 7856 RVA: 0x0010BD54 File Offset: 0x0010A154
 		public void Notify_CaravanArrived(Caravan caravan)
 		{
 			Pawn pawn = BestCaravanPawnUtility.FindBestDiplomat(caravan);
@@ -113,7 +112,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EB1 RID: 7857 RVA: 0x0010BECC File Offset: 0x0010A2CC
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(caravan))
@@ -127,7 +125,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EB2 RID: 7858 RVA: 0x0010BF00 File Offset: 0x0010A300
 		private void Outcome_Disaster(Caravan caravan)
 		{
 			LongEventHandler.QueueLongEvent(delegate()
@@ -163,7 +160,6 @@ namespace RimWorld.Planet
 			}, "GeneratingMapForNewEncounter", false, null);
 		}
 
-		// Token: 0x06001EB3 RID: 7859 RVA: 0x0010BF3C File Offset: 0x0010A33C
 		private void Outcome_Backfire(Caravan caravan)
 		{
 			FactionRelationKind playerRelationKind = base.Faction.PlayerRelationKind;
@@ -176,7 +172,6 @@ namespace RimWorld.Planet
 			}), caravan, playerRelationKind), LetterDefOf.NegativeEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB4 RID: 7860 RVA: 0x0010BFD8 File Offset: 0x0010A3D8
 		private void Outcome_TalksFlounder(Caravan caravan)
 		{
 			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_TalksFlounder".Translate(), this.GetLetterText("LetterPeaceTalks_TalksFlounder".Translate(new object[]
@@ -185,7 +180,6 @@ namespace RimWorld.Planet
 			}), caravan, base.Faction.PlayerRelationKind), LetterDefOf.NeutralEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB5 RID: 7861 RVA: 0x0010C03C File Offset: 0x0010A43C
 		private void Outcome_Success(Caravan caravan)
 		{
 			FactionRelationKind playerRelationKind = base.Faction.PlayerRelationKind;
@@ -198,7 +192,6 @@ namespace RimWorld.Planet
 			}), caravan, playerRelationKind), LetterDefOf.PositiveEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB6 RID: 7862 RVA: 0x0010C0D8 File Offset: 0x0010A4D8
 		private void Outcome_Triumph(Caravan caravan)
 		{
 			FactionRelationKind playerRelationKind = base.Faction.PlayerRelationKind;
@@ -217,7 +210,6 @@ namespace RimWorld.Planet
 			}), caravan, playerRelationKind), LetterDefOf.PositiveEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB7 RID: 7863 RVA: 0x0010C1C4 File Offset: 0x0010A5C4
 		private string GetLetterText(string baseText, Caravan caravan, FactionRelationKind previousRelationKind)
 		{
 			string text = baseText;
@@ -234,22 +226,19 @@ namespace RimWorld.Planet
 			return text;
 		}
 
-		// Token: 0x06001EB8 RID: 7864 RVA: 0x0010C240 File Offset: 0x0010A640
 		private static float GetBadOutcomeWeightFactor(Pawn diplomat)
 		{
 			float statValue = diplomat.GetStatValue(StatDefOf.DiplomacyPower, true);
 			return PeaceTalks.GetBadOutcomeWeightFactor(statValue);
 		}
 
-		// Token: 0x06001EB9 RID: 7865 RVA: 0x0010C268 File Offset: 0x0010A668
 		private static float GetBadOutcomeWeightFactor(float diplomacyPower)
 		{
 			return PeaceTalks.BadOutcomeFactorAtDiplomacyPower.Evaluate(diplomacyPower);
 		}
 
-		// Token: 0x06001EBA RID: 7866 RVA: 0x0010C288 File Offset: 0x0010A688
-		[DebugOutput]
 		[Category("Incidents")]
+		[DebugOutput]
 		private static void PeaceTalksChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -259,7 +248,6 @@ namespace RimWorld.Planet
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06001EBB RID: 7867 RVA: 0x0010C2CC File Offset: 0x0010A6CC
 		private static void AppendDebugChances(StringBuilder sb, float diplomacyPower)
 		{
 			if (sb.Length > 0)
@@ -281,6 +269,289 @@ namespace RimWorld.Planet
 			sb.AppendLine("Talks flounder: " + (num4 / num7).ToStringPercent());
 			sb.AppendLine("Success: " + (num5 / num7).ToStringPercent());
 			sb.AppendLine("Triumph: " + (num6 / num7).ToStringPercent());
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PeaceTalks()
+		{
+		}
+
+		[CompilerGenerated]
+		private static float <Notify_CaravanArrived>m__0(Pair<Action, float> x)
+		{
+			return x.Second;
+		}
+
+		[DebuggerHidden]
+		[CompilerGenerated]
+		private IEnumerable<FloatMenuOption> <GetFloatMenuOptions>__BaseCallProxy0(Caravan caravan)
+		{
+			return base.GetFloatMenuOptions(caravan);
+		}
+
+		[CompilerGenerated]
+		private sealed class <Notify_CaravanArrived>c__AnonStorey1
+		{
+			internal Caravan caravan;
+
+			internal PeaceTalks $this;
+
+			public <Notify_CaravanArrived>c__AnonStorey1()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.$this.Outcome_Disaster(this.caravan);
+			}
+
+			internal void <>m__1()
+			{
+				this.$this.Outcome_Backfire(this.caravan);
+			}
+
+			internal void <>m__2()
+			{
+				this.$this.Outcome_TalksFlounder(this.caravan);
+			}
+
+			internal void <>m__3()
+			{
+				this.$this.Outcome_Success(this.caravan);
+			}
+
+			internal void <>m__4()
+			{
+				this.$this.Outcome_Triumph(this.caravan);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		{
+			internal Caravan caravan;
+
+			internal IEnumerator<FloatMenuOption> $locvar0;
+
+			internal FloatMenuOption <o>__1;
+
+			internal IEnumerator<FloatMenuOption> $locvar1;
+
+			internal FloatMenuOption <f>__2;
+
+			internal PeaceTalks $this;
+
+			internal FloatMenuOption $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetFloatMenuOptions>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<GetFloatMenuOptions>__BaseCallProxy0(caravan).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_DE;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						this.$current = o;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				enumerator2 = CaravanArrivalAction_VisitPeaceTalks.GetFloatMenuOptions(caravan, this).GetEnumerator();
+				num = 4294967293u;
+				try
+				{
+					IL_DE:
+					switch (num)
+					{
+					}
+					if (enumerator2.MoveNext())
+					{
+						f = enumerator2.Current;
+						this.$current = f;
+						if (!this.$disposing)
+						{
+							this.$PC = 2;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			FloatMenuOption IEnumerator<FloatMenuOption>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator2 != null)
+						{
+							enumerator2.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.FloatMenuOption>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<FloatMenuOption> IEnumerable<FloatMenuOption>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PeaceTalks.<GetFloatMenuOptions>c__Iterator0 <GetFloatMenuOptions>c__Iterator = new PeaceTalks.<GetFloatMenuOptions>c__Iterator0();
+				<GetFloatMenuOptions>c__Iterator.$this = this;
+				<GetFloatMenuOptions>c__Iterator.caravan = caravan;
+				return <GetFloatMenuOptions>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <Outcome_Disaster>c__AnonStorey2
+		{
+			internal Caravan caravan;
+
+			internal PeaceTalks $this;
+
+			public <Outcome_Disaster>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				FactionRelationKind playerRelationKind = this.$this.Faction.PlayerRelationKind;
+				int randomInRange = DiplomacyTuning.Goodwill_PeaceTalksDisasterRange.RandomInRange;
+				this.$this.Faction.TryAffectGoodwillWith(Faction.OfPlayer, randomInRange, false, false, null, null);
+				this.$this.Faction.TrySetRelationKind(Faction.OfPlayer, FactionRelationKind.Hostile, false, null, null);
+				IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, this.caravan);
+				incidentParms.faction = this.$this.Faction;
+				PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(PawnGroupKindDefOf.Combat, incidentParms, true);
+				defaultPawnGroupMakerParms.generateFightersOnly = true;
+				List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
+				Map map = CaravanIncidentUtility.SetupCaravanAttackMap(this.caravan, list, false);
+				if (list.Any<Pawn>())
+				{
+					LordMaker.MakeNewLord(incidentParms.faction, new LordJob_AssaultColony(this.$this.Faction, true, true, false, false, true), map, list);
+				}
+				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+				GlobalTargetInfo target = (!list.Any<Pawn>()) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(list[0].Position, map, false);
+				string label = "LetterLabelPeaceTalks_Disaster".Translate();
+				string letterText = this.$this.GetLetterText("LetterPeaceTalks_Disaster".Translate(new object[]
+				{
+					this.$this.Faction.def.pawnsPlural.CapitalizeFirst(),
+					this.$this.Faction.Name,
+					Mathf.RoundToInt((float)randomInRange)
+				}), this.caravan, playerRelationKind);
+				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref label, ref letterText, "LetterRelatedPawnsGroupGeneric".Translate(new object[]
+				{
+					Faction.OfPlayer.def.pawnsPlural
+				}), true, true);
+				Find.LetterStack.ReceiveLetter(label, letterText, LetterDefOf.ThreatBig, target, this.$this.Faction, null);
+			}
 		}
 	}
 }

@@ -3,52 +3,43 @@ using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-	// Token: 0x020001A6 RID: 422
+	[AddComponentMenu("Image Effects/Rendering/Screen Space Ambient Occlusion")]
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
-	[AddComponentMenu("Image Effects/Rendering/Screen Space Ambient Occlusion")]
 	public class ScreenSpaceAmbientOcclusion : MonoBehaviour
 	{
-		// Token: 0x04000847 RID: 2119
 		[Range(0.05f, 1f)]
 		public float m_Radius = 0.4f;
 
-		// Token: 0x04000848 RID: 2120
 		public ScreenSpaceAmbientOcclusion.SSAOSamples m_SampleCount = ScreenSpaceAmbientOcclusion.SSAOSamples.Medium;
 
-		// Token: 0x04000849 RID: 2121
 		[Range(0.5f, 4f)]
 		public float m_OcclusionIntensity = 1.5f;
 
-		// Token: 0x0400084A RID: 2122
 		[Range(0f, 4f)]
 		public int m_Blur = 2;
 
-		// Token: 0x0400084B RID: 2123
 		[Range(1f, 6f)]
 		public int m_Downsampling = 2;
 
-		// Token: 0x0400084C RID: 2124
 		[Range(0.2f, 2f)]
 		public float m_OcclusionAttenuation = 1f;
 
-		// Token: 0x0400084D RID: 2125
 		[Range(1E-05f, 0.5f)]
 		public float m_MinZ = 0.01f;
 
-		// Token: 0x0400084E RID: 2126
 		public Shader m_SSAOShader;
 
-		// Token: 0x0400084F RID: 2127
 		private Material m_SSAOMaterial;
 
-		// Token: 0x04000850 RID: 2128
 		public Texture2D m_RandomTexture;
 
-		// Token: 0x04000851 RID: 2129
 		private bool m_Supported;
 
-		// Token: 0x0600095C RID: 2396 RVA: 0x000185F4 File Offset: 0x000167F4
+		public ScreenSpaceAmbientOcclusion()
+		{
+		}
+
 		private static Material CreateMaterial(Shader shader)
 		{
 			Material result;
@@ -66,7 +57,6 @@ namespace UnityStandardAssets.ImageEffects
 			return result;
 		}
 
-		// Token: 0x0600095D RID: 2397 RVA: 0x0001862B File Offset: 0x0001682B
 		private static void DestroyMaterial(Material mat)
 		{
 			if (mat)
@@ -76,13 +66,11 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x0600095E RID: 2398 RVA: 0x00018644 File Offset: 0x00016844
 		private void OnDisable()
 		{
 			ScreenSpaceAmbientOcclusion.DestroyMaterial(this.m_SSAOMaterial);
 		}
 
-		// Token: 0x0600095F RID: 2399 RVA: 0x00018654 File Offset: 0x00016854
 		private void Start()
 		{
 			if (!SystemInfo.supportsImageEffects || !SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.Depth))
@@ -105,13 +93,11 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000960 RID: 2400 RVA: 0x000186CD File Offset: 0x000168CD
 		private void OnEnable()
 		{
 			base.GetComponent<Camera>().depthTextureMode |= DepthTextureMode.DepthNormals;
 		}
 
-		// Token: 0x06000961 RID: 2401 RVA: 0x000186E4 File Offset: 0x000168E4
 		private void CreateMaterials()
 		{
 			if (!this.m_SSAOMaterial && this.m_SSAOShader.isSupported)
@@ -121,7 +107,6 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x06000962 RID: 2402 RVA: 0x0001873C File Offset: 0x0001693C
 		[ImageEffectOpaque]
 		private void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
@@ -180,14 +165,10 @@ namespace UnityStandardAssets.ImageEffects
 			}
 		}
 
-		// Token: 0x020001A7 RID: 423
 		public enum SSAOSamples
 		{
-			// Token: 0x04000853 RID: 2131
 			Low,
-			// Token: 0x04000854 RID: 2132
 			Medium,
-			// Token: 0x04000855 RID: 2133
 			High
 		}
 	}

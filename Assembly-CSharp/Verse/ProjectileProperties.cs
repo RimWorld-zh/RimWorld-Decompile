@@ -1,82 +1,64 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000B1E RID: 2846
 	public class ProjectileProperties
 	{
-		// Token: 0x0400285A RID: 10330
 		public float speed = 4f;
 
-		// Token: 0x0400285B RID: 10331
 		public bool flyOverhead = false;
 
-		// Token: 0x0400285C RID: 10332
 		public bool alwaysFreeIntercept = false;
 
-		// Token: 0x0400285D RID: 10333
 		public DamageDef damageDef = null;
 
-		// Token: 0x0400285E RID: 10334
 		private int damageAmountBase = -1;
 
-		// Token: 0x0400285F RID: 10335
 		public float stoppingPower = 0f;
 
-		// Token: 0x04002860 RID: 10336
 		public SoundDef soundHitThickRoof = null;
 
-		// Token: 0x04002861 RID: 10337
 		public SoundDef soundExplode = null;
 
-		// Token: 0x04002862 RID: 10338
 		public SoundDef soundImpactAnticipate = null;
 
-		// Token: 0x04002863 RID: 10339
 		public SoundDef soundAmbient = null;
 
-		// Token: 0x04002864 RID: 10340
 		public float explosionRadius = 0f;
 
-		// Token: 0x04002865 RID: 10341
 		public int explosionDelay = 0;
 
-		// Token: 0x04002866 RID: 10342
 		public ThingDef preExplosionSpawnThingDef = null;
 
-		// Token: 0x04002867 RID: 10343
 		public float preExplosionSpawnChance = 1f;
 
-		// Token: 0x04002868 RID: 10344
 		public int preExplosionSpawnThingCount = 1;
 
-		// Token: 0x04002869 RID: 10345
 		public ThingDef postExplosionSpawnThingDef = null;
 
-		// Token: 0x0400286A RID: 10346
 		public float postExplosionSpawnChance = 1f;
 
-		// Token: 0x0400286B RID: 10347
 		public int postExplosionSpawnThingCount = 1;
 
-		// Token: 0x0400286C RID: 10348
 		public bool applyDamageToExplosionCellsNeighbors;
 
-		// Token: 0x0400286D RID: 10349
 		public float explosionChanceToStartFire;
 
-		// Token: 0x0400286E RID: 10350
 		public bool explosionDamageFalloff;
 
-		// Token: 0x0400286F RID: 10351
 		public EffecterDef explosionEffect;
 
-		// Token: 0x04002870 RID: 10352
 		public bool ai_IsIncendiary = false;
 
-		// Token: 0x17000977 RID: 2423
-		// (get) Token: 0x06003EC5 RID: 16069 RVA: 0x00211388 File Offset: 0x0020F788
+		public ProjectileProperties()
+		{
+		}
+
 		public int DamageAmount
 		{
 			get
@@ -99,7 +81,6 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EC6 RID: 16070 RVA: 0x002113E4 File Offset: 0x0020F7E4
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
 			if (this.alwaysFreeIntercept && this.flyOverhead)
@@ -111,6 +92,110 @@ namespace Verse
 				yield return "no damage amount specified for projectile";
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal ProjectileProperties $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.alwaysFreeIntercept && this.flyOverhead)
+					{
+						this.$current = "alwaysFreeIntercept and flyOverhead are both true";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				case 2u:
+					goto IL_BB;
+				default:
+					return false;
+				}
+				if (this.damageAmountBase == -1 && this.damageDef != null && this.damageDef.defaultDamage == -1)
+				{
+					this.$current = "no damage amount specified for projectile";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_BB:
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				ProjectileProperties.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new ProjectileProperties.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200065B RID: 1627
 	public class TaleData_Def : TaleData
 	{
-		// Token: 0x04001349 RID: 4937
 		public Def def;
 
-		// Token: 0x0400134A RID: 4938
 		private string tmpDefName;
 
-		// Token: 0x0400134B RID: 4939
 		private Type tmpDefType;
 
-		// Token: 0x060021FA RID: 8698 RVA: 0x00120620 File Offset: 0x0011EA20
+		public TaleData_Def()
+		{
+		}
+
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -33,7 +36,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021FB RID: 8699 RVA: 0x001206D4 File Offset: 0x0011EAD4
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			if (this.def != null)
@@ -45,13 +47,121 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021FC RID: 8700 RVA: 0x00120708 File Offset: 0x0011EB08
 		public static TaleData_Def GenerateFrom(Def def)
 		{
 			return new TaleData_Def
 			{
 				def = def
 			};
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRules>c__Iterator0 : IEnumerable, IEnumerable<Rule>, IEnumerator, IDisposable, IEnumerator<Rule>
+		{
+			internal string prefix;
+
+			internal TaleData_Def $this;
+
+			internal Rule $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetRules>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (this.def != null)
+					{
+						this.$current = new Rule_String(prefix + "_label", this.def.label);
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					this.$current = new Rule_String(prefix + "_definite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.def.label));
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				case 2u:
+					this.$current = new Rule_String(prefix + "_indefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.def.label));
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			Rule IEnumerator<Rule>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.Grammar.Rule>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<Rule> IEnumerable<Rule>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				TaleData_Def.<GetRules>c__Iterator0 <GetRules>c__Iterator = new TaleData_Def.<GetRules>c__Iterator0();
+				<GetRules>c__Iterator.$this = this;
+				<GetRules>c__Iterator.prefix = prefix;
+				return <GetRules>c__Iterator;
+			}
 		}
 	}
 }

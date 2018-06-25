@@ -1,52 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000829 RID: 2089
 	[StaticConstructorOnStartup]
 	public static class TransferableUIUtility
 	{
-		// Token: 0x04001947 RID: 6471
 		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
 
-		// Token: 0x04001948 RID: 6472
 		private const float AmountAreaWidth = 90f;
 
-		// Token: 0x04001949 RID: 6473
 		private const float AmountAreaHeight = 25f;
 
-		// Token: 0x0400194A RID: 6474
 		private const float AdjustArrowWidth = 30f;
 
-		// Token: 0x0400194B RID: 6475
 		public const float ResourceIconSize = 27f;
 
-		// Token: 0x0400194C RID: 6476
 		public const float SortersHeight = 27f;
 
-		// Token: 0x0400194D RID: 6477
 		public const float ExtraInfoHeight = 40f;
 
-		// Token: 0x0400194E RID: 6478
 		public const float ExtraInfoMargin = 12f;
 
-		// Token: 0x0400194F RID: 6479
 		public static readonly Color ZeroCountColor = new Color(0.5f, 0.5f, 0.5f);
 
-		// Token: 0x04001950 RID: 6480
 		public static readonly Texture2D FlashTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.4f));
 
-		// Token: 0x04001951 RID: 6481
 		private static readonly Texture2D TradeArrow = ContentFinder<Texture2D>.Get("UI/Widgets/TradeArrow", true);
 
-		// Token: 0x04001952 RID: 6482
 		private static readonly Texture2D DividerTex = ContentFinder<Texture2D>.Get("UI/Widgets/Divider", true);
 
-		// Token: 0x06002EFF RID: 12031 RVA: 0x00191560 File Offset: 0x0018F960
 		public static void DoCountAdjustInterface(Rect rect, Transferable trad, int index, int min, int max, bool flash = false, List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = null, bool readOnly = false)
 		{
 			TransferableUIUtility.stoppingPoints.Clear();
@@ -77,7 +64,6 @@ namespace RimWorld
 			TransferableUIUtility.DoCountAdjustInterfaceInternal(rect, trad, index, min, max, flash, readOnly);
 		}
 
-		// Token: 0x06002F00 RID: 12032 RVA: 0x00191678 File Offset: 0x0018FA78
 		private static void DoCountAdjustInterfaceInternal(Rect rect, Transferable trad, int index, int min, int max, bool flash, bool readOnly)
 		{
 			rect = rect.Rounded();
@@ -259,7 +245,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F01 RID: 12033 RVA: 0x00191D7C File Offset: 0x0019017C
 		public static void DrawTransferableInfo(Transferable trad, Rect idRect, Color labelColor)
 		{
 			if (trad.HasAnyThing)
@@ -301,7 +286,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F02 RID: 12034 RVA: 0x00191E70 File Offset: 0x00190270
 		public static float DefaultListOrderPriority(Transferable transferable)
 		{
 			float result;
@@ -316,7 +300,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F03 RID: 12035 RVA: 0x00191EA8 File Offset: 0x001902A8
 		public static float DefaultListOrderPriority(ThingDef def)
 		{
 			float result;
@@ -359,7 +342,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F04 RID: 12036 RVA: 0x00191F74 File Offset: 0x00190374
 		public static void DoTransferableSorters(TransferableSorterDef sorter1, TransferableSorterDef sorter2, Action<TransferableSorterDef> sorter1Setter, Action<TransferableSorterDef> sorter2Setter)
 		{
 			Rect position = new Rect(0f, 0f, 350f, 27f);
@@ -382,7 +364,6 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F05 RID: 12037 RVA: 0x00192064 File Offset: 0x00190464
 		private static void OpenSorterChangeFloatMenu(Action<TransferableSorterDef> sorterSetter)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -398,7 +379,6 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06002F06 RID: 12038 RVA: 0x00192100 File Offset: 0x00190500
 		public static void DrawExtraInfo(List<TransferableUIUtility.ExtraInfo> info, Rect rect)
 		{
 			if (rect.width > (float)info.Count * 230f)
@@ -461,31 +441,27 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x0200082A RID: 2090
+		// Note: this type is marked as 'beforefieldinit'.
+		static TransferableUIUtility()
+		{
+		}
+
 		public struct ExtraInfo
 		{
-			// Token: 0x04001953 RID: 6483
 			public string key;
 
-			// Token: 0x04001954 RID: 6484
 			public string value;
 
-			// Token: 0x04001955 RID: 6485
 			public string secondValue;
 
-			// Token: 0x04001956 RID: 6486
 			public string tip;
 
-			// Token: 0x04001957 RID: 6487
 			public float lastFlashTime;
 
-			// Token: 0x04001958 RID: 6488
 			public Color color;
 
-			// Token: 0x04001959 RID: 6489
 			public Color secondColor;
 
-			// Token: 0x06002F08 RID: 12040 RVA: 0x00192500 File Offset: 0x00190900
 			public ExtraInfo(string key, string value, Color color, string tip, float lastFlashTime = -9999f)
 			{
 				this.key = key;
@@ -497,7 +473,6 @@ namespace RimWorld
 				this.secondColor = default(Color);
 			}
 
-			// Token: 0x06002F09 RID: 12041 RVA: 0x00192549 File Offset: 0x00190949
 			public ExtraInfo(string key, string value, Color color, string tip, string secondValue, Color secondColor, float lastFlashTime = -9999f)
 			{
 				this.key = key;
@@ -507,6 +482,63 @@ namespace RimWorld
 				this.lastFlashTime = lastFlashTime;
 				this.secondValue = secondValue;
 				this.secondColor = secondColor;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DrawTransferableInfo>c__AnonStorey0
+		{
+			internal Transferable localTrad;
+
+			public <DrawTransferableInfo>c__AnonStorey0()
+			{
+			}
+
+			internal string <>m__0()
+			{
+				string result;
+				if (!this.localTrad.HasAnyThing)
+				{
+					result = "";
+				}
+				else
+				{
+					string text = this.localTrad.LabelCap;
+					string tipDescription = this.localTrad.TipDescription;
+					if (!tipDescription.NullOrEmpty())
+					{
+						text = text + ": " + tipDescription;
+					}
+					result = text;
+				}
+				return result;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <OpenSorterChangeFloatMenu>c__AnonStorey1
+		{
+			internal Action<TransferableSorterDef> sorterSetter;
+
+			public <OpenSorterChangeFloatMenu>c__AnonStorey1()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <OpenSorterChangeFloatMenu>c__AnonStorey2
+		{
+			internal TransferableSorterDef def;
+
+			internal TransferableUIUtility.<OpenSorterChangeFloatMenu>c__AnonStorey1 <>f__ref$1;
+
+			public <OpenSorterChangeFloatMenu>c__AnonStorey2()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				this.<>f__ref$1.sorterSetter(this.def);
 			}
 		}
 	}

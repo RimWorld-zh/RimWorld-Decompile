@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020000F2 RID: 242
 	public abstract class JoyGiver_InteractBuilding : JoyGiver
 	{
-		// Token: 0x170000CC RID: 204
-		// (get) Token: 0x0600051B RID: 1307 RVA: 0x000389A0 File Offset: 0x00036DA0
+		protected JoyGiver_InteractBuilding()
+		{
+		}
+
 		protected virtual bool CanDoDuringParty
 		{
 			get
@@ -18,7 +20,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600051C RID: 1308 RVA: 0x000389B8 File Offset: 0x00036DB8
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, false, IntVec3.Invalid);
@@ -34,7 +35,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600051D RID: 1309 RVA: 0x000389F0 File Offset: 0x00036DF0
 		public override Job TryGiveJobWhileInBed(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, true, IntVec3.Invalid);
@@ -50,7 +50,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600051E RID: 1310 RVA: 0x00038A28 File Offset: 0x00036E28
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			Job result;
@@ -73,7 +72,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600051F RID: 1311 RVA: 0x00038A70 File Offset: 0x00036E70
 		private Thing FindBestGame(Pawn pawn, bool inBed, IntVec3 partySpot)
 		{
 			List<Thing> searchSet = this.GetSearchSet(pawn);
@@ -92,7 +90,6 @@ namespace RimWorld
 			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
 		}
 
-		// Token: 0x06000520 RID: 1312 RVA: 0x00038B44 File Offset: 0x00036F44
 		protected virtual bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
 			bool result;
@@ -120,14 +117,50 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000521 RID: 1313
 		protected abstract Job TryGivePlayJob(Pawn pawn, Thing bestGame);
 
-		// Token: 0x06000522 RID: 1314 RVA: 0x00038C0C File Offset: 0x0003700C
 		protected virtual Job TryGivePlayJobWhileInBed(Pawn pawn, Thing bestGame)
 		{
 			Building_Bed t = pawn.CurrentBed();
 			return new Job(this.def.jobDef, bestGame, pawn.Position, t);
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindBestGame>c__AnonStorey0
+		{
+			internal Pawn pawn;
+
+			internal bool inBed;
+
+			internal IntVec3 partySpot;
+
+			internal JoyGiver_InteractBuilding $this;
+
+			public <FindBestGame>c__AnonStorey0()
+			{
+			}
+
+			internal bool <>m__0(Thing t)
+			{
+				return this.$this.CanInteractWith(this.pawn, t, this.inBed);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <FindBestGame>c__AnonStorey1
+		{
+			internal Predicate<Thing> oldValidator;
+
+			internal JoyGiver_InteractBuilding.<FindBestGame>c__AnonStorey0 <>f__ref$0;
+
+			public <FindBestGame>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Thing x)
+			{
+				return PartyUtility.InPartyArea(x.Position, this.<>f__ref$0.partySpot, this.<>f__ref$0.pawn.Map) && this.oldValidator(x);
+			}
 		}
 	}
 }

@@ -1,86 +1,74 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine.Profiling;
 using Verse;
 using Verse.Noise;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B1 RID: 1457
 	public sealed class World : IThingHolder, IExposable, IIncidentTarget, ILoadReferenceable
 	{
-		// Token: 0x0400109C RID: 4252
 		public WorldInfo info = new WorldInfo();
 
-		// Token: 0x0400109D RID: 4253
 		public List<WorldComponent> components = new List<WorldComponent>();
 
-		// Token: 0x0400109E RID: 4254
 		public FactionManager factionManager;
 
-		// Token: 0x0400109F RID: 4255
 		public WorldPawns worldPawns;
 
-		// Token: 0x040010A0 RID: 4256
 		public WorldObjectsHolder worldObjects;
 
-		// Token: 0x040010A1 RID: 4257
 		public GameConditionManager gameConditionManager;
 
-		// Token: 0x040010A2 RID: 4258
 		public StoryState storyState;
 
-		// Token: 0x040010A3 RID: 4259
 		public WorldFeatures features;
 
-		// Token: 0x040010A4 RID: 4260
 		public WorldGrid grid;
 
-		// Token: 0x040010A5 RID: 4261
 		public WorldPathGrid pathGrid;
 
-		// Token: 0x040010A6 RID: 4262
 		public WorldRenderer renderer;
 
-		// Token: 0x040010A7 RID: 4263
 		public WorldInterface UI;
 
-		// Token: 0x040010A8 RID: 4264
 		public WorldDebugDrawer debugDrawer;
 
-		// Token: 0x040010A9 RID: 4265
 		public WorldDynamicDrawManager dynamicDrawManager;
 
-		// Token: 0x040010AA RID: 4266
 		public WorldPathFinder pathFinder;
 
-		// Token: 0x040010AB RID: 4267
 		public WorldPathPool pathPool;
 
-		// Token: 0x040010AC RID: 4268
 		public WorldReachability reachability;
 
-		// Token: 0x040010AD RID: 4269
 		public WorldFloodFiller floodFiller;
 
-		// Token: 0x040010AE RID: 4270
 		public ConfiguredTicksAbsAtGameStartCache ticksAbsCache;
 
-		// Token: 0x040010AF RID: 4271
 		public TileTemperaturesComp tileTemperatures;
 
-		// Token: 0x040010B0 RID: 4272
 		public WorldGenData genData;
 
-		// Token: 0x040010B1 RID: 4273
 		private static List<int> tmpNeighbors = new List<int>();
 
-		// Token: 0x040010B2 RID: 4274
 		private static List<Rot4> tmpOceanDirs = new List<Rot4>();
 
-		// Token: 0x17000413 RID: 1043
-		// (get) Token: 0x06001BE4 RID: 7140 RVA: 0x000F0724 File Offset: 0x000EEB24
+		[CompilerGenerated]
+		private static Predicate<WorldComponent> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, bool> <>f__am$cache1;
+
+		public World()
+		{
+		}
+
 		public float PlanetCoverage
 		{
 			get
@@ -89,8 +77,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000414 RID: 1044
-		// (get) Token: 0x06001BE5 RID: 7141 RVA: 0x000F0744 File Offset: 0x000EEB44
 		public IThingHolder ParentHolder
 		{
 			get
@@ -99,8 +85,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000415 RID: 1045
-		// (get) Token: 0x06001BE6 RID: 7142 RVA: 0x000F075C File Offset: 0x000EEB5C
 		public int Tile
 		{
 			get
@@ -109,8 +93,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000416 RID: 1046
-		// (get) Token: 0x06001BE7 RID: 7143 RVA: 0x000F0774 File Offset: 0x000EEB74
 		public StoryState StoryState
 		{
 			get
@@ -119,8 +101,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000417 RID: 1047
-		// (get) Token: 0x06001BE8 RID: 7144 RVA: 0x000F0790 File Offset: 0x000EEB90
 		public GameConditionManager GameConditionManager
 		{
 			get
@@ -129,8 +109,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000418 RID: 1048
-		// (get) Token: 0x06001BE9 RID: 7145 RVA: 0x000F07AC File Offset: 0x000EEBAC
 		public float PlayerWealthForStoryteller
 		{
 			get
@@ -150,8 +128,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000419 RID: 1049
-		// (get) Token: 0x06001BEA RID: 7146 RVA: 0x000F0830 File Offset: 0x000EEC30
 		public IEnumerable<Pawn> PlayerPawnsForStoryteller
 		{
 			get
@@ -160,8 +136,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x1700041A RID: 1050
-		// (get) Token: 0x06001BEB RID: 7147 RVA: 0x000F084C File Offset: 0x000EEC4C
 		public FloatRange IncidentPointsRandomFactorRange
 		{
 			get
@@ -170,14 +144,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BEC RID: 7148 RVA: 0x000F0868 File Offset: 0x000EEC68
 		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			yield return IncidentTargetTypeDefOf.World;
 			yield break;
 		}
 
-		// Token: 0x06001BED RID: 7149 RVA: 0x000F088C File Offset: 0x000EEC8C
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<WorldInfo>(ref this.info, "info", new object[0]);
@@ -199,7 +171,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BEE RID: 7150 RVA: 0x000F0920 File Offset: 0x000EED20
 		public void ExposeComponents()
 		{
 			Scribe_Deep.Look<FactionManager>(ref this.factionManager, "factionManager", new object[0]);
@@ -225,7 +196,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BEF RID: 7151 RVA: 0x000F09EC File Offset: 0x000EEDEC
 		public void ConstructComponents()
 		{
 			this.worldObjects = new WorldObjectsHolder();
@@ -246,7 +216,6 @@ namespace RimWorld.Planet
 			this.FillComponents();
 		}
 
-		// Token: 0x06001BF0 RID: 7152 RVA: 0x000F0AA8 File Offset: 0x000EEEA8
 		private void FillComponents()
 		{
 			this.components.RemoveAll((WorldComponent component) => component == null);
@@ -265,7 +234,6 @@ namespace RimWorld.Planet
 			this.genData = this.GetComponent<WorldGenData>();
 		}
 
-		// Token: 0x06001BF1 RID: 7153 RVA: 0x000F0B78 File Offset: 0x000EEF78
 		public void FinalizeInit()
 		{
 			this.pathGrid.RecalculateAllPerceivedPathCosts();
@@ -273,7 +241,6 @@ namespace RimWorld.Planet
 			WorldComponentUtility.FinalizeInit(this);
 		}
 
-		// Token: 0x06001BF2 RID: 7154 RVA: 0x000F0B94 File Offset: 0x000EEF94
 		public void WorldTick()
 		{
 			Profiler.BeginSample("WorldPawnsTick()");
@@ -296,7 +263,6 @@ namespace RimWorld.Planet
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001BF3 RID: 7155 RVA: 0x000F0C3C File Offset: 0x000EF03C
 		public void WorldPostTick()
 		{
 			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
@@ -311,7 +277,6 @@ namespace RimWorld.Planet
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001BF4 RID: 7156 RVA: 0x000F0C90 File Offset: 0x000EF090
 		public void WorldUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -339,7 +304,6 @@ namespace RimWorld.Planet
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001BF5 RID: 7157 RVA: 0x000F0D44 File Offset: 0x000EF144
 		public T GetComponent<T>() where T : WorldComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -353,7 +317,6 @@ namespace RimWorld.Planet
 			return (T)((object)null);
 		}
 
-		// Token: 0x06001BF6 RID: 7158 RVA: 0x000F0DA8 File Offset: 0x000EF1A8
 		public WorldComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -366,7 +329,6 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001BF7 RID: 7159 RVA: 0x000F0E0C File Offset: 0x000EF20C
 		public Rot4 CoastDirectionAt(int tileID)
 		{
 			Tile tile = this.grid[tileID];
@@ -410,7 +372,6 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001BF8 RID: 7160 RVA: 0x000F0F2C File Offset: 0x000EF32C
 		public bool HasCaves(int tile)
 		{
 			Tile tile2 = this.grid[tile];
@@ -430,7 +391,6 @@ namespace RimWorld.Planet
 			return Rand.ChanceSeeded(chance, Gen.HashCombineInt(Find.World.info.Seed, tile));
 		}
 
-		// Token: 0x06001BF9 RID: 7161 RVA: 0x000F0FA0 File Offset: 0x000EF3A0
 		public IEnumerable<ThingDef> NaturalRockTypesIn(int tile)
 		{
 			Rand.PushState();
@@ -454,19 +414,16 @@ namespace RimWorld.Planet
 			return list2;
 		}
 
-		// Token: 0x06001BFA RID: 7162 RVA: 0x000F1044 File Offset: 0x000EF444
 		public bool Impassable(int tileID)
 		{
 			return !this.pathGrid.Passable(tileID);
 		}
 
-		// Token: 0x06001BFB RID: 7163 RVA: 0x000F1068 File Offset: 0x000EF468
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x06001BFC RID: 7164 RVA: 0x000F1080 File Offset: 0x000EF480
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
@@ -498,16 +455,113 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BFD RID: 7165 RVA: 0x000F1168 File Offset: 0x000EF568
 		public string GetUniqueLoadID()
 		{
 			return "World";
 		}
 
-		// Token: 0x06001BFE RID: 7166 RVA: 0x000F1184 File Offset: 0x000EF584
 		public override string ToString()
 		{
 			return "(World-" + this.info.name + ")";
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static World()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <FillComponents>m__0(WorldComponent component)
+		{
+			return component == null;
+		}
+
+		[CompilerGenerated]
+		private static bool <NaturalRockTypesIn>m__1(ThingDef d)
+		{
+			return d.category == ThingCategory.Building && d.building.isNaturalRock && !d.building.isResourceRock && !d.IsSmoothed;
+		}
+
+		[CompilerGenerated]
+		private sealed class <AcceptedTypes>c__Iterator0 : IEnumerable, IEnumerable<IncidentTargetTypeDef>, IEnumerator, IDisposable, IEnumerator<IncidentTargetTypeDef>
+		{
+			internal IncidentTargetTypeDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <AcceptedTypes>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					this.$current = IncidentTargetTypeDefOf.World;
+					if (!this.$disposing)
+					{
+						this.$PC = 1;
+					}
+					return true;
+				case 1u:
+					this.$PC = -1;
+					break;
+				}
+				return false;
+			}
+
+			IncidentTargetTypeDef IEnumerator<IncidentTargetTypeDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.IncidentTargetTypeDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<IncidentTargetTypeDef> IEnumerable<IncidentTargetTypeDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new World.<AcceptedTypes>c__Iterator0();
+			}
 		}
 	}
 }

@@ -1,16 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004BF RID: 1215
 	public static class PawnRelationUtility
 	{
-		// Token: 0x060015B9 RID: 5561 RVA: 0x000C19FC File Offset: 0x000BFDFC
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__am$cache1;
+
 		public static IEnumerable<PawnRelationDef> GetRelations(this Pawn me, Pawn other)
 		{
 			if (me == other)
@@ -58,7 +66,6 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060015BA RID: 5562 RVA: 0x000C1A30 File Offset: 0x000BFE30
 		public static PawnRelationDef GetMostImportantRelation(this Pawn me, Pawn other)
 		{
 			PawnRelationDef pawnRelationDef = null;
@@ -72,7 +79,6 @@ namespace RimWorld
 			return pawnRelationDef;
 		}
 
-		// Token: 0x060015BB RID: 5563 RVA: 0x000C1AAC File Offset: 0x000BFEAC
 		public static void Notify_PawnsSeenByPlayer(IEnumerable<Pawn> seenPawns, out string pawnRelationsInfo, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -129,7 +135,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015BC RID: 5564 RVA: 0x000C1C9C File Offset: 0x000C009C
 		public static void Notify_PawnsSeenByPlayer_Letter(IEnumerable<Pawn> seenPawns, ref string letterLabel, ref string letterText, string relationsInfoHeader, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			string text;
@@ -152,7 +157,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015BD RID: 5565 RVA: 0x000C1D24 File Offset: 0x000C0124
 		public static void Notify_PawnsSeenByPlayer_Letter_Send(IEnumerable<Pawn> seenPawns, string relationsInfoHeader, LetterDef letterDef, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			string label = "";
@@ -177,14 +181,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015BE RID: 5566 RVA: 0x000C1DD8 File Offset: 0x000C01D8
 		public static bool TryAppendRelationsWithColonistsInfo(ref string text, Pawn pawn)
 		{
 			string text2 = null;
 			return PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref text2, pawn);
 		}
 
-		// Token: 0x060015BF RID: 5567 RVA: 0x000C1DF8 File Offset: 0x000C01F8
 		public static bool TryAppendRelationsWithColonistsInfo(ref string text, ref string title, Pawn pawn)
 		{
 			Pawn mostImportantColonyRelative = PawnRelationUtility.GetMostImportantColonyRelative(pawn);
@@ -223,7 +225,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C0 RID: 5568 RVA: 0x000C1EC4 File Offset: 0x000C02C4
 		public static Pawn GetMostImportantColonyRelative(Pawn pawn)
 		{
 			Pawn result;
@@ -255,7 +256,6 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C1 RID: 5569 RVA: 0x000C1FAC File Offset: 0x000C03AC
 		public static float MaxPossibleBioAgeAt(float myBiologicalAge, float myChronologicalAge, float atChronologicalAge)
 		{
 			float num = Mathf.Min(myBiologicalAge, myChronologicalAge - atChronologicalAge);
@@ -271,10 +271,214 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C2 RID: 5570 RVA: 0x000C1FE4 File Offset: 0x000C03E4
 		public static float MinPossibleBioAgeAt(float myBiologicalAge, float atChronologicalAge)
 		{
 			return Mathf.Max(myBiologicalAge - atChronologicalAge, 0f);
+		}
+
+		[CompilerGenerated]
+		private static bool <Notify_PawnsSeenByPlayer>m__0(Pawn x)
+		{
+			return x.relations.everSeenByPlayer;
+		}
+
+		[CompilerGenerated]
+		private static bool <GetMostImportantColonyRelative>m__1(Pawn x)
+		{
+			return x.relations.everSeenByPlayer;
+		}
+
+		[CompilerGenerated]
+		private sealed class <GetRelations>c__Iterator0 : IEnumerable, IEnumerable<PawnRelationDef>, IEnumerator, IDisposable, IEnumerator<PawnRelationDef>
+		{
+			internal Pawn me;
+
+			internal Pawn other;
+
+			internal bool <anyNonKinFamilyByBloodRelation>__1;
+
+			internal List<PawnRelationDef> <defs>__1;
+
+			internal int <i>__2;
+
+			internal int <count>__2;
+
+			internal PawnRelationDef <def>__3;
+
+			internal PawnRelationDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GetRelations>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					if (me == other)
+					{
+						return false;
+					}
+					if (!me.RaceProps.IsFlesh || !other.RaceProps.IsFlesh)
+					{
+						return false;
+					}
+					if (!me.relations.RelatedToAnyoneOrAnyoneRelatedToMe || !other.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
+					{
+						return false;
+					}
+					num = 4294967293u;
+					break;
+				case 1u:
+				case 2u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					case 1u:
+						break;
+					case 2u:
+						goto IL_1E5;
+					default:
+						anyNonKinFamilyByBloodRelation = false;
+						defs = DefDatabase<PawnRelationDef>.AllDefsListForReading;
+						i = 0;
+						count = defs.Count;
+						goto IL_177;
+					}
+					IL_168:
+					IL_169:
+					i++;
+					IL_177:
+					if (i >= count)
+					{
+						if (!anyNonKinFamilyByBloodRelation && PawnRelationDefOf.Kin.Worker.InRelation(me, other))
+						{
+							this.$current = PawnRelationDefOf.Kin;
+							if (!this.$disposing)
+							{
+								this.$PC = 2;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					else
+					{
+						def = defs[i];
+						if (def == PawnRelationDefOf.Kin)
+						{
+							goto IL_169;
+						}
+						if (def.Worker.InRelation(me, other))
+						{
+							if (def.familyByBloodRelation)
+							{
+								anyNonKinFamilyByBloodRelation = true;
+							}
+							this.$current = def;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+						goto IL_168;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						this.<>__Finally0();
+					}
+				}
+				IL_1E5:
+				this.$PC = -1;
+				return false;
+			}
+
+			PawnRelationDef IEnumerator<PawnRelationDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+				case 2u:
+					try
+					{
+					}
+					finally
+					{
+						this.<>__Finally0();
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.PawnRelationDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<PawnRelationDef> IEnumerable<PawnRelationDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnRelationUtility.<GetRelations>c__Iterator0 <GetRelations>c__Iterator = new PawnRelationUtility.<GetRelations>c__Iterator0();
+				<GetRelations>c__Iterator.me = me;
+				<GetRelations>c__Iterator.other = other;
+				return <GetRelations>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+			}
 		}
 	}
 }

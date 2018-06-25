@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200097E RID: 2430
 	public static class GenGameEnd
 	{
-		// Token: 0x060036AC RID: 13996 RVA: 0x001D2FCF File Offset: 0x001D13CF
+		[CompilerGenerated]
+		private static Action <>f__am$cache0;
+
 		public static void EndGameDialogMessage(string msg, bool allowKeepPlaying = true)
 		{
 			GenGameEnd.EndGameDialogMessage(msg, allowKeepPlaying, Color.clear);
 		}
 
-		// Token: 0x060036AD RID: 13997 RVA: 0x001D2FE0 File Offset: 0x001D13E0
 		public static void EndGameDialogMessage(string msg, bool allowKeepPlaying, Color screenFillColor)
 		{
 			DiaNode diaNode = new DiaNode(msg);
@@ -37,6 +38,12 @@ namespace RimWorld
 			dialog_NodeTree.closeOnCancel = allowKeepPlaying;
 			Find.WindowStack.Add(dialog_NodeTree);
 			Find.Archive.Add(new ArchivedDialog(diaNode.text, null, null));
+		}
+
+		[CompilerGenerated]
+		private static void <EndGameDialogMessage>m__0()
+		{
+			GenScene.GoToMainMenu();
 		}
 	}
 }
