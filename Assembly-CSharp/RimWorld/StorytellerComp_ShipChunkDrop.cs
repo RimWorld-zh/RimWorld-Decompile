@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000374 RID: 884
 	public class StorytellerComp_ShipChunkDrop : StorytellerComp
 	{
-		// Token: 0x04000959 RID: 2393
+		// Token: 0x0400095C RID: 2396
 		private static readonly SimpleCurve ShipChunkDropMTBDaysCurve = new SimpleCurve
 		{
 			{
@@ -29,7 +29,7 @@ namespace RimWorld
 		};
 
 		// Token: 0x17000224 RID: 548
-		// (get) Token: 0x06000F47 RID: 3911 RVA: 0x000815E8 File Offset: 0x0007F9E8
+		// (get) Token: 0x06000F46 RID: 3910 RVA: 0x000815F8 File Offset: 0x0007F9F8
 		private float ShipChunkDropMTBDays
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F48 RID: 3912 RVA: 0x0008161C File Offset: 0x0007FA1C
+		// Token: 0x06000F47 RID: 3911 RVA: 0x0008162C File Offset: 0x0007FA2C
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (Rand.MTBEventOccurs(this.ShipChunkDropMTBDays, 60000f, 1000f))

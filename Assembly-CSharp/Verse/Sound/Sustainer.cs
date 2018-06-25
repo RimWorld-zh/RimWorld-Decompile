@@ -4,37 +4,37 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC2 RID: 3522
+	// Token: 0x02000DC3 RID: 3523
 	public class Sustainer
 	{
-		// Token: 0x0400345A RID: 13402
+		// Token: 0x04003461 RID: 13409
 		public SoundDef def;
 
-		// Token: 0x0400345B RID: 13403
+		// Token: 0x04003462 RID: 13410
 		public SoundInfo info;
 
-		// Token: 0x0400345C RID: 13404
+		// Token: 0x04003463 RID: 13411
 		internal GameObject worldRootObject;
 
-		// Token: 0x0400345D RID: 13405
+		// Token: 0x04003464 RID: 13412
 		private int lastMaintainTick;
 
-		// Token: 0x0400345E RID: 13406
+		// Token: 0x04003465 RID: 13413
 		private int lastMaintainFrame;
 
-		// Token: 0x0400345F RID: 13407
+		// Token: 0x04003466 RID: 13414
 		private float endRealTime = -1f;
 
-		// Token: 0x04003460 RID: 13408
+		// Token: 0x04003467 RID: 13415
 		private List<SubSustainer> subSustainers = new List<SubSustainer>();
 
-		// Token: 0x04003461 RID: 13409
+		// Token: 0x04003468 RID: 13416
 		public SoundParams externalParams = new SoundParams();
 
-		// Token: 0x04003462 RID: 13410
+		// Token: 0x04003469 RID: 13417
 		public SustainerScopeFader scopeFader = new SustainerScopeFader();
 
-		// Token: 0x06004EA4 RID: 20132 RVA: 0x0029155C File Offset: 0x0028F95C
+		// Token: 0x06004EA4 RID: 20132 RVA: 0x0029183C File Offset: 0x0028FC3C
 		public Sustainer(SoundDef def, SoundInfo info)
 		{
 			this.def = def;
@@ -76,7 +76,7 @@ namespace Verse.Sound
 		}
 
 		// Token: 0x17000CB3 RID: 3251
-		// (get) Token: 0x06004EA5 RID: 20133 RVA: 0x0029170C File Offset: 0x0028FB0C
+		// (get) Token: 0x06004EA5 RID: 20133 RVA: 0x002919EC File Offset: 0x0028FDEC
 		public bool Ended
 		{
 			get
@@ -86,7 +86,7 @@ namespace Verse.Sound
 		}
 
 		// Token: 0x17000CB4 RID: 3252
-		// (get) Token: 0x06004EA6 RID: 20134 RVA: 0x00291734 File Offset: 0x0028FB34
+		// (get) Token: 0x06004EA6 RID: 20134 RVA: 0x00291A14 File Offset: 0x0028FE14
 		public float TimeSinceEnd
 		{
 			get
@@ -96,7 +96,7 @@ namespace Verse.Sound
 		}
 
 		// Token: 0x17000CB5 RID: 3253
-		// (get) Token: 0x06004EA7 RID: 20135 RVA: 0x00291758 File Offset: 0x0028FB58
+		// (get) Token: 0x06004EA7 RID: 20135 RVA: 0x00291A38 File Offset: 0x0028FE38
 		public float CameraDistanceSquared
 		{
 			get
@@ -129,7 +129,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA8 RID: 20136 RVA: 0x00291820 File Offset: 0x0028FC20
+		// Token: 0x06004EA8 RID: 20136 RVA: 0x00291B00 File Offset: 0x0028FF00
 		public void SustainerUpdate()
 		{
 			if (!this.Ended)
@@ -169,7 +169,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA9 RID: 20137 RVA: 0x0029194C File Offset: 0x0028FD4C
+		// Token: 0x06004EA9 RID: 20137 RVA: 0x00291C2C File Offset: 0x0029002C
 		private void UpdateRootObjectPosition()
 		{
 			if (this.worldRootObject != null)
@@ -178,7 +178,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EAA RID: 20138 RVA: 0x0029199C File Offset: 0x0028FD9C
+		// Token: 0x06004EAA RID: 20138 RVA: 0x00291C7C File Offset: 0x0029007C
 		public void Maintain()
 		{
 			if (this.Ended)
@@ -195,7 +195,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EAB RID: 20139 RVA: 0x00291A13 File Offset: 0x0028FE13
+		// Token: 0x06004EAB RID: 20139 RVA: 0x00291CF3 File Offset: 0x002900F3
 		public void End()
 		{
 			this.endRealTime = Time.realtimeSinceStartup;
@@ -205,7 +205,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EAC RID: 20140 RVA: 0x00291A3C File Offset: 0x0028FE3C
+		// Token: 0x06004EAC RID: 20140 RVA: 0x00291D1C File Offset: 0x0029011C
 		private void Cleanup()
 		{
 			if (this.def.subSounds.Count > 0)
@@ -239,7 +239,7 @@ namespace Verse.Sound
 			DebugSoundEventsLog.Notify_SustainerEnded(this, this.info);
 		}
 
-		// Token: 0x06004EAD RID: 20141 RVA: 0x00291B5C File Offset: 0x0028FF5C
+		// Token: 0x06004EAD RID: 20141 RVA: 0x00291E3C File Offset: 0x0029023C
 		public string DebugString()
 		{
 			string text = this.def.defName;

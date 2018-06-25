@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -10,40 +11,43 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class SkillUI
 	{
-		// Token: 0x04001B0D RID: 6925
+		// Token: 0x04001B11 RID: 6929
 		private static float levelLabelWidth = -1f;
 
-		// Token: 0x04001B0E RID: 6926
+		// Token: 0x04001B12 RID: 6930
 		private const float SkillWidth = 240f;
 
-		// Token: 0x04001B0F RID: 6927
+		// Token: 0x04001B13 RID: 6931
 		public const float SkillHeight = 24f;
 
-		// Token: 0x04001B10 RID: 6928
+		// Token: 0x04001B14 RID: 6932
 		public const float SkillYSpacing = 3f;
 
-		// Token: 0x04001B11 RID: 6929
+		// Token: 0x04001B15 RID: 6933
 		private const float LeftEdgeMargin = 6f;
 
-		// Token: 0x04001B12 RID: 6930
+		// Token: 0x04001B16 RID: 6934
 		private const float IncButX = 205f;
 
-		// Token: 0x04001B13 RID: 6931
+		// Token: 0x04001B17 RID: 6935
 		private const float IncButSpacing = 10f;
 
-		// Token: 0x04001B14 RID: 6932
+		// Token: 0x04001B18 RID: 6936
 		private static readonly Color DisabledSkillColor = new Color(1f, 1f, 1f, 0.5f);
 
-		// Token: 0x04001B15 RID: 6933
+		// Token: 0x04001B19 RID: 6937
 		private static Texture2D PassionMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinor", true);
 
-		// Token: 0x04001B16 RID: 6934
+		// Token: 0x04001B1A RID: 6938
 		private static Texture2D PassionMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajor", true);
 
-		// Token: 0x04001B17 RID: 6935
+		// Token: 0x04001B1B RID: 6939
 		private static Texture2D SkillBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
 
-		// Token: 0x06003295 RID: 12949 RVA: 0x001B3A34 File Offset: 0x001B1E34
+		// Token: 0x04001B1C RID: 6940
+		private static List<SkillDef> skillDefsInListOrderCached = null;
+
+		// Token: 0x06003294 RID: 12948 RVA: 0x001B3C9C File Offset: 0x001B209C
 		public static void DrawSkillsOf(Pawn p, Vector2 offset, SkillUI.SkillDrawMode mode)
 		{
 			Text.Font = GameFont.Small;
@@ -56,20 +60,27 @@ namespace RimWorld
 					SkillUI.levelLabelWidth = x;
 				}
 			}
-			for (int j = 0; j < p.skills.skills.Count; j++)
+			if (SkillUI.skillDefsInListOrderCached == null)
 			{
+				SkillUI.skillDefsInListOrderCached = (from sd in DefDatabase<SkillDef>.AllDefs
+				orderby sd.listOrder descending
+				select sd).ToList<SkillDef>();
+			}
+			for (int j = 0; j < SkillUI.skillDefsInListOrderCached.Count; j++)
+			{
+				SkillDef skillDef = SkillUI.skillDefsInListOrderCached[j];
 				float y = (float)j * 27f + offset.y;
-				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode, "");
+				SkillUI.DrawSkill(p.skills.GetSkill(skillDef), new Vector2(offset.x, y), mode, "");
 			}
 		}
 
-		// Token: 0x06003296 RID: 12950 RVA: 0x001B3AFC File Offset: 0x001B1EFC
+		// Token: 0x06003295 RID: 12949 RVA: 0x001B3DA2 File Offset: 0x001B21A2
 		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
 		}
 
-		// Token: 0x06003297 RID: 12951 RVA: 0x001B3B28 File Offset: 0x001B1F28
+		// Token: 0x06003296 RID: 12950 RVA: 0x001B3DD0 File Offset: 0x001B21D0
 		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			if (Mouse.IsOver(holdingRect))
@@ -117,7 +128,7 @@ namespace RimWorld
 			TooltipHandler.TipRegion(holdingRect, new TipSignal(text, skill.def.GetHashCode() * 397945));
 		}
 
-		// Token: 0x06003298 RID: 12952 RVA: 0x001B3D10 File Offset: 0x001B2110
+		// Token: 0x06003297 RID: 12951 RVA: 0x001B3FB8 File Offset: 0x001B23B8
 		private static string GetSkillDescription(SkillRecord sk)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -196,9 +207,9 @@ namespace RimWorld
 		// Token: 0x020008A2 RID: 2210
 		public enum SkillDrawMode : byte
 		{
-			// Token: 0x04001B19 RID: 6937
+			// Token: 0x04001B1F RID: 6943
 			Gameplay,
-			// Token: 0x04001B1A RID: 6938
+			// Token: 0x04001B20 RID: 6944
 			Menu
 		}
 	}

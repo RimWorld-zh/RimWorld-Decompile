@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C0E RID: 3086
+	// Token: 0x02000C0F RID: 3087
 	public sealed class DynamicDrawManager
 	{
-		// Token: 0x04002E1D RID: 11805
+		// Token: 0x04002E24 RID: 11812
 		private Map map;
 
-		// Token: 0x04002E1E RID: 11806
+		// Token: 0x04002E25 RID: 11813
 		private HashSet<Thing> drawThings = new HashSet<Thing>();
 
-		// Token: 0x04002E1F RID: 11807
+		// Token: 0x04002E26 RID: 11814
 		private bool drawingNow;
 
-		// Token: 0x06004382 RID: 17282 RVA: 0x0023AB81 File Offset: 0x00238F81
+		// Token: 0x06004382 RID: 17282 RVA: 0x0023AE61 File Offset: 0x00239261
 		public DynamicDrawManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004383 RID: 17283 RVA: 0x0023AB9C File Offset: 0x00238F9C
+		// Token: 0x06004383 RID: 17283 RVA: 0x0023AE7C File Offset: 0x0023927C
 		public void RegisterDrawable(Thing t)
 		{
 			if (t.def.drawerType != DrawerType.None)
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004384 RID: 17284 RVA: 0x0023ABEC File Offset: 0x00238FEC
+		// Token: 0x06004384 RID: 17284 RVA: 0x0023AECC File Offset: 0x002392CC
 		public void DeRegisterDrawable(Thing t)
 		{
 			if (t.def.drawerType != DrawerType.None)
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004385 RID: 17285 RVA: 0x0023AC3C File Offset: 0x0023903C
+		// Token: 0x06004385 RID: 17285 RVA: 0x0023AF1C File Offset: 0x0023931C
 		public void DrawDynamicThings()
 		{
 			if (DebugViewSettings.drawThingsDynamic)
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004386 RID: 17286 RVA: 0x0023AE2C File Offset: 0x0023922C
+		// Token: 0x06004386 RID: 17286 RVA: 0x0023B10C File Offset: 0x0023950C
 		public void LogDynamicDrawThings()
 		{
 			Log.Message(DebugLogsUtility.ThingListToUniqueCountString(this.drawThings), false);

@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000842 RID: 2114
 	public static class TimeControls
 	{
-		// Token: 0x040019D6 RID: 6614
+		// Token: 0x040019DA RID: 6618
 		public static readonly Vector2 TimeButSize = new Vector2(32f, 24f);
 
-		// Token: 0x040019D7 RID: 6615
+		// Token: 0x040019DB RID: 6619
 		private static readonly TimeSpeed[] CachedTimeSpeedValues = (TimeSpeed[])Enum.GetValues(typeof(TimeSpeed));
 
-		// Token: 0x06002FD3 RID: 12243 RVA: 0x0019EDDC File Offset: 0x0019D1DC
+		// Token: 0x06002FD2 RID: 12242 RVA: 0x0019F044 File Offset: 0x0019D444
 		private static void PlaySoundOf(TimeSpeed speed)
 		{
 			SoundDef soundDef = null;
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FD4 RID: 12244 RVA: 0x0019EE50 File Offset: 0x0019D250
+		// Token: 0x06002FD3 RID: 12243 RVA: 0x0019F0B8 File Offset: 0x0019D4B8
 		public static void DoTimeControlsGUI(Rect timerRect)
 		{
 			TickManager tickManager = Find.TickManager;

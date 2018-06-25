@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x020008DC RID: 2268
 	public static class FloatMenuMakerWorld
 	{
-		// Token: 0x06003401 RID: 13313 RVA: 0x001BCC34 File Offset: 0x001BB034
+		// Token: 0x06003401 RID: 13313 RVA: 0x001BCF08 File Offset: 0x001BB308
 		public static bool TryMakeFloatMenu(Caravan caravan)
 		{
 			bool result;
@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06003402 RID: 13314 RVA: 0x001BCC98 File Offset: 0x001BB098
+		// Token: 0x06003402 RID: 13314 RVA: 0x001BCF6C File Offset: 0x001BB36C
 		public static List<FloatMenuOption> ChoicesAtFor(Vector2 mousePos, Caravan caravan)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x06003403 RID: 13315 RVA: 0x001BCCE8 File Offset: 0x001BB0E8
+		// Token: 0x06003403 RID: 13315 RVA: 0x001BCFBC File Offset: 0x001BB3BC
 		public static List<FloatMenuOption> ChoicesAtFor(int tile, Caravan caravan)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();

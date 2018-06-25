@@ -8,27 +8,27 @@ namespace RimWorld
 	// Token: 0x020008ED RID: 2285
 	public class WorldInterface
 	{
-		// Token: 0x04001C71 RID: 7281
+		// Token: 0x04001C77 RID: 7287
 		public WorldSelector selector = new WorldSelector();
 
-		// Token: 0x04001C72 RID: 7282
+		// Token: 0x04001C78 RID: 7288
 		public WorldTargeter targeter = new WorldTargeter();
 
-		// Token: 0x04001C73 RID: 7283
+		// Token: 0x04001C79 RID: 7289
 		public WorldInspectPane inspectPane = new WorldInspectPane();
 
-		// Token: 0x04001C74 RID: 7284
+		// Token: 0x04001C7A RID: 7290
 		public WorldGlobalControls globalControls = new WorldGlobalControls();
 
-		// Token: 0x04001C75 RID: 7285
+		// Token: 0x04001C7B RID: 7291
 		public WorldRoutePlanner routePlanner = new WorldRoutePlanner();
 
-		// Token: 0x04001C76 RID: 7286
+		// Token: 0x04001C7C RID: 7292
 		public bool everReset;
 
 		// Token: 0x1700087F RID: 2175
-		// (get) Token: 0x060034A6 RID: 13478 RVA: 0x001C1E28 File Offset: 0x001C0228
-		// (set) Token: 0x060034A7 RID: 13479 RVA: 0x001C1E48 File Offset: 0x001C0248
+		// (get) Token: 0x060034A6 RID: 13478 RVA: 0x001C20FC File Offset: 0x001C04FC
+		// (set) Token: 0x060034A7 RID: 13479 RVA: 0x001C211C File Offset: 0x001C051C
 		public int SelectedTile
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034A8 RID: 13480 RVA: 0x001C1E58 File Offset: 0x001C0258
+		// Token: 0x060034A8 RID: 13480 RVA: 0x001C212C File Offset: 0x001C052C
 		public void Reset()
 		{
 			this.everReset = true;
@@ -82,7 +82,7 @@ namespace RimWorld
 			Find.WorldCameraDriver.ResetAltitude();
 		}
 
-		// Token: 0x060034A9 RID: 13481 RVA: 0x001C1F78 File Offset: 0x001C0378
+		// Token: 0x060034A9 RID: 13481 RVA: 0x001C224C File Offset: 0x001C064C
 		public void WorldInterfaceUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -107,7 +107,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060034AA RID: 13482 RVA: 0x001C2008 File Offset: 0x001C0408
+		// Token: 0x060034AA RID: 13482 RVA: 0x001C22DC File Offset: 0x001C06DC
 		public void WorldInterfaceOnGUI()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AB RID: 13483 RVA: 0x001C2130 File Offset: 0x001C0530
+		// Token: 0x060034AB RID: 13483 RVA: 0x001C2404 File Offset: 0x001C0804
 		public void HandleLowPriorityInput()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -165,7 +165,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AC RID: 13484 RVA: 0x001C2180 File Offset: 0x001C0580
+		// Token: 0x060034AC RID: 13484 RVA: 0x001C2454 File Offset: 0x001C0854
 		private void CheckOpenOrCloseInspectPane()
 		{
 			if (this.selector.AnyObjectOrTileSelected && WorldRendererUtility.WorldRenderedNow && (Current.ProgramState != ProgramState.Playing || Find.MainTabsRoot.OpenTab == null))

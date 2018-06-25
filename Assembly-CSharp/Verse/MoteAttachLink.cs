@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE9 RID: 3561
+	// Token: 0x02000DEA RID: 3562
 	public struct MoteAttachLink
 	{
-		// Token: 0x040034E2 RID: 13538
+		// Token: 0x040034E9 RID: 13545
 		private TargetInfo targetInt;
 
-		// Token: 0x040034E3 RID: 13539
+		// Token: 0x040034EA RID: 13546
 		private Vector3 lastDrawPosInt;
 
-		// Token: 0x06004FD1 RID: 20433 RVA: 0x002973EF File Offset: 0x002957EF
+		// Token: 0x06004FD1 RID: 20433 RVA: 0x002976CF File Offset: 0x00295ACF
 		public MoteAttachLink(TargetInfo target)
 		{
 			this.targetInt = target;
@@ -24,7 +24,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000CF1 RID: 3313
-		// (get) Token: 0x06004FD2 RID: 20434 RVA: 0x00297418 File Offset: 0x00295818
+		// (get) Token: 0x06004FD2 RID: 20434 RVA: 0x002976F8 File Offset: 0x00295AF8
 		public bool Linked
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000CF2 RID: 3314
-		// (get) Token: 0x06004FD3 RID: 20435 RVA: 0x00297438 File Offset: 0x00295838
+		// (get) Token: 0x06004FD3 RID: 20435 RVA: 0x00297718 File Offset: 0x00295B18
 		public TargetInfo Target
 		{
 			get
@@ -44,7 +44,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000CF3 RID: 3315
-		// (get) Token: 0x06004FD4 RID: 20436 RVA: 0x00297454 File Offset: 0x00295854
+		// (get) Token: 0x06004FD4 RID: 20436 RVA: 0x00297734 File Offset: 0x00295B34
 		public Vector3 LastDrawPos
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000CF4 RID: 3316
-		// (get) Token: 0x06004FD5 RID: 20437 RVA: 0x00297470 File Offset: 0x00295870
+		// (get) Token: 0x06004FD5 RID: 20437 RVA: 0x00297750 File Offset: 0x00295B50
 		public static MoteAttachLink Invalid
 		{
 			get
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FD6 RID: 20438 RVA: 0x00297490 File Offset: 0x00295890
+		// Token: 0x06004FD6 RID: 20438 RVA: 0x00297770 File Offset: 0x00295B70
 		public void UpdateDrawPos()
 		{
 			if (this.targetInt.HasThing)

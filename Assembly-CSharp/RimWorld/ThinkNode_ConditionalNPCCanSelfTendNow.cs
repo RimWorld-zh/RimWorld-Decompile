@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020001EC RID: 492
 	public class ThinkNode_ConditionalNPCCanSelfTendNow : ThinkNode_Conditional
 	{
-		// Token: 0x06000994 RID: 2452 RVA: 0x00056D28 File Offset: 0x00055128
+		// Token: 0x06000993 RID: 2451 RVA: 0x00056D24 File Offset: 0x00055124
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;

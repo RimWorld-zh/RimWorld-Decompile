@@ -5,7 +5,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003BE RID: 958
 	public class SymbolResolver_AncientRuins : SymbolResolver
 	{
-		// Token: 0x06001098 RID: 4248 RVA: 0x0008CA14 File Offset: 0x0008AE14
+		// Token: 0x06001097 RID: 4247 RVA: 0x0008CA24 File Offset: 0x0008AE24
 		public override void Resolve(ResolveParams rp)
 		{
 			ResolveParams resolveParams = rp;

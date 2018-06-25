@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A2C RID: 2604
+	// Token: 0x02000A2D RID: 2605
 	public class Trigger_TraderAndAllTraderCaravanGuardsLost : Trigger
 	{
-		// Token: 0x060039D8 RID: 14808 RVA: 0x001E8F20 File Offset: 0x001E7320
+		// Token: 0x060039D9 RID: 14809 RVA: 0x001E924C File Offset: 0x001E764C
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;

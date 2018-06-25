@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A52 RID: 2642
+	// Token: 0x02000A53 RID: 2643
 	public static class Toils_ReserveAttackTarget
 	{
-		// Token: 0x06003ADA RID: 15066 RVA: 0x001F41A0 File Offset: 0x001F25A0
+		// Token: 0x06003ADB RID: 15067 RVA: 0x001F44CC File Offset: 0x001F28CC
 		public static Toil TryReserve(TargetIndex ind)
 		{
 			Toil toil = new Toil();

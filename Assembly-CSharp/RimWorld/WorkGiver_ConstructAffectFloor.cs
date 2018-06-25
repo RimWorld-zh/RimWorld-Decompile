@@ -9,11 +9,11 @@ namespace RimWorld
 	public abstract class WorkGiver_ConstructAffectFloor : WorkGiver_Scanner
 	{
 		// Token: 0x170000DD RID: 221
-		// (get) Token: 0x0600060B RID: 1547
+		// (get) Token: 0x0600060A RID: 1546
 		protected abstract DesignationDef DesDef { get; }
 
 		// Token: 0x170000DE RID: 222
-		// (get) Token: 0x0600060C RID: 1548 RVA: 0x00040554 File Offset: 0x0003E954
+		// (get) Token: 0x0600060B RID: 1547 RVA: 0x00040550 File Offset: 0x0003E950
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600060D RID: 1549 RVA: 0x0004056C File Offset: 0x0003E96C
+		// Token: 0x0600060C RID: 1548 RVA: 0x00040568 File Offset: 0x0003E968
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			if (pawn.Faction != Faction.OfPlayer)
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600060E RID: 1550 RVA: 0x000405A0 File Offset: 0x0003E9A0
+		// Token: 0x0600060D RID: 1549 RVA: 0x0004059C File Offset: 0x0003E99C
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			if (!c.IsForbidden(pawn) && pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null)

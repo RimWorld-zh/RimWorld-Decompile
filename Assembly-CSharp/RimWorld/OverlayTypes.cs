@@ -6,21 +6,21 @@ namespace RimWorld
 	[Flags]
 	public enum OverlayTypes
 	{
-		// Token: 0x040013A2 RID: 5026
-		NeedsPower = 1,
-		// Token: 0x040013A3 RID: 5027
-		PowerOff = 2,
-		// Token: 0x040013A4 RID: 5028
-		BurningWick = 4,
-		// Token: 0x040013A5 RID: 5029
-		Forbidden = 8,
 		// Token: 0x040013A6 RID: 5030
-		ForbiddenBig = 16,
+		NeedsPower = 1,
 		// Token: 0x040013A7 RID: 5031
-		QuestionMark = 32,
+		PowerOff = 2,
 		// Token: 0x040013A8 RID: 5032
-		BrokenDown = 64,
+		BurningWick = 4,
 		// Token: 0x040013A9 RID: 5033
+		Forbidden = 8,
+		// Token: 0x040013AA RID: 5034
+		ForbiddenBig = 16,
+		// Token: 0x040013AB RID: 5035
+		QuestionMark = 32,
+		// Token: 0x040013AC RID: 5036
+		BrokenDown = 64,
+		// Token: 0x040013AD RID: 5037
 		OutOfFuel = 128
 	}
 }

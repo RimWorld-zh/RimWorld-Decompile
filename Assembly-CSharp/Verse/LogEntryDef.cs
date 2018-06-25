@@ -3,34 +3,34 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B4E RID: 2894
+	// Token: 0x02000B4F RID: 2895
 	public class LogEntryDef : Def
 	{
-		// Token: 0x040029E2 RID: 10722
+		// Token: 0x040029E9 RID: 10729
 		[NoTranslate]
 		public string iconMiss = null;
 
-		// Token: 0x040029E3 RID: 10723
+		// Token: 0x040029EA RID: 10730
 		[NoTranslate]
 		public string iconDamaged = null;
 
-		// Token: 0x040029E4 RID: 10724
+		// Token: 0x040029EB RID: 10731
 		[NoTranslate]
 		public string iconDamagedFromInstigator = null;
 
-		// Token: 0x040029E5 RID: 10725
+		// Token: 0x040029EC RID: 10732
 		[Unsaved]
 		public Texture2D iconMissTex = null;
 
-		// Token: 0x040029E6 RID: 10726
+		// Token: 0x040029ED RID: 10733
 		[Unsaved]
 		public Texture2D iconDamagedTex = null;
 
-		// Token: 0x040029E7 RID: 10727
+		// Token: 0x040029EE RID: 10734
 		[Unsaved]
 		public Texture2D iconDamagedFromInstigatorTex = null;
 
-		// Token: 0x06003F66 RID: 16230 RVA: 0x00216A77 File Offset: 0x00214E77
+		// Token: 0x06003F66 RID: 16230 RVA: 0x00216D57 File Offset: 0x00215157
 		public override void PostLoad()
 		{
 			base.PostLoad();

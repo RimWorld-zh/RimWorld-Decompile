@@ -8,17 +8,17 @@ namespace RimWorld
 	// Token: 0x02000310 RID: 784
 	public class GameCondition_Planetkiller : GameCondition
 	{
-		// Token: 0x0400087B RID: 2171
+		// Token: 0x0400087E RID: 2174
 		private const int SoundDuration = 179;
 
-		// Token: 0x0400087C RID: 2172
+		// Token: 0x0400087F RID: 2175
 		private const int FadeDuration = 90;
 
-		// Token: 0x0400087D RID: 2173
+		// Token: 0x04000880 RID: 2176
 		private static readonly Color FadeColor = Color.white;
 
 		// Token: 0x170001FF RID: 511
-		// (get) Token: 0x06000D41 RID: 3393 RVA: 0x00072CCC File Offset: 0x000710CC
+		// (get) Token: 0x06000D40 RID: 3392 RVA: 0x00072CD4 File Offset: 0x000710D4
 		public override string TooltipString
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D42 RID: 3394 RVA: 0x00072DD0 File Offset: 0x000711D0
+		// Token: 0x06000D41 RID: 3393 RVA: 0x00072DD8 File Offset: 0x000711D8
 		public override void GameConditionTick()
 		{
 			base.GameConditionTick();
@@ -74,14 +74,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D43 RID: 3395 RVA: 0x00072E37 File Offset: 0x00071237
+		// Token: 0x06000D42 RID: 3394 RVA: 0x00072E3F File Offset: 0x0007123F
 		public override void End()
 		{
 			base.End();
 			this.Impact();
 		}
 
-		// Token: 0x06000D44 RID: 3396 RVA: 0x00072E46 File Offset: 0x00071246
+		// Token: 0x06000D43 RID: 3395 RVA: 0x00072E4E File Offset: 0x0007124E
 		private void Impact()
 		{
 			ScreenFader.SetColor(Color.clear);

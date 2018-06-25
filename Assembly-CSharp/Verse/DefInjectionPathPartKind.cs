@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000BEE RID: 3054
+	// Token: 0x02000BEF RID: 3055
 	internal enum DefInjectionPathPartKind
 	{
-		// Token: 0x04002D8C RID: 11660
+		// Token: 0x04002D93 RID: 11667
 		Field,
-		// Token: 0x04002D8D RID: 11661
+		// Token: 0x04002D94 RID: 11668
 		ListIndex,
-		// Token: 0x04002D8E RID: 11662
+		// Token: 0x04002D95 RID: 11669
 		ListHandle,
-		// Token: 0x04002D8F RID: 11663
+		// Token: 0x04002D96 RID: 11670
 		ListHandleWithIndex
 	}
 }

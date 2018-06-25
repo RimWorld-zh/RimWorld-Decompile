@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DED RID: 3565
+	// Token: 0x02000DEE RID: 3566
 	public class MoteText : MoteThrown
 	{
-		// Token: 0x040034F3 RID: 13555
+		// Token: 0x040034FA RID: 13562
 		public string text;
 
-		// Token: 0x040034F4 RID: 13556
+		// Token: 0x040034FB RID: 13563
 		public Color textColor = Color.white;
 
-		// Token: 0x040034F5 RID: 13557
+		// Token: 0x040034FC RID: 13564
 		public float overrideTimeBeforeStartFadeout = -1f;
 
 		// Token: 0x17000CFA RID: 3322
-		// (get) Token: 0x06004FEB RID: 20459 RVA: 0x00297DD4 File Offset: 0x002961D4
+		// (get) Token: 0x06004FEB RID: 20459 RVA: 0x002980B4 File Offset: 0x002964B4
 		protected float TimeBeforeStartFadeout
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000CFB RID: 3323
-		// (get) Token: 0x06004FEC RID: 20460 RVA: 0x00297E14 File Offset: 0x00296214
+		// (get) Token: 0x06004FEC RID: 20460 RVA: 0x002980F4 File Offset: 0x002964F4
 		protected override bool EndOfLife
 		{
 			get
@@ -35,12 +35,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FED RID: 20461 RVA: 0x00297E4B File Offset: 0x0029624B
+		// Token: 0x06004FED RID: 20461 RVA: 0x0029812B File Offset: 0x0029652B
 		public override void Draw()
 		{
 		}
 
-		// Token: 0x06004FEE RID: 20462 RVA: 0x00297E50 File Offset: 0x00296250
+		// Token: 0x06004FEE RID: 20462 RVA: 0x00298130 File Offset: 0x00296530
 		public override void DrawGUIOverlay()
 		{
 			float a = 1f - (base.AgeSecs - this.TimeBeforeStartFadeout) / this.def.mote.fadeOutTime;

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class StorytellerComp_ThreatCycle : StorytellerComp
 	{
 		// Token: 0x17000227 RID: 551
-		// (get) Token: 0x06000F54 RID: 3924 RVA: 0x00081B60 File Offset: 0x0007FF60
+		// (get) Token: 0x06000F53 RID: 3923 RVA: 0x00081B70 File Offset: 0x0007FF70
 		protected StorytellerCompProperties_ThreatCycle Props
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000228 RID: 552
-		// (get) Token: 0x06000F55 RID: 3925 RVA: 0x00081B80 File Offset: 0x0007FF80
+		// (get) Token: 0x06000F54 RID: 3924 RVA: 0x00081B90 File Offset: 0x0007FF90
 		protected int QueueIntervalsPassed
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F56 RID: 3926 RVA: 0x00081BA8 File Offset: 0x0007FFA8
+		// Token: 0x06000F55 RID: 3925 RVA: 0x00081BB8 File Offset: 0x0007FFB8
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			float curCycleDays = (GenDate.DaysPassedFloat - this.Props.minDaysPassed) % this.Props.ThreatCycleTotalDays;
@@ -58,7 +58,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F57 RID: 3927 RVA: 0x00081BDC File Offset: 0x0007FFDC
+		// Token: 0x06000F56 RID: 3926 RVA: 0x00081BEC File Offset: 0x0007FFEC
 		private FiringIncident GenerateQueuedThreatSmall(IIncidentTarget target)
 		{
 			IncidentDef incidentDef;
@@ -77,7 +77,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F58 RID: 3928 RVA: 0x00081C40 File Offset: 0x00080040
+		// Token: 0x06000F57 RID: 3927 RVA: 0x00081C50 File Offset: 0x00080050
 		private FiringIncident GenerateQueuedThreatBig(IIncidentTarget target)
 		{
 			IncidentParms parms = this.GenerateParms(this.Props.threatBigCategory, target);

@@ -8,25 +8,25 @@ namespace RimWorld.Planet
 	// Token: 0x020005F1 RID: 1521
 	public static class DaysUntilRotCalculator
 	{
-		// Token: 0x040011EB RID: 4587
+		// Token: 0x040011EF RID: 4591
 		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 
-		// Token: 0x040011EC RID: 4588
+		// Token: 0x040011F0 RID: 4592
 		private static List<ThingCount> tmpThingCountsFromTradeables = new List<ThingCount>();
 
-		// Token: 0x040011ED RID: 4589
+		// Token: 0x040011F1 RID: 4593
 		private static List<Pair<float, float>> tmpNutritions = new List<Pair<float, float>>();
 
-		// Token: 0x040011EE RID: 4590
+		// Token: 0x040011F2 RID: 4594
 		private static List<Thing> thingsInReverse = new List<Thing>();
 
-		// Token: 0x040011EF RID: 4591
+		// Token: 0x040011F3 RID: 4595
 		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
 
-		// Token: 0x040011F0 RID: 4592
+		// Token: 0x040011F4 RID: 4596
 		public const float InfiniteDaysUntilRot = 600f;
 
-		// Token: 0x06001E3B RID: 7739 RVA: 0x00104CCC File Offset: 0x001030CC
+		// Token: 0x06001E3A RID: 7738 RVA: 0x00104F34 File Offset: 0x00103334
 		public static float ApproxDaysUntilRot(List<ThingCount> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
 		{
 			DaysUntilRotCalculator.tmpTicksToArrive.Clear();
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 			return GenMath.WeightedMedian(DaysUntilRotCalculator.tmpNutritions, 600f, 0.5f);
 		}
 
-		// Token: 0x06001E3C RID: 7740 RVA: 0x00104DF4 File Offset: 0x001031F4
+		// Token: 0x06001E3B RID: 7739 RVA: 0x0010505C File Offset: 0x0010345C
 		public static int ApproxTicksUntilRot_AssumeTimePassesBy(CompRottable rot, int tile, List<Pair<int, int>> ticksToArrive = null)
 		{
 			float num = 0f;
@@ -77,13 +77,13 @@ namespace RimWorld.Planet
 			return num2 - Find.TickManager.TicksAbs;
 		}
 
-		// Token: 0x06001E3D RID: 7741 RVA: 0x00104EB4 File Offset: 0x001032B4
+		// Token: 0x06001E3C RID: 7740 RVA: 0x0010511C File Offset: 0x0010351C
 		public static float ApproxDaysUntilRot(Caravan caravan)
 		{
 			return DaysUntilRotCalculator.ApproxDaysUntilRot(CaravanInventoryUtility.AllInventoryItems(caravan), caravan.Tile, caravan.pather.curPath, caravan.pather.nextTileCostLeft, caravan.TicksPerMove);
 		}
 
-		// Token: 0x06001E3E RID: 7742 RVA: 0x00104EF8 File Offset: 0x001032F8
+		// Token: 0x06001E3D RID: 7741 RVA: 0x00105160 File Offset: 0x00103560
 		public static float ApproxDaysUntilRot(List<Thing> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
 		{
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
@@ -96,7 +96,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E3F RID: 7743 RVA: 0x00104F70 File Offset: 0x00103370
+		// Token: 0x06001E3E RID: 7742 RVA: 0x001051D8 File Offset: 0x001035D8
 		public static float ApproxDaysUntilRot(List<TransferableOneWay> transferables, int tile, IgnorePawnsInventoryMode ignoreInventory, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
 		{
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
@@ -134,7 +134,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E40 RID: 7744 RVA: 0x001050C0 File Offset: 0x001034C0
+		// Token: 0x06001E3F RID: 7743 RVA: 0x00105328 File Offset: 0x00103728
 		public static float ApproxDaysUntilRotLeftAfterTransfer(List<TransferableOneWay> transferables, int tile, IgnorePawnsInventoryMode ignoreInventory, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
 		{
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
@@ -176,7 +176,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E41 RID: 7745 RVA: 0x00105258 File Offset: 0x00103658
+		// Token: 0x06001E40 RID: 7744 RVA: 0x001054C0 File Offset: 0x001038C0
 		public static float ApproxDaysUntilRotLeftAfterTradeableTransfer(List<Thing> allCurrentThings, List<Tradeable> tradeables, int tile, IgnorePawnsInventoryMode ignoreInventory)
 		{
 			DaysUntilRotCalculator.tmpThingCountsFromTradeables.Clear();

@@ -8,25 +8,25 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BDE RID: 3038
+	// Token: 0x02000BDF RID: 3039
 	public class Root_Play : Root
 	{
-		// Token: 0x04002D58 RID: 11608
+		// Token: 0x04002D5F RID: 11615
 		public MusicManagerPlay musicManagerPlay;
 
-		// Token: 0x04002D59 RID: 11609
+		// Token: 0x04002D60 RID: 11616
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache0;
 
-		// Token: 0x04002D5A RID: 11610
+		// Token: 0x04002D61 RID: 11617
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache1;
 
-		// Token: 0x04002D5B RID: 11611
+		// Token: 0x04002D62 RID: 11618
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache2;
 
-		// Token: 0x06004255 RID: 16981 RVA: 0x0022E6D8 File Offset: 0x0022CAD8
+		// Token: 0x06004255 RID: 16981 RVA: 0x0022E9B8 File Offset: 0x0022CDB8
 		public override void Start()
 		{
 			Log.ResetMessageCount();
@@ -94,7 +94,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004256 RID: 16982 RVA: 0x0022E87C File Offset: 0x0022CC7C
+		// Token: 0x06004256 RID: 16982 RVA: 0x0022EB5C File Offset: 0x0022CF5C
 		public override void Update()
 		{
 			base.Update();
@@ -122,7 +122,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004257 RID: 16983 RVA: 0x0022E938 File Offset: 0x0022CD38
+		// Token: 0x06004257 RID: 16983 RVA: 0x0022EC18 File Offset: 0x0022D018
 		private static void SetupForQuickTestPlay()
 		{
 			Current.ProgramState = ProgramState.Entry;
@@ -130,7 +130,7 @@ namespace Verse
 			Current.Game.InitData = new GameInitData();
 			Current.Game.Scenario = ScenarioDefOf.Crashlanded.scenario;
 			Find.Scenario.PreConfigure();
-			Current.Game.storyteller = new Storyteller(StorytellerDefOf.Cassandra, DifficultyDefOf.Hard);
+			Current.Game.storyteller = new Storyteller(StorytellerDefOf.Cassandra, DifficultyDefOf.ExtraHard);
 			Current.Game.World = WorldGenerator.GenerateWorld(0.05f, GenText.RandomSeedString(), OverallRainfall.Normal, OverallTemperature.Normal);
 			Find.GameInitData.ChooseRandomStartingTile();
 			Find.GameInitData.mapSize = 150;

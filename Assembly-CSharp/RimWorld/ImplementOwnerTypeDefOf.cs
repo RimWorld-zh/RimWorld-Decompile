@@ -7,19 +7,19 @@ namespace RimWorld
 	[DefOf]
 	public static class ImplementOwnerTypeDefOf
 	{
-		// Token: 0x040022D8 RID: 8920
+		// Token: 0x040022DF RID: 8927
 		public static ImplementOwnerTypeDef Weapon;
 
-		// Token: 0x040022D9 RID: 8921
+		// Token: 0x040022E0 RID: 8928
 		public static ImplementOwnerTypeDef Bodypart;
 
-		// Token: 0x040022DA RID: 8922
+		// Token: 0x040022E1 RID: 8929
 		public static ImplementOwnerTypeDef Hediff;
 
-		// Token: 0x040022DB RID: 8923
+		// Token: 0x040022E2 RID: 8930
 		public static ImplementOwnerTypeDef Terrain;
 
-		// Token: 0x0600366F RID: 13935 RVA: 0x001D0F83 File Offset: 0x001CF383
+		// Token: 0x0600366F RID: 13935 RVA: 0x001D1257 File Offset: 0x001CF657
 		static ImplementOwnerTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ImplementOwnerTypeDefOf));

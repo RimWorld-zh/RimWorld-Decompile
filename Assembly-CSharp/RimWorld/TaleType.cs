@@ -5,11 +5,11 @@ namespace RimWorld
 	// Token: 0x020002DF RID: 735
 	public enum TaleType
 	{
-		// Token: 0x0400077F RID: 1919
+		// Token: 0x04000782 RID: 1922
 		Volatile,
-		// Token: 0x04000780 RID: 1920
+		// Token: 0x04000783 RID: 1923
 		Expirable,
-		// Token: 0x04000781 RID: 1921
+		// Token: 0x04000784 RID: 1924
 		PermanentHistorical
 	}
 }

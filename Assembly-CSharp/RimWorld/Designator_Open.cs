@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007D2 RID: 2002
 	public class Designator_Open : Designator
 	{
-		// Token: 0x06002C65 RID: 11365 RVA: 0x001767F4 File Offset: 0x00174BF4
+		// Token: 0x06002C64 RID: 11364 RVA: 0x00176A58 File Offset: 0x00174E58
 		public Designator_Open()
 		{
 			this.defaultLabel = "DesignatorOpen".Translate();
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006F8 RID: 1784
-		// (get) Token: 0x06002C66 RID: 11366 RVA: 0x00176864 File Offset: 0x00174C64
+		// (get) Token: 0x06002C65 RID: 11365 RVA: 0x00176AC8 File Offset: 0x00174EC8
 		public override int DraggableDimensions
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006F9 RID: 1785
-		// (get) Token: 0x06002C67 RID: 11367 RVA: 0x0017687C File Offset: 0x00174C7C
+		// (get) Token: 0x06002C66 RID: 11366 RVA: 0x00176AE0 File Offset: 0x00174EE0
 		protected override DesignationDef Designation
 		{
 			get
@@ -41,14 +41,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C68 RID: 11368 RVA: 0x00176896 File Offset: 0x00174C96
+		// Token: 0x06002C67 RID: 11367 RVA: 0x00176AFA File Offset: 0x00174EFA
 		protected override void FinalizeDesignationFailed()
 		{
 			base.FinalizeDesignationFailed();
 			Messages.Message("MessageMustDesignateOpenable".Translate(), MessageTypeDefOf.RejectInput, false);
 		}
 
-		// Token: 0x06002C69 RID: 11369 RVA: 0x001768B4 File Offset: 0x00174CB4
+		// Token: 0x06002C68 RID: 11368 RVA: 0x00176B18 File Offset: 0x00174F18
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C6A RID: 11370 RVA: 0x0017690C File Offset: 0x00174D0C
+		// Token: 0x06002C69 RID: 11369 RVA: 0x00176B70 File Offset: 0x00174F70
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.OpenablesInCell(c))
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C6B RID: 11371 RVA: 0x0017696C File Offset: 0x00174D6C
+		// Token: 0x06002C6A RID: 11370 RVA: 0x00176BD0 File Offset: 0x00174FD0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			IOpenable openable = t as IOpenable;
@@ -92,13 +92,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C6C RID: 11372 RVA: 0x001769C7 File Offset: 0x00174DC7
+		// Token: 0x06002C6B RID: 11371 RVA: 0x00176C2B File Offset: 0x0017502B
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002C6D RID: 11373 RVA: 0x001769EC File Offset: 0x00174DEC
+		// Token: 0x06002C6C RID: 11372 RVA: 0x00176C50 File Offset: 0x00175050
 		private IEnumerable<Thing> OpenablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))

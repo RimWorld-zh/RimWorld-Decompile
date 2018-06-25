@@ -7,11 +7,11 @@ namespace RimWorld
 	// Token: 0x020003E6 RID: 998
 	public class GenStep_FactionBase : GenStep_Scatterer
 	{
-		// Token: 0x04000A58 RID: 2648
+		// Token: 0x04000A5B RID: 2651
 		private static readonly IntRange FactionBaseSizeRange = new IntRange(34, 38);
 
 		// Token: 0x17000247 RID: 583
-		// (get) Token: 0x06001114 RID: 4372 RVA: 0x00092464 File Offset: 0x00090864
+		// (get) Token: 0x06001113 RID: 4371 RVA: 0x00092474 File Offset: 0x00090874
 		public override int SeedPart
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001115 RID: 4373 RVA: 0x00092480 File Offset: 0x00090880
+		// Token: 0x06001114 RID: 4372 RVA: 0x00092490 File Offset: 0x00090890
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001116 RID: 4374 RVA: 0x00092558 File Offset: 0x00090958
+		// Token: 0x06001115 RID: 4373 RVA: 0x00092568 File Offset: 0x00090968
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_FactionBase.FactionBaseSizeRange.RandomInRange;

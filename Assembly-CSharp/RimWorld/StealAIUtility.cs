@@ -10,19 +10,19 @@ namespace RimWorld
 	// Token: 0x020000DA RID: 218
 	public static class StealAIUtility
 	{
-		// Token: 0x040002AA RID: 682
+		// Token: 0x040002AB RID: 683
 		private const float MinMarketValueToTake = 320f;
 
-		// Token: 0x040002AB RID: 683
+		// Token: 0x040002AC RID: 684
 		private static readonly FloatRange StealThresholdValuePerCombatPowerRange = new FloatRange(2f, 10f);
 
-		// Token: 0x040002AC RID: 684
+		// Token: 0x040002AD RID: 685
 		private const float MinCombatPowerPerPawn = 100f;
 
-		// Token: 0x040002AD RID: 685
+		// Token: 0x040002AE RID: 686
 		private static List<Thing> tmpToSteal = new List<Thing>();
 
-		// Token: 0x060004CA RID: 1226 RVA: 0x00035978 File Offset: 0x00033D78
+		// Token: 0x060004CA RID: 1226 RVA: 0x00035994 File Offset: 0x00033D94
 		public static bool TryFindBestItemToSteal(IntVec3 root, Map map, float maxDist, out Thing item, Pawn thief, List<Thing> disallowed = null)
 		{
 			bool result;
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004CB RID: 1227 RVA: 0x00035AA8 File Offset: 0x00033EA8
+		// Token: 0x060004CB RID: 1227 RVA: 0x00035AC4 File Offset: 0x00033EC4
 		public static float TotalMarketValueAround(List<Pawn> pawns)
 		{
 			float num = 0f;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060004CC RID: 1228 RVA: 0x00035B54 File Offset: 0x00033F54
+		// Token: 0x060004CC RID: 1228 RVA: 0x00035B70 File Offset: 0x00033F70
 		public static float StartStealingMarketValueThreshold(Lord lord)
 		{
 			Rand.PushState();
@@ -85,7 +85,7 @@ namespace RimWorld
 			return num * randomInRange;
 		}
 
-		// Token: 0x060004CD RID: 1229 RVA: 0x00035BDC File Offset: 0x00033FDC
+		// Token: 0x060004CD RID: 1229 RVA: 0x00035BF8 File Offset: 0x00033FF8
 		public static float GetValue(Thing thing)
 		{
 			return thing.MarketValue * (float)thing.stackCount;

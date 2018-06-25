@@ -10,7 +10,7 @@ namespace RimWorld
 	public class WorkGiver_DeepDrill : WorkGiver_Scanner
 	{
 		// Token: 0x170000F8 RID: 248
-		// (get) Token: 0x06000677 RID: 1655 RVA: 0x00043180 File Offset: 0x00041580
+		// (get) Token: 0x06000676 RID: 1654 RVA: 0x0004317C File Offset: 0x0004157C
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000F9 RID: 249
-		// (get) Token: 0x06000678 RID: 1656 RVA: 0x000431A0 File Offset: 0x000415A0
+		// (get) Token: 0x06000677 RID: 1655 RVA: 0x0004319C File Offset: 0x0004159C
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -29,19 +29,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000679 RID: 1657 RVA: 0x000431B8 File Offset: 0x000415B8
+		// Token: 0x06000678 RID: 1656 RVA: 0x000431B4 File Offset: 0x000415B4
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x0600067A RID: 1658 RVA: 0x000431D0 File Offset: 0x000415D0
+		// Token: 0x06000679 RID: 1657 RVA: 0x000431CC File Offset: 0x000415CC
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.DeepDrill).Cast<Thing>();
 		}
 
-		// Token: 0x0600067B RID: 1659 RVA: 0x00043200 File Offset: 0x00041600
+		// Token: 0x0600067A RID: 1658 RVA: 0x000431FC File Offset: 0x000415FC
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
@@ -59,7 +59,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600067C RID: 1660 RVA: 0x00043280 File Offset: 0x00041680
+		// Token: 0x0600067B RID: 1659 RVA: 0x0004327C File Offset: 0x0004167C
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			bool result;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600067D RID: 1661 RVA: 0x00043328 File Offset: 0x00041728
+		// Token: 0x0600067C RID: 1660 RVA: 0x00043324 File Offset: 0x00041724
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.OperateDeepDrill, t, 1500, true);

@@ -12,37 +12,37 @@ namespace RimWorld
 	// Token: 0x0200084C RID: 2124
 	public class ITab_Pawn_Gear : ITab
 	{
-		// Token: 0x04001A0A RID: 6666
+		// Token: 0x04001A0E RID: 6670
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04001A0B RID: 6667
+		// Token: 0x04001A0F RID: 6671
 		private float scrollViewHeight = 0f;
 
-		// Token: 0x04001A0C RID: 6668
+		// Token: 0x04001A10 RID: 6672
 		private const float TopPadding = 20f;
 
-		// Token: 0x04001A0D RID: 6669
+		// Token: 0x04001A11 RID: 6673
 		public static readonly Color ThingLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
 
-		// Token: 0x04001A0E RID: 6670
+		// Token: 0x04001A12 RID: 6674
 		public static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-		// Token: 0x04001A0F RID: 6671
+		// Token: 0x04001A13 RID: 6675
 		private const float ThingIconSize = 28f;
 
-		// Token: 0x04001A10 RID: 6672
+		// Token: 0x04001A14 RID: 6676
 		private const float ThingRowHeight = 28f;
 
-		// Token: 0x04001A11 RID: 6673
+		// Token: 0x04001A15 RID: 6677
 		private const float ThingLeftX = 36f;
 
-		// Token: 0x04001A12 RID: 6674
+		// Token: 0x04001A16 RID: 6678
 		private const float StandardLineHeight = 22f;
 
-		// Token: 0x04001A13 RID: 6675
+		// Token: 0x04001A17 RID: 6679
 		private static List<Thing> workingInvList = new List<Thing>();
 
-		// Token: 0x06003022 RID: 12322 RVA: 0x001A2DB0 File Offset: 0x001A11B0
+		// Token: 0x06003021 RID: 12321 RVA: 0x001A3018 File Offset: 0x001A1418
 		public ITab_Pawn_Gear()
 		{
 			this.size = new Vector2(460f, 450f);
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AC RID: 1964
-		// (get) Token: 0x06003023 RID: 12323 RVA: 0x001A2E08 File Offset: 0x001A1208
+		// (get) Token: 0x06003022 RID: 12322 RVA: 0x001A3070 File Offset: 0x001A1470
 		public override bool IsVisible
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AD RID: 1965
-		// (get) Token: 0x06003024 RID: 12324 RVA: 0x001A2E48 File Offset: 0x001A1248
+		// (get) Token: 0x06003023 RID: 12323 RVA: 0x001A30B0 File Offset: 0x001A14B0
 		private bool CanControl
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AE RID: 1966
-		// (get) Token: 0x06003025 RID: 12325 RVA: 0x001A2F10 File Offset: 0x001A1310
+		// (get) Token: 0x06003024 RID: 12324 RVA: 0x001A3178 File Offset: 0x001A1578
 		private bool CanControlColonist
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AF RID: 1967
-		// (get) Token: 0x06003026 RID: 12326 RVA: 0x001A2F40 File Offset: 0x001A1340
+		// (get) Token: 0x06003025 RID: 12325 RVA: 0x001A31A8 File Offset: 0x001A15A8
 		private Pawn SelPawnForGear
 		{
 			get
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003027 RID: 12327 RVA: 0x001A2F9C File Offset: 0x001A139C
+		// Token: 0x06003026 RID: 12326 RVA: 0x001A3204 File Offset: 0x001A1604
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
@@ -168,7 +168,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06003028 RID: 12328 RVA: 0x001A3338 File Offset: 0x001A1738
+		// Token: 0x06003027 RID: 12327 RVA: 0x001A35A0 File Offset: 0x001A19A0
 		private void DrawThingRow(ref float y, float width, Thing thing, bool inventory = false)
 		{
 			Rect rect = new Rect(0f, y, width, 28f);
@@ -244,7 +244,7 @@ namespace RimWorld
 			y += 28f;
 		}
 
-		// Token: 0x06003029 RID: 12329 RVA: 0x001A36C4 File Offset: 0x001A1AC4
+		// Token: 0x06003028 RID: 12328 RVA: 0x001A392C File Offset: 0x001A1D2C
 		private void TryDrawOverallArmor(ref float curY, float width, StatDef stat, string label)
 		{
 			float num = 0f;
@@ -275,7 +275,7 @@ namespace RimWorld
 			curY += 22f;
 		}
 
-		// Token: 0x0600302A RID: 12330 RVA: 0x001A3834 File Offset: 0x001A1C34
+		// Token: 0x06003029 RID: 12329 RVA: 0x001A3A9C File Offset: 0x001A1E9C
 		private void TryDrawMassInfo(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead && this.ShouldShowInventory(this.SelPawnForGear))
@@ -292,7 +292,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302B RID: 12331 RVA: 0x001A38D4 File Offset: 0x001A1CD4
+		// Token: 0x0600302A RID: 12330 RVA: 0x001A3B3C File Offset: 0x001A1F3C
 		private void TryDrawComfyTemperatureRange(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead)
@@ -312,7 +312,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302C RID: 12332 RVA: 0x001A3984 File Offset: 0x001A1D84
+		// Token: 0x0600302B RID: 12331 RVA: 0x001A3BEC File Offset: 0x001A1FEC
 		private void InterfaceDrop(Thing t)
 		{
 			ThingWithComps thingWithComps = t as ThingWithComps;
@@ -332,7 +332,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302D RID: 12333 RVA: 0x001A3A94 File Offset: 0x001A1E94
+		// Token: 0x0600302C RID: 12332 RVA: 0x001A3CFC File Offset: 0x001A20FC
 		private void InterfaceIngest(Thing t)
 		{
 			Job job = new Job(JobDefOf.Ingest, t);
@@ -341,25 +341,25 @@ namespace RimWorld
 			this.SelPawnForGear.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 		}
 
-		// Token: 0x0600302E RID: 12334 RVA: 0x001A3B18 File Offset: 0x001A1F18
+		// Token: 0x0600302D RID: 12333 RVA: 0x001A3D80 File Offset: 0x001A2180
 		private bool ShouldShowInventory(Pawn p)
 		{
 			return p.RaceProps.Humanlike || p.inventory.innerContainer.Any;
 		}
 
-		// Token: 0x0600302F RID: 12335 RVA: 0x001A3B50 File Offset: 0x001A1F50
+		// Token: 0x0600302E RID: 12334 RVA: 0x001A3DB8 File Offset: 0x001A21B8
 		private bool ShouldShowApparel(Pawn p)
 		{
 			return p.apparel != null && (p.RaceProps.Humanlike || p.apparel.WornApparel.Any<Apparel>());
 		}
 
-		// Token: 0x06003030 RID: 12336 RVA: 0x001A3B9C File Offset: 0x001A1F9C
+		// Token: 0x0600302F RID: 12335 RVA: 0x001A3E04 File Offset: 0x001A2204
 		private bool ShouldShowEquipment(Pawn p)
 		{
 			return p.equipment != null;
 		}
 
-		// Token: 0x06003031 RID: 12337 RVA: 0x001A3BC0 File Offset: 0x001A1FC0
+		// Token: 0x06003030 RID: 12336 RVA: 0x001A3E28 File Offset: 0x001A2228
 		private bool ShouldShowOverallArmor(Pawn p)
 		{
 			return p.RaceProps.Humanlike || this.ShouldShowApparel(p) || p.GetStatValue(StatDefOf.ArmorRating_Sharp, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Blunt, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Heat, true) > 0f;

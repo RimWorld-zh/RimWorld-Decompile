@@ -7,11 +7,11 @@ namespace RimWorld
 	// Token: 0x0200064F RID: 1615
 	public class ScenPart_StartingThing_Defined : ScenPart_ThingCount
 	{
-		// Token: 0x0400130C RID: 4876
+		// Token: 0x04001310 RID: 4880
 		public const string PlayerStartWithTag = "PlayerStartsWith";
 
 		// Token: 0x170004EF RID: 1263
-		// (get) Token: 0x06002188 RID: 8584 RVA: 0x0011CAA8 File Offset: 0x0011AEA8
+		// (get) Token: 0x06002187 RID: 8583 RVA: 0x0011CD10 File Offset: 0x0011B110
 		public static string PlayerStartWithIntro
 		{
 			get
@@ -20,13 +20,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002189 RID: 8585 RVA: 0x0011CAC8 File Offset: 0x0011AEC8
+		// Token: 0x06002188 RID: 8584 RVA: 0x0011CD30 File Offset: 0x0011B130
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		// Token: 0x0600218A RID: 8586 RVA: 0x0011CAF0 File Offset: 0x0011AEF0
+		// Token: 0x06002189 RID: 8585 RVA: 0x0011CD58 File Offset: 0x0011B158
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PlayerStartsWith")
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600218B RID: 8587 RVA: 0x0011CB24 File Offset: 0x0011AF24
+		// Token: 0x0600218A RID: 8586 RVA: 0x0011CD8C File Offset: 0x0011B18C
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
 			Thing t = ThingMaker.MakeThing(this.thingDef, this.stuff);

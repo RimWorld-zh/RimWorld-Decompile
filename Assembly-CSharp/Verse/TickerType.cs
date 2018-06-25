@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000F4E RID: 3918
+	// Token: 0x02000F4F RID: 3919
 	public enum TickerType : byte
 	{
-		// Token: 0x04003E32 RID: 15922
+		// Token: 0x04003E3A RID: 15930
 		Never,
-		// Token: 0x04003E33 RID: 15923
+		// Token: 0x04003E3B RID: 15931
 		Normal,
-		// Token: 0x04003E34 RID: 15924
+		// Token: 0x04003E3C RID: 15932
 		Rare,
-		// Token: 0x04003E35 RID: 15925
+		// Token: 0x04003E3D RID: 15933
 		Long
 	}
 }

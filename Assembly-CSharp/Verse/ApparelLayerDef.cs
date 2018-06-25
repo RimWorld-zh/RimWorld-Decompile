@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000AFA RID: 2810
+	// Token: 0x02000AFB RID: 2811
 	public class ApparelLayerDef : Def
 	{
-		// Token: 0x0400275A RID: 10074
+		// Token: 0x04002761 RID: 10081
 		public int drawOrder;
 	}
 }

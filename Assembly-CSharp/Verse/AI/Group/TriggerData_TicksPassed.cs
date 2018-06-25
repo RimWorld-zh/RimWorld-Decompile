@@ -2,13 +2,13 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A11 RID: 2577
+	// Token: 0x02000A12 RID: 2578
 	public class TriggerData_TicksPassed : TriggerData
 	{
-		// Token: 0x040024A4 RID: 9380
+		// Token: 0x040024B4 RID: 9396
 		public int ticksPassed;
 
-		// Token: 0x060039A0 RID: 14752 RVA: 0x001E82CA File Offset: 0x001E66CA
+		// Token: 0x060039A1 RID: 14753 RVA: 0x001E85F6 File Offset: 0x001E69F6
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksPassed, "ticksPassed", 0, false);

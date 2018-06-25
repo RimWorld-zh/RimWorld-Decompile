@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000BAA RID: 2986
+	// Token: 0x02000BAB RID: 2987
 	public enum SurfaceType : byte
 	{
-		// Token: 0x04002BA0 RID: 11168
+		// Token: 0x04002BA7 RID: 11175
 		None,
-		// Token: 0x04002BA1 RID: 11169
+		// Token: 0x04002BA8 RID: 11176
 		Item,
-		// Token: 0x04002BA2 RID: 11170
+		// Token: 0x04002BA9 RID: 11177
 		Eat
 	}
 }

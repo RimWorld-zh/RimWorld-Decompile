@@ -5,16 +5,16 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000E33 RID: 3635
+	// Token: 0x02000E34 RID: 3636
 	public class Dialog_DebugOutputMenu : Dialog_DebugOptionLister
 	{
-		// Token: 0x040038D8 RID: 14552
+		// Token: 0x040038E0 RID: 14560
 		private List<Dialog_DebugOutputMenu.DebugOutputOption> debugOutputs = new List<Dialog_DebugOutputMenu.DebugOutputOption>();
 
-		// Token: 0x040038D9 RID: 14553
+		// Token: 0x040038E1 RID: 14561
 		private const string DefaultCategory = "General";
 
-		// Token: 0x06005614 RID: 22036 RVA: 0x002C6010 File Offset: 0x002C4410
+		// Token: 0x06005614 RID: 22036 RVA: 0x002C61FC File Offset: 0x002C45FC
 		public Dialog_DebugOutputMenu()
 		{
 			this.forcePause = true;
@@ -57,7 +57,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D72 RID: 3442
-		// (get) Token: 0x06005615 RID: 22037 RVA: 0x002C6198 File Offset: 0x002C4598
+		// (get) Token: 0x06005615 RID: 22037 RVA: 0x002C6384 File Offset: 0x002C4784
 		public override bool IsDebug
 		{
 			get
@@ -66,7 +66,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005616 RID: 22038 RVA: 0x002C61B0 File Offset: 0x002C45B0
+		// Token: 0x06005616 RID: 22038 RVA: 0x002C639C File Offset: 0x002C479C
 		protected override void DoListingItems()
 		{
 			string b = null;
@@ -89,16 +89,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000E34 RID: 3636
+		// Token: 0x02000E35 RID: 3637
 		private struct DebugOutputOption
 		{
-			// Token: 0x040038DC RID: 14556
+			// Token: 0x040038E4 RID: 14564
 			public string label;
 
-			// Token: 0x040038DD RID: 14557
+			// Token: 0x040038E5 RID: 14565
 			public string category;
 
-			// Token: 0x040038DE RID: 14558
+			// Token: 0x040038E6 RID: 14566
 			public Action action;
 		}
 	}

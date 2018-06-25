@@ -2,26 +2,26 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A31 RID: 2609
+	// Token: 0x02000A32 RID: 2610
 	public enum JobCondition : byte
 	{
-		// Token: 0x040024F1 RID: 9457
+		// Token: 0x04002501 RID: 9473
 		None,
-		// Token: 0x040024F2 RID: 9458
+		// Token: 0x04002502 RID: 9474
 		Ongoing,
-		// Token: 0x040024F3 RID: 9459
+		// Token: 0x04002503 RID: 9475
 		Succeeded,
-		// Token: 0x040024F4 RID: 9460
+		// Token: 0x04002504 RID: 9476
 		Incompletable,
-		// Token: 0x040024F5 RID: 9461
+		// Token: 0x04002505 RID: 9477
 		InterruptOptional,
-		// Token: 0x040024F6 RID: 9462
+		// Token: 0x04002506 RID: 9478
 		InterruptForced,
-		// Token: 0x040024F7 RID: 9463
+		// Token: 0x04002507 RID: 9479
 		QueuedNoLongerValid,
-		// Token: 0x040024F8 RID: 9464
+		// Token: 0x04002508 RID: 9480
 		Errored,
-		// Token: 0x040024F9 RID: 9465
+		// Token: 0x04002509 RID: 9481
 		ErroredPather
 	}
 }

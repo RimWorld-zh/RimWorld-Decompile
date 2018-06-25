@@ -3,35 +3,35 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A83 RID: 2691
+	// Token: 0x02000A84 RID: 2692
 	public class MentalState_SadisticRageTantrum : MentalState_TantrumRandom
 	{
-		// Token: 0x0400257A RID: 9594
+		// Token: 0x0400258A RID: 9610
 		private int hits;
 
-		// Token: 0x0400257B RID: 9595
+		// Token: 0x0400258B RID: 9611
 		public const int MaxHits = 7;
 
-		// Token: 0x06003BB9 RID: 15289 RVA: 0x001F885A File Offset: 0x001F6C5A
+		// Token: 0x06003BBA RID: 15290 RVA: 0x001F8B86 File Offset: 0x001F6F86
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.hits, "hits", 0, false);
 		}
 
-		// Token: 0x06003BBA RID: 15290 RVA: 0x001F8875 File Offset: 0x001F6C75
+		// Token: 0x06003BBB RID: 15291 RVA: 0x001F8BA1 File Offset: 0x001F6FA1
 		protected override void GetPotentialTargets(List<Thing> outThings)
 		{
 			TantrumMentalStateUtility.GetSmashableThingsNear(this.pawn, this.pawn.Position, outThings, this.GetCustomValidator(), 0, 40);
 		}
 
-		// Token: 0x06003BBB RID: 15291 RVA: 0x001F8898 File Offset: 0x001F6C98
+		// Token: 0x06003BBC RID: 15292 RVA: 0x001F8BC4 File Offset: 0x001F6FC4
 		protected override Predicate<Thing> GetCustomValidator()
 		{
 			return (Thing x) => TantrumMentalStateUtility.CanAttackPrisoner(this.pawn, x);
 		}
 
-		// Token: 0x06003BBC RID: 15292 RVA: 0x001F88BC File Offset: 0x001F6CBC
+		// Token: 0x06003BBD RID: 15293 RVA: 0x001F8BE8 File Offset: 0x001F6FE8
 		public override void Notify_AttackedTarget(LocalTargetInfo hitTarget)
 		{
 			base.Notify_AttackedTarget(hitTarget);

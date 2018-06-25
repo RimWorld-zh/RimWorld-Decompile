@@ -5,7 +5,7 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC8 RID: 4040
+	// Token: 0x02000FC9 RID: 4041
 	public interface WorkshopUploadable
 	{
 		// Token: 0x060061A4 RID: 24996

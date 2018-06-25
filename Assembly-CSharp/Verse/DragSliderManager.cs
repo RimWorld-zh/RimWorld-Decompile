@@ -3,31 +3,31 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E99 RID: 3737
+	// Token: 0x02000E9A RID: 3738
 	public static class DragSliderManager
 	{
-		// Token: 0x04003A4D RID: 14925
+		// Token: 0x04003A55 RID: 14933
 		private static bool dragging = false;
 
-		// Token: 0x04003A4E RID: 14926
+		// Token: 0x04003A56 RID: 14934
 		private static float rootX;
 
-		// Token: 0x04003A4F RID: 14927
+		// Token: 0x04003A57 RID: 14935
 		private static float lastRateFactor = 1f;
 
-		// Token: 0x04003A50 RID: 14928
+		// Token: 0x04003A58 RID: 14936
 		private static DragSliderCallback draggingUpdateMethod;
 
-		// Token: 0x04003A51 RID: 14929
+		// Token: 0x04003A59 RID: 14937
 		private static DragSliderCallback completedMethod;
 
-		// Token: 0x0600582C RID: 22572 RVA: 0x002D364E File Offset: 0x002D1A4E
+		// Token: 0x0600582C RID: 22572 RVA: 0x002D383A File Offset: 0x002D1C3A
 		public static void ForceStop()
 		{
 			DragSliderManager.dragging = false;
 		}
 
-		// Token: 0x0600582D RID: 22573 RVA: 0x002D3658 File Offset: 0x002D1A58
+		// Token: 0x0600582D RID: 22573 RVA: 0x002D3844 File Offset: 0x002D1C44
 		public static bool DragSlider(Rect rect, float rateFactor, DragSliderCallback newStartMethod, DragSliderCallback newDraggingUpdateMethod, DragSliderCallback newCompletedMethod)
 		{
 			bool result;
@@ -45,7 +45,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600582E RID: 22574 RVA: 0x002D36BC File Offset: 0x002D1ABC
+		// Token: 0x0600582E RID: 22574 RVA: 0x002D38A8 File Offset: 0x002D1CA8
 		private static void StartDragSliding(DragSliderCallback newDraggingUpdateMethod, DragSliderCallback newCompletedMethod)
 		{
 			DragSliderManager.dragging = true;
@@ -54,13 +54,13 @@ namespace Verse
 			DragSliderManager.rootX = UI.MousePositionOnUI.x;
 		}
 
-		// Token: 0x0600582F RID: 22575 RVA: 0x002D36F0 File Offset: 0x002D1AF0
+		// Token: 0x0600582F RID: 22575 RVA: 0x002D38DC File Offset: 0x002D1CDC
 		private static float CurMouseOffset()
 		{
 			return UI.MousePositionOnUI.x - DragSliderManager.rootX;
 		}
 
-		// Token: 0x06005830 RID: 22576 RVA: 0x002D3718 File Offset: 0x002D1B18
+		// Token: 0x06005830 RID: 22576 RVA: 0x002D3904 File Offset: 0x002D1D04
 		public static void DragSlidersOnGUI()
 		{
 			if (DragSliderManager.dragging)
@@ -76,7 +76,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005831 RID: 22577 RVA: 0x002D3777 File Offset: 0x002D1B77
+		// Token: 0x06005831 RID: 22577 RVA: 0x002D3963 File Offset: 0x002D1D63
 		public static void DragSlidersUpdate()
 		{
 			if (DragSliderManager.dragging)

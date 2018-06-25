@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F20 RID: 3872
+	// Token: 0x02000F21 RID: 3873
 	public class Effecter
 	{
-		// Token: 0x04003D97 RID: 15767
+		// Token: 0x04003D9F RID: 15775
 		public EffecterDef def;
 
-		// Token: 0x04003D98 RID: 15768
+		// Token: 0x04003DA0 RID: 15776
 		public List<SubEffecter> children = new List<SubEffecter>();
 
-		// Token: 0x06005CD4 RID: 23764 RVA: 0x002F191C File Offset: 0x002EFD1C
+		// Token: 0x06005CD4 RID: 23764 RVA: 0x002F1B3C File Offset: 0x002EFF3C
 		public Effecter(EffecterDef def)
 		{
 			this.def = def;
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CD5 RID: 23765 RVA: 0x002F1980 File Offset: 0x002EFD80
+		// Token: 0x06005CD5 RID: 23765 RVA: 0x002F1BA0 File Offset: 0x002EFFA0
 		public void EffectTick(TargetInfo A, TargetInfo B)
 		{
 			for (int i = 0; i < this.children.Count; i++)
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CD6 RID: 23766 RVA: 0x002F19C0 File Offset: 0x002EFDC0
+		// Token: 0x06005CD6 RID: 23766 RVA: 0x002F1BE0 File Offset: 0x002EFFE0
 		public void Trigger(TargetInfo A, TargetInfo B)
 		{
 			for (int i = 0; i < this.children.Count; i++)
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CD7 RID: 23767 RVA: 0x002F1A00 File Offset: 0x002EFE00
+		// Token: 0x06005CD7 RID: 23767 RVA: 0x002F1C20 File Offset: 0x002F0020
 		public void Cleanup()
 		{
 			for (int i = 0; i < this.children.Count; i++)

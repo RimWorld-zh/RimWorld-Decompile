@@ -9,24 +9,24 @@ namespace RimWorld
 	// Token: 0x020006E3 RID: 1763
 	public class DropPodLeaving : Skyfaller, IActiveDropPod, IThingHolder
 	{
-		// Token: 0x0400155B RID: 5467
+		// Token: 0x0400155F RID: 5471
 		public int groupID = -1;
 
-		// Token: 0x0400155C RID: 5468
+		// Token: 0x04001560 RID: 5472
 		public int destinationTile = -1;
 
-		// Token: 0x0400155D RID: 5469
+		// Token: 0x04001561 RID: 5473
 		public TransportPodsArrivalAction arrivalAction;
 
-		// Token: 0x0400155E RID: 5470
+		// Token: 0x04001562 RID: 5474
 		private bool alreadyLeft;
 
-		// Token: 0x0400155F RID: 5471
+		// Token: 0x04001563 RID: 5475
 		private static List<Thing> tmpActiveDropPods = new List<Thing>();
 
 		// Token: 0x170005D6 RID: 1494
-		// (get) Token: 0x0600265B RID: 9819 RVA: 0x001497B0 File Offset: 0x00147BB0
-		// (set) Token: 0x0600265C RID: 9820 RVA: 0x001497DB File Offset: 0x00147BDB
+		// (get) Token: 0x0600265A RID: 9818 RVA: 0x00149A10 File Offset: 0x00147E10
+		// (set) Token: 0x0600265B RID: 9819 RVA: 0x00149A3B File Offset: 0x00147E3B
 		public ActiveDropPodInfo Contents
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600265D RID: 9821 RVA: 0x001497F8 File Offset: 0x00147BF8
+		// Token: 0x0600265C RID: 9820 RVA: 0x00149A58 File Offset: 0x00147E58
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -49,7 +49,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.alreadyLeft, "alreadyLeft", false, false);
 		}
 
-		// Token: 0x0600265E RID: 9822 RVA: 0x00149858 File Offset: 0x00147C58
+		// Token: 0x0600265D RID: 9821 RVA: 0x00149AB8 File Offset: 0x00147EB8
 		protected override void LeaveMap()
 		{
 			if (this.alreadyLeft)

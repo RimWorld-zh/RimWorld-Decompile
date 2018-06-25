@@ -7,24 +7,24 @@ namespace RimWorld
 	// Token: 0x02000172 RID: 370
 	public class LordJob_MechanoidsDefendShip : LordJob
 	{
-		// Token: 0x04000350 RID: 848
+		// Token: 0x04000351 RID: 849
 		private Thing shipPart;
 
-		// Token: 0x04000351 RID: 849
+		// Token: 0x04000352 RID: 850
 		private Faction faction;
 
-		// Token: 0x04000352 RID: 850
+		// Token: 0x04000353 RID: 851
 		private float defendRadius;
 
-		// Token: 0x04000353 RID: 851
+		// Token: 0x04000354 RID: 852
 		private IntVec3 defSpot;
 
-		// Token: 0x0600079B RID: 1947 RVA: 0x0004AF9B File Offset: 0x0004939B
+		// Token: 0x0600079A RID: 1946 RVA: 0x0004AF97 File Offset: 0x00049397
 		public LordJob_MechanoidsDefendShip()
 		{
 		}
 
-		// Token: 0x0600079C RID: 1948 RVA: 0x0004AFA4 File Offset: 0x000493A4
+		// Token: 0x0600079B RID: 1947 RVA: 0x0004AFA0 File Offset: 0x000493A0
 		public LordJob_MechanoidsDefendShip(Thing shipPart, Faction faction, float defendRadius, IntVec3 defSpot)
 		{
 			this.shipPart = shipPart;
@@ -33,7 +33,7 @@ namespace RimWorld
 			this.defSpot = defSpot;
 		}
 
-		// Token: 0x0600079D RID: 1949 RVA: 0x0004AFCC File Offset: 0x000493CC
+		// Token: 0x0600079C RID: 1948 RVA: 0x0004AFC8 File Offset: 0x000493C8
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -79,7 +79,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600079E RID: 1950 RVA: 0x0004B160 File Offset: 0x00049560
+		// Token: 0x0600079D RID: 1949 RVA: 0x0004B15C File Offset: 0x0004955C
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Thing>(ref this.shipPart, "shipPart", false);

@@ -12,37 +12,37 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MainMenuDrawer
 	{
-		// Token: 0x0400195B RID: 6491
+		// Token: 0x0400195F RID: 6495
 		private static bool anyMapFiles;
 
-		// Token: 0x0400195C RID: 6492
+		// Token: 0x04001960 RID: 6496
 		private const float PlayRectWidth = 170f;
 
-		// Token: 0x0400195D RID: 6493
+		// Token: 0x04001961 RID: 6497
 		private const float WebRectWidth = 145f;
 
-		// Token: 0x0400195E RID: 6494
+		// Token: 0x04001962 RID: 6498
 		private const float RightEdgeMargin = 50f;
 
-		// Token: 0x0400195F RID: 6495
+		// Token: 0x04001963 RID: 6499
 		private static readonly Vector2 PaneSize = new Vector2(450f, 450f);
 
-		// Token: 0x04001960 RID: 6496
+		// Token: 0x04001964 RID: 6500
 		private static readonly Vector2 TitleSize = new Vector2(1032f, 146f);
 
-		// Token: 0x04001961 RID: 6497
+		// Token: 0x04001965 RID: 6501
 		private static readonly Texture2D TexTitle = ContentFinder<Texture2D>.Get("UI/HeroArt/GameTitle", true);
 
-		// Token: 0x04001962 RID: 6498
+		// Token: 0x04001966 RID: 6502
 		private const float TitleShift = 50f;
 
-		// Token: 0x04001963 RID: 6499
+		// Token: 0x04001967 RID: 6503
 		private static readonly Vector2 LudeonLogoSize = new Vector2(200f, 58f);
 
-		// Token: 0x04001964 RID: 6500
+		// Token: 0x04001968 RID: 6504
 		private static readonly Texture2D TexLudeonLogo = ContentFinder<Texture2D>.Get("UI/HeroArt/LudeonLogoSmall", true);
 
-		// Token: 0x06002F15 RID: 12053 RVA: 0x00192E14 File Offset: 0x00191214
+		// Token: 0x06002F14 RID: 12052 RVA: 0x0019307C File Offset: 0x0019147C
 		public static void Init()
 		{
 			PlayerKnowledgeDatabase.Save();
@@ -50,7 +50,7 @@ namespace RimWorld
 			MainMenuDrawer.anyMapFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
 		}
 
-		// Token: 0x06002F16 RID: 12054 RVA: 0x00192E30 File Offset: 0x00191230
+		// Token: 0x06002F15 RID: 12053 RVA: 0x00193098 File Offset: 0x00191498
 		public static void MainMenuOnGUI()
 		{
 			VersionControl.DrawInfoInCorner();
@@ -89,7 +89,7 @@ namespace RimWorld
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
 		}
 
-		// Token: 0x06002F17 RID: 12055 RVA: 0x001930C0 File Offset: 0x001914C0
+		// Token: 0x06002F16 RID: 12054 RVA: 0x00193328 File Offset: 0x00191728
 		public static void DoMainMenuControls(Rect rect, bool anyMapFiles)
 		{
 			GUI.BeginGroup(rect);
@@ -287,21 +287,21 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F18 RID: 12056 RVA: 0x00193724 File Offset: 0x00191B24
+		// Token: 0x06002F17 RID: 12055 RVA: 0x0019398C File Offset: 0x00191D8C
 		private static void InitLearnToPlay()
 		{
 			Current.Game = new Game();
 			Current.Game.InitData = new GameInitData();
 			Current.Game.Scenario = ScenarioDefOf.Crashlanded.scenario;
 			Find.Scenario.PreConfigure();
-			Current.Game.storyteller = new Storyteller(StorytellerDefOf.Tutor, DifficultyDefOf.VeryEasy);
+			Current.Game.storyteller = new Storyteller(StorytellerDefOf.Tutor, DifficultyDefOf.Easy);
 			Page firstConfigPage = Current.Game.Scenario.GetFirstConfigPage();
 			Page next = firstConfigPage.next;
 			next.prev = null;
 			Find.WindowStack.Add(next);
 		}
 
-		// Token: 0x06002F19 RID: 12057 RVA: 0x001937AB File Offset: 0x00191BAB
+		// Token: 0x06002F18 RID: 12056 RVA: 0x00193A13 File Offset: 0x00191E13
 		private static void CloseMainTab()
 		{
 			if (Current.ProgramState == ProgramState.Playing)

@@ -7,19 +7,19 @@ namespace RimWorld.Planet
 	// Token: 0x020005AD RID: 1453
 	public static class GenPlanetMorphology
 	{
-		// Token: 0x0400108C RID: 4236
+		// Token: 0x04001090 RID: 4240
 		private static HashSet<int> tmpOutput = new HashSet<int>();
 
-		// Token: 0x0400108D RID: 4237
+		// Token: 0x04001091 RID: 4241
 		private static HashSet<int> tilesSet = new HashSet<int>();
 
-		// Token: 0x0400108E RID: 4238
+		// Token: 0x04001092 RID: 4242
 		private static List<int> tmpNeighbors = new List<int>();
 
-		// Token: 0x0400108F RID: 4239
+		// Token: 0x04001093 RID: 4243
 		private static List<int> tmpEdgeTiles = new List<int>();
 
-		// Token: 0x06001BCB RID: 7115 RVA: 0x000EF7A0 File Offset: 0x000EDBA0
+		// Token: 0x06001BCA RID: 7114 RVA: 0x000EFA08 File Offset: 0x000EDE08
 		public static void Erode(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
 			if (count > 0)
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BCC RID: 7116 RVA: 0x000EF910 File Offset: 0x000EDD10
+		// Token: 0x06001BCB RID: 7115 RVA: 0x000EFB78 File Offset: 0x000EDF78
 		public static void Dilate(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
 			if (count > 0)
@@ -106,14 +106,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BCD RID: 7117 RVA: 0x000EF994 File Offset: 0x000EDD94
+		// Token: 0x06001BCC RID: 7116 RVA: 0x000EFBFC File Offset: 0x000EDFFC
 		public static void Open(List<int> tiles, int count)
 		{
 			GenPlanetMorphology.Erode(tiles, count, null);
 			GenPlanetMorphology.Dilate(tiles, count, null);
 		}
 
-		// Token: 0x06001BCE RID: 7118 RVA: 0x000EF9A7 File Offset: 0x000EDDA7
+		// Token: 0x06001BCD RID: 7117 RVA: 0x000EFC0F File Offset: 0x000EE00F
 		public static void Close(List<int> tiles, int count)
 		{
 			GenPlanetMorphology.Dilate(tiles, count, null);

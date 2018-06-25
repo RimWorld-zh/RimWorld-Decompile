@@ -6,21 +6,21 @@ namespace RimWorld
 	// Token: 0x0200052A RID: 1322
 	public class DirectPawnRelation : IExposable
 	{
-		// Token: 0x04000E6A RID: 3690
+		// Token: 0x04000E6E RID: 3694
 		public PawnRelationDef def;
 
-		// Token: 0x04000E6B RID: 3691
+		// Token: 0x04000E6F RID: 3695
 		public Pawn otherPawn;
 
-		// Token: 0x04000E6C RID: 3692
+		// Token: 0x04000E70 RID: 3696
 		public int startTicks;
 
-		// Token: 0x0600183B RID: 6203 RVA: 0x000D39FF File Offset: 0x000D1DFF
+		// Token: 0x0600183A RID: 6202 RVA: 0x000D3C67 File Offset: 0x000D2067
 		public DirectPawnRelation()
 		{
 		}
 
-		// Token: 0x0600183C RID: 6204 RVA: 0x000D3A08 File Offset: 0x000D1E08
+		// Token: 0x0600183B RID: 6203 RVA: 0x000D3C70 File Offset: 0x000D2070
 		public DirectPawnRelation(PawnRelationDef def, Pawn otherPawn, int startTicks)
 		{
 			this.def = def;
@@ -28,7 +28,7 @@ namespace RimWorld
 			this.startTicks = startTicks;
 		}
 
-		// Token: 0x0600183D RID: 6205 RVA: 0x000D3A26 File Offset: 0x000D1E26
+		// Token: 0x0600183C RID: 6204 RVA: 0x000D3C8E File Offset: 0x000D208E
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<PawnRelationDef>(ref this.def, "def");

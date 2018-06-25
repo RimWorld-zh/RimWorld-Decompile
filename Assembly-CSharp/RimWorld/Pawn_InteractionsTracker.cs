@@ -9,47 +9,47 @@ namespace RimWorld
 	// Token: 0x02000528 RID: 1320
 	public class Pawn_InteractionsTracker : IExposable
 	{
-		// Token: 0x04000E5B RID: 3675
+		// Token: 0x04000E5F RID: 3679
 		private Pawn pawn;
 
-		// Token: 0x04000E5C RID: 3676
+		// Token: 0x04000E60 RID: 3680
 		private bool wantsRandomInteract = false;
 
-		// Token: 0x04000E5D RID: 3677
+		// Token: 0x04000E61 RID: 3681
 		private int lastInteractionTime = -9999;
 
-		// Token: 0x04000E5E RID: 3678
+		// Token: 0x04000E62 RID: 3682
 		private const int RandomInteractMTBTicks_Quiet = 22000;
 
-		// Token: 0x04000E5F RID: 3679
+		// Token: 0x04000E63 RID: 3683
 		private const int RandomInteractMTBTicks_Normal = 6600;
 
-		// Token: 0x04000E60 RID: 3680
+		// Token: 0x04000E64 RID: 3684
 		private const int RandomInteractMTBTicks_SuperActive = 550;
 
-		// Token: 0x04000E61 RID: 3681
+		// Token: 0x04000E65 RID: 3685
 		public const int RandomInteractIntervalMin = 320;
 
-		// Token: 0x04000E62 RID: 3682
+		// Token: 0x04000E66 RID: 3686
 		private const int RandomInteractCheckInterval = 60;
 
-		// Token: 0x04000E63 RID: 3683
+		// Token: 0x04000E67 RID: 3687
 		private const int InteractIntervalAbsoluteMin = 120;
 
-		// Token: 0x04000E64 RID: 3684
+		// Token: 0x04000E68 RID: 3688
 		public const int DirectTalkInteractInterval = 320;
 
-		// Token: 0x04000E65 RID: 3685
+		// Token: 0x04000E69 RID: 3689
 		private static List<Pawn> workingList = new List<Pawn>();
 
-		// Token: 0x06001821 RID: 6177 RVA: 0x000D29D6 File Offset: 0x000D0DD6
+		// Token: 0x06001820 RID: 6176 RVA: 0x000D2C3E File Offset: 0x000D103E
 		public Pawn_InteractionsTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x1700035E RID: 862
-		// (get) Token: 0x06001822 RID: 6178 RVA: 0x000D29F8 File Offset: 0x000D0DF8
+		// (get) Token: 0x06001821 RID: 6177 RVA: 0x000D2C60 File Offset: 0x000D1060
 		private RandomSocialMode CurrentSocialMode
 		{
 			get
@@ -86,14 +86,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001823 RID: 6179 RVA: 0x000D2AC9 File Offset: 0x000D0EC9
+		// Token: 0x06001822 RID: 6178 RVA: 0x000D2D31 File Offset: 0x000D1131
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.wantsRandomInteract, "wantsRandomInteract", false, false);
 			Scribe_Values.Look<int>(ref this.lastInteractionTime, "lastInteractionTime", -9999, false);
 		}
 
-		// Token: 0x06001824 RID: 6180 RVA: 0x000D2AF4 File Offset: 0x000D0EF4
+		// Token: 0x06001823 RID: 6179 RVA: 0x000D2D5C File Offset: 0x000D115C
 		public void InteractionsTrackerTick()
 		{
 			RandomSocialMode currentSocialMode = this.CurrentSocialMode;
@@ -149,19 +149,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001825 RID: 6181 RVA: 0x000D2C00 File Offset: 0x000D1000
+		// Token: 0x06001824 RID: 6180 RVA: 0x000D2E68 File Offset: 0x000D1268
 		public bool InteractedTooRecentlyToInteract()
 		{
 			return Find.TickManager.TicksGame < this.lastInteractionTime + 120;
 		}
 
-		// Token: 0x06001826 RID: 6182 RVA: 0x000D2C2C File Offset: 0x000D102C
+		// Token: 0x06001825 RID: 6181 RVA: 0x000D2E94 File Offset: 0x000D1294
 		public bool CanInteractNowWith(Pawn recipient)
 		{
 			return recipient.Spawned && InteractionUtility.IsGoodPositionForInteraction(this.pawn, recipient) && InteractionUtility.CanInitiateInteraction(this.pawn) && InteractionUtility.CanReceiveInteraction(recipient);
 		}
 
-		// Token: 0x06001827 RID: 6183 RVA: 0x000D2C90 File Offset: 0x000D1090
+		// Token: 0x06001826 RID: 6182 RVA: 0x000D2EF8 File Offset: 0x000D12F8
 		public bool TryInteractWith(Pawn recipient, InteractionDef intDef)
 		{
 			if (DebugSettings.alwaysSocialFight)
@@ -254,7 +254,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001828 RID: 6184 RVA: 0x000D2F24 File Offset: 0x000D1324
+		// Token: 0x06001827 RID: 6183 RVA: 0x000D318C File Offset: 0x000D158C
 		private static void AddInteractionThought(Pawn pawn, Pawn otherPawn, ThoughtDef thoughtDef)
 		{
 			float statValue = otherPawn.GetStatValue(StatDefOf.SocialImpact, true);
@@ -268,7 +268,7 @@ namespace RimWorld
 			pawn.needs.mood.thoughts.memories.TryGainMemory(thought_Memory, otherPawn);
 		}
 
-		// Token: 0x06001829 RID: 6185 RVA: 0x000D2F8C File Offset: 0x000D138C
+		// Token: 0x06001828 RID: 6184 RVA: 0x000D31F4 File Offset: 0x000D15F4
 		private bool TryInteractRandomly()
 		{
 			bool result;
@@ -310,7 +310,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600182A RID: 6186 RVA: 0x000D3110 File Offset: 0x000D1510
+		// Token: 0x06001829 RID: 6185 RVA: 0x000D3378 File Offset: 0x000D1778
 		public bool CheckSocialFightStart(InteractionDef interaction, Pawn initiator)
 		{
 			bool result;
@@ -338,7 +338,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600182B RID: 6187 RVA: 0x000D31A0 File Offset: 0x000D15A0
+		// Token: 0x0600182A RID: 6186 RVA: 0x000D3408 File Offset: 0x000D1808
 		public void StartSocialFight(Pawn otherPawn)
 		{
 			if (PawnUtility.ShouldSendNotificationAbout(this.pawn) || PawnUtility.ShouldSendNotificationAbout(otherPawn))
@@ -381,7 +381,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600182C RID: 6188 RVA: 0x000D32D0 File Offset: 0x000D16D0
+		// Token: 0x0600182B RID: 6187 RVA: 0x000D3538 File Offset: 0x000D1938
 		public float SocialFightChance(InteractionDef interaction, Pawn initiator)
 		{
 			float result;

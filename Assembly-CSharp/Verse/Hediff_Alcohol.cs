@@ -3,13 +3,13 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D28 RID: 3368
+	// Token: 0x02000D29 RID: 3369
 	public class Hediff_Alcohol : HediffWithComps
 	{
-		// Token: 0x04003239 RID: 12857
+		// Token: 0x04003240 RID: 12864
 		private const int HangoverCheckInterval = 300;
 
-		// Token: 0x06004A3E RID: 19006 RVA: 0x0026C0D0 File Offset: 0x0026A4D0
+		// Token: 0x06004A3E RID: 19006 RVA: 0x0026C3B0 File Offset: 0x0026A7B0
 		public override void Tick()
 		{
 			base.Tick();
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A3F RID: 19007 RVA: 0x0026C188 File Offset: 0x0026A588
+		// Token: 0x06004A3F RID: 19007 RVA: 0x0026C468 File Offset: 0x0026A868
 		private bool HangoverSusceptible(Pawn pawn)
 		{
 			return true;

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200060D RID: 1549
 	public class SitePartWorker_SleepingMechanoids : SitePartWorker
 	{
-		// Token: 0x06001F30 RID: 7984 RVA: 0x0010EDC4 File Offset: 0x0010D1C4
+		// Token: 0x06001F2F RID: 7983 RVA: 0x0010F02C File Offset: 0x0010D42C
 		public override string GetArrivedLetterPart(Map map, out string preferredLabel, out LetterDef preferredLetterDef, out LookTargets lookTargets)
 		{
 			string arrivedLetterPart = base.GetArrivedLetterPart(map, out preferredLabel, out preferredLetterDef, out lookTargets);

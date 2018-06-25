@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x02000150 RID: 336
 	public class WorkGiver_Miner : WorkGiver_Scanner
 	{
-		// Token: 0x0400032D RID: 813
+		// Token: 0x0400032E RID: 814
 		private static string NoPathTrans;
 
 		// Token: 0x1700010C RID: 268
-		// (get) Token: 0x060006F0 RID: 1776 RVA: 0x00046D2C File Offset: 0x0004512C
+		// (get) Token: 0x060006EF RID: 1775 RVA: 0x00046D28 File Offset: 0x00045128
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -21,19 +21,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006F1 RID: 1777 RVA: 0x00046D44 File Offset: 0x00045144
+		// Token: 0x060006F0 RID: 1776 RVA: 0x00046D40 File Offset: 0x00045140
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006F2 RID: 1778 RVA: 0x00046D5A File Offset: 0x0004515A
+		// Token: 0x060006F1 RID: 1777 RVA: 0x00046D56 File Offset: 0x00045156
 		public static void ResetStaticData()
 		{
 			WorkGiver_Miner.NoPathTrans = "NoPath".Translate();
 		}
 
-		// Token: 0x060006F3 RID: 1779 RVA: 0x00046D6C File Offset: 0x0004516C
+		// Token: 0x060006F2 RID: 1778 RVA: 0x00046D68 File Offset: 0x00045168
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine))
@@ -60,7 +60,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060006F4 RID: 1780 RVA: 0x00046D98 File Offset: 0x00045198
+		// Token: 0x060006F3 RID: 1779 RVA: 0x00046D94 File Offset: 0x00045194
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

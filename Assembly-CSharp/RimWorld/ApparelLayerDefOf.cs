@@ -7,22 +7,22 @@ namespace RimWorld
 	[DefOf]
 	public static class ApparelLayerDefOf
 	{
-		// Token: 0x040022FF RID: 8959
+		// Token: 0x04002306 RID: 8966
 		public static ApparelLayerDef OnSkin;
 
-		// Token: 0x04002300 RID: 8960
+		// Token: 0x04002307 RID: 8967
 		public static ApparelLayerDef Shell;
 
-		// Token: 0x04002301 RID: 8961
+		// Token: 0x04002308 RID: 8968
 		public static ApparelLayerDef Middle;
 
-		// Token: 0x04002302 RID: 8962
+		// Token: 0x04002309 RID: 8969
 		public static ApparelLayerDef Belt;
 
-		// Token: 0x04002303 RID: 8963
+		// Token: 0x0400230A RID: 8970
 		public static ApparelLayerDef Overhead;
 
-		// Token: 0x06003675 RID: 13941 RVA: 0x001D0FEF File Offset: 0x001CF3EF
+		// Token: 0x06003675 RID: 13941 RVA: 0x001D12C3 File Offset: 0x001CF6C3
 		static ApparelLayerDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ApparelLayerDefOf));

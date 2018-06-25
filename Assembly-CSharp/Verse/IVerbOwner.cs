@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000FD2 RID: 4050
+	// Token: 0x02000FD3 RID: 4051
 	public interface IVerbOwner
 	{
 		// Token: 0x17000FDD RID: 4061

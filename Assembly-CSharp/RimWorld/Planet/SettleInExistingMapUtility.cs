@@ -10,10 +10,10 @@ namespace RimWorld.Planet
 	// Token: 0x020005F8 RID: 1528
 	public static class SettleInExistingMapUtility
 	{
-		// Token: 0x0400120E RID: 4622
+		// Token: 0x04001212 RID: 4626
 		private static List<Pawn> tmpPlayerPawns = new List<Pawn>();
 
-		// Token: 0x06001E67 RID: 7783 RVA: 0x00107534 File Offset: 0x00105934
+		// Token: 0x06001E66 RID: 7782 RVA: 0x0010779C File Offset: 0x00105B9C
 		public static Command SettleCommand(Map map, bool requiresNoEnemies)
 		{
 			Command_Settle command_Settle = new Command_Settle();
@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 			return command_Settle;
 		}
 
-		// Token: 0x06001E68 RID: 7784 RVA: 0x00107690 File Offset: 0x00105A90
+		// Token: 0x06001E67 RID: 7783 RVA: 0x001078F8 File Offset: 0x00105CF8
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.Parent;

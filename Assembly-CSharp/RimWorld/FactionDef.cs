@@ -9,161 +9,161 @@ namespace RimWorld
 	// Token: 0x02000295 RID: 661
 	public class FactionDef : Def
 	{
-		// Token: 0x040005A9 RID: 1449
+		// Token: 0x040005AB RID: 1451
 		public bool isPlayer = false;
 
-		// Token: 0x040005AA RID: 1450
+		// Token: 0x040005AC RID: 1452
 		public RulePackDef factionNameMaker;
 
-		// Token: 0x040005AB RID: 1451
+		// Token: 0x040005AD RID: 1453
 		public RulePackDef settlementNameMaker;
 
-		// Token: 0x040005AC RID: 1452
+		// Token: 0x040005AE RID: 1454
 		public RulePackDef playerInitialSettlementNameMaker;
 
-		// Token: 0x040005AD RID: 1453
+		// Token: 0x040005AF RID: 1455
 		[MustTranslate]
 		public string fixedName = null;
 
-		// Token: 0x040005AE RID: 1454
+		// Token: 0x040005B0 RID: 1456
 		public bool humanlikeFaction = true;
 
-		// Token: 0x040005AF RID: 1455
+		// Token: 0x040005B1 RID: 1457
 		public bool hidden = false;
 
-		// Token: 0x040005B0 RID: 1456
+		// Token: 0x040005B2 RID: 1458
 		public float listOrderPriority = 0f;
 
-		// Token: 0x040005B1 RID: 1457
+		// Token: 0x040005B3 RID: 1459
 		public List<PawnGroupMaker> pawnGroupMakers = null;
 
-		// Token: 0x040005B2 RID: 1458
+		// Token: 0x040005B4 RID: 1460
 		public SimpleCurve raidCommonalityFromPointsCurve = null;
 
-		// Token: 0x040005B3 RID: 1459
+		// Token: 0x040005B5 RID: 1461
 		public bool autoFlee = true;
 
-		// Token: 0x040005B4 RID: 1460
+		// Token: 0x040005B6 RID: 1462
 		public bool canSiege = false;
 
-		// Token: 0x040005B5 RID: 1461
+		// Token: 0x040005B7 RID: 1463
 		public bool canStageAttacks = false;
 
-		// Token: 0x040005B6 RID: 1462
+		// Token: 0x040005B8 RID: 1464
 		public bool canUseAvoidGrid = true;
 
-		// Token: 0x040005B7 RID: 1463
+		// Token: 0x040005B9 RID: 1465
 		public float earliestRaidDays = 0f;
 
-		// Token: 0x040005B8 RID: 1464
+		// Token: 0x040005BA RID: 1466
 		public FloatRange allowedArrivalTemperatureRange = new FloatRange(-1000f, 1000f);
 
-		// Token: 0x040005B9 RID: 1465
+		// Token: 0x040005BB RID: 1467
 		public PawnKindDef basicMemberKind;
 
-		// Token: 0x040005BA RID: 1466
+		// Token: 0x040005BC RID: 1468
 		public List<ResearchProjectTagDef> startingResearchTags = null;
 
-		// Token: 0x040005BB RID: 1467
+		// Token: 0x040005BD RID: 1469
 		[NoTranslate]
 		public List<string> recipePrerequisiteTags = null;
 
-		// Token: 0x040005BC RID: 1468
+		// Token: 0x040005BE RID: 1470
 		public bool rescueesCanJoin = false;
 
-		// Token: 0x040005BD RID: 1469
+		// Token: 0x040005BF RID: 1471
 		[MustTranslate]
 		public string pawnSingular = "member";
 
-		// Token: 0x040005BE RID: 1470
+		// Token: 0x040005C0 RID: 1472
 		[MustTranslate]
 		public string pawnsPlural = "members";
 
-		// Token: 0x040005BF RID: 1471
+		// Token: 0x040005C1 RID: 1473
 		public string leaderTitle = "leader";
 
-		// Token: 0x040005C0 RID: 1472
+		// Token: 0x040005C2 RID: 1474
 		public float forageabilityFactor = 1f;
 
-		// Token: 0x040005C1 RID: 1473
+		// Token: 0x040005C3 RID: 1475
 		public SimpleCurve maxPawnCostPerTotalPointsCurve = null;
 
-		// Token: 0x040005C2 RID: 1474
+		// Token: 0x040005C4 RID: 1476
 		public int requiredCountAtGameStart = 0;
 
-		// Token: 0x040005C3 RID: 1475
+		// Token: 0x040005C5 RID: 1477
 		public int maxCountAtGameStart = 9999;
 
-		// Token: 0x040005C4 RID: 1476
+		// Token: 0x040005C6 RID: 1478
 		public bool canMakeRandomly = false;
 
-		// Token: 0x040005C5 RID: 1477
+		// Token: 0x040005C7 RID: 1479
 		public float settlementGenerationWeight = 0f;
 
-		// Token: 0x040005C6 RID: 1478
+		// Token: 0x040005C8 RID: 1480
 		public RulePackDef pawnNameMaker;
 
-		// Token: 0x040005C7 RID: 1479
+		// Token: 0x040005C9 RID: 1481
 		public TechLevel techLevel = TechLevel.Undefined;
 
-		// Token: 0x040005C8 RID: 1480
+		// Token: 0x040005CA RID: 1482
 		[NoTranslate]
 		public string backstoryCategory = null;
 
-		// Token: 0x040005C9 RID: 1481
+		// Token: 0x040005CB RID: 1483
 		[NoTranslate]
 		public List<string> hairTags = new List<string>();
 
-		// Token: 0x040005CA RID: 1482
+		// Token: 0x040005CC RID: 1484
 		public ThingFilter apparelStuffFilter = null;
 
-		// Token: 0x040005CB RID: 1483
+		// Token: 0x040005CD RID: 1485
 		public List<TraderKindDef> caravanTraderKinds = new List<TraderKindDef>();
 
-		// Token: 0x040005CC RID: 1484
+		// Token: 0x040005CE RID: 1486
 		public List<TraderKindDef> visitorTraderKinds = new List<TraderKindDef>();
 
-		// Token: 0x040005CD RID: 1485
+		// Token: 0x040005CF RID: 1487
 		public List<TraderKindDef> baseTraderKinds = new List<TraderKindDef>();
 
-		// Token: 0x040005CE RID: 1486
+		// Token: 0x040005D0 RID: 1488
 		public float geneticVariance = 1f;
 
-		// Token: 0x040005CF RID: 1487
+		// Token: 0x040005D1 RID: 1489
 		public IntRange startingGoodwill = IntRange.zero;
 
-		// Token: 0x040005D0 RID: 1488
+		// Token: 0x040005D2 RID: 1490
 		public bool mustStartOneEnemy = false;
 
-		// Token: 0x040005D1 RID: 1489
+		// Token: 0x040005D3 RID: 1491
 		public IntRange naturalColonyGoodwill = IntRange.zero;
 
-		// Token: 0x040005D2 RID: 1490
+		// Token: 0x040005D4 RID: 1492
 		public float goodwillDailyGain = 0f;
 
-		// Token: 0x040005D3 RID: 1491
+		// Token: 0x040005D5 RID: 1493
 		public float goodwillDailyFall = 0f;
 
-		// Token: 0x040005D4 RID: 1492
+		// Token: 0x040005D6 RID: 1494
 		public bool permanentEnemy = false;
 
-		// Token: 0x040005D5 RID: 1493
+		// Token: 0x040005D7 RID: 1495
 		[NoTranslate]
 		public string homeIconPath;
 
-		// Token: 0x040005D6 RID: 1494
+		// Token: 0x040005D8 RID: 1496
 		[NoTranslate]
 		public string expandingIconTexture;
 
-		// Token: 0x040005D7 RID: 1495
+		// Token: 0x040005D9 RID: 1497
 		public List<Color> colorSpectrum;
 
-		// Token: 0x040005D8 RID: 1496
+		// Token: 0x040005DA RID: 1498
 		[Unsaved]
 		private Texture2D expandingIconTextureInt;
 
 		// Token: 0x1700019F RID: 415
-		// (get) Token: 0x06000B21 RID: 2849 RVA: 0x00065054 File Offset: 0x00063454
+		// (get) Token: 0x06000B20 RID: 2848 RVA: 0x00065050 File Offset: 0x00063450
 		public bool CanEverBeNonHostile
 		{
 			get
@@ -173,7 +173,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001A0 RID: 416
-		// (get) Token: 0x06000B22 RID: 2850 RVA: 0x00065074 File Offset: 0x00063474
+		// (get) Token: 0x06000B21 RID: 2849 RVA: 0x00065070 File Offset: 0x00063470
 		public Texture2D ExpandingIconTexture
 		{
 			get
@@ -193,7 +193,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B23 RID: 2851 RVA: 0x000650D4 File Offset: 0x000634D4
+		// Token: 0x06000B22 RID: 2850 RVA: 0x000650D0 File Offset: 0x000634D0
 		public float MinPointsToGeneratePawnGroup(PawnGroupKindDef groupKind)
 		{
 			float result;
@@ -218,13 +218,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B24 RID: 2852 RVA: 0x00065160 File Offset: 0x00063560
+		// Token: 0x06000B23 RID: 2851 RVA: 0x0006515C File Offset: 0x0006355C
 		public bool CanUseStuffForApparel(ThingDef stuffDef)
 		{
 			return this.apparelStuffFilter == null || this.apparelStuffFilter.Allows(stuffDef);
 		}
 
-		// Token: 0x06000B25 RID: 2853 RVA: 0x00065194 File Offset: 0x00063594
+		// Token: 0x06000B24 RID: 2852 RVA: 0x00065190 File Offset: 0x00063590
 		public float RaidCommonalityFromPoints(float points)
 		{
 			float result;
@@ -239,7 +239,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B26 RID: 2854 RVA: 0x000651D6 File Offset: 0x000635D6
+		// Token: 0x06000B25 RID: 2853 RVA: 0x000651D2 File Offset: 0x000635D2
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -249,7 +249,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B27 RID: 2855 RVA: 0x000651F8 File Offset: 0x000635F8
+		// Token: 0x06000B26 RID: 2854 RVA: 0x000651F4 File Offset: 0x000635F4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -316,7 +316,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000B28 RID: 2856 RVA: 0x00065224 File Offset: 0x00063624
+		// Token: 0x06000B27 RID: 2855 RVA: 0x00065220 File Offset: 0x00063620
 		public static FactionDef Named(string defName)
 		{
 			return DefDatabase<FactionDef>.GetNamed(defName, true);

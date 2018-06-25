@@ -8,7 +8,7 @@ namespace RimWorld
 	public class StorytellerComp_AllyAssistance : StorytellerComp
 	{
 		// Token: 0x1700021A RID: 538
-		// (get) Token: 0x06000F17 RID: 3863 RVA: 0x0007F728 File Offset: 0x0007DB28
+		// (get) Token: 0x06000F16 RID: 3862 RVA: 0x0007F738 File Offset: 0x0007DB38
 		private StorytellerCompProperties_AllyAssistance Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F18 RID: 3864 RVA: 0x0007F748 File Offset: 0x0007DB48
+		// Token: 0x06000F17 RID: 3863 RVA: 0x0007F758 File Offset: 0x0007DB58
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			Map map = target as Map;

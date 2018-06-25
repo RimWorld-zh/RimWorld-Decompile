@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000759 RID: 1881
 	public class CompTargetEffect_Resurrect : CompTargetEffect
 	{
-		// Token: 0x06002996 RID: 10646 RVA: 0x00161844 File Offset: 0x0015FC44
+		// Token: 0x06002995 RID: 10645 RVA: 0x00161AA4 File Offset: 0x0015FEA4
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			if (user.IsColonistPlayerControlled)

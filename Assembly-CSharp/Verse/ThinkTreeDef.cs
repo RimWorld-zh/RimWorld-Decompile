@@ -4,20 +4,20 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000BAE RID: 2990
+	// Token: 0x02000BAF RID: 2991
 	public class ThinkTreeDef : Def
 	{
-		// Token: 0x04002C19 RID: 11289
+		// Token: 0x04002C20 RID: 11296
 		public ThinkNode thinkRoot;
 
-		// Token: 0x04002C1A RID: 11290
+		// Token: 0x04002C21 RID: 11297
 		[NoTranslate]
 		public string insertTag;
 
-		// Token: 0x04002C1B RID: 11291
+		// Token: 0x04002C22 RID: 11298
 		public float insertPriority;
 
-		// Token: 0x060040E7 RID: 16615 RVA: 0x00224390 File Offset: 0x00222790
+		// Token: 0x060040E7 RID: 16615 RVA: 0x00224670 File Offset: 0x00222A70
 		public override void ResolveReferences()
 		{
 			this.thinkRoot.ResolveSubnodesAndRecur();
@@ -29,7 +29,7 @@ namespace Verse
 			this.ResolveParentNodes(this.thinkRoot);
 		}
 
-		// Token: 0x060040E8 RID: 16616 RVA: 0x00224420 File Offset: 0x00222820
+		// Token: 0x060040E8 RID: 16616 RVA: 0x00224700 File Offset: 0x00222B00
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -75,7 +75,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040E9 RID: 16617 RVA: 0x0022444C File Offset: 0x0022284C
+		// Token: 0x060040E9 RID: 16617 RVA: 0x0022472C File Offset: 0x00222B2C
 		public bool TryGetThinkNodeWithSaveKey(int key, out ThinkNode outNode)
 		{
 			outNode = null;
@@ -104,7 +104,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060040EA RID: 16618 RVA: 0x002244F8 File Offset: 0x002228F8
+		// Token: 0x060040EA RID: 16618 RVA: 0x002247D8 File Offset: 0x00222BD8
 		private void ResolveParentNodes(ThinkNode node)
 		{
 			for (int i = 0; i < node.subNodes.Count; i++)

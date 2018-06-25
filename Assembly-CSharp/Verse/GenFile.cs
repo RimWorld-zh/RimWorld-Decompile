@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F40 RID: 3904
+	// Token: 0x02000F41 RID: 3905
 	public static class GenFile
 	{
-		// Token: 0x06005E1A RID: 24090 RVA: 0x002FDF58 File Offset: 0x002FC358
+		// Token: 0x06005E1A RID: 24090 RVA: 0x002FE178 File Offset: 0x002FC578
 		public static string TextFromRawFile(string filePath)
 		{
 			return File.ReadAllText(filePath);
 		}
 
-		// Token: 0x06005E1B RID: 24091 RVA: 0x002FDF74 File Offset: 0x002FC374
+		// Token: 0x06005E1B RID: 24091 RVA: 0x002FE194 File Offset: 0x002FC594
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
@@ -32,7 +32,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E1C RID: 24092 RVA: 0x002FDFCC File Offset: 0x002FC3CC
+		// Token: 0x06005E1C RID: 24092 RVA: 0x002FE1EC File Offset: 0x002FC5EC
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
 			string result = null;
@@ -46,7 +46,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E1D RID: 24093 RVA: 0x002FE044 File Offset: 0x002FC444
+		// Token: 0x06005E1D RID: 24093 RVA: 0x002FE264 File Offset: 0x002FC664
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
 			string rawText = GenFile.TextFromResourceFile(filePath);
@@ -57,7 +57,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005E1E RID: 24094 RVA: 0x002FE070 File Offset: 0x002FC470
+		// Token: 0x06005E1E RID: 24094 RVA: 0x002FE290 File Offset: 0x002FC690
 		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool useLinuxLineEndings = false)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirName);
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E1F RID: 24095 RVA: 0x002FE1C4 File Offset: 0x002FC5C4
+		// Token: 0x06005E1F RID: 24095 RVA: 0x002FE3E4 File Offset: 0x002FC7E4
 		public static string SanitizedFileName(string fileName)
 		{
 			char[] invalidFileNameChars = Path.GetInvalidFileNameChars();

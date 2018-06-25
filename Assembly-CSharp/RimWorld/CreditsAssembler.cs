@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200083B RID: 2107
 	public class CreditsAssembler
 	{
-		// Token: 0x06002FB5 RID: 12213 RVA: 0x001987E4 File Offset: 0x00196BE4
+		// Token: 0x06002FB4 RID: 12212 RVA: 0x00198A4C File Offset: 0x00196E4C
 		public static IEnumerable<CreditsEntry> AllCredits()
 		{
 			yield return new CreditRecord_Space(200f);

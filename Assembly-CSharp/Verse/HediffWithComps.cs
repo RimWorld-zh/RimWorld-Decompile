@@ -6,14 +6,14 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D26 RID: 3366
+	// Token: 0x02000D27 RID: 3367
 	public class HediffWithComps : Hediff
 	{
-		// Token: 0x04003238 RID: 12856
+		// Token: 0x0400323F RID: 12863
 		public List<HediffComp> comps = new List<HediffComp>();
 
 		// Token: 0x17000BC9 RID: 3017
-		// (get) Token: 0x06004A28 RID: 18984 RVA: 0x000AAF5C File Offset: 0x000A935C
+		// (get) Token: 0x06004A28 RID: 18984 RVA: 0x000AB15C File Offset: 0x000A955C
 		public override string LabelInBrackets
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000BCA RID: 3018
-		// (get) Token: 0x06004A29 RID: 18985 RVA: 0x000AAFF4 File Offset: 0x000A93F4
+		// (get) Token: 0x06004A29 RID: 18985 RVA: 0x000AB1F4 File Offset: 0x000A95F4
 		public override bool ShouldRemove
 		{
 			get
@@ -60,7 +60,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000BCB RID: 3019
-		// (get) Token: 0x06004A2A RID: 18986 RVA: 0x000AB058 File Offset: 0x000A9458
+		// (get) Token: 0x06004A2A RID: 18986 RVA: 0x000AB258 File Offset: 0x000A9658
 		public override bool Visible
 		{
 			get
@@ -80,7 +80,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000BCC RID: 3020
-		// (get) Token: 0x06004A2B RID: 18987 RVA: 0x000AB0BC File Offset: 0x000A94BC
+		// (get) Token: 0x06004A2B RID: 18987 RVA: 0x000AB2BC File Offset: 0x000A96BC
 		public override string TipStringExtra
 		{
 			get
@@ -103,7 +103,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000BCD RID: 3021
-		// (get) Token: 0x06004A2C RID: 18988 RVA: 0x000AB13C File Offset: 0x000A953C
+		// (get) Token: 0x06004A2C RID: 18988 RVA: 0x000AB33C File Offset: 0x000A973C
 		public override TextureAndColor StateIcon
 		{
 			get
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A2D RID: 18989 RVA: 0x000AB19C File Offset: 0x000A959C
+		// Token: 0x06004A2D RID: 18989 RVA: 0x000AB39C File Offset: 0x000A979C
 		public override void PostAdd(DamageInfo? dinfo)
 		{
 			if (this.comps != null)
@@ -132,7 +132,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A2E RID: 18990 RVA: 0x000AB1E8 File Offset: 0x000A95E8
+		// Token: 0x06004A2E RID: 18990 RVA: 0x000AB3E8 File Offset: 0x000A97E8
 		public override void PostRemoved()
 		{
 			base.PostRemoved();
@@ -145,7 +145,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A2F RID: 18991 RVA: 0x000AB238 File Offset: 0x000A9638
+		// Token: 0x06004A2F RID: 18991 RVA: 0x000AB438 File Offset: 0x000A9838
 		public override void PostTick()
 		{
 			base.PostTick();
@@ -163,7 +163,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A30 RID: 18992 RVA: 0x000AB2AC File Offset: 0x000A96AC
+		// Token: 0x06004A30 RID: 18992 RVA: 0x000AB4AC File Offset: 0x000A98AC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -180,7 +180,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A31 RID: 18993 RVA: 0x000AB310 File Offset: 0x000A9710
+		// Token: 0x06004A31 RID: 18993 RVA: 0x000AB510 File Offset: 0x000A9910
 		public override void Tended(float quality, int batchPosition = 0)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -189,7 +189,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A32 RID: 18994 RVA: 0x000AB350 File Offset: 0x000A9750
+		// Token: 0x06004A32 RID: 18994 RVA: 0x000AB550 File Offset: 0x000A9950
 		public override bool TryMergeWith(Hediff other)
 		{
 			bool result;
@@ -208,7 +208,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A33 RID: 18995 RVA: 0x000AB3AC File Offset: 0x000A97AC
+		// Token: 0x06004A33 RID: 18995 RVA: 0x000AB5AC File Offset: 0x000A99AC
 		public override void Notify_PawnDied()
 		{
 			base.Notify_PawnDied();
@@ -218,7 +218,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A34 RID: 18996 RVA: 0x000AB3F0 File Offset: 0x000A97F0
+		// Token: 0x06004A34 RID: 18996 RVA: 0x000AB5F0 File Offset: 0x000A99F0
 		public override void ModifyChemicalEffect(ChemicalDef chem, ref float effect)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -227,7 +227,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A35 RID: 18997 RVA: 0x000AB430 File Offset: 0x000A9830
+		// Token: 0x06004A35 RID: 18997 RVA: 0x000AB630 File Offset: 0x000A9A30
 		public override void PostMake()
 		{
 			base.PostMake();
@@ -238,7 +238,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A36 RID: 18998 RVA: 0x000AB47C File Offset: 0x000A987C
+		// Token: 0x06004A36 RID: 18998 RVA: 0x000AB67C File Offset: 0x000A9A7C
 		private void InitializeComps()
 		{
 			if (this.def.comps != null)
@@ -254,7 +254,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A37 RID: 18999 RVA: 0x000AB518 File Offset: 0x000A9918
+		// Token: 0x06004A37 RID: 18999 RVA: 0x000AB718 File Offset: 0x000A9B18
 		public override string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

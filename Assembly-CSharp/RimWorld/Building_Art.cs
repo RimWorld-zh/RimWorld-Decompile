@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000670 RID: 1648
 	public class Building_Art : Building
 	{
-		// Token: 0x0600228C RID: 8844 RVA: 0x0012A360 File Offset: 0x00128760
+		// Token: 0x0600228B RID: 8843 RVA: 0x0012A5C8 File Offset: 0x001289C8
 		public override string GetInspectString()
 		{
 			string inspectString = base.GetInspectString();

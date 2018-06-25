@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000AFC RID: 2812
+	// Token: 0x02000AFD RID: 2813
 	public class BodyDef : Def
 	{
-		// Token: 0x04002767 RID: 10087
+		// Token: 0x0400276E RID: 10094
 		public BodyPartRecord corePart = null;
 
-		// Token: 0x04002768 RID: 10088
+		// Token: 0x0400276F RID: 10095
 		[Unsaved]
 		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
 
-		// Token: 0x04002769 RID: 10089
+		// Token: 0x04002770 RID: 10096
 		[Unsaved]
 		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
 
 		// Token: 0x1700095F RID: 2399
-		// (get) Token: 0x06003E55 RID: 15957 RVA: 0x0020D8F8 File Offset: 0x0020BCF8
+		// (get) Token: 0x06003E55 RID: 15957 RVA: 0x0020DBD8 File Offset: 0x0020BFD8
 		public List<BodyPartRecord> AllParts
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000960 RID: 2400
-		// (get) Token: 0x06003E56 RID: 15958 RVA: 0x0020D914 File Offset: 0x0020BD14
+		// (get) Token: 0x06003E56 RID: 15958 RVA: 0x0020DBF4 File Offset: 0x0020BFF4
 		public List<BodyPartRecord> AllPartsVulnerableToFrostbite
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E57 RID: 15959 RVA: 0x0020D930 File Offset: 0x0020BD30
+		// Token: 0x06003E57 RID: 15959 RVA: 0x0020DC10 File Offset: 0x0020C010
 		public IEnumerable<BodyPartRecord> GetPartsWithTag(BodyPartTagDef tag)
 		{
 			for (int i = 0; i < this.AllParts.Count; i++)
@@ -51,7 +51,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E58 RID: 15960 RVA: 0x0020D964 File Offset: 0x0020BD64
+		// Token: 0x06003E58 RID: 15960 RVA: 0x0020DC44 File Offset: 0x0020C044
 		public IEnumerable<BodyPartRecord> GetPartsWithDef(BodyPartDef def)
 		{
 			for (int i = 0; i < this.AllParts.Count; i++)
@@ -65,7 +65,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E59 RID: 15961 RVA: 0x0020D998 File Offset: 0x0020BD98
+		// Token: 0x06003E59 RID: 15961 RVA: 0x0020DC78 File Offset: 0x0020C078
 		public bool HasPartWithTag(BodyPartTagDef tag)
 		{
 			for (int i = 0; i < this.AllParts.Count; i++)
@@ -79,7 +79,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003E5A RID: 15962 RVA: 0x0020D9F8 File Offset: 0x0020BDF8
+		// Token: 0x06003E5A RID: 15962 RVA: 0x0020DCD8 File Offset: 0x0020C0D8
 		public BodyPartRecord GetPartAtIndex(int index)
 		{
 			BodyPartRecord result;
@@ -94,7 +94,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E5B RID: 15963 RVA: 0x0020DA38 File Offset: 0x0020BE38
+		// Token: 0x06003E5B RID: 15963 RVA: 0x0020DD18 File Offset: 0x0020C118
 		public int GetIndexOfPart(BodyPartRecord rec)
 		{
 			for (int i = 0; i < this.cachedAllParts.Count; i++)
@@ -107,7 +107,7 @@ namespace Verse
 			return -1;
 		}
 
-		// Token: 0x06003E5C RID: 15964 RVA: 0x0020DA88 File Offset: 0x0020BE88
+		// Token: 0x06003E5C RID: 15964 RVA: 0x0020DD68 File Offset: 0x0020C168
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -128,7 +128,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E5D RID: 15965 RVA: 0x0020DAB4 File Offset: 0x0020BEB4
+		// Token: 0x06003E5D RID: 15965 RVA: 0x0020DD94 File Offset: 0x0020C194
 		public override void ResolveReferences()
 		{
 			if (this.corePart != null)
@@ -146,7 +146,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E5E RID: 15966 RVA: 0x0020DB38 File Offset: 0x0020BF38
+		// Token: 0x06003E5E RID: 15966 RVA: 0x0020DE18 File Offset: 0x0020C218
 		private void CacheDataRecursive(BodyPartRecord node)
 		{
 			if (node.def == null)

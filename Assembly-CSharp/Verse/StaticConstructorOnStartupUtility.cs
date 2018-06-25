@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FBF RID: 4031
+	// Token: 0x02000FC0 RID: 4032
 	public static class StaticConstructorOnStartupUtility
 	{
-		// Token: 0x04003FBC RID: 16316
+		// Token: 0x04003FC4 RID: 16324
 		public static bool coreStaticAssetsLoaded;
 
-		// Token: 0x0600616F RID: 24943 RVA: 0x00313858 File Offset: 0x00311C58
+		// Token: 0x0600616F RID: 24943 RVA: 0x00313A9C File Offset: 0x00311E9C
 		public static void CallAll()
 		{
 			IEnumerable<Type> enumerable = GenTypes.AllTypesWithAttribute<StaticConstructorOnStartup>();
@@ -24,7 +24,7 @@ namespace Verse
 			StaticConstructorOnStartupUtility.coreStaticAssetsLoaded = true;
 		}
 
-		// Token: 0x06006170 RID: 24944 RVA: 0x003138C0 File Offset: 0x00311CC0
+		// Token: 0x06006170 RID: 24944 RVA: 0x00313B04 File Offset: 0x00311F04
 		public static void ReportProbablyMissingAttributes()
 		{
 			BindingFlags bindingAttr = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;

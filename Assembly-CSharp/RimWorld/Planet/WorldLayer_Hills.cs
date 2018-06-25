@@ -8,25 +8,25 @@ namespace RimWorld.Planet
 	// Token: 0x0200058E RID: 1422
 	public class WorldLayer_Hills : WorldLayer
 	{
-		// Token: 0x04000FFC RID: 4092
+		// Token: 0x04001000 RID: 4096
 		private static readonly FloatRange BaseSizeRange = new FloatRange(0.9f, 1.1f);
 
-		// Token: 0x04000FFD RID: 4093
+		// Token: 0x04001001 RID: 4097
 		private static readonly IntVec2 TexturesInAtlas = new IntVec2(2, 2);
 
-		// Token: 0x04000FFE RID: 4094
+		// Token: 0x04001002 RID: 4098
 		private static readonly FloatRange BasePosOffsetRange_SmallHills = new FloatRange(0f, 0.37f);
 
-		// Token: 0x04000FFF RID: 4095
+		// Token: 0x04001003 RID: 4099
 		private static readonly FloatRange BasePosOffsetRange_LargeHills = new FloatRange(0f, 0.2f);
 
-		// Token: 0x04001000 RID: 4096
+		// Token: 0x04001004 RID: 4100
 		private static readonly FloatRange BasePosOffsetRange_Mountains = new FloatRange(0f, 0.08f);
 
-		// Token: 0x04001001 RID: 4097
+		// Token: 0x04001005 RID: 4101
 		private static readonly FloatRange BasePosOffsetRange_ImpassableMountains = new FloatRange(0f, 0.08f);
 
-		// Token: 0x06001B29 RID: 6953 RVA: 0x000E9528 File Offset: 0x000E7928
+		// Token: 0x06001B28 RID: 6952 RVA: 0x000E9790 File Offset: 0x000E7B90
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

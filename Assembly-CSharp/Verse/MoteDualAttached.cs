@@ -2,27 +2,27 @@
 
 namespace Verse
 {
-	// Token: 0x02000DEA RID: 3562
+	// Token: 0x02000DEB RID: 3563
 	public class MoteDualAttached : Mote
 	{
-		// Token: 0x040034E4 RID: 13540
+		// Token: 0x040034EB RID: 13547
 		protected MoteAttachLink link2 = MoteAttachLink.Invalid;
 
-		// Token: 0x06004FD8 RID: 20440 RVA: 0x001434CB File Offset: 0x001418CB
+		// Token: 0x06004FD8 RID: 20440 RVA: 0x0014372B File Offset: 0x00141B2B
 		public void Attach(TargetInfo a, TargetInfo b)
 		{
 			this.link1 = new MoteAttachLink(a);
 			this.link2 = new MoteAttachLink(b);
 		}
 
-		// Token: 0x06004FD9 RID: 20441 RVA: 0x001434E6 File Offset: 0x001418E6
+		// Token: 0x06004FD9 RID: 20441 RVA: 0x00143746 File Offset: 0x00141B46
 		public override void Draw()
 		{
 			this.UpdatePositionAndRotation();
 			base.Draw();
 		}
 
-		// Token: 0x06004FDA RID: 20442 RVA: 0x001434F8 File Offset: 0x001418F8
+		// Token: 0x06004FDA RID: 20442 RVA: 0x00143758 File Offset: 0x00141B58
 		protected void UpdatePositionAndRotation()
 		{
 			if (this.link1.Linked)

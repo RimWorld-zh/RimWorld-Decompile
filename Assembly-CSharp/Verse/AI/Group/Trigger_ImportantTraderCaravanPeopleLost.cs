@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A2B RID: 2603
+	// Token: 0x02000A2C RID: 2604
 	public class Trigger_ImportantTraderCaravanPeopleLost : Trigger
 	{
-		// Token: 0x060039D6 RID: 14806 RVA: 0x001E8E78 File Offset: 0x001E7278
+		// Token: 0x060039D7 RID: 14807 RVA: 0x001E91A4 File Offset: 0x001E75A4
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.PawnLost && (signal.condition == PawnLostCondition.IncappedOrKilled || signal.condition == PawnLostCondition.MadePrisoner))

@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x020009C2 RID: 2498
 	public class StatWorker_MarketValue : StatWorker
 	{
-		// Token: 0x040023CC RID: 9164
+		// Token: 0x040023D3 RID: 9171
 		public const float ValuePerWork = 0.0036f;
 
-		// Token: 0x040023CD RID: 9165
+		// Token: 0x040023D4 RID: 9172
 		private const float DefaultGuessStuffCost = 2f;
 
-		// Token: 0x06003803 RID: 14339 RVA: 0x001DD9D4 File Offset: 0x001DBDD4
+		// Token: 0x06003803 RID: 14339 RVA: 0x001DDCA8 File Offset: 0x001DC0A8
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			float result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003804 RID: 14340 RVA: 0x001DDA78 File Offset: 0x001DBE78
+		// Token: 0x06003804 RID: 14340 RVA: 0x001DDD4C File Offset: 0x001DC14C
 		public static RecipeDef CalculableRecipe(BuildableDef def)
 		{
 			if (def.costList.NullOrEmpty<ThingDefCountClass>() && def.costStuffCount <= 0)
@@ -59,7 +59,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003805 RID: 14341 RVA: 0x001DDB50 File Offset: 0x001DBF50
+		// Token: 0x06003805 RID: 14341 RVA: 0x001DDE24 File Offset: 0x001DC224
 		public static float CalculatedMarketValue(BuildableDef def, ThingDef stuffDef)
 		{
 			float num = 0f;
@@ -111,7 +111,7 @@ namespace RimWorld
 			return num / (float)num3;
 		}
 
-		// Token: 0x06003806 RID: 14342 RVA: 0x001DDCD8 File Offset: 0x001DC0D8
+		// Token: 0x06003806 RID: 14342 RVA: 0x001DDFAC File Offset: 0x001DC3AC
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			string result;
@@ -138,7 +138,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003807 RID: 14343 RVA: 0x001DDDB8 File Offset: 0x001DC1B8
+		// Token: 0x06003807 RID: 14343 RVA: 0x001DE08C File Offset: 0x001DC48C
 		public override bool ShouldShowFor(StatRequest req)
 		{
 			ThingDef thingDef = req.Def as ThingDef;

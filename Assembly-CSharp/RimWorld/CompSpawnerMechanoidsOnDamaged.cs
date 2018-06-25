@@ -11,19 +11,19 @@ namespace RimWorld
 	// Token: 0x0200073C RID: 1852
 	public class CompSpawnerMechanoidsOnDamaged : ThingComp
 	{
-		// Token: 0x04001661 RID: 5729
+		// Token: 0x04001665 RID: 5733
 		public float pointsLeft;
 
-		// Token: 0x04001662 RID: 5730
+		// Token: 0x04001666 RID: 5734
 		private Lord lord;
 
-		// Token: 0x04001663 RID: 5731
+		// Token: 0x04001667 RID: 5735
 		private const float MechanoidsDefendRadius = 21f;
 
-		// Token: 0x04001664 RID: 5732
+		// Token: 0x04001668 RID: 5736
 		public static readonly string MemoDamaged = "ShipPartDamaged";
 
-		// Token: 0x060028E6 RID: 10470 RVA: 0x0015CE43 File Offset: 0x0015B243
+		// Token: 0x060028E5 RID: 10469 RVA: 0x0015D0A3 File Offset: 0x0015B4A3
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -31,7 +31,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.pointsLeft, "mechanoidPointsLeft", 0f, false);
 		}
 
-		// Token: 0x060028E7 RID: 10471 RVA: 0x0015CE74 File Offset: 0x0015B274
+		// Token: 0x060028E6 RID: 10470 RVA: 0x0015D0D4 File Offset: 0x0015B4D4
 		public override void PostPreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PostPreApplyDamage(dinfo, out absorbed);
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028E8 RID: 10472 RVA: 0x0015CF31 File Offset: 0x0015B331
+		// Token: 0x060028E7 RID: 10471 RVA: 0x0015D191 File Offset: 0x0015B591
 		public void Notify_BlueprintReplacedWithSolidThingNearby(Pawn by)
 		{
 			if (by.Faction != Faction.OfMechanoids)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028E9 RID: 10473 RVA: 0x0015CF4C File Offset: 0x0015B34C
+		// Token: 0x060028E8 RID: 10472 RVA: 0x0015D1AC File Offset: 0x0015B5AC
 		private void TrySpawnMechanoids()
 		{
 			if (this.pointsLeft > 0f)
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028EA RID: 10474 RVA: 0x0015D144 File Offset: 0x0015B544
+		// Token: 0x060028E9 RID: 10473 RVA: 0x0015D3A4 File Offset: 0x0015B7A4
 		private bool CanSpawnMechanoidAt(IntVec3 c)
 		{
 			return c.Walkable(this.parent.Map);

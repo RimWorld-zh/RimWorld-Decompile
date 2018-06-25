@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D87 RID: 3463
+	// Token: 0x02000D88 RID: 3464
 	public class CaseInsensitiveXMLParsing : Attribute
 	{
 	}

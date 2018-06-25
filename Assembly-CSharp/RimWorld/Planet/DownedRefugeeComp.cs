@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class DownedRefugeeComp : ImportantPawnComp, IThingHolder
 	{
 		// Token: 0x170004BB RID: 1211
-		// (get) Token: 0x06001FCA RID: 8138 RVA: 0x00112478 File Offset: 0x00110878
+		// (get) Token: 0x06001FC9 RID: 8137 RVA: 0x001126E0 File Offset: 0x00110AE0
 		protected override string PawnSaveKey
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FCB RID: 8139 RVA: 0x00112494 File Offset: 0x00110894
+		// Token: 0x06001FCA RID: 8138 RVA: 0x001126FC File Offset: 0x00110AFC
 		protected override void RemovePawnOnWorldObjectRemoved()
 		{
 			if (this.pawn.Any)
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FCC RID: 8140 RVA: 0x00112518 File Offset: 0x00110918
+		// Token: 0x06001FCB RID: 8139 RVA: 0x00112780 File Offset: 0x00110B80
 		public override string CompInspectStringExtra()
 		{
 			string result;

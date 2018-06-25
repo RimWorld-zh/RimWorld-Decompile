@@ -8,7 +8,7 @@ namespace RimWorld
 	public class StorytellerComp_SingleMTB : StorytellerComp
 	{
 		// Token: 0x17000225 RID: 549
-		// (get) Token: 0x06000F4C RID: 3916 RVA: 0x00081870 File Offset: 0x0007FC70
+		// (get) Token: 0x06000F4B RID: 3915 RVA: 0x00081880 File Offset: 0x0007FC80
 		private StorytellerCompProperties_SingleMTB Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F4D RID: 3917 RVA: 0x00081890 File Offset: 0x0007FC90
+		// Token: 0x06000F4C RID: 3916 RVA: 0x000818A0 File Offset: 0x0007FCA0
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (!this.Props.incident.TargetAllowed(target))
@@ -35,7 +35,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F4E RID: 3918 RVA: 0x000818C4 File Offset: 0x0007FCC4
+		// Token: 0x06000F4D RID: 3917 RVA: 0x000818D4 File Offset: 0x0007FCD4
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.incident;

@@ -2,10 +2,10 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A1F RID: 2591
+	// Token: 0x02000A20 RID: 2592
 	public class Trigger_PawnCanReachMapEdge : Trigger
 	{
-		// Token: 0x060039BE RID: 14782 RVA: 0x001E8974 File Offset: 0x001E6D74
+		// Token: 0x060039BF RID: 14783 RVA: 0x001E8CA0 File Offset: 0x001E70A0
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;

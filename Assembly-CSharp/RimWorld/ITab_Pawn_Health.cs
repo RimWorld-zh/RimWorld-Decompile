@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000850 RID: 2128
 	public class ITab_Pawn_Health : ITab
 	{
-		// Token: 0x04001A18 RID: 6680
+		// Token: 0x04001A1C RID: 6684
 		private const int HideBloodLossTicksThreshold = 60000;
 
-		// Token: 0x04001A19 RID: 6681
+		// Token: 0x04001A1D RID: 6685
 		public const float Width = 630f;
 
-		// Token: 0x0600303C RID: 12348 RVA: 0x001A416C File Offset: 0x001A256C
+		// Token: 0x0600303B RID: 12347 RVA: 0x001A43D4 File Offset: 0x001A27D4
 		public ITab_Pawn_Health()
 		{
 			this.size = new Vector2(630f, 430f);
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B2 RID: 1970
-		// (get) Token: 0x0600303D RID: 12349 RVA: 0x001A41A0 File Offset: 0x001A25A0
+		// (get) Token: 0x0600303C RID: 12348 RVA: 0x001A4408 File Offset: 0x001A2808
 		private Pawn PawnForHealth
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600303E RID: 12350 RVA: 0x001A41EC File Offset: 0x001A25EC
+		// Token: 0x0600303D RID: 12349 RVA: 0x001A4454 File Offset: 0x001A2854
 		protected override void FillTab()
 		{
 			Pawn pawnForHealth = this.PawnForHealth;
@@ -65,7 +65,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600303F RID: 12351 RVA: 0x001A427C File Offset: 0x001A267C
+		// Token: 0x0600303E RID: 12350 RVA: 0x001A44E4 File Offset: 0x001A28E4
 		private bool ShouldAllowOperations()
 		{
 			Pawn pawnForHealth = this.PawnForHealth;

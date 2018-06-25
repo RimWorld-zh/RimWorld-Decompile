@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E41 RID: 3649
+	// Token: 0x02000E42 RID: 3650
 	[AttributeUsage(AttributeTargets.Field)]
 	public class UnsavedAttribute : Attribute
 	{

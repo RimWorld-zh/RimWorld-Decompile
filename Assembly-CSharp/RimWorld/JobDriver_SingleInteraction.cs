@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x0200007E RID: 126
 	public class JobDriver_SingleInteraction : JobDriver
 	{
-		// Token: 0x04000236 RID: 566
+		// Token: 0x04000237 RID: 567
 		private const TargetIndex OtherPawnInd = TargetIndex.A;
 
 		// Token: 0x170000B0 RID: 176
-		// (get) Token: 0x06000358 RID: 856 RVA: 0x00025248 File Offset: 0x00023648
+		// (get) Token: 0x06000358 RID: 856 RVA: 0x00025264 File Offset: 0x00023664
 		private Pawn OtherPawn
 		{
 			get
@@ -21,13 +21,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000359 RID: 857 RVA: 0x00025278 File Offset: 0x00023678
+		// Token: 0x06000359 RID: 857 RVA: 0x00025294 File Offset: 0x00023694
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x0600035A RID: 858 RVA: 0x00025290 File Offset: 0x00023690
+		// Token: 0x0600035A RID: 858 RVA: 0x000252AC File Offset: 0x000236AC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);

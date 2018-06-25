@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200046B RID: 1131
 	internal class Recipe_RemoveBodyPart : Recipe_Surgery
 	{
-		// Token: 0x060013DB RID: 5083 RVA: 0x000AD0F4 File Offset: 0x000AB4F4
+		// Token: 0x060013DA RID: 5082 RVA: 0x000AD2F4 File Offset: 0x000AB6F4
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null);
@@ -34,13 +34,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013DC RID: 5084 RVA: 0x000AD120 File Offset: 0x000AB520
+		// Token: 0x060013DB RID: 5083 RVA: 0x000AD320 File Offset: 0x000AB720
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
 			return pawn.Faction != billDoerFaction && pawn.Faction != null && HealthUtility.PartRemovalIntent(pawn, part) == BodyPartRemovalIntent.Harvest;
 		}
 
-		// Token: 0x060013DD RID: 5085 RVA: 0x000AD168 File Offset: 0x000AB568
+		// Token: 0x060013DC RID: 5084 RVA: 0x000AD368 File Offset: 0x000AB768
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			bool flag = MedicalRecipesUtility.IsClean(pawn, part);
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013DE RID: 5086 RVA: 0x000AD29C File Offset: 0x000AB69C
+		// Token: 0x060013DD RID: 5085 RVA: 0x000AD49C File Offset: 0x000AB89C
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
 			string result;

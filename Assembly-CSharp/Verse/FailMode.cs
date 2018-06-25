@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000D88 RID: 3464
+	// Token: 0x02000D89 RID: 3465
 	public enum FailMode : byte
 	{
-		// Token: 0x040033B4 RID: 13236
+		// Token: 0x040033BB RID: 13243
 		Silent,
-		// Token: 0x040033B5 RID: 13237
+		// Token: 0x040033BC RID: 13244
 		LogErrors
 	}
 }

@@ -4,25 +4,25 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A58 RID: 2648
+	// Token: 0x02000A59 RID: 2649
 	public static class InsultingSpreeMentalStateUtility
 	{
-		// Token: 0x04002542 RID: 9538
+		// Token: 0x04002552 RID: 9554
 		private const int MaxRegionsToSearch = 40;
 
-		// Token: 0x04002543 RID: 9539
+		// Token: 0x04002553 RID: 9555
 		public const int MaxDistance = 40;
 
-		// Token: 0x04002544 RID: 9540
+		// Token: 0x04002554 RID: 9556
 		public const int MinTicksBetweenInsults = 1200;
 
-		// Token: 0x06003AF5 RID: 15093 RVA: 0x001F49FC File Offset: 0x001F2DFC
+		// Token: 0x06003AF6 RID: 15094 RVA: 0x001F4D28 File Offset: 0x001F3128
 		public static bool CanChaseAndInsult(Pawn bully, Pawn insulted, bool skipReachabilityCheck = false, bool allowPrisoners = true)
 		{
 			return insulted.RaceProps.Humanlike && (insulted.Faction == bully.Faction || (allowPrisoners && insulted.HostFaction == bully.Faction)) && insulted != bully && !insulted.Dead && !insulted.Downed && insulted.Spawned && insulted.Awake() && insulted.Position.InHorDistOf(bully.Position, 40f) && InteractionUtility.CanReceiveInteraction(insulted) && !insulted.HostileTo(bully) && Find.TickManager.TicksGame - insulted.mindState.lastHarmTick >= 833 && (skipReachabilityCheck || bully.CanReach(insulted, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn));
 		}
 
-		// Token: 0x06003AF6 RID: 15094 RVA: 0x001F4AF0 File Offset: 0x001F2EF0
+		// Token: 0x06003AF7 RID: 15095 RVA: 0x001F4E1C File Offset: 0x001F321C
 		public static void GetInsultCandidatesFor(Pawn bully, List<Pawn> outCandidates, bool allowPrisoners = true)
 		{
 			outCandidates.Clear();

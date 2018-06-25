@@ -8,13 +8,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D4 RID: 980
 	public class SymbolResolver_Stockpile : SymbolResolver
 	{
-		// Token: 0x04000A41 RID: 2625
+		// Token: 0x04000A44 RID: 2628
 		private List<IntVec3> cells = new List<IntVec3>();
 
-		// Token: 0x04000A42 RID: 2626
+		// Token: 0x04000A45 RID: 2629
 		private const float FreeCellsFraction = 0.45f;
 
-		// Token: 0x060010DD RID: 4317 RVA: 0x0008FA90 File Offset: 0x0008DE90
+		// Token: 0x060010DC RID: 4316 RVA: 0x0008FAA0 File Offset: 0x0008DEA0
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -71,7 +71,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010DE RID: 4318 RVA: 0x0008FD34 File Offset: 0x0008E134
+		// Token: 0x060010DD RID: 4317 RVA: 0x0008FD44 File Offset: 0x0008E144
 		private void CalculateFreeCells(CellRect rect, float freeCellsFraction)
 		{
 			Map map = BaseGen.globalSettings.map;

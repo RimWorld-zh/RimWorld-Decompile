@@ -7,25 +7,25 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D01 RID: 3329
+	// Token: 0x02000D02 RID: 3330
 	public static class HealthUtility
 	{
-		// Token: 0x040031CD RID: 12749
+		// Token: 0x040031D4 RID: 12756
 		public static readonly Color GoodConditionColor = new Color(0.6f, 0.8f, 0.65f);
 
-		// Token: 0x040031CE RID: 12750
+		// Token: 0x040031D5 RID: 12757
 		public static readonly Color DarkRedColor = new Color(0.73f, 0.02f, 0.02f);
 
-		// Token: 0x040031CF RID: 12751
+		// Token: 0x040031D6 RID: 12758
 		public static readonly Color ImpairedColor = new Color(0.9f, 0.7f, 0f);
 
-		// Token: 0x040031D0 RID: 12752
+		// Token: 0x040031D7 RID: 12759
 		public static readonly Color SlightlyImpairedColor = new Color(0.9f, 0.9f, 0f);
 
-		// Token: 0x040031D1 RID: 12753
+		// Token: 0x040031D8 RID: 12760
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 
-		// Token: 0x06004941 RID: 18753 RVA: 0x00267F10 File Offset: 0x00266310
+		// Token: 0x06004941 RID: 18753 RVA: 0x002681F0 File Offset: 0x002665F0
 		public static string GetGeneralConditionLabel(Pawn pawn, bool shortVersion = false)
 		{
 			string result;
@@ -75,7 +75,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004942 RID: 18754 RVA: 0x00268074 File Offset: 0x00266474
+		// Token: 0x06004942 RID: 18754 RVA: 0x00268354 File Offset: 0x00266754
 		public static Pair<string, Color> GetPartConditionLabel(Pawn pawn, BodyPartRecord part)
 		{
 			float partHealth = pawn.health.hediffSet.GetPartHealth(part);
@@ -135,7 +135,7 @@ namespace Verse
 			return new Pair<string, Color>(first, second);
 		}
 
-		// Token: 0x06004943 RID: 18755 RVA: 0x00268218 File Offset: 0x00266618
+		// Token: 0x06004943 RID: 18755 RVA: 0x002684F8 File Offset: 0x002668F8
 		public static string GetGeneralDestroyedPartLabel(BodyPartRecord part, bool fresh, bool solid)
 		{
 			string result;
@@ -161,7 +161,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004944 RID: 18756 RVA: 0x0026828C File Offset: 0x0026668C
+		// Token: 0x06004944 RID: 18756 RVA: 0x0026856C File Offset: 0x0026696C
 		private static IEnumerable<BodyPartRecord> HittablePartsViolence(HediffSet bodyModel)
 		{
 			return from x in bodyModel.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
@@ -169,25 +169,25 @@ namespace Verse
 			select x;
 		}
 
-		// Token: 0x06004945 RID: 18757 RVA: 0x002682CD File Offset: 0x002666CD
+		// Token: 0x06004945 RID: 18757 RVA: 0x002685AD File Offset: 0x002669AD
 		public static void GiveInjuriesOperationFailureMinor(Pawn p, BodyPartRecord part)
 		{
 			HealthUtility.GiveRandomSurgeryInjuries(p, 20, part);
 		}
 
-		// Token: 0x06004946 RID: 18758 RVA: 0x002682D9 File Offset: 0x002666D9
+		// Token: 0x06004946 RID: 18758 RVA: 0x002685B9 File Offset: 0x002669B9
 		public static void GiveInjuriesOperationFailureCatastrophic(Pawn p, BodyPartRecord part)
 		{
 			HealthUtility.GiveRandomSurgeryInjuries(p, 65, part);
 		}
 
-		// Token: 0x06004947 RID: 18759 RVA: 0x002682E5 File Offset: 0x002666E5
+		// Token: 0x06004947 RID: 18759 RVA: 0x002685C5 File Offset: 0x002669C5
 		public static void GiveInjuriesOperationFailureRidiculous(Pawn p)
 		{
 			HealthUtility.GiveRandomSurgeryInjuries(p, 65, null);
 		}
 
-		// Token: 0x06004948 RID: 18760 RVA: 0x002682F4 File Offset: 0x002666F4
+		// Token: 0x06004948 RID: 18760 RVA: 0x002685D4 File Offset: 0x002669D4
 		public static void HealNonPermanentInjuriesAndRestoreLegs(Pawn p)
 		{
 			if (!p.Dead)
@@ -214,7 +214,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004949 RID: 18761 RVA: 0x00268418 File Offset: 0x00266818
+		// Token: 0x06004949 RID: 18761 RVA: 0x002686F8 File Offset: 0x00266AF8
 		private static void GiveRandomSurgeryInjuries(Pawn p, int totalDamage, BodyPartRecord operatedPart)
 		{
 			IEnumerable<BodyPartRecord> source;
@@ -271,7 +271,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600494A RID: 18762 RVA: 0x002686A4 File Offset: 0x00266AA4
+		// Token: 0x0600494A RID: 18762 RVA: 0x00268984 File Offset: 0x00266D84
 		private static float GetMinHealthOfPartsWeWantToAvoidDestroying(BodyPartRecord part, Pawn pawn)
 		{
 			float num = 999999f;
@@ -286,7 +286,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x0600494B RID: 18763 RVA: 0x002686FC File Offset: 0x00266AFC
+		// Token: 0x0600494B RID: 18763 RVA: 0x002689DC File Offset: 0x00266DDC
 		private static bool ShouldRandomSurgeryInjuriesAvoidDestroying(BodyPartRecord part, Pawn pawn)
 		{
 			bool result;
@@ -312,7 +312,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600494C RID: 18764 RVA: 0x002687A4 File Offset: 0x00266BA4
+		// Token: 0x0600494C RID: 18764 RVA: 0x00268A84 File Offset: 0x00266E84
 		public static void DamageUntilDowned(Pawn p)
 		{
 			if (!p.health.Downed)
@@ -366,7 +366,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600494D RID: 18765 RVA: 0x002689E0 File Offset: 0x00266DE0
+		// Token: 0x0600494D RID: 18765 RVA: 0x00268CC0 File Offset: 0x002670C0
 		public static void DamageUntilDead(Pawn p)
 		{
 			HediffSet hediffSet = p.health.hediffSet;
@@ -397,7 +397,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600494E RID: 18766 RVA: 0x00268AC4 File Offset: 0x00266EC4
+		// Token: 0x0600494E RID: 18766 RVA: 0x00268DA4 File Offset: 0x002671A4
 		public static void DamageLegsUntilIncapableOfMoving(Pawn p)
 		{
 			HediffDef def = Rand.Element<HediffDef>(HediffDefOf.Scratch, HediffDefOf.Bruise, HediffDefOf.Bite, HediffDefOf.Cut);
@@ -428,7 +428,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600494F RID: 18767 RVA: 0x00268C3C File Offset: 0x0026703C
+		// Token: 0x0600494F RID: 18767 RVA: 0x00268F1C File Offset: 0x0026731C
 		public static DamageDef RandomViolenceDamageType()
 		{
 			DamageDef result;
@@ -456,7 +456,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004950 RID: 18768 RVA: 0x00268CB0 File Offset: 0x002670B0
+		// Token: 0x06004950 RID: 18768 RVA: 0x00268F90 File Offset: 0x00267390
 		public static HediffDef GetHediffDefFromDamage(DamageDef dam, Pawn pawn, BodyPartRecord part)
 		{
 			HediffDef result = dam.hediff;
@@ -471,7 +471,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004951 RID: 18769 RVA: 0x00268D30 File Offset: 0x00267130
+		// Token: 0x06004951 RID: 18769 RVA: 0x00269010 File Offset: 0x00267410
 		public static bool TryAnesthetize(Pawn pawn)
 		{
 			bool result;
@@ -489,7 +489,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004952 RID: 18770 RVA: 0x00268D94 File Offset: 0x00267194
+		// Token: 0x06004952 RID: 18770 RVA: 0x00269074 File Offset: 0x00267474
 		public static void AdjustSeverity(Pawn pawn, HediffDef hdDef, float sevOffset)
 		{
 			if (sevOffset != 0f)
@@ -508,7 +508,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004953 RID: 18771 RVA: 0x00268E18 File Offset: 0x00267218
+		// Token: 0x06004953 RID: 18771 RVA: 0x002690F8 File Offset: 0x002674F8
 		public static BodyPartRemovalIntent PartRemovalIntent(Pawn pawn, BodyPartRecord part)
 		{
 			BodyPartRemovalIntent result;
@@ -523,7 +523,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004954 RID: 18772 RVA: 0x00268E68 File Offset: 0x00267268
+		// Token: 0x06004954 RID: 18772 RVA: 0x00269148 File Offset: 0x00267548
 		public static int TicksUntilDeathDueToBloodLoss(Pawn pawn)
 		{
 			Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);

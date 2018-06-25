@@ -6,16 +6,16 @@ namespace RimWorld
 	[DefOf]
 	public static class FleshTypeDefOf
 	{
-		// Token: 0x04002298 RID: 8856
+		// Token: 0x0400229F RID: 8863
 		public static FleshTypeDef Normal;
 
-		// Token: 0x04002299 RID: 8857
+		// Token: 0x040022A0 RID: 8864
 		public static FleshTypeDef Mechanoid;
 
-		// Token: 0x0400229A RID: 8858
+		// Token: 0x040022A1 RID: 8865
 		public static FleshTypeDef Insectoid;
 
-		// Token: 0x06003660 RID: 13920 RVA: 0x001D0E75 File Offset: 0x001CF275
+		// Token: 0x06003660 RID: 13920 RVA: 0x001D1149 File Offset: 0x001CF549
 		static FleshTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(FleshTypeDefOf));

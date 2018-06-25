@@ -6,13 +6,13 @@ namespace RimWorld
 	[DefOf]
 	public static class StorytellerDefOf
 	{
-		// Token: 0x0400204B RID: 8267
+		// Token: 0x04002052 RID: 8274
 		public static StorytellerDef Cassandra;
 
-		// Token: 0x0400204C RID: 8268
+		// Token: 0x04002053 RID: 8275
 		public static StorytellerDef Tutor;
 
-		// Token: 0x0600363E RID: 13886 RVA: 0x001D0C11 File Offset: 0x001CF011
+		// Token: 0x0600363E RID: 13886 RVA: 0x001D0EE5 File Offset: 0x001CF2E5
 		static StorytellerDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(StorytellerDefOf));

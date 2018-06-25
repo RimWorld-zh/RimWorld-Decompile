@@ -6,10 +6,10 @@ namespace RimWorld
 	// Token: 0x02000721 RID: 1825
 	public class CompMelter : ThingComp
 	{
-		// Token: 0x040015FB RID: 5627
+		// Token: 0x040015FF RID: 5631
 		private const float MeltPerIntervalPer10Degrees = 0.15f;
 
-		// Token: 0x06002837 RID: 10295 RVA: 0x00157BE0 File Offset: 0x00155FE0
+		// Token: 0x06002836 RID: 10294 RVA: 0x00157E40 File Offset: 0x00156240
 		public override void CompTickRare()
 		{
 			float ambientTemperature = this.parent.AmbientTemperature;

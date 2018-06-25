@@ -9,17 +9,17 @@ namespace RimWorld
 	// Token: 0x02000499 RID: 1177
 	public static class PawnsArrivalModeWorkerUtility
 	{
-		// Token: 0x04000C98 RID: 3224
+		// Token: 0x04000C9B RID: 3227
 		private const int MaxGroupsCount = 3;
 
-		// Token: 0x0600150D RID: 5389 RVA: 0x000B9560 File Offset: 0x000B7960
+		// Token: 0x0600150C RID: 5388 RVA: 0x000B9760 File Offset: 0x000B7B60
 		public static void DropInDropPodsNearSpawnCenter(IncidentParms parms, List<Pawn> pawns)
 		{
 			Map map = (Map)parms.target;
 			DropPodUtility.DropThingsNear(parms.spawnCenter, map, pawns.Cast<Thing>(), parms.podOpenDelay, false, true, true, false);
 		}
 
-		// Token: 0x0600150E RID: 5390 RVA: 0x000B9598 File Offset: 0x000B7998
+		// Token: 0x0600150D RID: 5389 RVA: 0x000B9798 File Offset: 0x000B7B98
 		public static List<Pair<List<Pawn>, IntVec3>> SplitIntoRandomGroupsNearMapEdge(List<Pawn> pawns, Map map, bool arriveInPods)
 		{
 			List<Pair<List<Pawn>, IntVec3>> list = new List<Pair<List<Pawn>, IntVec3>>();
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600150F RID: 5391 RVA: 0x000B966C File Offset: 0x000B7A6C
+		// Token: 0x0600150E RID: 5390 RVA: 0x000B986C File Offset: 0x000B7C6C
 		private static IntVec3 FindNewMapEdgeGroupCenter(Map map, List<Pair<List<Pawn>, IntVec3>> groups, bool arriveInPods)
 		{
 			IntVec3 result = IntVec3.Invalid;
@@ -91,7 +91,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001510 RID: 5392 RVA: 0x000B974C File Offset: 0x000B7B4C
+		// Token: 0x0600150F RID: 5391 RVA: 0x000B994C File Offset: 0x000B7D4C
 		private static int GetMaxGroupsCount(int pawnsCount)
 		{
 			int result;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001511 RID: 5393 RVA: 0x000B977C File Offset: 0x000B7B7C
+		// Token: 0x06001510 RID: 5392 RVA: 0x000B997C File Offset: 0x000B7D7C
 		public static void SetPawnGroupsInfo(IncidentParms parms, List<Pair<List<Pawn>, IntVec3>> groups)
 		{
 			parms.pawnGroups = new Dictionary<Pawn, int>();

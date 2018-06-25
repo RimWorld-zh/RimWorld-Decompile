@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020004AF RID: 1199
 	public static class ResurrectionUtility
 	{
-		// Token: 0x04000C9D RID: 3229
+		// Token: 0x04000CA0 RID: 3232
 		private static SimpleCurve DementiaChancePerRotDaysCurve = new SimpleCurve
 		{
 			{
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000C9E RID: 3230
+		// Token: 0x04000CA1 RID: 3233
 		private static SimpleCurve BlindnessChancePerRotDaysCurve = new SimpleCurve
 		{
 			{
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000C9F RID: 3231
+		// Token: 0x04000CA2 RID: 3234
 		private static SimpleCurve ResurrectionPsychosisChancePerRotDaysCurve = new SimpleCurve
 		{
 			{
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06001561 RID: 5473 RVA: 0x000BDB18 File Offset: 0x000BBF18
+		// Token: 0x06001560 RID: 5472 RVA: 0x000BDD18 File Offset: 0x000BC118
 		public static void Resurrect(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -113,7 +113,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001562 RID: 5474 RVA: 0x000BDCFC File Offset: 0x000BC0FC
+		// Token: 0x06001561 RID: 5473 RVA: 0x000BDEFC File Offset: 0x000BC2FC
 		public static void ResurrectWithSideEffects(Pawn pawn)
 		{
 			Corpse corpse = pawn.Corpse;

@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x020009D0 RID: 2512
 	public static class VersionControl
 	{
-		// Token: 0x04002403 RID: 9219
+		// Token: 0x0400240A RID: 9226
 		private static Version version;
 
-		// Token: 0x04002404 RID: 9220
+		// Token: 0x0400240B RID: 9227
 		private static string versionString;
 
-		// Token: 0x04002405 RID: 9221
+		// Token: 0x0400240C RID: 9228
 		private static string versionStringWithRev;
 
-		// Token: 0x04002406 RID: 9222
+		// Token: 0x0400240D RID: 9229
 		private static DateTime buildDate;
 
-		// Token: 0x0600384D RID: 14413 RVA: 0x001E0304 File Offset: 0x001DE704
+		// Token: 0x0600384D RID: 14413 RVA: 0x001E05D8 File Offset: 0x001DE9D8
 		static VersionControl()
 		{
 			Version version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A3 RID: 2211
-		// (get) Token: 0x0600384E RID: 14414 RVA: 0x001E043C File Offset: 0x001DE83C
+		// (get) Token: 0x0600384E RID: 14414 RVA: 0x001E0710 File Offset: 0x001DEB10
 		public static Version CurrentVersion
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A4 RID: 2212
-		// (get) Token: 0x0600384F RID: 14415 RVA: 0x001E0458 File Offset: 0x001DE858
+		// (get) Token: 0x0600384F RID: 14415 RVA: 0x001E072C File Offset: 0x001DEB2C
 		public static string CurrentVersionString
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A5 RID: 2213
-		// (get) Token: 0x06003850 RID: 14416 RVA: 0x001E0474 File Offset: 0x001DE874
+		// (get) Token: 0x06003850 RID: 14416 RVA: 0x001E0748 File Offset: 0x001DEB48
 		public static string CurrentVersionStringWithRev
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A6 RID: 2214
-		// (get) Token: 0x06003851 RID: 14417 RVA: 0x001E0490 File Offset: 0x001DE890
+		// (get) Token: 0x06003851 RID: 14417 RVA: 0x001E0764 File Offset: 0x001DEB64
 		public static int CurrentMajor
 		{
 			get
@@ -91,7 +91,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A7 RID: 2215
-		// (get) Token: 0x06003852 RID: 14418 RVA: 0x001E04B0 File Offset: 0x001DE8B0
+		// (get) Token: 0x06003852 RID: 14418 RVA: 0x001E0784 File Offset: 0x001DEB84
 		public static int CurrentMinor
 		{
 			get
@@ -101,7 +101,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A8 RID: 2216
-		// (get) Token: 0x06003853 RID: 14419 RVA: 0x001E04D0 File Offset: 0x001DE8D0
+		// (get) Token: 0x06003853 RID: 14419 RVA: 0x001E07A4 File Offset: 0x001DEBA4
 		public static int CurrentBuild
 		{
 			get
@@ -111,7 +111,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A9 RID: 2217
-		// (get) Token: 0x06003854 RID: 14420 RVA: 0x001E04F0 File Offset: 0x001DE8F0
+		// (get) Token: 0x06003854 RID: 14420 RVA: 0x001E07C4 File Offset: 0x001DEBC4
 		public static int CurrentRevision
 		{
 			get
@@ -121,7 +121,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008AA RID: 2218
-		// (get) Token: 0x06003855 RID: 14421 RVA: 0x001E0510 File Offset: 0x001DE910
+		// (get) Token: 0x06003855 RID: 14421 RVA: 0x001E07E4 File Offset: 0x001DEBE4
 		public static DateTime CurrentBuildDate
 		{
 			get
@@ -130,7 +130,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003856 RID: 14422 RVA: 0x001E052C File Offset: 0x001DE92C
+		// Token: 0x06003856 RID: 14422 RVA: 0x001E0800 File Offset: 0x001DEC00
 		public static void DrawInfoInCorner()
 		{
 			Text.Font = GameFont.Small;
@@ -162,13 +162,13 @@ namespace RimWorld
 			component.DrawAt(rect2);
 		}
 
-		// Token: 0x06003857 RID: 14423 RVA: 0x001E0664 File Offset: 0x001DEA64
+		// Token: 0x06003857 RID: 14423 RVA: 0x001E0938 File Offset: 0x001DED38
 		public static void LogVersionNumber()
 		{
 			Log.Message("RimWorld " + VersionControl.versionStringWithRev, false);
 		}
 
-		// Token: 0x06003858 RID: 14424 RVA: 0x001E067C File Offset: 0x001DEA7C
+		// Token: 0x06003858 RID: 14424 RVA: 0x001E0950 File Offset: 0x001DED50
 		public static bool IsWellFormattedVersionString(string str)
 		{
 			string[] array = str.Split(new char[]
@@ -199,7 +199,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003859 RID: 14425 RVA: 0x001E06EC File Offset: 0x001DEAEC
+		// Token: 0x06003859 RID: 14425 RVA: 0x001E09C0 File Offset: 0x001DEDC0
 		public static int BuildFromVersionString(string str)
 		{
 			str = VersionControl.VersionStringWithoutRev(str);
@@ -215,7 +215,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600385A RID: 14426 RVA: 0x001E0748 File Offset: 0x001DEB48
+		// Token: 0x0600385A RID: 14426 RVA: 0x001E0A1C File Offset: 0x001DEE1C
 		public static int MinorFromVersionString(string str)
 		{
 			str = VersionControl.VersionStringWithoutRev(str);
@@ -231,7 +231,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600385B RID: 14427 RVA: 0x001E07A4 File Offset: 0x001DEBA4
+		// Token: 0x0600385B RID: 14427 RVA: 0x001E0A78 File Offset: 0x001DEE78
 		public static int MajorFromVersionString(string str)
 		{
 			str = VersionControl.VersionStringWithoutRev(str);
@@ -246,7 +246,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600385C RID: 14428 RVA: 0x001E07F4 File Offset: 0x001DEBF4
+		// Token: 0x0600385C RID: 14428 RVA: 0x001E0AC8 File Offset: 0x001DEEC8
 		public static string VersionStringWithoutRev(string str)
 		{
 			return str.Split(new char[]
@@ -255,7 +255,7 @@ namespace RimWorld
 			})[0];
 		}
 
-		// Token: 0x0600385D RID: 14429 RVA: 0x001E081C File Offset: 0x001DEC1C
+		// Token: 0x0600385D RID: 14429 RVA: 0x001E0AF0 File Offset: 0x001DEEF0
 		public static Version VersionFromString(string str)
 		{
 			if (str.NullOrEmpty())

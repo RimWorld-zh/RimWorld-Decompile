@@ -3,10 +3,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C84 RID: 3204
+	// Token: 0x02000C85 RID: 3205
 	public static class ReachabilityImmediate
 	{
-		// Token: 0x06004634 RID: 17972 RVA: 0x00250128 File Offset: 0x0024E528
+		// Token: 0x06004634 RID: 17972 RVA: 0x00250408 File Offset: 0x0024E808
 		public static bool CanReachImmediate(IntVec3 start, LocalTargetInfo target, Map map, PathEndMode peMode, Pawn pawn)
 		{
 			bool result;
@@ -64,19 +64,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004635 RID: 17973 RVA: 0x002502D8 File Offset: 0x0024E6D8
+		// Token: 0x06004635 RID: 17973 RVA: 0x002505B8 File Offset: 0x0024E9B8
 		public static bool CanReachImmediate(this Pawn pawn, LocalTargetInfo target, PathEndMode peMode)
 		{
 			return pawn.Spawned && ReachabilityImmediate.CanReachImmediate(pawn.Position, target, pawn.Map, peMode, pawn);
 		}
 
-		// Token: 0x06004636 RID: 17974 RVA: 0x00250314 File Offset: 0x0024E714
+		// Token: 0x06004636 RID: 17974 RVA: 0x002505F4 File Offset: 0x0024E9F4
 		public static bool CanReachImmediateNonLocal(this Pawn pawn, TargetInfo target, PathEndMode peMode)
 		{
 			return pawn.Spawned && (target.Map == null || target.Map == pawn.Map) && pawn.CanReachImmediate((LocalTargetInfo)target, peMode);
 		}
 
-		// Token: 0x06004637 RID: 17975 RVA: 0x00250370 File Offset: 0x0024E770
+		// Token: 0x06004637 RID: 17975 RVA: 0x00250650 File Offset: 0x0024EA50
 		public static bool CanReachImmediate(IntVec3 start, CellRect rect, Map map, PathEndMode peMode, Pawn pawn)
 		{
 			IntVec3 c = rect.ClosestCellTo(start);

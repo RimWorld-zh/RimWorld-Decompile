@@ -5,32 +5,32 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E6F RID: 3695
+	// Token: 0x02000E70 RID: 3696
 	public static class GizmoGridDrawer
 	{
-		// Token: 0x040039A3 RID: 14755
+		// Token: 0x040039AB RID: 14763
 		public static HashSet<KeyCode> drawnHotKeys = new HashSet<KeyCode>();
 
-		// Token: 0x040039A4 RID: 14756
+		// Token: 0x040039AC RID: 14764
 		private static float heightDrawn;
 
-		// Token: 0x040039A5 RID: 14757
+		// Token: 0x040039AD RID: 14765
 		private static int heightDrawnFrame;
 
-		// Token: 0x040039A6 RID: 14758
+		// Token: 0x040039AE RID: 14766
 		private static readonly Vector2 GizmoSpacing = new Vector2(5f, 14f);
 
-		// Token: 0x040039A7 RID: 14759
+		// Token: 0x040039AF RID: 14767
 		private static List<List<Gizmo>> gizmoGroups = new List<List<Gizmo>>();
 
-		// Token: 0x040039A8 RID: 14760
+		// Token: 0x040039B0 RID: 14768
 		private static List<Gizmo> firstGizmos = new List<Gizmo>();
 
-		// Token: 0x040039A9 RID: 14761
+		// Token: 0x040039B1 RID: 14769
 		private static List<Gizmo> tmpAllGizmos = new List<Gizmo>();
 
 		// Token: 0x17000DAB RID: 3499
-		// (get) Token: 0x06005707 RID: 22279 RVA: 0x002CCA64 File Offset: 0x002CAE64
+		// (get) Token: 0x06005707 RID: 22279 RVA: 0x002CCC50 File Offset: 0x002CB050
 		public static float HeightDrawnRecently
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005708 RID: 22280 RVA: 0x002CCA9C File Offset: 0x002CAE9C
+		// Token: 0x06005708 RID: 22280 RVA: 0x002CCC88 File Offset: 0x002CB088
 		public static void DrawGizmoGrid(IEnumerable<Gizmo> gizmos, float startX, out Gizmo mouseoverGizmo)
 		{
 			GizmoGridDrawer.tmpAllGizmos.Clear();

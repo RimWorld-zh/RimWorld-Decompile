@@ -12,10 +12,10 @@ namespace RimWorld
 	[HasDebugOutput]
 	public static class QualityUtility
 	{
-		// Token: 0x0400168B RID: 5771
+		// Token: 0x0400168F RID: 5775
 		public static List<QualityCategory> AllQualityCategories = new List<QualityCategory>();
 
-		// Token: 0x06002959 RID: 10585 RVA: 0x0015F820 File Offset: 0x0015DC20
+		// Token: 0x06002958 RID: 10584 RVA: 0x0015FA80 File Offset: 0x0015DE80
 		static QualityUtility()
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(QualityCategory)).GetEnumerator();
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600295A RID: 10586 RVA: 0x0015F8A0 File Offset: 0x0015DCA0
+		// Token: 0x06002959 RID: 10585 RVA: 0x0015FB00 File Offset: 0x0015DF00
 		public static bool TryGetQuality(this Thing t, out QualityCategory qc)
 		{
 			MinifiedThing minifiedThing = t as MinifiedThing;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600295B RID: 10587 RVA: 0x0015F8F4 File Offset: 0x0015DCF4
+		// Token: 0x0600295A RID: 10586 RVA: 0x0015FB54 File Offset: 0x0015DF54
 		public static string GetLabel(this QualityCategory cat)
 		{
 			string result;
@@ -90,7 +90,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600295C RID: 10588 RVA: 0x0015F9A0 File Offset: 0x0015DDA0
+		// Token: 0x0600295B RID: 10587 RVA: 0x0015FC00 File Offset: 0x0015E000
 		public static string GetLabelShort(this QualityCategory cat)
 		{
 			string result;
@@ -123,13 +123,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600295D RID: 10589 RVA: 0x0015FA4C File Offset: 0x0015DE4C
+		// Token: 0x0600295C RID: 10588 RVA: 0x0015FCAC File Offset: 0x0015E0AC
 		public static bool FollowQualityThingFilter(this ThingDef def)
 		{
 			return def.stackLimit == 1 || def.HasComp(typeof(CompQuality));
 		}
 
-		// Token: 0x0600295E RID: 10590 RVA: 0x0015FA94 File Offset: 0x0015DE94
+		// Token: 0x0600295D RID: 10589 RVA: 0x0015FCF4 File Offset: 0x0015E0F4
 		public static QualityCategory GenerateQuality(QualityGenerator qualityGenerator)
 		{
 			QualityCategory result;
@@ -150,25 +150,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600295F RID: 10591 RVA: 0x0015FAF0 File Offset: 0x0015DEF0
+		// Token: 0x0600295E RID: 10590 RVA: 0x0015FD50 File Offset: 0x0015E150
 		public static QualityCategory GenerateQualityRandomEqualChance()
 		{
 			return QualityUtility.AllQualityCategories.RandomElement<QualityCategory>();
 		}
 
-		// Token: 0x06002960 RID: 10592 RVA: 0x0015FB10 File Offset: 0x0015DF10
+		// Token: 0x0600295F RID: 10591 RVA: 0x0015FD70 File Offset: 0x0015E170
 		public static QualityCategory GenerateQualityReward()
 		{
 			return QualityUtility.GenerateFromGaussian(1.1f, QualityCategory.Legendary, QualityCategory.Excellent, QualityCategory.Excellent);
 		}
 
-		// Token: 0x06002961 RID: 10593 RVA: 0x0015FB34 File Offset: 0x0015DF34
+		// Token: 0x06002960 RID: 10592 RVA: 0x0015FD94 File Offset: 0x0015E194
 		public static QualityCategory GenerateQualityGift()
 		{
 			return QualityUtility.GenerateFromGaussian(1f, QualityCategory.Legendary, QualityCategory.Normal, QualityCategory.Normal);
 		}
 
-		// Token: 0x06002962 RID: 10594 RVA: 0x0015FB58 File Offset: 0x0015DF58
+		// Token: 0x06002961 RID: 10593 RVA: 0x0015FDB8 File Offset: 0x0015E1B8
 		public static QualityCategory GenerateQualityTraderItem()
 		{
 			QualityCategory result;
@@ -188,7 +188,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002963 RID: 10595 RVA: 0x0015FBB8 File Offset: 0x0015DFB8
+		// Token: 0x06002962 RID: 10594 RVA: 0x0015FE18 File Offset: 0x0015E218
 		public static QualityCategory GenerateQualityBaseGen()
 		{
 			QualityCategory result;
@@ -203,7 +203,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002964 RID: 10596 RVA: 0x0015FBF0 File Offset: 0x0015DFF0
+		// Token: 0x06002963 RID: 10595 RVA: 0x0015FE50 File Offset: 0x0015E250
 		public static QualityCategory GenerateQualityGeneratingPawn(PawnKindDef pawnKind)
 		{
 			QualityCategory result;
@@ -226,7 +226,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002965 RID: 10597 RVA: 0x0015FC74 File Offset: 0x0015E074
+		// Token: 0x06002964 RID: 10596 RVA: 0x0015FED4 File Offset: 0x0015E2D4
 		public static QualityCategory GenerateQualityCreatedByPawn(int relevantSkillLevel, bool inspired)
 		{
 			float centerX = -1f;
@@ -311,7 +311,7 @@ namespace RimWorld
 			return qualityCategory;
 		}
 
-		// Token: 0x06002966 RID: 10598 RVA: 0x0015FE38 File Offset: 0x0015E238
+		// Token: 0x06002965 RID: 10597 RVA: 0x00160098 File Offset: 0x0015E498
 		public static QualityCategory GenerateQualityCreatedByPawn(Pawn pawn, SkillDef relevantSkill)
 		{
 			int level = pawn.skills.GetSkill(relevantSkill).Level;
@@ -324,7 +324,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002967 RID: 10599 RVA: 0x0015FE94 File Offset: 0x0015E294
+		// Token: 0x06002966 RID: 10598 RVA: 0x001600F4 File Offset: 0x0015E4F4
 		private static QualityCategory GenerateFromGaussian(float widthFactor, QualityCategory max = QualityCategory.Legendary, QualityCategory center = QualityCategory.Normal, QualityCategory min = QualityCategory.Awful)
 		{
 			float num = Rand.Gaussian((float)center + 0.5f, widthFactor);
@@ -339,13 +339,13 @@ namespace RimWorld
 			return (QualityCategory)((int)num);
 		}
 
-		// Token: 0x06002968 RID: 10600 RVA: 0x0015FED4 File Offset: 0x0015E2D4
+		// Token: 0x06002967 RID: 10599 RVA: 0x00160134 File Offset: 0x0015E534
 		private static QualityCategory AddLevels(QualityCategory quality, int levels)
 		{
 			return (QualityCategory)Mathf.Min((int)(quality + (byte)levels), 6);
 		}
 
-		// Token: 0x06002969 RID: 10601 RVA: 0x0015FEF4 File Offset: 0x0015E2F4
+		// Token: 0x06002968 RID: 10600 RVA: 0x00160154 File Offset: 0x0015E554
 		public static void SendCraftNotification(Thing thing, Pawn worker)
 		{
 			if (worker != null)
@@ -373,7 +373,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600296A RID: 10602 RVA: 0x0015FFB4 File Offset: 0x0015E3B4
+		// Token: 0x06002969 RID: 10601 RVA: 0x00160214 File Offset: 0x0015E614
 		[DebugOutput]
 		internal static void QualityGenerationData()
 		{
@@ -422,7 +422,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600296B RID: 10603 RVA: 0x00160244 File Offset: 0x0015E644
+		// Token: 0x0600296A RID: 10602 RVA: 0x001604A4 File Offset: 0x0015E8A4
 		private static string DebugQualitiesString(Func<QualityCategory> qualityGenerator)
 		{
 			int num = 10000;

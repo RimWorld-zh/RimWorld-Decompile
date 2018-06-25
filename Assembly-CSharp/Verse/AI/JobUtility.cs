@@ -3,13 +3,13 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A56 RID: 2646
+	// Token: 0x02000A57 RID: 2647
 	public static class JobUtility
 	{
-		// Token: 0x04002541 RID: 9537
+		// Token: 0x04002551 RID: 9553
 		private static bool startingErrorRecoverJob = false;
 
-		// Token: 0x06003AF0 RID: 15088 RVA: 0x001F45DC File Offset: 0x001F29DC
+		// Token: 0x06003AF1 RID: 15089 RVA: 0x001F4908 File Offset: 0x001F2D08
 		public static void TryStartErrorRecoverJob(Pawn pawn, string message, Exception exception = null, JobDriver concreteDriver = null)
 		{
 			string text = message;
@@ -44,7 +44,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003AF1 RID: 15089 RVA: 0x001F46B4 File Offset: 0x001F2AB4
+		// Token: 0x06003AF2 RID: 15090 RVA: 0x001F49E0 File Offset: 0x001F2DE0
 		private static void AppendVarsInfoToDebugMessage(Pawn pawn, ref string msg, JobDriver concreteDriver)
 		{
 			if (concreteDriver != null)

@@ -4,39 +4,39 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B6D RID: 2925
+	// Token: 0x02000B6E RID: 2926
 	public class RoomStatDef : Def
 	{
-		// Token: 0x04002AC5 RID: 10949
+		// Token: 0x04002ACC RID: 10956
 		public Type workerClass;
 
-		// Token: 0x04002AC6 RID: 10950
+		// Token: 0x04002ACD RID: 10957
 		public float updatePriority = 0f;
 
-		// Token: 0x04002AC7 RID: 10951
+		// Token: 0x04002ACE RID: 10958
 		public bool displayRounded = false;
 
-		// Token: 0x04002AC8 RID: 10952
+		// Token: 0x04002ACF RID: 10959
 		public bool isHidden = false;
 
-		// Token: 0x04002AC9 RID: 10953
+		// Token: 0x04002AD0 RID: 10960
 		public float roomlessScore = 0f;
 
-		// Token: 0x04002ACA RID: 10954
+		// Token: 0x04002AD1 RID: 10961
 		public List<RoomStatScoreStage> scoreStages = null;
 
-		// Token: 0x04002ACB RID: 10955
+		// Token: 0x04002AD2 RID: 10962
 		public RoomStatDef inputStat;
 
-		// Token: 0x04002ACC RID: 10956
+		// Token: 0x04002AD3 RID: 10963
 		public SimpleCurve curve = null;
 
-		// Token: 0x04002ACD RID: 10957
+		// Token: 0x04002AD4 RID: 10964
 		[Unsaved]
 		private RoomStatWorker workerInt = null;
 
 		// Token: 0x170009BC RID: 2492
-		// (get) Token: 0x06003FE6 RID: 16358 RVA: 0x0021AF30 File Offset: 0x00219330
+		// (get) Token: 0x06003FE6 RID: 16358 RVA: 0x0021B210 File Offset: 0x00219610
 		public RoomStatWorker Worker
 		{
 			get
@@ -50,7 +50,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FE7 RID: 16359 RVA: 0x0021AF7C File Offset: 0x0021937C
+		// Token: 0x06003FE7 RID: 16359 RVA: 0x0021B25C File Offset: 0x0021965C
 		public RoomStatScoreStage GetScoreStage(float score)
 		{
 			RoomStatScoreStage result;
@@ -65,7 +65,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FE8 RID: 16360 RVA: 0x0021AFBC File Offset: 0x002193BC
+		// Token: 0x06003FE8 RID: 16360 RVA: 0x0021B29C File Offset: 0x0021969C
 		public int GetScoreStageIndex(float score)
 		{
 			if (this.scoreStages.NullOrEmpty<RoomStatScoreStage>())
@@ -84,7 +84,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FE9 RID: 16361 RVA: 0x0021B030 File Offset: 0x00219430
+		// Token: 0x06003FE9 RID: 16361 RVA: 0x0021B310 File Offset: 0x00219710
 		public string ScoreToString(float score)
 		{
 			string result;

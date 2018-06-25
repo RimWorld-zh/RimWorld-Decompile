@@ -2,24 +2,24 @@
 
 namespace Verse
 {
-	// Token: 0x02000C1D RID: 3101
+	// Token: 0x02000C1E RID: 3102
 	public class CellGrid
 	{
-		// Token: 0x04002E54 RID: 11860
+		// Token: 0x04002E5B RID: 11867
 		private int[] grid;
 
-		// Token: 0x04002E55 RID: 11861
+		// Token: 0x04002E5C RID: 11868
 		private int mapSizeX;
 
-		// Token: 0x04002E56 RID: 11862
+		// Token: 0x04002E5D RID: 11869
 		private int mapSizeZ;
 
-		// Token: 0x060043D5 RID: 17365 RVA: 0x0023CF94 File Offset: 0x0023B394
+		// Token: 0x060043D5 RID: 17365 RVA: 0x0023D274 File Offset: 0x0023B674
 		public CellGrid()
 		{
 		}
 
-		// Token: 0x060043D6 RID: 17366 RVA: 0x0023CF9D File Offset: 0x0023B39D
+		// Token: 0x060043D6 RID: 17366 RVA: 0x0023D27D File Offset: 0x0023B67D
 		public CellGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
@@ -69,7 +69,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AA3 RID: 2723
-		// (get) Token: 0x060043DD RID: 17373 RVA: 0x0023D0C4 File Offset: 0x0023B4C4
+		// (get) Token: 0x060043DD RID: 17373 RVA: 0x0023D3A4 File Offset: 0x0023B7A4
 		public int CellsCount
 		{
 			get
@@ -78,13 +78,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043DE RID: 17374 RVA: 0x0023D0E4 File Offset: 0x0023B4E4
+		// Token: 0x060043DE RID: 17374 RVA: 0x0023D3C4 File Offset: 0x0023B7C4
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x060043DF RID: 17375 RVA: 0x0023D12C File Offset: 0x0023B52C
+		// Token: 0x060043DF RID: 17375 RVA: 0x0023D40C File Offset: 0x0023B80C
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
@@ -100,7 +100,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043E0 RID: 17376 RVA: 0x0023D1A4 File Offset: 0x0023B5A4
+		// Token: 0x060043E0 RID: 17376 RVA: 0x0023D484 File Offset: 0x0023B884
 		public void Clear()
 		{
 			int num = CellIndicesUtility.CellToIndex(IntVec3.Invalid, this.mapSizeX);

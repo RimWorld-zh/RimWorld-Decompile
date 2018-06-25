@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FB7 RID: 4023
+	// Token: 0x02000FB8 RID: 4024
 	[HasDebugOutput]
 	public struct ShootLine
 	{
-		// Token: 0x04003F92 RID: 16274
+		// Token: 0x04003F9A RID: 16282
 		private IntVec3 source;
 
-		// Token: 0x04003F93 RID: 16275
+		// Token: 0x04003F9B RID: 16283
 		private IntVec3 dest;
 
-		// Token: 0x0600614D RID: 24909 RVA: 0x003128C3 File Offset: 0x00310CC3
+		// Token: 0x0600614D RID: 24909 RVA: 0x00312B07 File Offset: 0x00310F07
 		public ShootLine(IntVec3 source, IntVec3 dest)
 		{
 			this.source = source;
@@ -23,7 +23,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000FB7 RID: 4023
-		// (get) Token: 0x0600614E RID: 24910 RVA: 0x003128D4 File Offset: 0x00310CD4
+		// (get) Token: 0x0600614E RID: 24910 RVA: 0x00312B18 File Offset: 0x00310F18
 		public IntVec3 Source
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000FB8 RID: 4024
-		// (get) Token: 0x0600614F RID: 24911 RVA: 0x003128F0 File Offset: 0x00310CF0
+		// (get) Token: 0x0600614F RID: 24911 RVA: 0x00312B34 File Offset: 0x00310F34
 		public IntVec3 Dest
 		{
 			get
@@ -42,10 +42,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006150 RID: 24912 RVA: 0x0031290C File Offset: 0x00310D0C
+		// Token: 0x06006150 RID: 24912 RVA: 0x00312B50 File Offset: 0x00310F50
 		public void ChangeDestToMissWild(float aimOnChance)
 		{
-			float num = ShootTunings.MissDistanceFromAimOnChanceCurves.Evaluate(aimOnChance, Rand.Value);
+			float num = ShootTuning.MissDistanceFromAimOnChanceCurves.Evaluate(aimOnChance, Rand.Value);
 			if (num < 0f)
 			{
 				Log.ErrorOnce("Attempted to wild-miss less than zero tiles away", 94302089, false);
@@ -61,13 +61,13 @@ namespace Verse
 			this.dest = a;
 		}
 
-		// Token: 0x06006151 RID: 24913 RVA: 0x003129D8 File Offset: 0x00310DD8
+		// Token: 0x06006151 RID: 24913 RVA: 0x00312C1C File Offset: 0x0031101C
 		public IEnumerable<IntVec3> Points()
 		{
 			return GenSight.PointsOnLineOfSight(this.source, this.dest);
 		}
 
-		// Token: 0x06006152 RID: 24914 RVA: 0x00312A00 File Offset: 0x00310E00
+		// Token: 0x06006152 RID: 24914 RVA: 0x00312C44 File Offset: 0x00311044
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -80,7 +80,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06006153 RID: 24915 RVA: 0x00312A54 File Offset: 0x00310E54
+		// Token: 0x06006153 RID: 24915 RVA: 0x00312C98 File Offset: 0x00311098
 		[DebugOutput]
 		public static void WildMissResults()
 		{

@@ -8,43 +8,43 @@ namespace RimWorld
 	// Token: 0x020004DF RID: 1247
 	public class Pawn_StoryTracker : IExposable
 	{
-		// Token: 0x04000CEA RID: 3306
+		// Token: 0x04000CED RID: 3309
 		private Pawn pawn;
 
-		// Token: 0x04000CEB RID: 3307
+		// Token: 0x04000CEE RID: 3310
 		public Backstory childhood;
 
-		// Token: 0x04000CEC RID: 3308
+		// Token: 0x04000CEF RID: 3311
 		public Backstory adulthood;
 
-		// Token: 0x04000CED RID: 3309
+		// Token: 0x04000CF0 RID: 3312
 		public float melanin;
 
-		// Token: 0x04000CEE RID: 3310
+		// Token: 0x04000CF1 RID: 3313
 		public Color hairColor = Color.white;
 
-		// Token: 0x04000CEF RID: 3311
+		// Token: 0x04000CF2 RID: 3314
 		public CrownType crownType = CrownType.Undefined;
 
-		// Token: 0x04000CF0 RID: 3312
+		// Token: 0x04000CF3 RID: 3315
 		public BodyTypeDef bodyType = null;
 
-		// Token: 0x04000CF1 RID: 3313
+		// Token: 0x04000CF4 RID: 3316
 		private string headGraphicPath = null;
 
-		// Token: 0x04000CF2 RID: 3314
+		// Token: 0x04000CF5 RID: 3317
 		public HairDef hairDef = null;
 
-		// Token: 0x04000CF3 RID: 3315
+		// Token: 0x04000CF6 RID: 3318
 		public TraitSet traits;
 
-		// Token: 0x04000CF4 RID: 3316
+		// Token: 0x04000CF7 RID: 3319
 		public string title = null;
 
-		// Token: 0x04000CF5 RID: 3317
+		// Token: 0x04000CF8 RID: 3320
 		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
 
-		// Token: 0x06001636 RID: 5686 RVA: 0x000C5518 File Offset: 0x000C3918
+		// Token: 0x06001635 RID: 5685 RVA: 0x000C5718 File Offset: 0x000C3B18
 		public Pawn_StoryTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -52,8 +52,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002DE RID: 734
-		// (get) Token: 0x06001637 RID: 5687 RVA: 0x000C5574 File Offset: 0x000C3974
-		// (set) Token: 0x06001638 RID: 5688 RVA: 0x000C55A6 File Offset: 0x000C39A6
+		// (get) Token: 0x06001636 RID: 5686 RVA: 0x000C5774 File Offset: 0x000C3B74
+		// (set) Token: 0x06001637 RID: 5687 RVA: 0x000C57A6 File Offset: 0x000C3BA6
 		public string Title
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002DF RID: 735
-		// (get) Token: 0x06001639 RID: 5689 RVA: 0x000C55D4 File Offset: 0x000C39D4
+		// (get) Token: 0x06001638 RID: 5688 RVA: 0x000C57D4 File Offset: 0x000C3BD4
 		public string TitleCap
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E0 RID: 736
-		// (get) Token: 0x0600163A RID: 5690 RVA: 0x000C55F4 File Offset: 0x000C39F4
+		// (get) Token: 0x06001639 RID: 5689 RVA: 0x000C57F4 File Offset: 0x000C3BF4
 		public string TitleDefault
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E1 RID: 737
-		// (get) Token: 0x0600163B RID: 5691 RVA: 0x000C565C File Offset: 0x000C3A5C
+		// (get) Token: 0x0600163A RID: 5690 RVA: 0x000C585C File Offset: 0x000C3C5C
 		public string TitleDefaultCap
 		{
 			get
@@ -123,7 +123,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E2 RID: 738
-		// (get) Token: 0x0600163C RID: 5692 RVA: 0x000C567C File Offset: 0x000C3A7C
+		// (get) Token: 0x0600163B RID: 5691 RVA: 0x000C587C File Offset: 0x000C3C7C
 		public string TitleShort
 		{
 			get
@@ -150,7 +150,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E3 RID: 739
-		// (get) Token: 0x0600163D RID: 5693 RVA: 0x000C56FC File Offset: 0x000C3AFC
+		// (get) Token: 0x0600163C RID: 5692 RVA: 0x000C58FC File Offset: 0x000C3CFC
 		public string TitleShortCap
 		{
 			get
@@ -160,7 +160,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E4 RID: 740
-		// (get) Token: 0x0600163E RID: 5694 RVA: 0x000C571C File Offset: 0x000C3B1C
+		// (get) Token: 0x0600163D RID: 5693 RVA: 0x000C591C File Offset: 0x000C3D1C
 		public Color SkinColor
 		{
 			get
@@ -170,7 +170,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E5 RID: 741
-		// (get) Token: 0x0600163F RID: 5695 RVA: 0x000C573C File Offset: 0x000C3B3C
+		// (get) Token: 0x0600163E RID: 5694 RVA: 0x000C593C File Offset: 0x000C3D3C
 		public IEnumerable<Backstory> AllBackstories
 		{
 			get
@@ -188,7 +188,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E6 RID: 742
-		// (get) Token: 0x06001640 RID: 5696 RVA: 0x000C5768 File Offset: 0x000C3B68
+		// (get) Token: 0x0600163F RID: 5695 RVA: 0x000C5968 File Offset: 0x000C3D68
 		public string HeadGraphicPath
 		{
 			get
@@ -202,7 +202,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E7 RID: 743
-		// (get) Token: 0x06001641 RID: 5697 RVA: 0x000C57CC File Offset: 0x000C3BCC
+		// (get) Token: 0x06001640 RID: 5696 RVA: 0x000C59CC File Offset: 0x000C3DCC
 		public List<WorkTypeDef> DisabledWorkTypes
 		{
 			get
@@ -236,7 +236,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002E8 RID: 744
-		// (get) Token: 0x06001642 RID: 5698 RVA: 0x000C594C File Offset: 0x000C3D4C
+		// (get) Token: 0x06001641 RID: 5697 RVA: 0x000C5B4C File Offset: 0x000C3F4C
 		public WorkTags CombinedDisabledWorkTags
 		{
 			get
@@ -258,7 +258,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001643 RID: 5699 RVA: 0x000C59D8 File Offset: 0x000C3DD8
+		// Token: 0x06001642 RID: 5698 RVA: 0x000C5BD8 File Offset: 0x000C3FD8
 		public void ExposeData()
 		{
 			string text = (this.childhood == null) ? null : this.childhood.identifier;
@@ -301,7 +301,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001644 RID: 5700 RVA: 0x000C5BA8 File Offset: 0x000C3FA8
+		// Token: 0x06001643 RID: 5699 RVA: 0x000C5DA8 File Offset: 0x000C41A8
 		public Backstory GetBackstory(BackstorySlot slot)
 		{
 			Backstory result;
@@ -316,13 +316,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001645 RID: 5701 RVA: 0x000C5BD8 File Offset: 0x000C3FD8
+		// Token: 0x06001644 RID: 5700 RVA: 0x000C5DD8 File Offset: 0x000C41D8
 		public bool WorkTypeIsDisabled(WorkTypeDef w)
 		{
 			return this.DisabledWorkTypes.Contains(w);
 		}
 
-		// Token: 0x06001646 RID: 5702 RVA: 0x000C5BFC File Offset: 0x000C3FFC
+		// Token: 0x06001645 RID: 5701 RVA: 0x000C5DFC File Offset: 0x000C41FC
 		public bool OneOfWorkTypesIsDisabled(List<WorkTypeDef> wts)
 		{
 			for (int i = 0; i < wts.Count; i++)
@@ -335,13 +335,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001647 RID: 5703 RVA: 0x000C5C44 File Offset: 0x000C4044
+		// Token: 0x06001646 RID: 5702 RVA: 0x000C5E44 File Offset: 0x000C4244
 		public bool WorkTagIsDisabled(WorkTags w)
 		{
 			return (this.CombinedDisabledWorkTags & w) != WorkTags.None;
 		}
 
-		// Token: 0x06001648 RID: 5704 RVA: 0x000C5C67 File Offset: 0x000C4067
+		// Token: 0x06001647 RID: 5703 RVA: 0x000C5E67 File Offset: 0x000C4267
 		internal void Notify_TraitChanged()
 		{
 			this.cachedDisabledWorkTypes = null;

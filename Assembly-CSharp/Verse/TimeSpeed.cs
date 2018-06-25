@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000BD2 RID: 3026
+	// Token: 0x02000BD3 RID: 3027
 	public enum TimeSpeed : byte
 	{
-		// Token: 0x04002D13 RID: 11539
+		// Token: 0x04002D1A RID: 11546
 		Paused,
-		// Token: 0x04002D14 RID: 11540
+		// Token: 0x04002D1B RID: 11547
 		Normal,
-		// Token: 0x04002D15 RID: 11541
+		// Token: 0x04002D1C RID: 11548
 		Fast,
-		// Token: 0x04002D16 RID: 11542
+		// Token: 0x04002D1D RID: 11549
 		Superfast,
-		// Token: 0x04002D17 RID: 11543
+		// Token: 0x04002D1E RID: 11550
 		Ultrafast
 	}
 }

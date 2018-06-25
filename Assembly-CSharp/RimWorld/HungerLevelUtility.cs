@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004F9 RID: 1273
 	public static class HungerLevelUtility
 	{
-		// Token: 0x060016DE RID: 5854 RVA: 0x000CA484 File Offset: 0x000C8884
+		// Token: 0x060016DD RID: 5853 RVA: 0x000CA684 File Offset: 0x000C8A84
 		public static string GetLabel(this HungerCategory hunger)
 		{
 			string result;

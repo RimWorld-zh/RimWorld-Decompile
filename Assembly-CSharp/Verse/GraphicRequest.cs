@@ -4,37 +4,37 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DCC RID: 3532
+	// Token: 0x02000DCD RID: 3533
 	public struct GraphicRequest : IEquatable<GraphicRequest>
 	{
-		// Token: 0x04003497 RID: 13463
+		// Token: 0x0400349E RID: 13470
 		public Type graphicClass;
 
-		// Token: 0x04003498 RID: 13464
+		// Token: 0x0400349F RID: 13471
 		public string path;
 
-		// Token: 0x04003499 RID: 13465
+		// Token: 0x040034A0 RID: 13472
 		public Shader shader;
 
-		// Token: 0x0400349A RID: 13466
+		// Token: 0x040034A1 RID: 13473
 		public Vector2 drawSize;
 
-		// Token: 0x0400349B RID: 13467
+		// Token: 0x040034A2 RID: 13474
 		public Color color;
 
-		// Token: 0x0400349C RID: 13468
+		// Token: 0x040034A3 RID: 13475
 		public Color colorTwo;
 
-		// Token: 0x0400349D RID: 13469
+		// Token: 0x040034A4 RID: 13476
 		public GraphicData graphicData;
 
-		// Token: 0x0400349E RID: 13470
+		// Token: 0x040034A5 RID: 13477
 		public int renderQueue;
 
-		// Token: 0x0400349F RID: 13471
+		// Token: 0x040034A6 RID: 13478
 		public List<ShaderParameter> shaderParameters;
 
-		// Token: 0x06004F2B RID: 20267 RVA: 0x00294054 File Offset: 0x00292454
+		// Token: 0x06004F2B RID: 20267 RVA: 0x00294334 File Offset: 0x00292734
 		public GraphicRequest(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData graphicData, int renderQueue, List<ShaderParameter> shaderParameters)
 		{
 			this.graphicClass = graphicClass;
@@ -48,7 +48,7 @@ namespace Verse
 			this.shaderParameters = ((!shaderParameters.NullOrEmpty<ShaderParameter>()) ? shaderParameters : null);
 		}
 
-		// Token: 0x06004F2C RID: 20268 RVA: 0x002940BC File Offset: 0x002924BC
+		// Token: 0x06004F2C RID: 20268 RVA: 0x0029439C File Offset: 0x0029279C
 		public override int GetHashCode()
 		{
 			if (this.path == null)
@@ -67,25 +67,25 @@ namespace Verse
 			return Gen.HashCombine<List<ShaderParameter>>(seed, this.shaderParameters);
 		}
 
-		// Token: 0x06004F2D RID: 20269 RVA: 0x00294160 File Offset: 0x00292560
+		// Token: 0x06004F2D RID: 20269 RVA: 0x00294440 File Offset: 0x00292840
 		public override bool Equals(object obj)
 		{
 			return obj is GraphicRequest && this.Equals((GraphicRequest)obj);
 		}
 
-		// Token: 0x06004F2E RID: 20270 RVA: 0x00294194 File Offset: 0x00292594
+		// Token: 0x06004F2E RID: 20270 RVA: 0x00294474 File Offset: 0x00292874
 		public bool Equals(GraphicRequest other)
 		{
 			return this.graphicClass == other.graphicClass && this.path == other.path && this.shader == other.shader && this.drawSize == other.drawSize && this.color == other.color && this.colorTwo == other.colorTwo && this.graphicData == other.graphicData && this.renderQueue == other.renderQueue && this.shaderParameters == other.shaderParameters;
 		}
 
-		// Token: 0x06004F2F RID: 20271 RVA: 0x00294264 File Offset: 0x00292664
+		// Token: 0x06004F2F RID: 20271 RVA: 0x00294544 File Offset: 0x00292944
 		public static bool operator ==(GraphicRequest lhs, GraphicRequest rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		// Token: 0x06004F30 RID: 20272 RVA: 0x00294284 File Offset: 0x00292684
+		// Token: 0x06004F30 RID: 20272 RVA: 0x00294564 File Offset: 0x00292964
 		public static bool operator !=(GraphicRequest lhs, GraphicRequest rhs)
 		{
 			return !(lhs == rhs);

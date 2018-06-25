@@ -10,98 +10,98 @@ namespace RimWorld
 	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
-		// Token: 0x04000CCD RID: 3277
+		// Token: 0x04000CD0 RID: 3280
 		public string identifier = null;
 
-		// Token: 0x04000CCE RID: 3278
+		// Token: 0x04000CD1 RID: 3281
 		public BackstorySlot slot;
 
-		// Token: 0x04000CCF RID: 3279
+		// Token: 0x04000CD2 RID: 3282
 		public string title;
 
-		// Token: 0x04000CD0 RID: 3280
+		// Token: 0x04000CD3 RID: 3283
 		public string titleFemale;
 
-		// Token: 0x04000CD1 RID: 3281
+		// Token: 0x04000CD4 RID: 3284
 		public string titleShort;
 
-		// Token: 0x04000CD2 RID: 3282
+		// Token: 0x04000CD5 RID: 3285
 		public string titleShortFemale;
 
-		// Token: 0x04000CD3 RID: 3283
+		// Token: 0x04000CD6 RID: 3286
 		public string baseDesc = null;
 
-		// Token: 0x04000CD4 RID: 3284
+		// Token: 0x04000CD7 RID: 3287
 		private Dictionary<string, int> skillGains = new Dictionary<string, int>();
 
-		// Token: 0x04000CD5 RID: 3285
+		// Token: 0x04000CD8 RID: 3288
 		[Unsaved]
 		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
 
-		// Token: 0x04000CD6 RID: 3286
+		// Token: 0x04000CD9 RID: 3289
 		public WorkTags workDisables = WorkTags.None;
 
-		// Token: 0x04000CD7 RID: 3287
+		// Token: 0x04000CDA RID: 3290
 		public WorkTags requiredWorkTags = WorkTags.None;
 
-		// Token: 0x04000CD8 RID: 3288
+		// Token: 0x04000CDB RID: 3291
 		public List<string> spawnCategories = new List<string>();
 
-		// Token: 0x04000CD9 RID: 3289
+		// Token: 0x04000CDC RID: 3292
 		[LoadAlias("bodyNameGlobal")]
 		private string bodyTypeGlobal = null;
 
-		// Token: 0x04000CDA RID: 3290
+		// Token: 0x04000CDD RID: 3293
 		[LoadAlias("bodyNameFemale")]
 		private string bodyTypeFemale = null;
 
-		// Token: 0x04000CDB RID: 3291
+		// Token: 0x04000CDE RID: 3294
 		[LoadAlias("bodyNameMale")]
 		private string bodyTypeMale = null;
 
-		// Token: 0x04000CDC RID: 3292
+		// Token: 0x04000CDF RID: 3295
 		[Unsaved]
 		private BodyTypeDef bodyTypeGlobalResolved = null;
 
-		// Token: 0x04000CDD RID: 3293
+		// Token: 0x04000CE0 RID: 3296
 		[Unsaved]
 		private BodyTypeDef bodyTypeFemaleResolved = null;
 
-		// Token: 0x04000CDE RID: 3294
+		// Token: 0x04000CE1 RID: 3297
 		[Unsaved]
 		private BodyTypeDef bodyTypeMaleResolved = null;
 
-		// Token: 0x04000CDF RID: 3295
+		// Token: 0x04000CE2 RID: 3298
 		public List<TraitEntry> forcedTraits = null;
 
-		// Token: 0x04000CE0 RID: 3296
+		// Token: 0x04000CE3 RID: 3299
 		public List<TraitEntry> disallowedTraits = null;
 
-		// Token: 0x04000CE1 RID: 3297
-		public bool shuffleable = true;
-
-		// Token: 0x04000CE2 RID: 3298
-		[Unsaved]
-		public string untranslatedTitle;
-
-		// Token: 0x04000CE3 RID: 3299
-		[Unsaved]
-		public string untranslatedTitleFemale;
-
 		// Token: 0x04000CE4 RID: 3300
-		[Unsaved]
-		public string untranslatedTitleShort;
+		public bool shuffleable = true;
 
 		// Token: 0x04000CE5 RID: 3301
 		[Unsaved]
-		public string untranslatedTitleShortFemale;
+		public string untranslatedTitle;
 
 		// Token: 0x04000CE6 RID: 3302
+		[Unsaved]
+		public string untranslatedTitleFemale;
+
+		// Token: 0x04000CE7 RID: 3303
+		[Unsaved]
+		public string untranslatedTitleShort;
+
+		// Token: 0x04000CE8 RID: 3304
+		[Unsaved]
+		public string untranslatedTitleShortFemale;
+
+		// Token: 0x04000CE9 RID: 3305
 		[Unsaved]
 		public string untranslatedDesc;
 
 		// Token: 0x170002DC RID: 732
-		// (get) Token: 0x06001617 RID: 5655 RVA: 0x000C3EB0 File Offset: 0x000C22B0
+		// (get) Token: 0x06001616 RID: 5654 RVA: 0x000C40B0 File Offset: 0x000C24B0
 		public IEnumerable<WorkTypeDef> DisabledWorkTypes
 		{
 			get
@@ -119,7 +119,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002DD RID: 733
-		// (get) Token: 0x06001618 RID: 5656 RVA: 0x000C3EDC File Offset: 0x000C22DC
+		// (get) Token: 0x06001617 RID: 5655 RVA: 0x000C40DC File Offset: 0x000C24DC
 		public IEnumerable<WorkGiverDef> DisabledWorkGivers
 		{
 			get
@@ -136,7 +136,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001619 RID: 5657 RVA: 0x000C3F08 File Offset: 0x000C2308
+		// Token: 0x06001618 RID: 5656 RVA: 0x000C4108 File Offset: 0x000C2508
 		public bool DisallowsTrait(TraitDef def, int degree)
 		{
 			bool result;
@@ -158,7 +158,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161A RID: 5658 RVA: 0x000C3F84 File Offset: 0x000C2384
+		// Token: 0x06001619 RID: 5657 RVA: 0x000C4184 File Offset: 0x000C2584
 		public string TitleFor(Gender g)
 		{
 			string result;
@@ -173,13 +173,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161B RID: 5659 RVA: 0x000C3FC4 File Offset: 0x000C23C4
+		// Token: 0x0600161A RID: 5658 RVA: 0x000C41C4 File Offset: 0x000C25C4
 		public string TitleCapFor(Gender g)
 		{
 			return this.TitleFor(g).CapitalizeFirst();
 		}
 
-		// Token: 0x0600161C RID: 5660 RVA: 0x000C3FE8 File Offset: 0x000C23E8
+		// Token: 0x0600161B RID: 5659 RVA: 0x000C41E8 File Offset: 0x000C25E8
 		public string TitleShortFor(Gender g)
 		{
 			string result;
@@ -198,13 +198,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161D RID: 5661 RVA: 0x000C4044 File Offset: 0x000C2444
+		// Token: 0x0600161C RID: 5660 RVA: 0x000C4244 File Offset: 0x000C2644
 		public string TitleShortCapFor(Gender g)
 		{
 			return this.TitleShortFor(g).CapitalizeFirst();
 		}
 
-		// Token: 0x0600161E RID: 5662 RVA: 0x000C4068 File Offset: 0x000C2468
+		// Token: 0x0600161D RID: 5661 RVA: 0x000C4268 File Offset: 0x000C2668
 		public BodyTypeDef BodyTypeFor(Gender g)
 		{
 			BodyTypeDef result;
@@ -223,7 +223,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161F RID: 5663 RVA: 0x000C40B4 File Offset: 0x000C24B4
+		// Token: 0x0600161E RID: 5662 RVA: 0x000C42B4 File Offset: 0x000C26B4
 		public string FullDescriptionFor(Pawn p)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -258,19 +258,19 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06001620 RID: 5664 RVA: 0x000C4284 File Offset: 0x000C2684
+		// Token: 0x0600161F RID: 5663 RVA: 0x000C4484 File Offset: 0x000C2884
 		private bool AllowsWorkType(WorkTypeDef workType)
 		{
 			return (this.workDisables & workType.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x06001621 RID: 5665 RVA: 0x000C42AC File Offset: 0x000C26AC
+		// Token: 0x06001620 RID: 5664 RVA: 0x000C44AC File Offset: 0x000C28AC
 		private bool AllowsWorkGiver(WorkGiverDef workGiver)
 		{
 			return (this.workDisables & workGiver.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x06001622 RID: 5666 RVA: 0x000C42D1 File Offset: 0x000C26D1
+		// Token: 0x06001621 RID: 5665 RVA: 0x000C44D1 File Offset: 0x000C28D1
 		internal void AddForcedTrait(TraitDef traitDef, int degree = 0)
 		{
 			if (this.forcedTraits == null)
@@ -280,7 +280,7 @@ namespace RimWorld
 			this.forcedTraits.Add(new TraitEntry(traitDef, degree));
 		}
 
-		// Token: 0x06001623 RID: 5667 RVA: 0x000C42FC File Offset: 0x000C26FC
+		// Token: 0x06001622 RID: 5666 RVA: 0x000C44FC File Offset: 0x000C28FC
 		internal void AddDisallowedTrait(TraitDef traitDef, int degree = 0)
 		{
 			if (this.disallowedTraits == null)
@@ -290,7 +290,7 @@ namespace RimWorld
 			this.disallowedTraits.Add(new TraitEntry(traitDef, degree));
 		}
 
-		// Token: 0x06001624 RID: 5668 RVA: 0x000C4328 File Offset: 0x000C2728
+		// Token: 0x06001623 RID: 5667 RVA: 0x000C4528 File Offset: 0x000C2928
 		public void PostLoad()
 		{
 			this.untranslatedTitle = this.title;
@@ -301,7 +301,7 @@ namespace RimWorld
 			this.baseDesc = this.baseDesc.TrimEnd(new char[0]);
 		}
 
-		// Token: 0x06001625 RID: 5669 RVA: 0x000C438C File Offset: 0x000C278C
+		// Token: 0x06001624 RID: 5668 RVA: 0x000C458C File Offset: 0x000C298C
 		public void ResolveReferences()
 		{
 			int num = Mathf.Abs(GenText.StableStringHash(this.baseDesc) % 100);
@@ -343,7 +343,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001626 RID: 5670 RVA: 0x000C453C File Offset: 0x000C293C
+		// Token: 0x06001625 RID: 5669 RVA: 0x000C473C File Offset: 0x000C2B3C
 		public IEnumerable<string> ConfigErrors(bool ignoreNoSpawnCategories)
 		{
 			if (this.title.NullOrEmpty())
@@ -397,21 +397,21 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001627 RID: 5671 RVA: 0x000C456D File Offset: 0x000C296D
+		// Token: 0x06001626 RID: 5670 RVA: 0x000C476D File Offset: 0x000C2B6D
 		public void SetTitle(string newTitle, string newTitleFemale)
 		{
 			this.title = newTitle;
 			this.titleFemale = newTitleFemale;
 		}
 
-		// Token: 0x06001628 RID: 5672 RVA: 0x000C457E File Offset: 0x000C297E
+		// Token: 0x06001627 RID: 5671 RVA: 0x000C477E File Offset: 0x000C2B7E
 		public void SetTitleShort(string newTitleShort, string newTitleShortFemale)
 		{
 			this.titleShort = newTitleShort;
 			this.titleShortFemale = newTitleShortFemale;
 		}
 
-		// Token: 0x06001629 RID: 5673 RVA: 0x000C4590 File Offset: 0x000C2990
+		// Token: 0x06001628 RID: 5672 RVA: 0x000C4790 File Offset: 0x000C2B90
 		public override string ToString()
 		{
 			string result;
@@ -426,7 +426,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600162A RID: 5674 RVA: 0x000C45D8 File Offset: 0x000C29D8
+		// Token: 0x06001629 RID: 5673 RVA: 0x000C47D8 File Offset: 0x000C2BD8
 		public override int GetHashCode()
 		{
 			return this.identifier.GetHashCode();

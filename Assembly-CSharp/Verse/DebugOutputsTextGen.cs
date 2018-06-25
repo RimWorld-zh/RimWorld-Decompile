@@ -6,11 +6,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E21 RID: 3617
+	// Token: 0x02000E22 RID: 3618
 	[HasDebugOutput]
 	internal static class DebugOutputsTextGen
 	{
-		// Token: 0x060054C6 RID: 21702 RVA: 0x002B82F0 File Offset: 0x002B66F0
+		// Token: 0x060054C6 RID: 21702 RVA: 0x002B85E4 File Offset: 0x002B69E4
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void FlavorfulCombatTest()
@@ -214,7 +214,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060054C7 RID: 21703 RVA: 0x002B86FC File Offset: 0x002B6AFC
+		// Token: 0x060054C7 RID: 21703 RVA: 0x002B89F0 File Offset: 0x002B6DF0
 		private static void CreateDamagedDestroyedMenu(Action<Action<List<BodyPartRecord>, List<bool>>> callback)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -255,7 +255,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060054C8 RID: 21704 RVA: 0x002B8848 File Offset: 0x002B6C48
+		// Token: 0x060054C8 RID: 21704 RVA: 0x002B8B3C File Offset: 0x002B6F3C
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void ArtDescsSpecificTale()
@@ -275,7 +275,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060054C9 RID: 21705 RVA: 0x002B8914 File Offset: 0x002B6D14
+		// Token: 0x060054C9 RID: 21705 RVA: 0x002B8C08 File Offset: 0x002B7008
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void NamesFromRulepack()
@@ -319,7 +319,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060054CA RID: 21706 RVA: 0x002B8AF8 File Offset: 0x002B6EF8
+		// Token: 0x060054CA RID: 21706 RVA: 0x002B8DEC File Offset: 0x002B71EC
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -328,7 +328,7 @@ namespace Verse
 			Find.TaleManager.LogTales();
 		}
 
-		// Token: 0x060054CB RID: 21707 RVA: 0x002B8B05 File Offset: 0x002B6F05
+		// Token: 0x060054CB RID: 21707 RVA: 0x002B8DF9 File Offset: 0x002B71F9
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -337,7 +337,7 @@ namespace Verse
 			Find.TaleManager.LogTaleInterestSummary();
 		}
 
-		// Token: 0x060054CC RID: 21708 RVA: 0x002B8B12 File Offset: 0x002B6F12
+		// Token: 0x060054CC RID: 21708 RVA: 0x002B8E06 File Offset: 0x002B7206
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -348,7 +348,7 @@ namespace Verse
 			select t);
 		}
 
-		// Token: 0x060054CD RID: 21709 RVA: 0x002B8B48 File Offset: 0x002B6F48
+		// Token: 0x060054CD RID: 21709 RVA: 0x002B8E3C File Offset: 0x002B723C
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -363,7 +363,7 @@ namespace Verse
 			DebugOutputsTextGen.LogTales(list);
 		}
 
-		// Token: 0x060054CE RID: 21710 RVA: 0x002B8B88 File Offset: 0x002B6F88
+		// Token: 0x060054CE RID: 21710 RVA: 0x002B8E7C File Offset: 0x002B727C
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -377,7 +377,7 @@ namespace Verse
 			DebugOutputsTextGen.LogTales(list);
 		}
 
-		// Token: 0x060054CF RID: 21711 RVA: 0x002B8BBC File Offset: 0x002B6FBC
+		// Token: 0x060054CF RID: 21711 RVA: 0x002B8EB0 File Offset: 0x002B72B0
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void InteractionLogs()
@@ -405,7 +405,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060054D0 RID: 21712 RVA: 0x002B8C58 File Offset: 0x002B7058
+		// Token: 0x060054D0 RID: 21712 RVA: 0x002B8F4C File Offset: 0x002B734C
 		private static void LogSpecificTale(TaleDef def, int count)
 		{
 			List<Tale> list = new List<Tale>();
@@ -416,7 +416,7 @@ namespace Verse
 			DebugOutputsTextGen.LogTales(list);
 		}
 
-		// Token: 0x060054D1 RID: 21713 RVA: 0x002B8C94 File Offset: 0x002B7094
+		// Token: 0x060054D1 RID: 21713 RVA: 0x002B8F88 File Offset: 0x002B7388
 		private static void LogTales(IEnumerable<Tale> tales)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -440,7 +440,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054D2 RID: 21714 RVA: 0x002B8D58 File Offset: 0x002B7158
+		// Token: 0x060054D2 RID: 21714 RVA: 0x002B904C File Offset: 0x002B744C
 		private static string RandomArtworkName(TaleReference tr)
 		{
 			RulePackDef extraInclude = null;
@@ -465,7 +465,7 @@ namespace Verse
 			return tr.GenerateText(TextGenerationPurpose.ArtName, extraInclude);
 		}
 
-		// Token: 0x060054D3 RID: 21715 RVA: 0x002B8DD8 File Offset: 0x002B71D8
+		// Token: 0x060054D3 RID: 21715 RVA: 0x002B90CC File Offset: 0x002B74CC
 		private static string RandomArtworkDescription(TaleReference tr)
 		{
 			RulePackDef extraInclude = null;

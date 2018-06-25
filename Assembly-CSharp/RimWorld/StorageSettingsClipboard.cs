@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000695 RID: 1685
 	public static class StorageSettingsClipboard
 	{
-		// Token: 0x040013F3 RID: 5107
+		// Token: 0x040013F7 RID: 5111
 		private static StorageSettings clipboard = new StorageSettings();
 
-		// Token: 0x040013F4 RID: 5108
+		// Token: 0x040013F8 RID: 5112
 		private static bool copied = false;
 
 		// Token: 0x17000554 RID: 1364
-		// (get) Token: 0x060023B4 RID: 9140 RVA: 0x00132574 File Offset: 0x00130974
+		// (get) Token: 0x060023B3 RID: 9139 RVA: 0x001327DC File Offset: 0x00130BDC
 		public static bool HasCopiedSettings
 		{
 			get
@@ -25,20 +25,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023B5 RID: 9141 RVA: 0x0013258E File Offset: 0x0013098E
+		// Token: 0x060023B4 RID: 9140 RVA: 0x001327F6 File Offset: 0x00130BF6
 		public static void Copy(StorageSettings s)
 		{
 			StorageSettingsClipboard.clipboard.CopyFrom(s);
 			StorageSettingsClipboard.copied = true;
 		}
 
-		// Token: 0x060023B6 RID: 9142 RVA: 0x001325A2 File Offset: 0x001309A2
+		// Token: 0x060023B5 RID: 9141 RVA: 0x0013280A File Offset: 0x00130C0A
 		public static void PasteInto(StorageSettings s)
 		{
 			s.CopyFrom(StorageSettingsClipboard.clipboard);
 		}
 
-		// Token: 0x060023B7 RID: 9143 RVA: 0x001325B0 File Offset: 0x001309B0
+		// Token: 0x060023B6 RID: 9142 RVA: 0x00132818 File Offset: 0x00130C18
 		public static IEnumerable<Gizmo> CopyPasteGizmosFor(StorageSettings s)
 		{
 			yield return new Command_Action

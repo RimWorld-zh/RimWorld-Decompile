@@ -9,8 +9,8 @@ namespace RimWorld
 	public class DropPodIncoming : Skyfaller, IActiveDropPod, IThingHolder
 	{
 		// Token: 0x170005D5 RID: 1493
-		// (get) Token: 0x06002657 RID: 9815 RVA: 0x001496DC File Offset: 0x00147ADC
-		// (set) Token: 0x06002658 RID: 9816 RVA: 0x00149707 File Offset: 0x00147B07
+		// (get) Token: 0x06002656 RID: 9814 RVA: 0x0014993C File Offset: 0x00147D3C
+		// (set) Token: 0x06002657 RID: 9815 RVA: 0x00149967 File Offset: 0x00147D67
 		public ActiveDropPodInfo Contents
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002659 RID: 9817 RVA: 0x00149724 File Offset: 0x00147B24
+		// Token: 0x06002658 RID: 9816 RVA: 0x00149984 File Offset: 0x00147D84
 		protected override void Impact()
 		{
 			for (int i = 0; i < 6; i++)

@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x02000192 RID: 402
 	public class LordToil_HiveRelatedData : LordToilData
 	{
-		// Token: 0x04000387 RID: 903
+		// Token: 0x04000388 RID: 904
 		public Dictionary<Pawn, Hive> assignedHives = new Dictionary<Pawn, Hive>();
 
-		// Token: 0x06000855 RID: 2133 RVA: 0x0004FC38 File Offset: 0x0004E038
+		// Token: 0x06000854 RID: 2132 RVA: 0x0004FC34 File Offset: 0x0004E034
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

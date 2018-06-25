@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000CA5 RID: 3237
+	// Token: 0x02000CA6 RID: 3238
 	public enum SnowCategory : byte
 	{
-		// Token: 0x04003065 RID: 12389
+		// Token: 0x0400306C RID: 12396
 		None,
-		// Token: 0x04003066 RID: 12390
+		// Token: 0x0400306D RID: 12397
 		Dusting,
-		// Token: 0x04003067 RID: 12391
+		// Token: 0x0400306E RID: 12398
 		Thin,
-		// Token: 0x04003068 RID: 12392
+		// Token: 0x0400306F RID: 12399
 		Medium,
-		// Token: 0x04003069 RID: 12393
+		// Token: 0x04003070 RID: 12400
 		Thick
 	}
 }

@@ -3,19 +3,19 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A1C RID: 2588
+	// Token: 0x02000A1D RID: 2589
 	public class Trigger_PawnHarmed : Trigger
 	{
-		// Token: 0x040024B0 RID: 9392
+		// Token: 0x040024C0 RID: 9408
 		public float chance = 1f;
 
-		// Token: 0x040024B1 RID: 9393
+		// Token: 0x040024C1 RID: 9409
 		public bool requireInstigatorWithFaction = false;
 
-		// Token: 0x040024B2 RID: 9394
+		// Token: 0x040024C2 RID: 9410
 		public Faction requireInstigatorWithSpecificFaction = null;
 
-		// Token: 0x060039B6 RID: 14774 RVA: 0x001E869A File Offset: 0x001E6A9A
+		// Token: 0x060039B7 RID: 14775 RVA: 0x001E89C6 File Offset: 0x001E6DC6
 		public Trigger_PawnHarmed(float chance = 1f, bool requireInstigatorWithFaction = false, Faction requireInstigatorWithSpecificFaction = null)
 		{
 			this.chance = chance;
@@ -23,13 +23,13 @@ namespace Verse.AI.Group
 			this.requireInstigatorWithSpecificFaction = requireInstigatorWithSpecificFaction;
 		}
 
-		// Token: 0x060039B7 RID: 14775 RVA: 0x001E86D4 File Offset: 0x001E6AD4
+		// Token: 0x060039B8 RID: 14776 RVA: 0x001E8A00 File Offset: 0x001E6E00
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			return Trigger_PawnHarmed.SignalIsHarm(signal) && (!this.requireInstigatorWithFaction || (signal.dinfo.Instigator != null && signal.dinfo.Instigator.Faction != null)) && (this.requireInstigatorWithSpecificFaction == null || (signal.dinfo.Instigator != null && signal.dinfo.Instigator.Faction == this.requireInstigatorWithSpecificFaction)) && Rand.Value < this.chance;
 		}
 
-		// Token: 0x060039B8 RID: 14776 RVA: 0x001E8780 File Offset: 0x001E6B80
+		// Token: 0x060039B9 RID: 14777 RVA: 0x001E8AAC File Offset: 0x001E6EAC
 		public static bool SignalIsHarm(TriggerSignal signal)
 		{
 			bool result;

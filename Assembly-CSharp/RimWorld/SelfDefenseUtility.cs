@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x020000A9 RID: 169
 	public static class SelfDefenseUtility
 	{
-		// Token: 0x04000273 RID: 627
+		// Token: 0x04000274 RID: 628
 		public const float FleeWhenDistToHostileLessThan = 8f;
 
-		// Token: 0x0600041D RID: 1053 RVA: 0x000313F0 File Offset: 0x0002F7F0
+		// Token: 0x0600041D RID: 1053 RVA: 0x0003140C File Offset: 0x0002F80C
 		public static bool ShouldStartFleeing(Pawn pawn)
 		{
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.AlwaysFlee);
@@ -44,7 +44,7 @@ namespace RimWorld
 			return foundThreat;
 		}
 
-		// Token: 0x0600041E RID: 1054 RVA: 0x000314C0 File Offset: 0x0002F8C0
+		// Token: 0x0600041E RID: 1054 RVA: 0x000314DC File Offset: 0x0002F8DC
 		public static bool ShouldFleeFrom(Thing t, Pawn pawn, bool checkDistance, bool checkLOS)
 		{
 			bool result;

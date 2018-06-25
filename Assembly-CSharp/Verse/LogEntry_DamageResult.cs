@@ -4,24 +4,24 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BCB RID: 3019
+	// Token: 0x02000BCC RID: 3020
 	public abstract class LogEntry_DamageResult : LogEntry
 	{
-		// Token: 0x04002CF1 RID: 11505
+		// Token: 0x04002CF8 RID: 11512
 		protected List<BodyPartRecord> damagedParts;
 
-		// Token: 0x04002CF2 RID: 11506
+		// Token: 0x04002CF9 RID: 11513
 		protected List<bool> damagedPartsDestroyed;
 
-		// Token: 0x04002CF3 RID: 11507
+		// Token: 0x04002CFA RID: 11514
 		protected bool deflected;
 
-		// Token: 0x060041CC RID: 16844 RVA: 0x00226591 File Offset: 0x00224991
+		// Token: 0x060041CC RID: 16844 RVA: 0x00226871 File Offset: 0x00224C71
 		public LogEntry_DamageResult(LogEntryDef def = null) : base(def)
 		{
 		}
 
-		// Token: 0x060041CD RID: 16845 RVA: 0x0022659B File Offset: 0x0022499B
+		// Token: 0x060041CD RID: 16845 RVA: 0x0022687B File Offset: 0x00224C7B
 		public void FillTargets(List<BodyPartRecord> recipientParts, List<bool> recipientPartsDestroyed, bool deflected)
 		{
 			this.damagedParts = recipientParts;
@@ -30,13 +30,13 @@ namespace Verse
 			base.ResetCache();
 		}
 
-		// Token: 0x060041CE RID: 16846 RVA: 0x002265BC File Offset: 0x002249BC
+		// Token: 0x060041CE RID: 16846 RVA: 0x0022689C File Offset: 0x00224C9C
 		protected virtual BodyDef DamagedBody()
 		{
 			return null;
 		}
 
-		// Token: 0x060041CF RID: 16847 RVA: 0x002265D4 File Offset: 0x002249D4
+		// Token: 0x060041CF RID: 16847 RVA: 0x002268B4 File Offset: 0x00224CB4
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -45,7 +45,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060041D0 RID: 16848 RVA: 0x00226644 File Offset: 0x00224A44
+		// Token: 0x060041D0 RID: 16848 RVA: 0x00226924 File Offset: 0x00224D24
 		public override void ExposeData()
 		{
 			base.ExposeData();

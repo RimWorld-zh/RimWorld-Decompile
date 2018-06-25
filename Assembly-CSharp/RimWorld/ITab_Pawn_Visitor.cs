@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x0200084D RID: 2125
 	public abstract class ITab_Pawn_Visitor : ITab
 	{
-		// Token: 0x04001A15 RID: 6677
+		// Token: 0x04001A19 RID: 6681
 		private const float CheckboxInterval = 30f;
 
-		// Token: 0x04001A16 RID: 6678
+		// Token: 0x04001A1A RID: 6682
 		private const float CheckboxMargin = 50f;
 
-		// Token: 0x06003034 RID: 12340 RVA: 0x001A3CB7 File Offset: 0x001A20B7
+		// Token: 0x06003033 RID: 12339 RVA: 0x001A3F1F File Offset: 0x001A231F
 		public ITab_Pawn_Visitor()
 		{
 			this.size = new Vector2(280f, 450f);
 		}
 
-		// Token: 0x06003035 RID: 12341 RVA: 0x001A3CD8 File Offset: 0x001A20D8
+		// Token: 0x06003034 RID: 12340 RVA: 0x001A3F40 File Offset: 0x001A2340
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.PrisonerTab, KnowledgeAmount.FrameDisplayed);
@@ -79,7 +79,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06003036 RID: 12342 RVA: 0x001A4018 File Offset: 0x001A2418
+		// Token: 0x06003035 RID: 12341 RVA: 0x001A4280 File Offset: 0x001A2680
 		private bool ColonyHasAnyWardenCapableOfViolence(Map map)
 		{
 			foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)

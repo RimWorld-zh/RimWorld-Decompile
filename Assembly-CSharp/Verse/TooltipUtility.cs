@@ -4,10 +4,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E94 RID: 3732
+	// Token: 0x02000E95 RID: 3733
 	public static class TooltipUtility
 	{
-		// Token: 0x0600581B RID: 22555 RVA: 0x002D2FF8 File Offset: 0x002D13F8
+		// Token: 0x0600581B RID: 22555 RVA: 0x002D31E4 File Offset: 0x002D15E4
 		public static string ShotCalculationTipString(Thing target)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

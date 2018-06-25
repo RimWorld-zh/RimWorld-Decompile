@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB9 RID: 3513
+	// Token: 0x02000DBA RID: 3514
 	public static class SoundSlotManager
 	{
-		// Token: 0x04003443 RID: 13379
+		// Token: 0x0400344A RID: 13386
 		private static Dictionary<string, float> allowedPlayTimes = new Dictionary<string, float>();
 
-		// Token: 0x06004E88 RID: 20104 RVA: 0x002909DC File Offset: 0x0028EDDC
+		// Token: 0x06004E88 RID: 20104 RVA: 0x00290CBC File Offset: 0x0028F0BC
 		public static bool CanPlayNow(string slotName)
 		{
 			bool result;
@@ -33,7 +33,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004E89 RID: 20105 RVA: 0x00290A40 File Offset: 0x0028EE40
+		// Token: 0x06004E89 RID: 20105 RVA: 0x00290D20 File Offset: 0x0028F120
 		public static void Notify_Played(string slot, float duration)
 		{
 			if (!(slot == ""))

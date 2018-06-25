@@ -5,23 +5,23 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E67 RID: 3687
+	// Token: 0x02000E68 RID: 3688
 	[StaticConstructorOnStartup]
 	public class Command_SetPlantToGrow : Command
 	{
-		// Token: 0x0400398A RID: 14730
+		// Token: 0x04003992 RID: 14738
 		public IPlantToGrowSettable settable;
 
-		// Token: 0x0400398B RID: 14731
+		// Token: 0x04003993 RID: 14739
 		private List<IPlantToGrowSettable> settables;
 
-		// Token: 0x0400398C RID: 14732
+		// Token: 0x04003994 RID: 14740
 		private static List<ThingDef> tmpAvailablePlants = new List<ThingDef>();
 
-		// Token: 0x0400398D RID: 14733
+		// Token: 0x04003995 RID: 14741
 		private static readonly Texture2D SetPlantToGrowTex = ContentFinder<Texture2D>.Get("UI/Commands/SetPlantToGrow", true);
 
-		// Token: 0x060056DF RID: 22239 RVA: 0x002CBD6C File Offset: 0x002CA16C
+		// Token: 0x060056DF RID: 22239 RVA: 0x002CBF58 File Offset: 0x002CA358
 		public Command_SetPlantToGrow()
 		{
 			this.tutorTag = "GrowingZoneSetPlant";
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056E0 RID: 22240 RVA: 0x002CBE80 File Offset: 0x002CA280
+		// Token: 0x060056E0 RID: 22240 RVA: 0x002CC06C File Offset: 0x002CA46C
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -130,7 +130,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060056E1 RID: 22241 RVA: 0x002CC080 File Offset: 0x002CA480
+		// Token: 0x060056E1 RID: 22241 RVA: 0x002CC26C File Offset: 0x002CA66C
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.settables == null)
@@ -141,14 +141,14 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060056E2 RID: 22242 RVA: 0x002CC0C4 File Offset: 0x002CA4C4
+		// Token: 0x060056E2 RID: 22242 RVA: 0x002CC2B0 File Offset: 0x002CA6B0
 		private void WarnAsAppropriate(ThingDef plantDef)
 		{
 			if (plantDef.plant.sowMinSkill > 0)
 			{
 				foreach (Pawn pawn in this.settable.Map.mapPawns.FreeColonistsSpawned)
 				{
-					if (pawn.skills.GetSkill(SkillDefOf.Growing).Level >= plantDef.plant.sowMinSkill && !pawn.Downed && pawn.workSettings.WorkIsActive(WorkTypeDefOf.Growing))
+					if (pawn.skills.GetSkill(SkillDefOf.Plants).Level >= plantDef.plant.sowMinSkill && !pawn.Downed && pawn.workSettings.WorkIsActive(WorkTypeDefOf.Growing))
 					{
 						return;
 					}
@@ -187,7 +187,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056E3 RID: 22243 RVA: 0x002CC308 File Offset: 0x002CA708
+		// Token: 0x060056E3 RID: 22243 RVA: 0x002CC4F4 File Offset: 0x002CA8F4
 		private bool IsPlantAvailable(ThingDef plantDef, Map map)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
@@ -210,7 +210,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056E4 RID: 22244 RVA: 0x002CC398 File Offset: 0x002CA798
+		// Token: 0x060056E4 RID: 22244 RVA: 0x002CC584 File Offset: 0x002CA984
 		private float GetPlantListPriority(ThingDef plantDef)
 		{
 			float result;

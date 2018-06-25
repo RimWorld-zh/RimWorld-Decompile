@@ -3,32 +3,32 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA7 RID: 3751
+	// Token: 0x02000EA8 RID: 3752
 	[StaticConstructorOnStartup]
 	public class TabRecord
 	{
-		// Token: 0x04003A93 RID: 14995
+		// Token: 0x04003A9B RID: 15003
 		public string label = "Tab";
 
-		// Token: 0x04003A94 RID: 14996
+		// Token: 0x04003A9C RID: 15004
 		public Action clickedAction = null;
 
-		// Token: 0x04003A95 RID: 14997
+		// Token: 0x04003A9D RID: 15005
 		public bool selected = false;
 
-		// Token: 0x04003A96 RID: 14998
+		// Token: 0x04003A9E RID: 15006
 		public Func<bool> selectedGetter;
 
-		// Token: 0x04003A97 RID: 14999
+		// Token: 0x04003A9F RID: 15007
 		private const float TabEndWidth = 30f;
 
-		// Token: 0x04003A98 RID: 15000
+		// Token: 0x04003AA0 RID: 15008
 		private const float TabMiddleGraphicWidth = 4f;
 
-		// Token: 0x04003A99 RID: 15001
+		// Token: 0x04003AA1 RID: 15009
 		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
 
-		// Token: 0x0600587C RID: 22652 RVA: 0x002D5C7E File Offset: 0x002D407E
+		// Token: 0x0600587C RID: 22652 RVA: 0x002D5E6A File Offset: 0x002D426A
 		public TabRecord(string label, Action clickedAction, bool selected)
 		{
 			this.label = label;
@@ -36,7 +36,7 @@ namespace Verse
 			this.selected = selected;
 		}
 
-		// Token: 0x0600587D RID: 22653 RVA: 0x002D5CB5 File Offset: 0x002D40B5
+		// Token: 0x0600587D RID: 22653 RVA: 0x002D5EA1 File Offset: 0x002D42A1
 		public TabRecord(string label, Action clickedAction, Func<bool> selected)
 		{
 			this.label = label;
@@ -45,7 +45,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000DF5 RID: 3573
-		// (get) Token: 0x0600587E RID: 22654 RVA: 0x002D5CEC File Offset: 0x002D40EC
+		// (get) Token: 0x0600587E RID: 22654 RVA: 0x002D5ED8 File Offset: 0x002D42D8
 		public bool Selected
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600587F RID: 22655 RVA: 0x002D5D24 File Offset: 0x002D4124
+		// Token: 0x0600587F RID: 22655 RVA: 0x002D5F10 File Offset: 0x002D4310
 		public void Draw(Rect rect)
 		{
 			Rect drawRect = new Rect(rect);

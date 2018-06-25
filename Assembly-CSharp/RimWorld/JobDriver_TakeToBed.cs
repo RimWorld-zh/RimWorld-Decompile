@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000082 RID: 130
 	public class JobDriver_TakeToBed : JobDriver
 	{
-		// Token: 0x0400023E RID: 574
+		// Token: 0x0400023F RID: 575
 		private const TargetIndex TakeeIndex = TargetIndex.A;
 
-		// Token: 0x0400023F RID: 575
+		// Token: 0x04000240 RID: 576
 		private const TargetIndex BedIndex = TargetIndex.B;
 
 		// Token: 0x170000B4 RID: 180
-		// (get) Token: 0x06000369 RID: 873 RVA: 0x00025C74 File Offset: 0x00024074
+		// (get) Token: 0x06000369 RID: 873 RVA: 0x00025C90 File Offset: 0x00024090
 		protected Pawn Takee
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000B5 RID: 181
-		// (get) Token: 0x0600036A RID: 874 RVA: 0x00025CA4 File Offset: 0x000240A4
+		// (get) Token: 0x0600036A RID: 874 RVA: 0x00025CC0 File Offset: 0x000240C0
 		protected Building_Bed DropBed
 		{
 			get
@@ -35,13 +35,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600036B RID: 875 RVA: 0x00025CD4 File Offset: 0x000240D4
+		// Token: 0x0600036B RID: 875 RVA: 0x00025CF0 File Offset: 0x000240F0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Takee, this.job, 1, -1, null) && this.pawn.Reserve(this.DropBed, this.job, this.DropBed.SleepingSlotsCount, 0, null);
 		}
 
-		// Token: 0x0600036C RID: 876 RVA: 0x00025D3C File Offset: 0x0002413C
+		// Token: 0x0600036C RID: 876 RVA: 0x00025D58 File Offset: 0x00024158
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -133,7 +133,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600036D RID: 877 RVA: 0x00025D68 File Offset: 0x00024168
+		// Token: 0x0600036D RID: 877 RVA: 0x00025D84 File Offset: 0x00024184
 		private void CheckMakeTakeePrisoner()
 		{
 			if (this.job.def.makeTargetPrisoner)
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600036E RID: 878 RVA: 0x00025DF8 File Offset: 0x000241F8
+		// Token: 0x0600036E RID: 878 RVA: 0x00025E14 File Offset: 0x00024214
 		private void CheckMakeTakeeGuest()
 		{
 			if (!this.job.def.makeTargetPrisoner && this.Takee.Faction != Faction.OfPlayer && this.Takee.HostFaction != Faction.OfPlayer && this.Takee.guest != null && !this.Takee.IsWildMan())

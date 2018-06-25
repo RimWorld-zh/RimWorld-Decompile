@@ -3,25 +3,25 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000B39 RID: 2873
+	// Token: 0x02000B3A RID: 2874
 	public class DutyDef : Def
 	{
-		// Token: 0x04002944 RID: 10564
+		// Token: 0x0400294B RID: 10571
 		public ThinkNode thinkNode;
 
-		// Token: 0x04002945 RID: 10565
+		// Token: 0x0400294C RID: 10572
 		public ThinkNode constantThinkNode;
 
-		// Token: 0x04002946 RID: 10566
+		// Token: 0x0400294D RID: 10573
 		public bool alwaysShowWeapon = false;
 
-		// Token: 0x04002947 RID: 10567
+		// Token: 0x0400294E RID: 10574
 		public ThinkTreeDutyHook hook = ThinkTreeDutyHook.HighPriority;
 
-		// Token: 0x04002948 RID: 10568
+		// Token: 0x0400294F RID: 10575
 		public RandomSocialMode socialModeMax = RandomSocialMode.SuperActive;
 
-		// Token: 0x04002949 RID: 10569
+		// Token: 0x04002950 RID: 10576
 		public bool threatDisabled;
 	}
 }

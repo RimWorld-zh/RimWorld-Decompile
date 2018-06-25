@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000413 RID: 1043
 	public static class SiteGenStepUtility
 	{
-		// Token: 0x060011EF RID: 4591 RVA: 0x0009BB58 File Offset: 0x00099F58
+		// Token: 0x060011EE RID: 4590 RVA: 0x0009BB68 File Offset: 0x00099F68
 		public static bool TryFindRootToSpawnAroundRectOfInterest(out CellRect rectToDefend, out IntVec3 singleCellToSpawnNear, Map map)
 		{
 			singleCellToSpawnNear = IntVec3.Invalid;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060011F0 RID: 4592 RVA: 0x0009BBC8 File Offset: 0x00099FC8
+		// Token: 0x060011EF RID: 4591 RVA: 0x0009BBD8 File Offset: 0x00099FD8
 		public static bool TryFindSpawnCellAroundOrNear(CellRect around, IntVec3 near, Map map, out IntVec3 spawnCell)
 		{
 			if (near.IsValid)

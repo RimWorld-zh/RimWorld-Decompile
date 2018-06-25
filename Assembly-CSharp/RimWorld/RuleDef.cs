@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x020002CB RID: 715
 	public class RuleDef : Def
 	{
-		// Token: 0x04000702 RID: 1794
+		// Token: 0x04000704 RID: 1796
 		[NoTranslate]
 		public string symbol;
 
-		// Token: 0x04000703 RID: 1795
+		// Token: 0x04000705 RID: 1797
 		public List<SymbolResolver> resolvers;
 	}
 }

@@ -12,17 +12,17 @@ namespace RimWorld
 	// Token: 0x020008F4 RID: 2292
 	public sealed class Autosaver
 	{
-		// Token: 0x04001C9C RID: 7324
+		// Token: 0x04001CA2 RID: 7330
 		private int ticksSinceSave = 0;
 
-		// Token: 0x04001C9D RID: 7325
+		// Token: 0x04001CA3 RID: 7331
 		private const int NumAutosaves = 5;
 
-		// Token: 0x04001C9E RID: 7326
+		// Token: 0x04001CA4 RID: 7332
 		public const float MaxPermadeathModeAutosaveInterval = 1f;
 
 		// Token: 0x1700088D RID: 2189
-		// (get) Token: 0x060034FE RID: 13566 RVA: 0x001C4F60 File Offset: 0x001C3360
+		// (get) Token: 0x060034FE RID: 13566 RVA: 0x001C5234 File Offset: 0x001C3634
 		private float AutosaveIntervalDays
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700088E RID: 2190
-		// (get) Token: 0x060034FF RID: 13567 RVA: 0x001C4FA4 File Offset: 0x001C33A4
+		// (get) Token: 0x060034FF RID: 13567 RVA: 0x001C5278 File Offset: 0x001C3678
 		private int AutosaveIntervalTicks
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003500 RID: 13568 RVA: 0x001C4FCC File Offset: 0x001C33CC
+		// Token: 0x06003500 RID: 13568 RVA: 0x001C52A0 File Offset: 0x001C36A0
 		public void AutosaverTick()
 		{
 			this.ticksSinceSave++;
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003501 RID: 13569 RVA: 0x001C501C File Offset: 0x001C341C
+		// Token: 0x06003501 RID: 13569 RVA: 0x001C52F0 File Offset: 0x001C36F0
 		public void DoAutosave()
 		{
 			string fileName;
@@ -72,7 +72,7 @@ namespace RimWorld
 			GameDataSaveLoader.SaveGame(fileName);
 		}
 
-		// Token: 0x06003502 RID: 13570 RVA: 0x001C5060 File Offset: 0x001C3460
+		// Token: 0x06003502 RID: 13570 RVA: 0x001C5334 File Offset: 0x001C3734
 		private void DoMemoryCleanup()
 		{
 			Profiler.BeginSample("UnloadUnusedAssets");
@@ -80,7 +80,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06003503 RID: 13571 RVA: 0x001C5078 File Offset: 0x001C3478
+		// Token: 0x06003503 RID: 13571 RVA: 0x001C534C File Offset: 0x001C374C
 		private string NewAutosaveFileName()
 		{
 			string text = (from name in this.AutoSaveNames()
@@ -99,7 +99,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003504 RID: 13572 RVA: 0x001C50F4 File Offset: 0x001C34F4
+		// Token: 0x06003504 RID: 13572 RVA: 0x001C53C8 File Offset: 0x001C37C8
 		private IEnumerable<string> AutoSaveNames()
 		{
 			for (int i = 1; i <= 5; i++)

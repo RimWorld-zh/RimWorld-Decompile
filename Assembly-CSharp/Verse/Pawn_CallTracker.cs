@@ -3,35 +3,35 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D55 RID: 3413
+	// Token: 0x02000D56 RID: 3414
 	public class Pawn_CallTracker
 	{
-		// Token: 0x040032FB RID: 13051
+		// Token: 0x04003302 RID: 13058
 		public Pawn pawn;
 
-		// Token: 0x040032FC RID: 13052
+		// Token: 0x04003303 RID: 13059
 		private int ticksToNextCall = -1;
 
-		// Token: 0x040032FD RID: 13053
+		// Token: 0x04003304 RID: 13060
 		private static readonly IntRange CallOnAggroDelayRange = new IntRange(0, 120);
 
-		// Token: 0x040032FE RID: 13054
+		// Token: 0x04003305 RID: 13061
 		private static readonly IntRange CallOnMeleeDelayRange = new IntRange(0, 20);
 
-		// Token: 0x040032FF RID: 13055
+		// Token: 0x04003306 RID: 13062
 		private const float AngryCallOnMeleeChance = 0.5f;
 
-		// Token: 0x04003300 RID: 13056
+		// Token: 0x04003307 RID: 13063
 		private const int AggressiveDurationAfterEngagingTarget = 360;
 
-		// Token: 0x06004C30 RID: 19504 RVA: 0x0027BF58 File Offset: 0x0027A358
+		// Token: 0x06004C30 RID: 19504 RVA: 0x0027C238 File Offset: 0x0027A638
 		public Pawn_CallTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000C68 RID: 3176
-		// (get) Token: 0x06004C31 RID: 19505 RVA: 0x0027BF70 File Offset: 0x0027A370
+		// (get) Token: 0x06004C31 RID: 19505 RVA: 0x0027C250 File Offset: 0x0027A650
 		private bool PawnAggressive
 		{
 			get
@@ -41,7 +41,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C69 RID: 3177
-		// (get) Token: 0x06004C32 RID: 19506 RVA: 0x0027C02C File Offset: 0x0027A42C
+		// (get) Token: 0x06004C32 RID: 19506 RVA: 0x0027C30C File Offset: 0x0027A70C
 		private float IdleCallVolumeFactor
 		{
 			get
@@ -71,7 +71,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C33 RID: 19507 RVA: 0x0027C0A2 File Offset: 0x0027A4A2
+		// Token: 0x06004C33 RID: 19507 RVA: 0x0027C382 File Offset: 0x0027A782
 		public void CallTrackerTick()
 		{
 			if (this.ticksToNextCall < 0)
@@ -86,7 +86,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C34 RID: 19508 RVA: 0x0027C0DF File Offset: 0x0027A4DF
+		// Token: 0x06004C34 RID: 19508 RVA: 0x0027C3BF File Offset: 0x0027A7BF
 		private void ResetTicksToNextCall()
 		{
 			this.ticksToNextCall = this.pawn.def.race.soundCallIntervalRange.RandomInRange;
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C35 RID: 19509 RVA: 0x0027C11C File Offset: 0x0027A51C
+		// Token: 0x06004C35 RID: 19509 RVA: 0x0027C3FC File Offset: 0x0027A7FC
 		private void TryDoCall()
 		{
 			if (Find.CameraDriver.CurrentViewRect.ExpandedBy(10).Contains(this.pawn.Position))
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C36 RID: 19510 RVA: 0x0027C1AC File Offset: 0x0027A5AC
+		// Token: 0x06004C36 RID: 19510 RVA: 0x0027C48C File Offset: 0x0027A88C
 		public void DoCall()
 		{
 			if (this.pawn.Spawned)
@@ -127,13 +127,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C37 RID: 19511 RVA: 0x0027C23C File Offset: 0x0027A63C
+		// Token: 0x06004C37 RID: 19511 RVA: 0x0027C51C File Offset: 0x0027A91C
 		public void Notify_InAggroMentalState()
 		{
 			this.ticksToNextCall = Pawn_CallTracker.CallOnAggroDelayRange.RandomInRange;
 		}
 
-		// Token: 0x06004C38 RID: 19512 RVA: 0x0027C260 File Offset: 0x0027A660
+		// Token: 0x06004C38 RID: 19512 RVA: 0x0027C540 File Offset: 0x0027A940
 		public void Notify_DidMeleeAttack()
 		{
 			if (Rand.Value < 0.5f)
@@ -142,7 +142,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C39 RID: 19513 RVA: 0x0027C290 File Offset: 0x0027A690
+		// Token: 0x06004C39 RID: 19513 RVA: 0x0027C570 File Offset: 0x0027A970
 		public void Notify_Released()
 		{
 			if (Rand.Value < 0.75f)

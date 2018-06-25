@@ -6,28 +6,28 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BCF RID: 3023
+	// Token: 0x02000BD0 RID: 3024
 	[HasDebugOutput]
 	public class PlayLogEntry_Interaction : LogEntry
 	{
-		// Token: 0x04002CF7 RID: 11511
+		// Token: 0x04002CFE RID: 11518
 		private InteractionDef intDef;
 
-		// Token: 0x04002CF8 RID: 11512
+		// Token: 0x04002CFF RID: 11519
 		private Pawn initiator;
 
-		// Token: 0x04002CF9 RID: 11513
+		// Token: 0x04002D00 RID: 11520
 		private Pawn recipient;
 
-		// Token: 0x04002CFA RID: 11514
+		// Token: 0x04002D01 RID: 11521
 		private List<RulePackDef> extraSentencePacks = null;
 
-		// Token: 0x060041DE RID: 16862 RVA: 0x0022B5B0 File Offset: 0x002299B0
+		// Token: 0x060041DE RID: 16862 RVA: 0x0022B890 File Offset: 0x00229C90
 		public PlayLogEntry_Interaction() : base(null)
 		{
 		}
 
-		// Token: 0x060041DF RID: 16863 RVA: 0x0022B5C1 File Offset: 0x002299C1
+		// Token: 0x060041DF RID: 16863 RVA: 0x0022B8A1 File Offset: 0x00229CA1
 		public PlayLogEntry_Interaction(InteractionDef intDef, Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks) : base(null)
 		{
 			this.intDef = intDef;
@@ -37,7 +37,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A49 RID: 2633
-		// (get) Token: 0x060041E0 RID: 16864 RVA: 0x0022B5F0 File Offset: 0x002299F0
+		// (get) Token: 0x060041E0 RID: 16864 RVA: 0x0022B8D0 File Offset: 0x00229CD0
 		private string InitiatorName
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A4A RID: 2634
-		// (get) Token: 0x060041E1 RID: 16865 RVA: 0x0022B628 File Offset: 0x00229A28
+		// (get) Token: 0x060041E1 RID: 16865 RVA: 0x0022B908 File Offset: 0x00229D08
 		private string RecipientName
 		{
 			get
@@ -56,13 +56,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041E2 RID: 16866 RVA: 0x0022B660 File Offset: 0x00229A60
+		// Token: 0x060041E2 RID: 16866 RVA: 0x0022B940 File Offset: 0x00229D40
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiator || t == this.recipient;
 		}
 
-		// Token: 0x060041E3 RID: 16867 RVA: 0x0022B690 File Offset: 0x00229A90
+		// Token: 0x060041E3 RID: 16867 RVA: 0x0022B970 File Offset: 0x00229D70
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiator != null)
@@ -76,7 +76,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060041E4 RID: 16868 RVA: 0x0022B6BC File Offset: 0x00229ABC
+		// Token: 0x060041E4 RID: 16868 RVA: 0x0022B99C File Offset: 0x00229D9C
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.initiator)
@@ -93,19 +93,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041E5 RID: 16869 RVA: 0x0022B714 File Offset: 0x00229B14
+		// Token: 0x060041E5 RID: 16869 RVA: 0x0022B9F4 File Offset: 0x00229DF4
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			return this.intDef.Symbol;
 		}
 
-		// Token: 0x060041E6 RID: 16870 RVA: 0x0022B734 File Offset: 0x00229B34
+		// Token: 0x060041E6 RID: 16870 RVA: 0x0022BA14 File Offset: 0x00229E14
 		public override string GetTipString()
 		{
 			return this.intDef.LabelCap + "\n" + base.GetTipString();
 		}
 
-		// Token: 0x060041E7 RID: 16871 RVA: 0x0022B764 File Offset: 0x00229B64
+		// Token: 0x060041E7 RID: 16871 RVA: 0x0022BA44 File Offset: 0x00229E44
 		protected override string ToGameStringFromPOV_Worker(Thing pov, bool forceLog)
 		{
 			string result;
@@ -167,7 +167,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060041E8 RID: 16872 RVA: 0x0022BA78 File Offset: 0x00229E78
+		// Token: 0x060041E8 RID: 16872 RVA: 0x0022BD58 File Offset: 0x0022A158
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -177,7 +177,7 @@ namespace Verse
 			Scribe_Collections.Look<RulePackDef>(ref this.extraSentencePacks, "extras", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x060041E9 RID: 16873 RVA: 0x0022BAD8 File Offset: 0x00229ED8
+		// Token: 0x060041E9 RID: 16873 RVA: 0x0022BDB8 File Offset: 0x0022A1B8
 		public override string ToString()
 		{
 			return string.Concat(new string[]

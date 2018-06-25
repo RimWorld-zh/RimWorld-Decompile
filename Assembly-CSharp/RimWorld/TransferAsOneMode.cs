@@ -5,11 +5,11 @@ namespace RimWorld
 	// Token: 0x0200082B RID: 2091
 	public enum TransferAsOneMode
 	{
-		// Token: 0x04001957 RID: 6487
+		// Token: 0x0400195B RID: 6491
 		Normal,
-		// Token: 0x04001958 RID: 6488
+		// Token: 0x0400195C RID: 6492
 		PodsOrCaravanPacking,
-		// Token: 0x04001959 RID: 6489
+		// Token: 0x0400195D RID: 6493
 		InactiveTradeable
 	}
 }

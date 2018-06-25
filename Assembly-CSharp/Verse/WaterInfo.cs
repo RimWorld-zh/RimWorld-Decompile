@@ -5,39 +5,39 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C39 RID: 3129
+	// Token: 0x02000C3A RID: 3130
 	public class WaterInfo : MapComponent
 	{
-		// Token: 0x04002F1B RID: 12059
+		// Token: 0x04002F22 RID: 12066
 		public byte[] riverOffsetMap;
 
-		// Token: 0x04002F1C RID: 12060
+		// Token: 0x04002F23 RID: 12067
 		public Texture2D riverOffsetTexture;
 
-		// Token: 0x04002F1D RID: 12061
+		// Token: 0x04002F24 RID: 12068
 		public List<Vector3> riverDebugData = new List<Vector3>();
 
-		// Token: 0x04002F1E RID: 12062
+		// Token: 0x04002F25 RID: 12069
 		public float[] riverFlowMap;
 
-		// Token: 0x04002F1F RID: 12063
+		// Token: 0x04002F26 RID: 12070
 		public CellRect riverFlowMapBounds;
 
-		// Token: 0x04002F20 RID: 12064
+		// Token: 0x04002F27 RID: 12071
 		public const int RiverOffsetMapBorder = 2;
 
-		// Token: 0x06004500 RID: 17664 RVA: 0x00244DD1 File Offset: 0x002431D1
+		// Token: 0x06004500 RID: 17664 RVA: 0x002450B1 File Offset: 0x002434B1
 		public WaterInfo(Map map) : base(map)
 		{
 		}
 
-		// Token: 0x06004501 RID: 17665 RVA: 0x00244DE6 File Offset: 0x002431E6
+		// Token: 0x06004501 RID: 17665 RVA: 0x002450C6 File Offset: 0x002434C6
 		public override void MapRemoved()
 		{
 			UnityEngine.Object.Destroy(this.riverOffsetTexture);
 		}
 
-		// Token: 0x06004502 RID: 17666 RVA: 0x00244DF4 File Offset: 0x002431F4
+		// Token: 0x06004502 RID: 17666 RVA: 0x002450D4 File Offset: 0x002434D4
 		public void SetTextures()
 		{
 			Camera subcamera = Current.SubcameraDriver.GetSubcamera(SubcameraDefOf.WaterDepth);
@@ -52,7 +52,7 @@ namespace Verse
 			Shader.SetGlobalTexture(ShaderPropertyIDs.WaterOffsetTex, this.riverOffsetTexture);
 		}
 
-		// Token: 0x06004503 RID: 17667 RVA: 0x00244EC0 File Offset: 0x002432C0
+		// Token: 0x06004503 RID: 17667 RVA: 0x002451A0 File Offset: 0x002435A0
 		public Vector3 GetWaterMovement(Vector3 position)
 		{
 			Vector3 result;
@@ -86,7 +86,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004504 RID: 17668 RVA: 0x00245070 File Offset: 0x00243470
+		// Token: 0x06004504 RID: 17668 RVA: 0x00245350 File Offset: 0x00243750
 		public void GenerateRiverFlowMap()
 		{
 			if (this.riverOffsetMap != null)
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004505 RID: 17669 RVA: 0x00245311 File Offset: 0x00243711
+		// Token: 0x06004505 RID: 17669 RVA: 0x002455F1 File Offset: 0x002439F1
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -128,7 +128,7 @@ namespace Verse
 			this.GenerateRiverFlowMap();
 		}
 
-		// Token: 0x06004506 RID: 17670 RVA: 0x00245330 File Offset: 0x00243730
+		// Token: 0x06004506 RID: 17670 RVA: 0x00245610 File Offset: 0x00243A10
 		public void DebugDrawRiver()
 		{
 			for (int i = 0; i < this.riverDebugData.Count; i += 2)

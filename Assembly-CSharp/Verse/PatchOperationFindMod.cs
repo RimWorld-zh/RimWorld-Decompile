@@ -4,19 +4,19 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CDF RID: 3295
+	// Token: 0x02000CE0 RID: 3296
 	public class PatchOperationFindMod : PatchOperation
 	{
-		// Token: 0x0400311A RID: 12570
+		// Token: 0x04003121 RID: 12577
 		private List<string> mods;
 
-		// Token: 0x0400311B RID: 12571
+		// Token: 0x04003122 RID: 12578
 		private PatchOperation match;
 
-		// Token: 0x0400311C RID: 12572
+		// Token: 0x04003123 RID: 12579
 		private PatchOperation nomatch;
 
-		// Token: 0x0600489F RID: 18591 RVA: 0x00262040 File Offset: 0x00260440
+		// Token: 0x0600489F RID: 18591 RVA: 0x00262320 File Offset: 0x00260720
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool flag = false;
@@ -42,7 +42,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060048A0 RID: 18592 RVA: 0x002620E0 File Offset: 0x002604E0
+		// Token: 0x060048A0 RID: 18592 RVA: 0x002623C0 File Offset: 0x002607C0
 		public override string ToString()
 		{
 			return string.Format("{0}({1})", base.ToString(), this.mods.ToCommaList(false));

@@ -5,13 +5,13 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3F RID: 2623
+	// Token: 0x02000A40 RID: 2624
 	public static class Toils_Recipe
 	{
-		// Token: 0x0400250A RID: 9482
+		// Token: 0x0400251A RID: 9498
 		private const int LongCraftingProjectThreshold = 20000;
 
-		// Token: 0x06003A2E RID: 14894 RVA: 0x001ED038 File Offset: 0x001EB438
+		// Token: 0x06003A2F RID: 14895 RVA: 0x001ED364 File Offset: 0x001EB764
 		public static Toil MakeUnfinishedThingIfNeeded()
 		{
 			Toil toil = new Toil();
@@ -53,7 +53,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A2F RID: 14895 RVA: 0x001ED07C File Offset: 0x001EB47C
+		// Token: 0x06003A30 RID: 14896 RVA: 0x001ED3A8 File Offset: 0x001EB7A8
 		public static Toil DoRecipeWork()
 		{
 			Toil toil = new Toil();
@@ -150,7 +150,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A30 RID: 14896 RVA: 0x001ED164 File Offset: 0x001EB564
+		// Token: 0x06003A31 RID: 14897 RVA: 0x001ED490 File Offset: 0x001EB890
 		public static Toil FinishRecipeAndStartStoringProduct()
 		{
 			Toil toil = new Toil();
@@ -259,7 +259,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A31 RID: 14897 RVA: 0x001ED1A8 File Offset: 0x001EB5A8
+		// Token: 0x06003A32 RID: 14898 RVA: 0x001ED4D4 File Offset: 0x001EB8D4
 		private static List<Thing> CalculateIngredients(Job job, Pawn actor)
 		{
 			UnfinishedThing unfinishedThing = job.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
@@ -327,7 +327,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A32 RID: 14898 RVA: 0x001ED39C File Offset: 0x001EB79C
+		// Token: 0x06003A33 RID: 14899 RVA: 0x001ED6C8 File Offset: 0x001EBAC8
 		private static Thing CalculateDominantIngredient(Job job, List<Thing> ingredients)
 		{
 			UnfinishedThing uft = job.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
@@ -360,7 +360,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A33 RID: 14899 RVA: 0x001ED4E4 File Offset: 0x001EB8E4
+		// Token: 0x06003A34 RID: 14900 RVA: 0x001ED810 File Offset: 0x001EBC10
 		private static void ConsumeIngredients(List<Thing> ingredients, RecipeDef recipe, Map map)
 		{
 			for (int i = 0; i < ingredients.Count; i++)

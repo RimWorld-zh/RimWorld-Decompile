@@ -7,10 +7,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D3 RID: 979
 	public class SymbolResolver_Refuel : SymbolResolver
 	{
-		// Token: 0x04000A40 RID: 2624
+		// Token: 0x04000A43 RID: 2627
 		private static List<CompRefuelable> refuelables = new List<CompRefuelable>();
 
-		// Token: 0x060010DA RID: 4314 RVA: 0x0008F964 File Offset: 0x0008DD64
+		// Token: 0x060010D9 RID: 4313 RVA: 0x0008F974 File Offset: 0x0008DD74
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

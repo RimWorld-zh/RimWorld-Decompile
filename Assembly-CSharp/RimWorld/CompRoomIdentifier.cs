@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompRoomIdentifier : ThingComp
 	{
 		// Token: 0x17000641 RID: 1601
-		// (get) Token: 0x06002895 RID: 10389 RVA: 0x0015AD00 File Offset: 0x00159100
+		// (get) Token: 0x06002894 RID: 10388 RVA: 0x0015AF60 File Offset: 0x00159360
 		private CompProperties_RoomIdentifier Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002896 RID: 10390 RVA: 0x0015AD20 File Offset: 0x00159120
+		// Token: 0x06002895 RID: 10389 RVA: 0x0015AF80 File Offset: 0x00159380
 		public override string CompInspectStringExtra()
 		{
 			Room room = this.parent.GetRoom(RegionType.Set_All);

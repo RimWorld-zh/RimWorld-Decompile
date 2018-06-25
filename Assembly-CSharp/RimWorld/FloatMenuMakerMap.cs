@@ -12,19 +12,19 @@ namespace RimWorld
 	// Token: 0x0200083D RID: 2109
 	public static class FloatMenuMakerMap
 	{
-		// Token: 0x040019CA RID: 6602
+		// Token: 0x040019CE RID: 6606
 		public static Pawn makingFor;
 
-		// Token: 0x040019CB RID: 6603
+		// Token: 0x040019CF RID: 6607
 		private static FloatMenuOption[] equivalenceGroupTempStorage;
 
-		// Token: 0x06002FB9 RID: 12217 RVA: 0x00199750 File Offset: 0x00197B50
+		// Token: 0x06002FB8 RID: 12216 RVA: 0x001999B8 File Offset: 0x00197DB8
 		private static bool CanTakeOrder(Pawn pawn)
 		{
 			return pawn.IsColonistPlayerControlled;
 		}
 
-		// Token: 0x06002FBA RID: 12218 RVA: 0x0019976C File Offset: 0x00197B6C
+		// Token: 0x06002FB9 RID: 12217 RVA: 0x001999D4 File Offset: 0x00197DD4
 		public static void TryMakeFloatMenu(Pawn pawn)
 		{
 			if (FloatMenuMakerMap.CanTakeOrder(pawn))
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBB RID: 12219 RVA: 0x001998A4 File Offset: 0x00197CA4
+		// Token: 0x06002FBA RID: 12218 RVA: 0x00199B0C File Offset: 0x00197F0C
 		public static List<FloatMenuOption> ChoicesAtFor(Vector3 clickPos, Pawn pawn)
 		{
 			IntVec3 intVec = IntVec3.FromVector3(clickPos);
@@ -129,7 +129,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FBC RID: 12220 RVA: 0x00199A00 File Offset: 0x00197E00
+		// Token: 0x06002FBB RID: 12219 RVA: 0x00199C68 File Offset: 0x00198068
 		private static void AddDraftedOrders(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			IntVec3 clickCell = IntVec3.FromVector3(clickPos);
@@ -265,7 +265,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBD RID: 12221 RVA: 0x00199F20 File Offset: 0x00198320
+		// Token: 0x06002FBC RID: 12220 RVA: 0x0019A188 File Offset: 0x00198588
 		private static void AddHumanlikeOrders(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			IntVec3 c = IntVec3.FromVector3(clickPos);
@@ -933,7 +933,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBE RID: 12222 RVA: 0x0019BC90 File Offset: 0x0019A090
+		// Token: 0x06002FBD RID: 12221 RVA: 0x0019BEF8 File Offset: 0x0019A2F8
 		private static void AddUndraftedOrders(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			if (FloatMenuMakerMap.equivalenceGroupTempStorage == null || FloatMenuMakerMap.equivalenceGroupTempStorage.Length != DefDatabase<WorkGiverEquivalenceGroupDef>.DefCount)
@@ -962,7 +962,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FBF RID: 12223 RVA: 0x0019BD94 File Offset: 0x0019A194
+		// Token: 0x06002FBE RID: 12222 RVA: 0x0019BFFC File Offset: 0x0019A3FC
 		private static void AddJobGiverWorkOrders(IntVec3 clickCell, Pawn pawn, List<FloatMenuOption> opts, bool drafted)
 		{
 			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
@@ -1333,7 +1333,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FC0 RID: 12224 RVA: 0x0019CB3C File Offset: 0x0019AF3C
+		// Token: 0x06002FBF RID: 12223 RVA: 0x0019CDA4 File Offset: 0x0019B1A4
 		private static FloatMenuOption GotoLocationOption(IntVec3 clickCell, Pawn pawn)
 		{
 			int num = GenRadial.NumCellsInRadius(2.9f);

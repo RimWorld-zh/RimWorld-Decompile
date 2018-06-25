@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A88 RID: 2696
+	// Token: 0x02000A89 RID: 2697
 	public static class MurderousRageMentalStateUtility
 	{
-		// Token: 0x04002585 RID: 9605
+		// Token: 0x04002595 RID: 9621
 		private static List<Pawn> tmpTargets = new List<Pawn>();
 
-		// Token: 0x06003BD8 RID: 15320 RVA: 0x001F8B80 File Offset: 0x001F6F80
+		// Token: 0x06003BD9 RID: 15321 RVA: 0x001F8EAC File Offset: 0x001F72AC
 		public static Pawn FindPawnToKill(Pawn pawn)
 		{
 			Pawn result;

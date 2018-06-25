@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBB RID: 3515
+	// Token: 0x02000DBC RID: 3516
 	public static class AudioSourceMaker
 	{
-		// Token: 0x04003444 RID: 13380
+		// Token: 0x0400344B RID: 13387
 		private const AudioRolloffMode WorldRolloffMode = AudioRolloffMode.Linear;
 
-		// Token: 0x06004E8E RID: 20110 RVA: 0x00290DA8 File Offset: 0x0028F1A8
+		// Token: 0x06004E8E RID: 20110 RVA: 0x00291088 File Offset: 0x0028F488
 		public static AudioSource NewAudioSourceOn(GameObject go)
 		{
 			AudioSource result;

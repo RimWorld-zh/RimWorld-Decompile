@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000697 RID: 1687
 	public class Building_Cooler : Building_TempControl
 	{
-		// Token: 0x040013F8 RID: 5112
+		// Token: 0x040013FC RID: 5116
 		private const float HeatOutputMultiplier = 1.25f;
 
-		// Token: 0x040013F9 RID: 5113
+		// Token: 0x040013FD RID: 5117
 		private const float EfficiencyLossPerDegreeDifference = 0.0076923077f;
 
-		// Token: 0x060023C6 RID: 9158 RVA: 0x00132B8C File Offset: 0x00130F8C
+		// Token: 0x060023C5 RID: 9157 RVA: 0x00132DF4 File Offset: 0x001311F4
 		public override void TickRare()
 		{
 			if (this.compPowerTrader.PowerOn)

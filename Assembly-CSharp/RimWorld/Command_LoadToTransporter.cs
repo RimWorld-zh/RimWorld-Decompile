@@ -10,16 +10,16 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Command_LoadToTransporter : Command
 	{
-		// Token: 0x0400167C RID: 5756
+		// Token: 0x04001680 RID: 5760
 		public CompTransporter transComp;
 
-		// Token: 0x0400167D RID: 5757
+		// Token: 0x04001681 RID: 5761
 		private List<CompTransporter> transporters;
 
-		// Token: 0x0400167E RID: 5758
+		// Token: 0x04001682 RID: 5762
 		private static HashSet<Building> tmpFuelingPortGivers = new HashSet<Building>();
 
-		// Token: 0x0600293C RID: 10556 RVA: 0x0015F218 File Offset: 0x0015D618
+		// Token: 0x0600293B RID: 10555 RVA: 0x0015F478 File Offset: 0x0015D878
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -68,7 +68,7 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_LoadTransporters(this.transComp.Map, this.transporters));
 		}
 
-		// Token: 0x0600293D RID: 10557 RVA: 0x0015F430 File Offset: 0x0015D830
+		// Token: 0x0600293C RID: 10556 RVA: 0x0015F690 File Offset: 0x0015DA90
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_LoadToTransporter command_LoadToTransporter = (Command_LoadToTransporter)other;

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000A6 RID: 166
 	public class JobGiver_Mate : ThinkNode_JobGiver
 	{
-		// Token: 0x06000414 RID: 1044 RVA: 0x00030C3C File Offset: 0x0002F03C
+		// Token: 0x06000414 RID: 1044 RVA: 0x00030C58 File Offset: 0x0002F058
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

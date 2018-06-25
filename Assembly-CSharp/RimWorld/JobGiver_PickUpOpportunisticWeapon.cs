@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x020000C8 RID: 200
 	public class JobGiver_PickUpOpportunisticWeapon : ThinkNode_JobGiver
 	{
-		// Token: 0x0400029B RID: 667
+		// Token: 0x0400029C RID: 668
 		private bool preferBuildingDestroyers;
 
 		// Token: 0x170000CB RID: 203
-		// (get) Token: 0x06000497 RID: 1175 RVA: 0x00034360 File Offset: 0x00032760
+		// (get) Token: 0x06000497 RID: 1175 RVA: 0x0003437C File Offset: 0x0003277C
 		private float MinMeleeWeaponDPSThreshold
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000498 RID: 1176 RVA: 0x000343F4 File Offset: 0x000327F4
+		// Token: 0x06000498 RID: 1176 RVA: 0x00034410 File Offset: 0x00032810
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_PickUpOpportunisticWeapon jobGiver_PickUpOpportunisticWeapon = (JobGiver_PickUpOpportunisticWeapon)base.DeepCopy(resolve);
@@ -39,7 +39,7 @@ namespace RimWorld
 			return jobGiver_PickUpOpportunisticWeapon;
 		}
 
-		// Token: 0x06000499 RID: 1177 RVA: 0x00034424 File Offset: 0x00032824
+		// Token: 0x06000499 RID: 1177 RVA: 0x00034440 File Offset: 0x00032840
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600049A RID: 1178 RVA: 0x00034558 File Offset: 0x00032958
+		// Token: 0x0600049A RID: 1178 RVA: 0x00034574 File Offset: 0x00032974
 		private bool AlreadySatisfiedWithCurrentWeapon(Pawn pawn)
 		{
 			ThingWithComps primary = pawn.equipment.Primary;
@@ -105,13 +105,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600049B RID: 1179 RVA: 0x000345D8 File Offset: 0x000329D8
+		// Token: 0x0600049B RID: 1179 RVA: 0x000345F4 File Offset: 0x000329F4
 		private bool ShouldEquip(Thing newWep, Pawn pawn)
 		{
 			return this.GetWeaponScore(newWep) > this.GetWeaponScore(pawn.equipment.Primary);
 		}
 
-		// Token: 0x0600049C RID: 1180 RVA: 0x00034608 File Offset: 0x00032A08
+		// Token: 0x0600049C RID: 1180 RVA: 0x00034624 File Offset: 0x00032A24
 		private int GetWeaponScore(Thing wep)
 		{
 			int result;

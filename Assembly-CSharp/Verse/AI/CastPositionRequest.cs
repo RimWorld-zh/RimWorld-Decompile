@@ -2,34 +2,34 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AE1 RID: 2785
+	// Token: 0x02000AE2 RID: 2786
 	public struct CastPositionRequest
 	{
-		// Token: 0x040026E3 RID: 9955
+		// Token: 0x040026EA RID: 9962
 		public Pawn caster;
 
-		// Token: 0x040026E4 RID: 9956
+		// Token: 0x040026EB RID: 9963
 		public Thing target;
 
-		// Token: 0x040026E5 RID: 9957
+		// Token: 0x040026EC RID: 9964
 		public Verb verb;
 
-		// Token: 0x040026E6 RID: 9958
+		// Token: 0x040026ED RID: 9965
 		public float maxRangeFromCaster;
 
-		// Token: 0x040026E7 RID: 9959
+		// Token: 0x040026EE RID: 9966
 		public float maxRangeFromTarget;
 
-		// Token: 0x040026E8 RID: 9960
+		// Token: 0x040026EF RID: 9967
 		public IntVec3 locus;
 
-		// Token: 0x040026E9 RID: 9961
+		// Token: 0x040026F0 RID: 9968
 		public float maxRangeFromLocus;
 
-		// Token: 0x040026EA RID: 9962
+		// Token: 0x040026F1 RID: 9969
 		public bool wantCoverFromTarget;
 
-		// Token: 0x040026EB RID: 9963
+		// Token: 0x040026F2 RID: 9970
 		public int maxRegions;
 	}
 }

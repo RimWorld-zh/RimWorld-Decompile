@@ -6,152 +6,152 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B5E RID: 2910
+	// Token: 0x02000B5F RID: 2911
 	public class PawnKindDef : Def
 	{
-		// Token: 0x04002A49 RID: 10825
+		// Token: 0x04002A50 RID: 10832
 		public ThingDef race = null;
 
-		// Token: 0x04002A4A RID: 10826
+		// Token: 0x04002A51 RID: 10833
 		public FactionDef defaultFactionType;
 
-		// Token: 0x04002A4B RID: 10827
+		// Token: 0x04002A52 RID: 10834
 		[NoTranslate]
 		public string backstoryCategory = null;
 
-		// Token: 0x04002A4C RID: 10828
+		// Token: 0x04002A53 RID: 10835
 		[MustTranslate]
 		public string labelPlural = null;
 
-		// Token: 0x04002A4D RID: 10829
+		// Token: 0x04002A54 RID: 10836
 		public List<PawnKindLifeStage> lifeStages = new List<PawnKindLifeStage>();
 
-		// Token: 0x04002A4E RID: 10830
+		// Token: 0x04002A55 RID: 10837
 		public float backstoryCryptosleepCommonality = 0f;
 
-		// Token: 0x04002A4F RID: 10831
+		// Token: 0x04002A56 RID: 10838
 		public int minGenerationAge = 0;
 
-		// Token: 0x04002A50 RID: 10832
+		// Token: 0x04002A57 RID: 10839
 		public int maxGenerationAge = 999999;
 
-		// Token: 0x04002A51 RID: 10833
+		// Token: 0x04002A58 RID: 10840
 		public bool factionLeader = false;
 
-		// Token: 0x04002A52 RID: 10834
+		// Token: 0x04002A59 RID: 10841
 		public bool destroyGearOnDrop = false;
 
-		// Token: 0x04002A53 RID: 10835
+		// Token: 0x04002A5A RID: 10842
 		public bool isFighter = true;
 
-		// Token: 0x04002A54 RID: 10836
+		// Token: 0x04002A5B RID: 10843
 		public float combatPower = -1f;
 
-		// Token: 0x04002A55 RID: 10837
+		// Token: 0x04002A5C RID: 10844
 		public bool canArriveManhunter = true;
 
-		// Token: 0x04002A56 RID: 10838
+		// Token: 0x04002A5D RID: 10845
 		public bool canBeSapper = false;
 
-		// Token: 0x04002A57 RID: 10839
+		// Token: 0x04002A5E RID: 10846
 		public float baseRecruitDifficulty = 0.5f;
 
-		// Token: 0x04002A58 RID: 10840
+		// Token: 0x04002A5F RID: 10847
 		public bool aiAvoidCover = false;
 
-		// Token: 0x04002A59 RID: 10841
+		// Token: 0x04002A60 RID: 10848
 		public FloatRange fleeHealthThresholdRange = new FloatRange(-0.4f, 0.4f);
 
-		// Token: 0x04002A5A RID: 10842
+		// Token: 0x04002A61 RID: 10849
 		public QualityCategory itemQuality = QualityCategory.Normal;
 
-		// Token: 0x04002A5B RID: 10843
+		// Token: 0x04002A62 RID: 10850
 		public bool forceNormalGearQuality = false;
 
-		// Token: 0x04002A5C RID: 10844
+		// Token: 0x04002A63 RID: 10851
 		public FloatRange gearHealthRange = FloatRange.One;
 
-		// Token: 0x04002A5D RID: 10845
-		public FloatRange weaponMoney = FloatRange.Zero;
-
-		// Token: 0x04002A5E RID: 10846
-		[NoTranslate]
-		public List<string> weaponTags = null;
-
-		// Token: 0x04002A5F RID: 10847
-		public FloatRange apparelMoney = FloatRange.Zero;
-
-		// Token: 0x04002A60 RID: 10848
-		public List<ThingDef> apparelRequired = null;
-
-		// Token: 0x04002A61 RID: 10849
-		[NoTranslate]
-		public List<string> apparelTags = null;
-
-		// Token: 0x04002A62 RID: 10850
-		public float apparelAllowHeadgearChance = 1f;
-
-		// Token: 0x04002A63 RID: 10851
-		public bool apparelIgnoreSeasons = false;
-
 		// Token: 0x04002A64 RID: 10852
-		public FloatRange techHediffsMoney = FloatRange.Zero;
+		public FloatRange weaponMoney = FloatRange.Zero;
 
 		// Token: 0x04002A65 RID: 10853
 		[NoTranslate]
-		public List<string> techHediffsTags = null;
+		public List<string> weaponTags = null;
 
 		// Token: 0x04002A66 RID: 10854
-		public float techHediffsChance = 0f;
+		public FloatRange apparelMoney = FloatRange.Zero;
 
 		// Token: 0x04002A67 RID: 10855
-		public List<ThingDefCountClass> fixedInventory = new List<ThingDefCountClass>();
+		public List<ThingDef> apparelRequired = null;
 
 		// Token: 0x04002A68 RID: 10856
-		public PawnInventoryOption inventoryOptions = null;
+		[NoTranslate]
+		public List<string> apparelTags = null;
 
 		// Token: 0x04002A69 RID: 10857
-		public float invNutrition = 0f;
+		public float apparelAllowHeadgearChance = 1f;
 
 		// Token: 0x04002A6A RID: 10858
-		public ThingDef invFoodDef = null;
+		public bool apparelIgnoreSeasons = false;
 
 		// Token: 0x04002A6B RID: 10859
-		public float chemicalAddictionChance = 0f;
+		public FloatRange techHediffsMoney = FloatRange.Zero;
 
 		// Token: 0x04002A6C RID: 10860
-		public float combatEnhancingDrugsChance = 0f;
+		[NoTranslate]
+		public List<string> techHediffsTags = null;
 
 		// Token: 0x04002A6D RID: 10861
-		public IntRange combatEnhancingDrugsCount = IntRange.zero;
+		public float techHediffsChance = 0f;
 
 		// Token: 0x04002A6E RID: 10862
-		public bool trader = false;
+		public List<ThingDefCountClass> fixedInventory = new List<ThingDefCountClass>();
 
 		// Token: 0x04002A6F RID: 10863
+		public PawnInventoryOption inventoryOptions = null;
+
+		// Token: 0x04002A70 RID: 10864
+		public float invNutrition = 0f;
+
+		// Token: 0x04002A71 RID: 10865
+		public ThingDef invFoodDef = null;
+
+		// Token: 0x04002A72 RID: 10866
+		public float chemicalAddictionChance = 0f;
+
+		// Token: 0x04002A73 RID: 10867
+		public float combatEnhancingDrugsChance = 0f;
+
+		// Token: 0x04002A74 RID: 10868
+		public IntRange combatEnhancingDrugsCount = IntRange.zero;
+
+		// Token: 0x04002A75 RID: 10869
+		public bool trader = false;
+
+		// Token: 0x04002A76 RID: 10870
 		[MustTranslate]
 		public string labelMale = null;
 
-		// Token: 0x04002A70 RID: 10864
+		// Token: 0x04002A77 RID: 10871
 		[MustTranslate]
 		public string labelMalePlural = null;
 
-		// Token: 0x04002A71 RID: 10865
+		// Token: 0x04002A78 RID: 10872
 		[MustTranslate]
 		public string labelFemale = null;
 
-		// Token: 0x04002A72 RID: 10866
+		// Token: 0x04002A79 RID: 10873
 		[MustTranslate]
 		public string labelFemalePlural = null;
 
-		// Token: 0x04002A73 RID: 10867
+		// Token: 0x04002A7A RID: 10874
 		public IntRange wildGroupSize = IntRange.one;
 
-		// Token: 0x04002A74 RID: 10868
+		// Token: 0x04002A7B RID: 10875
 		public float ecoSystemWeight = 1f;
 
 		// Token: 0x170009A4 RID: 2468
-		// (get) Token: 0x06003F8F RID: 16271 RVA: 0x00217D70 File Offset: 0x00216170
+		// (get) Token: 0x06003F8F RID: 16271 RVA: 0x00218050 File Offset: 0x00216450
 		public RaceProperties RaceProps
 		{
 			get
@@ -160,7 +160,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F90 RID: 16272 RVA: 0x00217D90 File Offset: 0x00216190
+		// Token: 0x06003F90 RID: 16272 RVA: 0x00218070 File Offset: 0x00216470
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -170,7 +170,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F91 RID: 16273 RVA: 0x00217DD4 File Offset: 0x002161D4
+		// Token: 0x06003F91 RID: 16273 RVA: 0x002180B4 File Offset: 0x002164B4
 		public string GetLabelPlural(int count = -1)
 		{
 			string result;
@@ -185,7 +185,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F92 RID: 16274 RVA: 0x00217E18 File Offset: 0x00216218
+		// Token: 0x06003F92 RID: 16274 RVA: 0x002180F8 File Offset: 0x002164F8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -267,7 +267,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003F93 RID: 16275 RVA: 0x00217E44 File Offset: 0x00216244
+		// Token: 0x06003F93 RID: 16275 RVA: 0x00218124 File Offset: 0x00216524
 		public static PawnKindDef Named(string defName)
 		{
 			return DefDatabase<PawnKindDef>.GetNamed(defName, true);

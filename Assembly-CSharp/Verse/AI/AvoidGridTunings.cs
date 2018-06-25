@@ -2,22 +2,22 @@
 
 namespace Verse.AI
 {
-	// Token: 0x020009E0 RID: 2528
+	// Token: 0x020009E1 RID: 2529
 	public static class AvoidGridTunings
 	{
-		// Token: 0x0400242E RID: 9262
+		// Token: 0x0400243E RID: 9278
 		public const byte MaxValue = 255;
 
-		// Token: 0x0400242F RID: 9263
+		// Token: 0x0400243F RID: 9279
 		public const int PathCostFactor = 8;
 
-		// Token: 0x04002430 RID: 9264
+		// Token: 0x04002440 RID: 9280
 		public const int CostForTurretLOS = 12;
 
-		// Token: 0x04002431 RID: 9265
+		// Token: 0x04002441 RID: 9281
 		public const int CostForTrapCenter = 32;
 
-		// Token: 0x04002432 RID: 9266
+		// Token: 0x04002442 RID: 9282
 		public const float TrapCostRadius = 2.9f;
 	}
 }

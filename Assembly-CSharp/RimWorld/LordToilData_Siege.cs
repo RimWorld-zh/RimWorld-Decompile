@@ -8,22 +8,22 @@ namespace RimWorld
 	// Token: 0x0200019B RID: 411
 	public class LordToilData_Siege : LordToilData
 	{
-		// Token: 0x0400039C RID: 924
+		// Token: 0x0400039D RID: 925
 		public IntVec3 siegeCenter;
 
-		// Token: 0x0400039D RID: 925
+		// Token: 0x0400039E RID: 926
 		public float baseRadius = 16f;
 
-		// Token: 0x0400039E RID: 926
+		// Token: 0x0400039F RID: 927
 		public float blueprintPoints;
 
-		// Token: 0x0400039F RID: 927
+		// Token: 0x040003A0 RID: 928
 		public float desiredBuilderFraction = 0.5f;
 
-		// Token: 0x040003A0 RID: 928
+		// Token: 0x040003A1 RID: 929
 		public List<Blueprint> blueprints = new List<Blueprint>();
 
-		// Token: 0x0600088C RID: 2188 RVA: 0x000516D0 File Offset: 0x0004FAD0
+		// Token: 0x0600088B RID: 2187 RVA: 0x000516CC File Offset: 0x0004FACC
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.siegeCenter, "siegeCenter", default(IntVec3), false);

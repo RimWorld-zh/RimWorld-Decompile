@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F3 RID: 2547
+	// Token: 0x020009F4 RID: 2548
 	public class LordToil_DefendSelf : LordToil
 	{
-		// Token: 0x0600393C RID: 14652 RVA: 0x001E6D08 File Offset: 0x001E5108
+		// Token: 0x0600393D RID: 14653 RVA: 0x001E7034 File Offset: 0x001E5434
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)

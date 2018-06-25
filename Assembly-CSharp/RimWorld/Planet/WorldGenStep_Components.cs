@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_Components : WorldGenStep
 	{
 		// Token: 0x1700041D RID: 1053
-		// (get) Token: 0x06001C34 RID: 7220 RVA: 0x000F2CEC File Offset: 0x000F10EC
+		// (get) Token: 0x06001C33 RID: 7219 RVA: 0x000F2F54 File Offset: 0x000F1354
 		public override int SeedPart
 		{
 			get
@@ -16,19 +16,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C35 RID: 7221 RVA: 0x000F2D06 File Offset: 0x000F1106
+		// Token: 0x06001C34 RID: 7220 RVA: 0x000F2F6E File Offset: 0x000F136E
 		public override void GenerateFresh(string seed)
 		{
 			Find.World.ConstructComponents();
 		}
 
-		// Token: 0x06001C36 RID: 7222 RVA: 0x000F2D13 File Offset: 0x000F1113
+		// Token: 0x06001C35 RID: 7221 RVA: 0x000F2F7B File Offset: 0x000F137B
 		public override void GenerateWithoutWorldData(string seed)
 		{
 			this.GenerateFromScribe(seed);
 		}
 
-		// Token: 0x06001C37 RID: 7223 RVA: 0x000F2D1D File Offset: 0x000F111D
+		// Token: 0x06001C36 RID: 7222 RVA: 0x000F2F85 File Offset: 0x000F1385
 		public override void GenerateFromScribe(string seed)
 		{
 			Find.World.ConstructComponents();

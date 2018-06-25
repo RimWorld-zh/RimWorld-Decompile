@@ -8,16 +8,16 @@ namespace RimWorld
 	// Token: 0x0200009C RID: 156
 	public static class Toils_LayDown
 	{
-		// Token: 0x04000265 RID: 613
+		// Token: 0x04000266 RID: 614
 		private const int TicksBetweenSleepZs = 100;
 
-		// Token: 0x04000266 RID: 614
+		// Token: 0x04000267 RID: 615
 		private const float GroundRestEffectiveness = 0.8f;
 
-		// Token: 0x04000267 RID: 615
+		// Token: 0x04000268 RID: 616
 		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
 
-		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4AC File Offset: 0x0002C8AC
+		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4C8 File Offset: 0x0002C8C8
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
 			Toil layDown = new Toil();
@@ -141,7 +141,7 @@ namespace RimWorld
 			return layDown;
 		}
 
-		// Token: 0x060003F2 RID: 1010 RVA: 0x0002E56C File Offset: 0x0002C96C
+		// Token: 0x060003F2 RID: 1010 RVA: 0x0002E588 File Offset: 0x0002C988
 		private static void ApplyBedThoughts(Pawn actor)
 		{
 			if (actor.needs.mood != null)

@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE7 RID: 3303
+	// Token: 0x02000CE8 RID: 3304
 	public static class PawnCollisionTweenerUtility
 	{
-		// Token: 0x04003142 RID: 12610
+		// Token: 0x04003149 RID: 12617
 		private const float Radius = 0.32f;
 
-		// Token: 0x060048C8 RID: 18632 RVA: 0x002631D0 File Offset: 0x002615D0
+		// Token: 0x060048C8 RID: 18632 RVA: 0x002634B0 File Offset: 0x002618B0
 		public static Vector3 PawnCollisionPosOffsetFor(Pawn pawn)
 		{
 			Vector3 result;
@@ -88,7 +88,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060048C9 RID: 18633 RVA: 0x00263384 File Offset: 0x00261784
+		// Token: 0x060048C9 RID: 18633 RVA: 0x00263664 File Offset: 0x00261A64
 		private static void GetPawnsStandingAtOrAboutToStandAt(IntVec3 at, Map map, out int pawnsCount, out int pawnsWithLowerIdCount, out bool forPawnFound, Pawn forPawn)
 		{
 			pawnsCount = 0;
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048CA RID: 18634 RVA: 0x002634F4 File Offset: 0x002618F4
+		// Token: 0x060048CA RID: 18634 RVA: 0x002637D4 File Offset: 0x00261BD4
 		private static bool CanGoDirectlyToNextCell(Pawn pawn)
 		{
 			IntVec3 nextCell = pawn.pather.nextCell;
@@ -178,7 +178,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x060048CB RID: 18635 RVA: 0x002636B0 File Offset: 0x00261AB0
+		// Token: 0x060048CB RID: 18635 RVA: 0x00263990 File Offset: 0x00261D90
 		private static bool WillBeFasterOnNextCell(Pawn p1, Pawn p2)
 		{
 			bool result;

@@ -9,19 +9,19 @@ namespace RimWorld.Planet
 	// Token: 0x020005A9 RID: 1449
 	public static class TileFinder
 	{
-		// Token: 0x0400106E RID: 4206
+		// Token: 0x04001072 RID: 4210
 		private static List<Pair<int, int>> tmpTiles = new List<Pair<int, int>>();
 
-		// Token: 0x0400106F RID: 4207
+		// Token: 0x04001073 RID: 4211
 		private static List<int> tmpPlayerTiles = new List<int>();
 
-		// Token: 0x06001B9A RID: 7066 RVA: 0x000EE4F4 File Offset: 0x000EC8F4
+		// Token: 0x06001B99 RID: 7065 RVA: 0x000EE75C File Offset: 0x000ECB5C
 		public static int RandomStartingTile()
 		{
 			return TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, true, null);
 		}
 
-		// Token: 0x06001B9B RID: 7067 RVA: 0x000EE518 File Offset: 0x000EC918
+		// Token: 0x06001B9A RID: 7066 RVA: 0x000EE780 File Offset: 0x000ECB80
 		public static int RandomFactionBaseTileFor(Faction faction, bool mustBeAutoChoosable = false, Predicate<int> extraValidator = null)
 		{
 			for (int i = 0; i < 500; i++)
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 			return 0;
 		}
 
-		// Token: 0x06001B9C RID: 7068 RVA: 0x000EE5C8 File Offset: 0x000EC9C8
+		// Token: 0x06001B9B RID: 7067 RVA: 0x000EE830 File Offset: 0x000ECC30
 		public static bool IsValidTileForNewSettlement(int tile, StringBuilder reason = null)
 		{
 			Tile tile2 = Find.WorldGrid[tile];
@@ -142,7 +142,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001B9D RID: 7069 RVA: 0x000EE7B0 File Offset: 0x000ECBB0
+		// Token: 0x06001B9C RID: 7068 RVA: 0x000EEA18 File Offset: 0x000ECE18
 		public static bool TryFindPassableTileWithTraversalDistance(int rootTile, int minDist, int maxDist, out int result, Predicate<int> validator = null, bool ignoreFirstTilePassability = false, bool preferCloserTiles = false)
 		{
 			TileFinder.tmpTiles.Clear();
@@ -191,7 +191,7 @@ namespace RimWorld.Planet
 			return result2;
 		}
 
-		// Token: 0x06001B9E RID: 7070 RVA: 0x000EE894 File Offset: 0x000ECC94
+		// Token: 0x06001B9D RID: 7069 RVA: 0x000EEAFC File Offset: 0x000ECEFC
 		public static bool TryFindRandomPlayerTile(out int tile, bool allowCaravans, Predicate<int> validator = null)
 		{
 			TileFinder.tmpPlayerTiles.Clear();
@@ -254,7 +254,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001B9F RID: 7071 RVA: 0x000EEA90 File Offset: 0x000ECE90
+		// Token: 0x06001B9E RID: 7070 RVA: 0x000EECF8 File Offset: 0x000ED0F8
 		public static bool TryFindNewSiteTile(out int tile, int minDist = 7, int maxDist = 27, bool allowCaravans = false, bool preferCloserTiles = true, int nearThisTile = -1)
 		{
 			Func<int, int> findTile = delegate(int root)

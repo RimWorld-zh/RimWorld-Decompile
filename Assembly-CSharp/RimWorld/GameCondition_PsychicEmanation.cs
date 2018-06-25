@@ -6,11 +6,11 @@ namespace RimWorld
 	// Token: 0x02000311 RID: 785
 	public class GameCondition_PsychicEmanation : GameCondition
 	{
-		// Token: 0x0400087E RID: 2174
+		// Token: 0x04000881 RID: 2177
 		public Gender gender = Gender.Male;
 
 		// Token: 0x17000200 RID: 512
-		// (get) Token: 0x06000D47 RID: 3399 RVA: 0x00072E9C File Offset: 0x0007129C
+		// (get) Token: 0x06000D46 RID: 3398 RVA: 0x00072EA4 File Offset: 0x000712A4
 		public override string Label
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D48 RID: 3400 RVA: 0x00072EE6 File Offset: 0x000712E6
+		// Token: 0x06000D47 RID: 3399 RVA: 0x00072EEE File Offset: 0x000712EE
 		public override void ExposeData()
 		{
 			base.ExposeData();

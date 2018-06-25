@@ -6,34 +6,34 @@ namespace RimWorld
 	// Token: 0x020004E7 RID: 1255
 	public class DrugPolicyEntry : IExposable
 	{
-		// Token: 0x04000D0D RID: 3341
+		// Token: 0x04000D10 RID: 3344
 		public ThingDef drug;
 
-		// Token: 0x04000D0E RID: 3342
+		// Token: 0x04000D11 RID: 3345
 		public bool allowedForAddiction = false;
 
-		// Token: 0x04000D0F RID: 3343
+		// Token: 0x04000D12 RID: 3346
 		public bool allowedForJoy = false;
 
-		// Token: 0x04000D10 RID: 3344
+		// Token: 0x04000D13 RID: 3347
 		public bool allowScheduled = false;
 
-		// Token: 0x04000D11 RID: 3345
+		// Token: 0x04000D14 RID: 3348
 		public float daysFrequency = 1f;
 
-		// Token: 0x04000D12 RID: 3346
+		// Token: 0x04000D15 RID: 3349
 		public float onlyIfMoodBelow = 1f;
 
-		// Token: 0x04000D13 RID: 3347
+		// Token: 0x04000D16 RID: 3350
 		public float onlyIfJoyBelow = 1f;
 
-		// Token: 0x04000D14 RID: 3348
+		// Token: 0x04000D17 RID: 3351
 		public int takeToInventory = 0;
 
-		// Token: 0x04000D15 RID: 3349
+		// Token: 0x04000D18 RID: 3352
 		public string takeToInventoryTempBuffer;
 
-		// Token: 0x06001667 RID: 5735 RVA: 0x000C6F90 File Offset: 0x000C5390
+		// Token: 0x06001666 RID: 5734 RVA: 0x000C7190 File Offset: 0x000C5590
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");

@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000C20 RID: 3104
+	// Token: 0x02000C21 RID: 3105
 	public sealed class EdificeGrid
 	{
-		// Token: 0x04002E5D RID: 11869
+		// Token: 0x04002E64 RID: 11876
 		private Map map;
 
-		// Token: 0x04002E5E RID: 11870
+		// Token: 0x04002E65 RID: 11877
 		private Building[] innerArray;
 
-		// Token: 0x060043F5 RID: 17397 RVA: 0x0023D793 File Offset: 0x0023BB93
+		// Token: 0x060043F5 RID: 17397 RVA: 0x0023DA73 File Offset: 0x0023BE73
 		public EdificeGrid(Map map)
 		{
 			this.map = map;
@@ -19,7 +19,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AA7 RID: 2727
-		// (get) Token: 0x060043F6 RID: 17398 RVA: 0x0023D7BC File Offset: 0x0023BBBC
+		// (get) Token: 0x060043F6 RID: 17398 RVA: 0x0023DA9C File Offset: 0x0023BE9C
 		public Building[] InnerArray
 		{
 			get
@@ -46,7 +46,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043F9 RID: 17401 RVA: 0x0023D828 File Offset: 0x0023BC28
+		// Token: 0x060043F9 RID: 17401 RVA: 0x0023DB08 File Offset: 0x0023BF08
 		public void Register(Building ed)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -76,7 +76,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043FA RID: 17402 RVA: 0x0023D934 File Offset: 0x0023BD34
+		// Token: 0x060043FA RID: 17402 RVA: 0x0023DC14 File Offset: 0x0023C014
 		public void DeRegister(Building ed)
 		{
 			CellIndices cellIndices = this.map.cellIndices;

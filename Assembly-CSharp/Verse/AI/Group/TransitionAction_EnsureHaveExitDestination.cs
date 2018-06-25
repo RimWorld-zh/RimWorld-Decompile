@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A04 RID: 2564
+	// Token: 0x02000A05 RID: 2565
 	public class TransitionAction_EnsureHaveExitDestination : TransitionAction
 	{
-		// Token: 0x06003980 RID: 14720 RVA: 0x001E7C7C File Offset: 0x001E607C
+		// Token: 0x06003981 RID: 14721 RVA: 0x001E7FA8 File Offset: 0x001E63A8
 		public override void DoAction(Transition trans)
 		{
 			LordToil_Travel lordToil_Travel = (LordToil_Travel)trans.target;

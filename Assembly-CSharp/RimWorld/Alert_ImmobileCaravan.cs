@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000790 RID: 1936
 	public class Alert_ImmobileCaravan : Alert_Critical
 	{
-		// Token: 0x06002AF1 RID: 10993 RVA: 0x0016B0B0 File Offset: 0x001694B0
+		// Token: 0x06002AF0 RID: 10992 RVA: 0x0016B314 File Offset: 0x00169714
 		public Alert_ImmobileCaravan()
 		{
 			this.defaultLabel = "ImmobileCaravan".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B0 RID: 1712
-		// (get) Token: 0x06002AF2 RID: 10994 RVA: 0x0016B0DC File Offset: 0x001694DC
+		// (get) Token: 0x06002AF1 RID: 10993 RVA: 0x0016B340 File Offset: 0x00169740
 		private IEnumerable<Caravan> ImmobileCaravans
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AF3 RID: 10995 RVA: 0x0016B100 File Offset: 0x00169500
+		// Token: 0x06002AF2 RID: 10994 RVA: 0x0016B364 File Offset: 0x00169764
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.ImmobileCaravans);

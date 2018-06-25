@@ -11,71 +11,71 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ColonistBarColonistDrawer
 	{
-		// Token: 0x0400176A RID: 5994
+		// Token: 0x0400176E RID: 5998
 		private Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
 
-		// Token: 0x0400176B RID: 5995
+		// Token: 0x0400176F RID: 5999
 		private static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
 
-		// Token: 0x0400176C RID: 5996
+		// Token: 0x04001770 RID: 6000
 		private static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist", true);
 
-		// Token: 0x0400176D RID: 5997
+		// Token: 0x04001771 RID: 6001
 		private static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan", true);
 
-		// Token: 0x0400176E RID: 5998
+		// Token: 0x04001772 RID: 6002
 		private static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro", true);
 
-		// Token: 0x0400176F RID: 5999
+		// Token: 0x04001773 RID: 6003
 		private static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro", true);
 
-		// Token: 0x04001770 RID: 6000
+		// Token: 0x04001774 RID: 6004
 		private static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest", true);
 
-		// Token: 0x04001771 RID: 6001
+		// Token: 0x04001775 RID: 6005
 		private static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping", true);
 
-		// Token: 0x04001772 RID: 6002
+		// Token: 0x04001776 RID: 6006
 		private static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing", true);
 
-		// Token: 0x04001773 RID: 6003
+		// Token: 0x04001777 RID: 6007
 		private static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking", true);
 
-		// Token: 0x04001774 RID: 6004
+		// Token: 0x04001778 RID: 6008
 		private static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle", true);
 
-		// Token: 0x04001775 RID: 6005
+		// Token: 0x04001779 RID: 6009
 		private static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning", true);
 
-		// Token: 0x04001776 RID: 6006
+		// Token: 0x0400177A RID: 6010
 		private static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired", true);
 
-		// Token: 0x04001777 RID: 6007
+		// Token: 0x0400177B RID: 6011
 		public static readonly Vector2 PawnTextureSize = new Vector2(ColonistBar.BaseSize.x - 2f, 75f);
 
-		// Token: 0x04001778 RID: 6008
+		// Token: 0x0400177C RID: 6012
 		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
 
-		// Token: 0x04001779 RID: 6009
+		// Token: 0x0400177D RID: 6013
 		public const float PawnTextureCameraZoom = 1.28205f;
 
-		// Token: 0x0400177A RID: 6010
+		// Token: 0x0400177E RID: 6014
 		private const float PawnTextureHorizontalPadding = 1f;
 
-		// Token: 0x0400177B RID: 6011
+		// Token: 0x0400177F RID: 6015
 		private const float BaseIconSize = 20f;
 
-		// Token: 0x0400177C RID: 6012
+		// Token: 0x04001780 RID: 6016
 		private const float BaseGroupFrameMargin = 12f;
 
-		// Token: 0x0400177D RID: 6013
+		// Token: 0x04001781 RID: 6017
 		public const float DoubleClickTime = 0.5f;
 
-		// Token: 0x0400177E RID: 6014
+		// Token: 0x04001782 RID: 6018
 		private static Vector2[] bracketLocs = new Vector2[4];
 
 		// Token: 0x170006CE RID: 1742
-		// (get) Token: 0x06002B9C RID: 11164 RVA: 0x001716B0 File Offset: 0x0016FAB0
+		// (get) Token: 0x06002B9B RID: 11163 RVA: 0x00171914 File Offset: 0x0016FD14
 		private ColonistBar ColonistBar
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B9D RID: 11165 RVA: 0x001716CC File Offset: 0x0016FACC
+		// Token: 0x06002B9C RID: 11164 RVA: 0x00171930 File Offset: 0x0016FD30
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
 			float num = this.ColonistBar.GetEntryRectAlpha(rect);
@@ -136,7 +136,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06002B9E RID: 11166 RVA: 0x00171948 File Offset: 0x0016FD48
+		// Token: 0x06002B9D RID: 11165 RVA: 0x00171BAC File Offset: 0x0016FFAC
 		private Rect GroupFrameRect(int group)
 		{
 			float num = 99999f;
@@ -156,7 +156,7 @@ namespace RimWorld
 			return new Rect(num, 0f, num2 - num, num3).ContractedBy(-12f * this.ColonistBar.Scale);
 		}
 
-		// Token: 0x06002B9F RID: 11167 RVA: 0x00171A5C File Offset: 0x0016FE5C
+		// Token: 0x06002B9E RID: 11166 RVA: 0x00171CC0 File Offset: 0x001700C0
 		public void DrawGroupFrame(int group)
 		{
 			Rect position = this.GroupFrameRect(group);
@@ -185,7 +185,7 @@ namespace RimWorld
 			Widgets.DrawRectFast(position, new Color(0.5f, 0.5f, 0.5f, 0.4f * num), null);
 		}
 
-		// Token: 0x06002BA0 RID: 11168 RVA: 0x00171B24 File Offset: 0x0016FF24
+		// Token: 0x06002B9F RID: 11167 RVA: 0x00171D88 File Offset: 0x00170188
 		private void ApplyEntryInAnotherMapAlphaFactor(Map map, ref float alpha)
 		{
 			if (map == null)
@@ -201,7 +201,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BA1 RID: 11169 RVA: 0x00171B7C File Offset: 0x0016FF7C
+		// Token: 0x06002BA0 RID: 11168 RVA: 0x00171DE0 File Offset: 0x001701E0
 		public void HandleClicks(Rect rect, Pawn colonist, int reorderableGroup, out bool reordering)
 		{
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
@@ -216,7 +216,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BA2 RID: 11170 RVA: 0x00171C1C File Offset: 0x0017001C
+		// Token: 0x06002BA1 RID: 11169 RVA: 0x00171E80 File Offset: 0x00170280
 		public void HandleGroupFrameClicks(int group)
 		{
 			Rect rect = this.GroupFrameRect(group);
@@ -256,13 +256,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BA3 RID: 11171 RVA: 0x00171DAD File Offset: 0x001701AD
+		// Token: 0x06002BA2 RID: 11170 RVA: 0x00172011 File Offset: 0x00170411
 		public void Notify_RecachedEntries()
 		{
 			this.pawnLabelsCache.Clear();
 		}
 
-		// Token: 0x06002BA4 RID: 11172 RVA: 0x00171DBC File Offset: 0x001701BC
+		// Token: 0x06002BA3 RID: 11171 RVA: 0x00172020 File Offset: 0x00170420
 		public Rect GetPawnTextureRect(Vector2 pos)
 		{
 			float x = pos.x;
@@ -273,7 +273,7 @@ namespace RimWorld
 			return rect;
 		}
 
-		// Token: 0x06002BA5 RID: 11173 RVA: 0x00171E48 File Offset: 0x00170248
+		// Token: 0x06002BA4 RID: 11172 RVA: 0x001720AC File Offset: 0x001704AC
 		private void DrawIcons(Rect rect, Pawn colonist)
 		{
 			if (!colonist.Dead)
@@ -340,7 +340,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BA6 RID: 11174 RVA: 0x001720F0 File Offset: 0x001704F0
+		// Token: 0x06002BA5 RID: 11173 RVA: 0x00172354 File Offset: 0x00170754
 		private void DrawIcon(Texture2D icon, ref Vector2 pos, string tooltip)
 		{
 			float num = 20f * this.ColonistBar.Scale;
@@ -350,7 +350,7 @@ namespace RimWorld
 			pos.x += num;
 		}
 
-		// Token: 0x06002BA7 RID: 11175 RVA: 0x00172148 File Offset: 0x00170548
+		// Token: 0x06002BA6 RID: 11174 RVA: 0x001723AC File Offset: 0x001707AC
 		private void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
 		{
 			Thing obj = colonist;
@@ -364,7 +364,7 @@ namespace RimWorld
 			this.DrawSelectionOverlayOnGUI(ColonistBarColonistDrawer.bracketLocs, num);
 		}
 
-		// Token: 0x06002BA8 RID: 11176 RVA: 0x001721CC File Offset: 0x001705CC
+		// Token: 0x06002BA7 RID: 11175 RVA: 0x00172430 File Offset: 0x00170830
 		private void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
 		{
 			float num = 0.4f * this.ColonistBar.Scale;
@@ -373,7 +373,7 @@ namespace RimWorld
 			this.DrawSelectionOverlayOnGUI(ColonistBarColonistDrawer.bracketLocs, num);
 		}
 
-		// Token: 0x06002BA9 RID: 11177 RVA: 0x0017223C File Offset: 0x0017063C
+		// Token: 0x06002BA8 RID: 11176 RVA: 0x001724A0 File Offset: 0x001708A0
 		private void DrawSelectionOverlayOnGUI(Vector2[] bracketLocs, float selectedTexScale)
 		{
 			int num = 90;

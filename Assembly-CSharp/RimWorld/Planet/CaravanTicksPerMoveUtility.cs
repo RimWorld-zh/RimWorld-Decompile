@@ -9,22 +9,22 @@ namespace RimWorld.Planet
 	// Token: 0x020005E4 RID: 1508
 	public static class CaravanTicksPerMoveUtility
 	{
-		// Token: 0x040011A4 RID: 4516
+		// Token: 0x040011A8 RID: 4520
 		private const int MaxPawnTicksPerMove = 150;
 
-		// Token: 0x040011A5 RID: 4517
+		// Token: 0x040011A9 RID: 4521
 		private const int DownedPawnMoveTicks = 450;
 
-		// Token: 0x040011A6 RID: 4518
+		// Token: 0x040011AA RID: 4522
 		public const float CellToTilesConversionRatio = 380f;
 
-		// Token: 0x040011A7 RID: 4519
+		// Token: 0x040011AB RID: 4523
 		public const int DefaultTicksPerMove = 3500;
 
-		// Token: 0x040011A8 RID: 4520
+		// Token: 0x040011AC RID: 4524
 		private const float MoveSpeedFactorAtZeroMass = 1.6f;
 
-		// Token: 0x06001DD3 RID: 7635 RVA: 0x001010E0 File Offset: 0x000FF4E0
+		// Token: 0x06001DD2 RID: 7634 RVA: 0x00101348 File Offset: 0x000FF748
 		public static int GetTicksPerMove(Caravan caravan, StringBuilder explanation = null)
 		{
 			int result;
@@ -43,13 +43,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DD4 RID: 7636 RVA: 0x00101120 File Offset: 0x000FF520
+		// Token: 0x06001DD3 RID: 7635 RVA: 0x00101388 File Offset: 0x000FF788
 		public static int GetTicksPerMove(CaravanTicksPerMoveUtility.CaravanInfo caravanInfo, StringBuilder explanation = null)
 		{
 			return CaravanTicksPerMoveUtility.GetTicksPerMove(caravanInfo.pawns, caravanInfo.massUsage, caravanInfo.massCapacity, explanation);
 		}
 
-		// Token: 0x06001DD5 RID: 7637 RVA: 0x00101150 File Offset: 0x000FF550
+		// Token: 0x06001DD4 RID: 7636 RVA: 0x001013B8 File Offset: 0x000FF7B8
 		public static int GetTicksPerMove(List<Pawn> pawns, float massUsage, float massCapacity, StringBuilder explanation = null)
 		{
 			int result;
@@ -132,7 +132,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DD6 RID: 7638 RVA: 0x001013D8 File Offset: 0x000FF7D8
+		// Token: 0x06001DD5 RID: 7637 RVA: 0x00101640 File Offset: 0x000FFA40
 		private static float GetMoveSpeedFactorFromMass(float massUsage, float massCapacity)
 		{
 			float result;
@@ -148,7 +148,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DD7 RID: 7639 RVA: 0x00101418 File Offset: 0x000FF818
+		// Token: 0x06001DD6 RID: 7638 RVA: 0x00101680 File Offset: 0x000FFA80
 		private static void AppendUsingDefaultTicksPerMoveInfo(StringBuilder sb)
 		{
 			sb.Append("CaravanMovementSpeedFull".Translate() + ":");
@@ -168,16 +168,16 @@ namespace RimWorld.Planet
 		// Token: 0x020005E5 RID: 1509
 		public struct CaravanInfo
 		{
-			// Token: 0x040011A9 RID: 4521
+			// Token: 0x040011AD RID: 4525
 			public List<Pawn> pawns;
 
-			// Token: 0x040011AA RID: 4522
+			// Token: 0x040011AE RID: 4526
 			public float massUsage;
 
-			// Token: 0x040011AB RID: 4523
+			// Token: 0x040011AF RID: 4527
 			public float massCapacity;
 
-			// Token: 0x06001DD8 RID: 7640 RVA: 0x001014A1 File Offset: 0x000FF8A1
+			// Token: 0x06001DD7 RID: 7639 RVA: 0x00101709 File Offset: 0x000FFB09
 			public CaravanInfo(Caravan caravan)
 			{
 				this.pawns = caravan.PawnsListForReading;
@@ -185,7 +185,7 @@ namespace RimWorld.Planet
 				this.massCapacity = caravan.MassCapacity;
 			}
 
-			// Token: 0x06001DD9 RID: 7641 RVA: 0x001014C8 File Offset: 0x000FF8C8
+			// Token: 0x06001DD8 RID: 7640 RVA: 0x00101730 File Offset: 0x000FFB30
 			public CaravanInfo(Dialog_FormCaravan formCaravanDialog)
 			{
 				this.pawns = TransferableUtility.GetPawnsFromTransferables(formCaravanDialog.transferables);

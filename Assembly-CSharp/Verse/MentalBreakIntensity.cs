@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000B51 RID: 2897
+	// Token: 0x02000B52 RID: 2898
 	public enum MentalBreakIntensity : byte
 	{
-		// Token: 0x040029F1 RID: 10737
+		// Token: 0x040029F8 RID: 10744
 		None,
-		// Token: 0x040029F2 RID: 10738
+		// Token: 0x040029F9 RID: 10745
 		Minor,
-		// Token: 0x040029F3 RID: 10739
+		// Token: 0x040029FA RID: 10746
 		Major,
-		// Token: 0x040029F4 RID: 10740
+		// Token: 0x040029FB RID: 10747
 		Extreme
 	}
 }

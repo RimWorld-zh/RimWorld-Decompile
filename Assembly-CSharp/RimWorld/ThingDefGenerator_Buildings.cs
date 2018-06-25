@@ -9,22 +9,22 @@ namespace RimWorld
 	// Token: 0x02000239 RID: 569
 	public static class ThingDefGenerator_Buildings
 	{
-		// Token: 0x040003EB RID: 1003
+		// Token: 0x040003ED RID: 1005
 		public static readonly string BlueprintDefNamePrefix = "Blueprint_";
 
-		// Token: 0x040003EC RID: 1004
+		// Token: 0x040003EE RID: 1006
 		public static readonly string InstallBlueprintDefNamePrefix = "Install_";
 
-		// Token: 0x040003ED RID: 1005
+		// Token: 0x040003EF RID: 1007
 		public static readonly string BuildingFrameDefNamePrefix = "Frame_";
 
-		// Token: 0x040003EE RID: 1006
+		// Token: 0x040003F0 RID: 1008
 		private static readonly string TerrainBlueprintGraphicPath = "Things/Special/TerrainBlueprint";
 
-		// Token: 0x040003EF RID: 1007
+		// Token: 0x040003F1 RID: 1009
 		private static Color BlueprintColor = new Color(0.8235294f, 0.921568632f, 1f, 0.6f);
 
-		// Token: 0x06000A40 RID: 2624 RVA: 0x0005BD50 File Offset: 0x0005A150
+		// Token: 0x06000A3F RID: 2623 RVA: 0x0005BD4C File Offset: 0x0005A14C
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
 			foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>())
@@ -52,7 +52,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A41 RID: 2625 RVA: 0x0005BD74 File Offset: 0x0005A174
+		// Token: 0x06000A40 RID: 2624 RVA: 0x0005BD70 File Offset: 0x0005A170
 		private static ThingDef BaseBlueprintDef()
 		{
 			return new ThingDef
@@ -71,7 +71,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06000A42 RID: 2626 RVA: 0x0005BDD8 File Offset: 0x0005A1D8
+		// Token: 0x06000A41 RID: 2625 RVA: 0x0005BDD4 File Offset: 0x0005A1D4
 		private static ThingDef BaseFrameDef()
 		{
 			return new ThingDef
@@ -93,7 +93,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06000A43 RID: 2627 RVA: 0x0005BE5C File Offset: 0x0005A25C
+		// Token: 0x06000A42 RID: 2626 RVA: 0x0005BE58 File Offset: 0x0005A258
 		private static ThingDef NewBlueprintDef_Thing(ThingDef def, bool isInstallBlueprint, ThingDef normalBlueprint = null)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseBlueprintDef();
@@ -179,7 +179,7 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06000A44 RID: 2628 RVA: 0x0005C0FC File Offset: 0x0005A4FC
+		// Token: 0x06000A43 RID: 2627 RVA: 0x0005C0F8 File Offset: 0x0005A4F8
 		private static ThingDef NewFrameDef_Thing(ThingDef def)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseFrameDef();
@@ -217,7 +217,7 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06000A45 RID: 2629 RVA: 0x0005C26C File Offset: 0x0005A66C
+		// Token: 0x06000A44 RID: 2628 RVA: 0x0005C268 File Offset: 0x0005A668
 		private static ThingDef NewBlueprintDef_Terrain(TerrainDef terrDef)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseBlueprintDef();
@@ -237,7 +237,7 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x06000A46 RID: 2630 RVA: 0x0005C340 File Offset: 0x0005A740
+		// Token: 0x06000A45 RID: 2629 RVA: 0x0005C33C File Offset: 0x0005A73C
 		private static ThingDef NewFrameDef_Terrain(TerrainDef terrDef)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseFrameDef();

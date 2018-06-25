@@ -3,21 +3,21 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000F06 RID: 3846
+	// Token: 0x02000F07 RID: 3847
 	public sealed class ThingDefCountClass : IExposable
 	{
-		// Token: 0x04003CE9 RID: 15593
+		// Token: 0x04003CF1 RID: 15601
 		public ThingDef thingDef;
 
-		// Token: 0x04003CEA RID: 15594
+		// Token: 0x04003CF2 RID: 15602
 		public int count;
 
-		// Token: 0x06005C3F RID: 23615 RVA: 0x002EE986 File Offset: 0x002ECD86
+		// Token: 0x06005C3F RID: 23615 RVA: 0x002EEBA6 File Offset: 0x002ECFA6
 		public ThingDefCountClass()
 		{
 		}
 
-		// Token: 0x06005C40 RID: 23616 RVA: 0x002EE990 File Offset: 0x002ECD90
+		// Token: 0x06005C40 RID: 23616 RVA: 0x002EEBB0 File Offset: 0x002ECFB0
 		public ThingDefCountClass(ThingDef thingDef, int count)
 		{
 			if (count < 0)
@@ -36,7 +36,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ECA RID: 3786
-		// (get) Token: 0x06005C41 RID: 23617 RVA: 0x002EE9EC File Offset: 0x002ECDEC
+		// (get) Token: 0x06005C41 RID: 23617 RVA: 0x002EEC0C File Offset: 0x002ED00C
 		public string Summary
 		{
 			get
@@ -45,14 +45,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C42 RID: 23618 RVA: 0x002EEA36 File Offset: 0x002ECE36
+		// Token: 0x06005C42 RID: 23618 RVA: 0x002EEC56 File Offset: 0x002ED056
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.thingDef, "thingDef");
 			Scribe_Values.Look<int>(ref this.count, "count", 1, false);
 		}
 
-		// Token: 0x06005C43 RID: 23619 RVA: 0x002EEA5C File Offset: 0x002ECE5C
+		// Token: 0x06005C43 RID: 23619 RVA: 0x002EEC7C File Offset: 0x002ED07C
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)
@@ -66,7 +66,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C44 RID: 23620 RVA: 0x002EEAD0 File Offset: 0x002ECED0
+		// Token: 0x06005C44 RID: 23620 RVA: 0x002EECF0 File Offset: 0x002ED0F0
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -79,13 +79,13 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C45 RID: 23621 RVA: 0x002EEB3C File Offset: 0x002ECF3C
+		// Token: 0x06005C45 RID: 23621 RVA: 0x002EED5C File Offset: 0x002ED15C
 		public override int GetHashCode()
 		{
 			return (int)this.thingDef.shortHash + this.count << 16;
 		}
 
-		// Token: 0x06005C46 RID: 23622 RVA: 0x002EEB68 File Offset: 0x002ECF68
+		// Token: 0x06005C46 RID: 23622 RVA: 0x002EED88 File Offset: 0x002ED188
 		public static implicit operator ThingDefCountClass(ThingDefCount t)
 		{
 			return new ThingDefCountClass(t.ThingDef, t.Count);

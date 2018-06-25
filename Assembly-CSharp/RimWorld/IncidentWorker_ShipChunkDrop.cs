@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000341 RID: 833
 	public class IncidentWorker_ShipChunkDrop : IncidentWorker
 	{
-		// Token: 0x040008E8 RID: 2280
+		// Token: 0x040008EB RID: 2283
 		private static readonly Pair<int, float>[] CountChance = new Pair<int, float>[]
 		{
 			new Pair<int, float>(1, 1f),
@@ -17,7 +17,7 @@ namespace RimWorld
 		};
 
 		// Token: 0x1700020C RID: 524
-		// (get) Token: 0x06000E35 RID: 3637 RVA: 0x00078E68 File Offset: 0x00077268
+		// (get) Token: 0x06000E34 RID: 3636 RVA: 0x00078E70 File Offset: 0x00077270
 		private int RandomCountToDrop
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E36 RID: 3638 RVA: 0x00078EE4 File Offset: 0x000772E4
+		// Token: 0x06000E35 RID: 3637 RVA: 0x00078EEC File Offset: 0x000772EC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E37 RID: 3639 RVA: 0x00078F2C File Offset: 0x0007732C
+		// Token: 0x06000E36 RID: 3638 RVA: 0x00078F34 File Offset: 0x00077334
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -76,7 +76,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E38 RID: 3640 RVA: 0x00078FA0 File Offset: 0x000773A0
+		// Token: 0x06000E37 RID: 3639 RVA: 0x00078FA8 File Offset: 0x000773A8
 		private void SpawnShipChunks(IntVec3 firstChunkPos, Map map, int count)
 		{
 			this.SpawnChunk(firstChunkPos, map);
@@ -90,13 +90,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E39 RID: 3641 RVA: 0x00078FE4 File Offset: 0x000773E4
+		// Token: 0x06000E38 RID: 3640 RVA: 0x00078FEC File Offset: 0x000773EC
 		private void SpawnChunk(IntVec3 pos, Map map)
 		{
 			SkyfallerMaker.SpawnSkyfaller(ThingDefOf.ShipChunkIncoming, ThingDefOf.ShipChunk, pos, map);
 		}
 
-		// Token: 0x06000E3A RID: 3642 RVA: 0x00078FFC File Offset: 0x000773FC
+		// Token: 0x06000E39 RID: 3641 RVA: 0x00079004 File Offset: 0x00077404
 		private bool TryFindShipChunkDropCell(IntVec3 nearLoc, Map map, int maxDist, out IntVec3 pos)
 		{
 			ThingDef shipChunkIncoming = ThingDefOf.ShipChunkIncoming;

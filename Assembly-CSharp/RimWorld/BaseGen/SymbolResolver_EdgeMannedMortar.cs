@@ -7,14 +7,14 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C4 RID: 964
 	public class SymbolResolver_EdgeMannedMortar : SymbolResolver
 	{
-		// Token: 0x060010A6 RID: 4262 RVA: 0x0008D638 File Offset: 0x0008BA38
+		// Token: 0x060010A5 RID: 4261 RVA: 0x0008D648 File Offset: 0x0008BA48
 		public override bool CanResolve(ResolveParams rp)
 		{
 			CellRect cellRect;
 			return base.CanResolve(rp) && this.TryFindRandomInnerRectTouchingEdge(rp.rect, out cellRect);
 		}
 
-		// Token: 0x060010A7 RID: 4263 RVA: 0x0008D66C File Offset: 0x0008BA6C
+		// Token: 0x060010A6 RID: 4262 RVA: 0x0008D67C File Offset: 0x0008BA7C
 		public override void Resolve(ResolveParams rp)
 		{
 			CellRect rect;
@@ -44,7 +44,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010A8 RID: 4264 RVA: 0x0008D750 File Offset: 0x0008BB50
+		// Token: 0x060010A7 RID: 4263 RVA: 0x0008D760 File Offset: 0x0008BB60
 		private bool TryFindRandomInnerRectTouchingEdge(CellRect rect, out CellRect mortarRect)
 		{
 			Map map = BaseGen.globalSettings.map;

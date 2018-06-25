@@ -2,25 +2,25 @@
 
 namespace Verse
 {
-	// Token: 0x02000B0F RID: 2831
+	// Token: 0x02000B10 RID: 2832
 	public class CompProperties_AffectsSky : CompProperties
 	{
-		// Token: 0x040027E8 RID: 10216
+		// Token: 0x040027EF RID: 10223
 		public float glow = 1f;
 
-		// Token: 0x040027E9 RID: 10217
+		// Token: 0x040027F0 RID: 10224
 		public SkyColorSet skyColors;
 
-		// Token: 0x040027EA RID: 10218
+		// Token: 0x040027F1 RID: 10225
 		public float lightsourceShineSize = 1f;
 
-		// Token: 0x040027EB RID: 10219
+		// Token: 0x040027F2 RID: 10226
 		public float lightsourceShineIntensity = 1f;
 
-		// Token: 0x040027EC RID: 10220
+		// Token: 0x040027F3 RID: 10227
 		public bool lerpDarken;
 
-		// Token: 0x06003EA1 RID: 16033 RVA: 0x0020F9CE File Offset: 0x0020DDCE
+		// Token: 0x06003EA1 RID: 16033 RVA: 0x0020FCAE File Offset: 0x0020E0AE
 		public CompProperties_AffectsSky()
 		{
 			this.compClass = typeof(CompAffectsSky);

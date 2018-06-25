@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200033A RID: 826
 	public class IncidentWorker_PsychicSoothe : IncidentWorker_PsychicEmanation
 	{
-		// Token: 0x06000E19 RID: 3609 RVA: 0x00078154 File Offset: 0x00076554
+		// Token: 0x06000E18 RID: 3608 RVA: 0x0007815C File Offset: 0x0007655C
 		protected override void DoConditionAndLetter(Map map, int duration, Gender gender)
 		{
 			GameCondition_PsychicEmanation gameCondition_PsychicEmanation = (GameCondition_PsychicEmanation)GameConditionMaker.MakeCondition(GameConditionDefOf.PsychicSoothe, duration, 0);

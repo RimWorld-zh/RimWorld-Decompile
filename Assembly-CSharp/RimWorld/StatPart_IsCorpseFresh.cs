@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009AD RID: 2477
 	public class StatPart_IsCorpseFresh : StatPart
 	{
-		// Token: 0x06003784 RID: 14212 RVA: 0x001D9CDC File Offset: 0x001D80DC
+		// Token: 0x06003784 RID: 14212 RVA: 0x001D9FB0 File Offset: 0x001D83B0
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003785 RID: 14213 RVA: 0x001D9D00 File Offset: 0x001D8100
+		// Token: 0x06003785 RID: 14213 RVA: 0x001D9FD4 File Offset: 0x001D83D4
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003786 RID: 14214 RVA: 0x001D9D50 File Offset: 0x001D8150
+		// Token: 0x06003786 RID: 14214 RVA: 0x001DA024 File Offset: 0x001D8424
 		private bool TryGetIsFreshFactor(StatRequest req, out float factor)
 		{
 			bool result;

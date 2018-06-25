@@ -7,19 +7,19 @@ namespace RimWorld.Planet
 	// Token: 0x02000588 RID: 1416
 	internal class DebugWorldLine
 	{
-		// Token: 0x04000FEC RID: 4076
+		// Token: 0x04000FF0 RID: 4080
 		public Vector3 a;
 
-		// Token: 0x04000FED RID: 4077
+		// Token: 0x04000FF1 RID: 4081
 		public Vector3 b;
 
-		// Token: 0x04000FEE RID: 4078
+		// Token: 0x04000FF2 RID: 4082
 		public int ticksLeft;
 
-		// Token: 0x04000FEF RID: 4079
+		// Token: 0x04000FF3 RID: 4083
 		private bool onPlanetSurface;
 
-		// Token: 0x06001B08 RID: 6920 RVA: 0x000E85E5 File Offset: 0x000E69E5
+		// Token: 0x06001B07 RID: 6919 RVA: 0x000E884D File Offset: 0x000E6C4D
 		public DebugWorldLine(Vector3 a, Vector3 b, bool onPlanetSurface)
 		{
 			this.a = a;
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 			this.ticksLeft = 100;
 		}
 
-		// Token: 0x06001B09 RID: 6921 RVA: 0x000E860B File Offset: 0x000E6A0B
+		// Token: 0x06001B08 RID: 6920 RVA: 0x000E8873 File Offset: 0x000E6C73
 		public DebugWorldLine(Vector3 a, Vector3 b, bool onPlanetSurface, int ticksLeft)
 		{
 			this.a = a;
@@ -38,8 +38,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003F0 RID: 1008
-		// (get) Token: 0x06001B0A RID: 6922 RVA: 0x000E8634 File Offset: 0x000E6A34
-		// (set) Token: 0x06001B0B RID: 6923 RVA: 0x000E864F File Offset: 0x000E6A4F
+		// (get) Token: 0x06001B09 RID: 6921 RVA: 0x000E889C File Offset: 0x000E6C9C
+		// (set) Token: 0x06001B0A RID: 6922 RVA: 0x000E88B7 File Offset: 0x000E6CB7
 		public int TicksLeft
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0C RID: 6924 RVA: 0x000E865C File Offset: 0x000E6A5C
+		// Token: 0x06001B0B RID: 6923 RVA: 0x000E88C4 File Offset: 0x000E6CC4
 		public void Draw()
 		{
 			float num = Vector3.Distance(this.a, this.b);

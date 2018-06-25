@@ -3,30 +3,30 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F8B RID: 3979
+	// Token: 0x02000F8C RID: 3980
 	public class Cache : ModuleBase
 	{
-		// Token: 0x04003F11 RID: 16145
+		// Token: 0x04003F19 RID: 16153
 		private double m_value = 0.0;
 
-		// Token: 0x04003F12 RID: 16146
+		// Token: 0x04003F1A RID: 16154
 		private bool m_cached = false;
 
-		// Token: 0x04003F13 RID: 16147
+		// Token: 0x04003F1B RID: 16155
 		private double m_x = 0.0;
 
-		// Token: 0x04003F14 RID: 16148
+		// Token: 0x04003F1C RID: 16156
 		private double m_y = 0.0;
 
-		// Token: 0x04003F15 RID: 16149
+		// Token: 0x04003F1D RID: 16157
 		private double m_z = 0.0;
 
-		// Token: 0x0600601C RID: 24604 RVA: 0x0030DA0C File Offset: 0x0030BE0C
+		// Token: 0x0600601C RID: 24604 RVA: 0x0030DC50 File Offset: 0x0030C050
 		public Cache() : base(1)
 		{
 		}
 
-		// Token: 0x0600601D RID: 24605 RVA: 0x0030DA64 File Offset: 0x0030BE64
+		// Token: 0x0600601D RID: 24605 RVA: 0x0030DCA8 File Offset: 0x0030C0A8
 		public Cache(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
@@ -46,7 +46,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006020 RID: 24608 RVA: 0x0030DAF8 File Offset: 0x0030BEF8
+		// Token: 0x06006020 RID: 24608 RVA: 0x0030DD3C File Offset: 0x0030C13C
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

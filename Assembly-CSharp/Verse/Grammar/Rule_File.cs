@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BEA RID: 3050
+	// Token: 0x02000BEB RID: 3051
 	public class Rule_File : Rule
 	{
-		// Token: 0x04002D85 RID: 11653
+		// Token: 0x04002D8C RID: 11660
 		[MayTranslate]
 		public string path = null;
 
-		// Token: 0x04002D86 RID: 11654
+		// Token: 0x04002D8D RID: 11661
 		[MayTranslate]
 		[TranslationCanChangeCount]
 		public List<string> pathList = new List<string>();
 
-		// Token: 0x04002D87 RID: 11655
+		// Token: 0x04002D8E RID: 11662
 		[Unsaved]
 		private List<string> cachedStrings = new List<string>();
 
 		// Token: 0x17000A78 RID: 2680
-		// (get) Token: 0x0600428F RID: 17039 RVA: 0x002310B4 File Offset: 0x0022F4B4
+		// (get) Token: 0x0600428F RID: 17039 RVA: 0x00231394 File Offset: 0x0022F794
 		public override float BaseSelectionWeight
 		{
 			get
@@ -29,13 +29,13 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004290 RID: 17040 RVA: 0x002310D8 File Offset: 0x0022F4D8
+		// Token: 0x06004290 RID: 17040 RVA: 0x002313B8 File Offset: 0x0022F7B8
 		public override string Generate()
 		{
 			return this.cachedStrings.RandomElement<string>();
 		}
 
-		// Token: 0x06004291 RID: 17041 RVA: 0x002310F8 File Offset: 0x0022F4F8
+		// Token: 0x06004291 RID: 17041 RVA: 0x002313D8 File Offset: 0x0022F7D8
 		public override void Init()
 		{
 			if (!this.path.NullOrEmpty())
@@ -48,7 +48,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004292 RID: 17042 RVA: 0x00231174 File Offset: 0x0022F574
+		// Token: 0x06004292 RID: 17042 RVA: 0x00231454 File Offset: 0x0022F854
 		private void LoadStringsFromFile(string filePath)
 		{
 			List<string> list;
@@ -61,7 +61,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004293 RID: 17043 RVA: 0x002311E4 File Offset: 0x0022F5E4
+		// Token: 0x06004293 RID: 17043 RVA: 0x002314C4 File Offset: 0x0022F8C4
 		public override string ToString()
 		{
 			string result;

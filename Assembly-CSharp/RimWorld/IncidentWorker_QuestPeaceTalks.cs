@@ -9,16 +9,16 @@ namespace RimWorld
 	// Token: 0x02000356 RID: 854
 	public class IncidentWorker_QuestPeaceTalks : IncidentWorker
 	{
-		// Token: 0x0400090B RID: 2315
+		// Token: 0x0400090E RID: 2318
 		private const int MinDistance = 5;
 
-		// Token: 0x0400090C RID: 2316
+		// Token: 0x0400090F RID: 2319
 		private const int MaxDistance = 13;
 
-		// Token: 0x0400090D RID: 2317
+		// Token: 0x04000910 RID: 2320
 		private static readonly IntRange TimeoutDaysRange = new IntRange(21, 23);
 
-		// Token: 0x06000EBD RID: 3773 RVA: 0x0007C9EC File Offset: 0x0007ADEC
+		// Token: 0x06000EBC RID: 3772 RVA: 0x0007C9F4 File Offset: 0x0007ADF4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && this.TryFindFaction(out faction) && this.TryFindTile(out num);
 		}
 
-		// Token: 0x06000EBE RID: 3774 RVA: 0x0007CA2C File Offset: 0x0007AE2C
+		// Token: 0x06000EBD RID: 3773 RVA: 0x0007CA34 File Offset: 0x0007AE34
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction;
@@ -55,7 +55,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EBF RID: 3775 RVA: 0x0007CB20 File Offset: 0x0007AF20
+		// Token: 0x06000EBE RID: 3774 RVA: 0x0007CB28 File Offset: 0x0007AF28
 		private bool TryFindFaction(out Faction faction)
 		{
 			return (from x in Find.FactionManager.AllFactions
@@ -63,13 +63,13 @@ namespace RimWorld
 			select x).TryRandomElement(out faction);
 		}
 
-		// Token: 0x06000EC0 RID: 3776 RVA: 0x0007CB58 File Offset: 0x0007AF58
+		// Token: 0x06000EBF RID: 3775 RVA: 0x0007CB60 File Offset: 0x0007AF60
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 5, 13, false, false, -1);
 		}
 
-		// Token: 0x06000EC1 RID: 3777 RVA: 0x0007CB7C File Offset: 0x0007AF7C
+		// Token: 0x06000EC0 RID: 3776 RVA: 0x0007CB84 File Offset: 0x0007AF84
 		private bool PeaceTalksExist(Faction faction)
 		{
 			List<PeaceTalks> peaceTalks = Find.WorldObjects.PeaceTalks;

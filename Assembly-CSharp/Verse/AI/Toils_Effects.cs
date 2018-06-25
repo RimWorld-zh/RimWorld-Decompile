@@ -3,10 +3,10 @@ using Verse.Sound;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A4B RID: 2635
+	// Token: 0x02000A4C RID: 2636
 	public static class Toils_Effects
 	{
-		// Token: 0x06003AB5 RID: 15029 RVA: 0x001F2538 File Offset: 0x001F0938
+		// Token: 0x06003AB6 RID: 15030 RVA: 0x001F2864 File Offset: 0x001F0C64
 		public static Toil MakeSound(SoundDef soundDef)
 		{
 			Toil toil = new Toil();

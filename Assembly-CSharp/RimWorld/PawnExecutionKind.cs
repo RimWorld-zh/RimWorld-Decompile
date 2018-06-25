@@ -5,11 +5,11 @@ namespace RimWorld
 	// Token: 0x020009CD RID: 2509
 	public enum PawnExecutionKind
 	{
-		// Token: 0x040023F8 RID: 9208
+		// Token: 0x040023FF RID: 9215
 		GenericBrutal,
-		// Token: 0x040023F9 RID: 9209
+		// Token: 0x04002400 RID: 9216
 		GenericHumane,
-		// Token: 0x040023FA RID: 9210
+		// Token: 0x04002401 RID: 9217
 		OrganHarvesting
 	}
 }

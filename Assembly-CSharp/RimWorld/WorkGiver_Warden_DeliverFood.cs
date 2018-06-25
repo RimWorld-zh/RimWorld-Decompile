@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000134 RID: 308
 	public class WorkGiver_Warden_DeliverFood : WorkGiver_Warden
 	{
-		// Token: 0x06000654 RID: 1620 RVA: 0x0004226C File Offset: 0x0004066C
+		// Token: 0x06000653 RID: 1619 RVA: 0x00042268 File Offset: 0x00040668
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000655 RID: 1621 RVA: 0x000423B8 File Offset: 0x000407B8
+		// Token: 0x06000654 RID: 1620 RVA: 0x000423B4 File Offset: 0x000407B4
 		private static bool FoodAvailableInRoomTo(Pawn prisoner)
 		{
 			bool result;
@@ -109,7 +109,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000656 RID: 1622 RVA: 0x0004258C File Offset: 0x0004098C
+		// Token: 0x06000655 RID: 1621 RVA: 0x00042588 File Offset: 0x00040988
 		private static float NutritionAvailableForFrom(Pawn p, Thing foodSource)
 		{
 			float result;

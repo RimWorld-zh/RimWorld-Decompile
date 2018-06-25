@@ -5,11 +5,11 @@ namespace RimWorld
 	// Token: 0x0200051D RID: 1309
 	public enum HostilityResponseMode
 	{
-		// Token: 0x04000E0A RID: 3594
+		// Token: 0x04000E0E RID: 3598
 		Ignore,
-		// Token: 0x04000E0B RID: 3595
+		// Token: 0x04000E0F RID: 3599
 		Attack,
-		// Token: 0x04000E0C RID: 3596
+		// Token: 0x04000E10 RID: 3600
 		Flee
 	}
 }

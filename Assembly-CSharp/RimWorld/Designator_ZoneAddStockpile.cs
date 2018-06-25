@@ -7,17 +7,17 @@ namespace RimWorld
 	// Token: 0x020007E8 RID: 2024
 	public abstract class Designator_ZoneAddStockpile : Designator_ZoneAdd
 	{
-		// Token: 0x040017B5 RID: 6069
+		// Token: 0x040017B9 RID: 6073
 		protected StorageSettingsPreset preset;
 
-		// Token: 0x06002D01 RID: 11521 RVA: 0x0017AB6B File Offset: 0x00178F6B
+		// Token: 0x06002D00 RID: 11520 RVA: 0x0017ADCF File Offset: 0x001791CF
 		public Designator_ZoneAddStockpile()
 		{
 			this.zoneTypeToPlace = typeof(Zone_Stockpile);
 		}
 
 		// Token: 0x17000722 RID: 1826
-		// (get) Token: 0x06002D02 RID: 11522 RVA: 0x0017AB84 File Offset: 0x00178F84
+		// (get) Token: 0x06002D01 RID: 11521 RVA: 0x0017ADE8 File Offset: 0x001791E8
 		protected override string NewZoneLabel
 		{
 			get
@@ -26,13 +26,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D03 RID: 11523 RVA: 0x0017ABA4 File Offset: 0x00178FA4
+		// Token: 0x06002D02 RID: 11522 RVA: 0x0017AE08 File Offset: 0x00179208
 		protected override Zone MakeNewZone()
 		{
 			return new Zone_Stockpile(this.preset, Find.CurrentMap.zoneManager);
 		}
 
-		// Token: 0x06002D04 RID: 11524 RVA: 0x0017ABD0 File Offset: 0x00178FD0
+		// Token: 0x06002D03 RID: 11523 RVA: 0x0017AE34 File Offset: 0x00179234
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport acceptanceReport = base.CanDesignateCell(c);
@@ -64,7 +64,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D05 RID: 11525 RVA: 0x0017AC7D File Offset: 0x0017907D
+		// Token: 0x06002D04 RID: 11524 RVA: 0x0017AEE1 File Offset: 0x001792E1
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();

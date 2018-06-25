@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_FeedPatient : WorkGiver_Scanner
 	{
 		// Token: 0x170000FE RID: 254
-		// (get) Token: 0x0600069F RID: 1695 RVA: 0x0004498C File Offset: 0x00042D8C
+		// (get) Token: 0x0600069E RID: 1694 RVA: 0x00044988 File Offset: 0x00042D88
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000FF RID: 255
-		// (get) Token: 0x060006A0 RID: 1696 RVA: 0x000449A8 File Offset: 0x00042DA8
+		// (get) Token: 0x0600069F RID: 1695 RVA: 0x000449A4 File Offset: 0x00042DA4
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006A1 RID: 1697 RVA: 0x000449C0 File Offset: 0x00042DC0
+		// Token: 0x060006A0 RID: 1696 RVA: 0x000449BC File Offset: 0x00042DBC
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006A2 RID: 1698 RVA: 0x000449D8 File Offset: 0x00042DD8
+		// Token: 0x060006A1 RID: 1697 RVA: 0x000449D4 File Offset: 0x00042DD4
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -80,7 +80,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006A3 RID: 1699 RVA: 0x00044B14 File Offset: 0x00042F14
+		// Token: 0x060006A2 RID: 1698 RVA: 0x00044B10 File Offset: 0x00042F10
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = (Pawn)t;

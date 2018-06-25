@@ -6,16 +6,16 @@ namespace RimWorld
 	[DefOf]
 	public static class HibernatableStateDefOf
 	{
-		// Token: 0x040022C4 RID: 8900
+		// Token: 0x040022CB RID: 8907
 		public static HibernatableStateDef Running;
 
-		// Token: 0x040022C5 RID: 8901
+		// Token: 0x040022CC RID: 8908
 		public static HibernatableStateDef Starting;
 
-		// Token: 0x040022C6 RID: 8902
+		// Token: 0x040022CD RID: 8909
 		public static HibernatableStateDef Hibernating;
 
-		// Token: 0x0600366A RID: 13930 RVA: 0x001D0F29 File Offset: 0x001CF329
+		// Token: 0x0600366A RID: 13930 RVA: 0x001D11FD File Offset: 0x001CF5FD
 		static HibernatableStateDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(HibernatableStateDefOf));

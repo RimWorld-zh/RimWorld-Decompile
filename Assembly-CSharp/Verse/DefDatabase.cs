@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AF3 RID: 2803
+	// Token: 0x02000AF4 RID: 2804
 	public static class DefDatabase<T> where T : Def, new()
 	{
-		// Token: 0x04002740 RID: 10048
+		// Token: 0x04002747 RID: 10055
 		private static List<T> defsList = new List<T>();
 
-		// Token: 0x04002741 RID: 10049
+		// Token: 0x04002748 RID: 10056
 		private static Dictionary<string, T> defsByName = new Dictionary<string, T>();
 
 		// Token: 0x17000954 RID: 2388
-		// (get) Token: 0x06003E0C RID: 15884 RVA: 0x0020B728 File Offset: 0x00209B28
+		// (get) Token: 0x06003E0C RID: 15884 RVA: 0x0020BA08 File Offset: 0x00209E08
 		public static IEnumerable<T> AllDefs
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000955 RID: 2389
-		// (get) Token: 0x06003E0D RID: 15885 RVA: 0x0020B744 File Offset: 0x00209B44
+		// (get) Token: 0x06003E0D RID: 15885 RVA: 0x0020BA24 File Offset: 0x00209E24
 		public static List<T> AllDefsListForReading
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000956 RID: 2390
-		// (get) Token: 0x06003E0E RID: 15886 RVA: 0x0020B760 File Offset: 0x00209B60
+		// (get) Token: 0x06003E0E RID: 15886 RVA: 0x0020BA40 File Offset: 0x00209E40
 		public static int DefCount
 		{
 			get
@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E0F RID: 15887 RVA: 0x0020B780 File Offset: 0x00209B80
+		// Token: 0x06003E0F RID: 15887 RVA: 0x0020BA60 File Offset: 0x00209E60
 		public static void AddAllInMods()
 		{
 			HashSet<string> hashSet = new HashSet<string>();
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E10 RID: 15888 RVA: 0x0020B9D8 File Offset: 0x00209DD8
+		// Token: 0x06003E10 RID: 15888 RVA: 0x0020BCB8 File Offset: 0x0020A0B8
 		public static void Add(IEnumerable<T> defs)
 		{
 			foreach (T def in defs)
@@ -105,7 +105,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E11 RID: 15889 RVA: 0x0020BA30 File Offset: 0x00209E30
+		// Token: 0x06003E11 RID: 15889 RVA: 0x0020BD10 File Offset: 0x0020A110
 		public static void Add(T def)
 		{
 			while (DefDatabase<T>.defsByName.ContainsKey(def.defName))
@@ -135,7 +135,7 @@ namespace Verse
 			def.index = (ushort)(DefDatabase<T>.defsList.Count - 1);
 		}
 
-		// Token: 0x06003E12 RID: 15890 RVA: 0x0020BB4E File Offset: 0x00209F4E
+		// Token: 0x06003E12 RID: 15890 RVA: 0x0020BE2E File Offset: 0x0020A22E
 		private static void Remove(T def)
 		{
 			DefDatabase<T>.defsByName.Remove(def.defName);
@@ -143,14 +143,14 @@ namespace Verse
 			DefDatabase<T>.SetIndices();
 		}
 
-		// Token: 0x06003E13 RID: 15891 RVA: 0x0020BB78 File Offset: 0x00209F78
+		// Token: 0x06003E13 RID: 15891 RVA: 0x0020BE58 File Offset: 0x0020A258
 		public static void Clear()
 		{
 			DefDatabase<T>.defsList.Clear();
 			DefDatabase<T>.defsByName.Clear();
 		}
 
-		// Token: 0x06003E14 RID: 15892 RVA: 0x0020BB90 File Offset: 0x00209F90
+		// Token: 0x06003E14 RID: 15892 RVA: 0x0020BE70 File Offset: 0x0020A270
 		public static void ClearCachedData()
 		{
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
@@ -160,7 +160,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E15 RID: 15893 RVA: 0x0020BBD4 File Offset: 0x00209FD4
+		// Token: 0x06003E15 RID: 15893 RVA: 0x0020BEB4 File Offset: 0x0020A2B4
 		public static void ResolveAllReferences(bool onlyExactlyMyType = true)
 		{
 			DefDatabase<T>.SetIndices();
@@ -198,7 +198,7 @@ namespace Verse
 			DefDatabase<T>.SetIndices();
 		}
 
-		// Token: 0x06003E16 RID: 15894 RVA: 0x0020BCAC File Offset: 0x0020A0AC
+		// Token: 0x06003E16 RID: 15894 RVA: 0x0020BF8C File Offset: 0x0020A38C
 		private static void SetIndices()
 		{
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
@@ -207,7 +207,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E17 RID: 15895 RVA: 0x0020BCF0 File Offset: 0x0020A0F0
+		// Token: 0x06003E17 RID: 15895 RVA: 0x0020BFD0 File Offset: 0x0020A3D0
 		public static void ErrorCheckAllDefs()
 		{
 			foreach (T t in DefDatabase<T>.AllDefs)
@@ -241,7 +241,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E18 RID: 15896 RVA: 0x0020BE20 File Offset: 0x0020A220
+		// Token: 0x06003E18 RID: 15896 RVA: 0x0020C100 File Offset: 0x0020A500
 		public static T GetNamed(string defName, bool errorOnFail = true)
 		{
 			T result;
@@ -279,13 +279,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E19 RID: 15897 RVA: 0x0020BED8 File Offset: 0x0020A2D8
+		// Token: 0x06003E19 RID: 15897 RVA: 0x0020C1B8 File Offset: 0x0020A5B8
 		public static T GetNamedSilentFail(string defName)
 		{
 			return DefDatabase<T>.GetNamed(defName, false);
 		}
 
-		// Token: 0x06003E1A RID: 15898 RVA: 0x0020BEF4 File Offset: 0x0020A2F4
+		// Token: 0x06003E1A RID: 15898 RVA: 0x0020C1D4 File Offset: 0x0020A5D4
 		public static T GetByShortHash(ushort shortHash)
 		{
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
@@ -298,7 +298,7 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x06003E1B RID: 15899 RVA: 0x0020BF58 File Offset: 0x0020A358
+		// Token: 0x06003E1B RID: 15899 RVA: 0x0020C238 File Offset: 0x0020A638
 		public static T GetRandom()
 		{
 			return DefDatabase<T>.defsList.RandomElement<T>();

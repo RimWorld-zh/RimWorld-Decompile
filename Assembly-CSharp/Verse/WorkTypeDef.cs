@@ -5,48 +5,48 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BB6 RID: 2998
+	// Token: 0x02000BB7 RID: 2999
 	public class WorkTypeDef : Def
 	{
-		// Token: 0x04002C65 RID: 11365
+		// Token: 0x04002C6C RID: 11372
 		public WorkTags workTags;
 
-		// Token: 0x04002C66 RID: 11366
+		// Token: 0x04002C6D RID: 11373
 		[MustTranslate]
 		public string labelShort;
 
-		// Token: 0x04002C67 RID: 11367
+		// Token: 0x04002C6E RID: 11374
 		[MustTranslate]
 		public string pawnLabel;
 
-		// Token: 0x04002C68 RID: 11368
+		// Token: 0x04002C6F RID: 11375
 		[MustTranslate]
 		public string gerundLabel;
 
-		// Token: 0x04002C69 RID: 11369
+		// Token: 0x04002C70 RID: 11376
 		[MustTranslate]
 		public string verb;
 
-		// Token: 0x04002C6A RID: 11370
+		// Token: 0x04002C71 RID: 11377
 		public bool visible = true;
 
-		// Token: 0x04002C6B RID: 11371
+		// Token: 0x04002C72 RID: 11378
 		public int naturalPriority = 0;
 
-		// Token: 0x04002C6C RID: 11372
+		// Token: 0x04002C73 RID: 11379
 		public bool alwaysStartActive = false;
 
-		// Token: 0x04002C6D RID: 11373
+		// Token: 0x04002C74 RID: 11380
 		public bool requireCapableColonist = false;
 
-		// Token: 0x04002C6E RID: 11374
+		// Token: 0x04002C75 RID: 11381
 		public List<SkillDef> relevantSkills = new List<SkillDef>();
 
-		// Token: 0x04002C6F RID: 11375
+		// Token: 0x04002C76 RID: 11382
 		[Unsaved]
 		public List<WorkGiverDef> workGiversByPriority = new List<WorkGiverDef>();
 
-		// Token: 0x060040F9 RID: 16633 RVA: 0x002250F8 File Offset: 0x002234F8
+		// Token: 0x060040F9 RID: 16633 RVA: 0x002253D8 File Offset: 0x002237D8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -60,7 +60,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040FA RID: 16634 RVA: 0x00225124 File Offset: 0x00223524
+		// Token: 0x060040FA RID: 16634 RVA: 0x00225404 File Offset: 0x00223804
 		public override void ResolveReferences()
 		{
 			foreach (WorkGiverDef item in from d in DefDatabase<WorkGiverDef>.AllDefs
@@ -72,7 +72,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040FB RID: 16635 RVA: 0x002251B8 File Offset: 0x002235B8
+		// Token: 0x060040FB RID: 16635 RVA: 0x00225498 File Offset: 0x00223898
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<string>(this.defName.GetHashCode(), this.gerundLabel);

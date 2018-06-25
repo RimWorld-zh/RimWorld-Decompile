@@ -5,13 +5,13 @@ namespace RimWorld.Planet
 	// Token: 0x0200027E RID: 638
 	public class WorldObjectCompProperties_EnterCooldown : WorldObjectCompProperties
 	{
-		// Token: 0x04000559 RID: 1369
+		// Token: 0x0400055B RID: 1371
 		public bool autoStartOnMapRemoved = true;
 
-		// Token: 0x0400055A RID: 1370
+		// Token: 0x0400055C RID: 1372
 		public float durationDays = 4f;
 
-		// Token: 0x06000AE8 RID: 2792 RVA: 0x00062B89 File Offset: 0x00060F89
+		// Token: 0x06000AE7 RID: 2791 RVA: 0x00062B85 File Offset: 0x00060F85
 		public WorldObjectCompProperties_EnterCooldown()
 		{
 			this.compClass = typeof(EnterCooldownComp);

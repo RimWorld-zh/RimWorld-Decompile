@@ -6,26 +6,26 @@ namespace RimWorld
 	// Token: 0x02000448 RID: 1096
 	public class TemperatureMemory : IExposable
 	{
-		// Token: 0x04000B8E RID: 2958
+		// Token: 0x04000B91 RID: 2961
 		private Map map;
 
-		// Token: 0x04000B8F RID: 2959
+		// Token: 0x04000B92 RID: 2962
 		private int growthSeasonUntilTick = -1;
 
-		// Token: 0x04000B90 RID: 2960
+		// Token: 0x04000B93 RID: 2963
 		private int noSowUntilTick = -1;
 
-		// Token: 0x04000B91 RID: 2961
+		// Token: 0x04000B94 RID: 2964
 		private const int TicksBuffer = 30000;
 
-		// Token: 0x06001302 RID: 4866 RVA: 0x000A41DB File Offset: 0x000A25DB
+		// Token: 0x06001301 RID: 4865 RVA: 0x000A43DB File Offset: 0x000A27DB
 		public TemperatureMemory(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700028F RID: 655
-		// (get) Token: 0x06001303 RID: 4867 RVA: 0x000A41FC File Offset: 0x000A25FC
+		// (get) Token: 0x06001302 RID: 4866 RVA: 0x000A43FC File Offset: 0x000A27FC
 		public bool GrowthSeasonOutdoorsNow
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000290 RID: 656
-		// (get) Token: 0x06001304 RID: 4868 RVA: 0x000A4224 File Offset: 0x000A2624
+		// (get) Token: 0x06001303 RID: 4867 RVA: 0x000A4424 File Offset: 0x000A2824
 		public bool GrowthSeasonOutdoorsNowForSowing
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001305 RID: 4869 RVA: 0x000A4268 File Offset: 0x000A2668
+		// Token: 0x06001304 RID: 4868 RVA: 0x000A4468 File Offset: 0x000A2868
 		public void GrowthSeasonMemoryTick()
 		{
 			if (this.map.mapTemperature.OutdoorTemp > 0f && this.map.mapTemperature.OutdoorTemp < 58f)
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001306 RID: 4870 RVA: 0x000A4300 File Offset: 0x000A2700
+		// Token: 0x06001305 RID: 4869 RVA: 0x000A4500 File Offset: 0x000A2900
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.growthSeasonUntilTick, "growthSeasonUntilTick", 0, true);

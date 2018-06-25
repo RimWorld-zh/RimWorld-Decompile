@@ -7,17 +7,17 @@ namespace RimWorld
 	// Token: 0x020006A3 RID: 1699
 	public class Building_CrashedShipPart : Building
 	{
-		// Token: 0x04001417 RID: 5143
+		// Token: 0x0400141B RID: 5147
 		protected int age;
 
-		// Token: 0x0600242A RID: 9258 RVA: 0x001369B9 File Offset: 0x00134DB9
+		// Token: 0x06002429 RID: 9257 RVA: 0x00136C21 File Offset: 0x00135021
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.age, "age", 0, false);
 		}
 
-		// Token: 0x0600242B RID: 9259 RVA: 0x001369D4 File Offset: 0x00134DD4
+		// Token: 0x0600242A RID: 9258 RVA: 0x00136C3C File Offset: 0x0013503C
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -33,7 +33,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0600242C RID: 9260 RVA: 0x00136A46 File Offset: 0x00134E46
+		// Token: 0x0600242B RID: 9259 RVA: 0x00136CAE File Offset: 0x001350AE
 		public override void Tick()
 		{
 			base.Tick();

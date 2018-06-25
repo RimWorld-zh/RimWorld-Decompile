@@ -3,27 +3,27 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B36 RID: 2870
+	// Token: 0x02000B37 RID: 2871
 	public class DesignationDef : Def
 	{
-		// Token: 0x0400293B RID: 10555
+		// Token: 0x04002942 RID: 10562
 		[NoTranslate]
 		public string texturePath;
 
-		// Token: 0x0400293C RID: 10556
+		// Token: 0x04002943 RID: 10563
 		public TargetType targetType;
 
-		// Token: 0x0400293D RID: 10557
+		// Token: 0x04002944 RID: 10564
 		public bool removeIfBuildingDespawned = false;
 
-		// Token: 0x0400293E RID: 10558
+		// Token: 0x04002945 RID: 10565
 		public bool designateCancelable = true;
 
-		// Token: 0x0400293F RID: 10559
+		// Token: 0x04002946 RID: 10566
 		[Unsaved]
 		public Material iconMat;
 
-		// Token: 0x06003F28 RID: 16168 RVA: 0x002143CE File Offset: 0x002127CE
+		// Token: 0x06003F28 RID: 16168 RVA: 0x002146AE File Offset: 0x00212AAE
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

@@ -7,23 +7,23 @@ namespace RimWorld
 	// Token: 0x02000640 RID: 1600
 	public class ScenPart_GameStartDialog : ScenPart
 	{
-		// Token: 0x040012E3 RID: 4835
+		// Token: 0x040012E7 RID: 4839
 		private string text;
 
-		// Token: 0x040012E4 RID: 4836
+		// Token: 0x040012E8 RID: 4840
 		private string textKey;
 
-		// Token: 0x040012E5 RID: 4837
+		// Token: 0x040012E9 RID: 4841
 		private SoundDef closeSound;
 
-		// Token: 0x06002124 RID: 8484 RVA: 0x0011A2CC File Offset: 0x001186CC
+		// Token: 0x06002123 RID: 8483 RVA: 0x0011A534 File Offset: 0x00118934
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 5f);
 			this.text = Widgets.TextArea(scenPartRect, this.text, false);
 		}
 
-		// Token: 0x06002125 RID: 8485 RVA: 0x0011A300 File Offset: 0x00118700
+		// Token: 0x06002124 RID: 8484 RVA: 0x0011A568 File Offset: 0x00118968
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -32,7 +32,7 @@ namespace RimWorld
 			Scribe_Defs.Look<SoundDef>(ref this.closeSound, "closeSound");
 		}
 
-		// Token: 0x06002126 RID: 8486 RVA: 0x0011A340 File Offset: 0x00118740
+		// Token: 0x06002125 RID: 8485 RVA: 0x0011A5A8 File Offset: 0x001189A8
 		public override void PostGameStart()
 		{
 			if (Find.GameInitData.startedFromEntry)

@@ -9,29 +9,29 @@ namespace RimWorld
 	// Token: 0x020006BB RID: 1723
 	public class PowerBeam : OrbitalStrike
 	{
-		// Token: 0x0400147E RID: 5246
+		// Token: 0x04001482 RID: 5250
 		public const float Radius = 15f;
 
-		// Token: 0x0400147F RID: 5247
+		// Token: 0x04001483 RID: 5251
 		private const int FiresStartedPerTick = 3;
 
-		// Token: 0x04001480 RID: 5248
+		// Token: 0x04001484 RID: 5252
 		private static readonly IntRange FlameDamageAmountRange = new IntRange(43, 95);
 
-		// Token: 0x04001481 RID: 5249
+		// Token: 0x04001485 RID: 5253
 		private static readonly IntRange CorpseFlameDamageAmountRange = new IntRange(5, 10);
 
-		// Token: 0x04001482 RID: 5250
+		// Token: 0x04001486 RID: 5254
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06002518 RID: 9496 RVA: 0x0013E590 File Offset: 0x0013C990
+		// Token: 0x06002517 RID: 9495 RVA: 0x0013E7F8 File Offset: 0x0013CBF8
 		public override void StartStrike()
 		{
 			base.StartStrike();
 			MoteMaker.MakePowerBeamMote(base.Position, base.Map);
 		}
 
-		// Token: 0x06002519 RID: 9497 RVA: 0x0013E5AC File Offset: 0x0013C9AC
+		// Token: 0x06002518 RID: 9496 RVA: 0x0013E814 File Offset: 0x0013CC14
 		public override void Tick()
 		{
 			base.Tick();
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600251A RID: 9498 RVA: 0x0013E5EC File Offset: 0x0013C9EC
+		// Token: 0x06002519 RID: 9497 RVA: 0x0013E854 File Offset: 0x0013CC54
 		private void StartRandomFireAndDoFlameDamage()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)

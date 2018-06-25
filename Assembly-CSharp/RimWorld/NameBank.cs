@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000483 RID: 1155
 	public class NameBank
 	{
-		// Token: 0x04000C32 RID: 3122
+		// Token: 0x04000C35 RID: 3125
 		public PawnNameCategory nameType;
 
-		// Token: 0x04000C33 RID: 3123
+		// Token: 0x04000C36 RID: 3126
 		private List<string>[,] names;
 
-		// Token: 0x04000C34 RID: 3124
+		// Token: 0x04000C37 RID: 3127
 		private static readonly int numGenders = Enum.GetValues(typeof(Gender)).Length;
 
-		// Token: 0x04000C35 RID: 3125
+		// Token: 0x04000C38 RID: 3128
 		private static readonly int numSlots = Enum.GetValues(typeof(PawnNameSlot)).Length;
 
-		// Token: 0x06001466 RID: 5222 RVA: 0x000B2BF0 File Offset: 0x000B0FF0
+		// Token: 0x06001465 RID: 5221 RVA: 0x000B2DF0 File Offset: 0x000B11F0
 		public NameBank(PawnNameCategory ID)
 		{
 			this.nameType = ID;
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002BF RID: 703
-		// (get) Token: 0x06001467 RID: 5223 RVA: 0x000B2C64 File Offset: 0x000B1064
+		// (get) Token: 0x06001466 RID: 5222 RVA: 0x000B2E64 File Offset: 0x000B1264
 		private IEnumerable<List<string>> AllNameLists
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001468 RID: 5224 RVA: 0x000B2C90 File Offset: 0x000B1090
+		// Token: 0x06001467 RID: 5223 RVA: 0x000B2E90 File Offset: 0x000B1290
 		public void ErrorCheck()
 		{
 			foreach (List<string> list in this.AllNameLists)
@@ -74,13 +74,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001469 RID: 5225 RVA: 0x000B2E3C File Offset: 0x000B123C
+		// Token: 0x06001468 RID: 5224 RVA: 0x000B303C File Offset: 0x000B143C
 		private List<string> NamesFor(PawnNameSlot slot, Gender gender)
 		{
 			return this.names[(int)gender, (int)slot];
 		}
 
-		// Token: 0x0600146A RID: 5226 RVA: 0x000B2E60 File Offset: 0x000B1260
+		// Token: 0x06001469 RID: 5225 RVA: 0x000B3060 File Offset: 0x000B1460
 		public void AddNames(PawnNameSlot slot, Gender gender, IEnumerable<string> namesToAdd)
 		{
 			foreach (string item in namesToAdd)
@@ -89,13 +89,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600146B RID: 5227 RVA: 0x000B2EC0 File Offset: 0x000B12C0
+		// Token: 0x0600146A RID: 5226 RVA: 0x000B30C0 File Offset: 0x000B14C0
 		public void AddNamesFromFile(PawnNameSlot slot, Gender gender, string fileName)
 		{
 			this.AddNames(slot, gender, GenFile.LinesFromFile("Names/" + fileName));
 		}
 
-		// Token: 0x0600146C RID: 5228 RVA: 0x000B2EDC File Offset: 0x000B12DC
+		// Token: 0x0600146B RID: 5227 RVA: 0x000B30DC File Offset: 0x000B14DC
 		public string GetName(PawnNameSlot slot, Gender gender = Gender.None, bool checkIfAlreadyUsed = true)
 		{
 			List<string> list = this.NamesFor(slot, gender);

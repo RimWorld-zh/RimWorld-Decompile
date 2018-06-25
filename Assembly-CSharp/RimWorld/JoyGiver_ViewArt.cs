@@ -10,10 +10,10 @@ namespace RimWorld
 	// Token: 0x02000103 RID: 259
 	public class JoyGiver_ViewArt : JoyGiver
 	{
-		// Token: 0x040002E3 RID: 739
+		// Token: 0x040002E4 RID: 740
 		private static List<Thing> candidates = new List<Thing>();
 
-		// Token: 0x06000571 RID: 1393 RVA: 0x0003B234 File Offset: 0x00039634
+		// Token: 0x06000571 RID: 1393 RVA: 0x0003B250 File Offset: 0x00039650
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			bool allowedOutside = JoyUtility.EnjoyableOutsideNow(pawn, null);

@@ -9,20 +9,20 @@ namespace RimWorld
 	// Token: 0x02000188 RID: 392
 	public class LordToil_AssaultColonySappers : LordToil
 	{
-		// Token: 0x0400037F RID: 895
+		// Token: 0x04000380 RID: 896
 		private static readonly FloatRange EscortRadiusRanged = new FloatRange(15f, 19f);
 
-		// Token: 0x04000380 RID: 896
+		// Token: 0x04000381 RID: 897
 		private static readonly FloatRange EscortRadiusMelee = new FloatRange(23f, 26f);
 
-		// Token: 0x06000823 RID: 2083 RVA: 0x0004E804 File Offset: 0x0004CC04
+		// Token: 0x06000822 RID: 2082 RVA: 0x0004E800 File Offset: 0x0004CC00
 		public LordToil_AssaultColonySappers()
 		{
 			this.data = new LordToilData_AssaultColonySappers();
 		}
 
 		// Token: 0x17000147 RID: 327
-		// (get) Token: 0x06000824 RID: 2084 RVA: 0x0004E818 File Offset: 0x0004CC18
+		// (get) Token: 0x06000823 RID: 2083 RVA: 0x0004E814 File Offset: 0x0004CC14
 		private LordToilData_AssaultColonySappers Data
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000148 RID: 328
-		// (get) Token: 0x06000825 RID: 2085 RVA: 0x0004E838 File Offset: 0x0004CC38
+		// (get) Token: 0x06000824 RID: 2084 RVA: 0x0004E834 File Offset: 0x0004CC34
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000149 RID: 329
-		// (get) Token: 0x06000826 RID: 2086 RVA: 0x0004E850 File Offset: 0x0004CC50
+		// (get) Token: 0x06000825 RID: 2085 RVA: 0x0004E84C File Offset: 0x0004CC4C
 		public override bool ForceHighStoryDanger
 		{
 			get
@@ -51,14 +51,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000827 RID: 2087 RVA: 0x0004E866 File Offset: 0x0004CC66
+		// Token: 0x06000826 RID: 2086 RVA: 0x0004E862 File Offset: 0x0004CC62
 		public override void Init()
 		{
 			base.Init();
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.Drafting, OpportunityType.Critical);
 		}
 
-		// Token: 0x06000828 RID: 2088 RVA: 0x0004E87C File Offset: 0x0004CC7C
+		// Token: 0x06000827 RID: 2087 RVA: 0x0004E878 File Offset: 0x0004CC78
 		public override void UpdateAllDuties()
 		{
 			if (!this.Data.sapperDest.IsValid && this.lord.ownedPawns.Any<Pawn>())
@@ -126,7 +126,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000829 RID: 2089 RVA: 0x0004EB3A File Offset: 0x0004CF3A
+		// Token: 0x06000828 RID: 2088 RVA: 0x0004EB36 File Offset: 0x0004CF36
 		public override void Notify_ReachedDutyLocation(Pawn pawn)
 		{
 			this.Data.sapperDest = IntVec3.Invalid;

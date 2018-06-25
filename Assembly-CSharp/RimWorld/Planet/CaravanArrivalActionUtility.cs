@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005CA RID: 1482
 	public static class CaravanArrivalActionUtility
 	{
-		// Token: 0x06001CC3 RID: 7363 RVA: 0x000F6E14 File Offset: 0x000F5214
+		// Token: 0x06001CC2 RID: 7362 RVA: 0x000F707C File Offset: 0x000F547C
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions<T>(Func<FloatMenuAcceptanceReport> acceptanceReportGetter, Func<T> arrivalActionGetter, string label, Caravan caravan, int pathDestination, WorldObject revalidateWorldClickTarget) where T : CaravanArrivalAction
 		{
 			FloatMenuAcceptanceReport rep = acceptanceReportGetter();

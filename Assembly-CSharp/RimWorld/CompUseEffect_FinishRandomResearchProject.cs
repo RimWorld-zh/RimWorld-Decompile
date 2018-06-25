@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000762 RID: 1890
 	public class CompUseEffect_FinishRandomResearchProject : CompUseEffect
 	{
-		// Token: 0x060029BE RID: 10686 RVA: 0x00162378 File Offset: 0x00160778
+		// Token: 0x060029BD RID: 10685 RVA: 0x001625D8 File Offset: 0x001609D8
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029BF RID: 10687 RVA: 0x001623E4 File Offset: 0x001607E4
+		// Token: 0x060029BE RID: 10686 RVA: 0x00162644 File Offset: 0x00160A44
 		private IEnumerable<ResearchProjectDef> GetAvailableResearchProjects()
 		{
 			List<ResearchProjectDef> researchProjects = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
@@ -40,7 +40,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060029C0 RID: 10688 RVA: 0x00162407 File Offset: 0x00160807
+		// Token: 0x060029BF RID: 10687 RVA: 0x00162667 File Offset: 0x00160A67
 		private void FinishInstantly(ResearchProjectDef proj)
 		{
 			Find.ResearchManager.InstantFinish(proj, false);

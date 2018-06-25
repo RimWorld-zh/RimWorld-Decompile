@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x02000655 RID: 1621
 	public static class ScenarioMaker
 	{
-		// Token: 0x0400132B RID: 4907
+		// Token: 0x0400132F RID: 4911
 		private static Scenario scen;
 
 		// Token: 0x170004F5 RID: 1269
-		// (get) Token: 0x060021D0 RID: 8656 RVA: 0x0011EC3C File Offset: 0x0011D03C
+		// (get) Token: 0x060021CF RID: 8655 RVA: 0x0011EEA4 File Offset: 0x0011D2A4
 		public static Scenario GeneratingScenario
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021D1 RID: 8657 RVA: 0x0011EC58 File Offset: 0x0011D058
+		// Token: 0x060021D0 RID: 8656 RVA: 0x0011EEC0 File Offset: 0x0011D2C0
 		public static Scenario GenerateNewRandomScenario(string seed)
 		{
 			Rand.PushState();
@@ -107,13 +107,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021D2 RID: 8658 RVA: 0x0011F024 File Offset: 0x0011D424
+		// Token: 0x060021D1 RID: 8657 RVA: 0x0011F28C File Offset: 0x0011D68C
 		private static void AddCategoryScenParts(Scenario scen, ScenPartCategory cat, int count)
 		{
 			scen.parts.AddRange(ScenarioMaker.RandomScenPartsOfCategory(scen, cat, count));
 		}
 
-		// Token: 0x060021D3 RID: 8659 RVA: 0x0011F03C File Offset: 0x0011D43C
+		// Token: 0x060021D2 RID: 8658 RVA: 0x0011F2A4 File Offset: 0x0011D6A4
 		private static IEnumerable<ScenPart> RandomScenPartsOfCategory(Scenario scen, ScenPartCategory cat, int count)
 		{
 			if (count <= 0)
@@ -155,7 +155,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021D4 RID: 8660 RVA: 0x0011F074 File Offset: 0x0011D474
+		// Token: 0x060021D3 RID: 8659 RVA: 0x0011F2DC File Offset: 0x0011D6DC
 		public static IEnumerable<ScenPartDef> AddableParts(Scenario scen)
 		{
 			return from d in DefDatabase<ScenPartDef>.AllDefs
@@ -163,7 +163,7 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060021D5 RID: 8661 RVA: 0x0011F0AC File Offset: 0x0011D4AC
+		// Token: 0x060021D4 RID: 8660 RVA: 0x0011F314 File Offset: 0x0011D714
 		private static bool CanAddPart(Scenario scen, ScenPart newPart)
 		{
 			for (int i = 0; i < scen.parts.Count; i++)
@@ -176,7 +176,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060021D6 RID: 8662 RVA: 0x0011F100 File Offset: 0x0011D500
+		// Token: 0x060021D5 RID: 8661 RVA: 0x0011F368 File Offset: 0x0011D768
 		public static ScenPart MakeScenPart(ScenPartDef def)
 		{
 			ScenPart scenPart = (ScenPart)Activator.CreateInstance(def.scenPartClass);

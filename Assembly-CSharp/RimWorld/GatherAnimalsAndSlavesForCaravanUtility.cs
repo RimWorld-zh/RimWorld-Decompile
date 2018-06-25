@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x02000181 RID: 385
 	public static class GatherAnimalsAndSlavesForCaravanUtility
 	{
-		// Token: 0x06000801 RID: 2049 RVA: 0x0004DFE4 File Offset: 0x0004C3E4
+		// Token: 0x06000800 RID: 2048 RVA: 0x0004DFE0 File Offset: 0x0004C3E0
 		public static bool IsFollowingAnyone(Pawn p)
 		{
 			return p.mindState.duty.focus.HasThing;
 		}
 
-		// Token: 0x06000802 RID: 2050 RVA: 0x0004E00E File Offset: 0x0004C40E
+		// Token: 0x06000801 RID: 2049 RVA: 0x0004E00A File Offset: 0x0004C40A
 		public static void SetFollower(Pawn p, Pawn follower)
 		{
 			p.mindState.duty.focus = follower;
 			p.mindState.duty.radius = 10f;
 		}
 
-		// Token: 0x06000803 RID: 2051 RVA: 0x0004E03C File Offset: 0x0004C43C
+		// Token: 0x06000802 RID: 2050 RVA: 0x0004E038 File Offset: 0x0004C438
 		public static void CheckArrived(Lord lord, IntVec3 meetingPoint, string memo, Predicate<Pawn> shouldCheckIfArrived, Predicate<Pawn> extraValidator = null)
 		{
 			bool flag = true;

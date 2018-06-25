@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020001FE RID: 510
 	public class ThoughtWorker_HardWorkerVsLazy : ThoughtWorker
 	{
-		// Token: 0x060009C8 RID: 2504 RVA: 0x00058000 File Offset: 0x00056400
+		// Token: 0x060009C7 RID: 2503 RVA: 0x00057FFC File Offset: 0x000563FC
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
 			ThoughtState result;

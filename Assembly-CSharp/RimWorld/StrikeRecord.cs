@@ -6,20 +6,20 @@ namespace RimWorld
 	// Token: 0x02000415 RID: 1045
 	internal struct StrikeRecord : IExposable
 	{
-		// Token: 0x04000AEF RID: 2799
+		// Token: 0x04000AF2 RID: 2802
 		public IntVec3 cell;
 
-		// Token: 0x04000AF0 RID: 2800
+		// Token: 0x04000AF3 RID: 2803
 		public int ticksGame;
 
-		// Token: 0x04000AF1 RID: 2801
+		// Token: 0x04000AF4 RID: 2804
 		public ThingDef def;
 
-		// Token: 0x04000AF2 RID: 2802
+		// Token: 0x04000AF5 RID: 2805
 		private const int StrikeRecordExpiryDays = 15;
 
 		// Token: 0x17000266 RID: 614
-		// (get) Token: 0x060011F2 RID: 4594 RVA: 0x0009BD44 File Offset: 0x0009A144
+		// (get) Token: 0x060011F1 RID: 4593 RVA: 0x0009BD54 File Offset: 0x0009A154
 		public bool Expired
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011F3 RID: 4595 RVA: 0x0009BD74 File Offset: 0x0009A174
+		// Token: 0x060011F2 RID: 4594 RVA: 0x0009BD84 File Offset: 0x0009A184
 		public void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.cell, "cell", default(IntVec3), false);
@@ -36,7 +36,7 @@ namespace RimWorld
 			Scribe_Defs.Look<ThingDef>(ref this.def, "def");
 		}
 
-		// Token: 0x060011F4 RID: 4596 RVA: 0x0009BDC0 File Offset: 0x0009A1C0
+		// Token: 0x060011F3 RID: 4595 RVA: 0x0009BDD0 File Offset: 0x0009A1D0
 		public override string ToString()
 		{
 			return string.Concat(new object[]

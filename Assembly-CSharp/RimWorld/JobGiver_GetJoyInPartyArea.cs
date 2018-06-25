@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000CA RID: 202
 	public class JobGiver_GetJoyInPartyArea : JobGiver_GetJoy
 	{
-		// Token: 0x060004A1 RID: 1185 RVA: 0x00034B84 File Offset: 0x00032F84
+		// Token: 0x060004A1 RID: 1185 RVA: 0x00034BA0 File Offset: 0x00032FA0
 		protected override Job TryGiveJobFromJoyGiverDefDirect(JoyGiverDef def, Pawn pawn)
 		{
 			Job result;

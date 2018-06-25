@@ -2,10 +2,10 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A05 RID: 2565
+	// Token: 0x02000A06 RID: 2566
 	public class TransitionAction_SetDefendLocalGroup : TransitionAction
 	{
-		// Token: 0x06003982 RID: 14722 RVA: 0x001E7CEC File Offset: 0x001E60EC
+		// Token: 0x06003983 RID: 14723 RVA: 0x001E8018 File Offset: 0x001E6418
 		public override void DoAction(Transition trans)
 		{
 			LordToil_DefendPoint lordToil_DefendPoint = (LordToil_DefendPoint)trans.target;

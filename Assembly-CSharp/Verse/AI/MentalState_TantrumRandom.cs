@@ -5,45 +5,45 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A86 RID: 2694
+	// Token: 0x02000A87 RID: 2695
 	public abstract class MentalState_TantrumRandom : MentalState_Tantrum
 	{
-		// Token: 0x0400257E RID: 9598
+		// Token: 0x0400258E RID: 9614
 		private int targetFoundTicks;
 
-		// Token: 0x0400257F RID: 9599
+		// Token: 0x0400258F RID: 9615
 		private const int CheckChooseNewTargetIntervalTicks = 500;
 
-		// Token: 0x04002580 RID: 9600
+		// Token: 0x04002590 RID: 9616
 		private const int MaxSameTargetAttackTicks = 1250;
 
-		// Token: 0x04002581 RID: 9601
+		// Token: 0x04002591 RID: 9617
 		private static List<Thing> candidates = new List<Thing>();
 
-		// Token: 0x06003BC5 RID: 15301
+		// Token: 0x06003BC6 RID: 15302
 		protected abstract void GetPotentialTargets(List<Thing> outThings);
 
-		// Token: 0x06003BC6 RID: 15302 RVA: 0x001F84EC File Offset: 0x001F68EC
+		// Token: 0x06003BC7 RID: 15303 RVA: 0x001F8818 File Offset: 0x001F6C18
 		protected virtual Predicate<Thing> GetCustomValidator()
 		{
 			return null;
 		}
 
-		// Token: 0x06003BC7 RID: 15303 RVA: 0x001F8502 File Offset: 0x001F6902
+		// Token: 0x06003BC8 RID: 15304 RVA: 0x001F882E File Offset: 0x001F6C2E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.targetFoundTicks, "targetFoundTicks", 0, false);
 		}
 
-		// Token: 0x06003BC8 RID: 15304 RVA: 0x001F851D File Offset: 0x001F691D
+		// Token: 0x06003BC9 RID: 15305 RVA: 0x001F8849 File Offset: 0x001F6C49
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.ChooseNextTarget();
 		}
 
-		// Token: 0x06003BC9 RID: 15305 RVA: 0x001F8530 File Offset: 0x001F6930
+		// Token: 0x06003BCA RID: 15306 RVA: 0x001F885C File Offset: 0x001F6C5C
 		public override void MentalStateTick()
 		{
 			if (this.target != null && (!this.target.Spawned || !this.pawn.CanReach(this.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) || (this.target is Pawn && ((Pawn)this.target).Downed)))
@@ -57,7 +57,7 @@ namespace Verse.AI
 			base.MentalStateTick();
 		}
 
-		// Token: 0x06003BCA RID: 15306 RVA: 0x001F85E0 File Offset: 0x001F69E0
+		// Token: 0x06003BCB RID: 15307 RVA: 0x001F890C File Offset: 0x001F6D0C
 		private void ChooseNextTarget()
 		{
 			MentalState_TantrumRandom.candidates.Clear();
@@ -91,7 +91,7 @@ namespace Verse.AI
 			MentalState_TantrumRandom.candidates.Clear();
 		}
 
-		// Token: 0x06003BCB RID: 15307 RVA: 0x001F86EC File Offset: 0x001F6AEC
+		// Token: 0x06003BCC RID: 15308 RVA: 0x001F8A18 File Offset: 0x001F6E18
 		private float GetCandidateWeight(Thing candidate)
 		{
 			float num = this.pawn.Position.DistanceTo(candidate.Position);

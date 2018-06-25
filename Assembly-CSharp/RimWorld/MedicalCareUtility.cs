@@ -11,27 +11,27 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MedicalCareUtility
 	{
-		// Token: 0x04000E19 RID: 3609
+		// Token: 0x04000E1D RID: 3613
 		private static Texture2D[] careTextures;
 
-		// Token: 0x04000E1A RID: 3610
+		// Token: 0x04000E1E RID: 3614
 		public const float CareSetterHeight = 28f;
 
-		// Token: 0x04000E1B RID: 3611
+		// Token: 0x04000E1F RID: 3615
 		public const float CareSetterWidth = 140f;
 
-		// Token: 0x04000E1C RID: 3612
+		// Token: 0x04000E20 RID: 3616
 		private static bool medicalCarePainting = false;
 
-		// Token: 0x04000E1E RID: 3614
+		// Token: 0x04000E22 RID: 3618
 		[CompilerGenerated]
 		private static Func<Pawn, MedicalCareCategory> <>f__mg$cache0;
 
-		// Token: 0x04000E1F RID: 3615
+		// Token: 0x04000E23 RID: 3619
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>>> <>f__mg$cache1;
 
-		// Token: 0x060017E5 RID: 6117 RVA: 0x000D0F2D File Offset: 0x000CF32D
+		// Token: 0x060017E4 RID: 6116 RVA: 0x000D1195 File Offset: 0x000CF595
 		public static void Reset()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -45,7 +45,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060017E6 RID: 6118 RVA: 0x000D0F54 File Offset: 0x000CF354
+		// Token: 0x060017E5 RID: 6117 RVA: 0x000D11BC File Offset: 0x000CF5BC
 		public static void MedicalCareSetter(Rect rect, ref MedicalCareCategory medCare)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width / 5f, rect.height);
@@ -77,13 +77,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017E7 RID: 6119 RVA: 0x000D1070 File Offset: 0x000CF470
+		// Token: 0x060017E6 RID: 6118 RVA: 0x000D12D8 File Offset: 0x000CF6D8
 		public static string GetLabel(this MedicalCareCategory cat)
 		{
 			return ("MedicalCareCategory_" + cat).Translate();
 		}
 
-		// Token: 0x060017E8 RID: 6120 RVA: 0x000D109C File Offset: 0x000CF49C
+		// Token: 0x060017E7 RID: 6119 RVA: 0x000D1304 File Offset: 0x000CF704
 		public static bool AllowsMedicine(this MedicalCareCategory cat, ThingDef meds)
 		{
 			bool result;
@@ -110,7 +110,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017E9 RID: 6121 RVA: 0x000D1134 File Offset: 0x000CF534
+		// Token: 0x060017E8 RID: 6120 RVA: 0x000D139C File Offset: 0x000CF79C
 		public static void MedicalCareSelectButton(Rect rect, Pawn pawn)
 		{
 			if (MedicalCareUtility.<>f__mg$cache0 == null)
@@ -127,13 +127,13 @@ namespace RimWorld
 			Widgets.Dropdown<Pawn, MedicalCareCategory>(rect, pawn, getPayload, menuGenerator, null, buttonIcon, null, null, null, true);
 		}
 
-		// Token: 0x060017EA RID: 6122 RVA: 0x000D11A8 File Offset: 0x000CF5A8
+		// Token: 0x060017E9 RID: 6121 RVA: 0x000D1410 File Offset: 0x000CF810
 		private static MedicalCareCategory MedicalCareSelectButton_GetMedicalCare(Pawn pawn)
 		{
 			return pawn.playerSettings.medCare;
 		}
 
-		// Token: 0x060017EB RID: 6123 RVA: 0x000D11C8 File Offset: 0x000CF5C8
+		// Token: 0x060017EA RID: 6122 RVA: 0x000D1430 File Offset: 0x000CF830
 		private static IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>> MedicalCareSelectButton_GenerateMenu(Pawn p)
 		{
 			for (int i = 0; i < 5; i++)

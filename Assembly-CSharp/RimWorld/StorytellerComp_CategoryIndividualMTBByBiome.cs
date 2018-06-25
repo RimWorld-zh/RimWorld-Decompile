@@ -10,7 +10,7 @@ namespace RimWorld
 	public class StorytellerComp_CategoryIndividualMTBByBiome : StorytellerComp
 	{
 		// Token: 0x1700021B RID: 539
-		// (get) Token: 0x06000F1B RID: 3867 RVA: 0x0007F9C4 File Offset: 0x0007DDC4
+		// (get) Token: 0x06000F1A RID: 3866 RVA: 0x0007F9D4 File Offset: 0x0007DDD4
 		protected StorytellerCompProperties_CategoryIndividualMTBByBiome Props
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F1C RID: 3868 RVA: 0x0007F9E4 File Offset: 0x0007DDE4
+		// Token: 0x06000F1B RID: 3867 RVA: 0x0007F9F4 File Offset: 0x0007DDF4
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (target is World)
@@ -76,7 +76,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F1D RID: 3869 RVA: 0x0007FA18 File Offset: 0x0007DE18
+		// Token: 0x06000F1C RID: 3868 RVA: 0x0007FA28 File Offset: 0x0007DE28
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.category;

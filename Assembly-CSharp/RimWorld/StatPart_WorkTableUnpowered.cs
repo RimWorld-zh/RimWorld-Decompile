@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009BE RID: 2494
 	public class StatPart_WorkTableUnpowered : StatPart
 	{
-		// Token: 0x060037D0 RID: 14288 RVA: 0x001DB17E File Offset: 0x001D957E
+		// Token: 0x060037D0 RID: 14288 RVA: 0x001DB452 File Offset: 0x001D9852
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && StatPart_WorkTableUnpowered.Applies(req.Thing))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037D1 RID: 14289 RVA: 0x001DB1BC File Offset: 0x001D95BC
+		// Token: 0x060037D1 RID: 14289 RVA: 0x001DB490 File Offset: 0x001D9890
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037D2 RID: 14290 RVA: 0x001DB228 File Offset: 0x001D9628
+		// Token: 0x060037D2 RID: 14290 RVA: 0x001DB4FC File Offset: 0x001D98FC
 		public static bool Applies(Thing th)
 		{
 			bool result;

@@ -3,36 +3,36 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A74 RID: 2676
+	// Token: 0x02000A75 RID: 2677
 	public class MentalState_MurderousRage : MentalState
 	{
-		// Token: 0x0400256E RID: 9582
+		// Token: 0x0400257E RID: 9598
 		public Pawn target;
 
-		// Token: 0x0400256F RID: 9583
+		// Token: 0x0400257F RID: 9599
 		private const int NoLongerValidTargetCheckInterval = 120;
 
-		// Token: 0x06003B7E RID: 15230 RVA: 0x001F78EE File Offset: 0x001F5CEE
+		// Token: 0x06003B7F RID: 15231 RVA: 0x001F7C1A File Offset: 0x001F601A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.target, "target", false);
 		}
 
-		// Token: 0x06003B7F RID: 15231 RVA: 0x001F7908 File Offset: 0x001F5D08
+		// Token: 0x06003B80 RID: 15232 RVA: 0x001F7C34 File Offset: 0x001F6034
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;
 		}
 
-		// Token: 0x06003B80 RID: 15232 RVA: 0x001F791E File Offset: 0x001F5D1E
+		// Token: 0x06003B81 RID: 15233 RVA: 0x001F7C4A File Offset: 0x001F604A
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.TryFindNewTarget();
 		}
 
-		// Token: 0x06003B81 RID: 15233 RVA: 0x001F7930 File Offset: 0x001F5D30
+		// Token: 0x06003B82 RID: 15234 RVA: 0x001F7C5C File Offset: 0x001F605C
 		public override void MentalStateTick()
 		{
 			base.MentalStateTick();
@@ -58,7 +58,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B82 RID: 15234 RVA: 0x001F79F4 File Offset: 0x001F5DF4
+		// Token: 0x06003B83 RID: 15235 RVA: 0x001F7D20 File Offset: 0x001F6120
 		public override string GetBeginLetterText()
 		{
 			string result;
@@ -74,14 +74,14 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B83 RID: 15235 RVA: 0x001F7A68 File Offset: 0x001F5E68
+		// Token: 0x06003B84 RID: 15236 RVA: 0x001F7D94 File Offset: 0x001F6194
 		private bool TryFindNewTarget()
 		{
 			this.target = MurderousRageMentalStateUtility.FindPawnToKill(this.pawn);
 			return this.target != null;
 		}
 
-		// Token: 0x06003B84 RID: 15236 RVA: 0x001F7A9C File Offset: 0x001F5E9C
+		// Token: 0x06003B85 RID: 15237 RVA: 0x001F7DC8 File Offset: 0x001F61C8
 		public bool IsTargetStillValidAndReachable()
 		{
 			return this.target != null && this.target.SpawnedParentOrMe != null && (!(this.target.SpawnedParentOrMe is Pawn) || this.target.SpawnedParentOrMe == this.target) && this.pawn.CanReach(this.target.SpawnedParentOrMe, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn);

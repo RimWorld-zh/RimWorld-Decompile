@@ -9,23 +9,23 @@ namespace RimWorld
 	// Token: 0x0200071B RID: 1819
 	public class CompLongRangeMineralScanner : ThingComp
 	{
-		// Token: 0x040015EC RID: 5612
+		// Token: 0x040015F0 RID: 5616
 		private CompPowerTrader powerComp;
 
-		// Token: 0x040015ED RID: 5613
+		// Token: 0x040015F1 RID: 5617
 		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
 
-		// Token: 0x040015EE RID: 5614
+		// Token: 0x040015F2 RID: 5618
 		private float cachedEffectiveAreaPct;
 
-		// Token: 0x040015EF RID: 5615
+		// Token: 0x040015F3 RID: 5619
 		private const float NoSitePartChance = 0.6f;
 
-		// Token: 0x040015F0 RID: 5616
+		// Token: 0x040015F4 RID: 5620
 		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
 
 		// Token: 0x1700061B RID: 1563
-		// (get) Token: 0x06002815 RID: 10261 RVA: 0x00156EB4 File Offset: 0x001552B4
+		// (get) Token: 0x06002814 RID: 10260 RVA: 0x00157114 File Offset: 0x00155514
 		public CompProperties_LongRangeMineralScanner Props
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061C RID: 1564
-		// (get) Token: 0x06002816 RID: 10262 RVA: 0x00156ED4 File Offset: 0x001552D4
+		// (get) Token: 0x06002815 RID: 10261 RVA: 0x00157134 File Offset: 0x00155534
 		public bool Active
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061D RID: 1565
-		// (get) Token: 0x06002817 RID: 10263 RVA: 0x00156F34 File Offset: 0x00155334
+		// (get) Token: 0x06002816 RID: 10262 RVA: 0x00157194 File Offset: 0x00155594
 		private float EffectiveMtbDays
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061E RID: 1566
-		// (get) Token: 0x06002818 RID: 10264 RVA: 0x00156F78 File Offset: 0x00155378
+		// (get) Token: 0x06002817 RID: 10263 RVA: 0x001571D8 File Offset: 0x001555D8
 		private float EffectiveAreaPct
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002819 RID: 10265 RVA: 0x00156F93 File Offset: 0x00155393
+		// Token: 0x06002818 RID: 10264 RVA: 0x001571F3 File Offset: 0x001555F3
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -83,7 +83,7 @@ namespace RimWorld
 			this.RecacheEffectiveAreaPct();
 		}
 
-		// Token: 0x0600281A RID: 10266 RVA: 0x00156FB4 File Offset: 0x001553B4
+		// Token: 0x06002819 RID: 10265 RVA: 0x00157214 File Offset: 0x00155614
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -93,7 +93,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281B RID: 10267 RVA: 0x00156FCE File Offset: 0x001553CE
+		// Token: 0x0600281A RID: 10266 RVA: 0x0015722E File Offset: 0x0015562E
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
@@ -101,7 +101,7 @@ namespace RimWorld
 			this.CheckTryFindMinerals(250);
 		}
 
-		// Token: 0x0600281C RID: 10268 RVA: 0x00156FE8 File Offset: 0x001553E8
+		// Token: 0x0600281B RID: 10267 RVA: 0x00157248 File Offset: 0x00155648
 		private void RecacheEffectiveAreaPct()
 		{
 			if (!this.Active)
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281D RID: 10269 RVA: 0x00157124 File Offset: 0x00155524
+		// Token: 0x0600281C RID: 10268 RVA: 0x00157384 File Offset: 0x00155784
 		private void CheckTryFindMinerals(int interval)
 		{
 			if (this.Active)
@@ -164,7 +164,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281E RID: 10270 RVA: 0x00157174 File Offset: 0x00155574
+		// Token: 0x0600281D RID: 10269 RVA: 0x001573D4 File Offset: 0x001557D4
 		private void FoundMinerals()
 		{
 			int tile2;
@@ -182,7 +182,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281F RID: 10271 RVA: 0x00157218 File Offset: 0x00155618
+		// Token: 0x0600281E RID: 10270 RVA: 0x00157478 File Offset: 0x00155878
 		private void CalculateOtherActiveMineralScanners()
 		{
 			this.otherActiveMineralScanners.Clear();
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002820 RID: 10272 RVA: 0x001572E4 File Offset: 0x001556E4
+		// Token: 0x0600281F RID: 10271 RVA: 0x00157544 File Offset: 0x00155944
 		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
 		{
 			bool result;
@@ -227,7 +227,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002821 RID: 10273 RVA: 0x0015736C File Offset: 0x0015576C
+		// Token: 0x06002820 RID: 10272 RVA: 0x001575CC File Offset: 0x001559CC
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -246,7 +246,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002822 RID: 10274 RVA: 0x001573B8 File Offset: 0x001557B8
+		// Token: 0x06002821 RID: 10273 RVA: 0x00157618 File Offset: 0x00155A18
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)

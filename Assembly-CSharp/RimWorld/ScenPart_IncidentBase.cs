@@ -9,11 +9,11 @@ namespace RimWorld
 	// Token: 0x02000641 RID: 1601
 	public abstract class ScenPart_IncidentBase : ScenPart
 	{
-		// Token: 0x040012E7 RID: 4839
+		// Token: 0x040012EB RID: 4843
 		protected IncidentDef incident;
 
 		// Token: 0x170004EA RID: 1258
-		// (get) Token: 0x06002129 RID: 8489 RVA: 0x00119854 File Offset: 0x00117C54
+		// (get) Token: 0x06002128 RID: 8488 RVA: 0x00119ABC File Offset: 0x00117EBC
 		public IncidentDef Incident
 		{
 			get
@@ -23,10 +23,10 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004EB RID: 1259
-		// (get) Token: 0x0600212A RID: 8490
+		// (get) Token: 0x06002129 RID: 8489
 		protected abstract string IncidentTag { get; }
 
-		// Token: 0x0600212B RID: 8491 RVA: 0x00119870 File Offset: 0x00117C70
+		// Token: 0x0600212A RID: 8490 RVA: 0x00119AD8 File Offset: 0x00117ED8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -41,21 +41,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600212C RID: 8492 RVA: 0x001198DC File Offset: 0x00117CDC
+		// Token: 0x0600212B RID: 8491 RVA: 0x00119B44 File Offset: 0x00117F44
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			this.DoIncidentEditInterface(scenPartRect);
 		}
 
-		// Token: 0x0600212D RID: 8493 RVA: 0x00119900 File Offset: 0x00117D00
+		// Token: 0x0600212C RID: 8492 RVA: 0x00119B68 File Offset: 0x00117F68
 		public override string Summary(Scenario scen)
 		{
 			string key = "ScenPart_" + this.IncidentTag;
 			return ScenSummaryList.SummaryWithList(scen, this.IncidentTag, key.Translate());
 		}
 
-		// Token: 0x0600212E RID: 8494 RVA: 0x00119938 File Offset: 0x00117D38
+		// Token: 0x0600212D RID: 8493 RVA: 0x00119BA0 File Offset: 0x00117FA0
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == this.IncidentTag)
@@ -65,33 +65,33 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600212F RID: 8495 RVA: 0x00119969 File Offset: 0x00117D69
+		// Token: 0x0600212E RID: 8494 RVA: 0x00119BD1 File Offset: 0x00117FD1
 		public override void Randomize()
 		{
 			this.incident = this.RandomizableIncidents().RandomElement<IncidentDef>();
 		}
 
-		// Token: 0x06002130 RID: 8496 RVA: 0x00119980 File Offset: 0x00117D80
+		// Token: 0x0600212F RID: 8495 RVA: 0x00119BE8 File Offset: 0x00117FE8
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
 			return scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident;
 		}
 
-		// Token: 0x06002131 RID: 8497 RVA: 0x001199BC File Offset: 0x00117DBC
+		// Token: 0x06002130 RID: 8496 RVA: 0x00119C24 File Offset: 0x00118024
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
 			return scenPart_IncidentBase == null || scenPart_IncidentBase.Incident != this.incident;
 		}
 
-		// Token: 0x06002132 RID: 8498 RVA: 0x001199F8 File Offset: 0x00117DF8
+		// Token: 0x06002131 RID: 8497 RVA: 0x00119C60 File Offset: 0x00118060
 		protected virtual IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			return Enumerable.Empty<IncidentDef>();
 		}
 
-		// Token: 0x06002133 RID: 8499 RVA: 0x00119A14 File Offset: 0x00117E14
+		// Token: 0x06002132 RID: 8498 RVA: 0x00119C7C File Offset: 0x0011807C
 		protected void DoIncidentEditInterface(Rect rect)
 		{
 			if (Widgets.ButtonText(rect, this.incident.LabelCap, true, false, true))

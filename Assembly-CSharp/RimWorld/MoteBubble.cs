@@ -8,23 +8,23 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MoteBubble : MoteDualAttached
 	{
-		// Token: 0x04001515 RID: 5397
+		// Token: 0x04001519 RID: 5401
 		public Material iconMat;
 
-		// Token: 0x04001516 RID: 5398
+		// Token: 0x0400151A RID: 5402
 		public Pawn arrowTarget;
 
-		// Token: 0x04001517 RID: 5399
+		// Token: 0x0400151B RID: 5403
 		private static readonly Material InteractionArrowTex = MaterialPool.MatFrom("Things/Mote/InteractionArrow");
 
-		// Token: 0x060025B9 RID: 9657 RVA: 0x00143651 File Offset: 0x00141A51
+		// Token: 0x060025B8 RID: 9656 RVA: 0x001438B1 File Offset: 0x00141CB1
 		public void SetupMoteBubble(Texture2D icon, Pawn target)
 		{
 			this.iconMat = MaterialPool.MatFrom(icon, ShaderDatabase.TransparentPostLight, Color.white);
 			this.arrowTarget = target;
 		}
 
-		// Token: 0x060025BA RID: 9658 RVA: 0x00143674 File Offset: 0x00141A74
+		// Token: 0x060025B9 RID: 9657 RVA: 0x001438D4 File Offset: 0x00141CD4
 		public override void Draw()
 		{
 			base.Draw();

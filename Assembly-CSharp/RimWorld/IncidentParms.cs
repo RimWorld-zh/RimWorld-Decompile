@@ -7,61 +7,61 @@ namespace RimWorld
 	// Token: 0x02000319 RID: 793
 	public class IncidentParms : IExposable
 	{
-		// Token: 0x04000898 RID: 2200
+		// Token: 0x0400089B RID: 2203
 		public IIncidentTarget target;
 
-		// Token: 0x04000899 RID: 2201
+		// Token: 0x0400089C RID: 2204
 		public float points = -1f;
 
-		// Token: 0x0400089A RID: 2202
+		// Token: 0x0400089D RID: 2205
 		public Faction faction;
 
-		// Token: 0x0400089B RID: 2203
+		// Token: 0x0400089E RID: 2206
 		public bool forced;
 
-		// Token: 0x0400089C RID: 2204
+		// Token: 0x0400089F RID: 2207
 		public IntVec3 spawnCenter = IntVec3.Invalid;
 
-		// Token: 0x0400089D RID: 2205
+		// Token: 0x040008A0 RID: 2208
 		public Rot4 spawnRotation = Rot4.South;
 
-		// Token: 0x0400089E RID: 2206
+		// Token: 0x040008A1 RID: 2209
 		public bool generateFightersOnly;
 
-		// Token: 0x0400089F RID: 2207
+		// Token: 0x040008A2 RID: 2210
 		public bool dontUseSingleUseRocketLaunchers;
 
-		// Token: 0x040008A0 RID: 2208
+		// Token: 0x040008A3 RID: 2211
 		public RaidStrategyDef raidStrategy;
 
-		// Token: 0x040008A1 RID: 2209
+		// Token: 0x040008A4 RID: 2212
 		public PawnsArrivalModeDef raidArrivalMode;
 
-		// Token: 0x040008A2 RID: 2210
+		// Token: 0x040008A5 RID: 2213
 		public bool raidForceOneIncap;
 
-		// Token: 0x040008A3 RID: 2211
+		// Token: 0x040008A6 RID: 2214
 		public bool raidNeverFleeIndividual;
 
-		// Token: 0x040008A4 RID: 2212
+		// Token: 0x040008A7 RID: 2215
 		public bool raidArrivalModeForQuickMilitaryAid;
 
-		// Token: 0x040008A5 RID: 2213
+		// Token: 0x040008A8 RID: 2216
 		public Dictionary<Pawn, int> pawnGroups;
 
-		// Token: 0x040008A6 RID: 2214
+		// Token: 0x040008A9 RID: 2217
 		public TraderKindDef traderKind;
 
-		// Token: 0x040008A7 RID: 2215
+		// Token: 0x040008AA RID: 2218
 		public int podOpenDelay = 140;
 
-		// Token: 0x040008A8 RID: 2216
+		// Token: 0x040008AB RID: 2219
 		private List<Pawn> tmpPawns;
 
-		// Token: 0x040008A9 RID: 2217
+		// Token: 0x040008AC RID: 2220
 		private List<int> tmpGroups;
 
-		// Token: 0x06000D6F RID: 3439 RVA: 0x000735E4 File Offset: 0x000719E4
+		// Token: 0x06000D6E RID: 3438 RVA: 0x000735EC File Offset: 0x000719EC
 		public void ExposeData()
 		{
 			Scribe_References.Look<IIncidentTarget>(ref this.target, "target", false);
@@ -82,7 +82,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.podOpenDelay, "podOpenDelay", 140, false);
 		}
 
-		// Token: 0x06000D70 RID: 3440 RVA: 0x00073730 File Offset: 0x00071B30
+		// Token: 0x06000D6F RID: 3439 RVA: 0x00073738 File Offset: 0x00071B38
 		public override string ToString()
 		{
 			string text = "(";

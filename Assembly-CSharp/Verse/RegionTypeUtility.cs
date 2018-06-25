@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C97 RID: 3223
+	// Token: 0x02000C98 RID: 3224
 	public static class RegionTypeUtility
 	{
-		// Token: 0x060046BC RID: 18108 RVA: 0x002551A8 File Offset: 0x002535A8
+		// Token: 0x060046BC RID: 18108 RVA: 0x00255488 File Offset: 0x00253888
 		public static bool IsOneCellRegion(this RegionType regionType)
 		{
 			return regionType == RegionType.Portal;
 		}
 
-		// Token: 0x060046BD RID: 18109 RVA: 0x002551C4 File Offset: 0x002535C4
+		// Token: 0x060046BD RID: 18109 RVA: 0x002554A4 File Offset: 0x002538A4
 		public static bool AllowsMultipleRegionsPerRoom(this RegionType regionType)
 		{
 			return regionType != RegionType.Portal;
 		}
 
-		// Token: 0x060046BE RID: 18110 RVA: 0x002551E0 File Offset: 0x002535E0
+		// Token: 0x060046BE RID: 18110 RVA: 0x002554C0 File Offset: 0x002538C0
 		public static RegionType GetExpectedRegionType(this IntVec3 c, Map map)
 		{
 			RegionType result;
@@ -49,14 +49,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060046BF RID: 18111 RVA: 0x00255270 File Offset: 0x00253670
+		// Token: 0x060046BF RID: 18111 RVA: 0x00255550 File Offset: 0x00253950
 		public static RegionType GetRegionType(this IntVec3 c, Map map)
 		{
 			Region region = c.GetRegion(map, RegionType.Set_All);
 			return (region == null) ? RegionType.None : region.type;
 		}
 
-		// Token: 0x060046C0 RID: 18112 RVA: 0x002552A0 File Offset: 0x002536A0
+		// Token: 0x060046C0 RID: 18112 RVA: 0x00255580 File Offset: 0x00253980
 		public static bool Passable(this RegionType regionType)
 		{
 			return (regionType & RegionType.Set_Passable) != RegionType.None;

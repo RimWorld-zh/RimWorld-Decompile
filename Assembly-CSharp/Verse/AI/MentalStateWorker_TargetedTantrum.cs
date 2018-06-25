@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A68 RID: 2664
+	// Token: 0x02000A69 RID: 2665
 	public class MentalStateWorker_TargetedTantrum : MentalStateWorker
 	{
-		// Token: 0x0400255C RID: 9564
+		// Token: 0x0400256C RID: 9580
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06003B41 RID: 15169 RVA: 0x001F6BA4 File Offset: 0x001F4FA4
+		// Token: 0x06003B42 RID: 15170 RVA: 0x001F6ED0 File Offset: 0x001F52D0
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;

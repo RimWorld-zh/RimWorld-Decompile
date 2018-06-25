@@ -3,33 +3,33 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F77 RID: 3959
+	// Token: 0x02000F78 RID: 3960
 	public class Billow : ModuleBase
 	{
-		// Token: 0x04003ED0 RID: 16080
+		// Token: 0x04003ED8 RID: 16088
 		private double m_frequency = 1.0;
 
-		// Token: 0x04003ED1 RID: 16081
+		// Token: 0x04003ED9 RID: 16089
 		private double m_lacunarity = 2.0;
 
-		// Token: 0x04003ED2 RID: 16082
+		// Token: 0x04003EDA RID: 16090
 		private QualityMode m_quality = QualityMode.Medium;
 
-		// Token: 0x04003ED3 RID: 16083
+		// Token: 0x04003EDB RID: 16091
 		private int m_octaveCount = 6;
 
-		// Token: 0x04003ED4 RID: 16084
+		// Token: 0x04003EDC RID: 16092
 		private double m_persistence = 0.5;
 
-		// Token: 0x04003ED5 RID: 16085
+		// Token: 0x04003EDD RID: 16093
 		private int m_seed = 0;
 
-		// Token: 0x06005F89 RID: 24457 RVA: 0x0030B4D4 File Offset: 0x003098D4
+		// Token: 0x06005F89 RID: 24457 RVA: 0x0030B718 File Offset: 0x00309B18
 		public Billow() : base(0)
 		{
 		}
 
-		// Token: 0x06005F8A RID: 24458 RVA: 0x0030B52C File Offset: 0x0030992C
+		// Token: 0x06005F8A RID: 24458 RVA: 0x0030B770 File Offset: 0x00309B70
 		public Billow(double frequency, double lacunarity, double persistence, int octaves, int seed, QualityMode quality) : base(0)
 		{
 			this.Frequency = frequency;
@@ -41,8 +41,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F4A RID: 3914
-		// (get) Token: 0x06005F8B RID: 24459 RVA: 0x0030B5B0 File Offset: 0x003099B0
-		// (set) Token: 0x06005F8C RID: 24460 RVA: 0x0030B5CB File Offset: 0x003099CB
+		// (get) Token: 0x06005F8B RID: 24459 RVA: 0x0030B7F4 File Offset: 0x00309BF4
+		// (set) Token: 0x06005F8C RID: 24460 RVA: 0x0030B80F File Offset: 0x00309C0F
 		public double Frequency
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F4B RID: 3915
-		// (get) Token: 0x06005F8D RID: 24461 RVA: 0x0030B5D8 File Offset: 0x003099D8
-		// (set) Token: 0x06005F8E RID: 24462 RVA: 0x0030B5F3 File Offset: 0x003099F3
+		// (get) Token: 0x06005F8D RID: 24461 RVA: 0x0030B81C File Offset: 0x00309C1C
+		// (set) Token: 0x06005F8E RID: 24462 RVA: 0x0030B837 File Offset: 0x00309C37
 		public double Lacunarity
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F4C RID: 3916
-		// (get) Token: 0x06005F8F RID: 24463 RVA: 0x0030B600 File Offset: 0x00309A00
-		// (set) Token: 0x06005F90 RID: 24464 RVA: 0x0030B61B File Offset: 0x00309A1B
+		// (get) Token: 0x06005F8F RID: 24463 RVA: 0x0030B844 File Offset: 0x00309C44
+		// (set) Token: 0x06005F90 RID: 24464 RVA: 0x0030B85F File Offset: 0x00309C5F
 		public QualityMode Quality
 		{
 			get
@@ -86,8 +86,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F4D RID: 3917
-		// (get) Token: 0x06005F91 RID: 24465 RVA: 0x0030B628 File Offset: 0x00309A28
-		// (set) Token: 0x06005F92 RID: 24466 RVA: 0x0030B643 File Offset: 0x00309A43
+		// (get) Token: 0x06005F91 RID: 24465 RVA: 0x0030B86C File Offset: 0x00309C6C
+		// (set) Token: 0x06005F92 RID: 24466 RVA: 0x0030B887 File Offset: 0x00309C87
 		public int OctaveCount
 		{
 			get
@@ -101,8 +101,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F4E RID: 3918
-		// (get) Token: 0x06005F93 RID: 24467 RVA: 0x0030B658 File Offset: 0x00309A58
-		// (set) Token: 0x06005F94 RID: 24468 RVA: 0x0030B673 File Offset: 0x00309A73
+		// (get) Token: 0x06005F93 RID: 24467 RVA: 0x0030B89C File Offset: 0x00309C9C
+		// (set) Token: 0x06005F94 RID: 24468 RVA: 0x0030B8B7 File Offset: 0x00309CB7
 		public double Persistence
 		{
 			get
@@ -116,8 +116,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F4F RID: 3919
-		// (get) Token: 0x06005F95 RID: 24469 RVA: 0x0030B680 File Offset: 0x00309A80
-		// (set) Token: 0x06005F96 RID: 24470 RVA: 0x0030B69B File Offset: 0x00309A9B
+		// (get) Token: 0x06005F95 RID: 24469 RVA: 0x0030B8C4 File Offset: 0x00309CC4
+		// (set) Token: 0x06005F96 RID: 24470 RVA: 0x0030B8DF File Offset: 0x00309CDF
 		public int Seed
 		{
 			get
@@ -130,7 +130,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F97 RID: 24471 RVA: 0x0030B6A8 File Offset: 0x00309AA8
+		// Token: 0x06005F97 RID: 24471 RVA: 0x0030B8EC File Offset: 0x00309CEC
 		public override double GetValue(double x, double y, double z)
 		{
 			double num = 0.0;

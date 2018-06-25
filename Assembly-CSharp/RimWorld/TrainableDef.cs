@@ -8,45 +8,45 @@ namespace RimWorld
 	// Token: 0x020002E9 RID: 745
 	public class TrainableDef : Def
 	{
-		// Token: 0x040007D2 RID: 2002
+		// Token: 0x040007D5 RID: 2005
 		public float difficulty = -1f;
 
-		// Token: 0x040007D3 RID: 2003
+		// Token: 0x040007D6 RID: 2006
 		public float minBodySize = 0f;
 
-		// Token: 0x040007D4 RID: 2004
+		// Token: 0x040007D7 RID: 2007
 		public List<TrainableDef> prerequisites = null;
 
-		// Token: 0x040007D5 RID: 2005
+		// Token: 0x040007D8 RID: 2008
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
-		// Token: 0x040007D6 RID: 2006
+		// Token: 0x040007D9 RID: 2009
 		public bool defaultTrainable = false;
 
-		// Token: 0x040007D7 RID: 2007
+		// Token: 0x040007DA RID: 2010
 		public TrainabilityDef requiredTrainability;
 
-		// Token: 0x040007D8 RID: 2008
+		// Token: 0x040007DB RID: 2011
 		public int steps = 1;
 
-		// Token: 0x040007D9 RID: 2009
+		// Token: 0x040007DC RID: 2012
 		public float listPriority = 0f;
 
-		// Token: 0x040007DA RID: 2010
+		// Token: 0x040007DD RID: 2013
 		[NoTranslate]
 		public string icon;
 
-		// Token: 0x040007DB RID: 2011
+		// Token: 0x040007DE RID: 2014
 		[Unsaved]
 		public int indent = 0;
 
-		// Token: 0x040007DC RID: 2012
+		// Token: 0x040007DF RID: 2015
 		[Unsaved]
 		private Texture2D iconTex;
 
 		// Token: 0x170001D6 RID: 470
-		// (get) Token: 0x06000C4A RID: 3146 RVA: 0x0006D104 File Offset: 0x0006B504
+		// (get) Token: 0x06000C49 RID: 3145 RVA: 0x0006D10C File Offset: 0x0006B50C
 		public Texture2D Icon
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C4B RID: 3147 RVA: 0x0006D144 File Offset: 0x0006B544
+		// Token: 0x06000C4A RID: 3146 RVA: 0x0006D14C File Offset: 0x0006B54C
 		public bool MatchesTag(string tag)
 		{
 			bool result;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C4C RID: 3148 RVA: 0x0006D1B0 File Offset: 0x0006B5B0
+		// Token: 0x06000C4B RID: 3147 RVA: 0x0006D1B8 File Offset: 0x0006B5B8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

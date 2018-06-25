@@ -9,25 +9,25 @@ namespace RimWorld.Planet
 	// Token: 0x02000590 RID: 1424
 	public abstract class WorldLayer_Paths : WorldLayer
 	{
-		// Token: 0x04001002 RID: 4098
+		// Token: 0x04001006 RID: 4102
 		protected bool pointyEnds = false;
 
-		// Token: 0x04001003 RID: 4099
+		// Token: 0x04001007 RID: 4103
 		private List<Vector3> tmpVerts = new List<Vector3>();
 
-		// Token: 0x04001004 RID: 4100
+		// Token: 0x04001008 RID: 4104
 		private List<Vector3> tmpHexVerts = new List<Vector3>();
 
-		// Token: 0x04001005 RID: 4101
+		// Token: 0x04001009 RID: 4105
 		private List<int> tmpNeighbors = new List<int>();
 
-		// Token: 0x04001006 RID: 4102
+		// Token: 0x0400100A RID: 4106
 		private static List<int> lhsID = new List<int>();
 
-		// Token: 0x04001007 RID: 4103
+		// Token: 0x0400100B RID: 4107
 		private static List<int> rhsID = new List<int>();
 
-		// Token: 0x06001B30 RID: 6960 RVA: 0x000E9A68 File Offset: 0x000E7E68
+		// Token: 0x06001B2F RID: 6959 RVA: 0x000E9CD0 File Offset: 0x000E80D0
 		public void GeneratePaths(LayerSubMesh subMesh, int tileID, List<WorldLayer_Paths.OutputDirection> nodes, Color32 color, bool allowSmoothTransition)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -120,7 +120,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B31 RID: 6961 RVA: 0x000E9FE0 File Offset: 0x000E83E0
+		// Token: 0x06001B30 RID: 6960 RVA: 0x000EA248 File Offset: 0x000E8648
 		private void AddPathEndpoint(LayerSubMesh subMesh, List<Vector3> verts, int index, Color32 color, int tileID, WorldLayer_Paths.OutputDirection data)
 		{
 			int index2 = (index + 1) % verts.Count;
@@ -138,22 +138,22 @@ namespace RimWorld.Planet
 			subMesh.colors.Add(color.MutateAlpha(0));
 		}
 
-		// Token: 0x06001B32 RID: 6962
+		// Token: 0x06001B31 RID: 6961
 		public abstract Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity);
 
 		// Token: 0x02000591 RID: 1425
 		public struct OutputDirection
 		{
-			// Token: 0x04001009 RID: 4105
+			// Token: 0x0400100D RID: 4109
 			public int neighbor;
 
-			// Token: 0x0400100A RID: 4106
+			// Token: 0x0400100E RID: 4110
 			public float width;
 
-			// Token: 0x0400100B RID: 4107
+			// Token: 0x0400100F RID: 4111
 			public float distortionFrequency;
 
-			// Token: 0x0400100C RID: 4108
+			// Token: 0x04001010 RID: 4112
 			public float distortionIntensity;
 		}
 	}

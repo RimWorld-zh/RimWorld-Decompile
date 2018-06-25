@@ -6,10 +6,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CA RID: 970
 	public class SymbolResolver_GenericRoom : SymbolResolver
 	{
-		// Token: 0x04000A34 RID: 2612
+		// Token: 0x04000A37 RID: 2615
 		public string interior;
 
-		// Token: 0x060010B9 RID: 4281 RVA: 0x0008E60C File Offset: 0x0008CA0C
+		// Token: 0x060010B8 RID: 4280 RVA: 0x0008E61C File Offset: 0x0008CA1C
 		public override void Resolve(ResolveParams rp)
 		{
 			BaseGen.symbolStack.Push("doors", rp);

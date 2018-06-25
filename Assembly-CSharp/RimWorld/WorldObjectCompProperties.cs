@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x02000279 RID: 633
 	public class WorldObjectCompProperties
 	{
-		// Token: 0x04000558 RID: 1368
+		// Token: 0x0400055A RID: 1370
 		[TranslationHandle]
 		public Type compClass = typeof(WorldObjectComp);
 
-		// Token: 0x06000ADE RID: 2782 RVA: 0x000624A0 File Offset: 0x000608A0
+		// Token: 0x06000ADD RID: 2781 RVA: 0x0006249C File Offset: 0x0006089C
 		public virtual IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			if (this.compClass == null)
@@ -22,7 +22,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000ADF RID: 2783 RVA: 0x000624D1 File Offset: 0x000608D1
+		// Token: 0x06000ADE RID: 2782 RVA: 0x000624CD File Offset: 0x000608CD
 		public virtual void ResolveReferences(WorldObjectDef parentDef)
 		{
 		}

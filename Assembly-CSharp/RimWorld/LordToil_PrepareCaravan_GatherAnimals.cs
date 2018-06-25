@@ -8,17 +8,17 @@ namespace RimWorld
 	// Token: 0x02000180 RID: 384
 	public class LordToil_PrepareCaravan_GatherAnimals : LordToil
 	{
-		// Token: 0x04000374 RID: 884
+		// Token: 0x04000375 RID: 885
 		private IntVec3 meetingPoint;
 
-		// Token: 0x060007FA RID: 2042 RVA: 0x0004DE3A File Offset: 0x0004C23A
+		// Token: 0x060007F9 RID: 2041 RVA: 0x0004DE36 File Offset: 0x0004C236
 		public LordToil_PrepareCaravan_GatherAnimals(IntVec3 meetingPoint)
 		{
 			this.meetingPoint = meetingPoint;
 		}
 
 		// Token: 0x17000139 RID: 313
-		// (get) Token: 0x060007FB RID: 2043 RVA: 0x0004DE4C File Offset: 0x0004C24C
+		// (get) Token: 0x060007FA RID: 2042 RVA: 0x0004DE48 File Offset: 0x0004C248
 		public override float? CustomWakeThreshold
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700013A RID: 314
-		// (get) Token: 0x060007FC RID: 2044 RVA: 0x0004DE6C File Offset: 0x0004C26C
+		// (get) Token: 0x060007FB RID: 2043 RVA: 0x0004DE68 File Offset: 0x0004C268
 		public override bool AllowRestingInBed
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007FD RID: 2045 RVA: 0x0004DE84 File Offset: 0x0004C284
+		// Token: 0x060007FC RID: 2044 RVA: 0x0004DE80 File Offset: 0x0004C280
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007FE RID: 2046 RVA: 0x0004DF34 File Offset: 0x0004C334
+		// Token: 0x060007FD RID: 2045 RVA: 0x0004DF30 File Offset: 0x0004C330
 		public override void LordToilTick()
 		{
 			if (Find.TickManager.TicksGame % 100 == 0)

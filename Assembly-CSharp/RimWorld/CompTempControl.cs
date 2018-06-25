@@ -10,18 +10,18 @@ namespace RimWorld
 	// Token: 0x0200073D RID: 1853
 	public class CompTempControl : ThingComp
 	{
-		// Token: 0x04001665 RID: 5733
+		// Token: 0x04001669 RID: 5737
 		[Unsaved]
 		public bool operatingAtHighPower = false;
 
-		// Token: 0x04001666 RID: 5734
+		// Token: 0x0400166A RID: 5738
 		public float targetTemperature = -99999f;
 
-		// Token: 0x04001667 RID: 5735
+		// Token: 0x0400166B RID: 5739
 		private const float DefaultTargetTemperature = 21f;
 
 		// Token: 0x17000655 RID: 1621
-		// (get) Token: 0x060028F0 RID: 10480 RVA: 0x0015D24C File Offset: 0x0015B64C
+		// (get) Token: 0x060028EF RID: 10479 RVA: 0x0015D4AC File Offset: 0x0015B8AC
 		public CompProperties_TempControl Props
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028F1 RID: 10481 RVA: 0x0015D26C File Offset: 0x0015B66C
+		// Token: 0x060028F0 RID: 10480 RVA: 0x0015D4CC File Offset: 0x0015B8CC
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -40,14 +40,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028F2 RID: 10482 RVA: 0x0015D297 File Offset: 0x0015B697
+		// Token: 0x060028F1 RID: 10481 RVA: 0x0015D4F7 File Offset: 0x0015B8F7
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.targetTemperature, "targetTemperature", 0f, false);
 		}
 
-		// Token: 0x060028F3 RID: 10483 RVA: 0x0015D2B8 File Offset: 0x0015B6B8
+		// Token: 0x060028F2 RID: 10482 RVA: 0x0015D518 File Offset: 0x0015B918
 		private float RoundedToCurrentTempModeOffset(float celsiusTemp)
 		{
 			float num = GenTemperature.CelsiusToOffset(celsiusTemp, Prefs.TemperatureMode);
@@ -55,7 +55,7 @@ namespace RimWorld
 			return GenTemperature.ConvertTemperatureOffset(num, Prefs.TemperatureMode, TemperatureDisplayMode.Celsius);
 		}
 
-		// Token: 0x060028F4 RID: 10484 RVA: 0x0015D2F0 File Offset: 0x0015B6F0
+		// Token: 0x060028F3 RID: 10483 RVA: 0x0015D550 File Offset: 0x0015B950
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -126,7 +126,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060028F5 RID: 10485 RVA: 0x0015D31C File Offset: 0x0015B71C
+		// Token: 0x060028F4 RID: 10484 RVA: 0x0015D57C File Offset: 0x0015B97C
 		private void InterfaceChangeTargetTemperature(float offset)
 		{
 			if (offset > 0f)
@@ -142,13 +142,13 @@ namespace RimWorld
 			this.ThrowCurrentTemperatureText();
 		}
 
-		// Token: 0x060028F6 RID: 10486 RVA: 0x0015D380 File Offset: 0x0015B780
+		// Token: 0x060028F5 RID: 10485 RVA: 0x0015D5E0 File Offset: 0x0015B9E0
 		private void ThrowCurrentTemperatureText()
 		{
 			MoteMaker.ThrowText(this.parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), this.parent.Map, this.targetTemperature.ToStringTemperature("F0"), Color.white, -1f);
 		}
 
-		// Token: 0x060028F7 RID: 10487 RVA: 0x0015D3DC File Offset: 0x0015B7DC
+		// Token: 0x060028F6 RID: 10486 RVA: 0x0015D63C File Offset: 0x0015BA3C
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

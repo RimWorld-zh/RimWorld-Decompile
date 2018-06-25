@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_Factions : WorldGenStep
 	{
 		// Token: 0x1700041E RID: 1054
-		// (get) Token: 0x06001C39 RID: 7225 RVA: 0x000F2D3C File Offset: 0x000F113C
+		// (get) Token: 0x06001C38 RID: 7224 RVA: 0x000F2FA4 File Offset: 0x000F13A4
 		public override int SeedPart
 		{
 			get
@@ -16,13 +16,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C3A RID: 7226 RVA: 0x000F2D56 File Offset: 0x000F1156
+		// Token: 0x06001C39 RID: 7225 RVA: 0x000F2FBE File Offset: 0x000F13BE
 		public override void GenerateFresh(string seed)
 		{
 			FactionGenerator.GenerateFactionsIntoWorld();
 		}
 
-		// Token: 0x06001C3B RID: 7227 RVA: 0x000F2D5E File Offset: 0x000F115E
+		// Token: 0x06001C3A RID: 7226 RVA: 0x000F2FC6 File Offset: 0x000F13C6
 		public override void GenerateWithoutWorldData(string seed)
 		{
 		}

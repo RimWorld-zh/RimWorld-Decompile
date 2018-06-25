@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C10 RID: 3088
+	// Token: 0x02000C11 RID: 3089
 	public static class FloodFillerFog
 	{
-		// Token: 0x04002E23 RID: 11811
+		// Token: 0x04002E2A RID: 11818
 		private static bool testMode = false;
 
-		// Token: 0x04002E24 RID: 11812
+		// Token: 0x04002E2B RID: 11819
 		private static List<IntVec3> cellsToUnfog = new List<IntVec3>(1024);
 
-		// Token: 0x04002E25 RID: 11813
+		// Token: 0x04002E2C RID: 11820
 		private const int MaxNumTestUnfog = 500;
 
-		// Token: 0x06004387 RID: 17287 RVA: 0x0023AE40 File Offset: 0x00239240
+		// Token: 0x06004387 RID: 17287 RVA: 0x0023B120 File Offset: 0x00239520
 		public static FloodUnfogResult FloodUnfog(IntVec3 root, Map map)
 		{
 			FloodFillerFog.cellsToUnfog.Clear();
@@ -98,7 +98,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004388 RID: 17288 RVA: 0x0023B03C File Offset: 0x0023943C
+		// Token: 0x06004388 RID: 17288 RVA: 0x0023B31C File Offset: 0x0023971C
 		internal static void DebugFloodUnfog(IntVec3 root, Map map)
 		{
 			map.fogGrid.SetAllFogged();
@@ -111,7 +111,7 @@ namespace Verse
 			FloodFillerFog.testMode = false;
 		}
 
-		// Token: 0x06004389 RID: 17289 RVA: 0x0023B0C0 File Offset: 0x002394C0
+		// Token: 0x06004389 RID: 17289 RVA: 0x0023B3A0 File Offset: 0x002397A0
 		internal static void DebugRefogMap(Map map)
 		{
 			map.fogGrid.SetAllFogged();

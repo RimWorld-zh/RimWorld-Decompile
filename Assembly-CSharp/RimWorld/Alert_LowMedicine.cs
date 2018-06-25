@@ -7,17 +7,17 @@ namespace RimWorld
 	// Token: 0x02000798 RID: 1944
 	public class Alert_LowMedicine : Alert
 	{
-		// Token: 0x0400172A RID: 5930
+		// Token: 0x0400172E RID: 5934
 		private const float MedicinePerColonistThreshold = 2f;
 
-		// Token: 0x06002B10 RID: 11024 RVA: 0x0016BF4F File Offset: 0x0016A34F
+		// Token: 0x06002B0F RID: 11023 RVA: 0x0016C1B3 File Offset: 0x0016A5B3
 		public Alert_LowMedicine()
 		{
 			this.defaultLabel = "LowMedicine".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B11 RID: 11025 RVA: 0x0016BF70 File Offset: 0x0016A370
+		// Token: 0x06002B10 RID: 11024 RVA: 0x0016C1D4 File Offset: 0x0016A5D4
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowMedicine();
@@ -41,7 +41,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B12 RID: 11026 RVA: 0x0016BFDC File Offset: 0x0016A3DC
+		// Token: 0x06002B11 RID: 11025 RVA: 0x0016C240 File Offset: 0x0016A640
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B13 RID: 11027 RVA: 0x0016C024 File Offset: 0x0016A424
+		// Token: 0x06002B12 RID: 11026 RVA: 0x0016C288 File Offset: 0x0016A688
 		private Map MapWithLowMedicine()
 		{
 			List<Map> maps = Find.Maps;
@@ -77,7 +77,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002B14 RID: 11028 RVA: 0x0016C0AC File Offset: 0x0016A4AC
+		// Token: 0x06002B13 RID: 11027 RVA: 0x0016C310 File Offset: 0x0016A710
 		private int MedicineCount(Map map)
 		{
 			return map.resourceCounter.GetCountIn(ThingRequestGroup.Medicine);

@@ -8,28 +8,28 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class Gizmo_EnergyShieldStatus : Gizmo
 	{
-		// Token: 0x04001543 RID: 5443
+		// Token: 0x04001547 RID: 5447
 		public ShieldBelt shield;
 
-		// Token: 0x04001544 RID: 5444
+		// Token: 0x04001548 RID: 5448
 		private static readonly Texture2D FullShieldBarTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.2f, 0.24f));
 
-		// Token: 0x04001545 RID: 5445
+		// Token: 0x04001549 RID: 5449
 		private static readonly Texture2D EmptyShieldBarTex = SolidColorMaterials.NewSolidColorTexture(Color.clear);
 
-		// Token: 0x06002635 RID: 9781 RVA: 0x00147CF0 File Offset: 0x001460F0
+		// Token: 0x06002634 RID: 9780 RVA: 0x00147F50 File Offset: 0x00146350
 		public Gizmo_EnergyShieldStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x06002636 RID: 9782 RVA: 0x00147D04 File Offset: 0x00146104
+		// Token: 0x06002635 RID: 9781 RVA: 0x00147F64 File Offset: 0x00146364
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x06002637 RID: 9783 RVA: 0x00147D20 File Offset: 0x00146120
+		// Token: 0x06002636 RID: 9782 RVA: 0x00147F80 File Offset: 0x00146380
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);

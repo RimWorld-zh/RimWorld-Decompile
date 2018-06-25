@@ -3,49 +3,49 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F32 RID: 3890
+	// Token: 0x02000F33 RID: 3891
 	public static class GenAdj
 	{
-		// Token: 0x04003DC2 RID: 15810
+		// Token: 0x04003DCA RID: 15818
 		public static IntVec3[] CardinalDirections = new IntVec3[4];
 
-		// Token: 0x04003DC3 RID: 15811
+		// Token: 0x04003DCB RID: 15819
 		public static IntVec3[] CardinalDirectionsAndInside = new IntVec3[5];
 
-		// Token: 0x04003DC4 RID: 15812
+		// Token: 0x04003DCC RID: 15820
 		public static IntVec3[] CardinalDirectionsAround = new IntVec3[4];
 
-		// Token: 0x04003DC5 RID: 15813
+		// Token: 0x04003DCD RID: 15821
 		public static IntVec3[] DiagonalDirections = new IntVec3[4];
 
-		// Token: 0x04003DC6 RID: 15814
+		// Token: 0x04003DCE RID: 15822
 		public static IntVec3[] DiagonalDirectionsAround = new IntVec3[4];
 
-		// Token: 0x04003DC7 RID: 15815
+		// Token: 0x04003DCF RID: 15823
 		public static IntVec3[] AdjacentCells = new IntVec3[8];
 
-		// Token: 0x04003DC8 RID: 15816
+		// Token: 0x04003DD0 RID: 15824
 		public static IntVec3[] AdjacentCellsAndInside = new IntVec3[9];
 
-		// Token: 0x04003DC9 RID: 15817
+		// Token: 0x04003DD1 RID: 15825
 		public static IntVec3[] AdjacentCellsAround = new IntVec3[8];
 
-		// Token: 0x04003DCA RID: 15818
+		// Token: 0x04003DD2 RID: 15826
 		public static IntVec3[] AdjacentCellsAroundBottom = new IntVec3[9];
 
-		// Token: 0x04003DCB RID: 15819
+		// Token: 0x04003DD3 RID: 15827
 		private static List<IntVec3> adjRandomOrderList;
 
-		// Token: 0x04003DCC RID: 15820
+		// Token: 0x04003DD4 RID: 15828
 		private static List<IntVec3> validCells = new List<IntVec3>();
 
-		// Token: 0x06005D85 RID: 23941 RVA: 0x002F6BB4 File Offset: 0x002F4FB4
+		// Token: 0x06005D85 RID: 23941 RVA: 0x002F6DD4 File Offset: 0x002F51D4
 		static GenAdj()
 		{
 			GenAdj.SetupAdjacencyTables();
 		}
 
-		// Token: 0x06005D86 RID: 23942 RVA: 0x002F6C38 File Offset: 0x002F5038
+		// Token: 0x06005D86 RID: 23942 RVA: 0x002F6E58 File Offset: 0x002F5258
 		private static void SetupAdjacencyTables()
 		{
 			GenAdj.CardinalDirections[0] = new IntVec3(0, 0, 1);
@@ -105,7 +105,7 @@ namespace Verse
 			GenAdj.AdjacentCellsAroundBottom[8] = new IntVec3(0, 0, 0);
 		}
 
-		// Token: 0x06005D87 RID: 23943 RVA: 0x002F7170 File Offset: 0x002F5570
+		// Token: 0x06005D87 RID: 23943 RVA: 0x002F7390 File Offset: 0x002F5790
 		public static List<IntVec3> AdjacentCells8WayRandomized()
 		{
 			if (GenAdj.adjRandomOrderList == null)
@@ -120,7 +120,7 @@ namespace Verse
 			return GenAdj.adjRandomOrderList;
 		}
 
-		// Token: 0x06005D88 RID: 23944 RVA: 0x002F71D8 File Offset: 0x002F55D8
+		// Token: 0x06005D88 RID: 23944 RVA: 0x002F73F8 File Offset: 0x002F57F8
 		public static IEnumerable<IntVec3> CellsOccupiedBy(Thing t)
 		{
 			if (t.def.size.x == 1 && t.def.size.z == 1)
@@ -137,7 +137,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D89 RID: 23945 RVA: 0x002F7204 File Offset: 0x002F5604
+		// Token: 0x06005D89 RID: 23945 RVA: 0x002F7424 File Offset: 0x002F5824
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rotation);
@@ -155,7 +155,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8A RID: 23946 RVA: 0x002F724C File Offset: 0x002F564C
+		// Token: 0x06005D8A RID: 23946 RVA: 0x002F746C File Offset: 0x002F586C
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(TargetInfo pack)
 		{
 			if (pack.HasThing)
@@ -175,13 +175,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8B RID: 23947 RVA: 0x002F7278 File Offset: 0x002F5678
+		// Token: 0x06005D8B RID: 23947 RVA: 0x002F7498 File Offset: 0x002F5898
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(Thing t)
 		{
 			return GenAdj.CellsAdjacent8Way(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005D8C RID: 23948 RVA: 0x002F72AC File Offset: 0x002F56AC
+		// Token: 0x06005D8C RID: 23948 RVA: 0x002F74CC File Offset: 0x002F58CC
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
 			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
@@ -217,13 +217,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8D RID: 23949 RVA: 0x002F72F4 File Offset: 0x002F56F4
+		// Token: 0x06005D8D RID: 23949 RVA: 0x002F7514 File Offset: 0x002F5914
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(Thing t)
 		{
 			return GenAdj.CellsAdjacentCardinal(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005D8E RID: 23950 RVA: 0x002F7328 File Offset: 0x002F5728
+		// Token: 0x06005D8E RID: 23950 RVA: 0x002F7548 File Offset: 0x002F5948
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -262,7 +262,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D8F RID: 23951 RVA: 0x002F7370 File Offset: 0x002F5770
+		// Token: 0x06005D8F RID: 23951 RVA: 0x002F7590 File Offset: 0x002F5990
 		public static IEnumerable<IntVec3> CellsAdjacentAlongEdge(IntVec3 thingCent, Rot4 thingRot, IntVec2 thingSize, LinkDirections dir)
 		{
 			GenAdj.AdjustForRotation(ref thingCent, ref thingSize, thingRot);
@@ -301,7 +301,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D90 RID: 23952 RVA: 0x002F73C0 File Offset: 0x002F57C0
+		// Token: 0x06005D90 RID: 23952 RVA: 0x002F75E0 File Offset: 0x002F59E0
 		public static IEnumerable<IntVec3> CellsAdjacent8WayAndInside(this Thing thing)
 		{
 			IntVec3 center = thing.Position;
@@ -322,7 +322,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005D91 RID: 23953 RVA: 0x002F73EA File Offset: 0x002F57EA
+		// Token: 0x06005D91 RID: 23953 RVA: 0x002F760A File Offset: 0x002F5A0A
 		public static void GetAdjacentCorners(LocalTargetInfo target, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
 		{
 			if (target.HasThing)
@@ -335,7 +335,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005D92 RID: 23954 RVA: 0x002F742C File Offset: 0x002F582C
+		// Token: 0x06005D92 RID: 23954 RVA: 0x002F764C File Offset: 0x002F5A4C
 		private static void GetAdjacentCorners(CellRect rect, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
 		{
 			BL = new IntVec3(rect.minX - 1, 0, rect.minZ - 1);
@@ -344,19 +344,19 @@ namespace Verse
 			BR = new IntVec3(rect.maxX + 1, 0, rect.minZ - 1);
 		}
 
-		// Token: 0x06005D93 RID: 23955 RVA: 0x002F74A0 File Offset: 0x002F58A0
+		// Token: 0x06005D93 RID: 23955 RVA: 0x002F76C0 File Offset: 0x002F5AC0
 		public static IntVec3 RandomAdjacentCell8Way(this IntVec3 root)
 		{
 			return root + GenAdj.AdjacentCells[Rand.RangeInclusive(0, 7)];
 		}
 
-		// Token: 0x06005D94 RID: 23956 RVA: 0x002F74D4 File Offset: 0x002F58D4
+		// Token: 0x06005D94 RID: 23956 RVA: 0x002F76F4 File Offset: 0x002F5AF4
 		public static IntVec3 RandomAdjacentCellCardinal(this IntVec3 root)
 		{
 			return root + GenAdj.CardinalDirections[Rand.RangeInclusive(0, 3)];
 		}
 
-		// Token: 0x06005D95 RID: 23957 RVA: 0x002F7508 File Offset: 0x002F5908
+		// Token: 0x06005D95 RID: 23957 RVA: 0x002F7728 File Offset: 0x002F5B28
 		public static IntVec3 RandomAdjacentCell8Way(this Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
@@ -370,7 +370,7 @@ namespace Verse
 			return randomCell;
 		}
 
-		// Token: 0x06005D96 RID: 23958 RVA: 0x002F754C File Offset: 0x002F594C
+		// Token: 0x06005D96 RID: 23958 RVA: 0x002F776C File Offset: 0x002F5B6C
 		public static IntVec3 RandomAdjacentCellCardinal(this Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
@@ -397,13 +397,13 @@ namespace Verse
 			return randomCell;
 		}
 
-		// Token: 0x06005D97 RID: 23959 RVA: 0x002F75F4 File Offset: 0x002F59F4
+		// Token: 0x06005D97 RID: 23959 RVA: 0x002F7814 File Offset: 0x002F5C14
 		public static bool TryFindRandomAdjacentCell8WayWithRoomGroup(Thing t, out IntVec3 result)
 		{
 			return GenAdj.TryFindRandomAdjacentCell8WayWithRoomGroup(t.Position, t.Rotation, t.def.size, t.Map, out result);
 		}
 
-		// Token: 0x06005D98 RID: 23960 RVA: 0x002F762C File Offset: 0x002F5A2C
+		// Token: 0x06005D98 RID: 23960 RVA: 0x002F784C File Offset: 0x002F5C4C
 		public static bool TryFindRandomAdjacentCell8WayWithRoomGroup(IntVec3 center, Rot4 rot, IntVec2 size, Map map, out IntVec3 result)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -418,7 +418,7 @@ namespace Verse
 			return GenAdj.validCells.TryRandomElement(out result);
 		}
 
-		// Token: 0x06005D99 RID: 23961 RVA: 0x002F76D0 File Offset: 0x002F5AD0
+		// Token: 0x06005D99 RID: 23961 RVA: 0x002F78F0 File Offset: 0x002F5CF0
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
 		{
 			bool result;
@@ -433,7 +433,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9A RID: 23962 RVA: 0x002F7714 File Offset: 0x002F5B14
+		// Token: 0x06005D9A RID: 23962 RVA: 0x002F7934 File Offset: 0x002F5D34
 		public static bool AdjacentTo8Way(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
@@ -458,7 +458,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9B RID: 23963 RVA: 0x002F7784 File Offset: 0x002F5B84
+		// Token: 0x06005D9B RID: 23963 RVA: 0x002F79A4 File Offset: 0x002F5DA4
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
@@ -474,7 +474,7 @@ namespace Verse
 			return num <= 1 && num2 <= 1;
 		}
 
-		// Token: 0x06005D9C RID: 23964 RVA: 0x002F77E0 File Offset: 0x002F5BE0
+		// Token: 0x06005D9C RID: 23964 RVA: 0x002F7A00 File Offset: 0x002F5E00
 		public static bool IsAdjacentToCardinalOrInside(this IntVec3 me, CellRect other)
 		{
 			bool result;
@@ -490,13 +490,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9D RID: 23965 RVA: 0x002F782C File Offset: 0x002F5C2C
+		// Token: 0x06005D9D RID: 23965 RVA: 0x002F7A4C File Offset: 0x002F5E4C
 		public static bool IsAdjacentToCardinalOrInside(this Thing t1, Thing t2)
 		{
 			return GenAdj.IsAdjacentToCardinalOrInside(t1.OccupiedRect(), t2.OccupiedRect());
 		}
 
-		// Token: 0x06005D9E RID: 23966 RVA: 0x002F7854 File Offset: 0x002F5C54
+		// Token: 0x06005D9E RID: 23966 RVA: 0x002F7A74 File Offset: 0x002F5E74
 		public static bool IsAdjacentToCardinalOrInside(CellRect rect1, CellRect rect2)
 		{
 			bool result;
@@ -550,13 +550,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D9F RID: 23967 RVA: 0x002F7AC0 File Offset: 0x002F5EC0
+		// Token: 0x06005D9F RID: 23967 RVA: 0x002F7CE0 File Offset: 0x002F60E0
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, Thing t)
 		{
 			return root.AdjacentTo8WayOrInside(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005DA0 RID: 23968 RVA: 0x002F7AF4 File Offset: 0x002F5EF4
+		// Token: 0x06005DA0 RID: 23968 RVA: 0x002F7D14 File Offset: 0x002F6114
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -567,25 +567,25 @@ namespace Verse
 			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
 		}
 
-		// Token: 0x06005DA1 RID: 23969 RVA: 0x002F7B98 File Offset: 0x002F5F98
+		// Token: 0x06005DA1 RID: 23969 RVA: 0x002F7DB8 File Offset: 0x002F61B8
 		public static bool AdjacentTo8WayOrInside(this Thing a, Thing b)
 		{
 			return GenAdj.AdjacentTo8WayOrInside(a.OccupiedRect(), b.OccupiedRect());
 		}
 
-		// Token: 0x06005DA2 RID: 23970 RVA: 0x002F7BC0 File Offset: 0x002F5FC0
+		// Token: 0x06005DA2 RID: 23970 RVA: 0x002F7DE0 File Offset: 0x002F61E0
 		public static bool AdjacentTo8WayOrInside(CellRect rect1, CellRect rect2)
 		{
 			return !rect1.IsEmpty && !rect2.IsEmpty && rect1.ExpandedBy(1).Overlaps(rect2);
 		}
 
-		// Token: 0x06005DA3 RID: 23971 RVA: 0x002F7C08 File Offset: 0x002F6008
+		// Token: 0x06005DA3 RID: 23971 RVA: 0x002F7E28 File Offset: 0x002F6228
 		public static bool IsInside(this IntVec3 root, Thing t)
 		{
 			return GenAdj.IsInside(root, t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005DA4 RID: 23972 RVA: 0x002F7C3C File Offset: 0x002F603C
+		// Token: 0x06005DA4 RID: 23972 RVA: 0x002F7E5C File Offset: 0x002F625C
 		public static bool IsInside(IntVec3 root, IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -596,20 +596,20 @@ namespace Verse
 			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
 		}
 
-		// Token: 0x06005DA5 RID: 23973 RVA: 0x002F7CDC File Offset: 0x002F60DC
+		// Token: 0x06005DA5 RID: 23973 RVA: 0x002F7EFC File Offset: 0x002F62FC
 		public static CellRect OccupiedRect(this Thing t)
 		{
 			return GenAdj.OccupiedRect(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005DA6 RID: 23974 RVA: 0x002F7D10 File Offset: 0x002F6110
+		// Token: 0x06005DA6 RID: 23974 RVA: 0x002F7F30 File Offset: 0x002F6330
 		public static CellRect OccupiedRect(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			return new CellRect(center.x - (size.x - 1) / 2, center.z - (size.z - 1) / 2, size.x, size.z);
 		}
 
-		// Token: 0x06005DA7 RID: 23975 RVA: 0x002F7D68 File Offset: 0x002F6168
+		// Token: 0x06005DA7 RID: 23975 RVA: 0x002F7F88 File Offset: 0x002F6388
 		public static void AdjustForRotation(ref IntVec3 center, ref IntVec2 size, Rot4 rot)
 		{
 			if (size.x != 1 || size.z != 1)

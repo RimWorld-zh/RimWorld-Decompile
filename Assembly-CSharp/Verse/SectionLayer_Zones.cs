@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C56 RID: 3158
+	// Token: 0x02000C57 RID: 3159
 	internal class SectionLayer_Zones : SectionLayer
 	{
-		// Token: 0x06004580 RID: 17792 RVA: 0x0024C194 File Offset: 0x0024A594
+		// Token: 0x06004580 RID: 17792 RVA: 0x0024C474 File Offset: 0x0024A874
 		public SectionLayer_Zones(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Zone;
 		}
 
 		// Token: 0x17000AF6 RID: 2806
-		// (get) Token: 0x06004581 RID: 17793 RVA: 0x0024C1AC File Offset: 0x0024A5AC
+		// (get) Token: 0x06004581 RID: 17793 RVA: 0x0024C48C File Offset: 0x0024A88C
 		public override bool Visible
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004582 RID: 17794 RVA: 0x0024C1C6 File Offset: 0x0024A5C6
+		// Token: 0x06004582 RID: 17794 RVA: 0x0024C4A6 File Offset: 0x0024A8A6
 		public override void DrawLayer()
 		{
 			if (OverlayDrawHandler.ShouldDrawZones)
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004583 RID: 17795 RVA: 0x0024C1DC File Offset: 0x0024A5DC
+		// Token: 0x06004583 RID: 17795 RVA: 0x0024C4BC File Offset: 0x0024A8BC
 		public override void Regenerate()
 		{
 			float y = AltitudeLayer.Zone.AltitudeFor();

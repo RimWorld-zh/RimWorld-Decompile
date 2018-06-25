@@ -7,23 +7,23 @@ namespace RimWorld
 	// Token: 0x020002E8 RID: 744
 	public class TraderKindDef : Def
 	{
-		// Token: 0x040007CD RID: 1997
+		// Token: 0x040007D0 RID: 2000
 		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
 
-		// Token: 0x040007CE RID: 1998
+		// Token: 0x040007D1 RID: 2001
 		public float commonality = 1f;
 
-		// Token: 0x040007CF RID: 1999
+		// Token: 0x040007D2 RID: 2002
 		public bool orbital;
 
-		// Token: 0x040007D0 RID: 2000
+		// Token: 0x040007D3 RID: 2003
 		public bool requestable = true;
 
-		// Token: 0x040007D1 RID: 2001
+		// Token: 0x040007D4 RID: 2004
 		public SimpleCurve commonalityMultFromPopulationIntent;
 
 		// Token: 0x170001D5 RID: 469
-		// (get) Token: 0x06000C43 RID: 3139 RVA: 0x0006CBA4 File Offset: 0x0006AFA4
+		// (get) Token: 0x06000C42 RID: 3138 RVA: 0x0006CBAC File Offset: 0x0006AFAC
 		public float CalculatedCommonality
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C44 RID: 3140 RVA: 0x0006CBEC File Offset: 0x0006AFEC
+		// Token: 0x06000C43 RID: 3139 RVA: 0x0006CBF4 File Offset: 0x0006AFF4
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C45 RID: 3141 RVA: 0x0006CC54 File Offset: 0x0006B054
+		// Token: 0x06000C44 RID: 3140 RVA: 0x0006CC5C File Offset: 0x0006B05C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -64,7 +64,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C46 RID: 3142 RVA: 0x0006CC80 File Offset: 0x0006B080
+		// Token: 0x06000C45 RID: 3141 RVA: 0x0006CC88 File Offset: 0x0006B088
 		public bool WillTrade(ThingDef td)
 		{
 			for (int i = 0; i < this.stockGenerators.Count; i++)
@@ -77,7 +77,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C47 RID: 3143 RVA: 0x0006CCD4 File Offset: 0x0006B0D4
+		// Token: 0x06000C46 RID: 3142 RVA: 0x0006CCDC File Offset: 0x0006B0DC
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
 			PriceType result;

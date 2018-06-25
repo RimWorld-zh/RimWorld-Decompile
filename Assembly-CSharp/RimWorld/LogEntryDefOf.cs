@@ -7,10 +7,10 @@ namespace RimWorld
 	[DefOf]
 	public static class LogEntryDefOf
 	{
-		// Token: 0x0400231B RID: 8987
+		// Token: 0x04002322 RID: 8994
 		public static LogEntryDef MeleeAttack;
 
-		// Token: 0x0600367A RID: 13946 RVA: 0x001D1049 File Offset: 0x001CF449
+		// Token: 0x0600367A RID: 13946 RVA: 0x001D131D File Offset: 0x001CF71D
 		static LogEntryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(LogEntryDef));

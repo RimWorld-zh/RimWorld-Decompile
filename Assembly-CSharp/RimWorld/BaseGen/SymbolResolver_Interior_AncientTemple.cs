@@ -7,19 +7,19 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D7 RID: 983
 	public class SymbolResolver_Interior_AncientTemple : SymbolResolver
 	{
-		// Token: 0x04000A48 RID: 2632
+		// Token: 0x04000A4B RID: 2635
 		private const float MechanoidsChance = 0.5f;
 
-		// Token: 0x04000A49 RID: 2633
+		// Token: 0x04000A4C RID: 2636
 		private static readonly IntRange MechanoidCountRange = new IntRange(1, 5);
 
-		// Token: 0x04000A4A RID: 2634
+		// Token: 0x04000A4D RID: 2637
 		private const float HivesChance = 0.45f;
 
-		// Token: 0x04000A4B RID: 2635
+		// Token: 0x04000A4E RID: 2638
 		private static readonly IntRange HivesCountRange = new IntRange(1, 2);
 
-		// Token: 0x060010E9 RID: 4329 RVA: 0x0009042C File Offset: 0x0008E82C
+		// Token: 0x060010E8 RID: 4328 RVA: 0x0009043C File Offset: 0x0008E83C
 		public override void Resolve(ResolveParams rp)
 		{
 			List<Thing> list = ThingSetMakerDefOf.MapGen_AncientTempleContents.root.Generate();

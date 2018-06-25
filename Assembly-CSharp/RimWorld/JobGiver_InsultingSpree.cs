@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200010F RID: 271
 	public class JobGiver_InsultingSpree : ThinkNode_JobGiver
 	{
-		// Token: 0x06000596 RID: 1430 RVA: 0x0003C59C File Offset: 0x0003A99C
+		// Token: 0x06000596 RID: 1430 RVA: 0x0003C5B8 File Offset: 0x0003A9B8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_InsultingSpree mentalState_InsultingSpree = pawn.MentalState as MentalState_InsultingSpree;

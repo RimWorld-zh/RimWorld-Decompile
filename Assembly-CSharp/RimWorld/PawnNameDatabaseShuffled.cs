@@ -9,10 +9,10 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PawnNameDatabaseShuffled
 	{
-		// Token: 0x04000C41 RID: 3137
+		// Token: 0x04000C44 RID: 3140
 		private static Dictionary<PawnNameCategory, NameBank> banks = new Dictionary<PawnNameCategory, NameBank>();
 
-		// Token: 0x06001471 RID: 5233 RVA: 0x000B317C File Offset: 0x000B157C
+		// Token: 0x06001470 RID: 5232 RVA: 0x000B337C File Offset: 0x000B177C
 		static PawnNameDatabaseShuffled()
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(PawnNameCategory)).GetEnumerator();
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001472 RID: 5234 RVA: 0x000B32B8 File Offset: 0x000B16B8
+		// Token: 0x06001471 RID: 5233 RVA: 0x000B34B8 File Offset: 0x000B18B8
 		public static NameBank BankOf(PawnNameCategory category)
 		{
 			return PawnNameDatabaseShuffled.banks[category];

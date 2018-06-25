@@ -5,13 +5,13 @@ namespace RimWorld
 	// Token: 0x0200090A RID: 2314
 	public enum LatitudeSection
 	{
-		// Token: 0x04001D1B RID: 7451
+		// Token: 0x04001D21 RID: 7457
 		Undefined,
-		// Token: 0x04001D1C RID: 7452
+		// Token: 0x04001D22 RID: 7458
 		Equatorial,
-		// Token: 0x04001D1D RID: 7453
+		// Token: 0x04001D23 RID: 7459
 		Seasonal,
-		// Token: 0x04001D1E RID: 7454
+		// Token: 0x04001D24 RID: 7460
 		Polar
 	}
 }

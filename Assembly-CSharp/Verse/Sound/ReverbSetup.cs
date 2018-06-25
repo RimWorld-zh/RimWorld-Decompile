@@ -5,52 +5,52 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B7F RID: 2943
+	// Token: 0x02000B80 RID: 2944
 	public class ReverbSetup
 	{
-		// Token: 0x04002AFD RID: 11005
+		// Token: 0x04002B04 RID: 11012
 		public float dryLevel = 0f;
 
-		// Token: 0x04002AFE RID: 11006
+		// Token: 0x04002B05 RID: 11013
 		public float room = 0f;
 
-		// Token: 0x04002AFF RID: 11007
+		// Token: 0x04002B06 RID: 11014
 		public float roomHF = 0f;
 
-		// Token: 0x04002B00 RID: 11008
+		// Token: 0x04002B07 RID: 11015
 		public float roomLF = 0f;
 
-		// Token: 0x04002B01 RID: 11009
+		// Token: 0x04002B08 RID: 11016
 		public float decayTime = 1f;
 
-		// Token: 0x04002B02 RID: 11010
+		// Token: 0x04002B09 RID: 11017
 		public float decayHFRatio = 0.5f;
 
-		// Token: 0x04002B03 RID: 11011
+		// Token: 0x04002B0A RID: 11018
 		public float reflectionsLevel = -10000f;
 
-		// Token: 0x04002B04 RID: 11012
+		// Token: 0x04002B0B RID: 11019
 		public float reflectionsDelay = 0f;
 
-		// Token: 0x04002B05 RID: 11013
+		// Token: 0x04002B0C RID: 11020
 		public float reverbLevel = 0f;
 
-		// Token: 0x04002B06 RID: 11014
+		// Token: 0x04002B0D RID: 11021
 		public float reverbDelay = 0.04f;
 
-		// Token: 0x04002B07 RID: 11015
+		// Token: 0x04002B0E RID: 11022
 		public float hfReference = 5000f;
 
-		// Token: 0x04002B08 RID: 11016
+		// Token: 0x04002B0F RID: 11023
 		public float lfReference = 250f;
 
-		// Token: 0x04002B09 RID: 11017
+		// Token: 0x04002B10 RID: 11024
 		public float diffusion = 100f;
 
-		// Token: 0x04002B0A RID: 11018
+		// Token: 0x04002B11 RID: 11025
 		public float density = 100f;
 
-		// Token: 0x0600401D RID: 16413 RVA: 0x0021C730 File Offset: 0x0021AB30
+		// Token: 0x0600401D RID: 16413 RVA: 0x0021CA10 File Offset: 0x0021AE10
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (widgetRow.ButtonText("Setup from preset...", "Set up the reverb filter from a preset.", true, false))
@@ -85,7 +85,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600401E RID: 16414 RVA: 0x0021C81C File Offset: 0x0021AC1C
+		// Token: 0x0600401E RID: 16414 RVA: 0x0021CAFC File Offset: 0x0021AEFC
 		public void ApplyTo(AudioReverbFilter filter)
 		{
 			filter.dryLevel = this.dryLevel;
@@ -104,7 +104,7 @@ namespace Verse.Sound
 			filter.density = this.density;
 		}
 
-		// Token: 0x0600401F RID: 16415 RVA: 0x0021C8D4 File Offset: 0x0021ACD4
+		// Token: 0x0600401F RID: 16415 RVA: 0x0021CBB4 File Offset: 0x0021AFB4
 		public static ReverbSetup Lerp(ReverbSetup A, ReverbSetup B, float t)
 		{
 			return new ReverbSetup

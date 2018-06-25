@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020006EF RID: 1775
 	public class ThingSetMaker_Sum : ThingSetMaker
 	{
-		// Token: 0x04001580 RID: 5504
+		// Token: 0x04001584 RID: 5508
 		public List<ThingSetMaker_Sum.Option> options;
 
-		// Token: 0x04001581 RID: 5505
+		// Token: 0x04001585 RID: 5509
 		private List<ThingSetMaker_Sum.Option> optionsInRandomOrder = new List<ThingSetMaker_Sum.Option>();
 
-		// Token: 0x060026A2 RID: 9890 RVA: 0x0014AC88 File Offset: 0x00149088
+		// Token: 0x060026A1 RID: 9889 RVA: 0x0014AEE8 File Offset: 0x001492E8
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -26,7 +26,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060026A3 RID: 9891 RVA: 0x0014ACFC File Offset: 0x001490FC
+		// Token: 0x060026A2 RID: 9890 RVA: 0x0014AF5C File Offset: 0x0014935C
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			int num = 0;
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A4 RID: 9892 RVA: 0x0014AFD0 File Offset: 0x001493D0
+		// Token: 0x060026A3 RID: 9891 RVA: 0x0014B230 File Offset: 0x00149630
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A5 RID: 9893 RVA: 0x0014B018 File Offset: 0x00149418
+		// Token: 0x060026A4 RID: 9892 RVA: 0x0014B278 File Offset: 0x00149678
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -110,10 +110,10 @@ namespace RimWorld
 		// Token: 0x020006F0 RID: 1776
 		public class Option
 		{
-			// Token: 0x04001582 RID: 5506
+			// Token: 0x04001586 RID: 5510
 			public ThingSetMaker thingSetMaker;
 
-			// Token: 0x04001583 RID: 5507
+			// Token: 0x04001587 RID: 5511
 			public float chance = 1f;
 		}
 	}

@@ -9,23 +9,23 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class Settlement : MapParent, ITrader
 	{
-		// Token: 0x04001223 RID: 4643
+		// Token: 0x04001227 RID: 4647
 		public Settlement_TraderTracker trader;
 
-		// Token: 0x04001224 RID: 4644
+		// Token: 0x04001228 RID: 4648
 		public List<Pawn> previouslyGeneratedInhabitants = new List<Pawn>();
 
-		// Token: 0x04001225 RID: 4645
+		// Token: 0x04001229 RID: 4649
 		public static readonly Texture2D ShowSellableItemsCommand = ContentFinder<Texture2D>.Get("UI/Commands/SellableItems", true);
 
-		// Token: 0x04001226 RID: 4646
+		// Token: 0x0400122A RID: 4650
 		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
 
-		// Token: 0x04001227 RID: 4647
+		// Token: 0x0400122B RID: 4651
 		public static readonly Texture2D AttackCommand = ContentFinder<Texture2D>.Get("UI/Commands/AttackSettlement", true);
 
 		// Token: 0x17000486 RID: 1158
-		// (get) Token: 0x06001EC6 RID: 7878 RVA: 0x0010928C File Offset: 0x0010768C
+		// (get) Token: 0x06001EC5 RID: 7877 RVA: 0x001094F4 File Offset: 0x001078F4
 		protected override bool UseGenericEnterMapFloatMenuOption
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000487 RID: 1159
-		// (get) Token: 0x06001EC7 RID: 7879 RVA: 0x001092AC File Offset: 0x001076AC
+		// (get) Token: 0x06001EC6 RID: 7878 RVA: 0x00109514 File Offset: 0x00107914
 		public virtual bool Visitable
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000488 RID: 1160
-		// (get) Token: 0x06001EC8 RID: 7880 RVA: 0x001092F8 File Offset: 0x001076F8
+		// (get) Token: 0x06001EC7 RID: 7879 RVA: 0x00109560 File Offset: 0x00107960
 		public virtual bool Attackable
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000489 RID: 1161
-		// (get) Token: 0x06001EC9 RID: 7881 RVA: 0x00109320 File Offset: 0x00107720
+		// (get) Token: 0x06001EC8 RID: 7880 RVA: 0x00109588 File Offset: 0x00107988
 		public TraderKindDef TraderKind
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700048A RID: 1162
-		// (get) Token: 0x06001ECA RID: 7882 RVA: 0x00109354 File Offset: 0x00107754
+		// (get) Token: 0x06001EC9 RID: 7881 RVA: 0x001095BC File Offset: 0x001079BC
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -93,7 +93,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700048B RID: 1163
-		// (get) Token: 0x06001ECB RID: 7883 RVA: 0x00109388 File Offset: 0x00107788
+		// (get) Token: 0x06001ECA RID: 7882 RVA: 0x001095F0 File Offset: 0x001079F0
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -112,7 +112,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700048C RID: 1164
-		// (get) Token: 0x06001ECC RID: 7884 RVA: 0x001093BC File Offset: 0x001077BC
+		// (get) Token: 0x06001ECB RID: 7883 RVA: 0x00109624 File Offset: 0x00107A24
 		public string TraderName
 		{
 			get
@@ -131,7 +131,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700048D RID: 1165
-		// (get) Token: 0x06001ECD RID: 7885 RVA: 0x001093F0 File Offset: 0x001077F0
+		// (get) Token: 0x06001ECC RID: 7884 RVA: 0x00109658 File Offset: 0x00107A58
 		public bool CanTradeNow
 		{
 			get
@@ -141,7 +141,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700048E RID: 1166
-		// (get) Token: 0x06001ECE RID: 7886 RVA: 0x00109424 File Offset: 0x00107824
+		// (get) Token: 0x06001ECD RID: 7885 RVA: 0x0010968C File Offset: 0x00107A8C
 		public float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -159,7 +159,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ECF RID: 7887 RVA: 0x0010945C File Offset: 0x0010785C
+		// Token: 0x06001ECE RID: 7886 RVA: 0x001096C4 File Offset: 0x00107AC4
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> result;
@@ -174,19 +174,19 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001ED0 RID: 7888 RVA: 0x0010948F File Offset: 0x0010788F
+		// Token: 0x06001ECF RID: 7887 RVA: 0x001096F7 File Offset: 0x00107AF7
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToTrader(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06001ED1 RID: 7889 RVA: 0x001094A0 File Offset: 0x001078A0
+		// Token: 0x06001ED0 RID: 7888 RVA: 0x00109708 File Offset: 0x00107B08
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
-		// Token: 0x06001ED2 RID: 7890 RVA: 0x001094B4 File Offset: 0x001078B4
+		// Token: 0x06001ED1 RID: 7889 RVA: 0x0010971C File Offset: 0x00107B1C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -201,7 +201,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED3 RID: 7891 RVA: 0x0010952F File Offset: 0x0010792F
+		// Token: 0x06001ED2 RID: 7890 RVA: 0x00109797 File Offset: 0x00107B97
 		public override void Tick()
 		{
 			base.Tick();
@@ -211,7 +211,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED4 RID: 7892 RVA: 0x00109550 File Offset: 0x00107950
+		// Token: 0x06001ED3 RID: 7891 RVA: 0x001097B8 File Offset: 0x00107BB8
 		public override void Notify_MyMapRemoved(Map map)
 		{
 			base.Notify_MyMapRemoved(map);
@@ -225,14 +225,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED5 RID: 7893 RVA: 0x001095B4 File Offset: 0x001079B4
+		// Token: 0x06001ED4 RID: 7892 RVA: 0x0010981C File Offset: 0x00107C1C
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
 			alsoRemoveWorldObject = false;
 			return !base.Map.IsPlayerHome && !base.Map.mapPawns.AnyPawnBlockingMapRemoval;
 		}
 
-		// Token: 0x06001ED6 RID: 7894 RVA: 0x001095F2 File Offset: 0x001079F2
+		// Token: 0x06001ED5 RID: 7893 RVA: 0x0010985A File Offset: 0x00107C5A
 		public override void PostRemove()
 		{
 			base.PostRemove();
@@ -242,7 +242,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ED7 RID: 7895 RVA: 0x00109614 File Offset: 0x00107A14
+		// Token: 0x06001ED6 RID: 7894 RVA: 0x0010987C File Offset: 0x00107C7C
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -261,7 +261,7 @@ namespace RimWorld.Planet
 			return text;
 		}
 
-		// Token: 0x06001ED8 RID: 7896 RVA: 0x001096A8 File Offset: 0x00107AA8
+		// Token: 0x06001ED7 RID: 7895 RVA: 0x00109910 File Offset: 0x00107D10
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -300,7 +300,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001ED9 RID: 7897 RVA: 0x001096D4 File Offset: 0x00107AD4
+		// Token: 0x06001ED8 RID: 7896 RVA: 0x0010993C File Offset: 0x00107D3C
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			if (this.CanTradeNow && CaravanVisitUtility.SettlementVisitedNow(caravan) == this)
@@ -331,7 +331,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EDA RID: 7898 RVA: 0x00109708 File Offset: 0x00107B08
+		// Token: 0x06001ED9 RID: 7897 RVA: 0x00109970 File Offset: 0x00107D70
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy2(caravan))
@@ -356,7 +356,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EDB RID: 7899 RVA: 0x0010973C File Offset: 0x00107B3C
+		// Token: 0x06001EDA RID: 7898 RVA: 0x001099A4 File Offset: 0x00107DA4
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy3(pods, representative))
@@ -378,7 +378,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EDC RID: 7900 RVA: 0x00109774 File Offset: 0x00107B74
+		// Token: 0x06001EDB RID: 7899 RVA: 0x001099DC File Offset: 0x00107DDC
 		public override void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			base.GetChildHolders(outChildren);

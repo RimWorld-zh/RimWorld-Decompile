@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A0D RID: 2573
+	// Token: 0x02000A0E RID: 2574
 	public static class TriggerFilterExtension
 	{
-		// Token: 0x06003994 RID: 14740 RVA: 0x001E7FEC File Offset: 0x001E63EC
+		// Token: 0x06003995 RID: 14741 RVA: 0x001E8318 File Offset: 0x001E6718
 		public static Trigger WithFilter(this Trigger t, TriggerFilter f)
 		{
 			if (t.filters == null)

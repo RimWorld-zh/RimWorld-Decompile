@@ -6,19 +6,19 @@ namespace RimWorld.Planet
 	// Token: 0x02000545 RID: 1349
 	public class WorldReachability
 	{
-		// Token: 0x04000ECE RID: 3790
+		// Token: 0x04000ED2 RID: 3794
 		private int[] fields;
 
-		// Token: 0x04000ECF RID: 3791
+		// Token: 0x04000ED3 RID: 3795
 		private int nextFieldID;
 
-		// Token: 0x04000ED0 RID: 3792
+		// Token: 0x04000ED4 RID: 3796
 		private int impassableFieldID;
 
-		// Token: 0x04000ED1 RID: 3793
+		// Token: 0x04000ED5 RID: 3797
 		private int minValidFieldID;
 
-		// Token: 0x0600193B RID: 6459 RVA: 0x000DB85E File Offset: 0x000D9C5E
+		// Token: 0x0600193A RID: 6458 RVA: 0x000DBAC6 File Offset: 0x000D9EC6
 		public WorldReachability()
 		{
 			this.fields = new int[Find.WorldGrid.TilesCount];
@@ -26,19 +26,19 @@ namespace RimWorld.Planet
 			this.InvalidateAllFields();
 		}
 
-		// Token: 0x0600193C RID: 6460 RVA: 0x000DB889 File Offset: 0x000D9C89
+		// Token: 0x0600193B RID: 6459 RVA: 0x000DBAF1 File Offset: 0x000D9EF1
 		public void ClearCache()
 		{
 			this.InvalidateAllFields();
 		}
 
-		// Token: 0x0600193D RID: 6461 RVA: 0x000DB894 File Offset: 0x000D9C94
+		// Token: 0x0600193C RID: 6460 RVA: 0x000DBAFC File Offset: 0x000D9EFC
 		public bool CanReach(Caravan c, int tile)
 		{
 			return this.CanReach(c.Tile, tile);
 		}
 
-		// Token: 0x0600193E RID: 6462 RVA: 0x000DB8B8 File Offset: 0x000D9CB8
+		// Token: 0x0600193D RID: 6461 RVA: 0x000DBB20 File Offset: 0x000D9F20
 		public bool CanReach(int startTile, int destTile)
 		{
 			bool result;
@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0600193F RID: 6463 RVA: 0x000DB99C File Offset: 0x000D9D9C
+		// Token: 0x0600193E RID: 6462 RVA: 0x000DBC04 File Offset: 0x000DA004
 		private void InvalidateAllFields()
 		{
 			if (this.nextFieldID == 2147483646)
@@ -74,13 +74,13 @@ namespace RimWorld.Planet
 			this.nextFieldID++;
 		}
 
-		// Token: 0x06001940 RID: 6464 RVA: 0x000DB9DC File Offset: 0x000D9DDC
+		// Token: 0x0600193F RID: 6463 RVA: 0x000DBC44 File Offset: 0x000DA044
 		private bool IsValidField(int fieldID)
 		{
 			return fieldID >= this.minValidFieldID;
 		}
 
-		// Token: 0x06001941 RID: 6465 RVA: 0x000DBA00 File Offset: 0x000D9E00
+		// Token: 0x06001940 RID: 6464 RVA: 0x000DBC68 File Offset: 0x000DA068
 		private void FloodFillAt(int tile)
 		{
 			World world = Find.World;

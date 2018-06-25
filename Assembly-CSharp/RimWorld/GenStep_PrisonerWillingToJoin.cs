@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x02000410 RID: 1040
 	public class GenStep_PrisonerWillingToJoin : GenStep_Scatterer
 	{
-		// Token: 0x04000AE0 RID: 2784
+		// Token: 0x04000AE3 RID: 2787
 		private const int Size = 8;
 
 		// Token: 0x17000263 RID: 611
-		// (get) Token: 0x060011E2 RID: 4578 RVA: 0x0009B36C File Offset: 0x0009976C
+		// (get) Token: 0x060011E1 RID: 4577 RVA: 0x0009B37C File Offset: 0x0009977C
 		public override int SeedPart
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E3 RID: 4579 RVA: 0x0009B388 File Offset: 0x00099788
+		// Token: 0x060011E2 RID: 4578 RVA: 0x0009B398 File Offset: 0x00099798
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -53,7 +53,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011E4 RID: 4580 RVA: 0x0009B440 File Offset: 0x00099840
+		// Token: 0x060011E3 RID: 4579 RVA: 0x0009B450 File Offset: 0x00099850
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			Faction faction;

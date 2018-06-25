@@ -4,22 +4,22 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000FA5 RID: 4005
+	// Token: 0x02000FA6 RID: 4006
 	public static class PerfLogger
 	{
-		// Token: 0x04003F53 RID: 16211
+		// Token: 0x04003F5B RID: 16219
 		public static StringBuilder currentLog = new StringBuilder();
 
-		// Token: 0x04003F54 RID: 16212
+		// Token: 0x04003F5C RID: 16220
 		private static long start;
 
-		// Token: 0x04003F55 RID: 16213
+		// Token: 0x04003F5D RID: 16221
 		private static long current;
 
-		// Token: 0x04003F56 RID: 16214
+		// Token: 0x04003F5E RID: 16222
 		private static int indent;
 
-		// Token: 0x060060BC RID: 24764 RVA: 0x00310058 File Offset: 0x0030E458
+		// Token: 0x060060BC RID: 24764 RVA: 0x0031029C File Offset: 0x0030E69C
 		public static void Reset()
 		{
 			PerfLogger.currentLog = null;
@@ -27,14 +27,14 @@ namespace Verse
 			PerfLogger.current = PerfLogger.start;
 		}
 
-		// Token: 0x060060BD RID: 24765 RVA: 0x00310075 File Offset: 0x0030E475
+		// Token: 0x060060BD RID: 24765 RVA: 0x003102B9 File Offset: 0x0030E6B9
 		public static void Flush()
 		{
 			Log.Message((PerfLogger.currentLog == null) ? "" : PerfLogger.currentLog.ToString(), false);
 			PerfLogger.Reset();
 		}
 
-		// Token: 0x060060BE RID: 24766 RVA: 0x003100A4 File Offset: 0x0030E4A4
+		// Token: 0x060060BE RID: 24766 RVA: 0x003102E8 File Offset: 0x0030E6E8
 		public static void Record(string label)
 		{
 			long timestamp = Stopwatch.GetTimestamp();
@@ -52,19 +52,19 @@ namespace Verse
 			PerfLogger.current = timestamp;
 		}
 
-		// Token: 0x060060BF RID: 24767 RVA: 0x0031013A File Offset: 0x0030E53A
+		// Token: 0x060060BF RID: 24767 RVA: 0x0031037E File Offset: 0x0030E77E
 		public static void Indent()
 		{
 			PerfLogger.indent++;
 		}
 
-		// Token: 0x060060C0 RID: 24768 RVA: 0x00310149 File Offset: 0x0030E549
+		// Token: 0x060060C0 RID: 24768 RVA: 0x0031038D File Offset: 0x0030E78D
 		public static void Outdent()
 		{
 			PerfLogger.indent--;
 		}
 
-		// Token: 0x060060C1 RID: 24769 RVA: 0x00310158 File Offset: 0x0030E558
+		// Token: 0x060060C1 RID: 24769 RVA: 0x0031039C File Offset: 0x0030E79C
 		public static float Duration()
 		{
 			return (float)(Stopwatch.GetTimestamp() - PerfLogger.start) / (float)Stopwatch.Frequency;

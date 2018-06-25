@@ -7,16 +7,16 @@ namespace RimWorld.Planet
 	// Token: 0x020005B8 RID: 1464
 	public static class SphereGenerator
 	{
-		// Token: 0x040010D9 RID: 4313
+		// Token: 0x040010DD RID: 4317
 		private static List<TriangleIndices> tris = new List<TriangleIndices>();
 
-		// Token: 0x040010DA RID: 4314
+		// Token: 0x040010DE RID: 4318
 		private static List<TriangleIndices> newTris = new List<TriangleIndices>();
 
-		// Token: 0x040010DB RID: 4315
+		// Token: 0x040010DF RID: 4319
 		private static Dictionary<long, int> middlePointsCache = new Dictionary<long, int>();
 
-		// Token: 0x06001C21 RID: 7201 RVA: 0x000F22B8 File Offset: 0x000F06B8
+		// Token: 0x06001C20 RID: 7200 RVA: 0x000F2520 File Offset: 0x000F0920
 		public static void Generate(int subdivisionsCount, float radius, Vector3 viewCenter, float viewAngle, out List<Vector3> outVerts, out List<int> outIndices)
 		{
 			SphereGenerator.middlePointsCache.Clear();
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C22 RID: 7202 RVA: 0x000F24B4 File Offset: 0x000F08B4
+		// Token: 0x06001C21 RID: 7201 RVA: 0x000F271C File Offset: 0x000F0B1C
 		private static int GetMiddlePoint(int p1, int p2, List<Vector3> verts, float radius)
 		{
 			long key = ((long)Mathf.Min(p1, p2) << 32) + (long)Mathf.Max(p1, p2);

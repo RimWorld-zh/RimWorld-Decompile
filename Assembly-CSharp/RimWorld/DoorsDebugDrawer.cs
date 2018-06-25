@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020006A6 RID: 1702
 	public static class DoorsDebugDrawer
 	{
-		// Token: 0x06002458 RID: 9304 RVA: 0x001378D4 File Offset: 0x00135CD4
+		// Token: 0x06002457 RID: 9303 RVA: 0x00137B3C File Offset: 0x00135F3C
 		public static void DrawDebug()
 		{
 			if (DebugViewSettings.drawDoorsDebug)

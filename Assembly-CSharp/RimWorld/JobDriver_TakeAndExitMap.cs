@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x02000080 RID: 128
 	public class JobDriver_TakeAndExitMap : JobDriver
 	{
-		// Token: 0x04000238 RID: 568
+		// Token: 0x04000239 RID: 569
 		private const TargetIndex ItemInd = TargetIndex.A;
 
-		// Token: 0x04000239 RID: 569
+		// Token: 0x0400023A RID: 570
 		private const TargetIndex ExitCellInd = TargetIndex.B;
 
 		// Token: 0x170000B1 RID: 177

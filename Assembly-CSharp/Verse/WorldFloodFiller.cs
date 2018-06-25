@@ -7,19 +7,19 @@ namespace Verse
 	// Token: 0x020005AF RID: 1455
 	public class WorldFloodFiller
 	{
-		// Token: 0x04001093 RID: 4243
+		// Token: 0x04001097 RID: 4247
 		private bool working;
 
-		// Token: 0x04001094 RID: 4244
+		// Token: 0x04001098 RID: 4248
 		private Queue<int> openSet = new Queue<int>();
 
-		// Token: 0x04001095 RID: 4245
+		// Token: 0x04001099 RID: 4249
 		private List<int> traversalDistance = new List<int>();
 
-		// Token: 0x04001096 RID: 4246
+		// Token: 0x0400109A RID: 4250
 		private List<int> visited = new List<int>();
 
-		// Token: 0x06001BD6 RID: 7126 RVA: 0x000EFC30 File Offset: 0x000EE030
+		// Token: 0x06001BD5 RID: 7125 RVA: 0x000EFE98 File Offset: 0x000EE298
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -29,7 +29,7 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD7 RID: 7127 RVA: 0x000EFC64 File Offset: 0x000EE064
+		// Token: 0x06001BD6 RID: 7126 RVA: 0x000EFECC File Offset: 0x000EE2CC
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int, int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -39,13 +39,13 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD8 RID: 7128 RVA: 0x000EFC98 File Offset: 0x000EE098
+		// Token: 0x06001BD7 RID: 7127 RVA: 0x000EFF00 File Offset: 0x000EE300
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Predicate<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, (int tile, int traversalDistance) => processor(tile), maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD9 RID: 7129 RVA: 0x000EFCCC File Offset: 0x000EE0CC
+		// Token: 0x06001BD8 RID: 7128 RVA: 0x000EFF34 File Offset: 0x000EE334
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Func<int, int, bool> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			if (this.working)
@@ -138,7 +138,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06001BDA RID: 7130 RVA: 0x000EFFD8 File Offset: 0x000EE3D8
+		// Token: 0x06001BD9 RID: 7129 RVA: 0x000F0240 File Offset: 0x000EE640
 		private void ClearVisited()
 		{
 			int i = 0;

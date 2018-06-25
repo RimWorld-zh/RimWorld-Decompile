@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000D38 RID: 3384
+	// Token: 0x02000D39 RID: 3385
 	public class HediffGiver_RandomDrugEffect : HediffGiver
 	{
-		// Token: 0x04003258 RID: 12888
+		// Token: 0x0400325F RID: 12895
 		public float baseMtbDays = 0f;
 
-		// Token: 0x04003259 RID: 12889
+		// Token: 0x04003260 RID: 12896
 		public float minSeverity = 0f;
 
-		// Token: 0x06004A92 RID: 19090 RVA: 0x0026E400 File Offset: 0x0026C800
+		// Token: 0x06004A92 RID: 19090 RVA: 0x0026E6E0 File Offset: 0x0026CAE0
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			if (cause.Severity >= this.minSeverity)

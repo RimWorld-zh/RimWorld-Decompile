@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020001C9 RID: 457
 	public class ThinkNode_ConditionalHasVoluntarilyJoinableLord : ThinkNode_Conditional
 	{
-		// Token: 0x06000948 RID: 2376 RVA: 0x000561D0 File Offset: 0x000545D0
+		// Token: 0x06000947 RID: 2375 RVA: 0x000561CC File Offset: 0x000545CC
 		protected override bool Satisfied(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();

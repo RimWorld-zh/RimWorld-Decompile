@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000139 RID: 313
 	public class WorkGiver_Warden_TakeToBed : WorkGiver_Warden
 	{
-		// Token: 0x06000661 RID: 1633 RVA: 0x00042900 File Offset: 0x00040D00
+		// Token: 0x06000660 RID: 1632 RVA: 0x000428FC File Offset: 0x00040CFC
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;
@@ -39,7 +39,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000662 RID: 1634 RVA: 0x00042960 File Offset: 0x00040D60
+		// Token: 0x06000661 RID: 1633 RVA: 0x0004295C File Offset: 0x00040D5C
 		private Job TakeToPreferredBedJob(Pawn prisoner, Pawn warden)
 		{
 			Job result;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000663 RID: 1635 RVA: 0x00042A00 File Offset: 0x00040E00
+		// Token: 0x06000662 RID: 1634 RVA: 0x000429FC File Offset: 0x00040DFC
 		private Job TakeDownedToBedJob(Pawn prisoner, Pawn warden)
 		{
 			Job result;

@@ -9,27 +9,27 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TrainingCardUtility
 	{
-		// Token: 0x040018FA RID: 6394
+		// Token: 0x040018FE RID: 6398
 		public const float RowHeight = 28f;
 
-		// Token: 0x040018FB RID: 6395
+		// Token: 0x040018FF RID: 6399
 		private const float InfoHeaderHeight = 50f;
 
-		// Token: 0x040018FC RID: 6396
+		// Token: 0x04001900 RID: 6400
 		[TweakValue("Interface", -100f, 300f)]
 		private static float TrainabilityLeft = 220f;
 
-		// Token: 0x040018FD RID: 6397
+		// Token: 0x04001901 RID: 6401
 		[TweakValue("Interface", -100f, 300f)]
 		private static float TrainabilityTop = 0f;
 
-		// Token: 0x040018FE RID: 6398
+		// Token: 0x04001902 RID: 6402
 		private static readonly Texture2D LearnedTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheck", true);
 
-		// Token: 0x040018FF RID: 6399
+		// Token: 0x04001903 RID: 6403
 		private static readonly Texture2D LearnedNotTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheckOff", true);
 
-		// Token: 0x06002E9E RID: 11934 RVA: 0x0018ECE4 File Offset: 0x0018D0E4
+		// Token: 0x06002E9D RID: 11933 RVA: 0x0018EF48 File Offset: 0x0018D348
 		public static void DrawTrainingCard(Rect rect, Pawn pawn)
 		{
 			Text.Font = GameFont.Small;
@@ -72,7 +72,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002E9F RID: 11935 RVA: 0x0018EEC0 File Offset: 0x0018D2C0
+		// Token: 0x06002E9E RID: 11934 RVA: 0x0018F124 File Offset: 0x0018D524
 		private static bool TryDrawTrainableRow(Rect rect, Pawn pawn, TrainableDef td)
 		{
 			bool flag = pawn.training.HasLearned(td);
@@ -116,7 +116,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EA0 RID: 11936 RVA: 0x0018F03C File Offset: 0x0018D43C
+		// Token: 0x06002E9F RID: 11935 RVA: 0x0018F2A0 File Offset: 0x0018D6A0
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)
 		{
 			bool flag = pawn.training.HasLearned(td);
@@ -143,7 +143,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EA1 RID: 11937 RVA: 0x0018F108 File Offset: 0x0018D508
+		// Token: 0x06002EA0 RID: 11936 RVA: 0x0018F36C File Offset: 0x0018D76C
 		private static void DoTrainableTooltip(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain)
 		{
 			TooltipHandler.TipRegion(rect, delegate()

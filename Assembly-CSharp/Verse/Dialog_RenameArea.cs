@@ -2,20 +2,20 @@
 
 namespace Verse
 {
-	// Token: 0x02000EB8 RID: 3768
+	// Token: 0x02000EB9 RID: 3769
 	public class Dialog_RenameArea : Dialog_Rename
 	{
-		// Token: 0x04003B6A RID: 15210
+		// Token: 0x04003B72 RID: 15218
 		private Area area;
 
-		// Token: 0x0600592B RID: 22827 RVA: 0x002DC0C9 File Offset: 0x002DA4C9
+		// Token: 0x0600592B RID: 22827 RVA: 0x002DC2B5 File Offset: 0x002DA6B5
 		public Dialog_RenameArea(Area area)
 		{
 			this.area = area;
 			this.curName = area.Label;
 		}
 
-		// Token: 0x0600592C RID: 22828 RVA: 0x002DC0E8 File Offset: 0x002DA4E8
+		// Token: 0x0600592C RID: 22828 RVA: 0x002DC2D4 File Offset: 0x002DA6D4
 		protected override AcceptanceReport NameIsValid(string name)
 		{
 			AcceptanceReport acceptanceReport = base.NameIsValid(name);
@@ -35,7 +35,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600592D RID: 22829 RVA: 0x002DC177 File Offset: 0x002DA577
+		// Token: 0x0600592D RID: 22829 RVA: 0x002DC363 File Offset: 0x002DA763
 		protected override void SetName(string name)
 		{
 			this.area.SetLabel(this.curName);

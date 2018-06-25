@@ -6,19 +6,19 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D6 RID: 982
 	public static class InteriorSymbolResolverUtility
 	{
-		// Token: 0x04000A44 RID: 2628
+		// Token: 0x04000A47 RID: 2631
 		private const float SpawnHeaterIfTemperatureBelow = 3f;
 
-		// Token: 0x04000A45 RID: 2629
+		// Token: 0x04000A48 RID: 2632
 		private const float SpawnSecondHeaterIfTemperatureBelow = -45f;
 
-		// Token: 0x04000A46 RID: 2630
+		// Token: 0x04000A49 RID: 2633
 		private const float NonIndustrial_SpawnCampfireIfTemperatureBelow = -20f;
 
-		// Token: 0x04000A47 RID: 2631
+		// Token: 0x04000A4A RID: 2634
 		private const float SpawnPassiveCoolerIfTemperatureAbove = 22f;
 
-		// Token: 0x060010E7 RID: 4327 RVA: 0x000902F4 File Offset: 0x0008E6F4
+		// Token: 0x060010E6 RID: 4326 RVA: 0x00090304 File Offset: 0x0008E704
 		public static void PushBedroomHeatersCoolersAndLightSourcesSymbols(ResolveParams rp, bool hasToSpawnLightSource = true)
 		{
 			Map map = BaseGen.globalSettings.map;

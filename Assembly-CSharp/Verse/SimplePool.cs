@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000FBA RID: 4026
+	// Token: 0x02000FBB RID: 4027
 	public static class SimplePool<T> where T : new()
 	{
-		// Token: 0x04003FB8 RID: 16312
+		// Token: 0x04003FC0 RID: 16320
 		private static List<T> freeItems = new List<T>();
 
-		// Token: 0x06006164 RID: 24932 RVA: 0x003136D0 File Offset: 0x00311AD0
+		// Token: 0x06006164 RID: 24932 RVA: 0x00313914 File Offset: 0x00311D14
 		public static T Get()
 		{
 			T result;
@@ -26,7 +26,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006165 RID: 24933 RVA: 0x0031372F File Offset: 0x00311B2F
+		// Token: 0x06006165 RID: 24933 RVA: 0x00313973 File Offset: 0x00311D73
 		public static void Return(T item)
 		{
 			SimplePool<T>.freeItems.Add(item);

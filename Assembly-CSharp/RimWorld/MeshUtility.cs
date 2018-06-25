@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x0200098E RID: 2446
 	public static class MeshUtility
 	{
-		// Token: 0x0400237D RID: 9085
+		// Token: 0x04002384 RID: 9092
 		private static List<int> offsets = new List<int>();
 
-		// Token: 0x0400237E RID: 9086
+		// Token: 0x04002385 RID: 9093
 		private static List<bool> vertIsUsed = new List<bool>();
 
-		// Token: 0x06003701 RID: 14081 RVA: 0x001D63F4 File Offset: 0x001D47F4
+		// Token: 0x06003701 RID: 14081 RVA: 0x001D66C8 File Offset: 0x001D4AC8
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
 			int i = 0;
@@ -33,7 +33,7 @@ namespace RimWorld
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
-		// Token: 0x06003702 RID: 14082 RVA: 0x001D64A8 File Offset: 0x001D48A8
+		// Token: 0x06003702 RID: 14082 RVA: 0x001D677C File Offset: 0x001D4B7C
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
@@ -78,13 +78,13 @@ namespace RimWorld
 			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
 		}
 
-		// Token: 0x06003703 RID: 14083 RVA: 0x001D6638 File Offset: 0x001D4A38
+		// Token: 0x06003703 RID: 14083 RVA: 0x001D690C File Offset: 0x001D4D0C
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			return viewAngle >= 180f || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
-		// Token: 0x06003704 RID: 14084 RVA: 0x001D6674 File Offset: 0x001D4A74
+		// Token: 0x06003704 RID: 14084 RVA: 0x001D6948 File Offset: 0x001D4D48
 		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			bool result;
@@ -104,7 +104,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003705 RID: 14085 RVA: 0x001D66E0 File Offset: 0x001D4AE0
+		// Token: 0x06003705 RID: 14085 RVA: 0x001D69B4 File Offset: 0x001D4DB4
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)
 		{
 			input.a = newAlpha;

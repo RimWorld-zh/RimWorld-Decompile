@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200008E RID: 142
 	public class JobDriver_PlantCut : JobDriver_PlantWork
 	{
-		// Token: 0x060003A0 RID: 928 RVA: 0x00029108 File Offset: 0x00027508
+		// Token: 0x060003A0 RID: 928 RVA: 0x00029124 File Offset: 0x00027524
 		protected override void Init()
 		{
 			if (base.Plant.def.plant.harvestedThingDef != null && base.Plant.CanYieldNow())
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003A1 RID: 929 RVA: 0x0002915C File Offset: 0x0002755C
+		// Token: 0x060003A1 RID: 929 RVA: 0x00029178 File Offset: 0x00027578
 		protected override Toil PlantWorkDoneToil()
 		{
 			return Toils_Interact.DestroyThing(TargetIndex.A);

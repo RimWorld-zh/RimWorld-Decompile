@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x02000084 RID: 132
 	public class JobDriver_UnloadInventory : JobDriver
 	{
-		// Token: 0x04000240 RID: 576
+		// Token: 0x04000241 RID: 577
 		private const TargetIndex OtherPawnInd = TargetIndex.A;
 
-		// Token: 0x04000241 RID: 577
+		// Token: 0x04000242 RID: 578
 		private const TargetIndex ItemToHaulInd = TargetIndex.B;
 
-		// Token: 0x04000242 RID: 578
+		// Token: 0x04000243 RID: 579
 		private const TargetIndex StoreCellInd = TargetIndex.C;
 
-		// Token: 0x04000243 RID: 579
+		// Token: 0x04000244 RID: 580
 		private const int UnloadDuration = 10;
 
 		// Token: 0x170000B7 RID: 183
-		// (get) Token: 0x06000374 RID: 884 RVA: 0x000268E4 File Offset: 0x00024CE4
+		// (get) Token: 0x06000374 RID: 884 RVA: 0x00026900 File Offset: 0x00024D00
 		private Pawn OtherPawn
 		{
 			get
@@ -30,13 +30,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000375 RID: 885 RVA: 0x00026914 File Offset: 0x00024D14
+		// Token: 0x06000375 RID: 885 RVA: 0x00026930 File Offset: 0x00024D30
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.OtherPawn, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000376 RID: 886 RVA: 0x00026948 File Offset: 0x00024D48
+		// Token: 0x06000376 RID: 886 RVA: 0x00026964 File Offset: 0x00024D64
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);

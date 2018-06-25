@@ -10,57 +10,57 @@ namespace RimWorld
 	// Token: 0x0200016E RID: 366
 	public class LordJob_FormAndSendCaravan : LordJob
 	{
-		// Token: 0x0400033F RID: 831
+		// Token: 0x04000340 RID: 832
 		public List<TransferableOneWay> transferables;
 
-		// Token: 0x04000340 RID: 832
+		// Token: 0x04000341 RID: 833
 		private IntVec3 meetingPoint;
 
-		// Token: 0x04000341 RID: 833
+		// Token: 0x04000342 RID: 834
 		private IntVec3 exitSpot;
 
-		// Token: 0x04000342 RID: 834
+		// Token: 0x04000343 RID: 835
 		private int startingTile;
 
-		// Token: 0x04000343 RID: 835
+		// Token: 0x04000344 RID: 836
 		private int destinationTile;
 
-		// Token: 0x04000344 RID: 836
+		// Token: 0x04000345 RID: 837
 		private bool caravanSent;
 
-		// Token: 0x04000345 RID: 837
+		// Token: 0x04000346 RID: 838
 		private LordToil gatherAnimals;
 
-		// Token: 0x04000346 RID: 838
+		// Token: 0x04000347 RID: 839
 		private LordToil gatherAnimals_pause;
 
-		// Token: 0x04000347 RID: 839
+		// Token: 0x04000348 RID: 840
 		private LordToil gatherItems;
 
-		// Token: 0x04000348 RID: 840
+		// Token: 0x04000349 RID: 841
 		private LordToil gatherItems_pause;
 
-		// Token: 0x04000349 RID: 841
+		// Token: 0x0400034A RID: 842
 		private LordToil gatherSlaves;
 
-		// Token: 0x0400034A RID: 842
+		// Token: 0x0400034B RID: 843
 		private LordToil gatherSlaves_pause;
 
-		// Token: 0x0400034B RID: 843
+		// Token: 0x0400034C RID: 844
 		private LordToil leave;
 
-		// Token: 0x0400034C RID: 844
+		// Token: 0x0400034D RID: 845
 		private LordToil leave_pause;
 
-		// Token: 0x0400034D RID: 845
+		// Token: 0x0400034E RID: 846
 		public const float CustomWakeThreshold = 0.5f;
 
-		// Token: 0x0600077E RID: 1918 RVA: 0x0004A65F File Offset: 0x00048A5F
+		// Token: 0x0600077D RID: 1917 RVA: 0x0004A65B File Offset: 0x00048A5B
 		public LordJob_FormAndSendCaravan()
 		{
 		}
 
-		// Token: 0x0600077F RID: 1919 RVA: 0x0004A668 File Offset: 0x00048A68
+		// Token: 0x0600077E RID: 1918 RVA: 0x0004A664 File Offset: 0x00048A64
 		public LordJob_FormAndSendCaravan(List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile, int destinationTile)
 		{
 			this.transferables = transferables;
@@ -71,7 +71,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012A RID: 298
-		// (get) Token: 0x06000780 RID: 1920 RVA: 0x0004A698 File Offset: 0x00048A98
+		// (get) Token: 0x0600077F RID: 1919 RVA: 0x0004A694 File Offset: 0x00048A94
 		public bool GatheringItemsNow
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012B RID: 299
-		// (get) Token: 0x06000781 RID: 1921 RVA: 0x0004A6C0 File Offset: 0x00048AC0
+		// (get) Token: 0x06000780 RID: 1920 RVA: 0x0004A6BC File Offset: 0x00048ABC
 		public override bool AllowStartNewGatherings
 		{
 			get
@@ -91,7 +91,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012C RID: 300
-		// (get) Token: 0x06000782 RID: 1922 RVA: 0x0004A6D8 File Offset: 0x00048AD8
+		// (get) Token: 0x06000781 RID: 1921 RVA: 0x0004A6D4 File Offset: 0x00048AD4
 		public override bool NeverInRestraints
 		{
 			get
@@ -101,7 +101,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012D RID: 301
-		// (get) Token: 0x06000783 RID: 1923 RVA: 0x0004A6F0 File Offset: 0x00048AF0
+		// (get) Token: 0x06000782 RID: 1922 RVA: 0x0004A6EC File Offset: 0x00048AEC
 		public string Status
 		{
 			get
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000784 RID: 1924 RVA: 0x0004A7FC File Offset: 0x00048BFC
+		// Token: 0x06000783 RID: 1923 RVA: 0x0004A7F8 File Offset: 0x00048BF8
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -216,13 +216,13 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x06000785 RID: 1925 RVA: 0x0004AB50 File Offset: 0x00048F50
+		// Token: 0x06000784 RID: 1924 RVA: 0x0004AB4C File Offset: 0x00048F4C
 		public override string GetReport()
 		{
 			return "LordReportFormingCaravan".Translate();
 		}
 
-		// Token: 0x06000786 RID: 1926 RVA: 0x0004AB70 File Offset: 0x00048F70
+		// Token: 0x06000785 RID: 1925 RVA: 0x0004AB6C File Offset: 0x00048F6C
 		private Transition PauseTransition(LordToil from, LordToil to)
 		{
 			Transition transition = new Transition(from, to, false, true);
@@ -232,7 +232,7 @@ namespace RimWorld
 			return transition;
 		}
 
-		// Token: 0x06000787 RID: 1927 RVA: 0x0004ABD4 File Offset: 0x00048FD4
+		// Token: 0x06000786 RID: 1926 RVA: 0x0004ABD0 File Offset: 0x00048FD0
 		private Transition UnpauseTransition(LordToil from, LordToil to)
 		{
 			Transition transition = new Transition(from, to, false, true);
@@ -242,7 +242,7 @@ namespace RimWorld
 			return transition;
 		}
 
-		// Token: 0x06000788 RID: 1928 RVA: 0x0004AC2C File Offset: 0x0004902C
+		// Token: 0x06000787 RID: 1927 RVA: 0x0004AC28 File Offset: 0x00049028
 		public override void ExposeData()
 		{
 			Scribe_Collections.Look<TransferableOneWay>(ref this.transferables, "transferables", LookMode.Deep, new object[0]);
@@ -252,20 +252,20 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.destinationTile, "destinationTile", 0, false);
 		}
 
-		// Token: 0x06000789 RID: 1929 RVA: 0x0004ACA9 File Offset: 0x000490A9
+		// Token: 0x06000788 RID: 1928 RVA: 0x0004ACA5 File Offset: 0x000490A5
 		private void SendCaravan()
 		{
 			this.caravanSent = true;
 			CaravanFormingUtility.FormAndCreateCaravan(this.lord.ownedPawns, this.lord.faction, base.Map.Tile, this.startingTile, this.destinationTile);
 		}
 
-		// Token: 0x0600078A RID: 1930 RVA: 0x0004ACE5 File Offset: 0x000490E5
+		// Token: 0x06000789 RID: 1929 RVA: 0x0004ACE1 File Offset: 0x000490E1
 		public override void Notify_PawnAdded(Pawn p)
 		{
 			ReachabilityUtility.ClearCache();
 		}
 
-		// Token: 0x0600078B RID: 1931 RVA: 0x0004ACED File Offset: 0x000490ED
+		// Token: 0x0600078A RID: 1930 RVA: 0x0004ACE9 File Offset: 0x000490E9
 		public override void Notify_PawnLost(Pawn p, PawnLostCondition condition)
 		{
 			ReachabilityUtility.ClearCache();
@@ -275,7 +275,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600078C RID: 1932 RVA: 0x0004AD0C File Offset: 0x0004910C
+		// Token: 0x0600078B RID: 1931 RVA: 0x0004AD08 File Offset: 0x00049108
 		public override bool CanOpenAnyDoor(Pawn p)
 		{
 			return true;

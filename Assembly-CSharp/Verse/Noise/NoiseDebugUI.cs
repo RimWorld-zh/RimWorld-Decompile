@@ -5,32 +5,32 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F70 RID: 3952
+	// Token: 0x02000F71 RID: 3953
 	public static class NoiseDebugUI
 	{
-		// Token: 0x04003EC0 RID: 16064
+		// Token: 0x04003EC8 RID: 16072
 		private static List<NoiseDebugUI.Noise2D> noises2D = new List<NoiseDebugUI.Noise2D>();
 
-		// Token: 0x04003EC1 RID: 16065
+		// Token: 0x04003EC9 RID: 16073
 		private static List<NoiseDebugUI.NoisePlanet> planetNoises = new List<NoiseDebugUI.NoisePlanet>();
 
-		// Token: 0x04003EC2 RID: 16066
+		// Token: 0x04003ECA RID: 16074
 		private static Mesh planetNoiseMesh;
 
-		// Token: 0x04003EC3 RID: 16067
+		// Token: 0x04003ECB RID: 16075
 		private static NoiseDebugUI.NoisePlanet currentPlanetNoise;
 
-		// Token: 0x04003EC4 RID: 16068
+		// Token: 0x04003ECC RID: 16076
 		private static NoiseDebugUI.NoisePlanet lastDrawnPlanetNoise;
 
-		// Token: 0x04003EC5 RID: 16069
+		// Token: 0x04003ECD RID: 16077
 		private static List<Color32> planetNoiseMeshColors = new List<Color32>();
 
-		// Token: 0x04003EC6 RID: 16070
+		// Token: 0x04003ECE RID: 16078
 		private static List<Vector3> planetNoiseMeshVerts;
 
 		// Token: 0x17000F48 RID: 3912
-		// (set) Token: 0x06005F71 RID: 24433 RVA: 0x0030A972 File Offset: 0x00308D72
+		// (set) Token: 0x06005F71 RID: 24433 RVA: 0x0030ABB6 File Offset: 0x00308FB6
 		public static IntVec2 RenderSize
 		{
 			set
@@ -39,14 +39,14 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F72 RID: 24434 RVA: 0x0030A97B File Offset: 0x00308D7B
+		// Token: 0x06005F72 RID: 24434 RVA: 0x0030ABBF File Offset: 0x00308FBF
 		public static void StoreNoiseRender(ModuleBase noise, string name, IntVec2 renderSize)
 		{
 			NoiseDebugUI.RenderSize = renderSize;
 			NoiseDebugUI.StoreNoiseRender(noise, name);
 		}
 
-		// Token: 0x06005F73 RID: 24435 RVA: 0x0030A98C File Offset: 0x00308D8C
+		// Token: 0x06005F73 RID: 24435 RVA: 0x0030ABD0 File Offset: 0x00308FD0
 		public static void StoreNoiseRender(ModuleBase noise, string name)
 		{
 			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
@@ -56,7 +56,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F74 RID: 24436 RVA: 0x0030A9C8 File Offset: 0x00308DC8
+		// Token: 0x06005F74 RID: 24436 RVA: 0x0030AC0C File Offset: 0x0030900C
 		public static void StorePlanetNoise(ModuleBase noise, string name)
 		{
 			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
@@ -66,7 +66,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F75 RID: 24437 RVA: 0x0030AA04 File Offset: 0x00308E04
+		// Token: 0x06005F75 RID: 24437 RVA: 0x0030AC48 File Offset: 0x00309048
 		public static void NoiseDebugOnGUI()
 		{
 			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
@@ -145,7 +145,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F76 RID: 24438 RVA: 0x0030AD7C File Offset: 0x0030917C
+		// Token: 0x06005F76 RID: 24438 RVA: 0x0030AFC0 File Offset: 0x003093C0
 		public static void RenderPlanetNoise()
 		{
 			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
@@ -172,7 +172,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F77 RID: 24439 RVA: 0x0030AE58 File Offset: 0x00309258
+		// Token: 0x06005F77 RID: 24439 RVA: 0x0030B09C File Offset: 0x0030949C
 		public static void Clear()
 		{
 			for (int i = 0; i < NoiseDebugUI.noises2D.Count; i++)
@@ -183,7 +183,7 @@ namespace Verse.Noise
 			NoiseDebugUI.ClearPlanetNoises();
 		}
 
-		// Token: 0x06005F78 RID: 24440 RVA: 0x0030AEA8 File Offset: 0x003092A8
+		// Token: 0x06005F78 RID: 24440 RVA: 0x0030B0EC File Offset: 0x003094EC
 		public static void ClearPlanetNoises()
 		{
 			NoiseDebugUI.planetNoises.Clear();
@@ -200,7 +200,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F79 RID: 24441 RVA: 0x0030AF08 File Offset: 0x00309308
+		// Token: 0x06005F79 RID: 24441 RVA: 0x0030B14C File Offset: 0x0030954C
 		private static void UpdatePlanetNoiseVertexColors()
 		{
 			NoiseDebugUI.planetNoiseMeshColors.Clear();
@@ -213,19 +213,19 @@ namespace Verse.Noise
 			NoiseDebugUI.planetNoiseMesh.SetColors(NoiseDebugUI.planetNoiseMeshColors);
 		}
 
-		// Token: 0x02000F71 RID: 3953
+		// Token: 0x02000F72 RID: 3954
 		private class Noise2D
 		{
-			// Token: 0x04003EC7 RID: 16071
+			// Token: 0x04003ECF RID: 16079
 			private Texture2D tex;
 
-			// Token: 0x04003EC8 RID: 16072
+			// Token: 0x04003ED0 RID: 16080
 			public string name;
 
-			// Token: 0x04003EC9 RID: 16073
+			// Token: 0x04003ED1 RID: 16081
 			private ModuleBase noise;
 
-			// Token: 0x06005F7B RID: 24443 RVA: 0x0030AFC2 File Offset: 0x003093C2
+			// Token: 0x06005F7B RID: 24443 RVA: 0x0030B206 File Offset: 0x00309606
 			public Noise2D(ModuleBase noise, string name)
 			{
 				this.noise = noise;
@@ -233,7 +233,7 @@ namespace Verse.Noise
 			}
 
 			// Token: 0x17000F49 RID: 3913
-			// (get) Token: 0x06005F7C RID: 24444 RVA: 0x0030AFDC File Offset: 0x003093DC
+			// (get) Token: 0x06005F7C RID: 24444 RVA: 0x0030B220 File Offset: 0x00309620
 			public Texture2D Texture
 			{
 				get
@@ -247,16 +247,16 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x02000F72 RID: 3954
+		// Token: 0x02000F73 RID: 3955
 		private class NoisePlanet
 		{
-			// Token: 0x04003ECA RID: 16074
+			// Token: 0x04003ED2 RID: 16082
 			public string name;
 
-			// Token: 0x04003ECB RID: 16075
+			// Token: 0x04003ED3 RID: 16083
 			public ModuleBase noise;
 
-			// Token: 0x06005F7D RID: 24445 RVA: 0x0030B019 File Offset: 0x00309419
+			// Token: 0x06005F7D RID: 24445 RVA: 0x0030B25D File Offset: 0x0030965D
 			public NoisePlanet(ModuleBase noise, string name)
 			{
 				this.name = name;

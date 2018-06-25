@@ -13,31 +13,31 @@ namespace RimWorld
 	// Token: 0x02000815 RID: 2069
 	public static class CharacterCardUtility
 	{
-		// Token: 0x04001886 RID: 6278
+		// Token: 0x0400188A RID: 6282
 		public const int MainRectsY = 100;
 
-		// Token: 0x04001887 RID: 6279
+		// Token: 0x0400188B RID: 6283
 		private const float MainRectsHeight = 450f;
 
-		// Token: 0x04001888 RID: 6280
+		// Token: 0x0400188C RID: 6284
 		private const int ConfigRectTitlesHeight = 40;
 
-		// Token: 0x04001889 RID: 6281
+		// Token: 0x0400188D RID: 6285
 		public static Vector2 PawnCardSize = new Vector2(570f, 470f);
 
-		// Token: 0x0400188A RID: 6282
+		// Token: 0x0400188E RID: 6286
 		private const int MaxNameLength = 12;
 
-		// Token: 0x0400188B RID: 6283
+		// Token: 0x0400188F RID: 6287
 		public const int MaxNickLength = 16;
 
-		// Token: 0x0400188C RID: 6284
+		// Token: 0x04001890 RID: 6288
 		public const int MaxTitleLength = 25;
 
-		// Token: 0x0400188D RID: 6285
+		// Token: 0x04001891 RID: 6289
 		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 
-		// Token: 0x06002E29 RID: 11817 RVA: 0x001851C4 File Offset: 0x001835C4
+		// Token: 0x06002E28 RID: 11816 RVA: 0x00185428 File Offset: 0x00183828
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
 			bool flag = randomizeCallback != null;
@@ -259,7 +259,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E2A RID: 11818 RVA: 0x00185C2C File Offset: 0x0018402C
+		// Token: 0x06002E29 RID: 11817 RVA: 0x00185E90 File Offset: 0x00184290
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);
@@ -269,7 +269,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E2B RID: 11819 RVA: 0x00185C64 File Offset: 0x00184064
+		// Token: 0x06002E2A RID: 11818 RVA: 0x00185EC8 File Offset: 0x001842C8
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
 			foreach (WorkTags workTag in tags.GetAllSelectedItems<WorkTags>())

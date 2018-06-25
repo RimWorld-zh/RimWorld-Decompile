@@ -8,10 +8,10 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Predator : PawnColumnWorker_Icon
 	{
-		// Token: 0x04001AD0 RID: 6864
+		// Token: 0x04001AD4 RID: 6868
 		private static readonly Texture2D Icon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Predator", true);
 
-		// Token: 0x060031E4 RID: 12772 RVA: 0x001AF058 File Offset: 0x001AD458
+		// Token: 0x060031E3 RID: 12771 RVA: 0x001AF2C0 File Offset: 0x001AD6C0
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
 			Texture2D result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060031E5 RID: 12773 RVA: 0x001AF08C File Offset: 0x001AD48C
+		// Token: 0x060031E4 RID: 12772 RVA: 0x001AF2F4 File Offset: 0x001AD6F4
 		protected override string GetIconTip(Pawn pawn)
 		{
 			return "IsPredator".Translate();

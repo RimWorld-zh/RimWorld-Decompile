@@ -7,11 +7,11 @@ namespace RimWorld.Planet
 	// Token: 0x020005C0 RID: 1472
 	public class WorldGenStep_Lakes : WorldGenStep
 	{
-		// Token: 0x040010E8 RID: 4328
+		// Token: 0x040010EC RID: 4332
 		private const int LakeMaxSize = 15;
 
 		// Token: 0x17000420 RID: 1056
-		// (get) Token: 0x06001C42 RID: 7234 RVA: 0x000F2EC4 File Offset: 0x000F12C4
+		// (get) Token: 0x06001C41 RID: 7233 RVA: 0x000F312C File Offset: 0x000F152C
 		public override int SeedPart
 		{
 			get
@@ -20,13 +20,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C43 RID: 7235 RVA: 0x000F2EDE File Offset: 0x000F12DE
+		// Token: 0x06001C42 RID: 7234 RVA: 0x000F3146 File Offset: 0x000F1546
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateLakes();
 		}
 
-		// Token: 0x06001C44 RID: 7236 RVA: 0x000F2EE8 File Offset: 0x000F12E8
+		// Token: 0x06001C43 RID: 7235 RVA: 0x000F3150 File Offset: 0x000F1550
 		private void GenerateLakes()
 		{
 			WorldGrid grid = Find.WorldGrid;

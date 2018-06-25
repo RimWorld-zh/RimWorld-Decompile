@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Tradeable_Pawn : Tradeable
 	{
 		// Token: 0x170006A1 RID: 1697
-		// (get) Token: 0x06002AAD RID: 10925 RVA: 0x00169670 File Offset: 0x00167A70
+		// (get) Token: 0x06002AAC RID: 10924 RVA: 0x001698D4 File Offset: 0x00167CD4
 		public override Window NewInfoDialog
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006A2 RID: 1698
-		// (get) Token: 0x06002AAE RID: 10926 RVA: 0x00169690 File Offset: 0x00167A90
+		// (get) Token: 0x06002AAD RID: 10925 RVA: 0x001698F4 File Offset: 0x00167CF4
 		public override string Label
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006A3 RID: 1699
-		// (get) Token: 0x06002AAF RID: 10927 RVA: 0x0016974C File Offset: 0x00167B4C
+		// (get) Token: 0x06002AAE RID: 10926 RVA: 0x001699B0 File Offset: 0x00167DB0
 		public override string TipDescription
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006A4 RID: 1700
-		// (get) Token: 0x06002AB0 RID: 10928 RVA: 0x001697A4 File Offset: 0x00167BA4
+		// (get) Token: 0x06002AAF RID: 10927 RVA: 0x00169A08 File Offset: 0x00167E08
 		private Pawn AnyPawn
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AB1 RID: 10929 RVA: 0x001697C4 File Offset: 0x00167BC4
+		// Token: 0x06002AB0 RID: 10928 RVA: 0x00169A28 File Offset: 0x00167E28
 		public override void ResolveTrade()
 		{
 			if (base.ActionToDo == TradeAction.PlayerSells)

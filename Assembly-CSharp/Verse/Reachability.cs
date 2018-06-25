@@ -5,46 +5,46 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C82 RID: 3202
+	// Token: 0x02000C83 RID: 3203
 	public class Reachability
 	{
-		// Token: 0x04002FC6 RID: 12230
+		// Token: 0x04002FCD RID: 12237
 		private Map map;
 
-		// Token: 0x04002FC7 RID: 12231
+		// Token: 0x04002FCE RID: 12238
 		private Queue<Region> openQueue = new Queue<Region>();
 
-		// Token: 0x04002FC8 RID: 12232
+		// Token: 0x04002FCF RID: 12239
 		private List<Region> startingRegions = new List<Region>();
 
-		// Token: 0x04002FC9 RID: 12233
+		// Token: 0x04002FD0 RID: 12240
 		private List<Region> destRegions = new List<Region>();
 
-		// Token: 0x04002FCA RID: 12234
+		// Token: 0x04002FD1 RID: 12241
 		private uint reachedIndex = 1u;
 
-		// Token: 0x04002FCB RID: 12235
+		// Token: 0x04002FD2 RID: 12242
 		private int numRegionsOpened;
 
-		// Token: 0x04002FCC RID: 12236
+		// Token: 0x04002FD3 RID: 12243
 		private bool working = false;
 
-		// Token: 0x04002FCD RID: 12237
+		// Token: 0x04002FD4 RID: 12244
 		private ReachabilityCache cache = new ReachabilityCache();
 
-		// Token: 0x04002FCE RID: 12238
+		// Token: 0x04002FD5 RID: 12245
 		private PathGrid pathGrid;
 
-		// Token: 0x04002FCF RID: 12239
+		// Token: 0x04002FD6 RID: 12246
 		private RegionGrid regionGrid;
 
-		// Token: 0x0600461D RID: 17949 RVA: 0x0024ED40 File Offset: 0x0024D140
+		// Token: 0x0600461D RID: 17949 RVA: 0x0024F020 File Offset: 0x0024D420
 		public Reachability(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600461E RID: 17950 RVA: 0x0024ED95 File Offset: 0x0024D195
+		// Token: 0x0600461E RID: 17950 RVA: 0x0024F075 File Offset: 0x0024D475
 		public void ClearCache()
 		{
 			if (this.cache.Count > 0)
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600461F RID: 17951 RVA: 0x0024EDB8 File Offset: 0x0024D1B8
+		// Token: 0x0600461F RID: 17951 RVA: 0x0024F098 File Offset: 0x0024D498
 		private void QueueNewOpenRegion(Region region)
 		{
 			if (region == null)
@@ -72,37 +72,37 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004620 RID: 17952 RVA: 0x0024EE3C File Offset: 0x0024D23C
+		// Token: 0x06004620 RID: 17952 RVA: 0x0024F11C File Offset: 0x0024D51C
 		private uint NewReachedIndex()
 		{
 			return this.reachedIndex++;
 		}
 
-		// Token: 0x06004621 RID: 17953 RVA: 0x0024EE62 File Offset: 0x0024D262
+		// Token: 0x06004621 RID: 17953 RVA: 0x0024F142 File Offset: 0x0024D542
 		private void FinalizeCheck()
 		{
 			this.working = false;
 		}
 
-		// Token: 0x06004622 RID: 17954 RVA: 0x0024EE6C File Offset: 0x0024D26C
+		// Token: 0x06004622 RID: 17954 RVA: 0x0024F14C File Offset: 0x0024D54C
 		public bool CanReachNonLocal(IntVec3 start, TargetInfo dest, PathEndMode peMode, TraverseMode traverseMode, Danger maxDanger)
 		{
 			return (dest.Map == null || dest.Map == this.map) && this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseMode, maxDanger);
 		}
 
-		// Token: 0x06004623 RID: 17955 RVA: 0x0024EEB8 File Offset: 0x0024D2B8
+		// Token: 0x06004623 RID: 17955 RVA: 0x0024F198 File Offset: 0x0024D598
 		public bool CanReachNonLocal(IntVec3 start, TargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
 			return (dest.Map == null || dest.Map == this.map) && this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseParams);
 		}
 
-		// Token: 0x06004624 RID: 17956 RVA: 0x0024EF04 File Offset: 0x0024D304
+		// Token: 0x06004624 RID: 17956 RVA: 0x0024F1E4 File Offset: 0x0024D5E4
 		public bool CanReach(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseMode traverseMode, Danger maxDanger)
 		{
 			return this.CanReach(start, dest, peMode, TraverseParms.For(traverseMode, maxDanger, false));
 		}
 
-		// Token: 0x06004625 RID: 17957 RVA: 0x0024EF2C File Offset: 0x0024D32C
+		// Token: 0x06004625 RID: 17957 RVA: 0x0024F20C File Offset: 0x0024D60C
 		public bool CanReach(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
 			bool result;
@@ -250,7 +250,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004626 RID: 17958 RVA: 0x0024F364 File Offset: 0x0024D764
+		// Token: 0x06004626 RID: 17958 RVA: 0x0024F644 File Offset: 0x0024DA44
 		private void DetermineStartRegions(IntVec3 start)
 		{
 			this.startingRegions.Clear();
@@ -281,7 +281,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004627 RID: 17959 RVA: 0x0024F444 File Offset: 0x0024D844
+		// Token: 0x06004627 RID: 17959 RVA: 0x0024F724 File Offset: 0x0024DB24
 		private BoolUnknown GetCachedResult(TraverseParms traverseParams)
 		{
 			bool flag = false;
@@ -311,7 +311,7 @@ namespace Verse
 			return BoolUnknown.Unknown;
 		}
 
-		// Token: 0x06004628 RID: 17960 RVA: 0x0024F514 File Offset: 0x0024D914
+		// Token: 0x06004628 RID: 17960 RVA: 0x0024F7F4 File Offset: 0x0024DBF4
 		private bool CheckRegionBasedReachability(TraverseParms traverseParams)
 		{
 			while (this.openQueue.Count > 0)
@@ -356,7 +356,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004629 RID: 17961 RVA: 0x0024F6B8 File Offset: 0x0024DAB8
+		// Token: 0x06004629 RID: 17961 RVA: 0x0024F998 File Offset: 0x0024DD98
 		private bool CheckCellBasedReachability(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
 			IntVec3 foundCell = IntVec3.Invalid;
@@ -441,13 +441,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600462A RID: 17962 RVA: 0x0024F884 File Offset: 0x0024DC84
+		// Token: 0x0600462A RID: 17962 RVA: 0x0024FB64 File Offset: 0x0024DF64
 		public bool CanReachColony(IntVec3 c)
 		{
 			return this.CanReachFactionBase(c, Faction.OfPlayer);
 		}
 
-		// Token: 0x0600462B RID: 17963 RVA: 0x0024F8A8 File Offset: 0x0024DCA8
+		// Token: 0x0600462B RID: 17963 RVA: 0x0024FB88 File Offset: 0x0024DF88
 		public bool CanReachFactionBase(IntVec3 c, Faction factionBaseFaction)
 		{
 			bool result;
@@ -498,7 +498,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600462C RID: 17964 RVA: 0x0024FA4C File Offset: 0x0024DE4C
+		// Token: 0x0600462C RID: 17964 RVA: 0x0024FD2C File Offset: 0x0024E12C
 		public bool CanReachBiggestMapEdgeRoom(IntVec3 c)
 		{
 			Room room = null;
@@ -516,7 +516,7 @@ namespace Verse
 			return room != null && this.CanReach(c, room.Regions[0].AnyCell, PathEndMode.OnCell, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false));
 		}
 
-		// Token: 0x0600462D RID: 17965 RVA: 0x0024FB00 File Offset: 0x0024DF00
+		// Token: 0x0600462D RID: 17965 RVA: 0x0024FDE0 File Offset: 0x0024E1E0
 		public bool CanReachMapEdge(IntVec3 c, TraverseParms traverseParms)
 		{
 			if (traverseParms.pawn != null)
@@ -573,7 +573,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600462E RID: 17966 RVA: 0x0024FC30 File Offset: 0x0024E030
+		// Token: 0x0600462E RID: 17966 RVA: 0x0024FF10 File Offset: 0x0024E310
 		public bool CanReachUnfogged(IntVec3 c, TraverseParms traverseParms)
 		{
 			if (traverseParms.pawn != null)
@@ -637,7 +637,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600462F RID: 17967 RVA: 0x0024FD80 File Offset: 0x0024E180
+		// Token: 0x0600462F RID: 17967 RVA: 0x00250060 File Offset: 0x0024E460
 		private bool CanUseCache(TraverseMode mode)
 		{
 			return mode != TraverseMode.PassAllDestroyableThingsNotWater && mode != TraverseMode.NoPassClosedDoorsOrWater;

@@ -6,31 +6,31 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000C40 RID: 3136
+	// Token: 0x02000C41 RID: 3137
 	public class Section
 	{
-		// Token: 0x04002F42 RID: 12098
+		// Token: 0x04002F49 RID: 12105
 		public IntVec3 botLeft;
 
-		// Token: 0x04002F43 RID: 12099
+		// Token: 0x04002F4A RID: 12106
 		public Map map;
 
-		// Token: 0x04002F44 RID: 12100
+		// Token: 0x04002F4B RID: 12107
 		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
 
-		// Token: 0x04002F45 RID: 12101
+		// Token: 0x04002F4C RID: 12108
 		private List<SectionLayer> layers = new List<SectionLayer>();
 
-		// Token: 0x04002F46 RID: 12102
+		// Token: 0x04002F4D RID: 12109
 		private bool foundRect = false;
 
-		// Token: 0x04002F47 RID: 12103
+		// Token: 0x04002F4E RID: 12110
 		private CellRect calculatedRect;
 
-		// Token: 0x04002F48 RID: 12104
+		// Token: 0x04002F4F RID: 12111
 		public const int Size = 17;
 
-		// Token: 0x06004521 RID: 17697 RVA: 0x002464E8 File Offset: 0x002448E8
+		// Token: 0x06004521 RID: 17697 RVA: 0x002467C8 File Offset: 0x00244BC8
 		public Section(IntVec3 sectCoords, Map map)
 		{
 			this.botLeft = sectCoords * 17;
@@ -45,7 +45,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AE7 RID: 2791
-		// (get) Token: 0x06004522 RID: 17698 RVA: 0x0024659C File Offset: 0x0024499C
+		// (get) Token: 0x06004522 RID: 17698 RVA: 0x0024687C File Offset: 0x00244C7C
 		public CellRect CellRect
 		{
 			get
@@ -60,7 +60,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004523 RID: 17699 RVA: 0x00246604 File Offset: 0x00244A04
+		// Token: 0x06004523 RID: 17699 RVA: 0x002468E4 File Offset: 0x00244CE4
 		public void DrawSection(bool drawSunShadowsOnly)
 		{
 			int count = this.layers.Count;
@@ -78,7 +78,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004524 RID: 17700 RVA: 0x002466DC File Offset: 0x00244ADC
+		// Token: 0x06004524 RID: 17700 RVA: 0x002469BC File Offset: 0x00244DBC
 		public void RegenerateAllLayers()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -103,7 +103,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004525 RID: 17701 RVA: 0x0024678C File Offset: 0x00244B8C
+		// Token: 0x06004525 RID: 17701 RVA: 0x00246A6C File Offset: 0x00244E6C
 		public void RegenerateLayers(MapMeshFlag changeType)
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004526 RID: 17702 RVA: 0x00246868 File Offset: 0x00244C68
+		// Token: 0x06004526 RID: 17702 RVA: 0x00246B48 File Offset: 0x00244F48
 		public SectionLayer GetLayer(Type type)
 		{
 			return (from sect in this.layers

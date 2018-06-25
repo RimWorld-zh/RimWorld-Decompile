@@ -6,10 +6,10 @@ namespace RimWorld
 	// Token: 0x02000813 RID: 2067
 	public class Dialog_ScenarioList_Save : Dialog_ScenarioList
 	{
-		// Token: 0x04001884 RID: 6276
+		// Token: 0x04001888 RID: 6280
 		private Scenario savingScen;
 
-		// Token: 0x06002E24 RID: 11812 RVA: 0x00185050 File Offset: 0x00183450
+		// Token: 0x06002E23 RID: 11811 RVA: 0x001852B4 File Offset: 0x001836B4
 		public Dialog_ScenarioList_Save(Scenario scen)
 		{
 			this.interactButLabel = "OverwriteButton".Translate();
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000759 RID: 1881
-		// (get) Token: 0x06002E25 RID: 11813 RVA: 0x0018507C File Offset: 0x0018347C
+		// (get) Token: 0x06002E24 RID: 11812 RVA: 0x001852E0 File Offset: 0x001836E0
 		protected override bool ShouldDoTypeInField
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E26 RID: 11814 RVA: 0x00185094 File Offset: 0x00183494
+		// Token: 0x06002E25 RID: 11813 RVA: 0x001852F8 File Offset: 0x001836F8
 		protected override void DoFileInteraction(string fileName)
 		{
 			string absPath = GenFilePaths.AbsPathForScenario(fileName);

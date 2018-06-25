@@ -6,19 +6,19 @@ namespace RimWorld
 	// Token: 0x0200035C RID: 860
 	public class StatsRecord : IExposable
 	{
-		// Token: 0x04000925 RID: 2341
+		// Token: 0x04000928 RID: 2344
 		public int numRaidsEnemy = 0;
 
-		// Token: 0x04000926 RID: 2342
+		// Token: 0x04000929 RID: 2345
 		public int numThreatBigs = 0;
 
-		// Token: 0x04000927 RID: 2343
+		// Token: 0x0400092A RID: 2346
 		public int colonistsKilled = 0;
 
-		// Token: 0x04000928 RID: 2344
+		// Token: 0x0400092B RID: 2347
 		public int colonistsLaunched = 0;
 
-		// Token: 0x06000EEB RID: 3819 RVA: 0x0007DE68 File Offset: 0x0007C268
+		// Token: 0x06000EEA RID: 3818 RVA: 0x0007DE78 File Offset: 0x0007C278
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.numRaidsEnemy, "numRaidsEnemy", 0, false);

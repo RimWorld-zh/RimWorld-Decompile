@@ -2,22 +2,22 @@
 
 namespace Verse
 {
-	// Token: 0x02000E92 RID: 3730
+	// Token: 0x02000E93 RID: 3731
 	public struct TipSignal
 	{
-		// Token: 0x04003A38 RID: 14904
+		// Token: 0x04003A40 RID: 14912
 		public string text;
 
-		// Token: 0x04003A39 RID: 14905
+		// Token: 0x04003A41 RID: 14913
 		public Func<string> textGetter;
 
-		// Token: 0x04003A3A RID: 14906
+		// Token: 0x04003A42 RID: 14914
 		public int uniqueId;
 
-		// Token: 0x04003A3B RID: 14907
+		// Token: 0x04003A43 RID: 14915
 		public TooltipPriority priority;
 
-		// Token: 0x0600580B RID: 22539 RVA: 0x002D29A5 File Offset: 0x002D0DA5
+		// Token: 0x0600580B RID: 22539 RVA: 0x002D2B91 File Offset: 0x002D0F91
 		public TipSignal(string text, int uniqueId)
 		{
 			this.text = text;
@@ -26,7 +26,7 @@ namespace Verse
 			this.priority = TooltipPriority.Default;
 		}
 
-		// Token: 0x0600580C RID: 22540 RVA: 0x002D29C4 File Offset: 0x002D0DC4
+		// Token: 0x0600580C RID: 22540 RVA: 0x002D2BB0 File Offset: 0x002D0FB0
 		public TipSignal(string text, int uniqueId, TooltipPriority priority)
 		{
 			this.text = text;
@@ -35,7 +35,7 @@ namespace Verse
 			this.priority = priority;
 		}
 
-		// Token: 0x0600580D RID: 22541 RVA: 0x002D29E3 File Offset: 0x002D0DE3
+		// Token: 0x0600580D RID: 22541 RVA: 0x002D2BCF File Offset: 0x002D0FCF
 		public TipSignal(string text)
 		{
 			if (text == null)
@@ -48,7 +48,7 @@ namespace Verse
 			this.priority = TooltipPriority.Default;
 		}
 
-		// Token: 0x0600580E RID: 22542 RVA: 0x002D2A14 File Offset: 0x002D0E14
+		// Token: 0x0600580E RID: 22542 RVA: 0x002D2C00 File Offset: 0x002D1000
 		public TipSignal(Func<string> textGetter, int uniqueId)
 		{
 			this.text = "";
@@ -57,7 +57,7 @@ namespace Verse
 			this.priority = TooltipPriority.Default;
 		}
 
-		// Token: 0x0600580F RID: 22543 RVA: 0x002D2A37 File Offset: 0x002D0E37
+		// Token: 0x0600580F RID: 22543 RVA: 0x002D2C23 File Offset: 0x002D1023
 		public TipSignal(TipSignal cloneSource)
 		{
 			this.text = cloneSource.text;
@@ -66,13 +66,13 @@ namespace Verse
 			this.uniqueId = cloneSource.uniqueId;
 		}
 
-		// Token: 0x06005810 RID: 22544 RVA: 0x002D2A68 File Offset: 0x002D0E68
+		// Token: 0x06005810 RID: 22544 RVA: 0x002D2C54 File Offset: 0x002D1054
 		public static implicit operator TipSignal(string str)
 		{
 			return new TipSignal(str);
 		}
 
-		// Token: 0x06005811 RID: 22545 RVA: 0x002D2A84 File Offset: 0x002D0E84
+		// Token: 0x06005811 RID: 22545 RVA: 0x002D2C70 File Offset: 0x002D1070
 		public override string ToString()
 		{
 			return string.Concat(new object[]

@@ -7,13 +7,13 @@ namespace RimWorld
 	[DefOf]
 	public static class ReservationLayerDefOf
 	{
-		// Token: 0x040022A6 RID: 8870
+		// Token: 0x040022AD RID: 8877
 		public static ReservationLayerDef Floor;
 
-		// Token: 0x040022A7 RID: 8871
+		// Token: 0x040022AE RID: 8878
 		public static ReservationLayerDef Ceiling;
 
-		// Token: 0x06003664 RID: 13924 RVA: 0x001D0EBD File Offset: 0x001CF2BD
+		// Token: 0x06003664 RID: 13924 RVA: 0x001D1191 File Offset: 0x001CF591
 		static ReservationLayerDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ReservationLayerDefOf));

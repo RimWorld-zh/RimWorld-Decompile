@@ -3,28 +3,28 @@ using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE6 RID: 3046
+	// Token: 0x02000BE7 RID: 3047
 	public class RulePack
 	{
-		// Token: 0x04002D79 RID: 11641
+		// Token: 0x04002D80 RID: 11648
 		[MustTranslate]
 		[TranslationCanChangeCount]
 		private List<string> rulesStrings = new List<string>();
 
-		// Token: 0x04002D7A RID: 11642
+		// Token: 0x04002D81 RID: 11649
 		[MayTranslate]
 		[TranslationCanChangeCount]
 		private List<string> rulesFiles = new List<string>();
 
-		// Token: 0x04002D7B RID: 11643
+		// Token: 0x04002D82 RID: 11650
 		private List<Rule> rulesRaw = null;
 
-		// Token: 0x04002D7C RID: 11644
+		// Token: 0x04002D83 RID: 11651
 		[Unsaved]
 		private List<Rule> rulesResolved = null;
 
 		// Token: 0x17000A75 RID: 2677
-		// (get) Token: 0x06004282 RID: 17026 RVA: 0x00230B84 File Offset: 0x0022EF84
+		// (get) Token: 0x06004282 RID: 17026 RVA: 0x00230E64 File Offset: 0x0022F264
 		public List<Rule> Rules
 		{
 			get

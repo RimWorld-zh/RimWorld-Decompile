@@ -9,22 +9,22 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnWoundDrawer
 	{
-		// Token: 0x04000BE9 RID: 3049
+		// Token: 0x04000BEC RID: 3052
 		protected Pawn pawn;
 
-		// Token: 0x04000BEA RID: 3050
+		// Token: 0x04000BED RID: 3053
 		private List<PawnWoundDrawer.Wound> wounds = new List<PawnWoundDrawer.Wound>();
 
-		// Token: 0x04000BEB RID: 3051
+		// Token: 0x04000BEE RID: 3054
 		private int MaxDisplayWounds = 3;
 
-		// Token: 0x0600139F RID: 5023 RVA: 0x000A9702 File Offset: 0x000A7B02
+		// Token: 0x0600139E RID: 5022 RVA: 0x000A9902 File Offset: 0x000A7D02
 		public PawnWoundDrawer(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060013A0 RID: 5024 RVA: 0x000A9724 File Offset: 0x000A7B24
+		// Token: 0x0600139F RID: 5023 RVA: 0x000A9924 File Offset: 0x000A7D24
 		public void RenderOverBody(Vector3 drawLoc, Mesh bodyMesh, Quaternion quat, bool forPortrait)
 		{
 			int num = 0;
@@ -64,19 +64,19 @@ namespace RimWorld
 		// Token: 0x02000460 RID: 1120
 		private class Wound
 		{
-			// Token: 0x04000BEC RID: 3052
+			// Token: 0x04000BEF RID: 3055
 			private List<Vector2> locsPerSide = new List<Vector2>();
 
-			// Token: 0x04000BED RID: 3053
+			// Token: 0x04000BF0 RID: 3056
 			private Material mat;
 
-			// Token: 0x04000BEE RID: 3054
+			// Token: 0x04000BF1 RID: 3057
 			private Quaternion quat;
 
-			// Token: 0x04000BEF RID: 3055
+			// Token: 0x04000BF2 RID: 3058
 			private static readonly Vector2 WoundSpan = new Vector2(0.18f, 0.3f);
 
-			// Token: 0x060013A1 RID: 5025 RVA: 0x000A987C File Offset: 0x000A7C7C
+			// Token: 0x060013A0 RID: 5024 RVA: 0x000A9A7C File Offset: 0x000A7E7C
 			public Wound(Pawn pawn)
 			{
 				this.mat = pawn.RaceProps.FleshType.ChooseWoundOverlay();
@@ -92,7 +92,7 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x060013A2 RID: 5026 RVA: 0x000A9940 File Offset: 0x000A7D40
+			// Token: 0x060013A1 RID: 5025 RVA: 0x000A9B40 File Offset: 0x000A7F40
 			public void DrawWound(Vector3 drawLoc, Quaternion bodyQuat, Rot4 bodyRot, bool forPortrait)
 			{
 				Vector2 vector = this.locsPerSide[bodyRot.AsInt];

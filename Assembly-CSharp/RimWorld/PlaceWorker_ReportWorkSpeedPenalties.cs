@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C67 RID: 3175
+	// Token: 0x02000C68 RID: 3176
 	public class PlaceWorker_ReportWorkSpeedPenalties : PlaceWorker
 	{
-		// Token: 0x060045D0 RID: 17872 RVA: 0x0024D938 File Offset: 0x0024BD38
+		// Token: 0x060045D0 RID: 17872 RVA: 0x0024DC18 File Offset: 0x0024C018
 		public override void PostPlace(Map map, BuildableDef def, IntVec3 loc, Rot4 rot)
 		{
 			ThingDef thingDef = def as ThingDef;

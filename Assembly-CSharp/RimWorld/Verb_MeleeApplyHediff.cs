@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009D5 RID: 2517
 	public class Verb_MeleeApplyHediff : Verb_MeleeAttack
 	{
-		// Token: 0x06003869 RID: 14441 RVA: 0x001E267C File Offset: 0x001E0A7C
+		// Token: 0x06003869 RID: 14441 RVA: 0x001E2950 File Offset: 0x001E0D50
 		protected override DamageWorker.DamageResult ApplyMeleeDamageToTarget(LocalTargetInfo target)
 		{
 			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600386A RID: 14442 RVA: 0x001E2788 File Offset: 0x001E0B88
+		// Token: 0x0600386A RID: 14442 RVA: 0x001E2A5C File Offset: 0x001E0E5C
 		public override bool IsUsableOn(Thing target)
 		{
 			return target is Pawn;

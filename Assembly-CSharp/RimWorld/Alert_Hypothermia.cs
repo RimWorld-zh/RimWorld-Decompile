@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x0200078C RID: 1932
 	public class Alert_Hypothermia : Alert_Critical
 	{
-		// Token: 0x06002ADF RID: 10975 RVA: 0x0016A505 File Offset: 0x00168905
+		// Token: 0x06002ADE RID: 10974 RVA: 0x0016A769 File Offset: 0x00168B69
 		public Alert_Hypothermia()
 		{
 			this.defaultLabel = "AlertHypothermia".Translate();
 		}
 
 		// Token: 0x170006AC RID: 1708
-		// (get) Token: 0x06002AE0 RID: 10976 RVA: 0x0016A520 File Offset: 0x00168920
+		// (get) Token: 0x06002ADF RID: 10975 RVA: 0x0016A784 File Offset: 0x00168B84
 		private IEnumerable<Pawn> HypothermiaDangerColonists
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AE1 RID: 10977 RVA: 0x0016A544 File Offset: 0x00168944
+		// Token: 0x06002AE0 RID: 10976 RVA: 0x0016A7A8 File Offset: 0x00168BA8
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -49,7 +49,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002AE2 RID: 10978 RVA: 0x0016A5D8 File Offset: 0x001689D8
+		// Token: 0x06002AE1 RID: 10977 RVA: 0x0016A83C File Offset: 0x00168C3C
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.HypothermiaDangerColonists);

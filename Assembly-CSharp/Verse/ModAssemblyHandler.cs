@@ -6,25 +6,25 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000CC1 RID: 3265
+	// Token: 0x02000CC2 RID: 3266
 	public class ModAssemblyHandler
 	{
-		// Token: 0x040030CB RID: 12491
+		// Token: 0x040030D2 RID: 12498
 		private ModContentPack mod;
 
-		// Token: 0x040030CC RID: 12492
+		// Token: 0x040030D3 RID: 12499
 		public List<Assembly> loadedAssemblies = new List<Assembly>();
 
-		// Token: 0x040030CD RID: 12493
+		// Token: 0x040030D4 RID: 12500
 		private static bool globalResolverIsSet = false;
 
-		// Token: 0x0600480F RID: 18447 RVA: 0x0025ED55 File Offset: 0x0025D155
+		// Token: 0x0600480F RID: 18447 RVA: 0x0025F035 File Offset: 0x0025D435
 		public ModAssemblyHandler(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
-		// Token: 0x06004810 RID: 18448 RVA: 0x0025ED70 File Offset: 0x0025D170
+		// Token: 0x06004810 RID: 18448 RVA: 0x0025F050 File Offset: 0x0025D450
 		public void ReloadAll()
 		{
 			if (!ModAssemblyHandler.globalResolverIsSet)
@@ -76,7 +76,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004811 RID: 18449 RVA: 0x0025EF40 File Offset: 0x0025D340
+		// Token: 0x06004811 RID: 18449 RVA: 0x0025F220 File Offset: 0x0025D620
 		private bool AssemblyIsUsable(Assembly asm)
 		{
 			try

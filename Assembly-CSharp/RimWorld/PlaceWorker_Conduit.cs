@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C6C RID: 3180
+	// Token: 0x02000C6D RID: 3181
 	public class PlaceWorker_Conduit : PlaceWorker
 	{
-		// Token: 0x060045DB RID: 17883 RVA: 0x0024DC68 File Offset: 0x0024C068
+		// Token: 0x060045DB RID: 17883 RVA: 0x0024DF48 File Offset: 0x0024C348
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			List<Thing> thingList = loc.GetThingList(map);

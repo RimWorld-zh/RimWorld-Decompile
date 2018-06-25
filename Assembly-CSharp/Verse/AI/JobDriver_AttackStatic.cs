@@ -4,16 +4,16 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3B RID: 2619
+	// Token: 0x02000A3C RID: 2620
 	public class JobDriver_AttackStatic : JobDriver
 	{
-		// Token: 0x04002500 RID: 9472
+		// Token: 0x04002510 RID: 9488
 		private bool startedIncapacitated;
 
-		// Token: 0x04002501 RID: 9473
+		// Token: 0x04002511 RID: 9489
 		private int numAttacksMade;
 
-		// Token: 0x06003A1D RID: 14877 RVA: 0x001EBD25 File Offset: 0x001EA125
+		// Token: 0x06003A1E RID: 14878 RVA: 0x001EC051 File Offset: 0x001EA451
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -21,13 +21,13 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numAttacksMade, "numAttacksMade", 0, false);
 		}
 
-		// Token: 0x06003A1E RID: 14878 RVA: 0x001EBD54 File Offset: 0x001EA154
+		// Token: 0x06003A1F RID: 14879 RVA: 0x001EC080 File Offset: 0x001EA480
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A1F RID: 14879 RVA: 0x001EBD6C File Offset: 0x001EA16C
+		// Token: 0x06003A20 RID: 14880 RVA: 0x001EC098 File Offset: 0x001EA498
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);

@@ -9,22 +9,22 @@ namespace RimWorld.Planet
 	// Token: 0x02000596 RID: 1430
 	public abstract class WorldLayer_SingleTile : WorldLayer
 	{
-		// Token: 0x04001016 RID: 4118
+		// Token: 0x0400101A RID: 4122
 		private int lastDrawnTile = -1;
 
-		// Token: 0x04001017 RID: 4119
+		// Token: 0x0400101B RID: 4123
 		private List<Vector3> verts = new List<Vector3>();
 
 		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06001B45 RID: 6981
+		// (get) Token: 0x06001B44 RID: 6980
 		protected abstract int Tile { get; }
 
 		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06001B46 RID: 6982
+		// (get) Token: 0x06001B45 RID: 6981
 		protected abstract Material Material { get; }
 
 		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06001B47 RID: 6983 RVA: 0x000E8E3C File Offset: 0x000E723C
+		// (get) Token: 0x06001B46 RID: 6982 RVA: 0x000E90A4 File Offset: 0x000E74A4
 		public override bool ShouldRegenerate
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B48 RID: 6984 RVA: 0x000E8E70 File Offset: 0x000E7270
+		// Token: 0x06001B47 RID: 6983 RVA: 0x000E90D8 File Offset: 0x000E74D8
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007C6 RID: 1990
 	public class Designator_AreaSnowClearExpand : Designator_AreaSnowClear
 	{
-		// Token: 0x06002C0F RID: 11279 RVA: 0x00174C94 File Offset: 0x00173094
+		// Token: 0x06002C0E RID: 11278 RVA: 0x00174EF8 File Offset: 0x001732F8
 		public Designator_AreaSnowClearExpand() : base(DesignateMode.Add)
 		{
 			this.defaultLabel = "DesignatorAreaSnowClearExpand".Translate();

@@ -5,13 +5,13 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A5A RID: 2650
+	// Token: 0x02000A5B RID: 2651
 	public class MentalBreakWorker
 	{
-		// Token: 0x04002546 RID: 9542
+		// Token: 0x04002556 RID: 9558
 		public MentalBreakDef def;
 
-		// Token: 0x06003AFA RID: 15098 RVA: 0x001F4D48 File Offset: 0x001F3148
+		// Token: 0x06003AFB RID: 15099 RVA: 0x001F5074 File Offset: 0x001F3474
 		public virtual float CommonalityFor(Pawn pawn)
 		{
 			float num = this.def.baseCommonality;
@@ -22,7 +22,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003AFB RID: 15099 RVA: 0x001F4DA8 File Offset: 0x001F31A8
+		// Token: 0x06003AFC RID: 15100 RVA: 0x001F50D4 File Offset: 0x001F34D4
 		public virtual bool BreakCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -53,7 +53,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AFC RID: 15100 RVA: 0x001F4F28 File Offset: 0x001F3328
+		// Token: 0x06003AFD RID: 15101 RVA: 0x001F5254 File Offset: 0x001F3654
 		public virtual bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
 			string text = (reason == null) ? null : reason.LabelCap;
@@ -63,7 +63,7 @@ namespace Verse.AI
 			return mentalStateHandler.TryStartMentalState(mentalState, reason2, false, causedByMood, null, false);
 		}
 
-		// Token: 0x06003AFD RID: 15101 RVA: 0x001F4F78 File Offset: 0x001F3378
+		// Token: 0x06003AFE RID: 15102 RVA: 0x001F52A4 File Offset: 0x001F36A4
 		protected bool TrySendLetter(Pawn pawn, string textKey, Thought reason)
 		{
 			bool result;

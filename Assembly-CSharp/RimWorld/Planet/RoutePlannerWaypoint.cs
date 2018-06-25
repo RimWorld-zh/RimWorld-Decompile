@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public class RoutePlannerWaypoint : WorldObject
 	{
 		// Token: 0x17000485 RID: 1157
-		// (get) Token: 0x06001EC1 RID: 7873 RVA: 0x0010C760 File Offset: 0x0010AB60
+		// (get) Token: 0x06001EC0 RID: 7872 RVA: 0x0010C9C8 File Offset: 0x0010ADC8
 		public override string Label
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EC2 RID: 7874 RVA: 0x0010C7C4 File Offset: 0x0010ABC4
+		// Token: 0x06001EC1 RID: 7873 RVA: 0x0010CA2C File Offset: 0x0010AE2C
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001EC3 RID: 7875 RVA: 0x0010C8A0 File Offset: 0x0010ACA0
+		// Token: 0x06001EC2 RID: 7874 RVA: 0x0010CB08 File Offset: 0x0010AF08
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())

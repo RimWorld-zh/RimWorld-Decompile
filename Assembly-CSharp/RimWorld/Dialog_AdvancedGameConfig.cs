@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x020007F5 RID: 2037
 	public class Dialog_AdvancedGameConfig : Window
 	{
-		// Token: 0x040017BD RID: 6077
+		// Token: 0x040017C1 RID: 6081
 		private int selTile = -1;
 
-		// Token: 0x040017BE RID: 6078
+		// Token: 0x040017C2 RID: 6082
 		private const float ColumnWidth = 200f;
 
-		// Token: 0x040017BF RID: 6079
+		// Token: 0x040017C3 RID: 6083
 		private static readonly int[] MapSizes = new int[]
 		{
 			200,
@@ -26,14 +26,14 @@ namespace RimWorld
 			325
 		};
 
-		// Token: 0x040017C0 RID: 6080
+		// Token: 0x040017C4 RID: 6084
 		private static readonly int[] TestMapSizes = new int[]
 		{
 			350,
 			400
 		};
 
-		// Token: 0x06002D2F RID: 11567 RVA: 0x0017B99A File Offset: 0x00179D9A
+		// Token: 0x06002D2E RID: 11566 RVA: 0x0017BBFE File Offset: 0x00179FFE
 		public Dialog_AdvancedGameConfig(int selTile)
 		{
 			this.doCloseButton = true;
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000727 RID: 1831
-		// (get) Token: 0x06002D30 RID: 11568 RVA: 0x0017B9C8 File Offset: 0x00179DC8
+		// (get) Token: 0x06002D2F RID: 11567 RVA: 0x0017BC2C File Offset: 0x0017A02C
 		public override Vector2 InitialSize
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D31 RID: 11569 RVA: 0x0017B9EC File Offset: 0x00179DEC
+		// Token: 0x06002D30 RID: 11568 RVA: 0x0017BC50 File Offset: 0x0017A050
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();

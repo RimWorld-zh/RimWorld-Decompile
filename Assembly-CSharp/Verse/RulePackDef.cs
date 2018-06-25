@@ -4,21 +4,21 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000B70 RID: 2928
+	// Token: 0x02000B71 RID: 2929
 	public class RulePackDef : Def
 	{
-		// Token: 0x04002AD2 RID: 10962
+		// Token: 0x04002AD9 RID: 10969
 		public List<RulePackDef> include = null;
 
-		// Token: 0x04002AD3 RID: 10963
+		// Token: 0x04002ADA RID: 10970
 		private RulePack rulePack = null;
 
-		// Token: 0x04002AD4 RID: 10964
+		// Token: 0x04002ADB RID: 10971
 		[Unsaved]
 		private List<Rule> cachedRules = null;
 
 		// Token: 0x170009BD RID: 2493
-		// (get) Token: 0x06003FEF RID: 16367 RVA: 0x0021B0C4 File Offset: 0x002194C4
+		// (get) Token: 0x06003FEF RID: 16367 RVA: 0x0021B3A4 File Offset: 0x002197A4
 		public List<Rule> RulesPlusIncludes
 		{
 			get
@@ -43,7 +43,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009BE RID: 2494
-		// (get) Token: 0x06003FF0 RID: 16368 RVA: 0x0021B160 File Offset: 0x00219560
+		// (get) Token: 0x06003FF0 RID: 16368 RVA: 0x0021B440 File Offset: 0x00219840
 		public List<Rule> RulesImmediate
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FF1 RID: 16369 RVA: 0x0021B194 File Offset: 0x00219594
+		// Token: 0x06003FF1 RID: 16369 RVA: 0x0021B474 File Offset: 0x00219874
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -72,7 +72,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B1C0 File Offset: 0x002195C0
+		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B4A0 File Offset: 0x002198A0
 		public static RulePackDef Named(string defName)
 		{
 			return DefDatabase<RulePackDef>.GetNamed(defName, true);

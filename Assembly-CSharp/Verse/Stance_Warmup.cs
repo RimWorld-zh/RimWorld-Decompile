@@ -4,21 +4,21 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000D60 RID: 3424
+	// Token: 0x02000D61 RID: 3425
 	public class Stance_Warmup : Stance_Busy
 	{
-		// Token: 0x04003330 RID: 13104
+		// Token: 0x04003337 RID: 13111
 		private Sustainer sustainer;
 
-		// Token: 0x04003331 RID: 13105
+		// Token: 0x04003338 RID: 13112
 		private bool targetStartedDowned;
 
-		// Token: 0x06004CC6 RID: 19654 RVA: 0x00280199 File Offset: 0x0027E599
+		// Token: 0x06004CC6 RID: 19654 RVA: 0x00280479 File Offset: 0x0027E879
 		public Stance_Warmup()
 		{
 		}
 
-		// Token: 0x06004CC7 RID: 19655 RVA: 0x002801A4 File Offset: 0x0027E5A4
+		// Token: 0x06004CC7 RID: 19655 RVA: 0x00280484 File Offset: 0x0027E884
 		public Stance_Warmup(int ticks, LocalTargetInfo focusTarg, Verb verb) : base(ticks, focusTarg, verb)
 		{
 			if (focusTarg.HasThing && focusTarg.Thing is Pawn)
@@ -49,14 +49,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CC8 RID: 19656 RVA: 0x002802AF File Offset: 0x0027E6AF
+		// Token: 0x06004CC8 RID: 19656 RVA: 0x0028058F File Offset: 0x0027E98F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.targetStartedDowned, "targetStartDowned", false, false);
 		}
 
-		// Token: 0x06004CC9 RID: 19657 RVA: 0x002802CC File Offset: 0x0027E6CC
+		// Token: 0x06004CC9 RID: 19657 RVA: 0x002805AC File Offset: 0x0027E9AC
 		public override void StanceDraw()
 		{
 			if (Find.Selector.IsSelected(this.stanceTracker.pawn))
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CCA RID: 19658 RVA: 0x00280320 File Offset: 0x0027E720
+		// Token: 0x06004CCA RID: 19658 RVA: 0x00280600 File Offset: 0x0027EA00
 		public override void StanceTick()
 		{
 			if (this.sustainer != null && !this.sustainer.Ended)
@@ -95,7 +95,7 @@ namespace Verse
 			base.StanceTick();
 		}
 
-		// Token: 0x06004CCB RID: 19659 RVA: 0x0028044F File Offset: 0x0027E84F
+		// Token: 0x06004CCB RID: 19659 RVA: 0x0028072F File Offset: 0x0027EB2F
 		protected override void Expire()
 		{
 			this.verb.WarmupComplete();

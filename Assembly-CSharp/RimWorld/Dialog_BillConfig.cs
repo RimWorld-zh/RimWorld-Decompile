@@ -11,41 +11,41 @@ namespace RimWorld
 	// Token: 0x020006B6 RID: 1718
 	public class Dialog_BillConfig : Window
 	{
-		// Token: 0x04001455 RID: 5205
+		// Token: 0x04001459 RID: 5209
 		private IntVec3 billGiverPos;
 
-		// Token: 0x04001456 RID: 5206
+		// Token: 0x0400145A RID: 5210
 		private Bill_Production bill;
 
-		// Token: 0x04001457 RID: 5207
+		// Token: 0x0400145B RID: 5211
 		private Vector2 thingFilterScrollPosition;
 
-		// Token: 0x04001458 RID: 5208
+		// Token: 0x0400145C RID: 5212
 		private string repeatCountEditBuffer;
 
-		// Token: 0x04001459 RID: 5209
+		// Token: 0x0400145D RID: 5213
 		private string targetCountEditBuffer;
 
-		// Token: 0x0400145A RID: 5210
+		// Token: 0x0400145E RID: 5214
 		private string unpauseCountEditBuffer;
 
-		// Token: 0x0400145B RID: 5211
+		// Token: 0x0400145F RID: 5215
 		[TweakValue("Interface", 0f, 400f)]
 		private static int RepeatModeSubdialogHeight = 300;
 
-		// Token: 0x0400145C RID: 5212
+		// Token: 0x04001460 RID: 5216
 		[TweakValue("Interface", 0f, 400f)]
 		private static int StoreModeSubdialogHeight = 30;
 
-		// Token: 0x0400145D RID: 5213
+		// Token: 0x04001461 RID: 5217
 		[TweakValue("Interface", 0f, 400f)]
 		private static int WorkerSelectionSubdialogHeight = 85;
 
-		// Token: 0x0400145E RID: 5214
+		// Token: 0x04001462 RID: 5218
 		[TweakValue("Interface", 0f, 400f)]
 		private static int IngredientRadiusSubdialogHeight = 50;
 
-		// Token: 0x060024E7 RID: 9447 RVA: 0x0013BE86 File Offset: 0x0013A286
+		// Token: 0x060024E6 RID: 9446 RVA: 0x0013C0EE File Offset: 0x0013A4EE
 		public Dialog_BillConfig(Bill_Production bill, IntVec3 billGiverPos)
 		{
 			this.billGiverPos = billGiverPos;
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000596 RID: 1430
-		// (get) Token: 0x060024E8 RID: 9448 RVA: 0x0013BEBC File Offset: 0x0013A2BC
+		// (get) Token: 0x060024E7 RID: 9447 RVA: 0x0013C124 File Offset: 0x0013A524
 		public override Vector2 InitialSize
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E9 RID: 9449 RVA: 0x0013BEE0 File Offset: 0x0013A2E0
+		// Token: 0x060024E8 RID: 9448 RVA: 0x0013C148 File Offset: 0x0013A548
 		private void AdjustCount(int offset)
 		{
 			if (offset > 0)
@@ -84,13 +84,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024EA RID: 9450 RVA: 0x0013BF40 File Offset: 0x0013A340
+		// Token: 0x060024E9 RID: 9449 RVA: 0x0013C1A8 File Offset: 0x0013A5A8
 		public override void WindowUpdate()
 		{
 			this.bill.TryDrawIngredientSearchRadiusOnMap(this.billGiverPos);
 		}
 
-		// Token: 0x060024EB RID: 9451 RVA: 0x0013BF54 File Offset: 0x0013A354
+		// Token: 0x060024EA RID: 9450 RVA: 0x0013C1BC File Offset: 0x0013A5BC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Medium;
@@ -333,7 +333,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024EC RID: 9452 RVA: 0x0013CE3C File Offset: 0x0013B23C
+		// Token: 0x060024EB RID: 9451 RVA: 0x0013D0A4 File Offset: 0x0013B4A4
 		private IEnumerable<Widgets.DropdownMenuElement<Pawn>> GeneratePawnRestrictionOptions()
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -438,7 +438,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024ED RID: 9453 RVA: 0x0013CE68 File Offset: 0x0013B268
+		// Token: 0x060024EC RID: 9452 RVA: 0x0013D0D0 File Offset: 0x0013B4D0
 		private IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>> GenerateStockpileInclusion()
 		{
 			yield return new Widgets.DropdownMenuElement<Zone_Stockpile>

@@ -8,26 +8,26 @@ namespace RimWorld
 	// Token: 0x020002FC RID: 764
 	public class HistoryAutoRecorderGroup : IExposable
 	{
-		// Token: 0x0400084E RID: 2126
+		// Token: 0x04000851 RID: 2129
 		public HistoryAutoRecorderGroupDef def = null;
 
-		// Token: 0x0400084F RID: 2127
+		// Token: 0x04000852 RID: 2130
 		public List<HistoryAutoRecorder> recorders;
 
-		// Token: 0x04000850 RID: 2128
+		// Token: 0x04000853 RID: 2131
 		private List<SimpleCurveDrawInfo> curves;
 
-		// Token: 0x04000851 RID: 2129
+		// Token: 0x04000854 RID: 2132
 		private int cachedGraphTickCount = -1;
 
-		// Token: 0x06000CB9 RID: 3257 RVA: 0x0007008B File Offset: 0x0006E48B
+		// Token: 0x06000CB8 RID: 3256 RVA: 0x00070093 File Offset: 0x0006E493
 		public HistoryAutoRecorderGroup()
 		{
 			this.recorders = new List<HistoryAutoRecorder>();
 			this.curves = new List<SimpleCurveDrawInfo>();
 		}
 
-		// Token: 0x06000CBA RID: 3258 RVA: 0x000700B8 File Offset: 0x0006E4B8
+		// Token: 0x06000CB9 RID: 3257 RVA: 0x000700C0 File Offset: 0x0006E4C0
 		public void CreateRecorders()
 		{
 			foreach (HistoryAutoRecorderDef historyAutoRecorderDef in this.def.historyAutoRecorderDefs)
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CBB RID: 3259 RVA: 0x00070130 File Offset: 0x0006E530
+		// Token: 0x06000CBA RID: 3258 RVA: 0x00070138 File Offset: 0x0006E538
 		public float GetMaxDay()
 		{
 			float num = 0f;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000CBC RID: 3260 RVA: 0x000701D4 File Offset: 0x0006E5D4
+		// Token: 0x06000CBB RID: 3259 RVA: 0x000701DC File Offset: 0x0006E5DC
 		public void Tick()
 		{
 			for (int i = 0; i < this.recorders.Count; i++)
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CBD RID: 3261 RVA: 0x00070214 File Offset: 0x0006E614
+		// Token: 0x06000CBC RID: 3260 RVA: 0x0007021C File Offset: 0x0006E61C
 		public void DrawGraph(Rect graphRect, Rect legendRect, FloatRange section, List<CurveMark> marks)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -107,7 +107,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06000CBE RID: 3262 RVA: 0x000703EA File Offset: 0x0006E7EA
+		// Token: 0x06000CBD RID: 3261 RVA: 0x000703F2 File Offset: 0x0006E7F2
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderGroupDef>(ref this.def, "def");

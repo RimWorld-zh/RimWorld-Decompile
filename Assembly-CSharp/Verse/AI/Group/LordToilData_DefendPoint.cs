@@ -2,16 +2,16 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F2 RID: 2546
+	// Token: 0x020009F3 RID: 2547
 	public class LordToilData_DefendPoint : LordToilData
 	{
-		// Token: 0x04002474 RID: 9332
+		// Token: 0x04002484 RID: 9348
 		public IntVec3 defendPoint = IntVec3.Invalid;
 
-		// Token: 0x04002475 RID: 9333
+		// Token: 0x04002485 RID: 9349
 		public float defendRadius = 28f;
 
-		// Token: 0x0600393A RID: 14650 RVA: 0x001E6CC0 File Offset: 0x001E50C0
+		// Token: 0x0600393B RID: 14651 RVA: 0x001E6FEC File Offset: 0x001E53EC
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.defendPoint, "defendPoint", default(IntVec3), false);

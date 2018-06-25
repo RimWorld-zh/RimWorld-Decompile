@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000225 RID: 549
 	public class ThoughtWorker_BedroomJealous : ThoughtWorker
 	{
-		// Token: 0x06000A16 RID: 2582 RVA: 0x000596B8 File Offset: 0x00057AB8
+		// Token: 0x06000A15 RID: 2581 RVA: 0x000596B4 File Offset: 0x00057AB4
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;

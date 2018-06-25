@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x02000993 RID: 2451
 	public static class PriceUtility
 	{
-		// Token: 0x04002389 RID: 9097
+		// Token: 0x04002390 RID: 9104
 		private const float MinFactor = 0.1f;
 
-		// Token: 0x0400238A RID: 9098
+		// Token: 0x04002391 RID: 9105
 		private const float SummaryHealthImpact = 0.8f;
 
-		// Token: 0x0400238B RID: 9099
+		// Token: 0x04002392 RID: 9106
 		private const float CapacityImpact = 0.5f;
 
-		// Token: 0x0400238C RID: 9100
+		// Token: 0x04002393 RID: 9107
 		private const float MissingCapacityFactor = 0.6f;
 
-		// Token: 0x0400238D RID: 9101
+		// Token: 0x04002394 RID: 9108
 		private static readonly SimpleCurve AverageSkillCurve = new SimpleCurve
 		{
 			{
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06003715 RID: 14101 RVA: 0x001D7848 File Offset: 0x001D5C48
+		// Token: 0x06003715 RID: 14101 RVA: 0x001D7B1C File Offset: 0x001D5F1C
 		public static float PawnQualityPriceFactor(Pawn pawn)
 		{
 			float num = 1f;

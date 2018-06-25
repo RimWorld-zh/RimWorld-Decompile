@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x020000CF RID: 207
 	public class JobGiver_EnterTransporter : ThinkNode_JobGiver
 	{
-		// Token: 0x0400029D RID: 669
+		// Token: 0x0400029E RID: 670
 		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
 
-		// Token: 0x060004AE RID: 1198 RVA: 0x00034F24 File Offset: 0x00033324
+		// Token: 0x060004AE RID: 1198 RVA: 0x00034F40 File Offset: 0x00033340
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			int transportersGroup = pawn.mindState.duty.transportersGroup;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004AF RID: 1199 RVA: 0x00034FA4 File Offset: 0x000333A4
+		// Token: 0x060004AF RID: 1199 RVA: 0x00034FC0 File Offset: 0x000333C0
 		private CompTransporter FindMyTransporter(List<CompTransporter> transporters, Pawn me)
 		{
 			for (int i = 0; i < transporters.Count; i++)

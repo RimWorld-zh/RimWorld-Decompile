@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ED9 RID: 3801
+	// Token: 0x02000EDA RID: 3802
 	public abstract class CreditsEntry
 	{
 		// Token: 0x06005A07 RID: 23047

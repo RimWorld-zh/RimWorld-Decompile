@@ -10,19 +10,19 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_Inspect : MainTabWindow, IInspectPane
 	{
-		// Token: 0x04001A9B RID: 6811
+		// Token: 0x04001A9F RID: 6815
 		private Type openTabType;
 
-		// Token: 0x04001A9C RID: 6812
+		// Token: 0x04001AA0 RID: 6816
 		private float recentHeight;
 
-		// Token: 0x04001A9D RID: 6813
+		// Token: 0x04001AA1 RID: 6817
 		private static IntVec3 lastSelectCell;
 
-		// Token: 0x04001A9E RID: 6814
+		// Token: 0x04001AA2 RID: 6818
 		private Gizmo mouseoverGizmo;
 
-		// Token: 0x06003124 RID: 12580 RVA: 0x001AB6D4 File Offset: 0x001A9AD4
+		// Token: 0x06003123 RID: 12579 RVA: 0x001AB93C File Offset: 0x001A9D3C
 		public MainTabWindow_Inspect()
 		{
 			this.closeOnAccept = false;
@@ -30,8 +30,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007DD RID: 2013
-		// (get) Token: 0x06003125 RID: 12581 RVA: 0x001AB6EC File Offset: 0x001A9AEC
-		// (set) Token: 0x06003126 RID: 12582 RVA: 0x001AB707 File Offset: 0x001A9B07
+		// (get) Token: 0x06003124 RID: 12580 RVA: 0x001AB954 File Offset: 0x001A9D54
+		// (set) Token: 0x06003125 RID: 12581 RVA: 0x001AB96F File Offset: 0x001A9D6F
 		public Type OpenTabType
 		{
 			get
@@ -45,8 +45,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007DE RID: 2014
-		// (get) Token: 0x06003127 RID: 12583 RVA: 0x001AB714 File Offset: 0x001A9B14
-		// (set) Token: 0x06003128 RID: 12584 RVA: 0x001AB72F File Offset: 0x001A9B2F
+		// (get) Token: 0x06003126 RID: 12582 RVA: 0x001AB97C File Offset: 0x001A9D7C
+		// (set) Token: 0x06003127 RID: 12583 RVA: 0x001AB997 File Offset: 0x001A9D97
 		public float RecentHeight
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007DF RID: 2015
-		// (get) Token: 0x06003129 RID: 12585 RVA: 0x001AB73C File Offset: 0x001A9B3C
+		// (get) Token: 0x06003128 RID: 12584 RVA: 0x001AB9A4 File Offset: 0x001A9DA4
 		protected override float Margin
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E0 RID: 2016
-		// (get) Token: 0x0600312A RID: 12586 RVA: 0x001AB758 File Offset: 0x001A9B58
+		// (get) Token: 0x06003129 RID: 12585 RVA: 0x001AB9C0 File Offset: 0x001A9DC0
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E1 RID: 2017
-		// (get) Token: 0x0600312B RID: 12587 RVA: 0x001AB774 File Offset: 0x001A9B74
+		// (get) Token: 0x0600312A RID: 12586 RVA: 0x001AB9DC File Offset: 0x001A9DDC
 		private IEnumerable<object> Selected
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E2 RID: 2018
-		// (get) Token: 0x0600312C RID: 12588 RVA: 0x001AB794 File Offset: 0x001A9B94
+		// (get) Token: 0x0600312B RID: 12587 RVA: 0x001AB9FC File Offset: 0x001A9DFC
 		private Thing SelThing
 		{
 			get
@@ -100,7 +100,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E3 RID: 2019
-		// (get) Token: 0x0600312D RID: 12589 RVA: 0x001AB7B4 File Offset: 0x001A9BB4
+		// (get) Token: 0x0600312C RID: 12588 RVA: 0x001ABA1C File Offset: 0x001A9E1C
 		private Zone SelZone
 		{
 			get
@@ -110,7 +110,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E4 RID: 2020
-		// (get) Token: 0x0600312E RID: 12590 RVA: 0x001AB7D4 File Offset: 0x001A9BD4
+		// (get) Token: 0x0600312D RID: 12589 RVA: 0x001ABA3C File Offset: 0x001A9E3C
 		private int NumSelected
 		{
 			get
@@ -120,7 +120,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E5 RID: 2021
-		// (get) Token: 0x0600312F RID: 12591 RVA: 0x001AB7F4 File Offset: 0x001A9BF4
+		// (get) Token: 0x0600312E RID: 12590 RVA: 0x001ABA5C File Offset: 0x001A9E5C
 		public float PaneTopY
 		{
 			get
@@ -130,7 +130,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E6 RID: 2022
-		// (get) Token: 0x06003130 RID: 12592 RVA: 0x001AB81C File Offset: 0x001A9C1C
+		// (get) Token: 0x0600312F RID: 12591 RVA: 0x001ABA84 File Offset: 0x001A9E84
 		public bool AnythingSelected
 		{
 			get
@@ -140,7 +140,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E7 RID: 2023
-		// (get) Token: 0x06003131 RID: 12593 RVA: 0x001AB83C File Offset: 0x001A9C3C
+		// (get) Token: 0x06003130 RID: 12592 RVA: 0x001ABAA4 File Offset: 0x001A9EA4
 		public bool ShouldShowSelectNextInCellButton
 		{
 			get
@@ -150,7 +150,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E8 RID: 2024
-		// (get) Token: 0x06003132 RID: 12594 RVA: 0x001AB888 File Offset: 0x001A9C88
+		// (get) Token: 0x06003131 RID: 12593 RVA: 0x001ABAF0 File Offset: 0x001A9EF0
 		public bool ShouldShowPaneContents
 		{
 			get
@@ -160,7 +160,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007E9 RID: 2025
-		// (get) Token: 0x06003133 RID: 12595 RVA: 0x001AB8A8 File Offset: 0x001A9CA8
+		// (get) Token: 0x06003132 RID: 12594 RVA: 0x001ABB10 File Offset: 0x001A9F10
 		public IEnumerable<InspectTabBase> CurTabs
 		{
 			get
@@ -180,7 +180,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003134 RID: 12596 RVA: 0x001AB920 File Offset: 0x001A9D20
+		// Token: 0x06003133 RID: 12595 RVA: 0x001ABB88 File Offset: 0x001A9F88
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -194,32 +194,32 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003135 RID: 12597 RVA: 0x001AB970 File Offset: 0x001A9D70
+		// Token: 0x06003134 RID: 12596 RVA: 0x001ABBD8 File Offset: 0x001A9FD8
 		public override void DoWindowContents(Rect inRect)
 		{
 			base.DoWindowContents(inRect);
 			InspectPaneUtility.InspectPaneOnGUI(inRect, this);
 		}
 
-		// Token: 0x06003136 RID: 12598 RVA: 0x001AB984 File Offset: 0x001A9D84
+		// Token: 0x06003135 RID: 12597 RVA: 0x001ABBEC File Offset: 0x001A9FEC
 		public string GetLabel(Rect rect)
 		{
 			return InspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
 		}
 
-		// Token: 0x06003137 RID: 12599 RVA: 0x001AB9A5 File Offset: 0x001A9DA5
+		// Token: 0x06003136 RID: 12598 RVA: 0x001ABC0D File Offset: 0x001AA00D
 		public void DrawInspectGizmos()
 		{
 			InspectGizmoGrid.DrawInspectGizmoGridFor(this.Selected, out this.mouseoverGizmo);
 		}
 
-		// Token: 0x06003138 RID: 12600 RVA: 0x001AB9B9 File Offset: 0x001A9DB9
+		// Token: 0x06003137 RID: 12599 RVA: 0x001ABC21 File Offset: 0x001AA021
 		public void DoPaneContents(Rect rect)
 		{
 			InspectPaneFiller.DoPaneContentsFor((ISelectable)Find.Selector.FirstSelectedObject, rect);
 		}
 
-		// Token: 0x06003139 RID: 12601 RVA: 0x001AB9D4 File Offset: 0x001A9DD4
+		// Token: 0x06003138 RID: 12600 RVA: 0x001ABC3C File Offset: 0x001AA03C
 		public void DoInspectPaneButtons(Rect rect, ref float lineEndWidth)
 		{
 			if (this.NumSelected == 1)
@@ -239,7 +239,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600313A RID: 12602 RVA: 0x001ABA8C File Offset: 0x001A9E8C
+		// Token: 0x06003139 RID: 12601 RVA: 0x001ABCF4 File Offset: 0x001AA0F4
 		public void SelectNextInCell()
 		{
 			if (this.NumSelected != 0)
@@ -265,7 +265,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600313B RID: 12603 RVA: 0x001ABB21 File Offset: 0x001A9F21
+		// Token: 0x0600313A RID: 12602 RVA: 0x001ABD89 File Offset: 0x001AA189
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -276,13 +276,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600313C RID: 12604 RVA: 0x001ABB46 File Offset: 0x001A9F46
+		// Token: 0x0600313B RID: 12603 RVA: 0x001ABDAE File Offset: 0x001AA1AE
 		public void CloseOpenTab()
 		{
 			this.openTabType = null;
 		}
 
-		// Token: 0x0600313D RID: 12605 RVA: 0x001ABB50 File Offset: 0x001A9F50
+		// Token: 0x0600313C RID: 12604 RVA: 0x001ABDB8 File Offset: 0x001AA1B8
 		public void Reset()
 		{
 			this.openTabType = null;

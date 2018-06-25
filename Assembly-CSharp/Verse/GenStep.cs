@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B3F RID: 2879
+	// Token: 0x02000B40 RID: 2880
 	public abstract class GenStep
 	{
-		// Token: 0x0400296D RID: 10605
+		// Token: 0x04002974 RID: 10612
 		public GenStepDef def;
 
 		// Token: 0x17000991 RID: 2449

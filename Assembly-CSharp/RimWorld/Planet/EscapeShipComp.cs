@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class EscapeShipComp : WorldObjectComp
 	{
-		// Token: 0x06001FDC RID: 8156 RVA: 0x00112774 File Offset: 0x00110B74
+		// Token: 0x06001FDB RID: 8155 RVA: 0x001129DC File Offset: 0x00110DDC
 		public override void CompTick()
 		{
 			MapParent mapParent = (MapParent)this.parent;
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FDD RID: 8157 RVA: 0x0011288C File Offset: 0x00110C8C
+		// Token: 0x06001FDC RID: 8156 RVA: 0x00112AF4 File Offset: 0x00110EF4
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption f in CaravanArrivalAction_VisitEscapeShip.GetFloatMenuOptions(caravan, (MapParent)this.parent))
@@ -52,7 +52,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001FDE RID: 8158 RVA: 0x001128C0 File Offset: 0x00110CC0
+		// Token: 0x06001FDD RID: 8157 RVA: 0x00112B28 File Offset: 0x00110F28
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			MapParent mapParent = (MapParent)this.parent;

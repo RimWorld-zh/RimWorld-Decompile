@@ -8,25 +8,25 @@ namespace RimWorld
 	// Token: 0x020002E4 RID: 740
 	public abstract class ThingSetMaker
 	{
-		// Token: 0x040007A4 RID: 1956
+		// Token: 0x040007A7 RID: 1959
 		public ThingSetMakerParams fixedParams;
 
-		// Token: 0x040007A5 RID: 1957
+		// Token: 0x040007A8 RID: 1960
 		public static List<List<Thing>> thingsBeingGeneratedNow = new List<List<Thing>>();
 
-		// Token: 0x06000C20 RID: 3104 RVA: 0x0006BB0C File Offset: 0x00069F0C
+		// Token: 0x06000C1F RID: 3103 RVA: 0x0006BB14 File Offset: 0x00069F14
 		static ThingSetMaker()
 		{
 			Gen.EnsureAllFieldsNullable(typeof(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C22 RID: 3106 RVA: 0x0006BB30 File Offset: 0x00069F30
+		// Token: 0x06000C21 RID: 3105 RVA: 0x0006BB38 File Offset: 0x00069F38
 		public List<Thing> Generate()
 		{
 			return this.Generate(default(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C23 RID: 3107 RVA: 0x0006BB54 File Offset: 0x00069F54
+		// Token: 0x06000C22 RID: 3106 RVA: 0x0006BB5C File Offset: 0x00069F5C
 		public List<Thing> Generate(ThingSetMakerParams parms)
 		{
 			List<Thing> list = new List<Thing>();
@@ -53,29 +53,29 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000C24 RID: 3108 RVA: 0x0006BC10 File Offset: 0x0006A010
+		// Token: 0x06000C23 RID: 3107 RVA: 0x0006BC18 File Offset: 0x0006A018
 		public bool CanGenerate(ThingSetMakerParams parms)
 		{
 			ThingSetMakerParams parms2 = this.ApplyFixedParams(parms);
 			return this.CanGenerateSub(parms2);
 		}
 
-		// Token: 0x06000C25 RID: 3109 RVA: 0x0006BC34 File Offset: 0x0006A034
+		// Token: 0x06000C24 RID: 3108 RVA: 0x0006BC3C File Offset: 0x0006A03C
 		protected virtual bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			return true;
 		}
 
-		// Token: 0x06000C26 RID: 3110
+		// Token: 0x06000C25 RID: 3109
 		protected abstract void Generate(ThingSetMakerParams parms, List<Thing> outThings);
 
-		// Token: 0x06000C27 RID: 3111 RVA: 0x0006BC4C File Offset: 0x0006A04C
+		// Token: 0x06000C26 RID: 3110 RVA: 0x0006BC54 File Offset: 0x0006A054
 		public IEnumerable<ThingDef> AllGeneratableThingsDebug()
 		{
 			return this.AllGeneratableThingsDebug(default(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C28 RID: 3112 RVA: 0x0006BC70 File Offset: 0x0006A070
+		// Token: 0x06000C27 RID: 3111 RVA: 0x0006BC78 File Offset: 0x0006A078
 		public IEnumerable<ThingDef> AllGeneratableThingsDebug(ThingSetMakerParams parms)
 		{
 			if (!this.CanGenerate(parms))
@@ -90,10 +90,10 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C29 RID: 3113
+		// Token: 0x06000C28 RID: 3112
 		protected abstract IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms);
 
-		// Token: 0x06000C2A RID: 3114 RVA: 0x0006BCA4 File Offset: 0x0006A0A4
+		// Token: 0x06000C29 RID: 3113 RVA: 0x0006BCAC File Offset: 0x0006A0AC
 		private void PostProcess(List<Thing> things)
 		{
 			if (things.RemoveAll((Thing x) => x == null) != 0)
@@ -124,7 +124,7 @@ namespace RimWorld
 			this.Minify(things);
 		}
 
-		// Token: 0x06000C2B RID: 3115 RVA: 0x0006BDC8 File Offset: 0x0006A1C8
+		// Token: 0x06000C2A RID: 3114 RVA: 0x0006BDD0 File Offset: 0x0006A1D0
 		private void Minify(List<Thing> things)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -140,7 +140,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C2C RID: 3116 RVA: 0x0006BE40 File Offset: 0x0006A240
+		// Token: 0x06000C2B RID: 3115 RVA: 0x0006BE48 File Offset: 0x0006A248
 		private void ChangeDeadPawnsToTheirCorpses(List<Thing> things)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -152,7 +152,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C2D RID: 3117 RVA: 0x0006BE98 File Offset: 0x0006A298
+		// Token: 0x06000C2C RID: 3116 RVA: 0x0006BEA0 File Offset: 0x0006A2A0
 		private ThingSetMakerParams ApplyFixedParams(ThingSetMakerParams parms)
 		{
 			ThingSetMakerParams result = this.fixedParams;
@@ -160,7 +160,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C2E RID: 3118 RVA: 0x0006BEBD File Offset: 0x0006A2BD
+		// Token: 0x06000C2D RID: 3117 RVA: 0x0006BEC5 File Offset: 0x0006A2C5
 		public virtual void ResolveReferences()
 		{
 			if (this.fixedParams.filter != null)

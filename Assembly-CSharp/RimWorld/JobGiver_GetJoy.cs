@@ -10,12 +10,12 @@ namespace RimWorld
 	// Token: 0x020000F8 RID: 248
 	public class JobGiver_GetJoy : ThinkNode_JobGiver
 	{
-		// Token: 0x040002CF RID: 719
+		// Token: 0x040002D0 RID: 720
 		[Unsaved]
 		private DefMap<JoyGiverDef, float> joyGiverChances;
 
 		// Token: 0x170000CE RID: 206
-		// (get) Token: 0x06000537 RID: 1335 RVA: 0x00034934 File Offset: 0x00032D34
+		// (get) Token: 0x06000537 RID: 1335 RVA: 0x00034950 File Offset: 0x00032D50
 		protected virtual bool CanDoDuringMedicalRest
 		{
 			get
@@ -24,25 +24,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000538 RID: 1336 RVA: 0x0003494C File Offset: 0x00032D4C
+		// Token: 0x06000538 RID: 1336 RVA: 0x00034968 File Offset: 0x00032D68
 		protected virtual bool JoyGiverAllowed(JoyGiverDef def)
 		{
 			return true;
 		}
 
-		// Token: 0x06000539 RID: 1337 RVA: 0x00034964 File Offset: 0x00032D64
+		// Token: 0x06000539 RID: 1337 RVA: 0x00034980 File Offset: 0x00032D80
 		protected virtual Job TryGiveJobFromJoyGiverDefDirect(JoyGiverDef def, Pawn pawn)
 		{
 			return def.Worker.TryGiveJob(pawn);
 		}
 
-		// Token: 0x0600053A RID: 1338 RVA: 0x00034985 File Offset: 0x00032D85
+		// Token: 0x0600053A RID: 1338 RVA: 0x000349A1 File Offset: 0x00032DA1
 		public override void ResolveReferences()
 		{
 			this.joyGiverChances = new DefMap<JoyGiverDef, float>();
 		}
 
-		// Token: 0x0600053B RID: 1339 RVA: 0x00034994 File Offset: 0x00032D94
+		// Token: 0x0600053B RID: 1339 RVA: 0x000349B0 File Offset: 0x00032DB0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

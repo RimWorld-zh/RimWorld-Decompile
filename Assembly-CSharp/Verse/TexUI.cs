@@ -3,89 +3,89 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EAA RID: 3754
+	// Token: 0x02000EAB RID: 3755
 	[StaticConstructorOnStartup]
 	public static class TexUI
 	{
-		// Token: 0x04003AE2 RID: 15074
+		// Token: 0x04003AEA RID: 15082
 		public static readonly Texture2D TitleBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.05f));
 
-		// Token: 0x04003AE3 RID: 15075
+		// Token: 0x04003AEB RID: 15083
 		public static readonly Texture2D HighlightTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
 
-		// Token: 0x04003AE4 RID: 15076
+		// Token: 0x04003AEC RID: 15084
 		public static readonly Texture2D HighlightSelectedTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0.94f, 0.5f, 0.18f));
 
-		// Token: 0x04003AE5 RID: 15077
+		// Token: 0x04003AED RID: 15085
 		public static readonly Texture2D ArrowTexRight = ContentFinder<Texture2D>.Get("UI/Widgets/ArrowRight", true);
 
-		// Token: 0x04003AE6 RID: 15078
+		// Token: 0x04003AEE RID: 15086
 		public static readonly Texture2D ArrowTexLeft = ContentFinder<Texture2D>.Get("UI/Widgets/ArrowLeft", true);
 
-		// Token: 0x04003AE7 RID: 15079
+		// Token: 0x04003AEF RID: 15087
 		public static readonly Texture2D WinExpandWidget = ContentFinder<Texture2D>.Get("UI/Widgets/WinExpandWidget", true);
 
-		// Token: 0x04003AE8 RID: 15080
+		// Token: 0x04003AF0 RID: 15088
 		public static readonly Texture2D ArrowTex = ContentFinder<Texture2D>.Get("UI/Misc/AlertFlashArrow", true);
 
-		// Token: 0x04003AE9 RID: 15081
+		// Token: 0x04003AF1 RID: 15089
 		public static readonly Texture2D RotLeftTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotLeft", true);
 
-		// Token: 0x04003AEA RID: 15082
+		// Token: 0x04003AF2 RID: 15090
 		public static readonly Texture2D RotRightTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotRight", true);
 
-		// Token: 0x04003AEB RID: 15083
+		// Token: 0x04003AF3 RID: 15091
 		public static readonly Texture2D GrayBg;
 
-		// Token: 0x04003AEC RID: 15084
+		// Token: 0x04003AF4 RID: 15092
 		public static readonly Color AvailResearchColor;
 
-		// Token: 0x04003AED RID: 15085
+		// Token: 0x04003AF5 RID: 15093
 		public static readonly Color ActiveResearchColor;
 
-		// Token: 0x04003AEE RID: 15086
+		// Token: 0x04003AF6 RID: 15094
 		public static readonly Color FinishedResearchColor;
 
-		// Token: 0x04003AEF RID: 15087
+		// Token: 0x04003AF7 RID: 15095
 		public static readonly Color LockedResearchColor;
 
-		// Token: 0x04003AF0 RID: 15088
+		// Token: 0x04003AF8 RID: 15096
 		public static readonly Color RelatedResearchColor;
 
-		// Token: 0x04003AF1 RID: 15089
+		// Token: 0x04003AF9 RID: 15097
 		public static readonly Color HighlightBgResearchColor;
 
-		// Token: 0x04003AF2 RID: 15090
+		// Token: 0x04003AFA RID: 15098
 		public static readonly Color HighlightBorderResearchColor;
 
-		// Token: 0x04003AF3 RID: 15091
+		// Token: 0x04003AFB RID: 15099
 		public static readonly Color DefaultBorderResearchColor;
 
-		// Token: 0x04003AF4 RID: 15092
+		// Token: 0x04003AFC RID: 15100
 		public static readonly Color DefaultLineResearchColor;
 
-		// Token: 0x04003AF5 RID: 15093
+		// Token: 0x04003AFD RID: 15101
 		public static readonly Color HighlightLineResearchColor;
 
-		// Token: 0x04003AF6 RID: 15094
+		// Token: 0x04003AFE RID: 15102
 		public static readonly Texture2D FastFillTex;
 
-		// Token: 0x04003AF7 RID: 15095
+		// Token: 0x04003AFF RID: 15103
 		public static readonly GUIStyle FastFillStyle;
 
-		// Token: 0x04003AF8 RID: 15096
+		// Token: 0x04003B00 RID: 15104
 		public static readonly Texture2D TextBGBlack;
 
-		// Token: 0x04003AF9 RID: 15097
+		// Token: 0x04003B01 RID: 15105
 		public static readonly Texture2D GrayTextBG;
 
-		// Token: 0x04003AFA RID: 15098
+		// Token: 0x04003B02 RID: 15106
 		public static readonly Texture2D FloatMenuOptionBG;
 
-		// Token: 0x04003AFB RID: 15099
+		// Token: 0x04003B03 RID: 15107
 		public static readonly Material GrayscaleGUI;
 
-		// Token: 0x06005887 RID: 22663 RVA: 0x002D6774 File Offset: 0x002D4B74
+		// Token: 0x06005887 RID: 22663 RVA: 0x002D6960 File Offset: 0x002D4D60
 		// Note: this type is marked as 'beforefieldinit'.
 		static TexUI()
 		{

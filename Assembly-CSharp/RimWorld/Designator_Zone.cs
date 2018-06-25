@@ -8,7 +8,7 @@ namespace RimWorld
 	public abstract class Designator_Zone : Designator
 	{
 		// Token: 0x1700071E RID: 1822
-		// (get) Token: 0x06002CF3 RID: 11507 RVA: 0x0017A558 File Offset: 0x00178958
+		// (get) Token: 0x06002CF2 RID: 11506 RVA: 0x0017A7BC File Offset: 0x00178BBC
 		public override int DraggableDimensions
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700071F RID: 1823
-		// (get) Token: 0x06002CF4 RID: 11508 RVA: 0x0017A570 File Offset: 0x00178970
+		// (get) Token: 0x06002CF3 RID: 11507 RVA: 0x0017A7D4 File Offset: 0x00178BD4
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CF5 RID: 11509 RVA: 0x0017A586 File Offset: 0x00178986
+		// Token: 0x06002CF4 RID: 11508 RVA: 0x0017A7EA File Offset: 0x00178BEA
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();
@@ -40,7 +40,7 @@ namespace RimWorld
 			GenDraw.DrawNoZoneEdgeLines();
 		}
 
-		// Token: 0x06002CF6 RID: 11510 RVA: 0x0017A5C1 File Offset: 0x001789C1
+		// Token: 0x06002CF5 RID: 11509 RVA: 0x0017A825 File Offset: 0x00178C25
 		public override void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);

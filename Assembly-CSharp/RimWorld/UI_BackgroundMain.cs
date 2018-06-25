@@ -8,13 +8,13 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class UI_BackgroundMain : UIMenuBackground
 	{
-		// Token: 0x040019C8 RID: 6600
+		// Token: 0x040019CC RID: 6604
 		private static readonly Vector2 BGPlanetSize = new Vector2(2048f, 1280f);
 
-		// Token: 0x040019C9 RID: 6601
+		// Token: 0x040019CD RID: 6605
 		private static readonly Texture2D BGPlanet = ContentFinder<Texture2D>.Get("UI/HeroArt/BGPlanet", true);
 
-		// Token: 0x06002FB7 RID: 12215 RVA: 0x00199630 File Offset: 0x00197A30
+		// Token: 0x06002FB6 RID: 12214 RVA: 0x00199898 File Offset: 0x00197C98
 		public override void BackgroundOnGUI()
 		{
 			bool flag = true;

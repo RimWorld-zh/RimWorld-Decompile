@@ -9,10 +9,10 @@ namespace RimWorld
 	// Token: 0x020007B0 RID: 1968
 	public static class AreaAllowedGUI
 	{
-		// Token: 0x04001748 RID: 5960
+		// Token: 0x0400174C RID: 5964
 		private static bool dragging;
 
-		// Token: 0x06002B78 RID: 11128 RVA: 0x00170110 File Offset: 0x0016E510
+		// Token: 0x06002B77 RID: 11127 RVA: 0x00170374 File Offset: 0x0016E774
 		public static void DoAllowedAreaSelectors(Rect rect, Pawn p)
 		{
 			if (Find.CurrentMap != null)
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B79 RID: 11129 RVA: 0x0017022C File Offset: 0x0016E62C
+		// Token: 0x06002B78 RID: 11128 RVA: 0x00170490 File Offset: 0x0016E890
 		private static void DoAreaSelector(Rect rect, Pawn p, Area area)
 		{
 			rect = rect.ContractedBy(1f);

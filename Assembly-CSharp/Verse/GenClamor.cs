@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F34 RID: 3892
+	// Token: 0x02000F35 RID: 3893
 	public static class GenClamor
 	{
-		// Token: 0x06005DB2 RID: 23986 RVA: 0x002F96BC File Offset: 0x002F7ABC
+		// Token: 0x06005DB2 RID: 23986 RVA: 0x002F98DC File Offset: 0x002F7CDC
 		public static void DoClamor(Thing source, float radius, ClamorDef type)
 		{
 			IntVec3 root = source.Position;

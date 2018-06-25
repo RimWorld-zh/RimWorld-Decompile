@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000606 RID: 1542
 	public class SettlementUtility
 	{
-		// Token: 0x06001EEB RID: 7915 RVA: 0x0010CEF8 File Offset: 0x0010B2F8
+		// Token: 0x06001EEA RID: 7914 RVA: 0x0010D160 File Offset: 0x0010B560
 		public static bool IsPlayerAttackingAnySettlementOf(Faction faction)
 		{
 			bool result;
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001EEC RID: 7916 RVA: 0x0010CF88 File Offset: 0x0010B388
+		// Token: 0x06001EEB RID: 7915 RVA: 0x0010D1F0 File Offset: 0x0010B5F0
 		public static void Attack(Caravan caravan, Settlement settlement)
 		{
 			if (!settlement.HasMap)
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EED RID: 7917 RVA: 0x0010CFE8 File Offset: 0x0010B3E8
+		// Token: 0x06001EEC RID: 7916 RVA: 0x0010D250 File Offset: 0x0010B650
 		private static void AttackNow(Caravan caravan, Settlement settlement)
 		{
 			Pawn t = caravan.PawnsListForReading[0];
@@ -76,7 +76,7 @@ namespace RimWorld.Planet
 			CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, CaravanDropInventoryMode.DoNotDrop, true, null);
 		}
 
-		// Token: 0x06001EEE RID: 7918 RVA: 0x0010D0CC File Offset: 0x0010B4CC
+		// Token: 0x06001EED RID: 7917 RVA: 0x0010D334 File Offset: 0x0010B734
 		public static void AffectRelationsOnAttacked(Settlement settlement, ref string letterText)
 		{
 			if (settlement.Faction != null && settlement.Faction != Faction.OfPlayer)

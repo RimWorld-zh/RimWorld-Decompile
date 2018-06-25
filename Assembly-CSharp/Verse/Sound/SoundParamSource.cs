@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B85 RID: 2949
+	// Token: 0x02000B86 RID: 2950
 	[EditorShowClassName]
 	[EditorReplaceable]
 	public abstract class SoundParamSource

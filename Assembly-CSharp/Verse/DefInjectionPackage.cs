@@ -8,49 +8,49 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000BEF RID: 3055
+	// Token: 0x02000BF0 RID: 3056
 	public class DefInjectionPackage
 	{
-		// Token: 0x04002D90 RID: 11664
+		// Token: 0x04002D97 RID: 11671
 		public Type defType;
 
-		// Token: 0x04002D91 RID: 11665
+		// Token: 0x04002D98 RID: 11672
 		private Dictionary<string, string> injections = new Dictionary<string, string>();
 
-		// Token: 0x04002D92 RID: 11666
+		// Token: 0x04002D99 RID: 11673
 		private Dictionary<string, List<string>> fullListInjections = new Dictionary<string, List<string>>();
 
-		// Token: 0x04002D93 RID: 11667
+		// Token: 0x04002D9A RID: 11674
 		private Dictionary<string, string> injectionsFileSource = new Dictionary<string, string>();
 
-		// Token: 0x04002D94 RID: 11668
+		// Token: 0x04002D9B RID: 11675
 		private Dictionary<string, string> fullListInjectionsFileSource = new Dictionary<string, string>();
 
-		// Token: 0x04002D95 RID: 11669
+		// Token: 0x04002D9C RID: 11676
 		public List<Pair<string, string>> autoFixedBackCompatKeys = new List<Pair<string, string>>();
 
-		// Token: 0x04002D96 RID: 11670
+		// Token: 0x04002D9D RID: 11677
 		public List<string> loadErrors = new List<string>();
 
-		// Token: 0x04002D97 RID: 11671
+		// Token: 0x04002D9E RID: 11678
 		public List<string> loadSyntaxSuggestions = new List<string>();
 
-		// Token: 0x04002D98 RID: 11672
+		// Token: 0x04002D9F RID: 11679
 		public bool usedOldRepSyntax;
 
-		// Token: 0x04002D99 RID: 11673
+		// Token: 0x04002DA0 RID: 11680
 		public const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-		// Token: 0x04002D9A RID: 11674
+		// Token: 0x04002DA1 RID: 11681
 		public const string RepNodeName = "rep";
 
-		// Token: 0x060042A0 RID: 17056 RVA: 0x002320F0 File Offset: 0x002304F0
+		// Token: 0x060042A0 RID: 17056 RVA: 0x002323D0 File Offset: 0x002307D0
 		public DefInjectionPackage(Type defType)
 		{
 			this.defType = defType;
 		}
 
-		// Token: 0x060042A1 RID: 17057 RVA: 0x00232158 File Offset: 0x00230558
+		// Token: 0x060042A1 RID: 17057 RVA: 0x00232438 File Offset: 0x00230838
 		private string ProcessedPath(string path)
 		{
 			string result;
@@ -65,13 +65,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042A2 RID: 17058 RVA: 0x002321A8 File Offset: 0x002305A8
+		// Token: 0x060042A2 RID: 17058 RVA: 0x00232488 File Offset: 0x00230888
 		private string ProcessedTranslation(string rawTranslation)
 		{
 			return rawTranslation.Replace("\\n", "\n");
 		}
 
-		// Token: 0x060042A3 RID: 17059 RVA: 0x002321D0 File Offset: 0x002305D0
+		// Token: 0x060042A3 RID: 17059 RVA: 0x002324B0 File Offset: 0x002308B0
 		public void AddDataFromFile(FileInfo file)
 		{
 			try
@@ -122,7 +122,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A4 RID: 17060 RVA: 0x0023242C File Offset: 0x0023082C
+		// Token: 0x060042A4 RID: 17060 RVA: 0x0023270C File Offset: 0x00230B0C
 		private void TryAddInjection(FileInfo file, string key, string translation)
 		{
 			string text = key;
@@ -138,7 +138,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A5 RID: 17061 RVA: 0x00232498 File Offset: 0x00230898
+		// Token: 0x060042A5 RID: 17061 RVA: 0x00232778 File Offset: 0x00230B78
 		private void TryAddFullListInjection(FileInfo file, string key, List<string> translation)
 		{
 			string text = key;
@@ -158,7 +158,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A6 RID: 17062 RVA: 0x00232510 File Offset: 0x00230910
+		// Token: 0x060042A6 RID: 17062 RVA: 0x002327F0 File Offset: 0x00230BF0
 		private string BackCompatibleKey(string key)
 		{
 			string[] array = key.Split(new char[]
@@ -169,7 +169,7 @@ namespace Verse
 			return string.Join(".", array);
 		}
 
-		// Token: 0x060042A7 RID: 17063 RVA: 0x00232554 File Offset: 0x00230954
+		// Token: 0x060042A7 RID: 17063 RVA: 0x00232834 File Offset: 0x00230C34
 		private bool CheckErrors(FileInfo file, string key, string nonBackCompatibleKey, bool replacingFullList)
 		{
 			bool result;
@@ -261,7 +261,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042A8 RID: 17064 RVA: 0x0023283C File Offset: 0x00230C3C
+		// Token: 0x060042A8 RID: 17064 RVA: 0x00232B1C File Offset: 0x00230F1C
 		public void InjectIntoDefs(bool errorOnDefNotFound)
 		{
 			foreach (KeyValuePair<string, string> keyValuePair in this.injections)
@@ -275,7 +275,7 @@ namespace Verse
 			GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "ClearCachedData");
 		}
 
-		// Token: 0x060042A9 RID: 17065 RVA: 0x00232968 File Offset: 0x00230D68
+		// Token: 0x060042A9 RID: 17065 RVA: 0x00232C48 File Offset: 0x00231048
 		private void SetDefFieldAtPath(Type defType, string path, object value, Type ensureFieldType, bool errorOnDefNotFound, string fileSource)
 		{
 			int num = 0;
@@ -717,7 +717,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042AA RID: 17066 RVA: 0x002334AC File Offset: 0x002318AC
+		// Token: 0x060042AA RID: 17066 RVA: 0x0023378C File Offset: 0x00231B8C
 		private FieldInfo GetFieldNamed(Type type, string name)
 		{
 			FieldInfo field = type.GetField(name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -742,7 +742,7 @@ namespace Verse
 			return field;
 		}
 
-		// Token: 0x060042AB RID: 17067 RVA: 0x0023355C File Offset: 0x0023195C
+		// Token: 0x060042AB RID: 17067 RVA: 0x0023383C File Offset: 0x00231C3C
 		public IEnumerable<string> MissingInjections(List<string> outUnnecessaryDefInjections)
 		{
 			Type databaseType = typeof(DefDatabase<>).MakeGenericType(new Type[]
@@ -776,7 +776,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042AC RID: 17068 RVA: 0x00233590 File Offset: 0x00231990
+		// Token: 0x060042AC RID: 17068 RVA: 0x00233870 File Offset: 0x00231C70
 		private IEnumerable<string> MissingInjectionsFromDef(Def def, List<string> outUnnecessaryDefInjections)
 		{
 			HashSet<object> visited = new HashSet<object>();
@@ -787,7 +787,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042AD RID: 17069 RVA: 0x002335C8 File Offset: 0x002319C8
+		// Token: 0x060042AD RID: 17069 RVA: 0x002338A8 File Offset: 0x00231CA8
 		private IEnumerable<string> MissingInjectionsFromDefRecursive(object obj, string curPath, HashSet<object> visited, List<string> outUnnecessaryDefInjections, bool translationAllowed, bool defGenerated)
 		{
 			if (obj == null)
@@ -921,7 +921,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042AE RID: 17070 RVA: 0x00233620 File Offset: 0x00231A20
+		// Token: 0x060042AE RID: 17070 RVA: 0x00233900 File Offset: 0x00231D00
 		private static bool ShouldCheckMissingInjection(string str, FieldInfo fi)
 		{
 			return !str.NullOrEmpty() && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && !fi.HasAttribute<MayTranslateAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || str.Contains(' '));

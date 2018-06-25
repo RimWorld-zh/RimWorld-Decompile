@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020001E6 RID: 486
 	public class ThinkNode_ConditionalAnyUndownedColonistSpawnedNearby : ThinkNode_Conditional
 	{
-		// Token: 0x06000986 RID: 2438 RVA: 0x00056B2C File Offset: 0x00054F2C
+		// Token: 0x06000985 RID: 2437 RVA: 0x00056B28 File Offset: 0x00054F28
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;

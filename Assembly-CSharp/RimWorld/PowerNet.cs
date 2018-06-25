@@ -10,64 +10,64 @@ namespace RimWorld
 	// Token: 0x02000425 RID: 1061
 	public class PowerNet
 	{
-		// Token: 0x04000B36 RID: 2870
+		// Token: 0x04000B39 RID: 2873
 		public PowerNetManager powerNetManager;
 
-		// Token: 0x04000B37 RID: 2871
+		// Token: 0x04000B3A RID: 2874
 		public bool hasPowerSource;
 
-		// Token: 0x04000B38 RID: 2872
+		// Token: 0x04000B3B RID: 2875
 		public List<CompPower> connectors = new List<CompPower>();
 
-		// Token: 0x04000B39 RID: 2873
+		// Token: 0x04000B3C RID: 2876
 		public List<CompPower> transmitters = new List<CompPower>();
 
-		// Token: 0x04000B3A RID: 2874
+		// Token: 0x04000B3D RID: 2877
 		public List<CompPowerTrader> powerComps = new List<CompPowerTrader>();
 
-		// Token: 0x04000B3B RID: 2875
+		// Token: 0x04000B3E RID: 2878
 		public List<CompPowerBattery> batteryComps = new List<CompPowerBattery>();
 
-		// Token: 0x04000B3C RID: 2876
+		// Token: 0x04000B3F RID: 2879
 		private float debugLastCreatedEnergy;
 
-		// Token: 0x04000B3D RID: 2877
+		// Token: 0x04000B40 RID: 2880
 		private float debugLastRawStoredEnergy;
 
-		// Token: 0x04000B3E RID: 2878
+		// Token: 0x04000B41 RID: 2881
 		private float debugLastApparentStoredEnergy;
 
-		// Token: 0x04000B3F RID: 2879
+		// Token: 0x04000B42 RID: 2882
 		private const int MaxRestartTryInterval = 200;
 
-		// Token: 0x04000B40 RID: 2880
+		// Token: 0x04000B43 RID: 2883
 		private const int MinRestartTryInterval = 30;
 
-		// Token: 0x04000B41 RID: 2881
+		// Token: 0x04000B44 RID: 2884
 		private const float RestartMinFraction = 0.05f;
 
-		// Token: 0x04000B42 RID: 2882
+		// Token: 0x04000B45 RID: 2885
 		private const int ShutdownInterval = 20;
 
-		// Token: 0x04000B43 RID: 2883
+		// Token: 0x04000B46 RID: 2886
 		private const float ShutdownMinFraction = 0.05f;
 
-		// Token: 0x04000B44 RID: 2884
+		// Token: 0x04000B47 RID: 2887
 		private const float MinStoredEnergyToTurnOn = 5f;
 
-		// Token: 0x04000B45 RID: 2885
+		// Token: 0x04000B48 RID: 2888
 		private static List<CompPowerTrader> partsWantingPowerOn = new List<CompPowerTrader>();
 
-		// Token: 0x04000B46 RID: 2886
+		// Token: 0x04000B49 RID: 2889
 		private static List<CompPowerTrader> potentialShutdownParts = new List<CompPowerTrader>();
 
-		// Token: 0x04000B47 RID: 2887
+		// Token: 0x04000B4A RID: 2890
 		private List<CompPowerBattery> givingBats = new List<CompPowerBattery>();
 
-		// Token: 0x04000B48 RID: 2888
+		// Token: 0x04000B4B RID: 2891
 		private static List<CompPowerBattery> batteriesShuffled = new List<CompPowerBattery>();
 
-		// Token: 0x06001279 RID: 4729 RVA: 0x000A0164 File Offset: 0x0009E564
+		// Token: 0x06001278 RID: 4728 RVA: 0x000A0364 File Offset: 0x0009E764
 		public PowerNet(IEnumerable<CompPower> newTransmitters)
 		{
 			foreach (CompPower compPower in newTransmitters)
@@ -96,7 +96,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000281 RID: 641
-		// (get) Token: 0x0600127A RID: 4730 RVA: 0x000A029C File Offset: 0x0009E69C
+		// (get) Token: 0x06001279 RID: 4729 RVA: 0x000A049C File Offset: 0x0009E89C
 		public Map Map
 		{
 			get
@@ -106,7 +106,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000282 RID: 642
-		// (get) Token: 0x0600127B RID: 4731 RVA: 0x000A02BC File Offset: 0x0009E6BC
+		// (get) Token: 0x0600127A RID: 4730 RVA: 0x000A04BC File Offset: 0x0009E8BC
 		public bool HasActivePowerSource
 		{
 			get
@@ -131,13 +131,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600127C RID: 4732 RVA: 0x000A0320 File Offset: 0x0009E720
+		// Token: 0x0600127B RID: 4731 RVA: 0x000A0520 File Offset: 0x0009E920
 		private bool IsPowerSource(CompPower cp)
 		{
 			return cp is CompPowerBattery || (cp is CompPowerTrader && cp.Props.basePowerConsumption < 0f);
 		}
 
-		// Token: 0x0600127D RID: 4733 RVA: 0x000A0370 File Offset: 0x0009E770
+		// Token: 0x0600127C RID: 4732 RVA: 0x000A0570 File Offset: 0x0009E970
 		private bool IsActivePowerSource(CompPower cp)
 		{
 			CompPowerBattery compPowerBattery = cp as CompPowerBattery;
@@ -154,7 +154,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600127E RID: 4734 RVA: 0x000A03D0 File Offset: 0x0009E7D0
+		// Token: 0x0600127D RID: 4733 RVA: 0x000A05D0 File Offset: 0x0009E9D0
 		public void RegisterConnector(CompPower b)
 		{
 			if (this.connectors.Contains(b))
@@ -168,14 +168,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600127F RID: 4735 RVA: 0x000A041E File Offset: 0x0009E81E
+		// Token: 0x0600127E RID: 4734 RVA: 0x000A061E File Offset: 0x0009EA1E
 		public void DeregisterConnector(CompPower b)
 		{
 			this.connectors.Remove(b);
 			this.DeregisterAllComponentsOf(b.parent);
 		}
 
-		// Token: 0x06001280 RID: 4736 RVA: 0x000A043C File Offset: 0x0009E83C
+		// Token: 0x0600127F RID: 4735 RVA: 0x000A063C File Offset: 0x0009EA3C
 		private void RegisterAllComponentsOf(ThingWithComps parentThing)
 		{
 			CompPowerTrader comp = parentThing.GetComp<CompPowerTrader>();
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001281 RID: 4737 RVA: 0x000A04D8 File Offset: 0x0009E8D8
+		// Token: 0x06001280 RID: 4736 RVA: 0x000A06D8 File Offset: 0x0009EAD8
 		private void DeregisterAllComponentsOf(ThingWithComps parentThing)
 		{
 			CompPowerTrader comp = parentThing.GetComp<CompPowerTrader>();
@@ -219,7 +219,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001282 RID: 4738 RVA: 0x000A051C File Offset: 0x0009E91C
+		// Token: 0x06001281 RID: 4737 RVA: 0x000A071C File Offset: 0x0009EB1C
 		public float CurrentEnergyGainRate()
 		{
 			float result;
@@ -242,7 +242,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001283 RID: 4739 RVA: 0x000A0598 File Offset: 0x0009E998
+		// Token: 0x06001282 RID: 4738 RVA: 0x000A0798 File Offset: 0x0009EB98
 		public float CurrentStoredEnergy()
 		{
 			float num = 0f;
@@ -253,7 +253,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001284 RID: 4740 RVA: 0x000A05E8 File Offset: 0x0009E9E8
+		// Token: 0x06001283 RID: 4739 RVA: 0x000A07E8 File Offset: 0x0009EBE8
 		public void PowerNetTick()
 		{
 			float num = this.CurrentEnergyGainRate();
@@ -340,7 +340,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001285 RID: 4741 RVA: 0x000A08E4 File Offset: 0x0009ECE4
+		// Token: 0x06001284 RID: 4740 RVA: 0x000A0AE4 File Offset: 0x0009EEE4
 		private void ChangeStoredEnergy(float extra)
 		{
 			if (extra > 0f)
@@ -385,7 +385,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001286 RID: 4742 RVA: 0x000A0A18 File Offset: 0x0009EE18
+		// Token: 0x06001285 RID: 4741 RVA: 0x000A0C18 File Offset: 0x0009F018
 		private void DistributeEnergyAmongBatteries(float energy)
 		{
 			if (energy > 0f && this.batteryComps.Any<CompPowerBattery>())
@@ -444,7 +444,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001287 RID: 4743 RVA: 0x000A0BE0 File Offset: 0x0009EFE0
+		// Token: 0x06001286 RID: 4742 RVA: 0x000A0DE0 File Offset: 0x0009F1E0
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

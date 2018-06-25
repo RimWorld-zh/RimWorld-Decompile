@@ -7,34 +7,34 @@ namespace RimWorld
 	[DefOf]
 	public static class RoomRoleDefOf
 	{
-		// Token: 0x04002167 RID: 8551
+		// Token: 0x0400216E RID: 8558
 		public static RoomRoleDef None;
 
-		// Token: 0x04002168 RID: 8552
+		// Token: 0x0400216F RID: 8559
 		public static RoomRoleDef Bedroom;
 
-		// Token: 0x04002169 RID: 8553
+		// Token: 0x04002170 RID: 8560
 		public static RoomRoleDef Barracks;
 
-		// Token: 0x0400216A RID: 8554
+		// Token: 0x04002171 RID: 8561
 		public static RoomRoleDef PrisonCell;
 
-		// Token: 0x0400216B RID: 8555
+		// Token: 0x04002172 RID: 8562
 		public static RoomRoleDef PrisonBarracks;
 
-		// Token: 0x0400216C RID: 8556
+		// Token: 0x04002173 RID: 8563
 		public static RoomRoleDef DiningRoom;
 
-		// Token: 0x0400216D RID: 8557
+		// Token: 0x04002174 RID: 8564
 		public static RoomRoleDef RecRoom;
 
-		// Token: 0x0400216E RID: 8558
+		// Token: 0x04002175 RID: 8565
 		public static RoomRoleDef Hospital;
 
-		// Token: 0x0400216F RID: 8559
+		// Token: 0x04002176 RID: 8566
 		public static RoomRoleDef Laboratory;
 
-		// Token: 0x0600364B RID: 13899 RVA: 0x001D0CFB File Offset: 0x001CF0FB
+		// Token: 0x0600364B RID: 13899 RVA: 0x001D0FCF File Offset: 0x001CF3CF
 		static RoomRoleDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RoomRoleDefOf));

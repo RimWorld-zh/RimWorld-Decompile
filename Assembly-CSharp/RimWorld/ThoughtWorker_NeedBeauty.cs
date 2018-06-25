@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000232 RID: 562
 	public class ThoughtWorker_NeedBeauty : ThoughtWorker
 	{
-		// Token: 0x06000A32 RID: 2610 RVA: 0x00059F70 File Offset: 0x00058370
+		// Token: 0x06000A31 RID: 2609 RVA: 0x00059F6C File Offset: 0x0005836C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;

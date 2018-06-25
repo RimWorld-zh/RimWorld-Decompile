@@ -2,25 +2,25 @@
 
 namespace Verse
 {
-	// Token: 0x02000C7E RID: 3198
+	// Token: 0x02000C7F RID: 3199
 	public class FloodFillRangeQueue
 	{
-		// Token: 0x04002FB9 RID: 12217
+		// Token: 0x04002FC0 RID: 12224
 		private FloodFillRange[] array;
 
-		// Token: 0x04002FBA RID: 12218
+		// Token: 0x04002FC1 RID: 12225
 		private int count;
 
-		// Token: 0x04002FBB RID: 12219
+		// Token: 0x04002FC2 RID: 12226
 		private int head;
 
-		// Token: 0x04002FBC RID: 12220
+		// Token: 0x04002FC3 RID: 12227
 		private int debugNumTimesExpanded = 0;
 
-		// Token: 0x04002FBD RID: 12221
+		// Token: 0x04002FC4 RID: 12228
 		private int debugMaxUsedSpace = 0;
 
-		// Token: 0x06004606 RID: 17926 RVA: 0x0024E89F File Offset: 0x0024CC9F
+		// Token: 0x06004606 RID: 17926 RVA: 0x0024EB7F File Offset: 0x0024CF7F
 		public FloodFillRangeQueue(int initialSize)
 		{
 			this.array = new FloodFillRange[initialSize];
@@ -29,7 +29,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B03 RID: 2819
-		// (get) Token: 0x06004607 RID: 17927 RVA: 0x0024E8D0 File Offset: 0x0024CCD0
+		// (get) Token: 0x06004607 RID: 17927 RVA: 0x0024EBB0 File Offset: 0x0024CFB0
 		public int Count
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B04 RID: 2820
-		// (get) Token: 0x06004608 RID: 17928 RVA: 0x0024E8EC File Offset: 0x0024CCEC
+		// (get) Token: 0x06004608 RID: 17928 RVA: 0x0024EBCC File Offset: 0x0024CFCC
 		public FloodFillRange First
 		{
 			get
@@ -49,7 +49,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B05 RID: 2821
-		// (get) Token: 0x06004609 RID: 17929 RVA: 0x0024E918 File Offset: 0x0024CD18
+		// (get) Token: 0x06004609 RID: 17929 RVA: 0x0024EBF8 File Offset: 0x0024CFF8
 		public string PerfDebugString
 		{
 			get
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600460A RID: 17930 RVA: 0x0024E99C File Offset: 0x0024CD9C
+		// Token: 0x0600460A RID: 17930 RVA: 0x0024EC7C File Offset: 0x0024D07C
 		public void Enqueue(FloodFillRange r)
 		{
 			if (this.count + this.head == this.array.Length)
@@ -83,7 +83,7 @@ namespace Verse
 			this.debugMaxUsedSpace = this.count + this.head;
 		}
 
-		// Token: 0x0600460B RID: 17931 RVA: 0x0024EA48 File Offset: 0x0024CE48
+		// Token: 0x0600460B RID: 17931 RVA: 0x0024ED28 File Offset: 0x0024D128
 		public FloodFillRange Dequeue()
 		{
 			FloodFillRange result = default(FloodFillRange);

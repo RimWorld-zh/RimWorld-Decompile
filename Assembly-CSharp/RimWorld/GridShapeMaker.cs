@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000400 RID: 1024
 	public static class GridShapeMaker
 	{
-		// Token: 0x06001197 RID: 4503 RVA: 0x00098650 File Offset: 0x00096A50
+		// Token: 0x06001196 RID: 4502 RVA: 0x00098660 File Offset: 0x00096A60
 		public static IEnumerable<IntVec3> IrregularLump(IntVec3 center, Map map, int numCells)
 		{
 			List<IntVec3> lumpCells = new List<IntVec3>();

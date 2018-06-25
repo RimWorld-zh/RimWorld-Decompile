@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E30 RID: 3632
+	// Token: 0x02000E31 RID: 3633
 	[AttributeUsage(AttributeTargets.Method)]
 	public class DebugOutputAttribute : Attribute
 	{

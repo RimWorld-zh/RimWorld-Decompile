@@ -6,10 +6,10 @@ namespace RimWorld
 	[DefOf]
 	public static class ScenarioDefOf
 	{
-		// Token: 0x0400204D RID: 8269
+		// Token: 0x04002054 RID: 8276
 		public static ScenarioDef Crashlanded;
 
-		// Token: 0x0600363F RID: 13887 RVA: 0x001D0C23 File Offset: 0x001CF023
+		// Token: 0x0600363F RID: 13887 RVA: 0x001D0EF7 File Offset: 0x001CF2F7
 		static ScenarioDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ScenarioDefOf));

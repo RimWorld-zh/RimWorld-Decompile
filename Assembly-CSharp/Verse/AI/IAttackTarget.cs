@@ -2,7 +2,7 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000C28 RID: 3112
+	// Token: 0x02000C29 RID: 3113
 	public interface IAttackTarget : ILoadReferenceable
 	{
 		// Token: 0x17000AB4 RID: 2740

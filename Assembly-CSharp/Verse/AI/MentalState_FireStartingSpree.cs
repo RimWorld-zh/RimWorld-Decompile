@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A80 RID: 2688
+	// Token: 0x02000A81 RID: 2689
 	public class MentalState_FireStartingSpree : MentalState
 	{
-		// Token: 0x06003BAE RID: 15278 RVA: 0x001F81E8 File Offset: 0x001F65E8
+		// Token: 0x06003BAF RID: 15279 RVA: 0x001F8514 File Offset: 0x001F6914
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

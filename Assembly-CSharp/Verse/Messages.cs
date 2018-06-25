@@ -5,26 +5,26 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E89 RID: 3721
+	// Token: 0x02000E8A RID: 3722
 	[StaticConstructorOnStartup]
 	public static class Messages
 	{
-		// Token: 0x04003A13 RID: 14867
+		// Token: 0x04003A1B RID: 14875
 		private static List<Message> liveMessages = new List<Message>();
 
-		// Token: 0x04003A14 RID: 14868
+		// Token: 0x04003A1C RID: 14876
 		private static int mouseoverMessageIndex = -1;
 
-		// Token: 0x04003A15 RID: 14869
+		// Token: 0x04003A1D RID: 14877
 		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
 
-		// Token: 0x04003A16 RID: 14870
+		// Token: 0x04003A1E RID: 14878
 		private const int MessageYInterval = 26;
 
-		// Token: 0x04003A17 RID: 14871
+		// Token: 0x04003A1F RID: 14879
 		private const int MaxLiveMessages = 12;
 
-		// Token: 0x060057DA RID: 22490 RVA: 0x002D1528 File Offset: 0x002CF928
+		// Token: 0x060057DA RID: 22490 RVA: 0x002D1714 File Offset: 0x002CFB14
 		public static void Update()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -38,7 +38,7 @@ namespace Verse
 			Messages.liveMessages.RemoveAll((Message m) => m.Expired);
 		}
 
-		// Token: 0x060057DB RID: 22491 RVA: 0x002D15AC File Offset: 0x002CF9AC
+		// Token: 0x060057DB RID: 22491 RVA: 0x002D1798 File Offset: 0x002CFB98
 		public static void Message(string text, LookTargets lookTargets, MessageTypeDef def, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(text, lookTargets))
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057DC RID: 22492 RVA: 0x002D15DC File Offset: 0x002CF9DC
+		// Token: 0x060057DC RID: 22492 RVA: 0x002D17C8 File Offset: 0x002CFBC8
 		public static void Message(string text, MessageTypeDef def, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(text, TargetInfo.Invalid))
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057DD RID: 22493 RVA: 0x002D1614 File Offset: 0x002CFA14
+		// Token: 0x060057DD RID: 22493 RVA: 0x002D1800 File Offset: 0x002CFC00
 		public static void Message(Message msg, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(msg.text, msg.lookTargets))
@@ -79,13 +79,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057DE RID: 22494 RVA: 0x002D16A8 File Offset: 0x002CFAA8
+		// Token: 0x060057DE RID: 22494 RVA: 0x002D1894 File Offset: 0x002CFC94
 		public static bool IsLive(Message msg)
 		{
 			return Messages.liveMessages.Contains(msg);
 		}
 
-		// Token: 0x060057DF RID: 22495 RVA: 0x002D16C8 File Offset: 0x002CFAC8
+		// Token: 0x060057DF RID: 22495 RVA: 0x002D18B4 File Offset: 0x002CFCB4
 		public static void MessagesDoGUI()
 		{
 			Text.Font = GameFont.Small;
@@ -102,7 +102,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057E0 RID: 22496 RVA: 0x002D1764 File Offset: 0x002CFB64
+		// Token: 0x060057E0 RID: 22496 RVA: 0x002D1950 File Offset: 0x002CFD50
 		public static bool CollidesWithAnyMessage(Rect rect, out float messageAlpha)
 		{
 			bool result = false;
@@ -120,13 +120,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057E1 RID: 22497 RVA: 0x002D17D3 File Offset: 0x002CFBD3
+		// Token: 0x060057E1 RID: 22497 RVA: 0x002D19BF File Offset: 0x002CFDBF
 		public static void Clear()
 		{
 			Messages.liveMessages.Clear();
 		}
 
-		// Token: 0x060057E2 RID: 22498 RVA: 0x002D17E0 File Offset: 0x002CFBE0
+		// Token: 0x060057E2 RID: 22498 RVA: 0x002D19CC File Offset: 0x002CFDCC
 		public static void Notify_LoadedLevelChanged()
 		{
 			for (int i = 0; i < Messages.liveMessages.Count; i++)
@@ -135,7 +135,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057E3 RID: 22499 RVA: 0x002D181C File Offset: 0x002CFC1C
+		// Token: 0x060057E3 RID: 22499 RVA: 0x002D1A08 File Offset: 0x002CFE08
 		private static bool AcceptsMessage(string text, LookTargets lookTargets)
 		{
 			bool result;
@@ -157,7 +157,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057E4 RID: 22500 RVA: 0x002D18B9 File Offset: 0x002CFCB9
+		// Token: 0x060057E4 RID: 22500 RVA: 0x002D1AA5 File Offset: 0x002CFEA5
 		public static void Notify_Mouseover(Message msg)
 		{
 			Messages.mouseoverMessageIndex = Messages.liveMessages.IndexOf(msg);

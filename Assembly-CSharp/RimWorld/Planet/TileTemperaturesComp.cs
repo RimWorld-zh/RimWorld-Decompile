@@ -8,19 +8,19 @@ namespace RimWorld.Planet
 	// Token: 0x020005AA RID: 1450
 	public class TileTemperaturesComp : WorldComponent
 	{
-		// Token: 0x04001071 RID: 4209
+		// Token: 0x04001075 RID: 4213
 		private TileTemperaturesComp.CachedTileTemperatureData[] cache;
 
-		// Token: 0x04001072 RID: 4210
+		// Token: 0x04001076 RID: 4214
 		private List<int> usedSlots;
 
-		// Token: 0x06001BA2 RID: 7074 RVA: 0x000EEEBE File Offset: 0x000ED2BE
+		// Token: 0x06001BA1 RID: 7073 RVA: 0x000EF126 File Offset: 0x000ED526
 		public TileTemperaturesComp(World world) : base(world)
 		{
 			this.ClearCaches();
 		}
 
-		// Token: 0x06001BA3 RID: 7075 RVA: 0x000EEED0 File Offset: 0x000ED2D0
+		// Token: 0x06001BA2 RID: 7074 RVA: 0x000EF138 File Offset: 0x000ED538
 		public override void WorldComponentTick()
 		{
 			for (int i = 0; i < this.usedSlots.Count; i++)
@@ -34,64 +34,64 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BA4 RID: 7076 RVA: 0x000EEF60 File Offset: 0x000ED360
+		// Token: 0x06001BA3 RID: 7075 RVA: 0x000EF1C8 File Offset: 0x000ED5C8
 		public float GetOutdoorTemp(int tile)
 		{
 			return this.RetrieveCachedData(tile).GetOutdoorTemp();
 		}
 
-		// Token: 0x06001BA5 RID: 7077 RVA: 0x000EEF84 File Offset: 0x000ED384
+		// Token: 0x06001BA4 RID: 7076 RVA: 0x000EF1EC File Offset: 0x000ED5EC
 		public float GetSeasonalTemp(int tile)
 		{
 			return this.RetrieveCachedData(tile).GetSeasonalTemp();
 		}
 
-		// Token: 0x06001BA6 RID: 7078 RVA: 0x000EEFA8 File Offset: 0x000ED3A8
+		// Token: 0x06001BA5 RID: 7077 RVA: 0x000EF210 File Offset: 0x000ED610
 		public float OutdoorTemperatureAt(int tile, int absTick)
 		{
 			return this.RetrieveCachedData(tile).OutdoorTemperatureAt(absTick);
 		}
 
-		// Token: 0x06001BA7 RID: 7079 RVA: 0x000EEFCC File Offset: 0x000ED3CC
+		// Token: 0x06001BA6 RID: 7078 RVA: 0x000EF234 File Offset: 0x000ED634
 		public float OffsetFromDailyRandomVariation(int tile, int absTick)
 		{
 			return this.RetrieveCachedData(tile).OffsetFromDailyRandomVariation(absTick);
 		}
 
-		// Token: 0x06001BA8 RID: 7080 RVA: 0x000EEFF0 File Offset: 0x000ED3F0
+		// Token: 0x06001BA7 RID: 7079 RVA: 0x000EF258 File Offset: 0x000ED658
 		public float AverageTemperatureForTwelfth(int tile, Twelfth twelfth)
 		{
 			return this.RetrieveCachedData(tile).AverageTemperatureForTwelfth(twelfth);
 		}
 
-		// Token: 0x06001BA9 RID: 7081 RVA: 0x000EF014 File Offset: 0x000ED414
+		// Token: 0x06001BA8 RID: 7080 RVA: 0x000EF27C File Offset: 0x000ED67C
 		public bool SeasonAcceptableFor(int tile, ThingDef animalRace)
 		{
 			float seasonalTemp = this.GetSeasonalTemp(tile);
 			return seasonalTemp > animalRace.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) && seasonalTemp < animalRace.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null);
 		}
 
-		// Token: 0x06001BAA RID: 7082 RVA: 0x000EF058 File Offset: 0x000ED458
+		// Token: 0x06001BA9 RID: 7081 RVA: 0x000EF2C0 File Offset: 0x000ED6C0
 		public bool OutdoorTemperatureAcceptableFor(int tile, ThingDef animalRace)
 		{
 			float outdoorTemp = this.GetOutdoorTemp(tile);
 			return outdoorTemp > animalRace.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) && outdoorTemp < animalRace.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null);
 		}
 
-		// Token: 0x06001BAB RID: 7083 RVA: 0x000EF09C File Offset: 0x000ED49C
+		// Token: 0x06001BAA RID: 7082 RVA: 0x000EF304 File Offset: 0x000ED704
 		public bool SeasonAndOutdoorTemperatureAcceptableFor(int tile, ThingDef animalRace)
 		{
 			return this.SeasonAcceptableFor(tile, animalRace) && this.OutdoorTemperatureAcceptableFor(tile, animalRace);
 		}
 
-		// Token: 0x06001BAC RID: 7084 RVA: 0x000EF0C9 File Offset: 0x000ED4C9
+		// Token: 0x06001BAB RID: 7083 RVA: 0x000EF331 File Offset: 0x000ED731
 		public void ClearCaches()
 		{
 			this.cache = new TileTemperaturesComp.CachedTileTemperatureData[Find.WorldGrid.TilesCount];
 			this.usedSlots = new List<int>();
 		}
 
-		// Token: 0x06001BAD RID: 7085 RVA: 0x000EF0EC File Offset: 0x000ED4EC
+		// Token: 0x06001BAC RID: 7084 RVA: 0x000EF354 File Offset: 0x000ED754
 		private TileTemperaturesComp.CachedTileTemperatureData RetrieveCachedData(int tile)
 		{
 			TileTemperaturesComp.CachedTileTemperatureData result;
@@ -111,28 +111,28 @@ namespace RimWorld.Planet
 		// Token: 0x020005AB RID: 1451
 		private class CachedTileTemperatureData
 		{
-			// Token: 0x04001073 RID: 4211
+			// Token: 0x04001077 RID: 4215
 			private int tile;
 
-			// Token: 0x04001074 RID: 4212
+			// Token: 0x04001078 RID: 4216
 			private int tickCachesNeedReset = int.MinValue;
 
-			// Token: 0x04001075 RID: 4213
+			// Token: 0x04001079 RID: 4217
 			private float cachedOutdoorTemp = float.MinValue;
 
-			// Token: 0x04001076 RID: 4214
+			// Token: 0x0400107A RID: 4218
 			private float cachedSeasonalTemp = float.MinValue;
 
-			// Token: 0x04001077 RID: 4215
+			// Token: 0x0400107B RID: 4219
 			private float[] twelfthlyTempAverages;
 
-			// Token: 0x04001078 RID: 4216
+			// Token: 0x0400107C RID: 4220
 			private Perlin dailyVariationPerlinCached;
 
-			// Token: 0x04001079 RID: 4217
+			// Token: 0x0400107D RID: 4221
 			private const int CachedTempUpdateInterval = 60;
 
-			// Token: 0x06001BAE RID: 7086 RVA: 0x000EF140 File Offset: 0x000ED540
+			// Token: 0x06001BAD RID: 7085 RVA: 0x000EF3A8 File Offset: 0x000ED7A8
 			public CachedTileTemperatureData(int tile)
 			{
 				this.tile = tile;
@@ -146,37 +146,37 @@ namespace RimWorld.Planet
 				this.CheckCache();
 			}
 
-			// Token: 0x06001BAF RID: 7087 RVA: 0x000EF1EC File Offset: 0x000ED5EC
+			// Token: 0x06001BAE RID: 7086 RVA: 0x000EF454 File Offset: 0x000ED854
 			public float GetOutdoorTemp()
 			{
 				return this.cachedOutdoorTemp;
 			}
 
-			// Token: 0x06001BB0 RID: 7088 RVA: 0x000EF208 File Offset: 0x000ED608
+			// Token: 0x06001BAF RID: 7087 RVA: 0x000EF470 File Offset: 0x000ED870
 			public float GetSeasonalTemp()
 			{
 				return this.cachedSeasonalTemp;
 			}
 
-			// Token: 0x06001BB1 RID: 7089 RVA: 0x000EF224 File Offset: 0x000ED624
+			// Token: 0x06001BB0 RID: 7088 RVA: 0x000EF48C File Offset: 0x000ED88C
 			public float OutdoorTemperatureAt(int absTick)
 			{
 				return this.CalculateOutdoorTemperatureAtTile(absTick, true);
 			}
 
-			// Token: 0x06001BB2 RID: 7090 RVA: 0x000EF244 File Offset: 0x000ED644
+			// Token: 0x06001BB1 RID: 7089 RVA: 0x000EF4AC File Offset: 0x000ED8AC
 			public float OffsetFromDailyRandomVariation(int absTick)
 			{
 				return (float)this.dailyVariationPerlinCached.GetValue((double)absTick, 0.0, 0.0) * 7f;
 			}
 
-			// Token: 0x06001BB3 RID: 7091 RVA: 0x000EF280 File Offset: 0x000ED680
+			// Token: 0x06001BB2 RID: 7090 RVA: 0x000EF4E8 File Offset: 0x000ED8E8
 			public float AverageTemperatureForTwelfth(Twelfth twelfth)
 			{
 				return this.twelfthlyTempAverages[(int)twelfth];
 			}
 
-			// Token: 0x06001BB4 RID: 7092 RVA: 0x000EF2A0 File Offset: 0x000ED6A0
+			// Token: 0x06001BB3 RID: 7091 RVA: 0x000EF508 File Offset: 0x000ED908
 			public void CheckCache()
 			{
 				if (this.tickCachesNeedReset <= Find.TickManager.TicksGame)
@@ -192,7 +192,7 @@ namespace RimWorld.Planet
 				}
 			}
 
-			// Token: 0x06001BB5 RID: 7093 RVA: 0x000EF334 File Offset: 0x000ED734
+			// Token: 0x06001BB4 RID: 7092 RVA: 0x000EF59C File Offset: 0x000ED99C
 			private float CalculateOutdoorTemperatureAtTile(int absTick, bool includeDailyVariations)
 			{
 				if (absTick == 0)

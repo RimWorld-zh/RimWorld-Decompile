@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x020000E0 RID: 224
 	public class JobGiver_ExtinguishSelf : ThinkNode_JobGiver
 	{
-		// Token: 0x040002B5 RID: 693
+		// Token: 0x040002B6 RID: 694
 		private const float ActivateChance = 0.1f;
 
-		// Token: 0x060004E3 RID: 1251 RVA: 0x000366EC File Offset: 0x00034AEC
+		// Token: 0x060004E3 RID: 1251 RVA: 0x00036708 File Offset: 0x00034B08
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			if (Rand.Value < 0.1f)

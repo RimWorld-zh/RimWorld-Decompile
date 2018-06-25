@@ -11,7 +11,7 @@ namespace RimWorld
 		protected abstract CellRect BuildableRect { get; }
 
 		// Token: 0x1700081E RID: 2078
-		// (get) Token: 0x0600330B RID: 13067 RVA: 0x001B7DE0 File Offset: 0x001B61E0
+		// (get) Token: 0x0600330B RID: 13067 RVA: 0x001B80B4 File Offset: 0x001B64B4
 		protected override float ProgressPercent
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600330C RID: 13068 RVA: 0x001B7E28 File Offset: 0x001B6228
+		// Token: 0x0600330C RID: 13068 RVA: 0x001B80FC File Offset: 0x001B64FC
 		protected int NumPlaced()
 		{
 			int num = 0;
@@ -43,20 +43,20 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600330D RID: 13069 RVA: 0x001B7EB0 File Offset: 0x001B62B0
+		// Token: 0x0600330D RID: 13069 RVA: 0x001B8184 File Offset: 0x001B6584
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawCellRectOnGUI(this.BuildableRect.ContractedBy(1), this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x0600330E RID: 13070 RVA: 0x001B7EE4 File Offset: 0x001B62E4
+		// Token: 0x0600330E RID: 13070 RVA: 0x001B81B8 File Offset: 0x001B65B8
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawArrowPointingAt(this.BuildableRect.CenterVector3, true);
 		}
 
-		// Token: 0x0600330F RID: 13071 RVA: 0x001B7F08 File Offset: 0x001B6308
+		// Token: 0x0600330F RID: 13071 RVA: 0x001B81DC File Offset: 0x001B65DC
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;
@@ -71,13 +71,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003310 RID: 13072 RVA: 0x001B7F68 File Offset: 0x001B6368
+		// Token: 0x06003310 RID: 13072 RVA: 0x001B823C File Offset: 0x001B663C
 		protected virtual bool AllowBuildAt(IntVec3 c)
 		{
 			return this.BuildableRect.Contains(c);
 		}
 
-		// Token: 0x06003311 RID: 13073 RVA: 0x001B7F8C File Offset: 0x001B638C
+		// Token: 0x06003311 RID: 13073 RVA: 0x001B8260 File Offset: 0x001B6660
 		public override void Notify_Event(EventPack ep)
 		{
 			if (this.NumPlaced() >= this.def.targetCount)

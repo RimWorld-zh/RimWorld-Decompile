@@ -9,7 +9,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AD RID: 941
 	public class SymbolResolver_EdgeThing : SymbolResolver
 	{
-		// Token: 0x04000A17 RID: 2583
+		// Token: 0x04000A1A RID: 2586
 		private List<int> randomRotations = new List<int>
 		{
 			0,
@@ -18,10 +18,10 @@ namespace RimWorld.BaseGen
 			3
 		};
 
-		// Token: 0x04000A18 RID: 2584
+		// Token: 0x04000A1B RID: 2587
 		private int MaxTriesToAvoidOtherEdgeThings = 4;
 
-		// Token: 0x0600104F RID: 4175 RVA: 0x000895BC File Offset: 0x000879BC
+		// Token: 0x0600104E RID: 4174 RVA: 0x000895CC File Offset: 0x000879CC
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -74,7 +74,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001050 RID: 4176 RVA: 0x000896F4 File Offset: 0x00087AF4
+		// Token: 0x0600104F RID: 4175 RVA: 0x00089704 File Offset: 0x00087B04
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.singleThingDef ?? (from x in DefDatabase<ThingDef>.AllDefsListForReading
@@ -125,7 +125,7 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("thing", rp2);
 		}
 
-		// Token: 0x06001051 RID: 4177 RVA: 0x000898D0 File Offset: 0x00087CD0
+		// Token: 0x06001050 RID: 4176 RVA: 0x000898E0 File Offset: 0x00087CE0
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
 		{
 			bool result;
@@ -159,7 +159,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001052 RID: 4178 RVA: 0x0008997C File Offset: 0x00087D7C
+		// Token: 0x06001051 RID: 4177 RVA: 0x0008998C File Offset: 0x00087D8C
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, out IntVec3 spawnCell)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -212,7 +212,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001053 RID: 4179 RVA: 0x00089AD8 File Offset: 0x00087ED8
+		// Token: 0x06001052 RID: 4178 RVA: 0x00089AE8 File Offset: 0x00087EE8
 		private int GetDistanceSquaredToExistingEdgeThing(IntVec3 cell, CellRect rect, ThingDef thingDef)
 		{
 			Map map = BaseGen.globalSettings.map;

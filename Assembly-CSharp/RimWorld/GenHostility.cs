@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000562 RID: 1378
 	public static class GenHostility
 	{
-		// Token: 0x06001A02 RID: 6658 RVA: 0x000E1BCC File Offset: 0x000DFFCC
+		// Token: 0x06001A01 RID: 6657 RVA: 0x000E1E34 File Offset: 0x000E0234
 		public static bool HostileTo(this Thing a, Thing b)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A03 RID: 6659 RVA: 0x000E1E98 File Offset: 0x000E0298
+		// Token: 0x06001A02 RID: 6658 RVA: 0x000E2100 File Offset: 0x000E0500
 		public static bool HostileTo(this Thing t, Faction fac)
 		{
 			bool result;
@@ -66,7 +66,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A04 RID: 6660 RVA: 0x000E1F80 File Offset: 0x000E0380
+		// Token: 0x06001A03 RID: 6659 RVA: 0x000E21E8 File Offset: 0x000E05E8
 		private static bool IsPredatorHostileTo(Pawn predator, Pawn toPawn)
 		{
 			bool result;
@@ -86,13 +86,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A05 RID: 6661 RVA: 0x000E1FF8 File Offset: 0x000E03F8
+		// Token: 0x06001A04 RID: 6660 RVA: 0x000E2260 File Offset: 0x000E0660
 		private static bool IsPredatorHostileTo(Pawn predator, Faction toFaction)
 		{
 			return toFaction.HasPredatorRecentlyAttackedAnyone(predator) || GenHostility.GetPreyOfMyFaction(predator, toFaction) != null;
 		}
 
-		// Token: 0x06001A06 RID: 6662 RVA: 0x000E2034 File Offset: 0x000E0434
+		// Token: 0x06001A05 RID: 6661 RVA: 0x000E229C File Offset: 0x000E069C
 		private static Pawn GetPreyOfMyFaction(Pawn predator, Faction myFaction)
 		{
 			Job curJob = predator.CurJob;
@@ -107,13 +107,13 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06001A07 RID: 6663 RVA: 0x000E20B8 File Offset: 0x000E04B8
+		// Token: 0x06001A06 RID: 6662 RVA: 0x000E2320 File Offset: 0x000E0720
 		public static bool AnyHostileActiveThreatToPlayer(Map map)
 		{
 			return GenHostility.AnyHostileActiveThreatTo(map, Faction.OfPlayer);
 		}
 
-		// Token: 0x06001A08 RID: 6664 RVA: 0x000E20D8 File Offset: 0x000E04D8
+		// Token: 0x06001A07 RID: 6663 RVA: 0x000E2340 File Offset: 0x000E0740
 		public static bool AnyHostileActiveThreatTo(Map map, Faction faction)
 		{
 			HashSet<IAttackTarget> hashSet = map.attackTargetsCache.TargetsHostileToFaction(faction);
@@ -127,13 +127,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001A09 RID: 6665 RVA: 0x000E2154 File Offset: 0x000E0554
+		// Token: 0x06001A08 RID: 6664 RVA: 0x000E23BC File Offset: 0x000E07BC
 		public static bool IsActiveThreatToPlayer(IAttackTarget target)
 		{
 			return GenHostility.IsActiveThreatTo(target, Faction.OfPlayer);
 		}
 
-		// Token: 0x06001A0A RID: 6666 RVA: 0x000E2174 File Offset: 0x000E0574
+		// Token: 0x06001A09 RID: 6665 RVA: 0x000E23DC File Offset: 0x000E07DC
 		public static bool IsActiveThreatTo(IAttackTarget target, Faction faction)
 		{
 			bool result;
@@ -181,7 +181,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A0B RID: 6667 RVA: 0x000E22C1 File Offset: 0x000E06C1
+		// Token: 0x06001A0A RID: 6666 RVA: 0x000E2529 File Offset: 0x000E0929
 		public static void Notify_PawnLostForTutor(Pawn pawn, Map map)
 		{
 			if (!map.IsPlayerHome && map.mapPawns.FreeColonistsSpawnedCount != 0 && !GenHostility.AnyHostileActiveThreatToPlayer(map))

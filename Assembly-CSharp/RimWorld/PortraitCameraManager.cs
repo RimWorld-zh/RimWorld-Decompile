@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020004A1 RID: 1185
 	public static class PortraitCameraManager
 	{
-		// Token: 0x04000C9A RID: 3226
+		// Token: 0x04000C9D RID: 3229
 		private static Camera portraitCameraInt = PortraitCameraManager.CreatePortraitCamera();
 
-		// Token: 0x04000C9B RID: 3227
+		// Token: 0x04000C9E RID: 3230
 		private static PortraitRenderer portraitRendererInt = PortraitCameraManager.portraitCameraInt.GetComponent<PortraitRenderer>();
 
 		// Token: 0x170002DA RID: 730
-		// (get) Token: 0x06001541 RID: 5441 RVA: 0x000BD528 File Offset: 0x000BB928
+		// (get) Token: 0x06001540 RID: 5440 RVA: 0x000BD728 File Offset: 0x000BBB28
 		public static Camera PortraitCamera
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002DB RID: 731
-		// (get) Token: 0x06001542 RID: 5442 RVA: 0x000BD544 File Offset: 0x000BB944
+		// (get) Token: 0x06001541 RID: 5441 RVA: 0x000BD744 File Offset: 0x000BBB44
 		public static PortraitRenderer PortraitRenderer
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001543 RID: 5443 RVA: 0x000BD560 File Offset: 0x000BB960
+		// Token: 0x06001542 RID: 5442 RVA: 0x000BD760 File Offset: 0x000BBB60
 		private static Camera CreatePortraitCamera()
 		{
 			GameObject gameObject = new GameObject("PortraitCamera", new Type[]

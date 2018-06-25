@@ -8,34 +8,34 @@ namespace RimWorld
 	public interface IArchivable : IExposable
 	{
 		// Token: 0x170001E5 RID: 485
-		// (get) Token: 0x06000C9F RID: 3231
+		// (get) Token: 0x06000C9E RID: 3230
 		Texture ArchivedIcon { get; }
 
 		// Token: 0x170001E6 RID: 486
-		// (get) Token: 0x06000CA0 RID: 3232
+		// (get) Token: 0x06000C9F RID: 3231
 		Color ArchivedIconColor { get; }
 
 		// Token: 0x170001E7 RID: 487
-		// (get) Token: 0x06000CA1 RID: 3233
+		// (get) Token: 0x06000CA0 RID: 3232
 		string ArchivedLabel { get; }
 
 		// Token: 0x170001E8 RID: 488
-		// (get) Token: 0x06000CA2 RID: 3234
+		// (get) Token: 0x06000CA1 RID: 3233
 		string ArchivedTooltip { get; }
 
 		// Token: 0x170001E9 RID: 489
-		// (get) Token: 0x06000CA3 RID: 3235
+		// (get) Token: 0x06000CA2 RID: 3234
 		int CreatedTicksGame { get; }
 
 		// Token: 0x170001EA RID: 490
-		// (get) Token: 0x06000CA4 RID: 3236
+		// (get) Token: 0x06000CA3 RID: 3235
 		bool CanCullArchivedNow { get; }
 
 		// Token: 0x170001EB RID: 491
-		// (get) Token: 0x06000CA5 RID: 3237
+		// (get) Token: 0x06000CA4 RID: 3236
 		LookTargets LookTargets { get; }
 
-		// Token: 0x06000CA6 RID: 3238
+		// Token: 0x06000CA5 RID: 3237
 		void OpenArchived();
 	}
 }

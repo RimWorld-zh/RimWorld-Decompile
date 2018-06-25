@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C1E RID: 3102
+	// Token: 0x02000C1F RID: 3103
 	public sealed class CoverGrid
 	{
-		// Token: 0x04002E57 RID: 11863
+		// Token: 0x04002E5E RID: 11870
 		private Map map;
 
-		// Token: 0x04002E58 RID: 11864
+		// Token: 0x04002E5F RID: 11871
 		private Thing[] innerArray;
 
-		// Token: 0x060043E1 RID: 17377 RVA: 0x0023D1E7 File Offset: 0x0023B5E7
+		// Token: 0x060043E1 RID: 17377 RVA: 0x0023D4C7 File Offset: 0x0023B8C7
 		public CoverGrid(Map map)
 		{
 			this.map = map;
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043E4 RID: 17380 RVA: 0x0023D260 File Offset: 0x0023B660
+		// Token: 0x060043E4 RID: 17380 RVA: 0x0023D540 File Offset: 0x0023B940
 		public void Register(Thing t)
 		{
 			if (t.def.Fillage != FillCategory.None)
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043E5 RID: 17381 RVA: 0x0023D2DC File Offset: 0x0023B6DC
+		// Token: 0x060043E5 RID: 17381 RVA: 0x0023D5BC File Offset: 0x0023B9BC
 		public void DeRegister(Thing t)
 		{
 			if (t.def.Fillage != FillCategory.None)
@@ -71,7 +71,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043E6 RID: 17382 RVA: 0x0023D358 File Offset: 0x0023B758
+		// Token: 0x060043E6 RID: 17382 RVA: 0x0023D638 File Offset: 0x0023BA38
 		private void RecalculateCell(IntVec3 c, Thing ignoreThing = null)
 		{
 			Thing thing = null;

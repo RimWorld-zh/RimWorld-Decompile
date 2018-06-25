@@ -7,34 +7,34 @@ namespace RimWorld
 	[DefOf]
 	public static class RoomStatDefOf
 	{
-		// Token: 0x0400215E RID: 8542
+		// Token: 0x04002165 RID: 8549
 		public static RoomStatDef Cleanliness;
 
-		// Token: 0x0400215F RID: 8543
+		// Token: 0x04002166 RID: 8550
 		public static RoomStatDef Wealth;
 
-		// Token: 0x04002160 RID: 8544
+		// Token: 0x04002167 RID: 8551
 		public static RoomStatDef Space;
 
-		// Token: 0x04002161 RID: 8545
+		// Token: 0x04002168 RID: 8552
 		public static RoomStatDef Beauty;
 
-		// Token: 0x04002162 RID: 8546
+		// Token: 0x04002169 RID: 8553
 		public static RoomStatDef Impressiveness;
 
-		// Token: 0x04002163 RID: 8547
+		// Token: 0x0400216A RID: 8554
 		public static RoomStatDef InfectionChanceFactor;
 
-		// Token: 0x04002164 RID: 8548
+		// Token: 0x0400216B RID: 8555
 		public static RoomStatDef ResearchSpeedFactor;
 
-		// Token: 0x04002165 RID: 8549
+		// Token: 0x0400216C RID: 8556
 		public static RoomStatDef GraveVisitingJoyGainFactor;
 
-		// Token: 0x04002166 RID: 8550
+		// Token: 0x0400216D RID: 8557
 		public static RoomStatDef FoodPoisonChanceFactor;
 
-		// Token: 0x0600364A RID: 13898 RVA: 0x001D0CE9 File Offset: 0x001CF0E9
+		// Token: 0x0600364A RID: 13898 RVA: 0x001D0FBD File Offset: 0x001CF3BD
 		static RoomStatDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RoomStatDefOf));

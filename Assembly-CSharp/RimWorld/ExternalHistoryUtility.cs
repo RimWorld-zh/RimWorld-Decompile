@@ -10,16 +10,16 @@ namespace RimWorld
 	// Token: 0x020002F9 RID: 761
 	public static class ExternalHistoryUtility
 	{
-		// Token: 0x04000846 RID: 2118
+		// Token: 0x04000849 RID: 2121
 		private static List<FileInfo> cachedFiles;
 
-		// Token: 0x04000847 RID: 2119
+		// Token: 0x0400084A RID: 2122
 		private static int gameplayIDLength = 20;
 
-		// Token: 0x04000848 RID: 2120
+		// Token: 0x0400084B RID: 2123
 		private static string gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-		// Token: 0x06000CAB RID: 3243 RVA: 0x0006F98C File Offset: 0x0006DD8C
+		// Token: 0x06000CAA RID: 3242 RVA: 0x0006F994 File Offset: 0x0006DD94
 		static ExternalHistoryUtility()
 		{
 			try
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001ED RID: 493
-		// (get) Token: 0x06000CAC RID: 3244 RVA: 0x0006F9F0 File Offset: 0x0006DDF0
+		// (get) Token: 0x06000CAB RID: 3243 RVA: 0x0006F9F8 File Offset: 0x0006DDF8
 		public static IEnumerable<FileInfo> Files
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CAD RID: 3245 RVA: 0x0006FA14 File Offset: 0x0006DE14
+		// Token: 0x06000CAC RID: 3244 RVA: 0x0006FA1C File Offset: 0x0006DE1C
 		public static ExternalHistory Load(string path)
 		{
 			ExternalHistory result = null;
@@ -73,7 +73,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000CAE RID: 3246 RVA: 0x0006FAB4 File Offset: 0x0006DEB4
+		// Token: 0x06000CAD RID: 3245 RVA: 0x0006FABC File Offset: 0x0006DEBC
 		public static string GetRandomGameplayID()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -85,7 +85,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06000CAF RID: 3247 RVA: 0x0006FB10 File Offset: 0x0006DF10
+		// Token: 0x06000CAE RID: 3246 RVA: 0x0006FB18 File Offset: 0x0006DF18
 		public static bool IsValidGameplayID(string ID)
 		{
 			bool result;
@@ -116,13 +116,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000CB0 RID: 3248 RVA: 0x0006FBAC File Offset: 0x0006DFAC
+		// Token: 0x06000CAF RID: 3247 RVA: 0x0006FBB4 File Offset: 0x0006DFB4
 		public static string GetCurrentUploadDate()
 		{
 			return DateTime.UtcNow.ToString("yyMMdd");
 		}
 
-		// Token: 0x06000CB1 RID: 3249 RVA: 0x0006FBD4 File Offset: 0x0006DFD4
+		// Token: 0x06000CB0 RID: 3248 RVA: 0x0006FBDC File Offset: 0x0006DFDC
 		public static int GetCurrentUploadTime()
 		{
 			return (int)(DateTime.UtcNow.TimeOfDay.TotalSeconds / 2.0);

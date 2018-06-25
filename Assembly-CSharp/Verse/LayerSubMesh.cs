@@ -4,41 +4,41 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C3C RID: 3132
+	// Token: 0x02000C3D RID: 3133
 	public class LayerSubMesh
 	{
-		// Token: 0x04002F2B RID: 12075
+		// Token: 0x04002F32 RID: 12082
 		public bool finalized = false;
 
-		// Token: 0x04002F2C RID: 12076
+		// Token: 0x04002F33 RID: 12083
 		public bool disabled = false;
 
-		// Token: 0x04002F2D RID: 12077
+		// Token: 0x04002F34 RID: 12084
 		public Material material;
 
-		// Token: 0x04002F2E RID: 12078
+		// Token: 0x04002F35 RID: 12085
 		public Mesh mesh;
 
-		// Token: 0x04002F2F RID: 12079
+		// Token: 0x04002F36 RID: 12086
 		public List<Vector3> verts = new List<Vector3>();
 
-		// Token: 0x04002F30 RID: 12080
+		// Token: 0x04002F37 RID: 12087
 		public List<int> tris = new List<int>();
 
-		// Token: 0x04002F31 RID: 12081
+		// Token: 0x04002F38 RID: 12088
 		public List<Color32> colors = new List<Color32>();
 
-		// Token: 0x04002F32 RID: 12082
+		// Token: 0x04002F39 RID: 12089
 		public List<Vector3> uvs = new List<Vector3>();
 
-		// Token: 0x0600450F RID: 17679 RVA: 0x00245AF4 File Offset: 0x00243EF4
+		// Token: 0x0600450F RID: 17679 RVA: 0x00245DD4 File Offset: 0x002441D4
 		public LayerSubMesh(Mesh mesh, Material material)
 		{
 			this.mesh = mesh;
 			this.material = material;
 		}
 
-		// Token: 0x06004510 RID: 17680 RVA: 0x00245B50 File Offset: 0x00243F50
+		// Token: 0x06004510 RID: 17680 RVA: 0x00245E30 File Offset: 0x00244230
 		public void Clear(MeshParts parts)
 		{
 			if ((byte)(parts & MeshParts.Verts) != 0)
@@ -60,7 +60,7 @@ namespace Verse
 			this.finalized = false;
 		}
 
-		// Token: 0x06004511 RID: 17681 RVA: 0x00245BB8 File Offset: 0x00243FB8
+		// Token: 0x06004511 RID: 17681 RVA: 0x00245E98 File Offset: 0x00244298
 		public void FinalizeMesh(MeshParts parts)
 		{
 			if (this.finalized)
@@ -110,7 +110,7 @@ namespace Verse
 			this.finalized = true;
 		}
 
-		// Token: 0x06004512 RID: 17682 RVA: 0x00245D00 File Offset: 0x00244100
+		// Token: 0x06004512 RID: 17682 RVA: 0x00245FE0 File Offset: 0x002443E0
 		public override string ToString()
 		{
 			return "LayerSubMesh(" + this.material.ToString() + ")";

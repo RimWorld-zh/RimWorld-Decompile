@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B2 RID: 946
 	public class SymbolResolver_ExtraDoor : SymbolResolver
 	{
-		// Token: 0x0600106A RID: 4202 RVA: 0x0008AA94 File Offset: 0x00088E94
+		// Token: 0x06001069 RID: 4201 RVA: 0x0008AAA4 File Offset: 0x00088EA4
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -50,7 +50,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600106B RID: 4203 RVA: 0x0008ABC4 File Offset: 0x00088FC4
+		// Token: 0x0600106A RID: 4202 RVA: 0x0008ABD4 File Offset: 0x00088FD4
 		private bool WallHasDoor(CellRect rect, Rot4 dir)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -64,7 +64,7 @@ namespace RimWorld.BaseGen
 			return false;
 		}
 
-		// Token: 0x0600106C RID: 4204 RVA: 0x0008AC44 File Offset: 0x00089044
+		// Token: 0x0600106B RID: 4203 RVA: 0x0008AC54 File Offset: 0x00089054
 		private bool TryFindRandomDoorSpawnCell(CellRect rect, Rot4 dir, out IntVec3 found)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -165,7 +165,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600106D RID: 4205 RVA: 0x0008AEB4 File Offset: 0x000892B4
+		// Token: 0x0600106C RID: 4204 RVA: 0x0008AEC4 File Offset: 0x000892C4
 		private int GetDistanceToExistingDoors(IntVec3 cell, CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;

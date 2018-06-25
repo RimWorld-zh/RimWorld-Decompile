@@ -7,10 +7,10 @@ namespace RimWorld
 	[DefOf]
 	public static class KeyBindingCategoryDefOf
 	{
-		// Token: 0x04002234 RID: 8756
+		// Token: 0x0400223B RID: 8763
 		public static KeyBindingCategoryDef MainTabs;
 
-		// Token: 0x06003653 RID: 13907 RVA: 0x001D0D8B File Offset: 0x001CF18B
+		// Token: 0x06003653 RID: 13907 RVA: 0x001D105F File Offset: 0x001CF45F
 		static KeyBindingCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(KeyBindingCategoryDefOf));

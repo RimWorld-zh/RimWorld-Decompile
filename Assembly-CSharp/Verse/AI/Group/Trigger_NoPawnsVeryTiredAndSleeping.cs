@@ -3,19 +3,19 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A29 RID: 2601
+	// Token: 0x02000A2A RID: 2602
 	public class Trigger_NoPawnsVeryTiredAndSleeping : Trigger
 	{
-		// Token: 0x040024B5 RID: 9397
+		// Token: 0x040024C5 RID: 9413
 		private float extraRestThreshOffset;
 
-		// Token: 0x060039D1 RID: 14801 RVA: 0x001E8D37 File Offset: 0x001E7137
+		// Token: 0x060039D2 RID: 14802 RVA: 0x001E9063 File Offset: 0x001E7463
 		public Trigger_NoPawnsVeryTiredAndSleeping(float extraRestThreshOffset = 0f)
 		{
 			this.extraRestThreshOffset = extraRestThreshOffset;
 		}
 
-		// Token: 0x060039D2 RID: 14802 RVA: 0x001E8D48 File Offset: 0x001E7148
+		// Token: 0x060039D3 RID: 14803 RVA: 0x001E9074 File Offset: 0x001E7474
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007C9 RID: 1993
 	public class Designator_Claim : Designator
 	{
-		// Token: 0x06002C1C RID: 11292 RVA: 0x0017529C File Offset: 0x0017369C
+		// Token: 0x06002C1B RID: 11291 RVA: 0x00175500 File Offset: 0x00173900
 		public Designator_Claim()
 		{
 			this.defaultLabel = "DesignatorClaim".Translate();
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006E7 RID: 1767
-		// (get) Token: 0x06002C1D RID: 11293 RVA: 0x00175314 File Offset: 0x00173714
+		// (get) Token: 0x06002C1C RID: 11292 RVA: 0x00175578 File Offset: 0x00173978
 		public override int DraggableDimensions
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C1E RID: 11294 RVA: 0x0017532C File Offset: 0x0017372C
+		// Token: 0x06002C1D RID: 11293 RVA: 0x00175590 File Offset: 0x00173990
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C1F RID: 11295 RVA: 0x001753C0 File Offset: 0x001737C0
+		// Token: 0x06002C1E RID: 11294 RVA: 0x00175624 File Offset: 0x00173A24
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);
@@ -70,14 +70,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C20 RID: 11296 RVA: 0x0017541C File Offset: 0x0017381C
+		// Token: 0x06002C1F RID: 11295 RVA: 0x00175680 File Offset: 0x00173A80
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t as Building;
 			return building != null && building.Faction != Faction.OfPlayer && building.ClaimableBy(Faction.OfPlayer);
 		}
 
-		// Token: 0x06002C21 RID: 11297 RVA: 0x00175464 File Offset: 0x00173864
+		// Token: 0x06002C20 RID: 11296 RVA: 0x001756C8 File Offset: 0x00173AC8
 		public override void DesignateThing(Thing t)
 		{
 			t.SetFaction(Faction.OfPlayer, null);

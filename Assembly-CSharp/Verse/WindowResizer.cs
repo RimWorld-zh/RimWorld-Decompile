@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ECD RID: 3789
+	// Token: 0x02000ECE RID: 3790
 	public class WindowResizer
 	{
-		// Token: 0x04003BEF RID: 15343
+		// Token: 0x04003BF7 RID: 15351
 		public Vector2 minWindowSize = new Vector2(150f, 150f);
 
-		// Token: 0x04003BF0 RID: 15344
+		// Token: 0x04003BF8 RID: 15352
 		private bool isResizing = false;
 
-		// Token: 0x04003BF1 RID: 15345
+		// Token: 0x04003BF9 RID: 15353
 		private Rect resizeStart = default(Rect);
 
-		// Token: 0x04003BF2 RID: 15346
+		// Token: 0x04003BFA RID: 15354
 		private const float ResizeButtonSize = 24f;
 
-		// Token: 0x0600599E RID: 22942 RVA: 0x002DE054 File Offset: 0x002DC454
+		// Token: 0x0600599E RID: 22942 RVA: 0x002DE240 File Offset: 0x002DC640
 		public Rect DoResizeControl(Rect winRect)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;

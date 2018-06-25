@@ -3,61 +3,61 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EBE RID: 3774
+	// Token: 0x02000EBF RID: 3775
 	public class Dialog_MessageBox : Window
 	{
-		// Token: 0x04003B83 RID: 15235
+		// Token: 0x04003B8B RID: 15243
 		public string text;
 
-		// Token: 0x04003B84 RID: 15236
+		// Token: 0x04003B8C RID: 15244
 		public string title;
 
-		// Token: 0x04003B85 RID: 15237
+		// Token: 0x04003B8D RID: 15245
 		public string buttonAText;
 
-		// Token: 0x04003B86 RID: 15238
+		// Token: 0x04003B8E RID: 15246
 		public Action buttonAAction;
 
-		// Token: 0x04003B87 RID: 15239
+		// Token: 0x04003B8F RID: 15247
 		public bool buttonADestructive;
 
-		// Token: 0x04003B88 RID: 15240
+		// Token: 0x04003B90 RID: 15248
 		public string buttonBText;
 
-		// Token: 0x04003B89 RID: 15241
+		// Token: 0x04003B91 RID: 15249
 		public Action buttonBAction;
 
-		// Token: 0x04003B8A RID: 15242
+		// Token: 0x04003B92 RID: 15250
 		public string buttonCText;
 
-		// Token: 0x04003B8B RID: 15243
+		// Token: 0x04003B93 RID: 15251
 		public Action buttonCAction;
 
-		// Token: 0x04003B8C RID: 15244
+		// Token: 0x04003B94 RID: 15252
 		public bool buttonCClose = true;
 
-		// Token: 0x04003B8D RID: 15245
+		// Token: 0x04003B95 RID: 15253
 		public float interactionDelay = 0f;
 
-		// Token: 0x04003B8E RID: 15246
+		// Token: 0x04003B96 RID: 15254
 		public Action acceptAction;
 
-		// Token: 0x04003B8F RID: 15247
+		// Token: 0x04003B97 RID: 15255
 		public Action cancelAction;
 
-		// Token: 0x04003B90 RID: 15248
+		// Token: 0x04003B98 RID: 15256
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04003B91 RID: 15249
+		// Token: 0x04003B99 RID: 15257
 		private float creationRealTime = -1f;
 
-		// Token: 0x04003B92 RID: 15250
+		// Token: 0x04003B9A RID: 15258
 		private const float TitleHeight = 42f;
 
-		// Token: 0x04003B93 RID: 15251
+		// Token: 0x04003B9B RID: 15259
 		private const float ButtonHeight = 35f;
 
-		// Token: 0x0600594F RID: 22863 RVA: 0x002DCBC4 File Offset: 0x002DAFC4
+		// Token: 0x0600594F RID: 22863 RVA: 0x002DCDB0 File Offset: 0x002DB1B0
 		public Dialog_MessageBox(string text, string buttonAText = null, Action buttonAAction = null, string buttonBText = null, Action buttonBAction = null, string title = null, bool buttonADestructive = false, Action acceptAction = null, Action cancelAction = null)
 		{
 			this.text = text;
@@ -84,7 +84,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000E09 RID: 3593
-		// (get) Token: 0x06005950 RID: 22864 RVA: 0x002DCCC0 File Offset: 0x002DB0C0
+		// (get) Token: 0x06005950 RID: 22864 RVA: 0x002DCEAC File Offset: 0x002DB2AC
 		public override Vector2 InitialSize
 		{
 			get
@@ -94,7 +94,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000E0A RID: 3594
-		// (get) Token: 0x06005951 RID: 22865 RVA: 0x002DCCE4 File Offset: 0x002DB0E4
+		// (get) Token: 0x06005951 RID: 22865 RVA: 0x002DCED0 File Offset: 0x002DB2D0
 		private float TimeUntilInteractive
 		{
 			get
@@ -104,7 +104,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000E0B RID: 3595
-		// (get) Token: 0x06005952 RID: 22866 RVA: 0x002DCD0C File Offset: 0x002DB10C
+		// (get) Token: 0x06005952 RID: 22866 RVA: 0x002DCEF8 File Offset: 0x002DB2F8
 		private bool InteractionDelayExpired
 		{
 			get
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005953 RID: 22867 RVA: 0x002DCD34 File Offset: 0x002DB134
+		// Token: 0x06005953 RID: 22867 RVA: 0x002DCF20 File Offset: 0x002DB320
 		public static Dialog_MessageBox CreateConfirmation(string text, Action confirmedAct, bool destructive = false, string title = null)
 		{
 			string text2 = "Confirm".Translate();
@@ -123,7 +123,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005954 RID: 22868 RVA: 0x002DCD94 File Offset: 0x002DB194
+		// Token: 0x06005954 RID: 22868 RVA: 0x002DCF80 File Offset: 0x002DB380
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = inRect.y;
@@ -187,7 +187,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005955 RID: 22869 RVA: 0x002DD054 File Offset: 0x002DB454
+		// Token: 0x06005955 RID: 22869 RVA: 0x002DD240 File Offset: 0x002DB640
 		public override void OnCancelKeyPressed()
 		{
 			if (this.cancelAction != null)
@@ -201,7 +201,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005956 RID: 22870 RVA: 0x002DD081 File Offset: 0x002DB481
+		// Token: 0x06005956 RID: 22870 RVA: 0x002DD26D File Offset: 0x002DB66D
 		public override void OnAcceptKeyPressed()
 		{
 			if (this.acceptAction != null)

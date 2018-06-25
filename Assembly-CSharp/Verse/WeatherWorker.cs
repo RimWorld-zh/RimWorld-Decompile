@@ -4,19 +4,19 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CB6 RID: 3254
+	// Token: 0x02000CB7 RID: 3255
 	public class WeatherWorker
 	{
-		// Token: 0x040030A9 RID: 12457
+		// Token: 0x040030B0 RID: 12464
 		private WeatherDef def;
 
-		// Token: 0x040030AA RID: 12458
+		// Token: 0x040030B1 RID: 12465
 		public List<SkyOverlay> overlays = new List<SkyOverlay>();
 
-		// Token: 0x040030AB RID: 12459
+		// Token: 0x040030B2 RID: 12466
 		private WeatherWorker.SkyThreshold[] skyTargets = new WeatherWorker.SkyThreshold[4];
 
-		// Token: 0x060047BC RID: 18364 RVA: 0x0025CD48 File Offset: 0x0025B148
+		// Token: 0x060047BC RID: 18364 RVA: 0x0025D028 File Offset: 0x0025B428
 		public WeatherWorker(WeatherDef def)
 		{
 			this.def = def;
@@ -31,7 +31,7 @@ namespace Verse
 			this.skyTargets[3] = new WeatherWorker.SkyThreshold(def.skyColorsDay, 1f);
 		}
 
-		// Token: 0x060047BD RID: 18365 RVA: 0x0025CE70 File Offset: 0x0025B270
+		// Token: 0x060047BD RID: 18365 RVA: 0x0025D150 File Offset: 0x0025B550
 		public void DrawWeather(Map map)
 		{
 			for (int i = 0; i < this.overlays.Count; i++)
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047BE RID: 18366 RVA: 0x0025CEB0 File Offset: 0x0025B2B0
+		// Token: 0x060047BE RID: 18366 RVA: 0x0025D190 File Offset: 0x0025B590
 		public void WeatherTick(Map map, float lerpFactor)
 		{
 			for (int i = 0; i < this.overlays.Count; i++)
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047BF RID: 18367 RVA: 0x0025CF2C File Offset: 0x0025B32C
+		// Token: 0x060047BF RID: 18367 RVA: 0x0025D20C File Offset: 0x0025B60C
 		public SkyTarget CurSkyTarget(Map map)
 		{
 			float num = GenCelestial.CurCelestialSunGlow(map);
@@ -96,16 +96,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x02000CB7 RID: 3255
+		// Token: 0x02000CB8 RID: 3256
 		private struct SkyThreshold
 		{
-			// Token: 0x040030AC RID: 12460
+			// Token: 0x040030B3 RID: 12467
 			public SkyColorSet colors;
 
-			// Token: 0x040030AD RID: 12461
+			// Token: 0x040030B4 RID: 12468
 			public float celGlowThreshold;
 
-			// Token: 0x060047C0 RID: 18368 RVA: 0x0025D05E File Offset: 0x0025B45E
+			// Token: 0x060047C0 RID: 18368 RVA: 0x0025D33E File Offset: 0x0025B73E
 			public SkyThreshold(SkyColorSet colors, float celGlowThreshold)
 			{
 				this.colors = colors;

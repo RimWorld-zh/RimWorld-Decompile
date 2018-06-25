@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x0200007A RID: 122
 	public class JobDriver_RefuelAtomic : JobDriver
 	{
-		// Token: 0x0400022B RID: 555
+		// Token: 0x0400022C RID: 556
 		private const TargetIndex RefuelableInd = TargetIndex.A;
 
-		// Token: 0x0400022C RID: 556
+		// Token: 0x0400022D RID: 557
 		private const TargetIndex FuelInd = TargetIndex.B;
 
-		// Token: 0x0400022D RID: 557
+		// Token: 0x0400022E RID: 558
 		private const TargetIndex FuelPlaceCellInd = TargetIndex.C;
 
-		// Token: 0x0400022E RID: 558
+		// Token: 0x0400022F RID: 559
 		private const int RefuelingDuration = 240;
 
 		// Token: 0x170000A8 RID: 168
-		// (get) Token: 0x06000343 RID: 835 RVA: 0x000241C4 File Offset: 0x000225C4
+		// (get) Token: 0x06000343 RID: 835 RVA: 0x000241E0 File Offset: 0x000225E0
 		protected Thing Refuelable
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000A9 RID: 169
-		// (get) Token: 0x06000344 RID: 836 RVA: 0x000241F0 File Offset: 0x000225F0
+		// (get) Token: 0x06000344 RID: 836 RVA: 0x0002420C File Offset: 0x0002260C
 		protected CompRefuelable RefuelableComp
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000AA RID: 170
-		// (get) Token: 0x06000345 RID: 837 RVA: 0x00024210 File Offset: 0x00022610
+		// (get) Token: 0x06000345 RID: 837 RVA: 0x0002422C File Offset: 0x0002262C
 		protected Thing Fuel
 		{
 			get
@@ -50,14 +50,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000346 RID: 838 RVA: 0x0002423C File Offset: 0x0002263C
+		// Token: 0x06000346 RID: 838 RVA: 0x00024258 File Offset: 0x00022658
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
 			return this.pawn.Reserve(this.Refuelable, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000347 RID: 839 RVA: 0x00024290 File Offset: 0x00022690
+		// Token: 0x06000347 RID: 839 RVA: 0x000242AC File Offset: 0x000226AC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

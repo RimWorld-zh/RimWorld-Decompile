@@ -7,37 +7,37 @@ namespace RimWorld
 	[DefOf]
 	public static class MentalStateDefOf
 	{
-		// Token: 0x04001FFA RID: 8186
+		// Token: 0x04002001 RID: 8193
 		public static MentalStateDef Berserk;
 
-		// Token: 0x04001FFB RID: 8187
+		// Token: 0x04002002 RID: 8194
 		public static MentalStateDef Binging_DrugExtreme;
 
-		// Token: 0x04001FFC RID: 8188
+		// Token: 0x04002003 RID: 8195
 		public static MentalStateDef Wander_Psychotic;
 
-		// Token: 0x04001FFD RID: 8189
+		// Token: 0x04002004 RID: 8196
 		public static MentalStateDef Binging_DrugMajor;
 
-		// Token: 0x04001FFE RID: 8190
+		// Token: 0x04002005 RID: 8197
 		public static MentalStateDef Wander_Sad;
 
-		// Token: 0x04001FFF RID: 8191
+		// Token: 0x04002006 RID: 8198
 		public static MentalStateDef Wander_OwnRoom;
 
-		// Token: 0x04002000 RID: 8192
+		// Token: 0x04002007 RID: 8199
 		public static MentalStateDef PanicFlee;
 
-		// Token: 0x04002001 RID: 8193
+		// Token: 0x04002008 RID: 8200
 		public static MentalStateDef Manhunter;
 
-		// Token: 0x04002002 RID: 8194
+		// Token: 0x04002009 RID: 8201
 		public static MentalStateDef ManhunterPermanent;
 
-		// Token: 0x04002003 RID: 8195
+		// Token: 0x0400200A RID: 8202
 		public static MentalStateDef SocialFighting;
 
-		// Token: 0x06003636 RID: 13878 RVA: 0x001D0B81 File Offset: 0x001CEF81
+		// Token: 0x06003636 RID: 13878 RVA: 0x001D0E55 File Offset: 0x001CF255
 		static MentalStateDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MentalStateDefOf));

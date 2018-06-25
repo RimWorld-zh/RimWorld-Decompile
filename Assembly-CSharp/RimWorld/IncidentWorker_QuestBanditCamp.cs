@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000350 RID: 848
 	public class IncidentWorker_QuestBanditCamp : IncidentWorker
 	{
-		// Token: 0x06000E9C RID: 3740 RVA: 0x0007BBFC File Offset: 0x00079FFC
+		// Token: 0x06000E9B RID: 3739 RVA: 0x0007BC04 File Offset: 0x0007A004
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
@@ -18,7 +18,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && this.TryFindFactions(out faction, out faction2) && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1);
 		}
 
-		// Token: 0x06000E9D RID: 3741 RVA: 0x0007BC3C File Offset: 0x0007A03C
+		// Token: 0x06000E9C RID: 3740 RVA: 0x0007BC44 File Offset: 0x0007A044
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction;
@@ -52,13 +52,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E9E RID: 3742 RVA: 0x0007BD0C File Offset: 0x0007A10C
+		// Token: 0x06000E9D RID: 3741 RVA: 0x0007BD14 File Offset: 0x0007A114
 		private List<Thing> GenerateRewards(Faction alliedFaction)
 		{
 			return ThingSetMakerDefOf.Reward_StandardByDropPod.root.Generate();
 		}
 
-		// Token: 0x06000E9F RID: 3743 RVA: 0x0007BD30 File Offset: 0x0007A130
+		// Token: 0x06000E9E RID: 3742 RVA: 0x0007BD38 File Offset: 0x0007A138
 		private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)
 		{
 			bool result;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EA0 RID: 3744 RVA: 0x0007BD8C File Offset: 0x0007A18C
+		// Token: 0x06000E9F RID: 3743 RVA: 0x0007BD94 File Offset: 0x0007A194
 		private bool AnyQuestExistsFrom(Faction faction)
 		{
 			List<Site> sites = Find.WorldObjects.Sites;
@@ -93,13 +93,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000EA1 RID: 3745 RVA: 0x0007BDF8 File Offset: 0x0007A1F8
+		// Token: 0x06000EA0 RID: 3744 RVA: 0x0007BE00 File Offset: 0x0007A200
 		private bool CommonHumanlikeEnemyFactionExists(Faction f1, Faction f2)
 		{
 			return this.CommonHumanlikeEnemyFaction(f1, f2) != null;
 		}
 
-		// Token: 0x06000EA2 RID: 3746 RVA: 0x0007BE1C File Offset: 0x0007A21C
+		// Token: 0x06000EA1 RID: 3745 RVA: 0x0007BE24 File Offset: 0x0007A224
 		private Faction CommonHumanlikeEnemyFaction(Faction f1, Faction f2)
 		{
 			Faction faction;

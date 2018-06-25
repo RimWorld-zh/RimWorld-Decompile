@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x0200086A RID: 2154
 	public class MainButtonWorker_ToggleWorld : MainButtonWorker
 	{
-		// Token: 0x04001A78 RID: 6776
+		// Token: 0x04001A7C RID: 6780
 		public bool resetViewNextTime = true;
 
-		// Token: 0x060030FB RID: 12539 RVA: 0x001A9DAC File Offset: 0x001A81AC
+		// Token: 0x060030FA RID: 12538 RVA: 0x001AA014 File Offset: 0x001A8414
 		public override void Activate()
 		{
 			if (Find.World.renderer.wantedMode == WorldRenderMode.None)

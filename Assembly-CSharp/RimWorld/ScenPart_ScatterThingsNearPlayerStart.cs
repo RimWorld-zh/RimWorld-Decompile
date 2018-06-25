@@ -8,7 +8,7 @@ namespace RimWorld
 	public class ScenPart_ScatterThingsNearPlayerStart : ScenPart_ScatterThings
 	{
 		// Token: 0x170004EE RID: 1262
-		// (get) Token: 0x06002184 RID: 8580 RVA: 0x0011C8E4 File Offset: 0x0011ACE4
+		// (get) Token: 0x06002183 RID: 8579 RVA: 0x0011CB4C File Offset: 0x0011AF4C
 		protected override bool NearPlayerStart
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002185 RID: 8581 RVA: 0x0011C8FC File Offset: 0x0011ACFC
+		// Token: 0x06002184 RID: 8580 RVA: 0x0011CB64 File Offset: 0x0011AF64
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		// Token: 0x06002186 RID: 8582 RVA: 0x0011C924 File Offset: 0x0011AD24
+		// Token: 0x06002185 RID: 8581 RVA: 0x0011CB8C File Offset: 0x0011AF8C
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PlayerStartsWith")

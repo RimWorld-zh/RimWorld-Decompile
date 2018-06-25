@@ -2,7 +2,7 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000ADF RID: 2783
+	// Token: 0x02000AE0 RID: 2784
 	public interface IAttackTargetSearcher
 	{
 		// Token: 0x17000945 RID: 2373

@@ -7,11 +7,11 @@ namespace RimWorld
 	// Token: 0x020008C6 RID: 2246
 	public class Instruction_MineSteel : Lesson_Instruction
 	{
-		// Token: 0x04001B99 RID: 7065
+		// Token: 0x04001B9F RID: 7071
 		private List<IntVec3> mineCells;
 
 		// Token: 0x1700082E RID: 2094
-		// (get) Token: 0x06003359 RID: 13145 RVA: 0x001B9194 File Offset: 0x001B7594
+		// (get) Token: 0x06003359 RID: 13145 RVA: 0x001B9468 File Offset: 0x001B7868
 		protected override float ProgressPercent
 		{
 			get
@@ -29,14 +29,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600335A RID: 13146 RVA: 0x001B9230 File Offset: 0x001B7630
+		// Token: 0x0600335A RID: 13146 RVA: 0x001B9504 File Offset: 0x001B7904
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<IntVec3>(ref this.mineCells, "mineCells", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x0600335B RID: 13147 RVA: 0x001B9250 File Offset: 0x001B7650
+		// Token: 0x0600335B RID: 13147 RVA: 0x001B9524 File Offset: 0x001B7924
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600335C RID: 13148 RVA: 0x001B9320 File Offset: 0x001B7720
+		// Token: 0x0600335C RID: 13148 RVA: 0x001B95F4 File Offset: 0x001B79F4
 		public override void LessonOnGUI()
 		{
 			if (!this.mineCells.NullOrEmpty<IntVec3>())
@@ -66,13 +66,13 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x0600335D RID: 13149 RVA: 0x001B9354 File Offset: 0x001B7754
+		// Token: 0x0600335D RID: 13149 RVA: 0x001B9628 File Offset: 0x001B7A28
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawArrowPointingAt(Gen.AveragePosition(this.mineCells), false);
 		}
 
-		// Token: 0x0600335E RID: 13150 RVA: 0x001B9368 File Offset: 0x001B7768
+		// Token: 0x0600335E RID: 13150 RVA: 0x001B963C File Offset: 0x001B7A3C
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;
@@ -87,7 +87,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600335F RID: 13151 RVA: 0x001B93B1 File Offset: 0x001B77B1
+		// Token: 0x0600335F RID: 13151 RVA: 0x001B9685 File Offset: 0x001B7A85
 		public override void Notify_Event(EventPack ep)
 		{
 			if (ep.Tag == "Designate-Mine" && this.ProgressPercent > 0.999f)

@@ -7,7 +7,7 @@ namespace RimWorld
 	public class GenStep_Snow : GenStep
 	{
 		// Token: 0x17000251 RID: 593
-		// (get) Token: 0x06001178 RID: 4472 RVA: 0x0009743C File Offset: 0x0009583C
+		// (get) Token: 0x06001177 RID: 4471 RVA: 0x0009744C File Offset: 0x0009584C
 		public override int SeedPart
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001179 RID: 4473 RVA: 0x00097458 File Offset: 0x00095858
+		// Token: 0x06001178 RID: 4472 RVA: 0x00097468 File Offset: 0x00095868
 		public override void Generate(Map map)
 		{
 			int num = 0;

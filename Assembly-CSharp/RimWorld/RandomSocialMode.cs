@@ -5,13 +5,13 @@ namespace RimWorld
 	// Token: 0x02000527 RID: 1319
 	public enum RandomSocialMode
 	{
-		// Token: 0x04000E57 RID: 3671
+		// Token: 0x04000E5B RID: 3675
 		Off,
-		// Token: 0x04000E58 RID: 3672
+		// Token: 0x04000E5C RID: 3676
 		Quiet,
-		// Token: 0x04000E59 RID: 3673
+		// Token: 0x04000E5D RID: 3677
 		Normal,
-		// Token: 0x04000E5A RID: 3674
+		// Token: 0x04000E5E RID: 3678
 		SuperActive
 	}
 }

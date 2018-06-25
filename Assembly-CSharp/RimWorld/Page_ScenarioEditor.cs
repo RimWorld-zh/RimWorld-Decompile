@@ -10,22 +10,22 @@ namespace RimWorld
 	// Token: 0x02000833 RID: 2099
 	public class Page_ScenarioEditor : Page
 	{
-		// Token: 0x040019A2 RID: 6562
+		// Token: 0x040019A6 RID: 6566
 		private Scenario curScen = null;
 
-		// Token: 0x040019A3 RID: 6563
+		// Token: 0x040019A7 RID: 6567
 		private Vector2 infoScrollPosition = Vector2.zero;
 
-		// Token: 0x040019A4 RID: 6564
+		// Token: 0x040019A8 RID: 6568
 		private string seed;
 
-		// Token: 0x040019A5 RID: 6565
+		// Token: 0x040019A9 RID: 6569
 		private bool seedIsValid = true;
 
-		// Token: 0x040019A6 RID: 6566
+		// Token: 0x040019AA RID: 6570
 		private bool editMode = false;
 
-		// Token: 0x06002F6A RID: 12138 RVA: 0x001962C0 File Offset: 0x001946C0
+		// Token: 0x06002F69 RID: 12137 RVA: 0x00196528 File Offset: 0x00194928
 		public Page_ScenarioEditor(Scenario scen)
 		{
 			if (scen != null)
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000784 RID: 1924
-		// (get) Token: 0x06002F6B RID: 12139 RVA: 0x00196318 File Offset: 0x00194718
+		// (get) Token: 0x06002F6A RID: 12138 RVA: 0x00196580 File Offset: 0x00194980
 		public override string PageTitle
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000785 RID: 1925
-		// (get) Token: 0x06002F6C RID: 12140 RVA: 0x00196338 File Offset: 0x00194738
+		// (get) Token: 0x06002F6B RID: 12139 RVA: 0x001965A0 File Offset: 0x001949A0
 		public Scenario EditingScenario
 		{
 			get
@@ -59,14 +59,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F6D RID: 12141 RVA: 0x00196353 File Offset: 0x00194753
+		// Token: 0x06002F6C RID: 12140 RVA: 0x001965BB File Offset: 0x001949BB
 		public override void PreOpen()
 		{
 			base.PreOpen();
 			this.infoScrollPosition = Vector2.zero;
 		}
 
-		// Token: 0x06002F6E RID: 12142 RVA: 0x00196368 File Offset: 0x00194768
+		// Token: 0x06002F6D RID: 12141 RVA: 0x001965D0 File Offset: 0x001949D0
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -87,14 +87,14 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002F6F RID: 12143 RVA: 0x00196440 File Offset: 0x00194840
+		// Token: 0x06002F6E RID: 12142 RVA: 0x001966A8 File Offset: 0x00194AA8
 		private void RandomizeSeedAndScenario()
 		{
 			this.seed = GenText.RandomSeedString();
 			this.curScen = ScenarioMaker.GenerateNewRandomScenario(this.seed);
 		}
 
-		// Token: 0x06002F70 RID: 12144 RVA: 0x00196460 File Offset: 0x00194860
+		// Token: 0x06002F6F RID: 12143 RVA: 0x001966C8 File Offset: 0x00194AC8
 		private void DoConfigControls(Rect rect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -174,7 +174,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002F71 RID: 12145 RVA: 0x001966C0 File Offset: 0x00194AC0
+		// Token: 0x06002F70 RID: 12144 RVA: 0x00196928 File Offset: 0x00194D28
 		private static bool CheckAllPartsCompatible(Scenario scen)
 		{
 			foreach (ScenPart scenPart in scen.AllParts)
@@ -211,7 +211,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06002F72 RID: 12146 RVA: 0x00196860 File Offset: 0x00194C60
+		// Token: 0x06002F71 RID: 12145 RVA: 0x00196AC8 File Offset: 0x00194EC8
 		private void OpenAddScenPartMenu()
 		{
 			FloatMenuUtility.MakeMenu<ScenPartDef>(from p in ScenarioMaker.AddableParts(this.curScen)
@@ -223,7 +223,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F73 RID: 12147 RVA: 0x001968EC File Offset: 0x00194CEC
+		// Token: 0x06002F72 RID: 12146 RVA: 0x00196B54 File Offset: 0x00194F54
 		private void AddScenPart(ScenPartDef def)
 		{
 			ScenPart scenPart = ScenarioMaker.MakeScenPart(def);
@@ -231,7 +231,7 @@ namespace RimWorld
 			this.curScen.parts.Add(scenPart);
 		}
 
-		// Token: 0x06002F74 RID: 12148 RVA: 0x00196918 File Offset: 0x00194D18
+		// Token: 0x06002F73 RID: 12147 RVA: 0x00196B80 File Offset: 0x00194F80
 		protected override bool CanDoNext()
 		{
 			bool result;

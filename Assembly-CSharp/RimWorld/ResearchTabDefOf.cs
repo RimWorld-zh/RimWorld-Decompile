@@ -6,10 +6,10 @@ namespace RimWorld
 	[DefOf]
 	public static class ResearchTabDefOf
 	{
-		// Token: 0x04001FF9 RID: 8185
+		// Token: 0x04002000 RID: 8192
 		public static ResearchTabDef Main;
 
-		// Token: 0x06003635 RID: 13877 RVA: 0x001D0B6F File Offset: 0x001CEF6F
+		// Token: 0x06003635 RID: 13877 RVA: 0x001D0E43 File Offset: 0x001CF243
 		static ResearchTabDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ResearchTabDefOf));

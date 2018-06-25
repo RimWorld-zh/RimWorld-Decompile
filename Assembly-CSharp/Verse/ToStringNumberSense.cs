@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000F58 RID: 3928
+	// Token: 0x02000F59 RID: 3929
 	public enum ToStringNumberSense : byte
 	{
-		// Token: 0x04003E5E RID: 15966
+		// Token: 0x04003E66 RID: 15974
 		Undefined,
-		// Token: 0x04003E5F RID: 15967
+		// Token: 0x04003E67 RID: 15975
 		Absolute,
-		// Token: 0x04003E60 RID: 15968
+		// Token: 0x04003E68 RID: 15976
 		Factor,
-		// Token: 0x04003E61 RID: 15969
+		// Token: 0x04003E69 RID: 15977
 		Offset
 	}
 }

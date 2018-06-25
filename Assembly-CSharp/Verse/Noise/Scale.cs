@@ -3,30 +3,30 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F9B RID: 3995
+	// Token: 0x02000F9C RID: 3996
 	public class Scale : ModuleBase
 	{
-		// Token: 0x04003F2C RID: 16172
+		// Token: 0x04003F34 RID: 16180
 		private double m_x = 1.0;
 
-		// Token: 0x04003F2D RID: 16173
+		// Token: 0x04003F35 RID: 16181
 		private double m_y = 1.0;
 
-		// Token: 0x04003F2E RID: 16174
+		// Token: 0x04003F36 RID: 16182
 		private double m_z = 1.0;
 
-		// Token: 0x06006069 RID: 24681 RVA: 0x0030EC01 File Offset: 0x0030D001
+		// Token: 0x06006069 RID: 24681 RVA: 0x0030EE45 File Offset: 0x0030D245
 		public Scale() : base(1)
 		{
 		}
 
-		// Token: 0x0600606A RID: 24682 RVA: 0x0030EC38 File Offset: 0x0030D038
+		// Token: 0x0600606A RID: 24682 RVA: 0x0030EE7C File Offset: 0x0030D27C
 		public Scale(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x0600606B RID: 24683 RVA: 0x0030EC78 File Offset: 0x0030D078
+		// Token: 0x0600606B RID: 24683 RVA: 0x0030EEBC File Offset: 0x0030D2BC
 		public Scale(double x, double y, double z, ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
@@ -36,8 +36,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F7D RID: 3965
-		// (get) Token: 0x0600606C RID: 24684 RVA: 0x0030ECDC File Offset: 0x0030D0DC
-		// (set) Token: 0x0600606D RID: 24685 RVA: 0x0030ECF7 File Offset: 0x0030D0F7
+		// (get) Token: 0x0600606C RID: 24684 RVA: 0x0030EF20 File Offset: 0x0030D320
+		// (set) Token: 0x0600606D RID: 24685 RVA: 0x0030EF3B File Offset: 0x0030D33B
 		public double X
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F7E RID: 3966
-		// (get) Token: 0x0600606E RID: 24686 RVA: 0x0030ED04 File Offset: 0x0030D104
-		// (set) Token: 0x0600606F RID: 24687 RVA: 0x0030ED1F File Offset: 0x0030D11F
+		// (get) Token: 0x0600606E RID: 24686 RVA: 0x0030EF48 File Offset: 0x0030D348
+		// (set) Token: 0x0600606F RID: 24687 RVA: 0x0030EF63 File Offset: 0x0030D363
 		public double Y
 		{
 			get
@@ -66,8 +66,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F7F RID: 3967
-		// (get) Token: 0x06006070 RID: 24688 RVA: 0x0030ED2C File Offset: 0x0030D12C
-		// (set) Token: 0x06006071 RID: 24689 RVA: 0x0030ED47 File Offset: 0x0030D147
+		// (get) Token: 0x06006070 RID: 24688 RVA: 0x0030EF70 File Offset: 0x0030D370
+		// (set) Token: 0x06006071 RID: 24689 RVA: 0x0030EF8B File Offset: 0x0030D38B
 		public double Z
 		{
 			get
@@ -80,7 +80,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006072 RID: 24690 RVA: 0x0030ED54 File Offset: 0x0030D154
+		// Token: 0x06006072 RID: 24690 RVA: 0x0030EF98 File Offset: 0x0030D398
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

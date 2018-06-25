@@ -4,29 +4,29 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C49 RID: 3145
+	// Token: 0x02000C4A RID: 3146
 	public class SectionLayer_LightingOverlay : SectionLayer
 	{
-		// Token: 0x04002F61 RID: 12129
+		// Token: 0x04002F68 RID: 12136
 		private Color32[] glowGrid;
 
-		// Token: 0x04002F62 RID: 12130
+		// Token: 0x04002F69 RID: 12137
 		private int firstCenterInd;
 
-		// Token: 0x04002F63 RID: 12131
+		// Token: 0x04002F6A RID: 12138
 		private CellRect sectRect;
 
-		// Token: 0x04002F64 RID: 12132
+		// Token: 0x04002F6B RID: 12139
 		private const byte RoofedAreaMinSkyCover = 100;
 
-		// Token: 0x06004550 RID: 17744 RVA: 0x0024974E File Offset: 0x00247B4E
+		// Token: 0x06004550 RID: 17744 RVA: 0x00249A2E File Offset: 0x00247E2E
 		public SectionLayer_LightingOverlay(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.GroundGlow;
 		}
 
 		// Token: 0x17000AED RID: 2797
-		// (get) Token: 0x06004551 RID: 17745 RVA: 0x00249760 File Offset: 0x00247B60
+		// (get) Token: 0x06004551 RID: 17745 RVA: 0x00249A40 File Offset: 0x00247E40
 		public override bool Visible
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004552 RID: 17746 RVA: 0x0024977C File Offset: 0x00247B7C
+		// Token: 0x06004552 RID: 17746 RVA: 0x00249A5C File Offset: 0x00247E5C
 		public string GlowReportAt(IntVec3 c)
 		{
 			Color32[] colors = base.GetSubMesh(MatBases.LightOverlay).mesh.colors32;
@@ -54,7 +54,7 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06004553 RID: 17747 RVA: 0x00249888 File Offset: 0x00247C88
+		// Token: 0x06004553 RID: 17747 RVA: 0x00249B68 File Offset: 0x00247F68
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.LightOverlay);
@@ -177,7 +177,7 @@ namespace Verse
 			subMesh.mesh.colors32 = array;
 		}
 
-		// Token: 0x06004554 RID: 17748 RVA: 0x00249D80 File Offset: 0x00248180
+		// Token: 0x06004554 RID: 17748 RVA: 0x0024A060 File Offset: 0x00248460
 		private void MakeBaseGeometry(LayerSubMesh sm)
 		{
 			this.glowGrid = base.Map.glowGrid.glowGrid;
@@ -229,7 +229,7 @@ namespace Verse
 			sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris);
 		}
 
-		// Token: 0x06004555 RID: 17749 RVA: 0x0024A044 File Offset: 0x00248444
+		// Token: 0x06004555 RID: 17749 RVA: 0x0024A324 File Offset: 0x00248724
 		private void CalculateVertexIndices(int worldX, int worldZ, out int botLeft, out int topLeft, out int topRight, out int botRight, out int center)
 		{
 			int num = worldX - this.sectRect.minX;

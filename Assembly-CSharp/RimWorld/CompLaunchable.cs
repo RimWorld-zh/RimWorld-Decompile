@@ -11,20 +11,20 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompLaunchable : ThingComp
 	{
-		// Token: 0x040015E8 RID: 5608
+		// Token: 0x040015EC RID: 5612
 		private CompTransporter cachedCompTransporter;
 
-		// Token: 0x040015E9 RID: 5609
+		// Token: 0x040015ED RID: 5613
 		public static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/LaunchableMouseAttachment", true);
 
-		// Token: 0x040015EA RID: 5610
+		// Token: 0x040015EE RID: 5614
 		private static readonly Texture2D LaunchCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
 
-		// Token: 0x040015EB RID: 5611
+		// Token: 0x040015EF RID: 5615
 		private const float FuelPerTile = 2.25f;
 
 		// Token: 0x17000609 RID: 1545
-		// (get) Token: 0x060027F7 RID: 10231 RVA: 0x00155B98 File Offset: 0x00153F98
+		// (get) Token: 0x060027F6 RID: 10230 RVA: 0x00155DF8 File Offset: 0x001541F8
 		public Building FuelingPortSource
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700060A RID: 1546
-		// (get) Token: 0x060027F8 RID: 10232 RVA: 0x00155BC8 File Offset: 0x00153FC8
+		// (get) Token: 0x060027F7 RID: 10231 RVA: 0x00155E28 File Offset: 0x00154228
 		public bool ConnectedToFuelingPort
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700060B RID: 1547
-		// (get) Token: 0x060027F9 RID: 10233 RVA: 0x00155BEC File Offset: 0x00153FEC
+		// (get) Token: 0x060027F8 RID: 10232 RVA: 0x00155E4C File Offset: 0x0015424C
 		public bool FuelingPortSourceHasAnyFuel
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700060C RID: 1548
-		// (get) Token: 0x060027FA RID: 10234 RVA: 0x00155C20 File Offset: 0x00154020
+		// (get) Token: 0x060027F9 RID: 10233 RVA: 0x00155E80 File Offset: 0x00154280
 		public bool LoadingInProgressOrReadyToLaunch
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700060D RID: 1549
-		// (get) Token: 0x060027FB RID: 10235 RVA: 0x00155C40 File Offset: 0x00154040
+		// (get) Token: 0x060027FA RID: 10234 RVA: 0x00155EA0 File Offset: 0x001542A0
 		public bool AnythingLeftToLoad
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700060E RID: 1550
-		// (get) Token: 0x060027FC RID: 10236 RVA: 0x00155C60 File Offset: 0x00154060
+		// (get) Token: 0x060027FB RID: 10235 RVA: 0x00155EC0 File Offset: 0x001542C0
 		public Thing FirstThingLeftToLoad
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700060F RID: 1551
-		// (get) Token: 0x060027FD RID: 10237 RVA: 0x00155C80 File Offset: 0x00154080
+		// (get) Token: 0x060027FC RID: 10236 RVA: 0x00155EE0 File Offset: 0x001542E0
 		public List<CompTransporter> TransportersInGroup
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000610 RID: 1552
-		// (get) Token: 0x060027FE RID: 10238 RVA: 0x00155CAC File Offset: 0x001540AC
+		// (get) Token: 0x060027FD RID: 10237 RVA: 0x00155F0C File Offset: 0x0015430C
 		public bool AnyInGroupHasAnythingLeftToLoad
 		{
 			get
@@ -104,7 +104,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000611 RID: 1553
-		// (get) Token: 0x060027FF RID: 10239 RVA: 0x00155CCC File Offset: 0x001540CC
+		// (get) Token: 0x060027FE RID: 10238 RVA: 0x00155F2C File Offset: 0x0015432C
 		public Thing FirstThingLeftToLoadInGroup
 		{
 			get
@@ -114,7 +114,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000612 RID: 1554
-		// (get) Token: 0x06002800 RID: 10240 RVA: 0x00155CEC File Offset: 0x001540EC
+		// (get) Token: 0x060027FF RID: 10239 RVA: 0x00155F4C File Offset: 0x0015434C
 		public bool AnyInGroupIsUnderRoof
 		{
 			get
@@ -132,7 +132,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000613 RID: 1555
-		// (get) Token: 0x06002801 RID: 10241 RVA: 0x00155D50 File Offset: 0x00154150
+		// (get) Token: 0x06002800 RID: 10240 RVA: 0x00155FB0 File Offset: 0x001543B0
 		public CompTransporter Transporter
 		{
 			get
@@ -146,7 +146,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000614 RID: 1556
-		// (get) Token: 0x06002802 RID: 10242 RVA: 0x00155D88 File Offset: 0x00154188
+		// (get) Token: 0x06002801 RID: 10241 RVA: 0x00155FE8 File Offset: 0x001543E8
 		public float FuelingPortSourceFuel
 		{
 			get
@@ -165,7 +165,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000615 RID: 1557
-		// (get) Token: 0x06002803 RID: 10243 RVA: 0x00155DC4 File Offset: 0x001541C4
+		// (get) Token: 0x06002802 RID: 10242 RVA: 0x00156024 File Offset: 0x00154424
 		public bool AllInGroupConnectedToFuelingPort
 		{
 			get
@@ -183,7 +183,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000616 RID: 1558
-		// (get) Token: 0x06002804 RID: 10244 RVA: 0x00155E18 File Offset: 0x00154218
+		// (get) Token: 0x06002803 RID: 10243 RVA: 0x00156078 File Offset: 0x00154478
 		public bool AllFuelingPortSourcesInGroupHaveAnyFuel
 		{
 			get
@@ -201,7 +201,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000617 RID: 1559
-		// (get) Token: 0x06002805 RID: 10245 RVA: 0x00155E6C File Offset: 0x0015426C
+		// (get) Token: 0x06002804 RID: 10244 RVA: 0x001560CC File Offset: 0x001544CC
 		private float FuelInLeastFueledFuelingPortSource
 		{
 			get
@@ -232,7 +232,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000618 RID: 1560
-		// (get) Token: 0x06002806 RID: 10246 RVA: 0x00155EE8 File Offset: 0x001542E8
+		// (get) Token: 0x06002805 RID: 10245 RVA: 0x00156148 File Offset: 0x00154548
 		private int MaxLaunchDistance
 		{
 			get
@@ -251,7 +251,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000619 RID: 1561
-		// (get) Token: 0x06002807 RID: 10247 RVA: 0x00155F1C File Offset: 0x0015431C
+		// (get) Token: 0x06002806 RID: 10246 RVA: 0x0015617C File Offset: 0x0015457C
 		private int MaxLaunchDistanceEverPossible
 		{
 			get
@@ -280,7 +280,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061A RID: 1562
-		// (get) Token: 0x06002808 RID: 10248 RVA: 0x00155FA4 File Offset: 0x001543A4
+		// (get) Token: 0x06002807 RID: 10247 RVA: 0x00156204 File Offset: 0x00154604
 		private bool PodsHaveAnyPotentialCaravanOwner
 		{
 			get
@@ -302,7 +302,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002809 RID: 10249 RVA: 0x00156030 File Offset: 0x00154430
+		// Token: 0x06002808 RID: 10248 RVA: 0x00156290 File Offset: 0x00154690
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo g in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -347,7 +347,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600280A RID: 10250 RVA: 0x0015605C File Offset: 0x0015445C
+		// Token: 0x06002809 RID: 10249 RVA: 0x001562BC File Offset: 0x001546BC
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -377,7 +377,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600280B RID: 10251 RVA: 0x0015612C File Offset: 0x0015452C
+		// Token: 0x0600280A RID: 10250 RVA: 0x0015638C File Offset: 0x0015478C
 		private void StartChoosingDestination()
 		{
 			CameraJumper.TryJump(CameraJumper.GetWorldTarget(this.parent));
@@ -444,7 +444,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600280C RID: 10252 RVA: 0x001561B4 File Offset: 0x001545B4
+		// Token: 0x0600280B RID: 10251 RVA: 0x00156414 File Offset: 0x00154814
 		private bool ChoseWorldTarget(GlobalTargetInfo target)
 		{
 			bool result;
@@ -502,7 +502,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600280D RID: 10253 RVA: 0x00156320 File Offset: 0x00154720
+		// Token: 0x0600280C RID: 10252 RVA: 0x00156580 File Offset: 0x00154980
 		public void TryLaunch(int destinationTile, TransportPodsArrivalAction arrivalAction)
 		{
 			if (!this.parent.Spawned)
@@ -551,7 +551,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600280E RID: 10254 RVA: 0x001564F6 File Offset: 0x001548F6
+		// Token: 0x0600280D RID: 10253 RVA: 0x00156756 File Offset: 0x00154B56
 		public void Notify_FuelingPortSourceDeSpawned()
 		{
 			if (this.Transporter.CancelLoad())
@@ -560,19 +560,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600280F RID: 10255 RVA: 0x0015652C File Offset: 0x0015492C
+		// Token: 0x0600280E RID: 10254 RVA: 0x0015678C File Offset: 0x00154B8C
 		public static int MaxLaunchDistanceAtFuelLevel(float fuelLevel)
 		{
 			return Mathf.FloorToInt(fuelLevel / 2.25f);
 		}
 
-		// Token: 0x06002810 RID: 10256 RVA: 0x00156550 File Offset: 0x00154950
+		// Token: 0x0600280F RID: 10255 RVA: 0x001567B0 File Offset: 0x00154BB0
 		public static float FuelNeededToLaunchAtDist(float dist)
 		{
 			return 2.25f * dist;
 		}
 
-		// Token: 0x06002811 RID: 10257 RVA: 0x0015656C File Offset: 0x0015496C
+		// Token: 0x06002810 RID: 10256 RVA: 0x001567CC File Offset: 0x00154BCC
 		public IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptionsAt(int tile)
 		{
 			bool anything = false;

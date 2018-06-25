@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020006FC RID: 1788
 	public class ThingSetMaker_TraderStock : ThingSetMaker
 	{
-		// Token: 0x060026F8 RID: 9976 RVA: 0x0014E938 File Offset: 0x0014CD38
+		// Token: 0x060026F7 RID: 9975 RVA: 0x0014EB98 File Offset: 0x0014CF98
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			TraderKindDef traderKindDef = parms.traderDef ?? DefDatabase<TraderKindDef>.AllDefsListForReading.RandomElement<TraderKindDef>();
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026F9 RID: 9977 RVA: 0x0014EA9C File Offset: 0x0014CE9C
+		// Token: 0x060026F8 RID: 9976 RVA: 0x0014ECFC File Offset: 0x0014D0FC
 		public float AverageTotalStockValue(TraderKindDef td)
 		{
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
@@ -73,7 +73,7 @@ namespace RimWorld
 			return num / 50f;
 		}
 
-		// Token: 0x060026FA RID: 9978 RVA: 0x0014EB50 File Offset: 0x0014CF50
+		// Token: 0x060026F9 RID: 9977 RVA: 0x0014EDB0 File Offset: 0x0014D1B0
 		public string GenerationDataFor(TraderKindDef td)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -102,7 +102,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060026FB RID: 9979 RVA: 0x0014EC80 File Offset: 0x0014D080
+		// Token: 0x060026FA RID: 9978 RVA: 0x0014EEE0 File Offset: 0x0014D2E0
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			if (parms.traderDef == null)

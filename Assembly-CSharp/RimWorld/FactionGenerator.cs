@@ -10,13 +10,13 @@ namespace RimWorld
 	// Token: 0x02000559 RID: 1369
 	public static class FactionGenerator
 	{
-		// Token: 0x04000F1F RID: 3871
+		// Token: 0x04000F23 RID: 3875
 		private const int MinStartVisibleFactions = 5;
 
-		// Token: 0x04000F20 RID: 3872
+		// Token: 0x04000F24 RID: 3876
 		private static readonly FloatRange FactionBasesPer100kTiles = new FloatRange(75f, 85f);
 
-		// Token: 0x060019BC RID: 6588 RVA: 0x000DFF60 File Offset: 0x000DE360
+		// Token: 0x060019BB RID: 6587 RVA: 0x000E01C8 File Offset: 0x000DE5C8
 		public static void GenerateFactionsIntoWorld()
 		{
 			int i = 0;
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019BD RID: 6589 RVA: 0x000E013C File Offset: 0x000DE53C
+		// Token: 0x060019BC RID: 6588 RVA: 0x000E03A4 File Offset: 0x000DE7A4
 		public static void EnsureRequiredEnemies(Faction player)
 		{
 			using (IEnumerator<FactionDef> enumerator = DefDatabase<FactionDef>.AllDefs.GetEnumerator())
@@ -79,13 +79,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019BE RID: 6590 RVA: 0x000E029C File Offset: 0x000DE69C
+		// Token: 0x060019BD RID: 6589 RVA: 0x000E0504 File Offset: 0x000DE904
 		public static Faction NewGeneratedFaction()
 		{
 			return FactionGenerator.NewGeneratedFaction(DefDatabase<FactionDef>.GetRandom());
 		}
 
-		// Token: 0x060019BF RID: 6591 RVA: 0x000E02BC File Offset: 0x000DE6BC
+		// Token: 0x060019BE RID: 6590 RVA: 0x000E0524 File Offset: 0x000DE924
 		public static Faction NewGeneratedFaction(FactionDef facDef)
 		{
 			Faction faction = new Faction();
@@ -121,7 +121,7 @@ namespace RimWorld
 			return faction;
 		}
 
-		// Token: 0x060019C0 RID: 6592 RVA: 0x000E0424 File Offset: 0x000DE824
+		// Token: 0x060019BF RID: 6591 RVA: 0x000E068C File Offset: 0x000DEA8C
 		public static float NewRandomColorFromSpectrum(Faction faction)
 		{
 			float num = -1f;

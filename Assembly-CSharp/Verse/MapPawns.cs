@@ -8,35 +8,35 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C33 RID: 3123
+	// Token: 0x02000C34 RID: 3124
 	public sealed class MapPawns
 	{
-		// Token: 0x04002EB4 RID: 11956
+		// Token: 0x04002EBB RID: 11963
 		private Map map;
 
-		// Token: 0x04002EB5 RID: 11957
+		// Token: 0x04002EBC RID: 11964
 		private List<Pawn> pawnsSpawned = new List<Pawn>();
 
-		// Token: 0x04002EB6 RID: 11958
+		// Token: 0x04002EBD RID: 11965
 		private Dictionary<Faction, List<Pawn>> pawnsInFactionSpawned = new Dictionary<Faction, List<Pawn>>();
 
-		// Token: 0x04002EB7 RID: 11959
+		// Token: 0x04002EBE RID: 11966
 		private List<Pawn> prisonersOfColonySpawned = new List<Pawn>();
 
-		// Token: 0x04002EB8 RID: 11960
+		// Token: 0x04002EBF RID: 11967
 		private List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04002EB9 RID: 11961
+		// Token: 0x04002EC0 RID: 11968
 		private List<Pawn> tmpUnspawnedPawns = new List<Pawn>();
 
-		// Token: 0x0600449D RID: 17565 RVA: 0x002416CC File Offset: 0x0023FACC
+		// Token: 0x0600449D RID: 17565 RVA: 0x002419AC File Offset: 0x0023FDAC
 		public MapPawns(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000ABA RID: 2746
-		// (get) Token: 0x0600449E RID: 17566 RVA: 0x00241720 File Offset: 0x0023FB20
+		// (get) Token: 0x0600449E RID: 17566 RVA: 0x00241A00 File Offset: 0x0023FE00
 		public IEnumerable<Pawn> AllPawns
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ABB RID: 2747
-		// (get) Token: 0x0600449F RID: 17567 RVA: 0x0024174C File Offset: 0x0023FB4C
+		// (get) Token: 0x0600449F RID: 17567 RVA: 0x00241A2C File Offset: 0x0023FE2C
 		public IEnumerable<Pawn> AllPawnsUnspawned
 		{
 			get
@@ -77,7 +77,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ABC RID: 2748
-		// (get) Token: 0x060044A0 RID: 17568 RVA: 0x00241778 File Offset: 0x0023FB78
+		// (get) Token: 0x060044A0 RID: 17568 RVA: 0x00241A58 File Offset: 0x0023FE58
 		public IEnumerable<Pawn> FreeColonists
 		{
 			get
@@ -87,7 +87,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ABD RID: 2749
-		// (get) Token: 0x060044A1 RID: 17569 RVA: 0x00241798 File Offset: 0x0023FB98
+		// (get) Token: 0x060044A1 RID: 17569 RVA: 0x00241A78 File Offset: 0x0023FE78
 		public IEnumerable<Pawn> PrisonersOfColony
 		{
 			get
@@ -99,7 +99,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ABE RID: 2750
-		// (get) Token: 0x060044A2 RID: 17570 RVA: 0x002417D8 File Offset: 0x0023FBD8
+		// (get) Token: 0x060044A2 RID: 17570 RVA: 0x00241AB8 File Offset: 0x0023FEB8
 		public IEnumerable<Pawn> FreeColonistsAndPrisoners
 		{
 			get
@@ -109,7 +109,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ABF RID: 2751
-		// (get) Token: 0x060044A3 RID: 17571 RVA: 0x00241800 File Offset: 0x0023FC00
+		// (get) Token: 0x060044A3 RID: 17571 RVA: 0x00241AE0 File Offset: 0x0023FEE0
 		public int ColonistCount
 		{
 			get
@@ -129,7 +129,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC0 RID: 2752
-		// (get) Token: 0x060044A4 RID: 17572 RVA: 0x0024185C File Offset: 0x0023FC5C
+		// (get) Token: 0x060044A4 RID: 17572 RVA: 0x00241B3C File Offset: 0x0023FF3C
 		public int AllPawnsCount
 		{
 			get
@@ -139,7 +139,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC1 RID: 2753
-		// (get) Token: 0x060044A5 RID: 17573 RVA: 0x0024187C File Offset: 0x0023FC7C
+		// (get) Token: 0x060044A5 RID: 17573 RVA: 0x00241B5C File Offset: 0x0023FF5C
 		public int AllPawnsUnspawnedCount
 		{
 			get
@@ -149,7 +149,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC2 RID: 2754
-		// (get) Token: 0x060044A6 RID: 17574 RVA: 0x0024189C File Offset: 0x0023FC9C
+		// (get) Token: 0x060044A6 RID: 17574 RVA: 0x00241B7C File Offset: 0x0023FF7C
 		public int FreeColonistsCount
 		{
 			get
@@ -159,7 +159,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC3 RID: 2755
-		// (get) Token: 0x060044A7 RID: 17575 RVA: 0x002418BC File Offset: 0x0023FCBC
+		// (get) Token: 0x060044A7 RID: 17575 RVA: 0x00241B9C File Offset: 0x0023FF9C
 		public int PrisonersOfColonyCount
 		{
 			get
@@ -169,7 +169,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC4 RID: 2756
-		// (get) Token: 0x060044A8 RID: 17576 RVA: 0x002418DC File Offset: 0x0023FCDC
+		// (get) Token: 0x060044A8 RID: 17576 RVA: 0x00241BBC File Offset: 0x0023FFBC
 		public int FreeColonistsAndPrisonersCount
 		{
 			get
@@ -179,7 +179,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC5 RID: 2757
-		// (get) Token: 0x060044A9 RID: 17577 RVA: 0x002418FC File Offset: 0x0023FCFC
+		// (get) Token: 0x060044A9 RID: 17577 RVA: 0x00241BDC File Offset: 0x0023FFDC
 		public bool AnyPawnBlockingMapRemoval
 		{
 			get
@@ -241,7 +241,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC6 RID: 2758
-		// (get) Token: 0x060044AA RID: 17578 RVA: 0x00241B48 File Offset: 0x0023FF48
+		// (get) Token: 0x060044AA RID: 17578 RVA: 0x00241E28 File Offset: 0x00240228
 		public List<Pawn> AllPawnsSpawned
 		{
 			get
@@ -251,7 +251,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC7 RID: 2759
-		// (get) Token: 0x060044AB RID: 17579 RVA: 0x00241B64 File Offset: 0x0023FF64
+		// (get) Token: 0x060044AB RID: 17579 RVA: 0x00241E44 File Offset: 0x00240244
 		public IEnumerable<Pawn> FreeColonistsSpawned
 		{
 			get
@@ -261,7 +261,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC8 RID: 2760
-		// (get) Token: 0x060044AC RID: 17580 RVA: 0x00241B84 File Offset: 0x0023FF84
+		// (get) Token: 0x060044AC RID: 17580 RVA: 0x00241E64 File Offset: 0x00240264
 		public List<Pawn> PrisonersOfColonySpawned
 		{
 			get
@@ -271,7 +271,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AC9 RID: 2761
-		// (get) Token: 0x060044AD RID: 17581 RVA: 0x00241BA0 File Offset: 0x0023FFA0
+		// (get) Token: 0x060044AD RID: 17581 RVA: 0x00241E80 File Offset: 0x00240280
 		public IEnumerable<Pawn> FreeColonistsAndPrisonersSpawned
 		{
 			get
@@ -281,7 +281,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ACA RID: 2762
-		// (get) Token: 0x060044AE RID: 17582 RVA: 0x00241BC8 File Offset: 0x0023FFC8
+		// (get) Token: 0x060044AE RID: 17582 RVA: 0x00241EA8 File Offset: 0x002402A8
 		public int AllPawnsSpawnedCount
 		{
 			get
@@ -291,7 +291,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ACB RID: 2763
-		// (get) Token: 0x060044AF RID: 17583 RVA: 0x00241BE8 File Offset: 0x0023FFE8
+		// (get) Token: 0x060044AF RID: 17583 RVA: 0x00241EC8 File Offset: 0x002402C8
 		public int FreeColonistsSpawnedCount
 		{
 			get
@@ -301,7 +301,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ACC RID: 2764
-		// (get) Token: 0x060044B0 RID: 17584 RVA: 0x00241C08 File Offset: 0x00240008
+		// (get) Token: 0x060044B0 RID: 17584 RVA: 0x00241EE8 File Offset: 0x002402E8
 		public int PrisonersOfColonySpawnedCount
 		{
 			get
@@ -311,7 +311,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ACD RID: 2765
-		// (get) Token: 0x060044B1 RID: 17585 RVA: 0x00241C28 File Offset: 0x00240028
+		// (get) Token: 0x060044B1 RID: 17585 RVA: 0x00241F08 File Offset: 0x00240308
 		public int FreeColonistsAndPrisonersSpawnedCount
 		{
 			get
@@ -321,7 +321,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ACE RID: 2766
-		// (get) Token: 0x060044B2 RID: 17586 RVA: 0x00241C48 File Offset: 0x00240048
+		// (get) Token: 0x060044B2 RID: 17586 RVA: 0x00241F28 File Offset: 0x00240328
 		public int ColonistsSpawnedCount
 		{
 			get
@@ -340,7 +340,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000ACF RID: 2767
-		// (get) Token: 0x060044B3 RID: 17587 RVA: 0x00241CA0 File Offset: 0x002400A0
+		// (get) Token: 0x060044B3 RID: 17587 RVA: 0x00241F80 File Offset: 0x00240380
 		public int FreeColonistsSpawnedOrInPlayerEjectablePodsCount
 		{
 			get
@@ -378,7 +378,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AD0 RID: 2768
-		// (get) Token: 0x060044B4 RID: 17588 RVA: 0x00241E10 File Offset: 0x00240210
+		// (get) Token: 0x060044B4 RID: 17588 RVA: 0x002420F0 File Offset: 0x002404F0
 		public bool AnyColonistSpawned
 		{
 			get
@@ -396,7 +396,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AD1 RID: 2769
-		// (get) Token: 0x060044B5 RID: 17589 RVA: 0x00241E64 File Offset: 0x00240264
+		// (get) Token: 0x060044B5 RID: 17589 RVA: 0x00242144 File Offset: 0x00240544
 		public bool AnyFreeColonistSpawned
 		{
 			get
@@ -413,7 +413,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044B6 RID: 17590 RVA: 0x00241EB8 File Offset: 0x002402B8
+		// Token: 0x060044B6 RID: 17590 RVA: 0x00242198 File Offset: 0x00240598
 		private void EnsureFactionsListsInit()
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -426,7 +426,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044B7 RID: 17591 RVA: 0x00241F18 File Offset: 0x00240318
+		// Token: 0x060044B7 RID: 17591 RVA: 0x002421F8 File Offset: 0x002405F8
 		public IEnumerable<Pawn> PawnsInFaction(Faction faction)
 		{
 			IEnumerable<Pawn> result;
@@ -444,7 +444,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060044B8 RID: 17592 RVA: 0x00241F74 File Offset: 0x00240374
+		// Token: 0x060044B8 RID: 17592 RVA: 0x00242254 File Offset: 0x00240654
 		public List<Pawn> SpawnedPawnsInFaction(Faction faction)
 		{
 			this.EnsureFactionsListsInit();
@@ -461,7 +461,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060044B9 RID: 17593 RVA: 0x00241FB8 File Offset: 0x002403B8
+		// Token: 0x060044B9 RID: 17593 RVA: 0x00242298 File Offset: 0x00240698
 		public IEnumerable<Pawn> FreeHumanlikesOfFaction(Faction faction)
 		{
 			return from p in this.PawnsInFaction(faction)
@@ -469,7 +469,7 @@ namespace Verse
 			select p;
 		}
 
-		// Token: 0x060044BA RID: 17594 RVA: 0x00241FF8 File Offset: 0x002403F8
+		// Token: 0x060044BA RID: 17594 RVA: 0x002422D8 File Offset: 0x002406D8
 		public IEnumerable<Pawn> FreeHumanlikesSpawnedOfFaction(Faction faction)
 		{
 			return from p in this.SpawnedPawnsInFaction(faction)
@@ -477,7 +477,7 @@ namespace Verse
 			select p;
 		}
 
-		// Token: 0x060044BB RID: 17595 RVA: 0x00242038 File Offset: 0x00240438
+		// Token: 0x060044BB RID: 17595 RVA: 0x00242318 File Offset: 0x00240718
 		public void RegisterPawn(Pawn p)
 		{
 			if (p.Dead)
@@ -540,7 +540,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044BC RID: 17596 RVA: 0x002421F0 File Offset: 0x002405F0
+		// Token: 0x060044BC RID: 17596 RVA: 0x002424D0 File Offset: 0x002408D0
 		public void DeRegisterPawn(Pawn p)
 		{
 			this.EnsureFactionsListsInit();
@@ -555,7 +555,7 @@ namespace Verse
 			this.DoListChangedNotifications();
 		}
 
-		// Token: 0x060044BD RID: 17597 RVA: 0x00242263 File Offset: 0x00240663
+		// Token: 0x060044BD RID: 17597 RVA: 0x00242543 File Offset: 0x00240943
 		public void UpdateRegistryForPawn(Pawn p)
 		{
 			this.DeRegisterPawn(p);
@@ -566,7 +566,7 @@ namespace Verse
 			this.DoListChangedNotifications();
 		}
 
-		// Token: 0x060044BE RID: 17598 RVA: 0x00242296 File Offset: 0x00240696
+		// Token: 0x060044BE RID: 17598 RVA: 0x00242576 File Offset: 0x00240976
 		private void DoListChangedNotifications()
 		{
 			MainTabWindowUtility.NotifyAllPawnTables_PawnsChanged();
@@ -576,7 +576,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044BF RID: 17599 RVA: 0x002422B4 File Offset: 0x002406B4
+		// Token: 0x060044BF RID: 17599 RVA: 0x00242594 File Offset: 0x00240994
 		public void LogListedPawns()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

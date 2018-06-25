@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009A7 RID: 2471
 	public abstract class StatPart_Curve : StatPart
 	{
-		// Token: 0x0400239C RID: 9116
+		// Token: 0x040023A3 RID: 9123
 		protected SimpleCurve curve = null;
 
 		// Token: 0x06003765 RID: 14181
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x06003767 RID: 14183
 		protected abstract string ExplanationLabel(StatRequest req);
 
-		// Token: 0x06003768 RID: 14184 RVA: 0x001D9590 File Offset: 0x001D7990
+		// Token: 0x06003768 RID: 14184 RVA: 0x001D9864 File Offset: 0x001D7C64
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && this.AppliesTo(req))
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003769 RID: 14185 RVA: 0x001D95C4 File Offset: 0x001D79C4
+		// Token: 0x06003769 RID: 14185 RVA: 0x001D9898 File Offset: 0x001D7C98
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;

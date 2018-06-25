@@ -2,22 +2,22 @@
 
 namespace Verse
 {
-	// Token: 0x02000F3B RID: 3899
+	// Token: 0x02000F3C RID: 3900
 	public enum SimpleColor
 	{
-		// Token: 0x04003DD5 RID: 15829
+		// Token: 0x04003DDD RID: 15837
 		White,
-		// Token: 0x04003DD6 RID: 15830
+		// Token: 0x04003DDE RID: 15838
 		Red,
-		// Token: 0x04003DD7 RID: 15831
+		// Token: 0x04003DDF RID: 15839
 		Green,
-		// Token: 0x04003DD8 RID: 15832
+		// Token: 0x04003DE0 RID: 15840
 		Blue,
-		// Token: 0x04003DD9 RID: 15833
+		// Token: 0x04003DE1 RID: 15841
 		Magenta,
-		// Token: 0x04003DDA RID: 15834
+		// Token: 0x04003DE2 RID: 15842
 		Yellow,
-		// Token: 0x04003DDB RID: 15835
+		// Token: 0x04003DE3 RID: 15843
 		Cyan
 	}
 }

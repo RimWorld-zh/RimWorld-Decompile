@@ -6,31 +6,31 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D8A RID: 3466
+	// Token: 0x02000D8B RID: 3467
 	public static class XmlInheritance
 	{
-		// Token: 0x040033BB RID: 13243
+		// Token: 0x040033C2 RID: 13250
 		private static Dictionary<XmlNode, XmlInheritance.XmlInheritanceNode> resolvedNodes = new Dictionary<XmlNode, XmlInheritance.XmlInheritanceNode>();
 
-		// Token: 0x040033BC RID: 13244
+		// Token: 0x040033C3 RID: 13251
 		private static List<XmlInheritance.XmlInheritanceNode> unresolvedNodes = new List<XmlInheritance.XmlInheritanceNode>();
 
-		// Token: 0x040033BD RID: 13245
+		// Token: 0x040033C4 RID: 13252
 		private static Dictionary<string, List<XmlInheritance.XmlInheritanceNode>> nodesByName = new Dictionary<string, List<XmlInheritance.XmlInheritanceNode>>();
 
-		// Token: 0x040033BE RID: 13246
+		// Token: 0x040033C5 RID: 13253
 		private const string NameAttributeName = "Name";
 
-		// Token: 0x040033BF RID: 13247
+		// Token: 0x040033C6 RID: 13254
 		private const string ParentNameAttributeName = "ParentName";
 
-		// Token: 0x040033C0 RID: 13248
+		// Token: 0x040033C7 RID: 13255
 		private const string InheritAttributeName = "Inherit";
 
-		// Token: 0x040033C1 RID: 13249
+		// Token: 0x040033C8 RID: 13256
 		private static HashSet<string> tempUsedNodeNames = new HashSet<string>();
 
-		// Token: 0x06004D89 RID: 19849 RVA: 0x002876A0 File Offset: 0x00285AA0
+		// Token: 0x06004D89 RID: 19849 RVA: 0x00287980 File Offset: 0x00285D80
 		public static void TryRegisterAllFrom(LoadableXmlAsset xmlAsset, ModContentPack mod)
 		{
 			if (xmlAsset.xmlDoc != null)
@@ -46,7 +46,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D8A RID: 19850 RVA: 0x00287708 File Offset: 0x00285B08
+		// Token: 0x06004D8A RID: 19850 RVA: 0x002879E8 File Offset: 0x00285DE8
 		public static void TryRegister(XmlNode node, ModContentPack mod)
 		{
 			XmlAttribute xmlAttribute = node.Attributes["Name"];
@@ -99,14 +99,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D8B RID: 19851 RVA: 0x0028785B File Offset: 0x00285C5B
+		// Token: 0x06004D8B RID: 19851 RVA: 0x00287B3B File Offset: 0x00285F3B
 		public static void Resolve()
 		{
 			XmlInheritance.ResolveParentsAndChildNodesLinks();
 			XmlInheritance.ResolveXmlNodes();
 		}
 
-		// Token: 0x06004D8C RID: 19852 RVA: 0x00287868 File Offset: 0x00285C68
+		// Token: 0x06004D8C RID: 19852 RVA: 0x00287B48 File Offset: 0x00285F48
 		public static XmlNode GetResolvedNodeFor(XmlNode originalNode)
 		{
 			if (originalNode.Attributes["ParentName"] != null)
@@ -128,7 +128,7 @@ namespace Verse
 			return originalNode;
 		}
 
-		// Token: 0x06004D8D RID: 19853 RVA: 0x0028792F File Offset: 0x00285D2F
+		// Token: 0x06004D8D RID: 19853 RVA: 0x00287C0F File Offset: 0x0028600F
 		public static void Clear()
 		{
 			XmlInheritance.resolvedNodes.Clear();
@@ -136,7 +136,7 @@ namespace Verse
 			XmlInheritance.nodesByName.Clear();
 		}
 
-		// Token: 0x06004D8E RID: 19854 RVA: 0x00287950 File Offset: 0x00285D50
+		// Token: 0x06004D8E RID: 19854 RVA: 0x00287C30 File Offset: 0x00286030
 		private static void ResolveParentsAndChildNodesLinks()
 		{
 			for (int i = 0; i < XmlInheritance.unresolvedNodes.Count; i++)
@@ -153,7 +153,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D8F RID: 19855 RVA: 0x00287A08 File Offset: 0x00285E08
+		// Token: 0x06004D8F RID: 19855 RVA: 0x00287CE8 File Offset: 0x002860E8
 		private static void ResolveXmlNodes()
 		{
 			List<XmlInheritance.XmlInheritanceNode> list = (from x in XmlInheritance.unresolvedNodes
@@ -177,7 +177,7 @@ namespace Verse
 			XmlInheritance.unresolvedNodes.Clear();
 		}
 
-		// Token: 0x06004D90 RID: 19856 RVA: 0x00287B10 File Offset: 0x00285F10
+		// Token: 0x06004D90 RID: 19856 RVA: 0x00287DF0 File Offset: 0x002861F0
 		private static void ResolveXmlNodesRecursively(XmlInheritance.XmlInheritanceNode node)
 		{
 			if (node.resolvedXmlNode != null)
@@ -194,7 +194,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D91 RID: 19857 RVA: 0x00287B90 File Offset: 0x00285F90
+		// Token: 0x06004D91 RID: 19857 RVA: 0x00287E70 File Offset: 0x00286270
 		private static XmlInheritance.XmlInheritanceNode GetBestParentFor(XmlInheritance.XmlInheritanceNode node, string parentName)
 		{
 			XmlInheritance.XmlInheritanceNode xmlInheritanceNode = null;
@@ -268,7 +268,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D92 RID: 19858 RVA: 0x00287D84 File Offset: 0x00286184
+		// Token: 0x06004D92 RID: 19858 RVA: 0x00288064 File Offset: 0x00286464
 		private static void ResolveXmlNodeFor(XmlInheritance.XmlInheritanceNode node)
 		{
 			if (node.parent == null)
@@ -289,7 +289,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D93 RID: 19859 RVA: 0x00287E14 File Offset: 0x00286214
+		// Token: 0x06004D93 RID: 19859 RVA: 0x002880F4 File Offset: 0x002864F4
 		private static void RecursiveNodeCopyOverwriteElements(XmlNode child, XmlNode current)
 		{
 			XmlAttribute xmlAttribute = child.Attributes["Inherit"];
@@ -446,7 +446,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D94 RID: 19860 RVA: 0x002881E0 File Offset: 0x002865E0
+		// Token: 0x06004D94 RID: 19860 RVA: 0x002884C0 File Offset: 0x002868C0
 		private static void CheckForDuplicateNodes(XmlNode node, XmlNode root)
 		{
 			XmlInheritance.tempUsedNodeNames.Clear();
@@ -509,22 +509,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D8B RID: 3467
+		// Token: 0x02000D8C RID: 3468
 		private class XmlInheritanceNode
 		{
-			// Token: 0x040033C3 RID: 13251
+			// Token: 0x040033CA RID: 13258
 			public XmlNode xmlNode;
 
-			// Token: 0x040033C4 RID: 13252
+			// Token: 0x040033CB RID: 13259
 			public XmlNode resolvedXmlNode;
 
-			// Token: 0x040033C5 RID: 13253
+			// Token: 0x040033CC RID: 13260
 			public ModContentPack mod;
 
-			// Token: 0x040033C6 RID: 13254
+			// Token: 0x040033CD RID: 13261
 			public XmlInheritance.XmlInheritanceNode parent;
 
-			// Token: 0x040033C7 RID: 13255
+			// Token: 0x040033CE RID: 13262
 			public List<XmlInheritance.XmlInheritanceNode> children = new List<XmlInheritance.XmlInheritanceNode>();
 		}
 	}

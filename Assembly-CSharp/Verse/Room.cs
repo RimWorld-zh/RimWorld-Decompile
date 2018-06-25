@@ -6,83 +6,83 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C98 RID: 3224
+	// Token: 0x02000C99 RID: 3225
 	public sealed class Room
 	{
-		// Token: 0x04003028 RID: 12328
+		// Token: 0x0400302F RID: 12335
 		public sbyte mapIndex = -1;
 
-		// Token: 0x04003029 RID: 12329
+		// Token: 0x04003030 RID: 12336
 		private RoomGroup groupInt;
 
-		// Token: 0x0400302A RID: 12330
+		// Token: 0x04003031 RID: 12337
 		private List<Region> regions = new List<Region>();
 
-		// Token: 0x0400302B RID: 12331
+		// Token: 0x04003032 RID: 12338
 		public int ID = -16161616;
 
-		// Token: 0x0400302C RID: 12332
+		// Token: 0x04003033 RID: 12339
 		public int lastChangeTick = -1;
 
-		// Token: 0x0400302D RID: 12333
+		// Token: 0x04003034 RID: 12340
 		private int numRegionsTouchingMapEdge;
 
-		// Token: 0x0400302E RID: 12334
+		// Token: 0x04003035 RID: 12341
 		private int cachedOpenRoofCount = -1;
 
-		// Token: 0x0400302F RID: 12335
+		// Token: 0x04003036 RID: 12342
 		private IEnumerator<IntVec3> cachedOpenRoofState = null;
 
-		// Token: 0x04003030 RID: 12336
+		// Token: 0x04003037 RID: 12343
 		public bool isPrisonCell;
 
-		// Token: 0x04003031 RID: 12337
+		// Token: 0x04003038 RID: 12344
 		private int cachedCellCount = -1;
 
-		// Token: 0x04003032 RID: 12338
+		// Token: 0x04003039 RID: 12345
 		private bool statsAndRoleDirty = true;
 
-		// Token: 0x04003033 RID: 12339
+		// Token: 0x0400303A RID: 12346
 		private DefMap<RoomStatDef, float> stats = new DefMap<RoomStatDef, float>();
 
-		// Token: 0x04003034 RID: 12340
+		// Token: 0x0400303B RID: 12347
 		private RoomRoleDef role;
 
-		// Token: 0x04003035 RID: 12341
+		// Token: 0x0400303C RID: 12348
 		public int newOrReusedRoomGroupIndex = -1;
 
-		// Token: 0x04003036 RID: 12342
+		// Token: 0x0400303D RID: 12349
 		private static int nextRoomID;
 
-		// Token: 0x04003037 RID: 12343
+		// Token: 0x0400303E RID: 12350
 		private const int RegionCountHuge = 60;
 
-		// Token: 0x04003038 RID: 12344
+		// Token: 0x0400303F RID: 12351
 		private const int MaxRegionsToAssignRoomRole = 36;
 
-		// Token: 0x04003039 RID: 12345
+		// Token: 0x04003040 RID: 12352
 		private static readonly Color PrisonFieldColor = new Color(1f, 0.7f, 0.2f);
 
-		// Token: 0x0400303A RID: 12346
+		// Token: 0x04003041 RID: 12353
 		private static readonly Color NonPrisonFieldColor = new Color(0.3f, 0.3f, 1f);
 
-		// Token: 0x0400303B RID: 12347
+		// Token: 0x04003042 RID: 12354
 		private HashSet<Room> uniqueNeighborsSet = new HashSet<Room>();
 
-		// Token: 0x0400303C RID: 12348
+		// Token: 0x04003043 RID: 12355
 		private List<Room> uniqueNeighbors = new List<Room>();
 
-		// Token: 0x0400303D RID: 12349
+		// Token: 0x04003044 RID: 12356
 		private HashSet<Thing> uniqueContainedThingsSet = new HashSet<Thing>();
 
-		// Token: 0x0400303E RID: 12350
+		// Token: 0x04003045 RID: 12357
 		private List<Thing> uniqueContainedThings = new List<Thing>();
 
-		// Token: 0x0400303F RID: 12351
+		// Token: 0x04003046 RID: 12358
 		private static List<IntVec3> fields = new List<IntVec3>();
 
 		// Token: 0x17000B20 RID: 2848
-		// (get) Token: 0x060046C2 RID: 18114 RVA: 0x00255354 File Offset: 0x00253754
+		// (get) Token: 0x060046C2 RID: 18114 RVA: 0x00255634 File Offset: 0x00253A34
 		public Map Map
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B21 RID: 2849
-		// (get) Token: 0x060046C3 RID: 18115 RVA: 0x00255390 File Offset: 0x00253790
+		// (get) Token: 0x060046C3 RID: 18115 RVA: 0x00255670 File Offset: 0x00253A70
 		public RegionType RegionType
 		{
 			get
@@ -102,7 +102,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B22 RID: 2850
-		// (get) Token: 0x060046C4 RID: 18116 RVA: 0x002553CC File Offset: 0x002537CC
+		// (get) Token: 0x060046C4 RID: 18116 RVA: 0x002556AC File Offset: 0x00253AAC
 		public List<Region> Regions
 		{
 			get
@@ -112,7 +112,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B23 RID: 2851
-		// (get) Token: 0x060046C5 RID: 18117 RVA: 0x002553E8 File Offset: 0x002537E8
+		// (get) Token: 0x060046C5 RID: 18117 RVA: 0x002556C8 File Offset: 0x00253AC8
 		public int RegionCount
 		{
 			get
@@ -122,7 +122,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B24 RID: 2852
-		// (get) Token: 0x060046C6 RID: 18118 RVA: 0x00255408 File Offset: 0x00253808
+		// (get) Token: 0x060046C6 RID: 18118 RVA: 0x002556E8 File Offset: 0x00253AE8
 		public bool IsHuge
 		{
 			get
@@ -132,7 +132,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B25 RID: 2853
-		// (get) Token: 0x060046C7 RID: 18119 RVA: 0x0025542C File Offset: 0x0025382C
+		// (get) Token: 0x060046C7 RID: 18119 RVA: 0x0025570C File Offset: 0x00253B0C
 		public bool Dereferenced
 		{
 			get
@@ -142,7 +142,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B26 RID: 2854
-		// (get) Token: 0x060046C8 RID: 18120 RVA: 0x00255450 File Offset: 0x00253850
+		// (get) Token: 0x060046C8 RID: 18120 RVA: 0x00255730 File Offset: 0x00253B30
 		public bool TouchesMapEdge
 		{
 			get
@@ -152,7 +152,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B27 RID: 2855
-		// (get) Token: 0x060046C9 RID: 18121 RVA: 0x00255470 File Offset: 0x00253870
+		// (get) Token: 0x060046C9 RID: 18121 RVA: 0x00255750 File Offset: 0x00253B50
 		public float Temperature
 		{
 			get
@@ -162,7 +162,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B28 RID: 2856
-		// (get) Token: 0x060046CA RID: 18122 RVA: 0x00255490 File Offset: 0x00253890
+		// (get) Token: 0x060046CA RID: 18122 RVA: 0x00255770 File Offset: 0x00253B70
 		public bool UsesOutdoorTemperature
 		{
 			get
@@ -172,8 +172,8 @@ namespace Verse
 		}
 
 		// Token: 0x17000B29 RID: 2857
-		// (get) Token: 0x060046CB RID: 18123 RVA: 0x002554B0 File Offset: 0x002538B0
-		// (set) Token: 0x060046CC RID: 18124 RVA: 0x002554CC File Offset: 0x002538CC
+		// (get) Token: 0x060046CB RID: 18123 RVA: 0x00255790 File Offset: 0x00253B90
+		// (set) Token: 0x060046CC RID: 18124 RVA: 0x002557AC File Offset: 0x00253BAC
 		public RoomGroup Group
 		{
 			get
@@ -198,7 +198,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B2A RID: 2858
-		// (get) Token: 0x060046CD RID: 18125 RVA: 0x00255520 File Offset: 0x00253920
+		// (get) Token: 0x060046CD RID: 18125 RVA: 0x00255800 File Offset: 0x00253C00
 		public int CellCount
 		{
 			get
@@ -216,7 +216,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B2B RID: 2859
-		// (get) Token: 0x060046CE RID: 18126 RVA: 0x0025558C File Offset: 0x0025398C
+		// (get) Token: 0x060046CE RID: 18126 RVA: 0x0025586C File Offset: 0x00253C6C
 		public int OpenRoofCount
 		{
 			get
@@ -226,7 +226,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B2C RID: 2860
-		// (get) Token: 0x060046CF RID: 18127 RVA: 0x002555AC File Offset: 0x002539AC
+		// (get) Token: 0x060046CF RID: 18127 RVA: 0x0025588C File Offset: 0x00253C8C
 		public bool PsychologicallyOutdoors
 		{
 			get
@@ -236,7 +236,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B2D RID: 2861
-		// (get) Token: 0x060046D0 RID: 18128 RVA: 0x00255610 File Offset: 0x00253A10
+		// (get) Token: 0x060046D0 RID: 18128 RVA: 0x002558F0 File Offset: 0x00253CF0
 		public bool OutdoorsForWork
 		{
 			get
@@ -246,7 +246,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B2E RID: 2862
-		// (get) Token: 0x060046D1 RID: 18129 RVA: 0x00255658 File Offset: 0x00253A58
+		// (get) Token: 0x060046D1 RID: 18129 RVA: 0x00255938 File Offset: 0x00253D38
 		public List<Room> Neighbors
 		{
 			get
@@ -269,7 +269,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B2F RID: 2863
-		// (get) Token: 0x060046D2 RID: 18130 RVA: 0x00255738 File Offset: 0x00253B38
+		// (get) Token: 0x060046D2 RID: 18130 RVA: 0x00255A18 File Offset: 0x00253E18
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -286,7 +286,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B30 RID: 2864
-		// (get) Token: 0x060046D3 RID: 18131 RVA: 0x00255764 File Offset: 0x00253B64
+		// (get) Token: 0x060046D3 RID: 18131 RVA: 0x00255A44 File Offset: 0x00253E44
 		public IEnumerable<IntVec3> BorderCells
 		{
 			get
@@ -308,7 +308,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B31 RID: 2865
-		// (get) Token: 0x060046D4 RID: 18132 RVA: 0x00255790 File Offset: 0x00253B90
+		// (get) Token: 0x060046D4 RID: 18132 RVA: 0x00255A70 File Offset: 0x00253E70
 		public IEnumerable<Pawn> Owners
 		{
 			get
@@ -365,7 +365,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B32 RID: 2866
-		// (get) Token: 0x060046D5 RID: 18133 RVA: 0x002557BC File Offset: 0x00253BBC
+		// (get) Token: 0x060046D5 RID: 18133 RVA: 0x00255A9C File Offset: 0x00253E9C
 		public IEnumerable<Building_Bed> ContainedBeds
 		{
 			get
@@ -384,7 +384,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B33 RID: 2867
-		// (get) Token: 0x060046D6 RID: 18134 RVA: 0x002557E8 File Offset: 0x00253BE8
+		// (get) Token: 0x060046D6 RID: 18134 RVA: 0x00255AC8 File Offset: 0x00253EC8
 		public bool Fogged
 		{
 			get
@@ -394,7 +394,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B34 RID: 2868
-		// (get) Token: 0x060046D7 RID: 18135 RVA: 0x00255830 File Offset: 0x00253C30
+		// (get) Token: 0x060046D7 RID: 18135 RVA: 0x00255B10 File Offset: 0x00253F10
 		public List<Thing> ContainedAndAdjacentThings
 		{
 			get
@@ -422,7 +422,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B35 RID: 2869
-		// (get) Token: 0x060046D8 RID: 18136 RVA: 0x002558EC File Offset: 0x00253CEC
+		// (get) Token: 0x060046D8 RID: 18136 RVA: 0x00255BCC File Offset: 0x00253FCC
 		public RoomRoleDef Role
 		{
 			get
@@ -435,7 +435,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046D9 RID: 18137 RVA: 0x00255918 File Offset: 0x00253D18
+		// Token: 0x060046D9 RID: 18137 RVA: 0x00255BF8 File Offset: 0x00253FF8
 		public static Room MakeNew(Map map)
 		{
 			Room room = new Room();
@@ -445,7 +445,7 @@ namespace Verse
 			return room;
 		}
 
-		// Token: 0x060046DA RID: 18138 RVA: 0x00255958 File Offset: 0x00253D58
+		// Token: 0x060046DA RID: 18138 RVA: 0x00255C38 File Offset: 0x00254038
 		public void AddRegion(Region r)
 		{
 			if (this.regions.Contains(r))
@@ -472,7 +472,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046DB RID: 18139 RVA: 0x002559F4 File Offset: 0x00253DF4
+		// Token: 0x060046DB RID: 18139 RVA: 0x00255CD4 File Offset: 0x002540D4
 		public void RemoveRegion(Region r)
 		{
 			if (!this.regions.Contains(r))
@@ -503,13 +503,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046DC RID: 18140 RVA: 0x00255AAD File Offset: 0x00253EAD
+		// Token: 0x060046DC RID: 18140 RVA: 0x00255D8D File Offset: 0x0025418D
 		public void Notify_MyMapRemoved()
 		{
 			this.mapIndex = -1;
 		}
 
-		// Token: 0x060046DD RID: 18141 RVA: 0x00255AB8 File Offset: 0x00253EB8
+		// Token: 0x060046DD RID: 18141 RVA: 0x00255D98 File Offset: 0x00254198
 		public void Notify_ContainedThingSpawnedOrDespawned(Thing th)
 		{
 			if (th.def.category != ThingCategory.Mote && th.def.category != ThingCategory.Projectile && th.def.category != ThingCategory.Ethereal && th.def.category != ThingCategory.Pawn)
@@ -518,19 +518,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046DE RID: 18142 RVA: 0x00255B15 File Offset: 0x00253F15
+		// Token: 0x060046DE RID: 18142 RVA: 0x00255DF5 File Offset: 0x002541F5
 		public void Notify_TerrainChanged()
 		{
 			this.statsAndRoleDirty = true;
 		}
 
-		// Token: 0x060046DF RID: 18143 RVA: 0x00255B1F File Offset: 0x00253F1F
+		// Token: 0x060046DF RID: 18143 RVA: 0x00255DFF File Offset: 0x002541FF
 		public void Notify_BedTypeChanged()
 		{
 			this.statsAndRoleDirty = true;
 		}
 
-		// Token: 0x060046E0 RID: 18144 RVA: 0x00255B29 File Offset: 0x00253F29
+		// Token: 0x060046E0 RID: 18144 RVA: 0x00255E09 File Offset: 0x00254209
 		public void Notify_RoofChanged()
 		{
 			this.cachedOpenRoofCount = -1;
@@ -538,7 +538,7 @@ namespace Verse
 			this.Group.Notify_RoofChanged();
 		}
 
-		// Token: 0x060046E1 RID: 18145 RVA: 0x00255B48 File Offset: 0x00253F48
+		// Token: 0x060046E1 RID: 18145 RVA: 0x00255E28 File Offset: 0x00254228
 		public void Notify_RoomShapeOrContainedBedsChanged()
 		{
 			this.cachedCellCount = -1;
@@ -582,7 +582,7 @@ namespace Verse
 			FacilitiesUtility.NotifyFacilitiesAboutChangedLOSBlockers(this.regions);
 		}
 
-		// Token: 0x060046E2 RID: 18146 RVA: 0x00255CC8 File Offset: 0x002540C8
+		// Token: 0x060046E2 RID: 18146 RVA: 0x00255FA8 File Offset: 0x002543A8
 		public void DecrementMapIndex()
 		{
 			if ((int)this.mapIndex <= 0)
@@ -601,7 +601,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046E3 RID: 18147 RVA: 0x00255D38 File Offset: 0x00254138
+		// Token: 0x060046E3 RID: 18147 RVA: 0x00256018 File Offset: 0x00254418
 		public float GetStat(RoomStatDef roomStat)
 		{
 			if (this.statsAndRoleDirty)
@@ -620,13 +620,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060046E4 RID: 18148 RVA: 0x00255D84 File Offset: 0x00254184
+		// Token: 0x060046E4 RID: 18148 RVA: 0x00256064 File Offset: 0x00254464
 		public RoomStatScoreStage GetStatScoreStage(RoomStatDef stat)
 		{
 			return stat.GetScoreStage(this.GetStat(stat));
 		}
 
-		// Token: 0x060046E5 RID: 18149 RVA: 0x00255DA8 File Offset: 0x002541A8
+		// Token: 0x060046E5 RID: 18149 RVA: 0x00256088 File Offset: 0x00254488
 		public void DrawFieldEdges()
 		{
 			Room.fields.Clear();
@@ -637,7 +637,7 @@ namespace Verse
 			Room.fields.Clear();
 		}
 
-		// Token: 0x060046E6 RID: 18150 RVA: 0x00255E18 File Offset: 0x00254218
+		// Token: 0x060046E6 RID: 18150 RVA: 0x002560F8 File Offset: 0x002544F8
 		public int OpenRoofCountStopAt(int threshold)
 		{
 			if (this.cachedOpenRoofCount == -1 && this.cachedOpenRoofState == null)
@@ -663,7 +663,7 @@ namespace Verse
 			return this.cachedOpenRoofCount;
 		}
 
-		// Token: 0x060046E7 RID: 18151 RVA: 0x00255EE4 File Offset: 0x002542E4
+		// Token: 0x060046E7 RID: 18151 RVA: 0x002561C4 File Offset: 0x002545C4
 		private void UpdateRoomStatsAndRole()
 		{
 			this.statsAndRoleDirty = false;
@@ -688,7 +688,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046E8 RID: 18152 RVA: 0x00255FF0 File Offset: 0x002543F0
+		// Token: 0x060046E8 RID: 18152 RVA: 0x002562D0 File Offset: 0x002546D0
 		internal void DebugDraw()
 		{
 			int hashCode = this.GetHashCode();
@@ -698,7 +698,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046E9 RID: 18153 RVA: 0x0025605C File Offset: 0x0025445C
+		// Token: 0x060046E9 RID: 18153 RVA: 0x0025633C File Offset: 0x0025473C
 		internal string DebugString()
 		{
 			return string.Concat(new object[]
@@ -726,7 +726,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060046EA RID: 18154 RVA: 0x0025618C File Offset: 0x0025458C
+		// Token: 0x060046EA RID: 18154 RVA: 0x0025646C File Offset: 0x0025486C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -743,7 +743,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060046EB RID: 18155 RVA: 0x00256224 File Offset: 0x00254624
+		// Token: 0x060046EB RID: 18155 RVA: 0x00256504 File Offset: 0x00254904
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineInt(this.ID, 1538478890);

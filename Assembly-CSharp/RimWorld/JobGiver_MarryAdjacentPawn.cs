@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000CB RID: 203
 	public class JobGiver_MarryAdjacentPawn : ThinkNode_JobGiver
 	{
-		// Token: 0x060004A3 RID: 1187 RVA: 0x00034C18 File Offset: 0x00033018
+		// Token: 0x060004A3 RID: 1187 RVA: 0x00034C34 File Offset: 0x00033034
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004A4 RID: 1188 RVA: 0x00034CF0 File Offset: 0x000330F0
+		// Token: 0x060004A4 RID: 1188 RVA: 0x00034D0C File Offset: 0x0003310C
 		private bool CanMarry(Pawn pawn, Pawn toMarry)
 		{
 			return !toMarry.Drafted && pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, toMarry);

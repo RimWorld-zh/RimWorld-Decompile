@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200070A RID: 1802
 	public static class DeepDrillUtility
 	{
-		// Token: 0x0600277D RID: 10109 RVA: 0x00152E1C File Offset: 0x0015121C
+		// Token: 0x0600277C RID: 10108 RVA: 0x0015307C File Offset: 0x0015147C
 		public static ThingDef GetNextResource(IntVec3 p, Map map)
 		{
 			ThingDef result;
@@ -17,7 +17,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600277E RID: 10110 RVA: 0x00152E40 File Offset: 0x00151240
+		// Token: 0x0600277D RID: 10109 RVA: 0x001530A0 File Offset: 0x001514A0
 		public static bool GetNextResource(IntVec3 p, Map map, out ThingDef resDef, out int countPresent, out IntVec3 cell)
 		{
 			for (int i = 0; i < 9; i++)
@@ -41,7 +41,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600277F RID: 10111 RVA: 0x00152EE4 File Offset: 0x001512E4
+		// Token: 0x0600277E RID: 10110 RVA: 0x00153144 File Offset: 0x00151544
 		public static ThingDef GetBaseResource(Map map)
 		{
 			ThingDef result;

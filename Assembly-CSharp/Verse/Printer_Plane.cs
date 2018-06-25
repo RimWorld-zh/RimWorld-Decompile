@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C50 RID: 3152
+	// Token: 0x02000C51 RID: 3153
 	public static class Printer_Plane
 	{
-		// Token: 0x04002F72 RID: 12146
+		// Token: 0x04002F79 RID: 12153
 		private static Color32[] defaultColors = new Color32[]
 		{
 			new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue),
@@ -16,7 +16,7 @@ namespace Verse
 			new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue)
 		};
 
-		// Token: 0x04002F73 RID: 12147
+		// Token: 0x04002F7A RID: 12154
 		private static Vector2[] defaultUvs = new Vector2[]
 		{
 			new Vector2(0f, 0f),
@@ -25,7 +25,7 @@ namespace Verse
 			new Vector2(1f, 0f)
 		};
 
-		// Token: 0x04002F74 RID: 12148
+		// Token: 0x04002F7B RID: 12155
 		private static Vector2[] defaultUvsFlipped = new Vector2[]
 		{
 			new Vector2(1f, 0f),
@@ -34,7 +34,7 @@ namespace Verse
 			new Vector2(0f, 0f)
 		};
 
-		// Token: 0x0600456E RID: 17774 RVA: 0x0024B710 File Offset: 0x00249B10
+		// Token: 0x0600456E RID: 17774 RVA: 0x0024B9F0 File Offset: 0x00249DF0
 		public static void PrintPlane(SectionLayer layer, Vector3 center, Vector2 size, Material mat, float rot = 0f, bool flipUv = false, Vector2[] uvs = null, Color32[] colors = null, float topVerticesAltitudeBias = 0.01f, float uvzPayload = 0f)
 		{
 			if (colors == null)

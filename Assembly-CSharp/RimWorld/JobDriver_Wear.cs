@@ -8,17 +8,17 @@ namespace RimWorld
 	// Token: 0x0200009F RID: 159
 	public class JobDriver_Wear : JobDriver
 	{
-		// Token: 0x0400026B RID: 619
+		// Token: 0x0400026C RID: 620
 		private int duration;
 
-		// Token: 0x0400026C RID: 620
+		// Token: 0x0400026D RID: 621
 		private int unequipBuffer;
 
-		// Token: 0x0400026D RID: 621
+		// Token: 0x0400026E RID: 622
 		private const TargetIndex ApparelInd = TargetIndex.A;
 
 		// Token: 0x170000C7 RID: 199
-		// (get) Token: 0x060003FE RID: 1022 RVA: 0x0002F368 File Offset: 0x0002D768
+		// (get) Token: 0x060003FE RID: 1022 RVA: 0x0002F384 File Offset: 0x0002D784
 		private Apparel Apparel
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003FF RID: 1023 RVA: 0x0002F396 File Offset: 0x0002D796
+		// Token: 0x060003FF RID: 1023 RVA: 0x0002F3B2 File Offset: 0x0002D7B2
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -35,13 +35,13 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.unequipBuffer, "unequipBuffer", 0, false);
 		}
 
-		// Token: 0x06000400 RID: 1024 RVA: 0x0002F3C4 File Offset: 0x0002D7C4
+		// Token: 0x06000400 RID: 1024 RVA: 0x0002F3E0 File Offset: 0x0002D7E0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Apparel, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000401 RID: 1025 RVA: 0x0002F3F8 File Offset: 0x0002D7F8
+		// Token: 0x06000401 RID: 1025 RVA: 0x0002F414 File Offset: 0x0002D814
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000402 RID: 1026 RVA: 0x0002F4B0 File Offset: 0x0002D8B0
+		// Token: 0x06000402 RID: 1026 RVA: 0x0002F4CC File Offset: 0x0002D8CC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -84,7 +84,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000403 RID: 1027 RVA: 0x0002F4DC File Offset: 0x0002D8DC
+		// Token: 0x06000403 RID: 1027 RVA: 0x0002F4F8 File Offset: 0x0002D8F8
 		private void TryUnequipSomething()
 		{
 			Apparel apparel = this.Apparel;

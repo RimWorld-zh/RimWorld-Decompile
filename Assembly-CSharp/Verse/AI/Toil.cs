@@ -4,49 +4,49 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A46 RID: 2630
+	// Token: 0x02000A47 RID: 2631
 	public sealed class Toil : IJobEndable
 	{
-		// Token: 0x0400252E RID: 9518
+		// Token: 0x0400253E RID: 9534
 		public Pawn actor;
 
-		// Token: 0x0400252F RID: 9519
+		// Token: 0x0400253F RID: 9535
 		public Action initAction = null;
 
-		// Token: 0x04002530 RID: 9520
+		// Token: 0x04002540 RID: 9536
 		public Action tickAction = null;
 
-		// Token: 0x04002531 RID: 9521
+		// Token: 0x04002541 RID: 9537
 		public List<Func<JobCondition>> endConditions = new List<Func<JobCondition>>();
 
-		// Token: 0x04002532 RID: 9522
+		// Token: 0x04002542 RID: 9538
 		public List<Action> preInitActions = null;
 
-		// Token: 0x04002533 RID: 9523
+		// Token: 0x04002543 RID: 9539
 		public List<Action> preTickActions = null;
 
-		// Token: 0x04002534 RID: 9524
+		// Token: 0x04002544 RID: 9540
 		public List<Action> finishActions = null;
 
-		// Token: 0x04002535 RID: 9525
+		// Token: 0x04002545 RID: 9541
 		public bool atomicWithPrevious = false;
 
-		// Token: 0x04002536 RID: 9526
+		// Token: 0x04002546 RID: 9542
 		public RandomSocialMode socialMode = RandomSocialMode.Normal;
 
-		// Token: 0x04002537 RID: 9527
+		// Token: 0x04002547 RID: 9543
 		public Func<SkillDef> activeSkill;
 
-		// Token: 0x04002538 RID: 9528
+		// Token: 0x04002548 RID: 9544
 		public ToilCompleteMode defaultCompleteMode = ToilCompleteMode.Instant;
 
-		// Token: 0x04002539 RID: 9529
+		// Token: 0x04002549 RID: 9545
 		public int defaultDuration = 0;
 
-		// Token: 0x0400253A RID: 9530
+		// Token: 0x0400254A RID: 9546
 		public bool handlingFacing = false;
 
-		// Token: 0x06003A83 RID: 14979 RVA: 0x001F023C File Offset: 0x001EE63C
+		// Token: 0x06003A84 RID: 14980 RVA: 0x001F0568 File Offset: 0x001EE968
 		public void Cleanup(int myIndex, JobDriver jobDriver)
 		{
 			if (this.finishActions != null)
@@ -79,13 +79,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A84 RID: 14980 RVA: 0x001F0328 File Offset: 0x001EE728
+		// Token: 0x06003A85 RID: 14981 RVA: 0x001F0654 File Offset: 0x001EEA54
 		public Pawn GetActor()
 		{
 			return this.actor;
 		}
 
-		// Token: 0x06003A85 RID: 14981 RVA: 0x001F0344 File Offset: 0x001EE744
+		// Token: 0x06003A86 RID: 14982 RVA: 0x001F0670 File Offset: 0x001EEA70
 		public void AddFailCondition(Func<bool> newFailCondition)
 		{
 			this.endConditions.Add(delegate
@@ -103,13 +103,13 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x06003A86 RID: 14982 RVA: 0x001F0376 File Offset: 0x001EE776
+		// Token: 0x06003A87 RID: 14983 RVA: 0x001F06A2 File Offset: 0x001EEAA2
 		public void AddEndCondition(Func<JobCondition> newEndCondition)
 		{
 			this.endConditions.Add(newEndCondition);
 		}
 
-		// Token: 0x06003A87 RID: 14983 RVA: 0x001F0385 File Offset: 0x001EE785
+		// Token: 0x06003A88 RID: 14984 RVA: 0x001F06B1 File Offset: 0x001EEAB1
 		public void AddPreInitAction(Action newAct)
 		{
 			if (this.preInitActions == null)
@@ -119,7 +119,7 @@ namespace Verse.AI
 			this.preInitActions.Add(newAct);
 		}
 
-		// Token: 0x06003A88 RID: 14984 RVA: 0x001F03AA File Offset: 0x001EE7AA
+		// Token: 0x06003A89 RID: 14985 RVA: 0x001F06D6 File Offset: 0x001EEAD6
 		public void AddPreTickAction(Action newAct)
 		{
 			if (this.preTickActions == null)
@@ -129,7 +129,7 @@ namespace Verse.AI
 			this.preTickActions.Add(newAct);
 		}
 
-		// Token: 0x06003A89 RID: 14985 RVA: 0x001F03CF File Offset: 0x001EE7CF
+		// Token: 0x06003A8A RID: 14986 RVA: 0x001F06FB File Offset: 0x001EEAFB
 		public void AddFinishAction(Action newAct)
 		{
 			if (this.finishActions == null)

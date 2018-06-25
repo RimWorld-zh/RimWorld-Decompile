@@ -9,22 +9,22 @@ namespace RimWorld
 	// Token: 0x020004DD RID: 1245
 	public static class BackstoryDatabase
 	{
-		// Token: 0x04000CE7 RID: 3303
+		// Token: 0x04000CEA RID: 3306
 		public static Dictionary<string, Backstory> allBackstories = new Dictionary<string, Backstory>();
 
-		// Token: 0x04000CE8 RID: 3304
+		// Token: 0x04000CEB RID: 3307
 		private static Dictionary<Pair<BackstorySlot, string>, List<Backstory>> shuffleableBackstoryList = new Dictionary<Pair<BackstorySlot, string>, List<Backstory>>();
 
-		// Token: 0x04000CE9 RID: 3305
+		// Token: 0x04000CEC RID: 3308
 		private static Regex regex = new Regex("^[^0-9]*");
 
-		// Token: 0x0600162B RID: 5675 RVA: 0x000C4E3C File Offset: 0x000C323C
+		// Token: 0x0600162A RID: 5674 RVA: 0x000C503C File Offset: 0x000C343C
 		public static void Clear()
 		{
 			BackstoryDatabase.allBackstories.Clear();
 		}
 
-		// Token: 0x0600162C RID: 5676 RVA: 0x000C4E4C File Offset: 0x000C324C
+		// Token: 0x0600162B RID: 5675 RVA: 0x000C504C File Offset: 0x000C344C
 		public static void ReloadAllBackstories()
 		{
 			foreach (Backstory backstory in DirectXmlLoader.LoadXmlDataInResourcesFolder<Backstory>("Backstories/Shuffled"))
@@ -40,7 +40,7 @@ namespace RimWorld
 			SolidBioDatabase.LoadAllBios();
 		}
 
-		// Token: 0x0600162D RID: 5677 RVA: 0x000C4F1C File Offset: 0x000C331C
+		// Token: 0x0600162C RID: 5676 RVA: 0x000C511C File Offset: 0x000C351C
 		public static void AddBackstory(Backstory bs)
 		{
 			BackstoryHardcodedData.InjectHardcodedData(bs);
@@ -70,14 +70,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600162E RID: 5678 RVA: 0x000C4FEC File Offset: 0x000C33EC
+		// Token: 0x0600162D RID: 5677 RVA: 0x000C51EC File Offset: 0x000C35EC
 		public static bool TryGetWithIdentifier(string identifier, out Backstory bs, bool closestMatchWarning = true)
 		{
 			identifier = BackstoryDatabase.GetIdentifierClosestMatch(identifier, closestMatchWarning);
 			return BackstoryDatabase.allBackstories.TryGetValue(identifier, out bs);
 		}
 
-		// Token: 0x0600162F RID: 5679 RVA: 0x000C5018 File Offset: 0x000C3418
+		// Token: 0x0600162E RID: 5678 RVA: 0x000C5218 File Offset: 0x000C3618
 		public static string GetIdentifierClosestMatch(string identifier, bool closestMatchWarning = true)
 		{
 			string result;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001630 RID: 5680 RVA: 0x000C5100 File Offset: 0x000C3500
+		// Token: 0x0600162F RID: 5679 RVA: 0x000C5300 File Offset: 0x000C3700
 		public static Backstory RandomBackstory(BackstorySlot slot)
 		{
 			return (from bs in BackstoryDatabase.allBackstories
@@ -114,7 +114,7 @@ namespace RimWorld
 			select bs).RandomElement<KeyValuePair<string, Backstory>>().Value;
 		}
 
-		// Token: 0x06001631 RID: 5681 RVA: 0x000C5148 File Offset: 0x000C3548
+		// Token: 0x06001630 RID: 5680 RVA: 0x000C5348 File Offset: 0x000C3748
 		public static List<Backstory> ShuffleableBackstoryList(BackstorySlot slot, string tag)
 		{
 			Pair<BackstorySlot, string> key = new Pair<BackstorySlot, string>(slot, tag);
@@ -127,7 +127,7 @@ namespace RimWorld
 			return BackstoryDatabase.shuffleableBackstoryList[key];
 		}
 
-		// Token: 0x06001632 RID: 5682 RVA: 0x000C51CC File Offset: 0x000C35CC
+		// Token: 0x06001631 RID: 5681 RVA: 0x000C53CC File Offset: 0x000C37CC
 		public static string StripNumericSuffix(string key)
 		{
 			return BackstoryDatabase.regex.Match(key).Captures[0].Value;

@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AB7 RID: 2743
+	// Token: 0x02000AB8 RID: 2744
 	public class ThinkNode_Priority : ThinkNode
 	{
-		// Token: 0x06003D2A RID: 15658 RVA: 0x0005594C File Offset: 0x00053D4C
+		// Token: 0x06003D2A RID: 15658 RVA: 0x00055948 File Offset: 0x00053D48
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			int count = this.subNodes.Count;

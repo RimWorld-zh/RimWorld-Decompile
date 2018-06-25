@@ -2,20 +2,20 @@
 
 namespace Verse
 {
-	// Token: 0x02000ADC RID: 2780
+	// Token: 0x02000ADD RID: 2781
 	public enum TraverseMode : byte
 	{
-		// Token: 0x040026C4 RID: 9924
+		// Token: 0x040026CB RID: 9931
 		ByPawn,
-		// Token: 0x040026C5 RID: 9925
+		// Token: 0x040026CC RID: 9932
 		PassDoors,
-		// Token: 0x040026C6 RID: 9926
+		// Token: 0x040026CD RID: 9933
 		NoPassClosedDoors,
-		// Token: 0x040026C7 RID: 9927
+		// Token: 0x040026CE RID: 9934
 		PassAllDestroyableThings,
-		// Token: 0x040026C8 RID: 9928
+		// Token: 0x040026CF RID: 9935
 		NoPassClosedDoorsOrWater,
-		// Token: 0x040026C9 RID: 9929
+		// Token: 0x040026D0 RID: 9936
 		PassAllDestroyableThingsNotWater
 	}
 }

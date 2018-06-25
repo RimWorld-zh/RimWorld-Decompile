@@ -9,16 +9,16 @@ namespace RimWorld
 	// Token: 0x020007F4 RID: 2036
 	public class Dialog_AddPreferredName : Window
 	{
-		// Token: 0x040017B8 RID: 6072
+		// Token: 0x040017BC RID: 6076
 		private string searchName = "";
 
-		// Token: 0x040017B9 RID: 6073
+		// Token: 0x040017BD RID: 6077
 		private string[] searchWords;
 
-		// Token: 0x040017BA RID: 6074
+		// Token: 0x040017BE RID: 6078
 		private List<NameTriple> cachedNames;
 
-		// Token: 0x06002D27 RID: 11559 RVA: 0x0017B5DC File Offset: 0x001799DC
+		// Token: 0x06002D26 RID: 11558 RVA: 0x0017B840 File Offset: 0x00179C40
 		public Dialog_AddPreferredName()
 		{
 			this.doCloseButton = true;
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000726 RID: 1830
-		// (get) Token: 0x06002D28 RID: 11560 RVA: 0x0017B668 File Offset: 0x00179A68
+		// (get) Token: 0x06002D27 RID: 11559 RVA: 0x0017B8CC File Offset: 0x00179CCC
 		public override Vector2 InitialSize
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D29 RID: 11561 RVA: 0x0017B68C File Offset: 0x00179A8C
+		// Token: 0x06002D28 RID: 11560 RVA: 0x0017B8F0 File Offset: 0x00179CF0
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -72,7 +72,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002D2A RID: 11562 RVA: 0x0017B7D8 File Offset: 0x00179BD8
+		// Token: 0x06002D29 RID: 11561 RVA: 0x0017BA3C File Offset: 0x00179E3C
 		private bool FilterMatch(NameTriple n)
 		{
 			bool result;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D2B RID: 11563 RVA: 0x0017B8EC File Offset: 0x00179CEC
+		// Token: 0x06002D2A RID: 11562 RVA: 0x0017BB50 File Offset: 0x00179F50
 		private void TryChooseName(NameTriple name)
 		{
 			if (this.AlreadyPreferred(name))
@@ -109,7 +109,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D2C RID: 11564 RVA: 0x0017B93C File Offset: 0x00179D3C
+		// Token: 0x06002D2B RID: 11563 RVA: 0x0017BBA0 File Offset: 0x00179FA0
 		private bool AlreadyPreferred(NameTriple name)
 		{
 			return Prefs.PreferredNames.Contains(name.ToString());

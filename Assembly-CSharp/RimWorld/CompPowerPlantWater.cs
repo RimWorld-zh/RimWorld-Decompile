@@ -9,34 +9,34 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompPowerPlantWater : CompPowerPlant
 	{
-		// Token: 0x04000B10 RID: 2832
+		// Token: 0x04000B13 RID: 2835
 		private float spinPosition = 0f;
 
-		// Token: 0x04000B11 RID: 2833
-		private float spinDirection = 1f;
+		// Token: 0x04000B14 RID: 2836
+		private float spinRate = 1f;
 
-		// Token: 0x04000B12 RID: 2834
+		// Token: 0x04000B15 RID: 2837
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float SpinRateFactor = 0.005f;
 
-		// Token: 0x04000B13 RID: 2835
-		[TweakValue("Graphics", 0f, 3f)]
-		private static float BladeOffset = 1.9f;
+		// Token: 0x04000B16 RID: 2838
+		[TweakValue("Graphics", 1f, 3f)]
+		private static float BladeOffset = 2.36f;
 
-		// Token: 0x04000B14 RID: 2836
+		// Token: 0x04000B17 RID: 2839
 		[TweakValue("Graphics", 0f, 20f)]
 		private static int BladeCount = 9;
 
-		// Token: 0x04000B15 RID: 2837
+		// Token: 0x04000B18 RID: 2840
 		public static readonly Material BladesMat = MaterialPool.MatFrom("Things/Building/Power/WatermillGenerator/WatermillGeneratorBlades");
 
 		// Token: 0x17000278 RID: 632
-		// (get) Token: 0x06001244 RID: 4676 RVA: 0x0009E714 File Offset: 0x0009CB14
+		// (get) Token: 0x06001243 RID: 4675 RVA: 0x0009E724 File Offset: 0x0009CB24
 		protected override float DesiredPowerOutput
 		{
 			get
 			{
-				foreach (IntVec3 c in this.WaterPoints())
+				foreach (IntVec3 c in this.WaterCells())
 				{
 					if (!this.parent.Map.terrainGrid.TerrainAt(c).affordances.Contains(TerrainAffordanceDefOf.MovingFluid))
 					{
@@ -47,70 +47,76 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001245 RID: 4677 RVA: 0x0009E7AC File Offset: 0x0009CBAC
+		// Token: 0x06001244 RID: 4676 RVA: 0x0009E7BC File Offset: 0x0009CBBC
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.spinPosition = Rand.Range(0f, 15f);
 			Vector3 vector = Vector3.zero;
-			foreach (IntVec3 intVec in this.WaterPoints())
+			foreach (IntVec3 intVec in this.WaterCells())
 			{
 				vector += this.parent.Map.waterInfo.GetWaterMovement(intVec.ToVector3Shifted());
 			}
-			this.spinDirection = Mathf.Sign(Vector3.Dot(vector, this.parent.Rotation.Rotated(RotationDirection.Clockwise).FacingCell.ToVector3()));
-			this.spinDirection *= Rand.RangeSeeded(0.9f, 1.1f, this.parent.thingIDNumber * 60509 + 33151);
+			this.spinRate = Mathf.Sign(Vector3.Dot(vector, this.parent.Rotation.Rotated(RotationDirection.Clockwise).FacingCell.ToVector3()));
+			this.spinRate *= Rand.RangeSeeded(0.9f, 1.1f, this.parent.thingIDNumber * 60509 + 33151);
 		}
 
-		// Token: 0x06001246 RID: 4678 RVA: 0x0009E8B4 File Offset: 0x0009CCB4
+		// Token: 0x06001245 RID: 4677 RVA: 0x0009E8C4 File Offset: 0x0009CCC4
 		public override void CompTick()
 		{
 			base.CompTick();
 			if (base.PowerOutput > 0.01f)
 			{
-				this.spinPosition = (this.spinPosition + CompPowerPlantWater.SpinRateFactor * this.spinDirection + 6.28318548f) % 6.28318548f;
+				this.spinPosition = (this.spinPosition + CompPowerPlantWater.SpinRateFactor * this.spinRate + 6.28318548f) % 6.28318548f;
 			}
 		}
 
-		// Token: 0x06001247 RID: 4679 RVA: 0x0009E8F4 File Offset: 0x0009CCF4
-		public IEnumerable<IntVec3> WaterPoints()
+		// Token: 0x06001246 RID: 4678 RVA: 0x0009E904 File Offset: 0x0009CD04
+		public IEnumerable<IntVec3> WaterCells()
 		{
-			return CompPowerPlantWater.WaterPoints(this.parent.Position, this.parent.Rotation);
+			return CompPowerPlantWater.WaterCells(this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x06001248 RID: 4680 RVA: 0x0009E924 File Offset: 0x0009CD24
-		public static IEnumerable<IntVec3> WaterPoints(IntVec3 loc, Rot4 rot)
+		// Token: 0x06001247 RID: 4679 RVA: 0x0009E934 File Offset: 0x0009CD34
+		public static IEnumerable<IntVec3> WaterCells(IntVec3 loc, Rot4 rot)
 		{
-			Rot4 alongAxis = rot;
-			alongAxis.Rotate(RotationDirection.Counterclockwise);
-			yield return loc - rot.FacingCell * 2;
-			yield return loc - rot.FacingCell * 2 - alongAxis.FacingCell;
+			IntVec3 perpOffset = rot.Rotated(RotationDirection.Counterclockwise).FacingCell;
+			yield return loc + rot.FacingCell * 3;
+			yield return loc + rot.FacingCell * 3 - perpOffset;
+			yield return loc + rot.FacingCell * 3 - perpOffset * 2;
+			yield return loc + rot.FacingCell * 3 + perpOffset;
+			yield return loc + rot.FacingCell * 3 + perpOffset * 2;
 			yield break;
 		}
 
-		// Token: 0x06001249 RID: 4681 RVA: 0x0009E958 File Offset: 0x0009CD58
-		public IEnumerable<IntVec3> GroundPoints()
+		// Token: 0x06001248 RID: 4680 RVA: 0x0009E968 File Offset: 0x0009CD68
+		public IEnumerable<IntVec3> GroundCells()
 		{
-			return CompPowerPlantWater.GroundPoints(this.parent.Position, this.parent.Rotation);
+			return CompPowerPlantWater.GroundCells(this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x0600124A RID: 4682 RVA: 0x0009E988 File Offset: 0x0009CD88
-		public static IEnumerable<IntVec3> GroundPoints(IntVec3 loc, Rot4 rot)
+		// Token: 0x06001249 RID: 4681 RVA: 0x0009E998 File Offset: 0x0009CD98
+		public static IEnumerable<IntVec3> GroundCells(IntVec3 loc, Rot4 rot)
 		{
-			Rot4 alongAxis = rot;
-			alongAxis.Rotate(RotationDirection.Counterclockwise);
+			IntVec3 perpOffset = rot.Rotated(RotationDirection.Counterclockwise).FacingCell;
+			yield return loc - rot.FacingCell;
+			yield return loc - rot.FacingCell - perpOffset;
+			yield return loc - rot.FacingCell + perpOffset;
 			yield return loc;
+			yield return loc - perpOffset;
+			yield return loc + perpOffset;
 			yield return loc + rot.FacingCell;
-			yield return loc - alongAxis.FacingCell;
-			yield return loc + rot.FacingCell - alongAxis.FacingCell;
+			yield return loc + rot.FacingCell - perpOffset;
+			yield return loc + rot.FacingCell + perpOffset;
 			yield break;
 		}
 
-		// Token: 0x0600124B RID: 4683 RVA: 0x0009E9BC File Offset: 0x0009CDBC
+		// Token: 0x0600124A RID: 4682 RVA: 0x0009E9CC File Offset: 0x0009CDCC
 		public override void PostDraw()
 		{
 			base.PostDraw();
 			Vector3 a = this.parent.TrueCenter();
-			a += this.parent.Rotation.FacingCell.ToVector3() * -CompPowerPlantWater.BladeOffset;
+			a += this.parent.Rotation.FacingCell.ToVector3() * CompPowerPlantWater.BladeOffset;
 			for (int i = 0; i < CompPowerPlantWater.BladeCount; i++)
 			{
 				float num = this.spinPosition + 6.28318548f * (float)i / (float)CompPowerPlantWater.BladeCount;

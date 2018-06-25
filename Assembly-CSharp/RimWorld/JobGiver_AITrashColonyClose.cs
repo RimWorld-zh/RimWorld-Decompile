@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x020000BF RID: 191
 	public class JobGiver_AITrashColonyClose : ThinkNode_JobGiver
 	{
-		// Token: 0x04000295 RID: 661
+		// Token: 0x04000296 RID: 662
 		private const int CloseSearchRadius = 5;
 
-		// Token: 0x0600047D RID: 1149 RVA: 0x0003348C File Offset: 0x0003188C
+		// Token: 0x0600047D RID: 1149 RVA: 0x000334A8 File Offset: 0x000318A8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

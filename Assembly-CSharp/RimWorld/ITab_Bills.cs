@@ -10,31 +10,31 @@ namespace RimWorld
 	// Token: 0x02000849 RID: 2121
 	public class ITab_Bills : ITab
 	{
-		// Token: 0x040019F5 RID: 6645
+		// Token: 0x040019F9 RID: 6649
 		private float viewHeight = 1000f;
 
-		// Token: 0x040019F6 RID: 6646
+		// Token: 0x040019FA RID: 6650
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x040019F7 RID: 6647
+		// Token: 0x040019FB RID: 6651
 		private Bill mouseoverBill;
 
-		// Token: 0x040019F8 RID: 6648
+		// Token: 0x040019FC RID: 6652
 		private static readonly Vector2 WinSize = new Vector2(420f, 480f);
 
-		// Token: 0x040019F9 RID: 6649
+		// Token: 0x040019FD RID: 6653
 		[TweakValue("Interface", 0f, 128f)]
 		private static float PasteX = 48f;
 
-		// Token: 0x040019FA RID: 6650
+		// Token: 0x040019FE RID: 6654
 		[TweakValue("Interface", 0f, 128f)]
 		private static float PasteY = 3f;
 
-		// Token: 0x040019FB RID: 6651
+		// Token: 0x040019FF RID: 6655
 		[TweakValue("Interface", 0f, 32f)]
 		private static float PasteSize = 24f;
 
-		// Token: 0x06003006 RID: 12294 RVA: 0x001A19BC File Offset: 0x0019FDBC
+		// Token: 0x06003005 RID: 12293 RVA: 0x001A1C24 File Offset: 0x001A0024
 		public ITab_Bills()
 		{
 			this.size = ITab_Bills.WinSize;
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A8 RID: 1960
-		// (get) Token: 0x06003007 RID: 12295 RVA: 0x001A1A0C File Offset: 0x0019FE0C
+		// (get) Token: 0x06003006 RID: 12294 RVA: 0x001A1C74 File Offset: 0x001A0074
 		protected Building_WorkTable SelTable
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003008 RID: 12296 RVA: 0x001A1A2C File Offset: 0x0019FE2C
+		// Token: 0x06003007 RID: 12295 RVA: 0x001A1C94 File Offset: 0x001A0094
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BillsTab, KnowledgeAmount.FrameDisplayed);
@@ -126,7 +126,7 @@ namespace RimWorld
 			this.mouseoverBill = this.SelTable.billStack.DoListing(rect2, recipeOptionsMaker, ref this.scrollPosition, ref this.viewHeight);
 		}
 
-		// Token: 0x06003009 RID: 12297 RVA: 0x001A1C66 File Offset: 0x001A0066
+		// Token: 0x06003008 RID: 12296 RVA: 0x001A1ECE File Offset: 0x001A02CE
 		public override void TabUpdate()
 		{
 			if (this.mouseoverBill != null)

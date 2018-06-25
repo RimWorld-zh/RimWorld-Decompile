@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x020003FD RID: 1021
 	public class GenStep_RocksFromGrid : GenStep
 	{
-		// Token: 0x04000AA6 RID: 2726
+		// Token: 0x04000AA9 RID: 2729
 		private float maxMineableValue = float.MaxValue;
 
-		// Token: 0x04000AA7 RID: 2727
+		// Token: 0x04000AAA RID: 2730
 		private const int MinRoofedCellsPerGroup = 20;
 
 		// Token: 0x17000257 RID: 599
-		// (get) Token: 0x0600118B RID: 4491 RVA: 0x00097F14 File Offset: 0x00096314
+		// (get) Token: 0x0600118A RID: 4490 RVA: 0x00097F24 File Offset: 0x00096324
 		public override int SeedPart
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600118C RID: 4492 RVA: 0x00097F30 File Offset: 0x00096330
+		// Token: 0x0600118B RID: 4491 RVA: 0x00097F40 File Offset: 0x00096340
 		public static ThingDef RockDefAt(IntVec3 c)
 		{
 			ThingDef thingDef = null;
@@ -46,7 +46,7 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		// Token: 0x0600118D RID: 4493 RVA: 0x00097FCC File Offset: 0x000963CC
+		// Token: 0x0600118C RID: 4492 RVA: 0x00097FDC File Offset: 0x000963DC
 		public override void Generate(Map map)
 		{
 			if (!map.TileInfo.WaterCovered)
@@ -137,7 +137,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600118E RID: 4494 RVA: 0x00098364 File Offset: 0x00096764
+		// Token: 0x0600118D RID: 4493 RVA: 0x00098374 File Offset: 0x00096774
 		private bool IsNaturalRoofAt(IntVec3 c, Map map)
 		{
 			return c.Roofed(map) && c.GetRoof(map).isNatural;
@@ -146,10 +146,10 @@ namespace RimWorld
 		// Token: 0x020003FE RID: 1022
 		private class RoofThreshold
 		{
-			// Token: 0x04000AA8 RID: 2728
+			// Token: 0x04000AAB RID: 2731
 			public RoofDef roofDef;
 
-			// Token: 0x04000AA9 RID: 2729
+			// Token: 0x04000AAC RID: 2732
 			public float minGridVal;
 		}
 	}

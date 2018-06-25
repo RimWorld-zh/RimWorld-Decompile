@@ -6,22 +6,22 @@ namespace RimWorld
 	[DefOf]
 	public static class MainButtonDefOf
 	{
-		// Token: 0x04001FE3 RID: 8163
+		// Token: 0x04001FEA RID: 8170
 		public static MainButtonDef Inspect;
 
-		// Token: 0x04001FE4 RID: 8164
+		// Token: 0x04001FEB RID: 8171
 		public static MainButtonDef Architect;
 
-		// Token: 0x04001FE5 RID: 8165
+		// Token: 0x04001FEC RID: 8172
 		public static MainButtonDef Research;
 
-		// Token: 0x04001FE6 RID: 8166
+		// Token: 0x04001FED RID: 8173
 		public static MainButtonDef Menu;
 
-		// Token: 0x04001FE7 RID: 8167
+		// Token: 0x04001FEE RID: 8174
 		public static MainButtonDef World;
 
-		// Token: 0x06003630 RID: 13872 RVA: 0x001D0B15 File Offset: 0x001CEF15
+		// Token: 0x06003630 RID: 13872 RVA: 0x001D0DE9 File Offset: 0x001CF1E9
 		static MainButtonDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MainButtonDefOf));

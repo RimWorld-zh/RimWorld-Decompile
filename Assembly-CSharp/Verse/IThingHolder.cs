@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000DF8 RID: 3576
+	// Token: 0x02000DF9 RID: 3577
 	public interface IThingHolder
 	{
 		// Token: 0x17000D33 RID: 3379

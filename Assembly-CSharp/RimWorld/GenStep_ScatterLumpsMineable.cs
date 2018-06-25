@@ -7,21 +7,21 @@ namespace RimWorld
 	// Token: 0x020003FF RID: 1023
 	public class GenStep_ScatterLumpsMineable : GenStep_Scatterer
 	{
-		// Token: 0x04000AAA RID: 2730
+		// Token: 0x04000AAD RID: 2733
 		public ThingDef forcedDefToScatter;
 
-		// Token: 0x04000AAB RID: 2731
+		// Token: 0x04000AAE RID: 2734
 		public int forcedLumpSize;
 
-		// Token: 0x04000AAC RID: 2732
+		// Token: 0x04000AAF RID: 2735
 		public float maxValue = float.MaxValue;
 
-		// Token: 0x04000AAD RID: 2733
+		// Token: 0x04000AB0 RID: 2736
 		[Unsaved]
 		protected List<IntVec3> recentLumpCells = new List<IntVec3>();
 
 		// Token: 0x17000258 RID: 600
-		// (get) Token: 0x06001191 RID: 4497 RVA: 0x00098404 File Offset: 0x00096804
+		// (get) Token: 0x06001190 RID: 4496 RVA: 0x00098414 File Offset: 0x00096814
 		public override int SeedPart
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001192 RID: 4498 RVA: 0x00098420 File Offset: 0x00096820
+		// Token: 0x06001191 RID: 4497 RVA: 0x00098430 File Offset: 0x00096830
 		public override void Generate(Map map)
 		{
 			this.minSpacing = 5f;
@@ -49,7 +49,7 @@ namespace RimWorld
 			this.usedSpots.Clear();
 		}
 
-		// Token: 0x06001193 RID: 4499 RVA: 0x00098490 File Offset: 0x00096890
+		// Token: 0x06001192 RID: 4498 RVA: 0x000984A0 File Offset: 0x000968A0
 		protected ThingDef ChooseThingDef()
 		{
 			ThingDef result;
@@ -80,7 +80,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001194 RID: 4500 RVA: 0x000984D4 File Offset: 0x000968D4
+		// Token: 0x06001193 RID: 4499 RVA: 0x000984E4 File Offset: 0x000968E4
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -96,7 +96,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001195 RID: 4501 RVA: 0x00098530 File Offset: 0x00096930
+		// Token: 0x06001194 RID: 4500 RVA: 0x00098540 File Offset: 0x00096940
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef thingDef = this.ChooseThingDef();

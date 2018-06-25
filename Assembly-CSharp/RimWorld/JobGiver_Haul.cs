@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000E3 RID: 227
 	public class JobGiver_Haul : ThinkNode_JobGiver
 	{
-		// Token: 0x060004EE RID: 1262 RVA: 0x00036DE4 File Offset: 0x000351E4
+		// Token: 0x060004EE RID: 1262 RVA: 0x00036E00 File Offset: 0x00035200
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)

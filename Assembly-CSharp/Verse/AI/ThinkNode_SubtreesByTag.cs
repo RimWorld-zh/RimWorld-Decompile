@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ABF RID: 2751
+	// Token: 0x02000AC0 RID: 2752
 	public class ThinkNode_SubtreesByTag : ThinkNode
 	{
-		// Token: 0x040026A1 RID: 9889
+		// Token: 0x040026A8 RID: 9896
 		[NoTranslate]
 		public string insertTag;
 
-		// Token: 0x040026A2 RID: 9890
+		// Token: 0x040026A9 RID: 9897
 		[Unsaved]
 		private List<ThinkTreeDef> matchedTrees = null;
 
-		// Token: 0x06003D41 RID: 15681 RVA: 0x00205584 File Offset: 0x00203984
+		// Token: 0x06003D41 RID: 15681 RVA: 0x00205864 File Offset: 0x00203C64
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_SubtreesByTag thinkNode_SubtreesByTag = (ThinkNode_SubtreesByTag)base.DeepCopy(resolve);
@@ -23,12 +23,12 @@ namespace Verse.AI
 			return thinkNode_SubtreesByTag;
 		}
 
-		// Token: 0x06003D42 RID: 15682 RVA: 0x002055B3 File Offset: 0x002039B3
+		// Token: 0x06003D42 RID: 15682 RVA: 0x00205893 File Offset: 0x00203C93
 		protected override void ResolveSubnodes()
 		{
 		}
 
-		// Token: 0x06003D43 RID: 15683 RVA: 0x002055B8 File Offset: 0x002039B8
+		// Token: 0x06003D43 RID: 15683 RVA: 0x00205898 File Offset: 0x00203C98
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			if (this.matchedTrees == null)

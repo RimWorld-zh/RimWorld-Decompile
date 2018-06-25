@@ -6,51 +6,51 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000DF1 RID: 3569
+	// Token: 0x02000DF2 RID: 3570
 	public abstract class Projectile : ThingWithComps
 	{
-		// Token: 0x040034FF RID: 13567
+		// Token: 0x04003506 RID: 13574
 		protected Vector3 origin;
 
-		// Token: 0x04003500 RID: 13568
+		// Token: 0x04003507 RID: 13575
 		protected Vector3 destination;
 
-		// Token: 0x04003501 RID: 13569
+		// Token: 0x04003508 RID: 13576
 		protected LocalTargetInfo usedTarget;
 
-		// Token: 0x04003502 RID: 13570
+		// Token: 0x04003509 RID: 13577
 		protected LocalTargetInfo intendedTarget;
 
-		// Token: 0x04003503 RID: 13571
+		// Token: 0x0400350A RID: 13578
 		protected ThingDef equipmentDef;
 
-		// Token: 0x04003504 RID: 13572
+		// Token: 0x0400350B RID: 13579
 		protected Thing launcher;
 
-		// Token: 0x04003505 RID: 13573
+		// Token: 0x0400350C RID: 13580
 		protected ThingDef targetCoverDef;
 
-		// Token: 0x04003506 RID: 13574
+		// Token: 0x0400350D RID: 13581
 		private ProjectileHitFlags desiredHitFlags = ProjectileHitFlags.All;
 
-		// Token: 0x04003507 RID: 13575
+		// Token: 0x0400350E RID: 13582
 		protected bool landed;
 
-		// Token: 0x04003508 RID: 13576
+		// Token: 0x0400350F RID: 13583
 		protected int ticksToImpact;
 
-		// Token: 0x04003509 RID: 13577
+		// Token: 0x04003510 RID: 13584
 		private Sustainer ambientSustainer = null;
 
-		// Token: 0x0400350A RID: 13578
+		// Token: 0x04003511 RID: 13585
 		private static List<IntVec3> checkedCells = new List<IntVec3>();
 
-		// Token: 0x0400350B RID: 13579
+		// Token: 0x04003512 RID: 13586
 		private static readonly List<Thing> cellThingsFiltered = new List<Thing>();
 
 		// Token: 0x17000D01 RID: 3329
-		// (get) Token: 0x06005000 RID: 20480 RVA: 0x00146B84 File Offset: 0x00144F84
-		// (set) Token: 0x06005001 RID: 20481 RVA: 0x00146BD7 File Offset: 0x00144FD7
+		// (get) Token: 0x06005000 RID: 20480 RVA: 0x00146DE4 File Offset: 0x001451E4
+		// (set) Token: 0x06005001 RID: 20481 RVA: 0x00146E37 File Offset: 0x00145237
 		public ProjectileHitFlags HitFlags
 		{
 			get
@@ -77,7 +77,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D02 RID: 3330
-		// (get) Token: 0x06005002 RID: 20482 RVA: 0x00146BE4 File Offset: 0x00144FE4
+		// (get) Token: 0x06005002 RID: 20482 RVA: 0x00146E44 File Offset: 0x00145244
 		protected int StartingTicksToImpact
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D03 RID: 3331
-		// (get) Token: 0x06005003 RID: 20483 RVA: 0x00146C3C File Offset: 0x0014503C
+		// (get) Token: 0x06005003 RID: 20483 RVA: 0x00146E9C File Offset: 0x0014529C
 		protected IntVec3 DestinationCell
 		{
 			get
@@ -102,7 +102,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D04 RID: 3332
-		// (get) Token: 0x06005004 RID: 20484 RVA: 0x00146C5C File Offset: 0x0014505C
+		// (get) Token: 0x06005004 RID: 20484 RVA: 0x00146EBC File Offset: 0x001452BC
 		public virtual Vector3 ExactPosition
 		{
 			get
@@ -113,7 +113,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D05 RID: 3333
-		// (get) Token: 0x06005005 RID: 20485 RVA: 0x00146CC4 File Offset: 0x001450C4
+		// (get) Token: 0x06005005 RID: 20485 RVA: 0x00146F24 File Offset: 0x00145324
 		public virtual Quaternion ExactRotation
 		{
 			get
@@ -123,7 +123,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D06 RID: 3334
-		// (get) Token: 0x06005006 RID: 20486 RVA: 0x00146CF0 File Offset: 0x001450F0
+		// (get) Token: 0x06005006 RID: 20486 RVA: 0x00146F50 File Offset: 0x00145350
 		public override Vector3 DrawPos
 		{
 			get
@@ -132,7 +132,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005007 RID: 20487 RVA: 0x00146D0C File Offset: 0x0014510C
+		// Token: 0x06005007 RID: 20487 RVA: 0x00146F6C File Offset: 0x0014536C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -148,13 +148,13 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.landed, "landed", false, false);
 		}
 
-		// Token: 0x06005008 RID: 20488 RVA: 0x00146DDC File Offset: 0x001451DC
+		// Token: 0x06005008 RID: 20488 RVA: 0x0014703C File Offset: 0x0014543C
 		public void Launch(Thing launcher, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, Thing equipment = null)
 		{
 			this.Launch(launcher, base.Position.ToVector3Shifted(), usedTarget, intendedTarget, hitFlags, equipment, null);
 		}
 
-		// Token: 0x06005009 RID: 20489 RVA: 0x00146E08 File Offset: 0x00145208
+		// Token: 0x06005009 RID: 20489 RVA: 0x00147068 File Offset: 0x00145468
 		public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, Thing equipment = null, ThingDef targetCoverDef = null)
 		{
 			this.launcher = launcher;
@@ -180,7 +180,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600500A RID: 20490 RVA: 0x00146ED8 File Offset: 0x001452D8
+		// Token: 0x0600500A RID: 20490 RVA: 0x00147138 File Offset: 0x00145538
 		public override void Tick()
 		{
 			base.Tick();
@@ -221,7 +221,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600500B RID: 20491 RVA: 0x0014701C File Offset: 0x0014541C
+		// Token: 0x0600500B RID: 20491 RVA: 0x0014727C File Offset: 0x0014567C
 		private bool CheckForFreeInterceptBetween(Vector3 lastExactPos, Vector3 newExactPos)
 		{
 			IntVec3 intVec = lastExactPos.ToIntVec3();
@@ -282,7 +282,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600500C RID: 20492 RVA: 0x0014716C File Offset: 0x0014556C
+		// Token: 0x0600500C RID: 20492 RVA: 0x001473CC File Offset: 0x001457CC
 		private bool CheckForFreeIntercept(IntVec3 c)
 		{
 			bool result;
@@ -372,7 +372,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600500D RID: 20493 RVA: 0x001473E6 File Offset: 0x001457E6
+		// Token: 0x0600500D RID: 20493 RVA: 0x00147646 File Offset: 0x00145A46
 		private void ThrowDebugText(string text, IntVec3 c)
 		{
 			if (DebugViewSettings.drawShooting)
@@ -381,14 +381,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600500E RID: 20494 RVA: 0x0014740B File Offset: 0x0014580B
+		// Token: 0x0600500E RID: 20494 RVA: 0x0014766B File Offset: 0x00145A6B
 		public override void Draw()
 		{
 			Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.def.DrawMatSingle, 0);
 			base.Comps_PostDraw();
 		}
 
-		// Token: 0x0600500F RID: 20495 RVA: 0x00147438 File Offset: 0x00145838
+		// Token: 0x0600500F RID: 20495 RVA: 0x00147698 File Offset: 0x00145A98
 		protected bool CanHit(Thing thing)
 		{
 			bool result;
@@ -425,7 +425,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005010 RID: 20496 RVA: 0x00147508 File Offset: 0x00145908
+		// Token: 0x06005010 RID: 20496 RVA: 0x00147768 File Offset: 0x00145B68
 		private void ImpactSomething()
 		{
 			if (this.def.projectile.flyOverhead)
@@ -501,7 +501,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005011 RID: 20497 RVA: 0x0014781E File Offset: 0x00145C1E
+		// Token: 0x06005011 RID: 20497 RVA: 0x00147A7E File Offset: 0x00145E7E
 		protected virtual void Impact(Thing hitThing)
 		{
 			GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);

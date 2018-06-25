@@ -3,32 +3,32 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE1 RID: 3297
+	// Token: 0x02000CE2 RID: 3298
 	[StaticConstructorOnStartup]
 	public class PawnHeadOverlays
 	{
-		// Token: 0x04003124 RID: 12580
+		// Token: 0x0400312B RID: 12587
 		private Pawn pawn;
 
-		// Token: 0x04003125 RID: 12581
+		// Token: 0x0400312C RID: 12588
 		private const float AngerBlinkPeriod = 1.2f;
 
-		// Token: 0x04003126 RID: 12582
+		// Token: 0x0400312D RID: 12589
 		private const float AngerBlinkLength = 0.4f;
 
-		// Token: 0x04003127 RID: 12583
+		// Token: 0x0400312E RID: 12590
 		private static readonly Material UnhappyMat = MaterialPool.MatFrom("Things/Pawn/Effects/Unhappy");
 
-		// Token: 0x04003128 RID: 12584
+		// Token: 0x0400312F RID: 12591
 		private static readonly Material MentalStateImminentMat = MaterialPool.MatFrom("Things/Pawn/Effects/MentalStateImminent");
 
-		// Token: 0x060048AC RID: 18604 RVA: 0x00262666 File Offset: 0x00260A66
+		// Token: 0x060048AC RID: 18604 RVA: 0x00262946 File Offset: 0x00260D46
 		public PawnHeadOverlays(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060048AD RID: 18605 RVA: 0x00262678 File Offset: 0x00260A78
+		// Token: 0x060048AD RID: 18605 RVA: 0x00262958 File Offset: 0x00260D58
 		public void RenderStatusOverlays(Vector3 bodyLoc, Quaternion quat, Mesh headMesh)
 		{
 			if (this.pawn.IsColonistPlayerControlled)
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048AE RID: 18606 RVA: 0x0026276D File Offset: 0x00260B6D
+		// Token: 0x060048AE RID: 18606 RVA: 0x00262A4D File Offset: 0x00260E4D
 		private void DrawHeadGlow(Vector3 headLoc, Material mat)
 		{
 			Graphics.DrawMesh(MeshPool.plane20, headLoc, Quaternion.identity, mat, 0);

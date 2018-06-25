@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x02000773 RID: 1907
 	public class StockGenerator_Slaves : StockGenerator
 	{
-		// Token: 0x040016B8 RID: 5816
+		// Token: 0x040016BC RID: 5820
 		private bool respectPopulationIntent = false;
 
-		// Token: 0x06002A1D RID: 10781 RVA: 0x001652F4 File Offset: 0x001636F4
+		// Token: 0x06002A1C RID: 10780 RVA: 0x00165554 File Offset: 0x00163954
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			if (this.respectPopulationIntent && Rand.Value > Find.Storyteller.intenderPopulation.PopulationIntent)
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A1E RID: 10782 RVA: 0x00165328 File Offset: 0x00163728
+		// Token: 0x06002A1D RID: 10781 RVA: 0x00165588 File Offset: 0x00163988
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike && thingDef.tradeability != Tradeability.None;

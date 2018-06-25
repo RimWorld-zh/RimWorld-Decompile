@@ -6,11 +6,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000E75 RID: 3701
+	// Token: 0x02000E76 RID: 3702
 	public class DeathLetter : ChoiceLetter
 	{
 		// Token: 0x17000DB3 RID: 3507
-		// (get) Token: 0x0600572C RID: 22316 RVA: 0x002CD8A4 File Offset: 0x002CBCA4
+		// (get) Token: 0x0600572C RID: 22316 RVA: 0x002CDA90 File Offset: 0x002CBE90
 		protected DiaOption ReadMore
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000DB4 RID: 3508
-		// (get) Token: 0x0600572D RID: 22317 RVA: 0x002CD918 File Offset: 0x002CBD18
+		// (get) Token: 0x0600572D RID: 22317 RVA: 0x002CDB04 File Offset: 0x002CBF04
 		public override IEnumerable<DiaOption> Choices
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600572E RID: 22318 RVA: 0x002CD944 File Offset: 0x002CBD44
+		// Token: 0x0600572E RID: 22318 RVA: 0x002CDB30 File Offset: 0x002CBF30
 		public override void OpenLetter()
 		{
 			Pawn targetPawn = this.lookTargets.TryGetPrimaryTarget().Thing as Pawn;

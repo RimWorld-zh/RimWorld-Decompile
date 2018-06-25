@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x020000E7 RID: 231
 	public class JobGiver_PackFood : ThinkNode_JobGiver
 	{
-		// Token: 0x040002C3 RID: 707
+		// Token: 0x040002C4 RID: 708
 		private const float MaxInvNutritionToConsiderLookingForFood = 0.4f;
 
-		// Token: 0x040002C4 RID: 708
+		// Token: 0x040002C5 RID: 709
 		private const float MinFinalInvNutritionToPickUp = 0.8f;
 
-		// Token: 0x040002C5 RID: 709
+		// Token: 0x040002C6 RID: 710
 		private const float MinNutritionPerColonistToDo = 1.5f;
 
-		// Token: 0x040002C6 RID: 710
+		// Token: 0x040002C7 RID: 711
 		public const FoodPreferability MinFoodPreferability = FoodPreferability.MealAwful;
 
-		// Token: 0x060004FA RID: 1274 RVA: 0x000376E4 File Offset: 0x00035AE4
+		// Token: 0x060004FA RID: 1274 RVA: 0x00037700 File Offset: 0x00035B00
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -91,7 +91,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004FB RID: 1275 RVA: 0x00037854 File Offset: 0x00035C54
+		// Token: 0x060004FB RID: 1275 RVA: 0x00037870 File Offset: 0x00035C70
 		private float GetInventoryPackableFoodNutrition(Pawn pawn)
 		{
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060004FC RID: 1276 RVA: 0x000378CC File Offset: 0x00035CCC
+		// Token: 0x060004FC RID: 1276 RVA: 0x000378E8 File Offset: 0x00035CE8
 		private bool IsGoodPackableFoodFor(Thing food, Pawn forPawn)
 		{
 			return food.def.IsNutritionGivingIngestible && food.def.EverHaulable && food.def.ingestible.preferability >= FoodPreferability.MealAwful && forPawn.RaceProps.CanEverEat(food);

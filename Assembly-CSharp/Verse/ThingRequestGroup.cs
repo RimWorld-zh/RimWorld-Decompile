@@ -2,92 +2,92 @@
 
 namespace Verse
 {
-	// Token: 0x02000C30 RID: 3120
+	// Token: 0x02000C31 RID: 3121
 	public enum ThingRequestGroup : byte
 	{
-		// Token: 0x04002E89 RID: 11913
-		Undefined,
-		// Token: 0x04002E8A RID: 11914
-		Nothing,
-		// Token: 0x04002E8B RID: 11915
-		Everything,
-		// Token: 0x04002E8C RID: 11916
-		HaulableEver,
-		// Token: 0x04002E8D RID: 11917
-		HaulableAlways,
-		// Token: 0x04002E8E RID: 11918
-		FoodSource,
-		// Token: 0x04002E8F RID: 11919
-		FoodSourceNotPlantOrTree,
 		// Token: 0x04002E90 RID: 11920
-		Corpse,
+		Undefined,
 		// Token: 0x04002E91 RID: 11921
-		Blueprint,
+		Nothing,
 		// Token: 0x04002E92 RID: 11922
-		BuildingArtificial,
+		Everything,
 		// Token: 0x04002E93 RID: 11923
-		BuildingFrame,
+		HaulableEver,
 		// Token: 0x04002E94 RID: 11924
-		Pawn,
+		HaulableAlways,
 		// Token: 0x04002E95 RID: 11925
-		PotentialBillGiver,
+		FoodSource,
 		// Token: 0x04002E96 RID: 11926
-		Medicine,
+		FoodSourceNotPlantOrTree,
 		// Token: 0x04002E97 RID: 11927
-		Filth,
+		Corpse,
 		// Token: 0x04002E98 RID: 11928
-		AttackTarget,
+		Blueprint,
 		// Token: 0x04002E99 RID: 11929
-		Weapon,
+		BuildingArtificial,
 		// Token: 0x04002E9A RID: 11930
-		Refuelable,
+		BuildingFrame,
 		// Token: 0x04002E9B RID: 11931
-		HaulableEverOrMinifiable,
+		Pawn,
 		// Token: 0x04002E9C RID: 11932
-		Drug,
+		PotentialBillGiver,
 		// Token: 0x04002E9D RID: 11933
-		Shell,
+		Medicine,
 		// Token: 0x04002E9E RID: 11934
-		HarvestablePlant,
+		Filth,
 		// Token: 0x04002E9F RID: 11935
-		Fire,
+		AttackTarget,
 		// Token: 0x04002EA0 RID: 11936
-		Plant,
+		Weapon,
 		// Token: 0x04002EA1 RID: 11937
-		Construction,
+		Refuelable,
 		// Token: 0x04002EA2 RID: 11938
-		HasGUIOverlay,
+		HaulableEverOrMinifiable,
 		// Token: 0x04002EA3 RID: 11939
-		Apparel,
+		Drug,
 		// Token: 0x04002EA4 RID: 11940
-		MinifiedThing,
+		Shell,
 		// Token: 0x04002EA5 RID: 11941
-		Grave,
+		HarvestablePlant,
 		// Token: 0x04002EA6 RID: 11942
-		Art,
+		Fire,
 		// Token: 0x04002EA7 RID: 11943
-		ThingHolder,
+		Plant,
 		// Token: 0x04002EA8 RID: 11944
-		ActiveDropPod,
+		Construction,
 		// Token: 0x04002EA9 RID: 11945
-		Transporter,
+		HasGUIOverlay,
 		// Token: 0x04002EAA RID: 11946
-		LongRangeMineralScanner,
+		Apparel,
 		// Token: 0x04002EAB RID: 11947
-		AffectsSky,
+		MinifiedThing,
 		// Token: 0x04002EAC RID: 11948
-		PsychicDroneEmanator,
+		Grave,
 		// Token: 0x04002EAD RID: 11949
-		WindSource,
+		Art,
 		// Token: 0x04002EAE RID: 11950
-		AlwaysFlee,
+		ThingHolder,
 		// Token: 0x04002EAF RID: 11951
-		ResearchBench,
+		ActiveDropPod,
 		// Token: 0x04002EB0 RID: 11952
-		Facility,
+		Transporter,
 		// Token: 0x04002EB1 RID: 11953
-		AffectedByFacilities,
+		LongRangeMineralScanner,
 		// Token: 0x04002EB2 RID: 11954
+		AffectsSky,
+		// Token: 0x04002EB3 RID: 11955
+		PsychicDroneEmanator,
+		// Token: 0x04002EB4 RID: 11956
+		WindSource,
+		// Token: 0x04002EB5 RID: 11957
+		AlwaysFlee,
+		// Token: 0x04002EB6 RID: 11958
+		ResearchBench,
+		// Token: 0x04002EB7 RID: 11959
+		Facility,
+		// Token: 0x04002EB8 RID: 11960
+		AffectedByFacilities,
+		// Token: 0x04002EB9 RID: 11961
 		CreatesInfestations
 	}
 }

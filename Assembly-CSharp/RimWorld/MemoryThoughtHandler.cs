@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x0200052E RID: 1326
 	public sealed class MemoryThoughtHandler : IExposable
 	{
-		// Token: 0x04000E7F RID: 3711
+		// Token: 0x04000E83 RID: 3715
 		public Pawn pawn;
 
-		// Token: 0x04000E80 RID: 3712
+		// Token: 0x04000E84 RID: 3716
 		private List<Thought_Memory> memories = new List<Thought_Memory>();
 
-		// Token: 0x06001873 RID: 6259 RVA: 0x000D6D2A File Offset: 0x000D512A
+		// Token: 0x06001872 RID: 6258 RVA: 0x000D6F92 File Offset: 0x000D5392
 		public MemoryThoughtHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000367 RID: 871
-		// (get) Token: 0x06001874 RID: 6260 RVA: 0x000D6D48 File Offset: 0x000D5148
+		// (get) Token: 0x06001873 RID: 6259 RVA: 0x000D6FB0 File Offset: 0x000D53B0
 		public List<Thought_Memory> Memories
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001875 RID: 6261 RVA: 0x000D6D64 File Offset: 0x000D5164
+		// Token: 0x06001874 RID: 6260 RVA: 0x000D6FCC File Offset: 0x000D53CC
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Thought_Memory>(ref this.memories, "memories", LookMode.Deep, new object[0]);
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001876 RID: 6262 RVA: 0x000D6DF8 File Offset: 0x000D51F8
+		// Token: 0x06001875 RID: 6261 RVA: 0x000D7060 File Offset: 0x000D5460
 		public void MemoryThoughtInterval()
 		{
 			Profiler.BeginSample("MemoryThoughtInterval()");
@@ -62,7 +62,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001877 RID: 6263 RVA: 0x000D6E4C File Offset: 0x000D524C
+		// Token: 0x06001876 RID: 6262 RVA: 0x000D70B4 File Offset: 0x000D54B4
 		private void RemoveExpiredMemories()
 		{
 			for (int i = this.memories.Count - 1; i >= 0; i--)
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001878 RID: 6264 RVA: 0x000D6EBD File Offset: 0x000D52BD
+		// Token: 0x06001877 RID: 6263 RVA: 0x000D7125 File Offset: 0x000D5525
 		public void TryGainMemory(ThoughtDef def, Pawn otherPawn = null)
 		{
 			if (!def.IsMemory)
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001879 RID: 6265 RVA: 0x000D6EF4 File Offset: 0x000D52F4
+		// Token: 0x06001878 RID: 6264 RVA: 0x000D715C File Offset: 0x000D555C
 		public void TryGainMemory(Thought_Memory newThought, Pawn otherPawn = null)
 		{
 			if (ThoughtUtility.CanGetThought(this.pawn, newThought.def))
@@ -136,7 +136,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600187A RID: 6266 RVA: 0x000D7068 File Offset: 0x000D5468
+		// Token: 0x06001879 RID: 6265 RVA: 0x000D72D0 File Offset: 0x000D56D0
 		public Thought_Memory OldestMemoryInGroup(Thought_Memory group)
 		{
 			Thought_Memory result = null;
@@ -156,7 +156,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600187B RID: 6267 RVA: 0x000D70DC File Offset: 0x000D54DC
+		// Token: 0x0600187A RID: 6266 RVA: 0x000D7344 File Offset: 0x000D5744
 		public Thought_Memory OldestMemoryOfDef(ThoughtDef def)
 		{
 			Thought_Memory result = null;
@@ -176,7 +176,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600187C RID: 6268 RVA: 0x000D714F File Offset: 0x000D554F
+		// Token: 0x0600187B RID: 6267 RVA: 0x000D73B7 File Offset: 0x000D57B7
 		public void RemoveMemory(Thought_Memory th)
 		{
 			if (!this.memories.Remove(th))
@@ -185,7 +185,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600187D RID: 6269 RVA: 0x000D7184 File Offset: 0x000D5584
+		// Token: 0x0600187C RID: 6268 RVA: 0x000D73EC File Offset: 0x000D57EC
 		public int NumMemoriesInGroup(Thought_Memory group)
 		{
 			int num = 0;
@@ -199,7 +199,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600187E RID: 6270 RVA: 0x000D71D8 File Offset: 0x000D55D8
+		// Token: 0x0600187D RID: 6269 RVA: 0x000D7440 File Offset: 0x000D5840
 		public int NumMemoriesOfDef(ThoughtDef def)
 		{
 			int num = 0;
@@ -213,7 +213,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600187F RID: 6271 RVA: 0x000D722C File Offset: 0x000D562C
+		// Token: 0x0600187E RID: 6270 RVA: 0x000D7494 File Offset: 0x000D5894
 		public Thought_Memory GetFirstMemoryOfDef(ThoughtDef def)
 		{
 			for (int i = 0; i < this.memories.Count; i++)
@@ -226,7 +226,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06001880 RID: 6272 RVA: 0x000D728C File Offset: 0x000D568C
+		// Token: 0x0600187F RID: 6271 RVA: 0x000D74F4 File Offset: 0x000D58F4
 		public void RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDef def, Pawn otherPawn)
 		{
 			for (;;)
@@ -240,7 +240,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001881 RID: 6273 RVA: 0x000D72E0 File Offset: 0x000D56E0
+		// Token: 0x06001880 RID: 6272 RVA: 0x000D7548 File Offset: 0x000D5948
 		public void RemoveMemoriesWhereOtherPawnIs(Pawn otherPawn)
 		{
 			for (;;)
@@ -254,7 +254,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001882 RID: 6274 RVA: 0x000D7330 File Offset: 0x000D5730
+		// Token: 0x06001881 RID: 6273 RVA: 0x000D7598 File Offset: 0x000D5998
 		public void RemoveMemoriesOfDef(ThoughtDef def)
 		{
 			if (!def.IsMemory)
@@ -275,7 +275,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001883 RID: 6275 RVA: 0x000D73AC File Offset: 0x000D57AC
+		// Token: 0x06001882 RID: 6274 RVA: 0x000D7614 File Offset: 0x000D5A14
 		public void RemoveMemoriesOfDefIf(ThoughtDef def, Func<Thought_Memory, bool> predicate)
 		{
 			if (!def.IsMemory)
@@ -296,7 +296,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001884 RID: 6276 RVA: 0x000D742C File Offset: 0x000D582C
+		// Token: 0x06001883 RID: 6275 RVA: 0x000D7694 File Offset: 0x000D5A94
 		public bool AnyMemoryConcerns(Pawn otherPawn)
 		{
 			for (int i = 0; i < this.memories.Count; i++)
@@ -309,7 +309,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001885 RID: 6277 RVA: 0x000D747E File Offset: 0x000D587E
+		// Token: 0x06001884 RID: 6276 RVA: 0x000D76E6 File Offset: 0x000D5AE6
 		public void Notify_PawnDiscarded(Pawn discarded)
 		{
 			this.RemoveMemoriesWhereOtherPawnIs(discarded);

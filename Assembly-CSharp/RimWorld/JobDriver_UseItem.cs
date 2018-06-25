@@ -8,30 +8,30 @@ namespace RimWorld
 	// Token: 0x02000087 RID: 135
 	public class JobDriver_UseItem : JobDriver
 	{
-		// Token: 0x04000248 RID: 584
+		// Token: 0x04000249 RID: 585
 		private int useDuration = -1;
 
-		// Token: 0x0600037F RID: 895 RVA: 0x00027495 File Offset: 0x00025895
+		// Token: 0x0600037F RID: 895 RVA: 0x000274B1 File Offset: 0x000258B1
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.useDuration, "useDuration", 0, false);
 		}
 
-		// Token: 0x06000380 RID: 896 RVA: 0x000274B0 File Offset: 0x000258B0
+		// Token: 0x06000380 RID: 896 RVA: 0x000274CC File Offset: 0x000258CC
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.useDuration = this.job.GetTarget(TargetIndex.A).Thing.TryGetComp<CompUsable>().Props.useDuration;
 		}
 
-		// Token: 0x06000381 RID: 897 RVA: 0x000274F0 File Offset: 0x000258F0
+		// Token: 0x06000381 RID: 897 RVA: 0x0002750C File Offset: 0x0002590C
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000382 RID: 898 RVA: 0x00027524 File Offset: 0x00025924
+		// Token: 0x06000382 RID: 898 RVA: 0x00027540 File Offset: 0x00025940
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnIncapable(PawnCapacityDefOf.Manipulation);

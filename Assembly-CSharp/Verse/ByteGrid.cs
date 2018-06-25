@@ -2,24 +2,24 @@
 
 namespace Verse
 {
-	// Token: 0x02000C1C RID: 3100
+	// Token: 0x02000C1D RID: 3101
 	public sealed class ByteGrid : IExposable
 	{
-		// Token: 0x04002E51 RID: 11857
+		// Token: 0x04002E58 RID: 11864
 		private byte[] grid;
 
-		// Token: 0x04002E52 RID: 11858
+		// Token: 0x04002E59 RID: 11865
 		private int mapSizeX;
 
-		// Token: 0x04002E53 RID: 11859
+		// Token: 0x04002E5A RID: 11866
 		private int mapSizeZ;
 
-		// Token: 0x060043C7 RID: 17351 RVA: 0x0023CCF8 File Offset: 0x0023B0F8
+		// Token: 0x060043C7 RID: 17351 RVA: 0x0023CFD8 File Offset: 0x0023B3D8
 		public ByteGrid()
 		{
 		}
 
-		// Token: 0x060043C8 RID: 17352 RVA: 0x0023CD01 File Offset: 0x0023B101
+		// Token: 0x060043C8 RID: 17352 RVA: 0x0023CFE1 File Offset: 0x0023B3E1
 		public ByteGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
@@ -66,7 +66,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A9F RID: 2719
-		// (get) Token: 0x060043CF RID: 17359 RVA: 0x0023CDD0 File Offset: 0x0023B1D0
+		// (get) Token: 0x060043CF RID: 17359 RVA: 0x0023D0B0 File Offset: 0x0023B4B0
 		public int CellsCount
 		{
 			get
@@ -75,13 +75,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043D0 RID: 17360 RVA: 0x0023CDF0 File Offset: 0x0023B1F0
+		// Token: 0x060043D0 RID: 17360 RVA: 0x0023D0D0 File Offset: 0x0023B4D0
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x060043D1 RID: 17361 RVA: 0x0023CE38 File Offset: 0x0023B238
+		// Token: 0x060043D1 RID: 17361 RVA: 0x0023D118 File Offset: 0x0023B518
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043D2 RID: 17362 RVA: 0x0023CEAA File Offset: 0x0023B2AA
+		// Token: 0x060043D2 RID: 17362 RVA: 0x0023D18A File Offset: 0x0023B58A
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.mapSizeX, "mapSizeX", 0, false);
@@ -104,7 +104,7 @@ namespace Verse
 			DataExposeUtility.ByteArray(ref this.grid, "grid");
 		}
 
-		// Token: 0x060043D3 RID: 17363 RVA: 0x0023CEE4 File Offset: 0x0023B2E4
+		// Token: 0x060043D3 RID: 17363 RVA: 0x0023D1C4 File Offset: 0x0023B5C4
 		public void Clear(byte value = 0)
 		{
 			if (value == 0)
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043D4 RID: 17364 RVA: 0x0023CF38 File Offset: 0x0023B338
+		// Token: 0x060043D4 RID: 17364 RVA: 0x0023D218 File Offset: 0x0023B618
 		public void DebugDraw()
 		{
 			for (int i = 0; i < this.grid.Length; i++)

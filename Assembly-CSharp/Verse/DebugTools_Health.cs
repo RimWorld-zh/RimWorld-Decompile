@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000E28 RID: 3624
+	// Token: 0x02000E29 RID: 3625
 	public static class DebugTools_Health
 	{
-		// Token: 0x06005514 RID: 21780 RVA: 0x002BAC4C File Offset: 0x002B904C
+		// Token: 0x06005514 RID: 21780 RVA: 0x002BAF40 File Offset: 0x002B9340
 		public static List<DebugMenuOption> Options_RestorePart(Pawn p)
 		{
 			if (p == null)
@@ -26,7 +26,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005515 RID: 21781 RVA: 0x002BAD24 File Offset: 0x002B9124
+		// Token: 0x06005515 RID: 21781 RVA: 0x002BB018 File Offset: 0x002B9418
 		public static List<DebugMenuOption> Options_ApplyDamage()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -45,7 +45,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005516 RID: 21782 RVA: 0x002BADBC File Offset: 0x002B91BC
+		// Token: 0x06005516 RID: 21782 RVA: 0x002BB0B0 File Offset: 0x002B94B0
 		private static List<DebugMenuOption> Options_Damage_BodyParts(Pawn p, DamageDef def)
 		{
 			if (p == null)
@@ -72,32 +72,12 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005517 RID: 21783 RVA: 0x002BAEB8 File Offset: 0x002B92B8
+		// Token: 0x06005517 RID: 21783 RVA: 0x002BB1AC File Offset: 0x002B95AC
 		public static List<DebugMenuOption> Options_AddHediff()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (Type localDiffType2 in (from t in typeof(Hediff).AllSubclasses()
-			where !t.IsAbstract
-			select t).Concat(Gen.YieldSingle<Type>(typeof(Hediff))))
-			{
-				Type localDiffType = localDiffType2;
-				if (localDiffType != typeof(Hediff_Injury))
-				{
-					list.Add(new DebugMenuOption(localDiffType.ToString(), DebugMenuOptionMode.Action, delegate()
-					{
-						Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_HediffsDefs(localDiffType)));
-					}));
-				}
-			}
-			return list;
-		}
-
-		// Token: 0x06005518 RID: 21784 RVA: 0x002BAFA8 File Offset: 0x002B93A8
-		private static List<DebugMenuOption> Options_HediffsDefs(Type diffType)
-		{
-			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (HediffDef localDef2 in from d in DefDatabase<HediffDef>.AllDefs
-			where d.hediffClass == diffType
+			orderby d.hediffClass.ToStringSafe<Type>()
 			select d)
 			{
 				HediffDef localDef = localDef2;
@@ -107,14 +87,13 @@ namespace Verse
 					if (pawn != null)
 					{
 						Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_Hediff_BodyParts(pawn, localDef)));
-						DebugTools.curTool = null;
 					}
 				}));
 			}
 			return list;
 		}
 
-		// Token: 0x06005519 RID: 21785 RVA: 0x002BB060 File Offset: 0x002B9460
+		// Token: 0x06005518 RID: 21784 RVA: 0x002BB264 File Offset: 0x002B9664
 		private static List<DebugMenuOption> Options_Hediff_BodyParts(Pawn p, HediffDef def)
 		{
 			if (p == null)
@@ -126,7 +105,9 @@ namespace Verse
 			{
 				p.health.AddHediff(def, null, null, null);
 			}));
-			foreach (BodyPartRecord localPart2 in p.RaceProps.body.AllParts)
+			foreach (BodyPartRecord localPart2 in from pa in p.RaceProps.body.AllParts
+			orderby pa.Label
+			select pa)
 			{
 				BodyPartRecord localPart = localPart2;
 				list.Add(new DebugMenuOption(localPart.LabelCap, DebugMenuOptionMode.Action, delegate()
@@ -137,7 +118,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x0600551A RID: 21786 RVA: 0x002BB15C File Offset: 0x002B955C
+		// Token: 0x06005519 RID: 21785 RVA: 0x002BB380 File Offset: 0x002B9780
 		public static List<DebugMenuOption> Options_RemoveHediff(Pawn pawn)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();

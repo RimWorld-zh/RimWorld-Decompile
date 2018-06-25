@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D52 RID: 3410
+	// Token: 0x02000D53 RID: 3411
 	public interface IStrippable
 	{
 		// Token: 0x06004C0F RID: 19471

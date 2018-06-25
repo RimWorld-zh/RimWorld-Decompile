@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000745 RID: 1861
 	public static class TransporterUtility
 	{
-		// Token: 0x06002938 RID: 10552 RVA: 0x0015F104 File Offset: 0x0015D504
+		// Token: 0x06002937 RID: 10551 RVA: 0x0015F364 File Offset: 0x0015D764
 		public static void GetTransportersInGroup(int transportersGroup, Map map, List<CompTransporter> outTransporters)
 		{
 			outTransporters.Clear();
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002939 RID: 10553 RVA: 0x0015F16C File Offset: 0x0015D56C
+		// Token: 0x06002938 RID: 10552 RVA: 0x0015F3CC File Offset: 0x0015D7CC
 		public static Lord FindLord(int transportersGroup, Map map)
 		{
 			List<Lord> lords = map.lordManager.lords;
@@ -41,7 +41,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600293A RID: 10554 RVA: 0x0015F1D8 File Offset: 0x0015D5D8
+		// Token: 0x06002939 RID: 10553 RVA: 0x0015F438 File Offset: 0x0015D838
 		public static bool WasLoadingCanceled(Thing transporter)
 		{
 			CompTransporter compTransporter = transporter.TryGetComp<CompTransporter>();

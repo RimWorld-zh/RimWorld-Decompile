@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020006D8 RID: 1752
 	public class Bullet : Projectile
 	{
-		// Token: 0x06002627 RID: 9767 RVA: 0x00147858 File Offset: 0x00145C58
+		// Token: 0x06002626 RID: 9766 RVA: 0x00147AB8 File Offset: 0x00145EB8
 		protected override void Impact(Thing hitThing)
 		{
 			Map map = base.Map;

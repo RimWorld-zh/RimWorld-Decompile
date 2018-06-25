@@ -7,21 +7,21 @@ namespace RimWorld
 	// Token: 0x02000704 RID: 1796
 	public class BreakdownManager : MapComponent
 	{
-		// Token: 0x040015BF RID: 5567
+		// Token: 0x040015C3 RID: 5571
 		private List<CompBreakdownable> comps = new List<CompBreakdownable>();
 
-		// Token: 0x040015C0 RID: 5568
+		// Token: 0x040015C4 RID: 5572
 		public HashSet<Thing> brokenDownThings = new HashSet<Thing>();
 
-		// Token: 0x040015C1 RID: 5569
+		// Token: 0x040015C5 RID: 5573
 		public const int CheckIntervalTicks = 1041;
 
-		// Token: 0x06002755 RID: 10069 RVA: 0x001524C6 File Offset: 0x001508C6
+		// Token: 0x06002754 RID: 10068 RVA: 0x00152726 File Offset: 0x00150B26
 		public BreakdownManager(Map map) : base(map)
 		{
 		}
 
-		// Token: 0x06002756 RID: 10070 RVA: 0x001524E6 File Offset: 0x001508E6
+		// Token: 0x06002755 RID: 10069 RVA: 0x00152746 File Offset: 0x00150B46
 		public void Register(CompBreakdownable c)
 		{
 			this.comps.Add(c);
@@ -31,14 +31,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002757 RID: 10071 RVA: 0x00152512 File Offset: 0x00150912
+		// Token: 0x06002756 RID: 10070 RVA: 0x00152772 File Offset: 0x00150B72
 		public void Deregister(CompBreakdownable c)
 		{
 			this.comps.Remove(c);
 			this.brokenDownThings.Remove(c.parent);
 		}
 
-		// Token: 0x06002758 RID: 10072 RVA: 0x00152534 File Offset: 0x00150934
+		// Token: 0x06002757 RID: 10071 RVA: 0x00152794 File Offset: 0x00150B94
 		public override void MapComponentTick()
 		{
 			if (Find.TickManager.TicksGame % 1041 == 0)
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002759 RID: 10073 RVA: 0x00152588 File Offset: 0x00150988
+		// Token: 0x06002758 RID: 10072 RVA: 0x001527E8 File Offset: 0x00150BE8
 		public void Notify_BrokenDown(Thing thing)
 		{
 			this.brokenDownThings.Add(thing);
 		}
 
-		// Token: 0x0600275A RID: 10074 RVA: 0x00152598 File Offset: 0x00150998
+		// Token: 0x06002759 RID: 10073 RVA: 0x001527F8 File Offset: 0x00150BF8
 		public void Notify_Repaired(Thing thing)
 		{
 			this.brokenDownThings.Remove(thing);

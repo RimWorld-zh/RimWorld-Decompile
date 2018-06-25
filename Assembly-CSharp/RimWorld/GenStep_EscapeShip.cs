@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x020003E5 RID: 997
 	public class GenStep_EscapeShip : GenStep_Scatterer
 	{
-		// Token: 0x04000A56 RID: 2646
+		// Token: 0x04000A59 RID: 2649
 		private static readonly IntRange EscapeShipSizeWidth = new IntRange(20, 28);
 
-		// Token: 0x04000A57 RID: 2647
+		// Token: 0x04000A5A RID: 2650
 		private static readonly IntRange EscapeShipSizeHeight = new IntRange(34, 42);
 
 		// Token: 0x17000246 RID: 582
-		// (get) Token: 0x0600110F RID: 4367 RVA: 0x0009213C File Offset: 0x0009053C
+		// (get) Token: 0x0600110E RID: 4366 RVA: 0x0009214C File Offset: 0x0009054C
 		public override int SeedPart
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001110 RID: 4368 RVA: 0x00092158 File Offset: 0x00090558
+		// Token: 0x0600110F RID: 4367 RVA: 0x00092168 File Offset: 0x00090568
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001111 RID: 4369 RVA: 0x000922F0 File Offset: 0x000906F0
+		// Token: 0x06001110 RID: 4368 RVA: 0x00092300 File Offset: 0x00090700
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_EscapeShip.EscapeShipSizeWidth.RandomInRange;

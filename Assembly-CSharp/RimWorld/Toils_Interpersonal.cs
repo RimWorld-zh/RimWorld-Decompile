@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000094 RID: 148
 	public static class Toils_Interpersonal
 	{
-		// Token: 0x060003B6 RID: 950 RVA: 0x00029E84 File Offset: 0x00028284
+		// Token: 0x060003B6 RID: 950 RVA: 0x00029EA0 File Offset: 0x000282A0
 		public static Toil GotoInteractablePosition(TargetIndex target)
 		{
 			Toil toil = new Toil();
@@ -61,7 +61,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003B7 RID: 951 RVA: 0x00029F00 File Offset: 0x00028300
+		// Token: 0x060003B7 RID: 951 RVA: 0x00029F1C File Offset: 0x0002831C
 		public static Toil GotoPrisoner(Pawn pawn, Pawn talkee, PrisonerInteractionModeDef mode)
 		{
 			Toil toil = new Toil();
@@ -94,7 +94,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003B8 RID: 952 RVA: 0x00029F6C File Offset: 0x0002836C
+		// Token: 0x060003B8 RID: 952 RVA: 0x00029F88 File Offset: 0x00028388
 		public static Toil WaitToBeAbleToInteract(Pawn pawn)
 		{
 			return new Toil
@@ -118,7 +118,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060003B9 RID: 953 RVA: 0x00029FC8 File Offset: 0x000283C8
+		// Token: 0x060003B9 RID: 953 RVA: 0x00029FE4 File Offset: 0x000283E4
 		public static Toil ConvinceRecruitee(Pawn pawn, Pawn talkee)
 		{
 			return new Toil
@@ -140,7 +140,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060003BA RID: 954 RVA: 0x0002A024 File Offset: 0x00028424
+		// Token: 0x060003BA RID: 954 RVA: 0x0002A040 File Offset: 0x00028440
 		public static Toil SetLastInteractTime(TargetIndex targetInd)
 		{
 			Toil toil = new Toil();
@@ -153,7 +153,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003BB RID: 955 RVA: 0x0002A07C File Offset: 0x0002847C
+		// Token: 0x060003BB RID: 955 RVA: 0x0002A098 File Offset: 0x00028498
 		public static Toil TryRecruit(TargetIndex recruiteeInd)
 		{
 			Toil toil = new Toil();
@@ -173,7 +173,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003BC RID: 956 RVA: 0x0002A0F0 File Offset: 0x000284F0
+		// Token: 0x060003BC RID: 956 RVA: 0x0002A10C File Offset: 0x0002850C
 		public static Toil TryTrain(TargetIndex traineeInd)
 		{
 			Toil toil = new Toil();
@@ -247,7 +247,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003BD RID: 957 RVA: 0x0002A154 File Offset: 0x00028554
+		// Token: 0x060003BD RID: 957 RVA: 0x0002A170 File Offset: 0x00028570
 		public static Toil Interact(TargetIndex otherPawnInd, InteractionDef interaction)
 		{
 			Toil toil = new Toil();

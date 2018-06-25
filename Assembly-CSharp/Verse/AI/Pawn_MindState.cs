@@ -5,162 +5,162 @@ using RimWorld.Planet;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A8D RID: 2701
+	// Token: 0x02000A8E RID: 2702
 	public class Pawn_MindState : IExposable
 	{
-		// Token: 0x0400259C RID: 9628
+		// Token: 0x040025AC RID: 9644
 		public Pawn pawn;
 
-		// Token: 0x0400259D RID: 9629
+		// Token: 0x040025AD RID: 9645
 		public MentalStateHandler mentalStateHandler;
 
-		// Token: 0x0400259E RID: 9630
+		// Token: 0x040025AE RID: 9646
 		public MentalBreaker mentalBreaker;
 
-		// Token: 0x0400259F RID: 9631
+		// Token: 0x040025AF RID: 9647
 		public InspirationHandler inspirationHandler;
 
-		// Token: 0x040025A0 RID: 9632
+		// Token: 0x040025B0 RID: 9648
 		public PriorityWork priorityWork;
 
-		// Token: 0x040025A1 RID: 9633
+		// Token: 0x040025B1 RID: 9649
 		private bool activeInt = true;
 
-		// Token: 0x040025A2 RID: 9634
+		// Token: 0x040025B2 RID: 9650
 		public JobTag lastJobTag = JobTag.Misc;
 
-		// Token: 0x040025A3 RID: 9635
+		// Token: 0x040025B3 RID: 9651
 		public int lastIngestTick = -99999;
 
-		// Token: 0x040025A4 RID: 9636
+		// Token: 0x040025B4 RID: 9652
 		public int nextApparelOptimizeTick = -99999;
 
-		// Token: 0x040025A5 RID: 9637
+		// Token: 0x040025B5 RID: 9653
 		public ThinkNode lastJobGiver;
 
-		// Token: 0x040025A6 RID: 9638
+		// Token: 0x040025B6 RID: 9654
 		public ThinkTreeDef lastJobGiverThinkTree;
 
-		// Token: 0x040025A7 RID: 9639
+		// Token: 0x040025B7 RID: 9655
 		public WorkTypeDef lastGivenWorkType;
 
-		// Token: 0x040025A8 RID: 9640
+		// Token: 0x040025B8 RID: 9656
 		public bool canFleeIndividual = true;
 
-		// Token: 0x040025A9 RID: 9641
+		// Token: 0x040025B9 RID: 9657
 		public int exitMapAfterTick = -99999;
 
-		// Token: 0x040025AA RID: 9642
+		// Token: 0x040025BA RID: 9658
 		public int lastDisturbanceTick = -99999;
 
-		// Token: 0x040025AB RID: 9643
+		// Token: 0x040025BB RID: 9659
 		public IntVec3 forcedGotoPosition = IntVec3.Invalid;
 
-		// Token: 0x040025AC RID: 9644
+		// Token: 0x040025BC RID: 9660
 		public Thing knownExploder = null;
 
-		// Token: 0x040025AD RID: 9645
+		// Token: 0x040025BD RID: 9661
 		public bool wantsToTradeWithColony;
 
-		// Token: 0x040025AE RID: 9646
+		// Token: 0x040025BE RID: 9662
 		public Thing lastMannedThing;
 
-		// Token: 0x040025AF RID: 9647
+		// Token: 0x040025BF RID: 9663
 		public int canLovinTick = -99999;
 
-		// Token: 0x040025B0 RID: 9648
+		// Token: 0x040025C0 RID: 9664
 		public int canSleepTick = -99999;
 
-		// Token: 0x040025B1 RID: 9649
+		// Token: 0x040025C1 RID: 9665
 		public Pawn meleeThreat = null;
 
-		// Token: 0x040025B2 RID: 9650
+		// Token: 0x040025C2 RID: 9666
 		public int lastMeleeThreatHarmTick = -99999;
 
-		// Token: 0x040025B3 RID: 9651
+		// Token: 0x040025C3 RID: 9667
 		public int lastEngageTargetTick = -99999;
 
-		// Token: 0x040025B4 RID: 9652
+		// Token: 0x040025C4 RID: 9668
 		public int lastAttackTargetTick = -99999;
 
-		// Token: 0x040025B5 RID: 9653
+		// Token: 0x040025C5 RID: 9669
 		public LocalTargetInfo lastAttackedTarget;
 
-		// Token: 0x040025B6 RID: 9654
+		// Token: 0x040025C6 RID: 9670
 		public Thing enemyTarget;
 
-		// Token: 0x040025B7 RID: 9655
+		// Token: 0x040025C7 RID: 9671
 		public PawnDuty duty = null;
 
-		// Token: 0x040025B8 RID: 9656
+		// Token: 0x040025C8 RID: 9672
 		public Dictionary<int, int> thinkData = new Dictionary<int, int>();
 
-		// Token: 0x040025B9 RID: 9657
+		// Token: 0x040025C9 RID: 9673
 		public int lastAssignedInteractTime = -99999;
 
-		// Token: 0x040025BA RID: 9658
+		// Token: 0x040025CA RID: 9674
 		public int lastInventoryRawFoodUseTick = 0;
 
-		// Token: 0x040025BB RID: 9659
+		// Token: 0x040025CB RID: 9675
 		public bool nextMoveOrderIsWait = false;
 
-		// Token: 0x040025BC RID: 9660
+		// Token: 0x040025CC RID: 9676
 		public int lastTakeCombatEnhancingDrugTick = -99999;
 
-		// Token: 0x040025BD RID: 9661
+		// Token: 0x040025CD RID: 9677
 		public int lastHarmTick = -99999;
 
-		// Token: 0x040025BE RID: 9662
+		// Token: 0x040025CE RID: 9678
 		public bool anyCloseHostilesRecently;
 
-		// Token: 0x040025BF RID: 9663
+		// Token: 0x040025CF RID: 9679
 		public int applyBedThoughtsTick;
 
-		// Token: 0x040025C0 RID: 9664
+		// Token: 0x040025D0 RID: 9680
 		public bool applyBedThoughtsOnLeave;
 
-		// Token: 0x040025C1 RID: 9665
+		// Token: 0x040025D1 RID: 9681
 		public bool willJoinColonyIfRescued;
 
-		// Token: 0x040025C2 RID: 9666
+		// Token: 0x040025D2 RID: 9682
 		public bool wildManEverReachedOutside;
 
-		// Token: 0x040025C3 RID: 9667
+		// Token: 0x040025D3 RID: 9683
 		public int timesGuestTendedToByPlayer;
 
-		// Token: 0x040025C4 RID: 9668
+		// Token: 0x040025D4 RID: 9684
 		public int lastSelfTendTick = -99999;
 
-		// Token: 0x040025C5 RID: 9669
+		// Token: 0x040025D5 RID: 9685
 		public float maxDistToSquadFlag = -1f;
 
-		// Token: 0x040025C6 RID: 9670
+		// Token: 0x040025D6 RID: 9686
 		private int lastJobGiverKey = -1;
 
-		// Token: 0x040025C7 RID: 9671
+		// Token: 0x040025D7 RID: 9687
 		private const int UpdateAnyCloseHostilesRecentlyEveryTicks = 100;
 
-		// Token: 0x040025C8 RID: 9672
+		// Token: 0x040025D8 RID: 9688
 		private const int AnyCloseHostilesRecentlyRegionsToScan_ToActivate = 18;
 
-		// Token: 0x040025C9 RID: 9673
+		// Token: 0x040025D9 RID: 9689
 		private const int AnyCloseHostilesRecentlyRegionsToScan_ToDeactivate = 24;
 
-		// Token: 0x040025CA RID: 9674
+		// Token: 0x040025DA RID: 9690
 		private const float HarmForgetDistance = 3f;
 
-		// Token: 0x040025CB RID: 9675
+		// Token: 0x040025DB RID: 9691
 		private const int MeleeHarmForgetDelay = 400;
 
-		// Token: 0x040025CC RID: 9676
+		// Token: 0x040025DC RID: 9692
 		private const int CheckJoinColonyIfRescuedIntervalTicks = 30;
 
-		// Token: 0x06003BE3 RID: 15331 RVA: 0x001F92F8 File Offset: 0x001F76F8
+		// Token: 0x06003BE4 RID: 15332 RVA: 0x001F9624 File Offset: 0x001F7A24
 		public Pawn_MindState()
 		{
 		}
 
-		// Token: 0x06003BE4 RID: 15332 RVA: 0x001F93FC File Offset: 0x001F77FC
+		// Token: 0x06003BE5 RID: 15333 RVA: 0x001F9728 File Offset: 0x001F7B28
 		public Pawn_MindState(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -171,8 +171,8 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700091A RID: 2330
-		// (get) Token: 0x06003BE5 RID: 15333 RVA: 0x001F9538 File Offset: 0x001F7938
-		// (set) Token: 0x06003BE6 RID: 15334 RVA: 0x001F9554 File Offset: 0x001F7954
+		// (get) Token: 0x06003BE6 RID: 15334 RVA: 0x001F9864 File Offset: 0x001F7C64
+		// (set) Token: 0x06003BE7 RID: 15335 RVA: 0x001F9880 File Offset: 0x001F7C80
 		public bool Active
 		{
 			get
@@ -193,7 +193,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700091B RID: 2331
-		// (get) Token: 0x06003BE7 RID: 15335 RVA: 0x001F95A4 File Offset: 0x001F79A4
+		// (get) Token: 0x06003BE8 RID: 15336 RVA: 0x001F98D0 File Offset: 0x001F7CD0
 		public bool IsIdle
 		{
 			get
@@ -203,7 +203,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700091C RID: 2332
-		// (get) Token: 0x06003BE8 RID: 15336 RVA: 0x001F95F0 File Offset: 0x001F79F0
+		// (get) Token: 0x06003BE9 RID: 15337 RVA: 0x001F991C File Offset: 0x001F7D1C
 		public bool MeleeThreatStillThreat
 		{
 			get
@@ -212,7 +212,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BE9 RID: 15337 RVA: 0x001F96B8 File Offset: 0x001F7AB8
+		// Token: 0x06003BEA RID: 15338 RVA: 0x001F99E4 File Offset: 0x001F7DE4
 		public void Reset()
 		{
 			this.mentalStateHandler.Reset();
@@ -255,7 +255,7 @@ namespace Verse.AI
 			this.lastSelfTendTick = -99999;
 		}
 
-		// Token: 0x06003BEA RID: 15338 RVA: 0x001F9820 File Offset: 0x001F7C20
+		// Token: 0x06003BEB RID: 15339 RVA: 0x001F9B4C File Offset: 0x001F7F4C
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -329,7 +329,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BEB RID: 15339 RVA: 0x001F9BD4 File Offset: 0x001F7FD4
+		// Token: 0x06003BEC RID: 15340 RVA: 0x001F9F00 File Offset: 0x001F8300
 		public void MindStateTick()
 		{
 			if (this.wantsToTradeWithColony)
@@ -408,7 +408,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BEC RID: 15340 RVA: 0x001F9F84 File Offset: 0x001F8384
+		// Token: 0x06003BED RID: 15341 RVA: 0x001FA2B0 File Offset: 0x001F86B0
 		private void JoinColonyBecauseRescuedBy(Pawn by)
 		{
 			this.willJoinColonyIfRescued = false;
@@ -416,13 +416,13 @@ namespace Verse.AI
 			Find.LetterStack.ReceiveLetter("LetterLabelRescueQuestFinished".Translate(), "LetterRescueQuestFinished".Translate().AdjustedFor(this.pawn, "PAWN").CapitalizeFirst(), LetterDefOf.PositiveEvent, this.pawn, null, null);
 		}
 
-		// Token: 0x06003BED RID: 15341 RVA: 0x001F9FF0 File Offset: 0x001F83F0
+		// Token: 0x06003BEE RID: 15342 RVA: 0x001FA31C File Offset: 0x001F871C
 		public void ResetLastDisturbanceTick()
 		{
 			this.lastDisturbanceTick = -9999999;
 		}
 
-		// Token: 0x06003BEE RID: 15342 RVA: 0x001FA000 File Offset: 0x001F8400
+		// Token: 0x06003BEF RID: 15343 RVA: 0x001FA32C File Offset: 0x001F872C
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (this.pawn.IsColonistPlayerControlled)
@@ -439,13 +439,13 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003BEF RID: 15343 RVA: 0x001FA02A File Offset: 0x001F842A
+		// Token: 0x06003BF0 RID: 15344 RVA: 0x001FA356 File Offset: 0x001F8756
 		public void Notify_OutfitChanged()
 		{
 			this.nextApparelOptimizeTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003BF0 RID: 15344 RVA: 0x001FA040 File Offset: 0x001F8440
+		// Token: 0x06003BF1 RID: 15345 RVA: 0x001FA36C File Offset: 0x001F876C
 		public void Notify_WorkPriorityDisabled(WorkTypeDef wType)
 		{
 			JobGiver_Work jobGiver_Work = this.lastJobGiver as JobGiver_Work;
@@ -458,7 +458,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BF1 RID: 15345 RVA: 0x001FA080 File Offset: 0x001F8480
+		// Token: 0x06003BF2 RID: 15346 RVA: 0x001FA3AC File Offset: 0x001F87AC
 		public void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			this.mentalStateHandler.Notify_DamageTaken(dinfo);
@@ -484,20 +484,20 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BF2 RID: 15346 RVA: 0x001FA230 File Offset: 0x001F8630
+		// Token: 0x06003BF3 RID: 15347 RVA: 0x001FA55C File Offset: 0x001F895C
 		internal void Notify_EngagedTarget()
 		{
 			this.lastEngageTargetTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003BF3 RID: 15347 RVA: 0x001FA243 File Offset: 0x001F8643
+		// Token: 0x06003BF4 RID: 15348 RVA: 0x001FA56F File Offset: 0x001F896F
 		internal void Notify_AttackedTarget(LocalTargetInfo target)
 		{
 			this.lastAttackTargetTick = Find.TickManager.TicksGame;
 			this.lastAttackedTarget = target;
 		}
 
-		// Token: 0x06003BF4 RID: 15348 RVA: 0x001FA260 File Offset: 0x001F8660
+		// Token: 0x06003BF5 RID: 15349 RVA: 0x001FA58C File Offset: 0x001F898C
 		internal bool CheckStartMentalStateBecauseRecruitAttempted(Pawn tamer)
 		{
 			bool result;
@@ -517,7 +517,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003BF5 RID: 15349 RVA: 0x001FA2FA File Offset: 0x001F86FA
+		// Token: 0x06003BF6 RID: 15350 RVA: 0x001FA626 File Offset: 0x001F8A26
 		internal void Notify_DangerousExploderAboutToExplode(Thing exploder)
 		{
 			if (this.pawn.RaceProps.intelligence >= Intelligence.Humanlike)
@@ -527,7 +527,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BF6 RID: 15350 RVA: 0x001FA32C File Offset: 0x001F872C
+		// Token: 0x06003BF7 RID: 15351 RVA: 0x001FA658 File Offset: 0x001F8A58
 		public void Notify_Explosion(Explosion explosion)
 		{
 			if (this.pawn.Faction == null)
@@ -542,7 +542,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BF7 RID: 15351 RVA: 0x001FA3A6 File Offset: 0x001F87A6
+		// Token: 0x06003BF8 RID: 15352 RVA: 0x001FA6D2 File Offset: 0x001F8AD2
 		public void Notify_TuckedIntoBed()
 		{
 			if (this.pawn.IsWildMan())
@@ -551,13 +551,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BF8 RID: 15352 RVA: 0x001FA3C0 File Offset: 0x001F87C0
+		// Token: 0x06003BF9 RID: 15353 RVA: 0x001FA6EC File Offset: 0x001F8AEC
 		public void Notify_SelfTended()
 		{
 			this.lastSelfTendTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003BF9 RID: 15353 RVA: 0x001FA3D4 File Offset: 0x001F87D4
+		// Token: 0x06003BFA RID: 15354 RVA: 0x001FA700 File Offset: 0x001F8B00
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)
 		{
 			Room pawnRoom = pawn.GetRoom(RegionType.Set_Passable);
@@ -572,7 +572,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003BFA RID: 15354 RVA: 0x001FA408 File Offset: 0x001F8808
+		// Token: 0x06003BFB RID: 15355 RVA: 0x001FA734 File Offset: 0x001F8B34
 		private void StartManhunterBecauseOfPawnAction(string letterTextKey)
 		{
 			if (this.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null, false))
@@ -616,13 +616,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BFB RID: 15355 RVA: 0x001FA620 File Offset: 0x001F8A20
+		// Token: 0x06003BFC RID: 15356 RVA: 0x001FA94C File Offset: 0x001F8D4C
 		private static bool CanStartFleeingBecauseOfPawnAction(Pawn p)
 		{
 			return p.RaceProps.Animal && !p.InMentalState && !p.IsFighting() && !p.Downed && !p.Dead && !ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(p);
 		}
 
-		// Token: 0x06003BFC RID: 15356 RVA: 0x001FA680 File Offset: 0x001F8A80
+		// Token: 0x06003BFD RID: 15357 RVA: 0x001FA9AC File Offset: 0x001F8DAC
 		public void StartFleeingBecauseOfPawnAction(Thing instigator)
 		{
 			List<Thing> threats = new List<Thing>

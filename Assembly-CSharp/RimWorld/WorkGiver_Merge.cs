@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x0200014F RID: 335
 	public class WorkGiver_Merge : WorkGiver_Scanner
 	{
-		// Token: 0x060006EC RID: 1772 RVA: 0x00046B34 File Offset: 0x00044F34
+		// Token: 0x060006EB RID: 1771 RVA: 0x00046B30 File Offset: 0x00044F30
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006ED RID: 1773 RVA: 0x00046B4C File Offset: 0x00044F4C
+		// Token: 0x060006EC RID: 1772 RVA: 0x00046B48 File Offset: 0x00044F48
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.listerMergeables.ThingsPotentiallyNeedingMerging();
 		}
 
-		// Token: 0x060006EE RID: 1774 RVA: 0x00046B74 File Offset: 0x00044F74
+		// Token: 0x060006ED RID: 1773 RVA: 0x00046B70 File Offset: 0x00044F70
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

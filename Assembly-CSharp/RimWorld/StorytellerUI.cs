@@ -9,13 +9,13 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class StorytellerUI
 	{
-		// Token: 0x040019B9 RID: 6585
+		// Token: 0x040019BD RID: 6589
 		private static Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x040019BA RID: 6586
+		// Token: 0x040019BE RID: 6590
 		private static readonly Texture2D StorytellerHighlightTex = ContentFinder<Texture2D>.Get("UI/HeroArt/Storytellers/Highlight", true);
 
-		// Token: 0x06002FA4 RID: 12196 RVA: 0x00197E28 File Offset: 0x00196228
+		// Token: 0x06002FA3 RID: 12195 RVA: 0x00198090 File Offset: 0x00196490
 		internal static void DrawStorytellerSelectionInterface(Rect rect, ref StorytellerDef chosenStoryteller, ref DifficultyDef difficulty, Listing_Standard selectedStorytellerInfoListing)
 		{
 			GUI.BeginGroup(rect);

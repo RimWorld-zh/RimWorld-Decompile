@@ -9,20 +9,20 @@ namespace RimWorld
 	// Token: 0x0200077B RID: 1915
 	public class TradeDeal
 	{
-		// Token: 0x040016C8 RID: 5832
+		// Token: 0x040016CC RID: 5836
 		private List<Tradeable> tradeables = new List<Tradeable>();
 
-		// Token: 0x040016C9 RID: 5833
+		// Token: 0x040016CD RID: 5837
 		public List<string> cannotSellReasons = new List<string>();
 
-		// Token: 0x06002A3C RID: 10812 RVA: 0x001663B7 File Offset: 0x001647B7
+		// Token: 0x06002A3B RID: 10811 RVA: 0x00166617 File Offset: 0x00164A17
 		public TradeDeal()
 		{
 			this.Reset();
 		}
 
 		// Token: 0x17000680 RID: 1664
-		// (get) Token: 0x06002A3D RID: 10813 RVA: 0x001663DC File Offset: 0x001647DC
+		// (get) Token: 0x06002A3C RID: 10812 RVA: 0x0016663C File Offset: 0x00164A3C
 		public int TradeableCount
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000681 RID: 1665
-		// (get) Token: 0x06002A3E RID: 10814 RVA: 0x001663FC File Offset: 0x001647FC
+		// (get) Token: 0x06002A3D RID: 10813 RVA: 0x0016665C File Offset: 0x00164A5C
 		public Tradeable SilverTradeable
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000682 RID: 1666
-		// (get) Token: 0x06002A3F RID: 10815 RVA: 0x00166460 File Offset: 0x00164860
+		// (get) Token: 0x06002A3E RID: 10814 RVA: 0x001666C0 File Offset: 0x00164AC0
 		public List<Tradeable> AllTradeables
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A40 RID: 10816 RVA: 0x0016647B File Offset: 0x0016487B
+		// Token: 0x06002A3F RID: 10815 RVA: 0x001666DB File Offset: 0x00164ADB
 		public void Reset()
 		{
 			this.tradeables.Clear();
@@ -66,7 +66,7 @@ namespace RimWorld
 			this.AddAllTradeables();
 		}
 
-		// Token: 0x06002A41 RID: 10817 RVA: 0x0016649C File Offset: 0x0016489C
+		// Token: 0x06002A40 RID: 10816 RVA: 0x001666FC File Offset: 0x00164AFC
 		private void AddAllTradeables()
 		{
 			foreach (Thing t in TradeSession.trader.ColonyThingsWillingToBuy(TradeSession.playerNegotiator))
@@ -105,7 +105,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A42 RID: 10818 RVA: 0x00166614 File Offset: 0x00164A14
+		// Token: 0x06002A41 RID: 10817 RVA: 0x00166874 File Offset: 0x00164C74
 		private bool InSellablePosition(Thing t, out string reason)
 		{
 			bool result;
@@ -147,7 +147,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A43 RID: 10819 RVA: 0x00166724 File Offset: 0x00164B24
+		// Token: 0x06002A42 RID: 10818 RVA: 0x00166984 File Offset: 0x00164D84
 		private void AddToTradeables(Thing t, Transactor trans)
 		{
 			Tradeable tradeable = TransferableUtility.TradeableMatching(t, this.tradeables);
@@ -167,7 +167,7 @@ namespace RimWorld
 			tradeable.AddThing(t, trans);
 		}
 
-		// Token: 0x06002A44 RID: 10820 RVA: 0x0016677C File Offset: 0x00164B7C
+		// Token: 0x06002A43 RID: 10819 RVA: 0x001669DC File Offset: 0x00164DDC
 		public void UpdateCurrencyCount()
 		{
 			if (this.SilverTradeable != null && !TradeSession.giftMode)
@@ -185,7 +185,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A45 RID: 10821 RVA: 0x00166800 File Offset: 0x00164C00
+		// Token: 0x06002A44 RID: 10820 RVA: 0x00166A60 File Offset: 0x00164E60
 		public bool TryExecute(out bool actuallyTraded)
 		{
 			bool result;
@@ -243,13 +243,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A46 RID: 10822 RVA: 0x001669C0 File Offset: 0x00164DC0
+		// Token: 0x06002A45 RID: 10821 RVA: 0x00166C20 File Offset: 0x00165020
 		public bool DoesTraderHaveEnoughSilver()
 		{
 			return TradeSession.giftMode || (this.SilverTradeable != null && this.SilverTradeable.CountPostDealFor(Transactor.Trader) >= 0);
 		}
 
-		// Token: 0x06002A47 RID: 10823 RVA: 0x00166A0C File Offset: 0x00164E0C
+		// Token: 0x06002A46 RID: 10822 RVA: 0x00166C6C File Offset: 0x0016506C
 		private void LimitCurrencyCountToFunds()
 		{
 			if (this.SilverTradeable != null)

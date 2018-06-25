@@ -3,31 +3,31 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EBA RID: 3770
+	// Token: 0x02000EBB RID: 3771
 	public class Dialog_Slider : Window
 	{
-		// Token: 0x04003B70 RID: 15216
+		// Token: 0x04003B78 RID: 15224
 		public Func<int, string> textGetter;
 
-		// Token: 0x04003B71 RID: 15217
+		// Token: 0x04003B79 RID: 15225
 		public int from;
 
-		// Token: 0x04003B72 RID: 15218
+		// Token: 0x04003B7A RID: 15226
 		public int to;
 
-		// Token: 0x04003B73 RID: 15219
+		// Token: 0x04003B7B RID: 15227
 		private Action<int> confirmAction;
 
-		// Token: 0x04003B74 RID: 15220
+		// Token: 0x04003B7C RID: 15228
 		private int curValue;
 
-		// Token: 0x04003B75 RID: 15221
+		// Token: 0x04003B7D RID: 15229
 		private const float BotAreaHeight = 30f;
 
-		// Token: 0x04003B76 RID: 15222
+		// Token: 0x04003B7E RID: 15230
 		private const float TopPadding = 15f;
 
-		// Token: 0x06005937 RID: 22839 RVA: 0x002DC49C File Offset: 0x002DA89C
+		// Token: 0x06005937 RID: 22839 RVA: 0x002DC688 File Offset: 0x002DAA88
 		public Dialog_Slider(Func<int, string> textGetter, int from, int to, Action<int> confirmAction, int startingValue = -2147483648)
 		{
 			this.textGetter = textGetter;
@@ -46,13 +46,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005938 RID: 22840 RVA: 0x002DC4FC File Offset: 0x002DA8FC
+		// Token: 0x06005938 RID: 22840 RVA: 0x002DC6E8 File Offset: 0x002DAAE8
 		public Dialog_Slider(string text, int from, int to, Action<int> confirmAction, int startingValue = -2147483648) : this((int val) => string.Format(text, val), from, to, confirmAction, startingValue)
 		{
 		}
 
 		// Token: 0x17000E02 RID: 3586
-		// (get) Token: 0x06005939 RID: 22841 RVA: 0x002DC530 File Offset: 0x002DA930
+		// (get) Token: 0x06005939 RID: 22841 RVA: 0x002DC71C File Offset: 0x002DAB1C
 		public override Vector2 InitialSize
 		{
 			get
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600593A RID: 22842 RVA: 0x002DC554 File Offset: 0x002DA954
+		// Token: 0x0600593A RID: 22842 RVA: 0x002DC740 File Offset: 0x002DAB40
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(inRect.x, inRect.y + 15f, inRect.width, 30f);

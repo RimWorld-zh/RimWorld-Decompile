@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000C3 RID: 195
 	public class JobGiver_PrepareCaravan_GatherItems : ThinkNode_JobGiver
 	{
-		// Token: 0x0600048B RID: 1163 RVA: 0x00033D58 File Offset: 0x00032158
+		// Token: 0x0600048B RID: 1163 RVA: 0x00033D74 File Offset: 0x00032174
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

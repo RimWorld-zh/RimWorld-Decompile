@@ -5,19 +5,19 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E80 RID: 3712
+	// Token: 0x02000E81 RID: 3713
 	public class Listing_ScenEdit : Listing_Standard
 	{
-		// Token: 0x040039EB RID: 14827
+		// Token: 0x040039F3 RID: 14835
 		private Scenario scen;
 
-		// Token: 0x0600577F RID: 22399 RVA: 0x002CFDF5 File Offset: 0x002CE1F5
+		// Token: 0x0600577F RID: 22399 RVA: 0x002CFFE1 File Offset: 0x002CE3E1
 		public Listing_ScenEdit(Scenario scen)
 		{
 			this.scen = scen;
 		}
 
-		// Token: 0x06005780 RID: 22400 RVA: 0x002CFE08 File Offset: 0x002CE208
+		// Token: 0x06005780 RID: 22400 RVA: 0x002CFFF4 File Offset: 0x002CE3F4
 		public Rect GetScenPartRect(ScenPart part, float height)
 		{
 			string label = part.Label;

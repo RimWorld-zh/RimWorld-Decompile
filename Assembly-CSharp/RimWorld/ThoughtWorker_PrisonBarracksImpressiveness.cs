@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020001F2 RID: 498
 	public class ThoughtWorker_PrisonBarracksImpressiveness : ThoughtWorker_RoomImpressiveness
 	{
-		// Token: 0x060009AD RID: 2477 RVA: 0x000573F4 File Offset: 0x000557F4
+		// Token: 0x060009AC RID: 2476 RVA: 0x000573F0 File Offset: 0x000557F0
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;

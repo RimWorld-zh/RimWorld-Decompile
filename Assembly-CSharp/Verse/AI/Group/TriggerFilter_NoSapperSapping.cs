@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A0C RID: 2572
+	// Token: 0x02000A0D RID: 2573
 	public class TriggerFilter_NoSapperSapping : TriggerFilter
 	{
-		// Token: 0x06003993 RID: 14739 RVA: 0x001E7EF0 File Offset: 0x001E62F0
+		// Token: 0x06003994 RID: 14740 RVA: 0x001E821C File Offset: 0x001E661C
 		public override bool AllowActivation(Lord lord, TriggerSignal signal)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)

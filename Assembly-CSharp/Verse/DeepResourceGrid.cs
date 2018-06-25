@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C1F RID: 3103
+	// Token: 0x02000C20 RID: 3104
 	public sealed class DeepResourceGrid : ICellBoolGiver, IExposable
 	{
-		// Token: 0x04002E59 RID: 11865
+		// Token: 0x04002E60 RID: 11872
 		private Map map;
 
-		// Token: 0x04002E5A RID: 11866
+		// Token: 0x04002E61 RID: 11873
 		private CellBoolDrawer drawer;
 
-		// Token: 0x04002E5B RID: 11867
+		// Token: 0x04002E62 RID: 11874
 		private ushort[] defGrid;
 
-		// Token: 0x04002E5C RID: 11868
+		// Token: 0x04002E63 RID: 11875
 		private ushort[] countGrid;
 
-		// Token: 0x060043E7 RID: 17383 RVA: 0x0023D404 File Offset: 0x0023B804
+		// Token: 0x060043E7 RID: 17383 RVA: 0x0023D6E4 File Offset: 0x0023BAE4
 		public DeepResourceGrid(Map map)
 		{
 			this.map = map;
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AA6 RID: 2726
-		// (get) Token: 0x060043E8 RID: 17384 RVA: 0x0023D478 File Offset: 0x0023B878
+		// (get) Token: 0x060043E8 RID: 17384 RVA: 0x0023D758 File Offset: 0x0023BB58
 		public Color Color
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043E9 RID: 17385 RVA: 0x0023D494 File Offset: 0x0023B894
+		// Token: 0x060043E9 RID: 17385 RVA: 0x0023D774 File Offset: 0x0023BB74
 		public void ExposeData()
 		{
 			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => this.defGrid[this.map.cellIndices.CellToIndex(c)], delegate(IntVec3 c, ushort val)
@@ -50,19 +50,19 @@ namespace Verse
 			}, "countGrid");
 		}
 
-		// Token: 0x060043EA RID: 17386 RVA: 0x0023D4F4 File Offset: 0x0023B8F4
+		// Token: 0x060043EA RID: 17386 RVA: 0x0023D7D4 File Offset: 0x0023BBD4
 		public ThingDef ThingDefAt(IntVec3 c)
 		{
 			return DefDatabase<ThingDef>.GetByShortHash(this.defGrid[this.map.cellIndices.CellToIndex(c)]);
 		}
 
-		// Token: 0x060043EB RID: 17387 RVA: 0x0023D528 File Offset: 0x0023B928
+		// Token: 0x060043EB RID: 17387 RVA: 0x0023D808 File Offset: 0x0023BC08
 		public int CountAt(IntVec3 c)
 		{
 			return (int)this.countGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x060043EC RID: 17388 RVA: 0x0023D558 File Offset: 0x0023B958
+		// Token: 0x060043EC RID: 17388 RVA: 0x0023D838 File Offset: 0x0023BC38
 		public void SetAt(IntVec3 c, ThingDef def, int count)
 		{
 			if (count == 0)
@@ -98,7 +98,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043ED RID: 17389 RVA: 0x0023D62A File Offset: 0x0023BA2A
+		// Token: 0x060043ED RID: 17389 RVA: 0x0023D90A File Offset: 0x0023BD0A
 		public void DeepResourceGridUpdate()
 		{
 			this.drawer.CellBoolDrawerUpdate();
@@ -108,7 +108,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043EE RID: 17390 RVA: 0x0023D648 File Offset: 0x0023BA48
+		// Token: 0x060043EE RID: 17390 RVA: 0x0023D928 File Offset: 0x0023BD28
 		public void MarkForDraw()
 		{
 			if (this.map == Find.CurrentMap)
@@ -117,13 +117,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043EF RID: 17391 RVA: 0x0023D668 File Offset: 0x0023BA68
+		// Token: 0x060043EF RID: 17391 RVA: 0x0023D948 File Offset: 0x0023BD48
 		public bool GetCellBool(int index)
 		{
 			return this.CountAt(this.map.cellIndices.IndexToCell(index)) > 0;
 		}
 
-		// Token: 0x060043F0 RID: 17392 RVA: 0x0023D698 File Offset: 0x0023BA98
+		// Token: 0x060043F0 RID: 17392 RVA: 0x0023D978 File Offset: 0x0023BD78
 		public Color GetCellExtraColor(int index)
 		{
 			IntVec3 c = this.map.cellIndices.IndexToCell(index);

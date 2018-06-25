@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000340 RID: 832
 	public class IncidentWorker_SelfTame : IncidentWorker
 	{
-		// Token: 0x06000E30 RID: 3632 RVA: 0x00078C2C File Offset: 0x0007702C
+		// Token: 0x06000E2F RID: 3631 RVA: 0x00078C34 File Offset: 0x00077034
 		private IEnumerable<Pawn> Candidates(Map map)
 		{
 			return from x in map.mapPawns.AllPawnsSpawned
@@ -16,14 +16,14 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x06000E31 RID: 3633 RVA: 0x00078C70 File Offset: 0x00077070
+		// Token: 0x06000E30 RID: 3632 RVA: 0x00078C78 File Offset: 0x00077078
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return this.Candidates(map).Any<Pawn>();
 		}
 
-		// Token: 0x06000E32 RID: 3634 RVA: 0x00078CA0 File Offset: 0x000770A0
+		// Token: 0x06000E31 RID: 3633 RVA: 0x00078CA8 File Offset: 0x000770A8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

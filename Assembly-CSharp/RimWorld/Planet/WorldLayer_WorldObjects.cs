@@ -9,10 +9,10 @@ namespace RimWorld.Planet
 	// Token: 0x0200059B RID: 1435
 	public abstract class WorldLayer_WorldObjects : WorldLayer
 	{
-		// Token: 0x06001B61 RID: 7009
+		// Token: 0x06001B60 RID: 7008
 		protected abstract bool ShouldSkip(WorldObject worldObject);
 
-		// Token: 0x06001B62 RID: 7010 RVA: 0x000EC6D4 File Offset: 0x000EAAD4
+		// Token: 0x06001B61 RID: 7009 RVA: 0x000EC93C File Offset: 0x000EAD3C
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

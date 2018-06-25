@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003DE RID: 990
 	public class SymbolResolver_Ship_Core : SymbolResolver
 	{
-		// Token: 0x060010F9 RID: 4345 RVA: 0x000909B4 File Offset: 0x0008EDB4
+		// Token: 0x060010F8 RID: 4344 RVA: 0x000909C4 File Offset: 0x0008EDC4
 		public override void Resolve(ResolveParams rp)
 		{
 			float value = Rand.Value;

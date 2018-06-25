@@ -6,7 +6,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AB RID: 939
 	public class SymbolResolver_EdgeFloor : SymbolResolver
 	{
-		// Token: 0x06001049 RID: 4169 RVA: 0x0008918C File Offset: 0x0008758C
+		// Token: 0x06001048 RID: 4168 RVA: 0x0008919C File Offset: 0x0008759C
 		public override void Resolve(ResolveParams rp)
 		{
 			TerrainDef floorDef = rp.floorDef ?? BaseGenUtility.RandomBasicFloorDef(rp.faction, false);

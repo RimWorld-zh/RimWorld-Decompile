@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E25 RID: 3621
+	// Token: 0x02000E26 RID: 3622
 	public class DebugWindowsOpener
 	{
-		// Token: 0x060054FC RID: 21756 RVA: 0x002BA040 File Offset: 0x002B8440
+		// Token: 0x060054FC RID: 21756 RVA: 0x002BA334 File Offset: 0x002B8734
 		public void DevToolStarterOnGUI()
 		{
 			if (Prefs.DevMode)
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054FD RID: 21757 RVA: 0x002BA1CC File Offset: 0x002B85CC
+		// Token: 0x060054FD RID: 21757 RVA: 0x002BA4C0 File Offset: 0x002B88C0
 		private void DrawButtons()
 		{
 			WidgetRow widgetRow = new WidgetRow();
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054FE RID: 21758 RVA: 0x002BA362 File Offset: 0x002B8762
+		// Token: 0x060054FE RID: 21758 RVA: 0x002BA656 File Offset: 0x002B8A56
 		private void ToggleLogWindow()
 		{
 			if (!Find.WindowStack.TryRemove(typeof(EditWindow_Log), true))
@@ -122,7 +122,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054FF RID: 21759 RVA: 0x002BA390 File Offset: 0x002B8790
+		// Token: 0x060054FF RID: 21759 RVA: 0x002BA684 File Offset: 0x002B8A84
 		private void OpenPackageEditor()
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -139,7 +139,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005500 RID: 21760 RVA: 0x002BA426 File Offset: 0x002B8826
+		// Token: 0x06005500 RID: 21760 RVA: 0x002BA71A File Offset: 0x002B8B1A
 		private void ToggleDebugSettingsMenu()
 		{
 			if (!Find.WindowStack.TryRemove(typeof(Dialog_DebugSettingsMenu), true))
@@ -148,7 +148,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005501 RID: 21761 RVA: 0x002BA452 File Offset: 0x002B8852
+		// Token: 0x06005501 RID: 21761 RVA: 0x002BA746 File Offset: 0x002B8B46
 		private void ToggleDebugActionsMenu()
 		{
 			if (!Find.WindowStack.TryRemove(typeof(Dialog_DebugActionsMenu), true))
@@ -157,7 +157,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005502 RID: 21762 RVA: 0x002BA47E File Offset: 0x002B887E
+		// Token: 0x06005502 RID: 21762 RVA: 0x002BA772 File Offset: 0x002B8B72
 		private void ToggleTweakValuesMenu()
 		{
 			if (!Find.WindowStack.TryRemove(typeof(EditWindow_TweakValues), true))
@@ -166,7 +166,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005503 RID: 21763 RVA: 0x002BA4AA File Offset: 0x002B88AA
+		// Token: 0x06005503 RID: 21763 RVA: 0x002BA79E File Offset: 0x002B8B9E
 		private void ToggleDebugLogMenu()
 		{
 			if (!Find.WindowStack.TryRemove(typeof(Dialog_DebugOutputMenu), true))
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005504 RID: 21764 RVA: 0x002BA4D6 File Offset: 0x002B88D6
+		// Token: 0x06005504 RID: 21764 RVA: 0x002BA7CA File Offset: 0x002B8BCA
 		private void ToggleDebugInspector()
 		{
 			if (!Find.WindowStack.TryRemove(typeof(EditWindow_DebugInspector), true))
@@ -184,7 +184,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005505 RID: 21765 RVA: 0x002BA502 File Offset: 0x002B8902
+		// Token: 0x06005505 RID: 21765 RVA: 0x002BA7F6 File Offset: 0x002B8BF6
 		private void ToggleGodMode()
 		{
 			DebugSettings.godMode = !DebugSettings.godMode;

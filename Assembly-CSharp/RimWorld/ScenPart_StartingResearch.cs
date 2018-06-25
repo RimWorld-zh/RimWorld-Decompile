@@ -9,10 +9,10 @@ namespace RimWorld
 	// Token: 0x02000648 RID: 1608
 	public class ScenPart_StartingResearch : ScenPart
 	{
-		// Token: 0x040012FD RID: 4861
+		// Token: 0x04001301 RID: 4865
 		private ResearchProjectDef project;
 
-		// Token: 0x06002161 RID: 8545 RVA: 0x0011B8AC File Offset: 0x00119CAC
+		// Token: 0x06002160 RID: 8544 RVA: 0x0011BB14 File Offset: 0x00119F14
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -25,13 +25,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002162 RID: 8546 RVA: 0x0011B916 File Offset: 0x00119D16
+		// Token: 0x06002161 RID: 8545 RVA: 0x0011BB7E File Offset: 0x00119F7E
 		public override void Randomize()
 		{
 			this.project = this.NonRedundantResearchProjects().RandomElement<ResearchProjectDef>();
 		}
 
-		// Token: 0x06002163 RID: 8547 RVA: 0x0011B92C File Offset: 0x00119D2C
+		// Token: 0x06002162 RID: 8546 RVA: 0x0011BB94 File Offset: 0x00119F94
 		private IEnumerable<ResearchProjectDef> NonRedundantResearchProjects()
 		{
 			return DefDatabase<ResearchProjectDef>.AllDefs.Where(delegate(ResearchProjectDef d)
@@ -49,14 +49,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002164 RID: 8548 RVA: 0x0011B968 File Offset: 0x00119D68
+		// Token: 0x06002163 RID: 8547 RVA: 0x0011BBD0 File Offset: 0x00119FD0
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ResearchProjectDef>(ref this.project, "project");
 		}
 
-		// Token: 0x06002165 RID: 8549 RVA: 0x0011B984 File Offset: 0x00119D84
+		// Token: 0x06002164 RID: 8548 RVA: 0x0011BBEC File Offset: 0x00119FEC
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_StartingResearchFinished".Translate(new object[]
@@ -65,7 +65,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002166 RID: 8550 RVA: 0x0011B9B7 File Offset: 0x00119DB7
+		// Token: 0x06002165 RID: 8549 RVA: 0x0011BC1F File Offset: 0x0011A01F
 		public override void PostGameStart()
 		{
 			Find.ResearchManager.InstantFinish(this.project, false);

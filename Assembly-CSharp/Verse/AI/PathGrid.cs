@@ -6,66 +6,66 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A93 RID: 2707
+	// Token: 0x02000A94 RID: 2708
 	[HasDebugOutput]
 	public sealed class PathGrid
 	{
-		// Token: 0x040025F1 RID: 9713
+		// Token: 0x04002601 RID: 9729
 		private Map map;
 
-		// Token: 0x040025F2 RID: 9714
+		// Token: 0x04002602 RID: 9730
 		public int[] pathGrid;
 
-		// Token: 0x040025F3 RID: 9715
+		// Token: 0x04002603 RID: 9731
 		public const int ImpassableCost = 10000;
 
-		// Token: 0x040025F4 RID: 9716
+		// Token: 0x04002604 RID: 9732
 		private const int MaxThingsPathCost = 450;
 
-		// Token: 0x06003C1B RID: 15387 RVA: 0x001FC678 File Offset: 0x001FAA78
+		// Token: 0x06003C1C RID: 15388 RVA: 0x001FC9A4 File Offset: 0x001FADA4
 		public PathGrid(Map map)
 		{
 			this.map = map;
 			this.ResetPathGrid();
 		}
 
-		// Token: 0x06003C1C RID: 15388 RVA: 0x001FC68E File Offset: 0x001FAA8E
+		// Token: 0x06003C1D RID: 15389 RVA: 0x001FC9BA File Offset: 0x001FADBA
 		public void ResetPathGrid()
 		{
 			this.pathGrid = new int[this.map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x06003C1D RID: 15389 RVA: 0x001FC6AC File Offset: 0x001FAAAC
+		// Token: 0x06003C1E RID: 15390 RVA: 0x001FC9D8 File Offset: 0x001FADD8
 		public bool Walkable(IntVec3 loc)
 		{
 			return loc.InBounds(this.map) && this.pathGrid[this.map.cellIndices.CellToIndex(loc)] < 10000;
 		}
 
-		// Token: 0x06003C1E RID: 15390 RVA: 0x001FC6F8 File Offset: 0x001FAAF8
+		// Token: 0x06003C1F RID: 15391 RVA: 0x001FCA24 File Offset: 0x001FAE24
 		public bool WalkableFast(IntVec3 loc)
 		{
 			return this.pathGrid[this.map.cellIndices.CellToIndex(loc)] < 10000;
 		}
 
-		// Token: 0x06003C1F RID: 15391 RVA: 0x001FC72C File Offset: 0x001FAB2C
+		// Token: 0x06003C20 RID: 15392 RVA: 0x001FCA58 File Offset: 0x001FAE58
 		public bool WalkableFast(int x, int z)
 		{
 			return this.pathGrid[this.map.cellIndices.CellToIndex(x, z)] < 10000;
 		}
 
-		// Token: 0x06003C20 RID: 15392 RVA: 0x001FC764 File Offset: 0x001FAB64
+		// Token: 0x06003C21 RID: 15393 RVA: 0x001FCA90 File Offset: 0x001FAE90
 		public bool WalkableFast(int index)
 		{
 			return this.pathGrid[index] < 10000;
 		}
 
-		// Token: 0x06003C21 RID: 15393 RVA: 0x001FC788 File Offset: 0x001FAB88
+		// Token: 0x06003C22 RID: 15394 RVA: 0x001FCAB4 File Offset: 0x001FAEB4
 		public int PerceivedPathCostAt(IntVec3 loc)
 		{
 			return this.pathGrid[this.map.cellIndices.CellToIndex(loc)];
 		}
 
-		// Token: 0x06003C22 RID: 15394 RVA: 0x001FC7B8 File Offset: 0x001FABB8
+		// Token: 0x06003C23 RID: 15395 RVA: 0x001FCAE4 File Offset: 0x001FAEE4
 		public void RecalculatePerceivedPathCostUnderThing(Thing t)
 		{
 			if (t.def.size == IntVec2.One)
@@ -86,7 +86,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C23 RID: 15395 RVA: 0x001FC84C File Offset: 0x001FAC4C
+		// Token: 0x06003C24 RID: 15396 RVA: 0x001FCB78 File Offset: 0x001FAF78
 		public void RecalculatePerceivedPathCostAt(IntVec3 c)
 		{
 			if (c.InBounds(this.map))
@@ -101,7 +101,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C24 RID: 15396 RVA: 0x001FC8D0 File Offset: 0x001FACD0
+		// Token: 0x06003C25 RID: 15397 RVA: 0x001FCBFC File Offset: 0x001FAFFC
 		public void RecalculateAllPerceivedPathCosts()
 		{
 			foreach (IntVec3 c in this.map.AllCells)
@@ -110,7 +110,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C25 RID: 15397 RVA: 0x001FC934 File Offset: 0x001FAD34
+		// Token: 0x06003C26 RID: 15398 RVA: 0x001FCC60 File Offset: 0x001FB060
 		public int CalculatedCostAt(IntVec3 c, bool perceivedStatic, IntVec3 prevCell)
 		{
 			int num = 0;
@@ -183,7 +183,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003C26 RID: 15398 RVA: 0x001FCB88 File Offset: 0x001FAF88
+		// Token: 0x06003C27 RID: 15399 RVA: 0x001FCEB4 File Offset: 0x001FB2B4
 		private bool ContainsPathCostIgnoreRepeater(IntVec3 c)
 		{
 			List<Thing> list = this.map.thingGrid.ThingsListAt(c);
@@ -197,13 +197,13 @@ namespace Verse.AI
 			return false;
 		}
 
-		// Token: 0x06003C27 RID: 15399 RVA: 0x001FCBE8 File Offset: 0x001FAFE8
+		// Token: 0x06003C28 RID: 15400 RVA: 0x001FCF14 File Offset: 0x001FB314
 		private static bool IsPathCostIgnoreRepeater(ThingDef def)
 		{
 			return def.pathCost >= 25 && def.pathCostIgnoreRepeat;
 		}
 
-		// Token: 0x06003C28 RID: 15400 RVA: 0x001FCC14 File Offset: 0x001FB014
+		// Token: 0x06003C29 RID: 15401 RVA: 0x001FCF40 File Offset: 0x001FB340
 		[DebugOutput]
 		public static void ThingPathCostsIgnoreRepeaters()
 		{

@@ -2,12 +2,12 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B95 RID: 2965
+	// Token: 0x02000B96 RID: 2966
 	public enum LowPassFilterProperty : byte
 	{
-		// Token: 0x04002B26 RID: 11046
+		// Token: 0x04002B2D RID: 11053
 		Cutoff,
-		// Token: 0x04002B27 RID: 11047
+		// Token: 0x04002B2E RID: 11054
 		Resonance
 	}
 }

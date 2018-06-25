@@ -12,32 +12,32 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000BDC RID: 3036
+	// Token: 0x02000BDD RID: 3037
 	public abstract class Root : MonoBehaviour
 	{
-		// Token: 0x04002D4F RID: 11599
+		// Token: 0x04002D56 RID: 11606
 		private static bool globalInitDone;
 
-		// Token: 0x04002D50 RID: 11600
+		// Token: 0x04002D57 RID: 11607
 		private static bool prefsApplied;
 
-		// Token: 0x04002D51 RID: 11601
+		// Token: 0x04002D58 RID: 11608
 		protected static bool checkedAutostartSaveFile;
 
-		// Token: 0x04002D52 RID: 11602
+		// Token: 0x04002D59 RID: 11609
 		protected bool destroyed;
 
-		// Token: 0x04002D53 RID: 11603
+		// Token: 0x04002D5A RID: 11610
 		public SoundRoot soundRoot;
 
-		// Token: 0x04002D54 RID: 11604
+		// Token: 0x04002D5B RID: 11611
 		public UIRoot uiRoot;
 
-		// Token: 0x04002D56 RID: 11606
+		// Token: 0x04002D5D RID: 11613
 		[CompilerGenerated]
 		private static Action <>f__mg$cache0;
 
-		// Token: 0x0600424A RID: 16970 RVA: 0x0022E198 File Offset: 0x0022C598
+		// Token: 0x0600424A RID: 16970 RVA: 0x0022E478 File Offset: 0x0022C878
 		public virtual void Start()
 		{
 			try
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424B RID: 16971 RVA: 0x0022E23C File Offset: 0x0022C63C
+		// Token: 0x0600424B RID: 16971 RVA: 0x0022E51C File Offset: 0x0022C91C
 		private static void CheckGlobalInit()
 		{
 			if (!Root.globalInitDone)
@@ -110,7 +110,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424C RID: 16972 RVA: 0x0022E2E0 File Offset: 0x0022C6E0
+		// Token: 0x0600424C RID: 16972 RVA: 0x0022E5C0 File Offset: 0x0022C9C0
 		public virtual void Update()
 		{
 			try
@@ -163,7 +163,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424D RID: 16973 RVA: 0x0022E410 File Offset: 0x0022C810
+		// Token: 0x0600424D RID: 16973 RVA: 0x0022E6F0 File Offset: 0x0022CAF0
 		public void OnGUI()
 		{
 			try
@@ -190,7 +190,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424E RID: 16974 RVA: 0x0022E4B8 File Offset: 0x0022C8B8
+		// Token: 0x0600424E RID: 16974 RVA: 0x0022E798 File Offset: 0x0022CB98
 		public static void Shutdown()
 		{
 			SteamManager.ShutdownSteam();

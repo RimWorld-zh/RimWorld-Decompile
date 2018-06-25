@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000141 RID: 321
 	public static class FeedPatientUtility
 	{
-		// Token: 0x060006A4 RID: 1700 RVA: 0x00044BA4 File Offset: 0x00042FA4
+		// Token: 0x060006A3 RID: 1699 RVA: 0x00044BA0 File Offset: 0x00042FA0
 		public static bool ShouldBeFed(Pawn p)
 		{
 			bool result;

@@ -3,16 +3,16 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CDE RID: 3294
+	// Token: 0x02000CDF RID: 3295
 	public class PatchOperationConditional : PatchOperationPathed
 	{
-		// Token: 0x04003118 RID: 12568
+		// Token: 0x0400311F RID: 12575
 		private PatchOperation match;
 
-		// Token: 0x04003119 RID: 12569
+		// Token: 0x04003120 RID: 12576
 		private PatchOperation nomatch;
 
-		// Token: 0x0600489D RID: 18589 RVA: 0x00261FCC File Offset: 0x002603CC
+		// Token: 0x0600489D RID: 18589 RVA: 0x002622AC File Offset: 0x002606AC
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			if (xml.SelectSingleNode(this.xpath) != null)

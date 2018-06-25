@@ -5,11 +5,11 @@ namespace RimWorld.Planet
 	// Token: 0x020005D8 RID: 1496
 	public enum CaravanEnterMode
 	{
-		// Token: 0x04001179 RID: 4473
+		// Token: 0x0400117D RID: 4477
 		None,
-		// Token: 0x0400117A RID: 4474
+		// Token: 0x0400117E RID: 4478
 		Edge,
-		// Token: 0x0400117B RID: 4475
+		// Token: 0x0400117F RID: 4479
 		Center
 	}
 }

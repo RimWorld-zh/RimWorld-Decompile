@@ -2,14 +2,14 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9F RID: 2975
+	// Token: 0x02000BA0 RID: 2976
 	public enum RepeatSelectMode : byte
 	{
-		// Token: 0x04002B40 RID: 11072
+		// Token: 0x04002B47 RID: 11079
 		Any,
-		// Token: 0x04002B41 RID: 11073
+		// Token: 0x04002B48 RID: 11080
 		NeverTwice,
-		// Token: 0x04002B42 RID: 11074
+		// Token: 0x04002B49 RID: 11081
 		NeverLastHalf
 	}
 }

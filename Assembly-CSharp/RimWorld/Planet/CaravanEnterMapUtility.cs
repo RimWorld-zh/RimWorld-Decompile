@@ -7,10 +7,10 @@ namespace RimWorld.Planet
 	// Token: 0x020005DA RID: 1498
 	public static class CaravanEnterMapUtility
 	{
-		// Token: 0x04001180 RID: 4480
+		// Token: 0x04001184 RID: 4484
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
-		// Token: 0x06001D6C RID: 7532 RVA: 0x000FCF44 File Offset: 0x000FB344
+		// Token: 0x06001D6B RID: 7531 RVA: 0x000FD1AC File Offset: 0x000FB5AC
 		public static void Enter(Caravan caravan, Map map, CaravanEnterMode enterMode, CaravanDropInventoryMode dropInventoryMode = CaravanDropInventoryMode.DoNotDrop, bool draftColonists = false, Predicate<IntVec3> extraCellValidator = null)
 		{
 			if (enterMode == CaravanEnterMode.None)
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			CaravanEnterMapUtility.Enter(caravan, map, spawnCellGetter, dropInventoryMode, draftColonists);
 		}
 
-		// Token: 0x06001D6D RID: 7533 RVA: 0x000FCFDC File Offset: 0x000FB3DC
+		// Token: 0x06001D6C RID: 7532 RVA: 0x000FD244 File Offset: 0x000FB644
 		public static void Enter(Caravan caravan, Map map, Func<Pawn, IntVec3> spawnCellGetter, CaravanDropInventoryMode dropInventoryMode = CaravanDropInventoryMode.DoNotDrop, bool draftColonists = false)
 		{
 			CaravanEnterMapUtility.tmpPawns.Clear();
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 			CaravanEnterMapUtility.tmpPawns.Clear();
 		}
 
-		// Token: 0x06001D6E RID: 7534 RVA: 0x000FD12C File Offset: 0x000FB52C
+		// Token: 0x06001D6D RID: 7533 RVA: 0x000FD394 File Offset: 0x000FB794
 		private static IntVec3 GetEnterCell(Caravan caravan, Map map, CaravanEnterMode enterMode, Predicate<IntVec3> extraCellValidator)
 		{
 			IntVec3 result;
@@ -93,7 +93,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D6F RID: 7535 RVA: 0x000FD174 File Offset: 0x000FB574
+		// Token: 0x06001D6E RID: 7534 RVA: 0x000FD3DC File Offset: 0x000FB7DC
 		private static IntVec3 FindNearEdgeCell(Map map, Predicate<IntVec3> extraCellValidator)
 		{
 			Predicate<IntVec3> baseValidator = (IntVec3 x) => x.Standable(map) && !x.Fogged(map);
@@ -120,7 +120,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D70 RID: 7536 RVA: 0x000FD284 File Offset: 0x000FB684
+		// Token: 0x06001D6F RID: 7535 RVA: 0x000FD4EC File Offset: 0x000FB8EC
 		private static IntVec3 FindCenterCell(Map map, Predicate<IntVec3> extraCellValidator)
 		{
 			TraverseParms traverseParms = TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false);
@@ -143,7 +143,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D71 RID: 7537 RVA: 0x000FD334 File Offset: 0x000FB734
+		// Token: 0x06001D70 RID: 7536 RVA: 0x000FD59C File Offset: 0x000FB99C
 		public static void DropAllInventory(List<Pawn> pawns)
 		{
 			for (int i = 0; i < pawns.Count; i++)
@@ -152,7 +152,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D72 RID: 7538 RVA: 0x000FD37C File Offset: 0x000FB77C
+		// Token: 0x06001D71 RID: 7537 RVA: 0x000FD5E4 File Offset: 0x000FB9E4
 		private static void DraftColonists(List<Pawn> pawns)
 		{
 			for (int i = 0; i < pawns.Count; i++)
@@ -164,7 +164,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D73 RID: 7539 RVA: 0x000FD3C8 File Offset: 0x000FB7C8
+		// Token: 0x06001D72 RID: 7538 RVA: 0x000FD630 File Offset: 0x000FBA30
 		private static bool TryRandomNonOccupiedClosewalkCellNear(IntVec3 root, Map map, int radius, out IntVec3 result)
 		{
 			return CellFinder.TryFindRandomReachableCellNear(root, map, (float)radius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 c) => c.Standable(map) && c.GetFirstPawn(map) == null, null, out result, 999999);

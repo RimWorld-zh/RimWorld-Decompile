@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000335 RID: 821
 	public class IncidentWorker_MeteoriteImpact : IncidentWorker
 	{
-		// Token: 0x06000E07 RID: 3591 RVA: 0x00077A2C File Offset: 0x00075E2C
+		// Token: 0x06000E06 RID: 3590 RVA: 0x00077A34 File Offset: 0x00075E34
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -16,7 +16,7 @@ namespace RimWorld
 			return this.TryFindCell(out intVec, map);
 		}
 
-		// Token: 0x06000E08 RID: 3592 RVA: 0x00077A58 File Offset: 0x00075E58
+		// Token: 0x06000E07 RID: 3591 RVA: 0x00077A60 File Offset: 0x00075E60
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E09 RID: 3593 RVA: 0x00077B2C File Offset: 0x00075F2C
+		// Token: 0x06000E08 RID: 3592 RVA: 0x00077B34 File Offset: 0x00075F34
 		private bool TryFindCell(out IntVec3 cell, Map map)
 		{
 			int maxMineables = ThingSetMaker_Meteorite.MineablesCountRange.max;

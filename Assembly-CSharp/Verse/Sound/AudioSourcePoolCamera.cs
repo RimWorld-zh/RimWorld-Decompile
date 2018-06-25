@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBD RID: 3517
+	// Token: 0x02000DBE RID: 3518
 	public class AudioSourcePoolCamera
 	{
-		// Token: 0x04003447 RID: 13383
+		// Token: 0x0400344E RID: 13390
 		public GameObject cameraSourcesContainer;
 
-		// Token: 0x04003448 RID: 13384
+		// Token: 0x0400344F RID: 13391
 		private List<AudioSource> sourcesCamera = new List<AudioSource>();
 
-		// Token: 0x04003449 RID: 13385
+		// Token: 0x04003450 RID: 13392
 		private const int NumSourcesCamera = 16;
 
-		// Token: 0x06004E91 RID: 20113 RVA: 0x00290E6C File Offset: 0x0028F26C
+		// Token: 0x06004E91 RID: 20113 RVA: 0x0029114C File Offset: 0x0028F54C
 		public AudioSourcePoolCamera()
 		{
 			this.cameraSourcesContainer = new GameObject("OneShotSourcesCameraContainer");
@@ -37,7 +37,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E92 RID: 20114 RVA: 0x00290F3C File Offset: 0x0028F33C
+		// Token: 0x06004E92 RID: 20114 RVA: 0x0029121C File Offset: 0x0028F61C
 		public AudioSource GetSourceCamera()
 		{
 			for (int i = 0; i < this.sourcesCamera.Count; i++)

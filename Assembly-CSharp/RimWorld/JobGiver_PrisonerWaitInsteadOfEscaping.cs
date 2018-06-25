@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000EB RID: 235
 	public class JobGiver_PrisonerWaitInsteadOfEscaping : JobGiver_Wander
 	{
-		// Token: 0x06000507 RID: 1287 RVA: 0x00037EC8 File Offset: 0x000362C8
+		// Token: 0x06000507 RID: 1287 RVA: 0x00037EE4 File Offset: 0x000362E4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -39,7 +39,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000508 RID: 1288 RVA: 0x00037F78 File Offset: 0x00036378
+		// Token: 0x06000508 RID: 1288 RVA: 0x00037F94 File Offset: 0x00036394
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			return pawn.guest.spotToWaitInsteadOfEscaping;

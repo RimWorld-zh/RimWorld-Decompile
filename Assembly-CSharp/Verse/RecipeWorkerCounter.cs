@@ -5,19 +5,19 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B27 RID: 2855
+	// Token: 0x02000B28 RID: 2856
 	public class RecipeWorkerCounter
 	{
-		// Token: 0x040028C6 RID: 10438
+		// Token: 0x040028CD RID: 10445
 		public RecipeDef recipe;
 
-		// Token: 0x06003EF0 RID: 16112 RVA: 0x002128CC File Offset: 0x00210CCC
+		// Token: 0x06003EF0 RID: 16112 RVA: 0x00212BAC File Offset: 0x00210FAC
 		public virtual bool CanCountProducts(Bill_Production bill)
 		{
 			return this.recipe.specialProducts == null && this.recipe.products != null && this.recipe.products.Count == 1;
 		}
 
-		// Token: 0x06003EF1 RID: 16113 RVA: 0x00212918 File Offset: 0x00210D18
+		// Token: 0x06003EF1 RID: 16113 RVA: 0x00212BF8 File Offset: 0x00210FF8
 		public virtual int CountProducts(Bill_Production bill)
 		{
 			ThingDefCountClass thingDefCountClass = this.recipe.products[0];
@@ -71,7 +71,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF2 RID: 16114 RVA: 0x00212C7C File Offset: 0x0021107C
+		// Token: 0x06003EF2 RID: 16114 RVA: 0x00212F5C File Offset: 0x0021135C
 		public int CountValidThings(List<Thing> things, Bill_Production bill, ThingDef def)
 		{
 			int num = 0;
@@ -85,7 +85,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003EF3 RID: 16115 RVA: 0x00212CC8 File Offset: 0x002110C8
+		// Token: 0x06003EF3 RID: 16115 RVA: 0x00212FA8 File Offset: 0x002113A8
 		public bool CountValidThing(Thing thing, Bill_Production bill, ThingDef def)
 		{
 			ThingDef def2 = thing.def;
@@ -110,13 +110,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF4 RID: 16116 RVA: 0x00212D98 File Offset: 0x00211198
+		// Token: 0x06003EF4 RID: 16116 RVA: 0x00213078 File Offset: 0x00211478
 		public virtual string ProductsDescription(Bill_Production bill)
 		{
 			return null;
 		}
 
-		// Token: 0x06003EF5 RID: 16117 RVA: 0x00212DB0 File Offset: 0x002111B0
+		// Token: 0x06003EF5 RID: 16117 RVA: 0x00213090 File Offset: 0x00211490
 		public virtual bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			return !this.CanCountProducts(bill) || stockpile.GetStoreSettings().AllowedToAccept(this.recipe.products[0].thingDef);

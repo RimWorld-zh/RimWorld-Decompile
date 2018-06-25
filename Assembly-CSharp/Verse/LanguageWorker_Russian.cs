@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000BF7 RID: 3063
+	// Token: 0x02000BF8 RID: 3064
 	public class LanguageWorker_Russian : LanguageWorker
 	{
-		// Token: 0x060042E1 RID: 17121 RVA: 0x002363B8 File Offset: 0x002347B8
+		// Token: 0x060042E1 RID: 17121 RVA: 0x00236698 File Offset: 0x00234A98
 		public override string OrdinalNumber(int number)
 		{
 			return number + "-й";
 		}
 
-		// Token: 0x060042E2 RID: 17122 RVA: 0x002363E0 File Offset: 0x002347E0
+		// Token: 0x060042E2 RID: 17122 RVA: 0x002366C0 File Offset: 0x00234AC0
 		public override string PostProcessed(string str)
 		{
 			str = base.PostProcessed(str);

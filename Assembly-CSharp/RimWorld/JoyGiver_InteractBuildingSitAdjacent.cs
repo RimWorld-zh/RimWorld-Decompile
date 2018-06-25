@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x020000F3 RID: 243
 	public class JoyGiver_InteractBuildingSitAdjacent : JoyGiver_InteractBuilding
 	{
-		// Token: 0x040002CD RID: 717
+		// Token: 0x040002CE RID: 718
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x06000524 RID: 1316 RVA: 0x00038CC8 File Offset: 0x000370C8
+		// Token: 0x06000524 RID: 1316 RVA: 0x00038CE4 File Offset: 0x000370E4
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
 			JoyGiver_InteractBuildingSitAdjacent.tmpCells.Clear();

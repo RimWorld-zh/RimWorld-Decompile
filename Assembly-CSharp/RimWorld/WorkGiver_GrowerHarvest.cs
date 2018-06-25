@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_GrowerHarvest : WorkGiver_Grower
 	{
 		// Token: 0x17000107 RID: 263
-		// (get) Token: 0x060006C4 RID: 1732 RVA: 0x00045970 File Offset: 0x00043D70
+		// (get) Token: 0x060006C3 RID: 1731 RVA: 0x0004596C File Offset: 0x00043D6C
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006C5 RID: 1733 RVA: 0x00045988 File Offset: 0x00043D88
+		// Token: 0x060006C4 RID: 1732 RVA: 0x00045984 File Offset: 0x00043D84
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			Plant plant = c.GetPlant(pawn.Map);
@@ -46,7 +46,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006C6 RID: 1734 RVA: 0x00045A20 File Offset: 0x00043E20
+		// Token: 0x060006C5 RID: 1733 RVA: 0x00045A1C File Offset: 0x00043E1C
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			Job job = new Job(JobDefOf.Harvest);

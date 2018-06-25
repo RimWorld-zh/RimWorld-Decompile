@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B09 RID: 2825
+	// Token: 0x02000B0A RID: 2826
 	public class ColorGenerator_White : ColorGenerator
 	{
-		// Token: 0x06003E8C RID: 16012 RVA: 0x0020F59C File Offset: 0x0020D99C
+		// Token: 0x06003E8C RID: 16012 RVA: 0x0020F87C File Offset: 0x0020DC7C
 		public override Color NewRandomizedColor()
 		{
 			return Color.white;

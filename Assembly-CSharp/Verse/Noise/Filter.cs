@@ -2,21 +2,21 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F91 RID: 3985
+	// Token: 0x02000F92 RID: 3986
 	public class Filter : ModuleBase
 	{
-		// Token: 0x04003F1C RID: 16156
+		// Token: 0x04003F24 RID: 16164
 		private float from;
 
-		// Token: 0x04003F1D RID: 16157
+		// Token: 0x04003F25 RID: 16165
 		private float to;
 
-		// Token: 0x06006043 RID: 24643 RVA: 0x0030E2AE File Offset: 0x0030C6AE
+		// Token: 0x06006043 RID: 24643 RVA: 0x0030E4F2 File Offset: 0x0030C8F2
 		public Filter() : base(1)
 		{
 		}
 
-		// Token: 0x06006044 RID: 24644 RVA: 0x0030E2B8 File Offset: 0x0030C6B8
+		// Token: 0x06006044 RID: 24644 RVA: 0x0030E4FC File Offset: 0x0030C8FC
 		public Filter(ModuleBase module, float from, float to) : base(1)
 		{
 			this.modules[0] = module;
@@ -24,7 +24,7 @@ namespace Verse.Noise
 			this.to = to;
 		}
 
-		// Token: 0x06006045 RID: 24645 RVA: 0x0030E2DC File Offset: 0x0030C6DC
+		// Token: 0x06006045 RID: 24645 RVA: 0x0030E520 File Offset: 0x0030C920
 		public override double GetValue(double x, double y, double z)
 		{
 			double value = this.modules[0].GetValue(x, y, z);

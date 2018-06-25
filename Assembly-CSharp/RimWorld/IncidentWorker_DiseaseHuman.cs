@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200032B RID: 811
 	public class IncidentWorker_DiseaseHuman : IncidentWorker_Disease
 	{
-		// Token: 0x06000DDA RID: 3546 RVA: 0x00076618 File Offset: 0x00074A18
+		// Token: 0x06000DD9 RID: 3545 RVA: 0x00076620 File Offset: 0x00074A20
 		protected override IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
 		{
 			Map map = target as Map;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DDB RID: 3547 RVA: 0x00076678 File Offset: 0x00074A78
+		// Token: 0x06000DDA RID: 3546 RVA: 0x00076680 File Offset: 0x00074A80
 		protected override IEnumerable<Pawn> ActualVictims(IncidentParms parms)
 		{
 			int num = this.PotentialVictimCandidates(parms.target).Count<Pawn>();

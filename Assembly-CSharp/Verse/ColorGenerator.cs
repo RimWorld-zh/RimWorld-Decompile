@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B08 RID: 2824
+	// Token: 0x02000B09 RID: 2825
 	public abstract class ColorGenerator
 	{
 		// Token: 0x17000970 RID: 2416
-		// (get) Token: 0x06003E89 RID: 16009 RVA: 0x0020F568 File Offset: 0x0020D968
+		// (get) Token: 0x06003E89 RID: 16009 RVA: 0x0020F848 File Offset: 0x0020DC48
 		public virtual Color ExemplaryColor
 		{
 			get

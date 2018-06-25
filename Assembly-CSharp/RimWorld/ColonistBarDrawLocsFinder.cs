@@ -9,17 +9,17 @@ namespace RimWorld
 	// Token: 0x020007B4 RID: 1972
 	public class ColonistBarDrawLocsFinder
 	{
-		// Token: 0x0400177F RID: 6015
+		// Token: 0x04001783 RID: 6019
 		private List<int> entriesInGroup = new List<int>();
 
-		// Token: 0x04001780 RID: 6016
+		// Token: 0x04001784 RID: 6020
 		private List<int> horizontalSlotsPerGroup = new List<int>();
 
-		// Token: 0x04001781 RID: 6017
+		// Token: 0x04001785 RID: 6021
 		private const float MarginTop = 21f;
 
 		// Token: 0x170006CF RID: 1743
-		// (get) Token: 0x06002BAC RID: 11180 RVA: 0x00172420 File Offset: 0x00170820
+		// (get) Token: 0x06002BAB RID: 11179 RVA: 0x00172684 File Offset: 0x00170A84
 		private ColonistBar ColonistBar
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006D0 RID: 1744
-		// (get) Token: 0x06002BAD RID: 11181 RVA: 0x0017243C File Offset: 0x0017083C
+		// (get) Token: 0x06002BAC RID: 11180 RVA: 0x001726A0 File Offset: 0x00170AA0
 		private static float MaxColonistBarWidth
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BAE RID: 11182 RVA: 0x00172460 File Offset: 0x00170860
+		// Token: 0x06002BAD RID: 11181 RVA: 0x001726C4 File Offset: 0x00170AC4
 		public void CalculateDrawLocs(List<Vector2> outDrawLocs, out float scale)
 		{
 			if (this.ColonistBar.Entries.Count == 0)
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BAF RID: 11183 RVA: 0x001724B4 File Offset: 0x001708B4
+		// Token: 0x06002BAE RID: 11182 RVA: 0x00172718 File Offset: 0x00170B18
 		private void CalculateColonistsInGroup()
 		{
 			this.entriesInGroup.Clear();
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BB0 RID: 11184 RVA: 0x00172548 File Offset: 0x00170948
+		// Token: 0x06002BAF RID: 11183 RVA: 0x001727AC File Offset: 0x00170BAC
 		private int CalculateGroupsCount()
 		{
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
@@ -91,7 +91,7 @@ namespace RimWorld
 			return num2;
 		}
 
-		// Token: 0x06002BB1 RID: 11185 RVA: 0x001725B8 File Offset: 0x001709B8
+		// Token: 0x06002BB0 RID: 11184 RVA: 0x0017281C File Offset: 0x00170C1C
 		private float FindBestScale(out bool onlyOneRow, out int maxPerGlobalRow)
 		{
 			float num = 1f;
@@ -135,7 +135,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002BB2 RID: 11186 RVA: 0x00172704 File Offset: 0x00170B04
+		// Token: 0x06002BB1 RID: 11185 RVA: 0x00172968 File Offset: 0x00170D68
 		private bool TryDistributeHorizontalSlotsBetweenGroups(int maxPerGlobalRow)
 		{
 			int num = this.CalculateGroupsCount();
@@ -165,7 +165,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06002BB3 RID: 11187 RVA: 0x001727FC File Offset: 0x00170BFC
+		// Token: 0x06002BB2 RID: 11186 RVA: 0x00172A60 File Offset: 0x00170E60
 		private static int GetAllowedRowsCountForScale(float scale)
 		{
 			int result;
@@ -184,7 +184,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BB4 RID: 11188 RVA: 0x00172838 File Offset: 0x00170C38
+		// Token: 0x06002BB3 RID: 11187 RVA: 0x00172A9C File Offset: 0x00170E9C
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
@@ -225,7 +225,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BB5 RID: 11189 RVA: 0x001729CC File Offset: 0x00170DCC
+		// Token: 0x06002BB4 RID: 11188 RVA: 0x00172C30 File Offset: 0x00171030
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{
 			float num = groupStartX + (float)(numInGroup % this.horizontalSlotsPerGroup[group]) * scale * (ColonistBar.BaseSize.x + 24f);

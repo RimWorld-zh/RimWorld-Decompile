@@ -7,20 +7,20 @@ namespace RimWorld
 	// Token: 0x02000844 RID: 2116
 	public class ChoiceLetter_RansomDemand : ChoiceLetter
 	{
-		// Token: 0x040019E8 RID: 6632
+		// Token: 0x040019EC RID: 6636
 		public Map map;
 
-		// Token: 0x040019E9 RID: 6633
+		// Token: 0x040019ED RID: 6637
 		public Faction faction;
 
-		// Token: 0x040019EA RID: 6634
+		// Token: 0x040019EE RID: 6638
 		public Pawn kidnapped;
 
-		// Token: 0x040019EB RID: 6635
+		// Token: 0x040019EF RID: 6639
 		public int fee;
 
 		// Token: 0x17000796 RID: 1942
-		// (get) Token: 0x06002FE7 RID: 12263 RVA: 0x001A0ADC File Offset: 0x0019EEDC
+		// (get) Token: 0x06002FE6 RID: 12262 RVA: 0x001A0D44 File Offset: 0x0019F144
 		public override IEnumerable<DiaOption> Choices
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000797 RID: 1943
-		// (get) Token: 0x06002FE8 RID: 12264 RVA: 0x001A0B08 File Offset: 0x0019EF08
+		// (get) Token: 0x06002FE7 RID: 12263 RVA: 0x001A0D70 File Offset: 0x0019F170
 		public override bool CanShowInLetterStack
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FE9 RID: 12265 RVA: 0x001A0B68 File Offset: 0x0019EF68
+		// Token: 0x06002FE8 RID: 12264 RVA: 0x001A0DD0 File Offset: 0x0019F1D0
 		public override void ExposeData()
 		{
 			base.ExposeData();

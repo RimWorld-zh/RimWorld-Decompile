@@ -6,16 +6,16 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000DFB RID: 3579
+	// Token: 0x02000DFC RID: 3580
 	public static class ThingUtility
 	{
-		// Token: 0x060050EC RID: 20716 RVA: 0x0029AA54 File Offset: 0x00298E54
+		// Token: 0x060050EC RID: 20716 RVA: 0x0029AD34 File Offset: 0x00299134
 		public static bool DestroyedOrNull(this Thing t)
 		{
 			return t == null || t.Destroyed;
 		}
 
-		// Token: 0x060050ED RID: 20717 RVA: 0x0029AA78 File Offset: 0x00298E78
+		// Token: 0x060050ED RID: 20717 RVA: 0x0029AD58 File Offset: 0x00299158
 		public static void DestroyOrPassToWorld(this Thing t, DestroyMode mode = DestroyMode.Vanish)
 		{
 			Pawn pawn = t as Pawn;
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050EE RID: 20718 RVA: 0x0029AAC0 File Offset: 0x00298EC0
+		// Token: 0x060050EE RID: 20718 RVA: 0x0029ADA0 File Offset: 0x002991A0
 		public static int TryAbsorbStackNumToTake(Thing thing, Thing other, bool respectStackLimit)
 		{
 			int result;
@@ -47,7 +47,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050EF RID: 20719 RVA: 0x0029AB08 File Offset: 0x00298F08
+		// Token: 0x060050EF RID: 20719 RVA: 0x0029ADE8 File Offset: 0x002991E8
 		public static int RoundedResourceStackCount(int stackCount)
 		{
 			int result;
@@ -66,7 +66,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050F0 RID: 20720 RVA: 0x0029AB4C File Offset: 0x00298F4C
+		// Token: 0x060050F0 RID: 20720 RVA: 0x0029AE2C File Offset: 0x0029922C
 		public static IntVec3 InteractionCellWhenAt(ThingDef def, IntVec3 center, Rot4 rot, Map map)
 		{
 			IntVec3 result;
@@ -133,7 +133,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050F1 RID: 20721 RVA: 0x0029AE14 File Offset: 0x00299214
+		// Token: 0x060050F1 RID: 20721 RVA: 0x0029B0F4 File Offset: 0x002994F4
 		public static DamageDef PrimaryMeleeWeaponDamageType(ThingDef thing)
 		{
 			List<Tool> tools = thing.tools;

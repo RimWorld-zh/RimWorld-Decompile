@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200098B RID: 2443
 	public class ShortcutKeys
 	{
-		// Token: 0x060036F3 RID: 14067 RVA: 0x001D608C File Offset: 0x001D448C
+		// Token: 0x060036F3 RID: 14067 RVA: 0x001D6360 File Offset: 0x001D4760
 		public void ShortcutKeysOnGUI()
 		{
 			if (Current.ProgramState == ProgramState.Playing)

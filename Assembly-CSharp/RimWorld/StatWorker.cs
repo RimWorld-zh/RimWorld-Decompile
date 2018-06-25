@@ -10,22 +10,22 @@ namespace RimWorld
 	// Token: 0x020009C1 RID: 2497
 	public class StatWorker
 	{
-		// Token: 0x040023C9 RID: 9161
+		// Token: 0x040023D0 RID: 9168
 		protected StatDef stat;
 
-		// Token: 0x060037E8 RID: 14312 RVA: 0x001DB794 File Offset: 0x001D9B94
+		// Token: 0x060037E8 RID: 14312 RVA: 0x001DBA68 File Offset: 0x001D9E68
 		public void InitSetStat(StatDef newStat)
 		{
 			this.stat = newStat;
 		}
 
-		// Token: 0x060037E9 RID: 14313 RVA: 0x001DB7A0 File Offset: 0x001D9BA0
+		// Token: 0x060037E9 RID: 14313 RVA: 0x001DBA74 File Offset: 0x001D9E74
 		public float GetValue(Thing thing, bool applyPostProcess = true)
 		{
 			return this.GetValue(StatRequest.For(thing), true);
 		}
 
-		// Token: 0x060037EA RID: 14314 RVA: 0x001DB7C4 File Offset: 0x001D9BC4
+		// Token: 0x060037EA RID: 14314 RVA: 0x001DBA98 File Offset: 0x001D9E98
 		public float GetValue(StatRequest req, bool applyPostProcess = true)
 		{
 			if (this.stat.minifiedThingInherits)
@@ -45,13 +45,13 @@ namespace RimWorld
 			return valueUnfinalized;
 		}
 
-		// Token: 0x060037EB RID: 14315 RVA: 0x001DB844 File Offset: 0x001D9C44
+		// Token: 0x060037EB RID: 14315 RVA: 0x001DBB18 File Offset: 0x001D9F18
 		public float GetValueAbstract(BuildableDef def, ThingDef stuffDef = null)
 		{
 			return this.GetValue(StatRequest.For(def, stuffDef, QualityCategory.Normal), true);
 		}
 
-		// Token: 0x060037EC RID: 14316 RVA: 0x001DB868 File Offset: 0x001D9C68
+		// Token: 0x060037EC RID: 14316 RVA: 0x001DBB3C File Offset: 0x001D9F3C
 		public virtual float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			if (Prefs.DevMode && this.IsDisabledFor(req.Thing))
@@ -180,7 +180,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060037ED RID: 14317 RVA: 0x001DBDC0 File Offset: 0x001DA1C0
+		// Token: 0x060037ED RID: 14317 RVA: 0x001DC094 File Offset: 0x001DA494
 		public virtual string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -493,7 +493,7 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x060037EE RID: 14318 RVA: 0x001DCB70 File Offset: 0x001DAF70
+		// Token: 0x060037EE RID: 14318 RVA: 0x001DCE44 File Offset: 0x001DB244
 		public virtual void FinalizeValue(StatRequest req, ref float val, bool applyPostProcess)
 		{
 			if (this.stat.parts != null)
@@ -525,7 +525,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037EF RID: 14319 RVA: 0x001DCC7C File Offset: 0x001DB07C
+		// Token: 0x060037EF RID: 14319 RVA: 0x001DCF50 File Offset: 0x001DB350
 		public virtual string GetExplanationFinalizePart(StatRequest req, ToStringNumberSense numberSense, float finalVal)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -570,7 +570,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060037F0 RID: 14320 RVA: 0x001DCE14 File Offset: 0x001DB214
+		// Token: 0x060037F0 RID: 14320 RVA: 0x001DD0E8 File Offset: 0x001DB4E8
 		public string GetExplanationFull(StatRequest req, ToStringNumberSense numberSense, float value)
 		{
 			string result;
@@ -590,7 +590,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F1 RID: 14321 RVA: 0x001DCE94 File Offset: 0x001DB294
+		// Token: 0x060037F1 RID: 14321 RVA: 0x001DD168 File Offset: 0x001DB568
 		public virtual bool ShouldShowFor(StatRequest req)
 		{
 			bool result;
@@ -693,7 +693,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F2 RID: 14322 RVA: 0x001DD1FC File Offset: 0x001DB5FC
+		// Token: 0x060037F2 RID: 14322 RVA: 0x001DD4D0 File Offset: 0x001DB8D0
 		public virtual bool IsDisabledFor(Thing thing)
 		{
 			bool result;
@@ -732,26 +732,26 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F3 RID: 14323 RVA: 0x001DD33C File Offset: 0x001DB73C
+		// Token: 0x060037F3 RID: 14323 RVA: 0x001DD610 File Offset: 0x001DBA10
 		public virtual string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq)
 		{
 			return stat.ValueToString(value, numberSense);
 		}
 
-		// Token: 0x060037F4 RID: 14324 RVA: 0x001DD35C File Offset: 0x001DB75C
+		// Token: 0x060037F4 RID: 14324 RVA: 0x001DD630 File Offset: 0x001DBA30
 		private static string InfoTextLineFromGear(Thing gear, StatDef stat)
 		{
 			float f = StatWorker.StatOffsetFromGear(gear, stat);
 			return "    " + gear.LabelCap + ": " + f.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset);
 		}
 
-		// Token: 0x060037F5 RID: 14325 RVA: 0x001DD39C File Offset: 0x001DB79C
+		// Token: 0x060037F5 RID: 14325 RVA: 0x001DD670 File Offset: 0x001DBA70
 		private static float StatOffsetFromGear(Thing gear, StatDef stat)
 		{
 			return gear.def.equippedStatOffsets.GetStatOffsetFromList(stat);
 		}
 
-		// Token: 0x060037F6 RID: 14326 RVA: 0x001DD3C4 File Offset: 0x001DB7C4
+		// Token: 0x060037F6 RID: 14326 RVA: 0x001DD698 File Offset: 0x001DBA98
 		private static IEnumerable<Thing> RelevantGear(Pawn pawn, StatDef stat)
 		{
 			if (pawn.apparel != null)
@@ -777,7 +777,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060037F7 RID: 14327 RVA: 0x001DD3F8 File Offset: 0x001DB7F8
+		// Token: 0x060037F7 RID: 14327 RVA: 0x001DD6CC File Offset: 0x001DBACC
 		private static bool GearAffectsStat(ThingDef gearDef, StatDef stat)
 		{
 			if (gearDef.equippedStatOffsets != null)
@@ -793,7 +793,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060037F8 RID: 14328 RVA: 0x001DD474 File Offset: 0x001DB874
+		// Token: 0x060037F8 RID: 14328 RVA: 0x001DD748 File Offset: 0x001DBB48
 		protected float GetBaseValueFor(BuildableDef def)
 		{
 			float result = this.stat.defaultBaseValue;
@@ -811,7 +811,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037F9 RID: 14329 RVA: 0x001DD4F8 File Offset: 0x001DB8F8
+		// Token: 0x060037F9 RID: 14329 RVA: 0x001DD7CC File Offset: 0x001DBBCC
 		public string ValueToString(float val, bool finalized, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
 			string result;

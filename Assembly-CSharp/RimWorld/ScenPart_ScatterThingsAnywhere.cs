@@ -7,11 +7,11 @@ namespace RimWorld
 	// Token: 0x0200064D RID: 1613
 	public class ScenPart_ScatterThingsAnywhere : ScenPart_ScatterThings
 	{
-		// Token: 0x0400130B RID: 4875
+		// Token: 0x0400130F RID: 4879
 		public const string MapScatteredWithTag = "MapScatteredWith";
 
 		// Token: 0x170004ED RID: 1261
-		// (get) Token: 0x06002180 RID: 8576 RVA: 0x0011C71C File Offset: 0x0011AB1C
+		// (get) Token: 0x0600217F RID: 8575 RVA: 0x0011C984 File Offset: 0x0011AD84
 		protected override bool NearPlayerStart
 		{
 			get
@@ -20,13 +20,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002181 RID: 8577 RVA: 0x0011C734 File Offset: 0x0011AB34
+		// Token: 0x06002180 RID: 8576 RVA: 0x0011C99C File Offset: 0x0011AD9C
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "MapScatteredWith", "ScenPart_MapScatteredWith".Translate());
 		}
 
-		// Token: 0x06002182 RID: 8578 RVA: 0x0011C760 File Offset: 0x0011AB60
+		// Token: 0x06002181 RID: 8577 RVA: 0x0011C9C8 File Offset: 0x0011ADC8
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "MapScatteredWith")

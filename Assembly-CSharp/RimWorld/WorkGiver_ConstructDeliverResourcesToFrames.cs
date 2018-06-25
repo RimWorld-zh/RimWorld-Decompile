@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_ConstructDeliverResourcesToFrames : WorkGiver_ConstructDeliverResources
 	{
 		// Token: 0x170000E1 RID: 225
-		// (get) Token: 0x06000618 RID: 1560 RVA: 0x0004132C File Offset: 0x0003F72C
+		// (get) Token: 0x06000617 RID: 1559 RVA: 0x00041328 File Offset: 0x0003F728
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000619 RID: 1561 RVA: 0x00041348 File Offset: 0x0003F748
+		// Token: 0x06000618 RID: 1560 RVA: 0x00041344 File Offset: 0x0003F744
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

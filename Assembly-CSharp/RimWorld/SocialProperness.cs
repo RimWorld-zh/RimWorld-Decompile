@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x020001B4 RID: 436
 	public static class SocialProperness
 	{
-		// Token: 0x06000916 RID: 2326 RVA: 0x00055510 File Offset: 0x00053910
+		// Token: 0x06000915 RID: 2325 RVA: 0x0005550C File Offset: 0x0005390C
 		public static bool IsSociallyProper(this Thing t, Pawn p)
 		{
 			return t.IsSociallyProper(p, p.IsPrisonerOfColony, false);
 		}
 
-		// Token: 0x06000917 RID: 2327 RVA: 0x00055534 File Offset: 0x00053934
+		// Token: 0x06000916 RID: 2326 RVA: 0x00055530 File Offset: 0x00053930
 		public static bool IsSociallyProper(this Thing t, Pawn p, bool forPrisoner, bool animalsCare = false)
 		{
 			bool result;

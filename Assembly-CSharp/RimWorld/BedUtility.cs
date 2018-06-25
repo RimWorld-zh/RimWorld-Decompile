@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x0200069E RID: 1694
 	public static class BedUtility
 	{
-		// Token: 0x06002407 RID: 9223 RVA: 0x00136210 File Offset: 0x00134610
+		// Token: 0x06002406 RID: 9222 RVA: 0x00136478 File Offset: 0x00134878
 		public static int GetSleepingSlotsCount(IntVec2 bedSize)
 		{
 			return bedSize.x;
 		}
 
-		// Token: 0x06002408 RID: 9224 RVA: 0x0013622C File Offset: 0x0013462C
+		// Token: 0x06002407 RID: 9223 RVA: 0x00136494 File Offset: 0x00134894
 		public static IntVec3 GetSleepingSlotPos(int index, IntVec3 bedCenter, Rot4 bedRot, IntVec2 bedSize)
 		{
 			int sleepingSlotsCount = BedUtility.GetSleepingSlotsCount(bedSize);

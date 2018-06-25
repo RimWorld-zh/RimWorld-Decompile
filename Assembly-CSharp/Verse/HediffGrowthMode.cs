@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000D10 RID: 3344
+	// Token: 0x02000D11 RID: 3345
 	public enum HediffGrowthMode
 	{
-		// Token: 0x04003203 RID: 12803
+		// Token: 0x0400320A RID: 12810
 		Growing,
-		// Token: 0x04003204 RID: 12804
+		// Token: 0x0400320B RID: 12811
 		Stable,
-		// Token: 0x04003205 RID: 12805
+		// Token: 0x0400320C RID: 12812
 		Remission
 	}
 }

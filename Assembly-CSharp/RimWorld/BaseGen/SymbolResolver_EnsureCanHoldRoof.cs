@@ -8,16 +8,16 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B0 RID: 944
 	public class SymbolResolver_EnsureCanHoldRoof : SymbolResolver
 	{
-		// Token: 0x04000A19 RID: 2585
+		// Token: 0x04000A1C RID: 2588
 		private static HashSet<IntVec3> roofsAboutToCollapse = new HashSet<IntVec3>();
 
-		// Token: 0x04000A1A RID: 2586
+		// Token: 0x04000A1D RID: 2589
 		private static List<IntVec3> edgeRoofs = new List<IntVec3>();
 
-		// Token: 0x04000A1B RID: 2587
+		// Token: 0x04000A1E RID: 2590
 		private static HashSet<IntVec3> visited = new HashSet<IntVec3>();
 
-		// Token: 0x0600105A RID: 4186 RVA: 0x0008A080 File Offset: 0x00088480
+		// Token: 0x06001059 RID: 4185 RVA: 0x0008A090 File Offset: 0x00088490
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef wallStuff = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
@@ -29,7 +29,7 @@ namespace RimWorld.BaseGen
 			while (this.TrySpawnPillar(rp.faction, wallStuff));
 		}
 
-		// Token: 0x0600105B RID: 4187 RVA: 0x0008A0E8 File Offset: 0x000884E8
+		// Token: 0x0600105A RID: 4186 RVA: 0x0008A0F8 File Offset: 0x000884F8
 		private void CalculateRoofsAboutToCollapse(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -69,7 +69,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600105C RID: 4188 RVA: 0x0008A234 File Offset: 0x00088634
+		// Token: 0x0600105B RID: 4187 RVA: 0x0008A244 File Offset: 0x00088644
 		private void CalculateEdgeRoofs(CellRect rect)
 		{
 			SymbolResolver_EnsureCanHoldRoof.edgeRoofs.Clear();
@@ -87,7 +87,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600105D RID: 4189 RVA: 0x0008A2E4 File Offset: 0x000886E4
+		// Token: 0x0600105C RID: 4188 RVA: 0x0008A2F4 File Offset: 0x000886F4
 		private bool TrySpawnPillar(Faction faction, ThingDef wallStuff)
 		{
 			bool result;
@@ -129,7 +129,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600105E RID: 4190 RVA: 0x0008A3D0 File Offset: 0x000887D0
+		// Token: 0x0600105D RID: 4189 RVA: 0x0008A3E0 File Offset: 0x000887E0
 		private float GetPillarSpawnScore(IntVec3 c)
 		{
 			Map map = BaseGen.globalSettings.map;

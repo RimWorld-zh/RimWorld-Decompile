@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003BF RID: 959
 	public class SymbolResolver_AncientShrine : SymbolResolver
 	{
-		// Token: 0x0600109A RID: 4250 RVA: 0x0008CAEC File Offset: 0x0008AEEC
+		// Token: 0x06001099 RID: 4249 RVA: 0x0008CAFC File Offset: 0x0008AEFC
 		public override void Resolve(ResolveParams rp)
 		{
 			IntVec3 bottomLeft = rp.rect.BottomLeft;

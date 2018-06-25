@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020006F8 RID: 1784
 	public class ThingSetMaker_RandomGeneralGoods : ThingSetMaker
 	{
-		// Token: 0x0400159A RID: 5530
+		// Token: 0x0400159E RID: 5534
 		private static Pair<ThingSetMaker_RandomGeneralGoods.GoodsType, float>[] GoodsWeights = new Pair<ThingSetMaker_RandomGeneralGoods.GoodsType, float>[]
 		{
 			new Pair<ThingSetMaker_RandomGeneralGoods.GoodsType, float>(ThingSetMaker_RandomGeneralGoods.GoodsType.Meals, 1f),
@@ -20,7 +20,7 @@ namespace RimWorld
 			new Pair<ThingSetMaker_RandomGeneralGoods.GoodsType, float>(ThingSetMaker_RandomGeneralGoods.GoodsType.Resources, 0.234f)
 		};
 
-		// Token: 0x060026DD RID: 9949 RVA: 0x0014D78C File Offset: 0x0014BB8C
+		// Token: 0x060026DC RID: 9948 RVA: 0x0014D9EC File Offset: 0x0014BDEC
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IntRange? countRange = parms.countRange;
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026DE RID: 9950 RVA: 0x0014D81C File Offset: 0x0014BC1C
+		// Token: 0x060026DD RID: 9949 RVA: 0x0014DA7C File Offset: 0x0014BE7C
 		private Thing GenerateSingle(TechLevel techLevel)
 		{
 			Thing thing = null;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return thing;
 		}
 
-		// Token: 0x060026DF RID: 9951 RVA: 0x0014D8EC File Offset: 0x0014BCEC
+		// Token: 0x060026DE RID: 9950 RVA: 0x0014DB4C File Offset: 0x0014BF4C
 		private Thing RandomMeals(TechLevel techLevel)
 		{
 			ThingDef thingDef;
@@ -97,7 +97,7 @@ namespace RimWorld
 			return thing;
 		}
 
-		// Token: 0x060026E0 RID: 9952 RVA: 0x0014D980 File Offset: 0x0014BD80
+		// Token: 0x060026DF RID: 9951 RVA: 0x0014DBE0 File Offset: 0x0014BFE0
 		private Thing RandomRawFood(TechLevel techLevel)
 		{
 			ThingDef thingDef;
@@ -116,7 +116,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026E1 RID: 9953 RVA: 0x0014D9D4 File Offset: 0x0014BDD4
+		// Token: 0x060026E0 RID: 9952 RVA: 0x0014DC34 File Offset: 0x0014C034
 		private IEnumerable<ThingDef> PossibleRawFood(TechLevel techLevel)
 		{
 			return from x in ThingSetMakerUtility.allGeneratableItems
@@ -124,7 +124,7 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x060026E2 RID: 9954 RVA: 0x0014DA0C File Offset: 0x0014BE0C
+		// Token: 0x060026E1 RID: 9953 RVA: 0x0014DC6C File Offset: 0x0014C06C
 		private Thing RandomMedicine(TechLevel techLevel)
 		{
 			bool flag = Rand.Value < 0.75f && techLevel >= ThingDefOf.MedicineHerbal.techLevel;
@@ -151,7 +151,7 @@ namespace RimWorld
 			return thing;
 		}
 
-		// Token: 0x060026E3 RID: 9955 RVA: 0x0014DB18 File Offset: 0x0014BF18
+		// Token: 0x060026E2 RID: 9954 RVA: 0x0014DD78 File Offset: 0x0014C178
 		private Thing RandomDrugs(TechLevel techLevel)
 		{
 			ThingDef thingDef;
@@ -172,7 +172,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026E4 RID: 9956 RVA: 0x0014DB8C File Offset: 0x0014BF8C
+		// Token: 0x060026E3 RID: 9955 RVA: 0x0014DDEC File Offset: 0x0014C1EC
 		private Thing RandomResources(TechLevel techLevel)
 		{
 			ThingDef thingDef = BaseGenUtility.RandomCheapWallStuff(techLevel, false);
@@ -182,7 +182,7 @@ namespace RimWorld
 			return thing;
 		}
 
-		// Token: 0x060026E5 RID: 9957 RVA: 0x0014DBD0 File Offset: 0x0014BFD0
+		// Token: 0x060026E4 RID: 9956 RVA: 0x0014DE30 File Offset: 0x0014C230
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			ThingSetMaker_RandomGeneralGoods.<AllGeneratableThingsDebugSub>c__Iterator0.<AllGeneratableThingsDebugSub>c__AnonStorey4 <AllGeneratableThingsDebugSub>c__AnonStorey = new ThingSetMaker_RandomGeneralGoods.<AllGeneratableThingsDebugSub>c__Iterator0.<AllGeneratableThingsDebugSub>c__AnonStorey4();
@@ -235,17 +235,17 @@ namespace RimWorld
 		// Token: 0x020006F9 RID: 1785
 		private enum GoodsType
 		{
-			// Token: 0x0400159F RID: 5535
-			None,
-			// Token: 0x040015A0 RID: 5536
-			Meals,
-			// Token: 0x040015A1 RID: 5537
-			RawFood,
-			// Token: 0x040015A2 RID: 5538
-			Medicine,
 			// Token: 0x040015A3 RID: 5539
-			Drugs,
+			None,
 			// Token: 0x040015A4 RID: 5540
+			Meals,
+			// Token: 0x040015A5 RID: 5541
+			RawFood,
+			// Token: 0x040015A6 RID: 5542
+			Medicine,
+			// Token: 0x040015A7 RID: 5543
+			Drugs,
+			// Token: 0x040015A8 RID: 5544
 			Resources
 		}
 	}

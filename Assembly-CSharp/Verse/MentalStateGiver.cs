@@ -2,13 +2,13 @@
 
 namespace Verse
 {
-	// Token: 0x02000B44 RID: 2884
+	// Token: 0x02000B45 RID: 2885
 	public class MentalStateGiver
 	{
-		// Token: 0x04002999 RID: 10649
+		// Token: 0x040029A0 RID: 10656
 		public MentalStateDef mentalState;
 
-		// Token: 0x0400299A RID: 10650
+		// Token: 0x040029A1 RID: 10657
 		public float mtbDays = 0f;
 	}
 }

@@ -9,10 +9,10 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class VisitorGiftForPlayerUtility
 	{
-		// Token: 0x04000F49 RID: 3913
+		// Token: 0x04000F4D RID: 3917
 		private const float ExtraChanceFactor = 0.75f;
 
-		// Token: 0x04000F4A RID: 3914
+		// Token: 0x04000F4E RID: 3918
 		private static readonly SimpleCurve PlayerWealthChanceFactorCurve = new SimpleCurve
 		{
 			{
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000F4B RID: 3915
+		// Token: 0x04000F4F RID: 3919
 		private static readonly SimpleCurve GoodwillChanceFactorCurve = new SimpleCurve
 		{
 			{
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06001A21 RID: 6689 RVA: 0x000E2954 File Offset: 0x000E0D54
+		// Token: 0x06001A20 RID: 6688 RVA: 0x000E2BBC File Offset: 0x000E0FBC
 		public static float ChanceToLeaveGift(Faction faction, Map map)
 		{
 			float result;
@@ -53,19 +53,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A22 RID: 6690 RVA: 0x000E2994 File Offset: 0x000E0D94
+		// Token: 0x06001A21 RID: 6689 RVA: 0x000E2BFC File Offset: 0x000E0FFC
 		public static List<Thing> GenerateGifts(Faction faction, Map map)
 		{
 			return ThingSetMakerDefOf.VisitorGift.root.Generate();
 		}
 
-		// Token: 0x06001A23 RID: 6691 RVA: 0x000E29B8 File Offset: 0x000E0DB8
+		// Token: 0x06001A22 RID: 6690 RVA: 0x000E2C20 File Offset: 0x000E1020
 		private static float PlayerWealthChanceFactor(Map map)
 		{
 			return VisitorGiftForPlayerUtility.PlayerWealthChanceFactorCurve.Evaluate(map.wealthWatcher.WealthTotal);
 		}
 
-		// Token: 0x06001A24 RID: 6692 RVA: 0x000E29E4 File Offset: 0x000E0DE4
+		// Token: 0x06001A23 RID: 6691 RVA: 0x000E2C4C File Offset: 0x000E104C
 		private static float FactionRelationsChanceFactor(Faction faction)
 		{
 			float result;
@@ -80,7 +80,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A25 RID: 6693 RVA: 0x000E2A28 File Offset: 0x000E0E28
+		// Token: 0x06001A24 RID: 6692 RVA: 0x000E2C90 File Offset: 0x000E1090
 		[DebugOutput]
 		private static void VisitorGiftChance()
 		{
@@ -134,7 +134,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06001A26 RID: 6694 RVA: 0x000E2CCC File Offset: 0x000E10CC
+		// Token: 0x06001A25 RID: 6693 RVA: 0x000E2F34 File Offset: 0x000E1334
 		public static void CheckGiveGift(List<Pawn> pawns, Faction faction)
 		{
 			if (pawns.Any<Pawn>())

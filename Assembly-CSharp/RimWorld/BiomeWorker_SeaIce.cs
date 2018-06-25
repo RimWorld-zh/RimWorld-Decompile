@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x0200054D RID: 1357
 	public class BiomeWorker_SeaIce : BiomeWorker
 	{
-		// Token: 0x04000ED2 RID: 3794
+		// Token: 0x04000ED6 RID: 3798
 		private ModuleBase cachedSeaIceAllowedNoise;
 
-		// Token: 0x04000ED3 RID: 3795
+		// Token: 0x04000ED7 RID: 3799
 		private int cachedSeaIceAllowedNoiseForSeed;
 
-		// Token: 0x06001951 RID: 6481 RVA: 0x000DBDC0 File Offset: 0x000DA1C0
+		// Token: 0x06001950 RID: 6480 RVA: 0x000DC028 File Offset: 0x000DA428
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001952 RID: 6482 RVA: 0x000DBE10 File Offset: 0x000DA210
+		// Token: 0x06001951 RID: 6481 RVA: 0x000DC078 File Offset: 0x000DA478
 		private bool AllowedAt(int tile)
 		{
 			Vector3 tileCenter = Find.WorldGrid.GetTileCenter(tile);

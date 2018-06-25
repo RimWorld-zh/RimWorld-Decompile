@@ -12,55 +12,55 @@ namespace RimWorld
 	// Token: 0x02000652 RID: 1618
 	public class Scenario : IExposable, WorkshopUploadable
 	{
-		// Token: 0x04001314 RID: 4884
+		// Token: 0x04001318 RID: 4888
 		[MustTranslate]
 		public string name;
 
-		// Token: 0x04001315 RID: 4885
+		// Token: 0x04001319 RID: 4889
 		[MustTranslate]
 		public string summary;
 
-		// Token: 0x04001316 RID: 4886
+		// Token: 0x0400131A RID: 4890
 		[MustTranslate]
 		public string description;
 
-		// Token: 0x04001317 RID: 4887
+		// Token: 0x0400131B RID: 4891
 		internal ScenPart_PlayerFaction playerFaction;
 
-		// Token: 0x04001318 RID: 4888
+		// Token: 0x0400131C RID: 4892
 		internal List<ScenPart> parts = new List<ScenPart>();
 
-		// Token: 0x04001319 RID: 4889
+		// Token: 0x0400131D RID: 4893
 		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
 
-		// Token: 0x0400131A RID: 4890
+		// Token: 0x0400131E RID: 4894
 		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
 
-		// Token: 0x0400131B RID: 4891
+		// Token: 0x0400131F RID: 4895
 		[NoTranslate]
 		public string fileName;
 
-		// Token: 0x0400131C RID: 4892
+		// Token: 0x04001320 RID: 4896
 		private WorkshopItemHook workshopHookInt;
 
-		// Token: 0x0400131D RID: 4893
+		// Token: 0x04001321 RID: 4897
 		[NoTranslate]
 		private string tempUploadDir;
 
-		// Token: 0x0400131E RID: 4894
+		// Token: 0x04001322 RID: 4898
 		public bool enabled = true;
 
-		// Token: 0x0400131F RID: 4895
+		// Token: 0x04001323 RID: 4899
 		public const int NameMaxLength = 55;
 
-		// Token: 0x04001320 RID: 4896
+		// Token: 0x04001324 RID: 4900
 		public const int SummaryMaxLength = 300;
 
-		// Token: 0x04001321 RID: 4897
+		// Token: 0x04001325 RID: 4901
 		public const int DescriptionMaxLength = 1000;
 
 		// Token: 0x170004F0 RID: 1264
-		// (get) Token: 0x06002198 RID: 8600 RVA: 0x0011CF64 File Offset: 0x0011B364
+		// (get) Token: 0x06002197 RID: 8599 RVA: 0x0011D1CC File Offset: 0x0011B5CC
 		public FileInfo File
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F1 RID: 1265
-		// (get) Token: 0x06002199 RID: 8601 RVA: 0x0011CF8C File Offset: 0x0011B38C
+		// (get) Token: 0x06002198 RID: 8600 RVA: 0x0011D1F4 File Offset: 0x0011B5F4
 		public IEnumerable<ScenPart> AllParts
 		{
 			get
@@ -85,8 +85,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F2 RID: 1266
-		// (get) Token: 0x0600219A RID: 8602 RVA: 0x0011CFB8 File Offset: 0x0011B3B8
-		// (set) Token: 0x0600219B RID: 8603 RVA: 0x0011CFEF File Offset: 0x0011B3EF
+		// (get) Token: 0x06002199 RID: 8601 RVA: 0x0011D220 File Offset: 0x0011B620
+		// (set) Token: 0x0600219A RID: 8602 RVA: 0x0011D257 File Offset: 0x0011B657
 		public ScenarioCategory Category
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600219C RID: 8604 RVA: 0x0011CFFC File Offset: 0x0011B3FC
+		// Token: 0x0600219B RID: 8603 RVA: 0x0011D264 File Offset: 0x0011B664
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
@@ -114,7 +114,7 @@ namespace RimWorld
 			Scribe_Collections.Look<ScenPart>(ref this.parts, "parts", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600219D RID: 8605 RVA: 0x0011D084 File Offset: 0x0011B484
+		// Token: 0x0600219C RID: 8604 RVA: 0x0011D2EC File Offset: 0x0011B6EC
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.name.NullOrEmpty())
@@ -139,7 +139,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600219E RID: 8606 RVA: 0x0011D0B0 File Offset: 0x0011B4B0
+		// Token: 0x0600219D RID: 8605 RVA: 0x0011D318 File Offset: 0x0011B718
 		public string GetFullInformationText()
 		{
 			string result;
@@ -173,13 +173,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600219F RID: 8607 RVA: 0x0011D264 File Offset: 0x0011B664
+		// Token: 0x0600219E RID: 8606 RVA: 0x0011D4CC File Offset: 0x0011B8CC
 		public string GetSummary()
 		{
 			return this.summary;
 		}
 
-		// Token: 0x060021A0 RID: 8608 RVA: 0x0011D280 File Offset: 0x0011B680
+		// Token: 0x0600219F RID: 8607 RVA: 0x0011D4E8 File Offset: 0x0011B8E8
 		public Scenario CopyForEditing()
 		{
 			Scenario scenario = new Scenario();
@@ -193,7 +193,7 @@ namespace RimWorld
 			return scenario;
 		}
 
-		// Token: 0x060021A1 RID: 8609 RVA: 0x0011D310 File Offset: 0x0011B710
+		// Token: 0x060021A0 RID: 8608 RVA: 0x0011D578 File Offset: 0x0011B978
 		public void PreConfigure()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -202,7 +202,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A2 RID: 8610 RVA: 0x0011D36C File Offset: 0x0011B76C
+		// Token: 0x060021A1 RID: 8609 RVA: 0x0011D5D4 File Offset: 0x0011B9D4
 		public Page GetFirstConfigPage()
 		{
 			List<Page> list = new List<Page>();
@@ -229,7 +229,7 @@ namespace RimWorld
 			return page;
 		}
 
-		// Token: 0x060021A3 RID: 8611 RVA: 0x0011D470 File Offset: 0x0011B870
+		// Token: 0x060021A2 RID: 8610 RVA: 0x0011D6D8 File Offset: 0x0011BAD8
 		public bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -242,7 +242,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060021A4 RID: 8612 RVA: 0x0011D4E4 File Offset: 0x0011B8E4
+		// Token: 0x060021A3 RID: 8611 RVA: 0x0011D74C File Offset: 0x0011BB4C
 		public void Notify_NewPawnGenerating(Pawn pawn, PawnGenerationContext context)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -251,7 +251,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A5 RID: 8613 RVA: 0x0011D544 File Offset: 0x0011B944
+		// Token: 0x060021A4 RID: 8612 RVA: 0x0011D7AC File Offset: 0x0011BBAC
 		public void Notify_PawnGenerated(Pawn pawn, PawnGenerationContext context, bool redressed)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -260,7 +260,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A6 RID: 8614 RVA: 0x0011D5A4 File Offset: 0x0011B9A4
+		// Token: 0x060021A5 RID: 8613 RVA: 0x0011D80C File Offset: 0x0011BC0C
 		public void Notify_PawnDied(Corpse corpse)
 		{
 			for (int i = 0; i < this.parts.Count; i++)
@@ -269,7 +269,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A7 RID: 8615 RVA: 0x0011D5E4 File Offset: 0x0011B9E4
+		// Token: 0x060021A6 RID: 8614 RVA: 0x0011D84C File Offset: 0x0011BC4C
 		public void PostWorldGenerate()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -278,7 +278,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A8 RID: 8616 RVA: 0x0011D640 File Offset: 0x0011BA40
+		// Token: 0x060021A7 RID: 8615 RVA: 0x0011D8A8 File Offset: 0x0011BCA8
 		public void PreMapGenerate()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -287,7 +287,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021A9 RID: 8617 RVA: 0x0011D69C File Offset: 0x0011BA9C
+		// Token: 0x060021A8 RID: 8616 RVA: 0x0011D904 File Offset: 0x0011BD04
 		public void GenerateIntoMap(Map map)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -296,7 +296,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AA RID: 8618 RVA: 0x0011D6FC File Offset: 0x0011BAFC
+		// Token: 0x060021A9 RID: 8617 RVA: 0x0011D964 File Offset: 0x0011BD64
 		public void PostMapGenerate(Map map)
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -305,7 +305,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AB RID: 8619 RVA: 0x0011D75C File Offset: 0x0011BB5C
+		// Token: 0x060021AA RID: 8618 RVA: 0x0011D9C4 File Offset: 0x0011BDC4
 		public void PostGameStart()
 		{
 			foreach (ScenPart scenPart in this.AllParts)
@@ -314,7 +314,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AC RID: 8620 RVA: 0x0011D7B8 File Offset: 0x0011BBB8
+		// Token: 0x060021AB RID: 8619 RVA: 0x0011DA20 File Offset: 0x0011BE20
 		public float GetStatFactor(StatDef stat)
 		{
 			float num = 1f;
@@ -329,7 +329,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060021AD RID: 8621 RVA: 0x0011D814 File Offset: 0x0011BC14
+		// Token: 0x060021AC RID: 8620 RVA: 0x0011DA7C File Offset: 0x0011BE7C
 		public void TickScenario()
 		{
 			for (int i = 0; i < this.parts.Count; i++)
@@ -338,7 +338,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021AE RID: 8622 RVA: 0x0011D851 File Offset: 0x0011BC51
+		// Token: 0x060021AD RID: 8621 RVA: 0x0011DAB9 File Offset: 0x0011BEB9
 		public void RemovePart(ScenPart part)
 		{
 			if (!this.parts.Contains(part))
@@ -348,7 +348,7 @@ namespace RimWorld
 			this.parts.Remove(part);
 		}
 
-		// Token: 0x060021AF RID: 8623 RVA: 0x0011D884 File Offset: 0x0011BC84
+		// Token: 0x060021AE RID: 8622 RVA: 0x0011DAEC File Offset: 0x0011BEEC
 		public bool CanReorder(ScenPart part, ReorderDirection dir)
 		{
 			bool result;
@@ -375,7 +375,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021B0 RID: 8624 RVA: 0x0011D924 File Offset: 0x0011BD24
+		// Token: 0x060021AF RID: 8623 RVA: 0x0011DB8C File Offset: 0x0011BF8C
 		public void Reorder(ScenPart part, ReorderDirection dir)
 		{
 			int num = this.parts.IndexOf(part);
@@ -390,13 +390,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021B1 RID: 8625 RVA: 0x0011D978 File Offset: 0x0011BD78
+		// Token: 0x060021B0 RID: 8624 RVA: 0x0011DBE0 File Offset: 0x0011BFE0
 		public bool CanToUploadToWorkshop()
 		{
 			return this.Category != ScenarioCategory.FromDef && this.TryUploadReport().Accepted && !this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser;
 		}
 
-		// Token: 0x060021B2 RID: 8626 RVA: 0x0011D9D4 File Offset: 0x0011BDD4
+		// Token: 0x060021B1 RID: 8625 RVA: 0x0011DC3C File Offset: 0x0011C03C
 		public void PrepareForWorkshopUpload()
 		{
 			string path = this.name + Rand.RangeInclusive(100, 999).ToString();
@@ -412,7 +412,7 @@ namespace RimWorld
 			GameDataSaveLoader.SaveScenario(this, text);
 		}
 
-		// Token: 0x060021B3 RID: 8627 RVA: 0x0011DA64 File Offset: 0x0011BE64
+		// Token: 0x060021B2 RID: 8626 RVA: 0x0011DCCC File Offset: 0x0011C0CC
 		public AcceptanceReport TryUploadReport()
 		{
 			AcceptanceReport result;
@@ -427,13 +427,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021B4 RID: 8628 RVA: 0x0011DAE8 File Offset: 0x0011BEE8
+		// Token: 0x060021B3 RID: 8627 RVA: 0x0011DD50 File Offset: 0x0011C150
 		public PublishedFileId_t GetPublishedFileId()
 		{
 			return this.publishedFileIdInt;
 		}
 
-		// Token: 0x060021B5 RID: 8629 RVA: 0x0011DB03 File Offset: 0x0011BF03
+		// Token: 0x060021B4 RID: 8628 RVA: 0x0011DD6B File Offset: 0x0011C16B
 		public void SetPublishedFileId(PublishedFileId_t newPfid)
 		{
 			this.publishedFileIdInt = newPfid;
@@ -443,25 +443,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021B6 RID: 8630 RVA: 0x0011DB3C File Offset: 0x0011BF3C
+		// Token: 0x060021B5 RID: 8629 RVA: 0x0011DDA4 File Offset: 0x0011C1A4
 		public string GetWorkshopName()
 		{
 			return this.name;
 		}
 
-		// Token: 0x060021B7 RID: 8631 RVA: 0x0011DB58 File Offset: 0x0011BF58
+		// Token: 0x060021B6 RID: 8630 RVA: 0x0011DDC0 File Offset: 0x0011C1C0
 		public string GetWorkshopDescription()
 		{
 			return this.GetFullInformationText();
 		}
 
-		// Token: 0x060021B8 RID: 8632 RVA: 0x0011DB74 File Offset: 0x0011BF74
+		// Token: 0x060021B7 RID: 8631 RVA: 0x0011DDDC File Offset: 0x0011C1DC
 		public string GetWorkshopPreviewImagePath()
 		{
 			return GenFilePaths.ScenarioPreviewImagePath;
 		}
 
-		// Token: 0x060021B9 RID: 8633 RVA: 0x0011DB90 File Offset: 0x0011BF90
+		// Token: 0x060021B8 RID: 8632 RVA: 0x0011DDF8 File Offset: 0x0011C1F8
 		public IList<string> GetWorkshopTags()
 		{
 			return new List<string>
@@ -470,13 +470,13 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060021BA RID: 8634 RVA: 0x0011DBB8 File Offset: 0x0011BFB8
+		// Token: 0x060021B9 RID: 8633 RVA: 0x0011DE20 File Offset: 0x0011C220
 		public DirectoryInfo GetWorkshopUploadDirectory()
 		{
 			return new DirectoryInfo(this.tempUploadDir);
 		}
 
-		// Token: 0x060021BB RID: 8635 RVA: 0x0011DBD8 File Offset: 0x0011BFD8
+		// Token: 0x060021BA RID: 8634 RVA: 0x0011DE40 File Offset: 0x0011C240
 		public WorkshopItemHook GetWorkshopItemHook()
 		{
 			if (this.workshopHookInt == null)
@@ -486,13 +486,13 @@ namespace RimWorld
 			return this.workshopHookInt;
 		}
 
-		// Token: 0x060021BC RID: 8636 RVA: 0x0011DC0C File Offset: 0x0011C00C
+		// Token: 0x060021BB RID: 8635 RVA: 0x0011DE74 File Offset: 0x0011C274
 		public override string ToString()
 		{
 			return this.name.NullOrEmpty() ? "LabellessScenario" : this.name;
 		}
 
-		// Token: 0x060021BD RID: 8637 RVA: 0x0011DC44 File Offset: 0x0011C044
+		// Token: 0x060021BC RID: 8636 RVA: 0x0011DEAC File Offset: 0x0011C2AC
 		public override int GetHashCode()
 		{
 			int num = 6126121;

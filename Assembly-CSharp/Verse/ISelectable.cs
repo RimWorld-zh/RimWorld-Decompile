@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EA6 RID: 3750
+	// Token: 0x02000EA7 RID: 3751
 	public interface ISelectable
 	{
 		// Token: 0x06005879 RID: 22649

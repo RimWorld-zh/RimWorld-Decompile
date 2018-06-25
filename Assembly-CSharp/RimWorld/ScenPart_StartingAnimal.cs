@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x02000647 RID: 1607
 	public class ScenPart_StartingAnimal : ScenPart
 	{
-		// Token: 0x040012F5 RID: 4853
+		// Token: 0x040012F9 RID: 4857
 		private PawnKindDef animalKind = null;
 
-		// Token: 0x040012F6 RID: 4854
+		// Token: 0x040012FA RID: 4858
 		private int count = 1;
 
-		// Token: 0x040012F7 RID: 4855
+		// Token: 0x040012FB RID: 4859
 		private float bondToRandomPlayerPawnChance = 0.5f;
 
-		// Token: 0x040012F8 RID: 4856
+		// Token: 0x040012FC RID: 4860
 		private string countBuf;
 
-		// Token: 0x040012F9 RID: 4857
+		// Token: 0x040012FD RID: 4861
 		private static readonly List<Pair<int, float>> PetCountChances = new List<Pair<int, float>>
 		{
 			new Pair<int, float>(1, 20f),
@@ -40,7 +40,7 @@ namespace RimWorld
 			new Pair<int, float>(14, 0.1f)
 		};
 
-		// Token: 0x06002151 RID: 8529 RVA: 0x0011AEAC File Offset: 0x001192AC
+		// Token: 0x06002150 RID: 8528 RVA: 0x0011B114 File Offset: 0x00119514
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -49,7 +49,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.bondToRandomPlayerPawnChance, "bondToRandomPlayerPawnChance", 0f, false);
 		}
 
-		// Token: 0x06002152 RID: 8530 RVA: 0x0011AEF8 File Offset: 0x001192F8
+		// Token: 0x06002151 RID: 8529 RVA: 0x0011B160 File Offset: 0x00119560
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002153 RID: 8531 RVA: 0x0011B054 File Offset: 0x00119454
+		// Token: 0x06002152 RID: 8530 RVA: 0x0011B2BC File Offset: 0x001196BC
 		private IEnumerable<PawnKindDef> PossibleAnimals()
 		{
 			return from td in DefDatabase<PawnKindDef>.AllDefs
@@ -85,7 +85,7 @@ namespace RimWorld
 			select td;
 		}
 
-		// Token: 0x06002154 RID: 8532 RVA: 0x0011B090 File Offset: 0x00119490
+		// Token: 0x06002153 RID: 8531 RVA: 0x0011B2F8 File Offset: 0x001196F8
 		private IEnumerable<PawnKindDef> RandomPets()
 		{
 			return from td in this.PossibleAnimals()
@@ -93,19 +93,19 @@ namespace RimWorld
 			select td;
 		}
 
-		// Token: 0x06002155 RID: 8533 RVA: 0x0011B0D0 File Offset: 0x001194D0
+		// Token: 0x06002154 RID: 8532 RVA: 0x0011B338 File Offset: 0x00119738
 		private string CurrentAnimalLabel()
 		{
 			return (this.animalKind == null) ? "RandomPet".Translate() : this.animalKind.label;
 		}
 
-		// Token: 0x06002156 RID: 8534 RVA: 0x0011B10C File Offset: 0x0011950C
+		// Token: 0x06002155 RID: 8533 RVA: 0x0011B374 File Offset: 0x00119774
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		// Token: 0x06002157 RID: 8535 RVA: 0x0011B134 File Offset: 0x00119534
+		// Token: 0x06002156 RID: 8534 RVA: 0x0011B39C File Offset: 0x0011979C
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PlayerStartsWith")
@@ -115,7 +115,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002158 RID: 8536 RVA: 0x0011B168 File Offset: 0x00119568
+		// Token: 0x06002157 RID: 8535 RVA: 0x0011B3D0 File Offset: 0x001197D0
 		public override void Randomize()
 		{
 			if (Rand.Value < 0.5f)
@@ -130,7 +130,7 @@ namespace RimWorld
 			this.bondToRandomPlayerPawnChance = 0f;
 		}
 
-		// Token: 0x06002159 RID: 8537 RVA: 0x0011B1E4 File Offset: 0x001195E4
+		// Token: 0x06002158 RID: 8536 RVA: 0x0011B44C File Offset: 0x0011984C
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StartingAnimal scenPart_StartingAnimal = other as ScenPart_StartingAnimal;
@@ -147,7 +147,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600215A RID: 8538 RVA: 0x0011B234 File Offset: 0x00119634
+		// Token: 0x06002159 RID: 8537 RVA: 0x0011B49C File Offset: 0x0011989C
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
 			for (int i = 0; i < this.count; i++)

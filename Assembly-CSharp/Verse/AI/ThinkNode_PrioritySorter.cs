@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ABB RID: 2747
+	// Token: 0x02000ABC RID: 2748
 	public class ThinkNode_PrioritySorter : ThinkNode
 	{
-		// Token: 0x0400269B RID: 9883
+		// Token: 0x040026A2 RID: 9890
 		public float minPriority = 0f;
 
-		// Token: 0x0400269C RID: 9884
+		// Token: 0x040026A3 RID: 9891
 		private static List<ThinkNode> workingNodes = new List<ThinkNode>();
 
-		// Token: 0x06003D32 RID: 15666 RVA: 0x002050C8 File Offset: 0x002034C8
+		// Token: 0x06003D32 RID: 15666 RVA: 0x002053A8 File Offset: 0x002037A8
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_PrioritySorter thinkNode_PrioritySorter = (ThinkNode_PrioritySorter)base.DeepCopy(resolve);
@@ -20,7 +20,7 @@ namespace Verse.AI
 			return thinkNode_PrioritySorter;
 		}
 
-		// Token: 0x06003D33 RID: 15667 RVA: 0x002050F8 File Offset: 0x002034F8
+		// Token: 0x06003D33 RID: 15667 RVA: 0x002053D8 File Offset: 0x002037D8
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkNode_PrioritySorter.workingNodes.Clear();

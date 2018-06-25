@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000FB5 RID: 4021
+	// Token: 0x02000FB6 RID: 4022
 	public static class CoverUtility
 	{
-		// Token: 0x04003F90 RID: 16272
+		// Token: 0x04003F98 RID: 16280
 		public const float CoverPercent_Corner = 0.75f;
 
-		// Token: 0x06006143 RID: 24899 RVA: 0x00312160 File Offset: 0x00310560
+		// Token: 0x06006143 RID: 24899 RVA: 0x003123A4 File Offset: 0x003107A4
 		public static List<CoverInfo> CalculateCoverGiverSet(LocalTargetInfo target, IntVec3 shooterLoc, Map map)
 		{
 			IntVec3 cell = target.Cell;
@@ -29,7 +29,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06006144 RID: 24900 RVA: 0x003121DC File Offset: 0x003105DC
+		// Token: 0x06006144 RID: 24900 RVA: 0x00312420 File Offset: 0x00310820
 		public static float CalculateOverallBlockChance(LocalTargetInfo target, IntVec3 shooterLoc, Map map)
 		{
 			IntVec3 cell = target.Cell;
@@ -49,7 +49,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06006145 RID: 24901 RVA: 0x00312260 File Offset: 0x00310660
+		// Token: 0x06006145 RID: 24901 RVA: 0x003124A4 File Offset: 0x003108A4
 		private static bool TryFindAdjustedCoverInCell(IntVec3 shooterLoc, LocalTargetInfo target, IntVec3 adjCell, Map map, out CoverInfo result)
 		{
 			IntVec3 cell = target.Cell;
@@ -110,7 +110,7 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06006146 RID: 24902 RVA: 0x003123F4 File Offset: 0x003107F4
+		// Token: 0x06006146 RID: 24902 RVA: 0x00312638 File Offset: 0x00310A38
 		public static float BaseBlockChance(this ThingDef def)
 		{
 			float result;
@@ -125,7 +125,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006147 RID: 24903 RVA: 0x00312428 File Offset: 0x00310828
+		// Token: 0x06006147 RID: 24903 RVA: 0x0031266C File Offset: 0x00310A6C
 		public static float TotalSurroundingCoverScore(IntVec3 c, Map map)
 		{
 			float num = 0f;

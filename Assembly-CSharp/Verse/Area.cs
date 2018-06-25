@@ -4,30 +4,30 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BFD RID: 3069
+	// Token: 0x02000BFE RID: 3070
 	public abstract class Area : IExposable, ILoadReferenceable, ICellBoolGiver
 	{
-		// Token: 0x04002DE1 RID: 11745
+		// Token: 0x04002DE8 RID: 11752
 		public AreaManager areaManager;
 
-		// Token: 0x04002DE2 RID: 11746
+		// Token: 0x04002DE9 RID: 11753
 		public int ID = -1;
 
-		// Token: 0x04002DE3 RID: 11747
+		// Token: 0x04002DEA RID: 11754
 		private BoolGrid innerGrid;
 
-		// Token: 0x04002DE4 RID: 11748
+		// Token: 0x04002DEB RID: 11755
 		private CellBoolDrawer drawer;
 
-		// Token: 0x04002DE5 RID: 11749
+		// Token: 0x04002DEC RID: 11756
 		private Texture2D colorTextureInt;
 
-		// Token: 0x06004302 RID: 17154 RVA: 0x00082FF1 File Offset: 0x000813F1
+		// Token: 0x06004302 RID: 17154 RVA: 0x00083001 File Offset: 0x00081401
 		public Area()
 		{
 		}
 
-		// Token: 0x06004303 RID: 17155 RVA: 0x00083001 File Offset: 0x00081401
+		// Token: 0x06004303 RID: 17155 RVA: 0x00083011 File Offset: 0x00081411
 		public Area(AreaManager areaManager)
 		{
 			this.areaManager = areaManager;
@@ -36,7 +36,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A80 RID: 2688
-		// (get) Token: 0x06004304 RID: 17156 RVA: 0x0008303C File Offset: 0x0008143C
+		// (get) Token: 0x06004304 RID: 17156 RVA: 0x0008304C File Offset: 0x0008144C
 		public Map Map
 		{
 			get
@@ -46,7 +46,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A81 RID: 2689
-		// (get) Token: 0x06004305 RID: 17157 RVA: 0x0008305C File Offset: 0x0008145C
+		// (get) Token: 0x06004305 RID: 17157 RVA: 0x0008306C File Offset: 0x0008146C
 		public int TrueCount
 		{
 			get
@@ -68,7 +68,7 @@ namespace Verse
 		public abstract int ListPriority { get; }
 
 		// Token: 0x17000A85 RID: 2693
-		// (get) Token: 0x06004309 RID: 17161 RVA: 0x0008307C File Offset: 0x0008147C
+		// (get) Token: 0x06004309 RID: 17161 RVA: 0x0008308C File Offset: 0x0008148C
 		public Texture2D ColorTexture
 		{
 			get
@@ -108,7 +108,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A88 RID: 2696
-		// (get) Token: 0x0600430E RID: 17166 RVA: 0x00083134 File Offset: 0x00081534
+		// (get) Token: 0x0600430E RID: 17166 RVA: 0x00083144 File Offset: 0x00081544
 		private CellBoolDrawer Drawer
 		{
 			get
@@ -122,7 +122,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A89 RID: 2697
-		// (get) Token: 0x0600430F RID: 17167 RVA: 0x00083194 File Offset: 0x00081594
+		// (get) Token: 0x0600430F RID: 17167 RVA: 0x000831A4 File Offset: 0x000815A4
 		public IEnumerable<IntVec3> ActiveCells
 		{
 			get
@@ -132,7 +132,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A8A RID: 2698
-		// (get) Token: 0x06004310 RID: 17168 RVA: 0x000831B4 File Offset: 0x000815B4
+		// (get) Token: 0x06004310 RID: 17168 RVA: 0x000831C4 File Offset: 0x000815C4
 		public virtual bool Mutable
 		{
 			get
@@ -141,38 +141,38 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004311 RID: 17169 RVA: 0x000831CA File Offset: 0x000815CA
+		// Token: 0x06004311 RID: 17169 RVA: 0x000831DA File Offset: 0x000815DA
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ID, "ID", -1, false);
 			Scribe_Deep.Look<BoolGrid>(ref this.innerGrid, "innerGrid", new object[0]);
 		}
 
-		// Token: 0x06004312 RID: 17170 RVA: 0x000831F8 File Offset: 0x000815F8
+		// Token: 0x06004312 RID: 17170 RVA: 0x00083208 File Offset: 0x00081608
 		public bool GetCellBool(int index)
 		{
 			return this.innerGrid[index];
 		}
 
-		// Token: 0x06004313 RID: 17171 RVA: 0x0008321C File Offset: 0x0008161C
+		// Token: 0x06004313 RID: 17171 RVA: 0x0008322C File Offset: 0x0008162C
 		public Color GetCellExtraColor(int index)
 		{
 			return Color.white;
 		}
 
-		// Token: 0x06004314 RID: 17172 RVA: 0x00083238 File Offset: 0x00081638
+		// Token: 0x06004314 RID: 17172 RVA: 0x00083248 File Offset: 0x00081648
 		public virtual bool AssignableAsAllowed()
 		{
 			return false;
 		}
 
-		// Token: 0x06004315 RID: 17173 RVA: 0x0008324E File Offset: 0x0008164E
+		// Token: 0x06004315 RID: 17173 RVA: 0x0008325E File Offset: 0x0008165E
 		public virtual void SetLabel(string label)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06004316 RID: 17174 RVA: 0x00083258 File Offset: 0x00081658
+		// Token: 0x06004316 RID: 17174 RVA: 0x00083268 File Offset: 0x00081668
 		protected virtual void Set(IntVec3 c, bool val)
 		{
 			int index = this.Map.cellIndices.CellToIndex(c);
@@ -183,7 +183,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004317 RID: 17175 RVA: 0x000832A4 File Offset: 0x000816A4
+		// Token: 0x06004317 RID: 17175 RVA: 0x000832B4 File Offset: 0x000816B4
 		private void MarkDirty(IntVec3 c)
 		{
 			this.Drawer.SetDirty();
@@ -194,13 +194,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004318 RID: 17176 RVA: 0x000832D8 File Offset: 0x000816D8
+		// Token: 0x06004318 RID: 17176 RVA: 0x000832E8 File Offset: 0x000816E8
 		public void Delete()
 		{
 			this.areaManager.Remove(this);
 		}
 
-		// Token: 0x06004319 RID: 17177 RVA: 0x000832E7 File Offset: 0x000816E7
+		// Token: 0x06004319 RID: 17177 RVA: 0x000832F7 File Offset: 0x000816F7
 		public void MarkForDraw()
 		{
 			if (this.Map == Find.CurrentMap)
@@ -209,13 +209,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600431A RID: 17178 RVA: 0x00083305 File Offset: 0x00081705
+		// Token: 0x0600431A RID: 17178 RVA: 0x00083315 File Offset: 0x00081715
 		public void AreaUpdate()
 		{
 			this.Drawer.CellBoolDrawerUpdate();
 		}
 
-		// Token: 0x0600431B RID: 17179 RVA: 0x00083313 File Offset: 0x00081713
+		// Token: 0x0600431B RID: 17179 RVA: 0x00083323 File Offset: 0x00081723
 		public void Invert()
 		{
 			this.innerGrid.Invert();

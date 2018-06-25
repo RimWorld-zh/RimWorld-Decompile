@@ -9,18 +9,18 @@ namespace RimWorld
 	// Token: 0x02000656 RID: 1622
 	public static class AmbientSoundManager
 	{
-		// Token: 0x0400132C RID: 4908
+		// Token: 0x04001330 RID: 4912
 		private static List<Sustainer> biomeAmbientSustainers = new List<Sustainer>();
 
-		// Token: 0x0400132D RID: 4909
+		// Token: 0x04001331 RID: 4913
 		private static Action recreateMapSustainers;
 
-		// Token: 0x0400132E RID: 4910
+		// Token: 0x04001332 RID: 4914
 		[CompilerGenerated]
 		private static Action <>f__mg$cache0;
 
 		// Token: 0x170004F6 RID: 1270
-		// (get) Token: 0x060021D7 RID: 8663 RVA: 0x0011F480 File Offset: 0x0011D880
+		// (get) Token: 0x060021D6 RID: 8662 RVA: 0x0011F6E8 File Offset: 0x0011DAE8
 		private static bool WorldAmbientSoundCreated
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F7 RID: 1271
-		// (get) Token: 0x060021D8 RID: 8664 RVA: 0x0011F4AC File Offset: 0x0011D8AC
+		// (get) Token: 0x060021D7 RID: 8663 RVA: 0x0011F714 File Offset: 0x0011DB14
 		private static bool AltitudeWindSoundCreated
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021D9 RID: 8665 RVA: 0x0011F4D5 File Offset: 0x0011D8D5
+		// Token: 0x060021D8 RID: 8664 RVA: 0x0011F73D File Offset: 0x0011DB3D
 		public static void EnsureWorldAmbientSoundCreated()
 		{
 			if (!AmbientSoundManager.WorldAmbientSoundCreated)
@@ -48,13 +48,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DA RID: 8666 RVA: 0x0011F4F3 File Offset: 0x0011D8F3
+		// Token: 0x060021D9 RID: 8665 RVA: 0x0011F75B File Offset: 0x0011DB5B
 		public static void Notify_SwitchedMap()
 		{
 			LongEventHandler.ExecuteWhenFinished(AmbientSoundManager.recreateMapSustainers);
 		}
 
-		// Token: 0x060021DB RID: 8667 RVA: 0x0011F500 File Offset: 0x0011D900
+		// Token: 0x060021DA RID: 8666 RVA: 0x0011F768 File Offset: 0x0011DB68
 		private static void RecreateMapSustainers()
 		{
 			if (!AmbientSoundManager.AltitudeWindSoundCreated)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DC RID: 8668 RVA: 0x0011F5E3 File Offset: 0x0011D9E3
+		// Token: 0x060021DB RID: 8667 RVA: 0x0011F84B File Offset: 0x0011DC4B
 		// Note: this type is marked as 'beforefieldinit'.
 		static AmbientSoundManager()
 		{

@@ -2,10 +2,10 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009FE RID: 2558
+	// Token: 0x020009FF RID: 2559
 	public abstract class TransitionAction
 	{
-		// Token: 0x06003970 RID: 14704
+		// Token: 0x06003971 RID: 14705
 		public abstract void DoAction(Transition trans);
 	}
 }

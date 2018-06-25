@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A33 RID: 2611
+	// Token: 0x02000A34 RID: 2612
 	public class JobDriver_Follow : JobDriver
 	{
-		// Token: 0x040024FA RID: 9466
+		// Token: 0x0400250A RID: 9482
 		private const TargetIndex FolloweeInd = TargetIndex.A;
 
-		// Token: 0x040024FB RID: 9467
+		// Token: 0x0400250B RID: 9483
 		private const int Distance = 4;
 
-		// Token: 0x060039F6 RID: 14838 RVA: 0x001EA1D4 File Offset: 0x001E85D4
+		// Token: 0x060039F7 RID: 14839 RVA: 0x001EA500 File Offset: 0x001E8900
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060039F7 RID: 14839 RVA: 0x001EA1EC File Offset: 0x001E85EC
+		// Token: 0x060039F8 RID: 14840 RVA: 0x001EA518 File Offset: 0x001E8918
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -44,7 +44,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x060039F8 RID: 14840 RVA: 0x001EA218 File Offset: 0x001E8618
+		// Token: 0x060039F9 RID: 14841 RVA: 0x001EA544 File Offset: 0x001E8944
 		public override bool IsContinuation(Job j)
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);

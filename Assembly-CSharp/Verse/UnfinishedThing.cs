@@ -6,33 +6,33 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFD RID: 3581
+	// Token: 0x02000DFE RID: 3582
 	public class UnfinishedThing : ThingWithComps
 	{
-		// Token: 0x0400353F RID: 13631
+		// Token: 0x04003546 RID: 13638
 		private Pawn creatorInt;
 
-		// Token: 0x04003540 RID: 13632
+		// Token: 0x04003547 RID: 13639
 		private string creatorName = "ErrorCreatorName";
 
-		// Token: 0x04003541 RID: 13633
+		// Token: 0x04003548 RID: 13640
 		private RecipeDef recipeInt;
 
-		// Token: 0x04003542 RID: 13634
+		// Token: 0x04003549 RID: 13641
 		public List<Thing> ingredients = new List<Thing>();
 
-		// Token: 0x04003543 RID: 13635
+		// Token: 0x0400354A RID: 13642
 		private Bill_ProductionWithUft boundBillInt;
 
-		// Token: 0x04003544 RID: 13636
+		// Token: 0x0400354B RID: 13643
 		public float workLeft = -10000f;
 
-		// Token: 0x04003545 RID: 13637
+		// Token: 0x0400354C RID: 13644
 		private const float CancelIngredientRecoveryFraction = 0.75f;
 
 		// Token: 0x17000D40 RID: 3392
-		// (get) Token: 0x0600511C RID: 20764 RVA: 0x0029AEF4 File Offset: 0x002992F4
-		// (set) Token: 0x0600511D RID: 20765 RVA: 0x0029AF0F File Offset: 0x0029930F
+		// (get) Token: 0x0600511C RID: 20764 RVA: 0x0029B1D4 File Offset: 0x002995D4
+		// (set) Token: 0x0600511D RID: 20765 RVA: 0x0029B1EF File Offset: 0x002995EF
 		public Pawn Creator
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D41 RID: 3393
-		// (get) Token: 0x0600511E RID: 20766 RVA: 0x0029AF3C File Offset: 0x0029933C
+		// (get) Token: 0x0600511E RID: 20766 RVA: 0x0029B21C File Offset: 0x0029961C
 		public RecipeDef Recipe
 		{
 			get
@@ -64,8 +64,8 @@ namespace Verse
 		}
 
 		// Token: 0x17000D42 RID: 3394
-		// (get) Token: 0x0600511F RID: 20767 RVA: 0x0029AF58 File Offset: 0x00299358
-		// (set) Token: 0x06005120 RID: 20768 RVA: 0x0029AFA8 File Offset: 0x002993A8
+		// (get) Token: 0x0600511F RID: 20767 RVA: 0x0029B238 File Offset: 0x00299638
+		// (set) Token: 0x06005120 RID: 20768 RVA: 0x0029B288 File Offset: 0x00299688
 		public Bill_ProductionWithUft BoundBill
 		{
 			get
@@ -102,7 +102,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D43 RID: 3395
-		// (get) Token: 0x06005121 RID: 20769 RVA: 0x0029B018 File Offset: 0x00299418
+		// (get) Token: 0x06005121 RID: 20769 RVA: 0x0029B2F8 File Offset: 0x002996F8
 		public Thing BoundWorkTable
 		{
 			get
@@ -130,7 +130,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D44 RID: 3396
-		// (get) Token: 0x06005122 RID: 20770 RVA: 0x0029B06C File Offset: 0x0029946C
+		// (get) Token: 0x06005122 RID: 20770 RVA: 0x0029B34C File Offset: 0x0029974C
 		public override string LabelNoCount
 		{
 			get
@@ -160,7 +160,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D45 RID: 3397
-		// (get) Token: 0x06005123 RID: 20771 RVA: 0x0029B114 File Offset: 0x00299514
+		// (get) Token: 0x06005123 RID: 20771 RVA: 0x0029B3F4 File Offset: 0x002997F4
 		public override string DescriptionDetailed
 		{
 			get
@@ -179,7 +179,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D46 RID: 3398
-		// (get) Token: 0x06005124 RID: 20772 RVA: 0x0029B150 File Offset: 0x00299550
+		// (get) Token: 0x06005124 RID: 20772 RVA: 0x0029B430 File Offset: 0x00299830
 		public override string DescriptionFlavor
 		{
 			get
@@ -198,7 +198,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D47 RID: 3399
-		// (get) Token: 0x06005125 RID: 20773 RVA: 0x0029B18C File Offset: 0x0029958C
+		// (get) Token: 0x06005125 RID: 20773 RVA: 0x0029B46C File Offset: 0x0029986C
 		public bool Initialized
 		{
 			get
@@ -207,7 +207,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005126 RID: 20774 RVA: 0x0029B1B0 File Offset: 0x002995B0
+		// Token: 0x06005126 RID: 20774 RVA: 0x0029B490 File Offset: 0x00299890
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -226,7 +226,7 @@ namespace Verse
 			Scribe_Collections.Look<Thing>(ref this.ingredients, "ingredients", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06005127 RID: 20775 RVA: 0x0029B264 File Offset: 0x00299664
+		// Token: 0x06005127 RID: 20775 RVA: 0x0029B544 File Offset: 0x00299944
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (mode == DestroyMode.Cancel)
@@ -246,7 +246,7 @@ namespace Verse
 			this.BoundBill = null;
 		}
 
-		// Token: 0x06005128 RID: 20776 RVA: 0x0029B30C File Offset: 0x0029970C
+		// Token: 0x06005128 RID: 20776 RVA: 0x0029B5EC File Offset: 0x002999EC
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -267,7 +267,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005129 RID: 20777 RVA: 0x0029B338 File Offset: 0x00299738
+		// Token: 0x06005129 RID: 20777 RVA: 0x0029B618 File Offset: 0x00299A18
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
 		{
 			if (this.Recipe.AllRecipeUsers.Contains(workTable.def))
@@ -291,7 +291,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600512A RID: 20778 RVA: 0x0029B3DB File Offset: 0x002997DB
+		// Token: 0x0600512A RID: 20778 RVA: 0x0029B6BB File Offset: 0x00299ABB
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -301,7 +301,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600512B RID: 20779 RVA: 0x0029B408 File Offset: 0x00299808
+		// Token: 0x0600512B RID: 20779 RVA: 0x0029B6E8 File Offset: 0x00299AE8
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();

@@ -7,17 +7,17 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CB RID: 971
 	public class SymbolResolver_Hives : SymbolResolver
 	{
-		// Token: 0x04000A35 RID: 2613
+		// Token: 0x04000A38 RID: 2616
 		private static readonly IntRange DefaultHivesCountRange = new IntRange(1, 3);
 
-		// Token: 0x060010BB RID: 4283 RVA: 0x0008E680 File Offset: 0x0008CA80
+		// Token: 0x060010BA RID: 4282 RVA: 0x0008E690 File Offset: 0x0008CA90
 		public override bool CanResolve(ResolveParams rp)
 		{
 			IntVec3 intVec;
 			return base.CanResolve(rp) && this.TryFindFirstHivePos(rp.rect, out intVec);
 		}
 
-		// Token: 0x060010BC RID: 4284 RVA: 0x0008E6C4 File Offset: 0x0008CAC4
+		// Token: 0x060010BB RID: 4283 RVA: 0x0008E6D4 File Offset: 0x0008CAD4
 		public override void Resolve(ResolveParams rp)
 		{
 			IntVec3 loc;
@@ -43,7 +43,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010BD RID: 4285 RVA: 0x0008E7B0 File Offset: 0x0008CBB0
+		// Token: 0x060010BC RID: 4284 RVA: 0x0008E7C0 File Offset: 0x0008CBC0
 		private bool TryFindFirstHivePos(CellRect rect, out IntVec3 pos)
 		{
 			Map map = BaseGen.globalSettings.map;

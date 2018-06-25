@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000B5F RID: 2911
+	// Token: 0x02000B60 RID: 2912
 	public enum SpecialProductType : byte
 	{
-		// Token: 0x04002A76 RID: 10870
+		// Token: 0x04002A7D RID: 10877
 		Butchery,
-		// Token: 0x04002A77 RID: 10871
+		// Token: 0x04002A7E RID: 10878
 		Smelted
 	}
 }

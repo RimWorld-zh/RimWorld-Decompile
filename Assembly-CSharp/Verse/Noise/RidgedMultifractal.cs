@@ -3,34 +3,34 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F80 RID: 3968
+	// Token: 0x02000F81 RID: 3969
 	public class RidgedMultifractal : ModuleBase
 	{
-		// Token: 0x04003EE6 RID: 16102
+		// Token: 0x04003EEE RID: 16110
 		private double m_frequency = 1.0;
 
-		// Token: 0x04003EE7 RID: 16103
+		// Token: 0x04003EEF RID: 16111
 		private double m_lacunarity = 2.0;
 
-		// Token: 0x04003EE8 RID: 16104
+		// Token: 0x04003EF0 RID: 16112
 		private QualityMode m_quality = QualityMode.Medium;
 
-		// Token: 0x04003EE9 RID: 16105
+		// Token: 0x04003EF1 RID: 16113
 		private int m_octaveCount = 6;
 
-		// Token: 0x04003EEA RID: 16106
+		// Token: 0x04003EF2 RID: 16114
 		private int m_seed = 0;
 
-		// Token: 0x04003EEB RID: 16107
+		// Token: 0x04003EF3 RID: 16115
 		private double[] m_weights = new double[30];
 
-		// Token: 0x06005FC0 RID: 24512 RVA: 0x0030BE78 File Offset: 0x0030A278
+		// Token: 0x06005FC0 RID: 24512 RVA: 0x0030C0BC File Offset: 0x0030A4BC
 		public RidgedMultifractal() : base(0)
 		{
 			this.UpdateWeights();
 		}
 
-		// Token: 0x06005FC1 RID: 24513 RVA: 0x0030BED4 File Offset: 0x0030A2D4
+		// Token: 0x06005FC1 RID: 24513 RVA: 0x0030C118 File Offset: 0x0030A518
 		public RidgedMultifractal(double frequency, double lacunarity, int octaves, int seed, QualityMode quality) : base(0)
 		{
 			this.Frequency = frequency;
@@ -41,8 +41,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F58 RID: 3928
-		// (get) Token: 0x06005FC2 RID: 24514 RVA: 0x0030BF50 File Offset: 0x0030A350
-		// (set) Token: 0x06005FC3 RID: 24515 RVA: 0x0030BF6B File Offset: 0x0030A36B
+		// (get) Token: 0x06005FC2 RID: 24514 RVA: 0x0030C194 File Offset: 0x0030A594
+		// (set) Token: 0x06005FC3 RID: 24515 RVA: 0x0030C1AF File Offset: 0x0030A5AF
 		public double Frequency
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F59 RID: 3929
-		// (get) Token: 0x06005FC4 RID: 24516 RVA: 0x0030BF78 File Offset: 0x0030A378
-		// (set) Token: 0x06005FC5 RID: 24517 RVA: 0x0030BF93 File Offset: 0x0030A393
+		// (get) Token: 0x06005FC4 RID: 24516 RVA: 0x0030C1BC File Offset: 0x0030A5BC
+		// (set) Token: 0x06005FC5 RID: 24517 RVA: 0x0030C1D7 File Offset: 0x0030A5D7
 		public double Lacunarity
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F5A RID: 3930
-		// (get) Token: 0x06005FC6 RID: 24518 RVA: 0x0030BFA4 File Offset: 0x0030A3A4
-		// (set) Token: 0x06005FC7 RID: 24519 RVA: 0x0030BFBF File Offset: 0x0030A3BF
+		// (get) Token: 0x06005FC6 RID: 24518 RVA: 0x0030C1E8 File Offset: 0x0030A5E8
+		// (set) Token: 0x06005FC7 RID: 24519 RVA: 0x0030C203 File Offset: 0x0030A603
 		public QualityMode Quality
 		{
 			get
@@ -87,8 +87,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F5B RID: 3931
-		// (get) Token: 0x06005FC8 RID: 24520 RVA: 0x0030BFCC File Offset: 0x0030A3CC
-		// (set) Token: 0x06005FC9 RID: 24521 RVA: 0x0030BFE7 File Offset: 0x0030A3E7
+		// (get) Token: 0x06005FC8 RID: 24520 RVA: 0x0030C210 File Offset: 0x0030A610
+		// (set) Token: 0x06005FC9 RID: 24521 RVA: 0x0030C22B File Offset: 0x0030A62B
 		public int OctaveCount
 		{
 			get
@@ -102,8 +102,8 @@ namespace Verse.Noise
 		}
 
 		// Token: 0x17000F5C RID: 3932
-		// (get) Token: 0x06005FCA RID: 24522 RVA: 0x0030BFFC File Offset: 0x0030A3FC
-		// (set) Token: 0x06005FCB RID: 24523 RVA: 0x0030C017 File Offset: 0x0030A417
+		// (get) Token: 0x06005FCA RID: 24522 RVA: 0x0030C240 File Offset: 0x0030A640
+		// (set) Token: 0x06005FCB RID: 24523 RVA: 0x0030C25B File Offset: 0x0030A65B
 		public int Seed
 		{
 			get
@@ -116,7 +116,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FCC RID: 24524 RVA: 0x0030C024 File Offset: 0x0030A424
+		// Token: 0x06005FCC RID: 24524 RVA: 0x0030C268 File Offset: 0x0030A668
 		private void UpdateWeights()
 		{
 			double num = 1.0;
@@ -127,7 +127,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FCD RID: 24525 RVA: 0x0030C074 File Offset: 0x0030A474
+		// Token: 0x06005FCD RID: 24525 RVA: 0x0030C2B8 File Offset: 0x0030A6B8
 		public override double GetValue(double x, double y, double z)
 		{
 			x *= this.m_frequency;

@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x0200098F RID: 2447
 	public static class NameGenerator
 	{
-		// Token: 0x06003709 RID: 14089 RVA: 0x001D6758 File Offset: 0x001D4B58
+		// Token: 0x06003709 RID: 14089 RVA: 0x001D6A2C File Offset: 0x001D4E2C
 		public static string GenerateName(RulePackDef rootPack, IEnumerable<string> extantNames, bool appendNumberIfNameUsed = false, string rootKeyword = null)
 		{
 			return NameGenerator.GenerateName(rootPack, (string x) => !extantNames.Contains(x), appendNumberIfNameUsed, rootKeyword, null);
 		}
 
-		// Token: 0x0600370A RID: 14090 RVA: 0x001D6790 File Offset: 0x001D4B90
+		// Token: 0x0600370A RID: 14090 RVA: 0x001D6A64 File Offset: 0x001D4E64
 		public static string GenerateName(RulePackDef rootPack, Predicate<string> validator = null, bool appendNumberIfNameUsed = false, string rootKeyword = null, string testPawnNameSymbol = null)
 		{
 			GrammarRequest request = default(GrammarRequest);

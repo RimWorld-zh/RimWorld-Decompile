@@ -11,13 +11,13 @@ namespace RimWorld
 	// Token: 0x02000331 RID: 817
 	public class IncidentWorker_HerdMigration : IncidentWorker
 	{
-		// Token: 0x040008D2 RID: 2258
+		// Token: 0x040008D5 RID: 2261
 		private static readonly IntRange AnimalsCount = new IntRange(3, 5);
 
-		// Token: 0x040008D3 RID: 2259
+		// Token: 0x040008D6 RID: 2262
 		private const float MinTotalBodySize = 4f;
 
-		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076E08 File Offset: 0x00075208
+		// Token: 0x06000DEF RID: 3567 RVA: 0x00076E10 File Offset: 0x00075210
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return this.TryFindAnimalKind(map.Tile, out pawnKindDef) && this.TryFindStartAndEndCells(map, out intVec, out intVec2);
 		}
 
-		// Token: 0x06000DF1 RID: 3569 RVA: 0x00076E4C File Offset: 0x0007524C
+		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076E54 File Offset: 0x00075254
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF2 RID: 3570 RVA: 0x00076F8C File Offset: 0x0007538C
+		// Token: 0x06000DF1 RID: 3569 RVA: 0x00076F94 File Offset: 0x00075394
 		private bool TryFindAnimalKind(int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
@@ -70,7 +70,7 @@ namespace RimWorld
 			select k).TryRandomElementByWeight((PawnKindDef x) => Mathf.Lerp(0.2f, 1f, x.RaceProps.wildness), out animalKind);
 		}
 
-		// Token: 0x06000DF3 RID: 3571 RVA: 0x00076FE8 File Offset: 0x000753E8
+		// Token: 0x06000DF2 RID: 3570 RVA: 0x00076FF0 File Offset: 0x000753F0
 		private bool TryFindStartAndEndCells(Map map, out IntVec3 start, out IntVec3 end)
 		{
 			bool result;
@@ -100,7 +100,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF4 RID: 3572 RVA: 0x000770D4 File Offset: 0x000754D4
+		// Token: 0x06000DF3 RID: 3571 RVA: 0x000770DC File Offset: 0x000754DC
 		private List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile)
 		{
 			int num = IncidentWorker_HerdMigration.AnimalsCount.RandomInRange;

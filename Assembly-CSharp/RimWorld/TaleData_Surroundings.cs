@@ -8,32 +8,32 @@ namespace RimWorld
 	// Token: 0x0200065D RID: 1629
 	public class TaleData_Surroundings : TaleData
 	{
-		// Token: 0x04001350 RID: 4944
+		// Token: 0x04001354 RID: 4948
 		public int tile;
 
-		// Token: 0x04001351 RID: 4945
+		// Token: 0x04001355 RID: 4949
 		public float temperature;
 
-		// Token: 0x04001352 RID: 4946
+		// Token: 0x04001356 RID: 4950
 		public float snowDepth;
 
-		// Token: 0x04001353 RID: 4947
+		// Token: 0x04001357 RID: 4951
 		public WeatherDef weather;
 
-		// Token: 0x04001354 RID: 4948
+		// Token: 0x04001358 RID: 4952
 		public RoomRoleDef roomRole;
 
-		// Token: 0x04001355 RID: 4949
+		// Token: 0x04001359 RID: 4953
 		public float roomImpressiveness;
 
-		// Token: 0x04001356 RID: 4950
+		// Token: 0x0400135A RID: 4954
 		public float roomBeauty;
 
-		// Token: 0x04001357 RID: 4951
+		// Token: 0x0400135B RID: 4955
 		public float roomCleanliness;
 
 		// Token: 0x170004FF RID: 1279
-		// (get) Token: 0x06002204 RID: 8708 RVA: 0x0012089C File Offset: 0x0011EC9C
+		// (get) Token: 0x06002203 RID: 8707 RVA: 0x00120B04 File Offset: 0x0011EF04
 		public bool Outdoors
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002205 RID: 8709 RVA: 0x001208C0 File Offset: 0x0011ECC0
+		// Token: 0x06002204 RID: 8708 RVA: 0x00120B28 File Offset: 0x0011EF28
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.tile, "tile", 0, false);
@@ -55,7 +55,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.roomCleanliness, "roomCleanliness", 0f, false);
 		}
 
-		// Token: 0x06002206 RID: 8710 RVA: 0x00120970 File Offset: 0x0011ED70
+		// Token: 0x06002205 RID: 8709 RVA: 0x00120BD8 File Offset: 0x0011EFD8
 		public override IEnumerable<Rule> GetRules()
 		{
 			yield return new Rule_String("BIOME", Find.WorldGrid[this.tile].biome.label);
@@ -77,7 +77,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002207 RID: 8711 RVA: 0x0012099C File Offset: 0x0011ED9C
+		// Token: 0x06002206 RID: 8710 RVA: 0x00120C04 File Offset: 0x0011F004
 		public static TaleData_Surroundings GenerateFrom(IntVec3 c, Map map)
 		{
 			TaleData_Surroundings taleData_Surroundings = new TaleData_Surroundings();
@@ -102,7 +102,7 @@ namespace RimWorld
 			return taleData_Surroundings;
 		}
 
-		// Token: 0x06002208 RID: 8712 RVA: 0x00120A60 File Offset: 0x0011EE60
+		// Token: 0x06002207 RID: 8711 RVA: 0x00120CC8 File Offset: 0x0011F0C8
 		public static TaleData_Surroundings GenerateRandom(Map map)
 		{
 			return TaleData_Surroundings.GenerateFrom(CellFinder.RandomCell(map), map);

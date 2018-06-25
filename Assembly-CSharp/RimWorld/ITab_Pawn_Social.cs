@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x02000859 RID: 2137
 	public class ITab_Pawn_Social : ITab
 	{
-		// Token: 0x04001A3A RID: 6714
+		// Token: 0x04001A3E RID: 6718
 		public const float Width = 540f;
 
-		// Token: 0x06003064 RID: 12388 RVA: 0x001A5452 File Offset: 0x001A3852
+		// Token: 0x06003063 RID: 12387 RVA: 0x001A56BA File Offset: 0x001A3ABA
 		public ITab_Pawn_Social()
 		{
 			this.size = new Vector2(540f, 510f);
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B5 RID: 1973
-		// (get) Token: 0x06003065 RID: 12389 RVA: 0x001A5488 File Offset: 0x001A3888
+		// (get) Token: 0x06003064 RID: 12388 RVA: 0x001A56F0 File Offset: 0x001A3AF0
 		public override bool IsVisible
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B6 RID: 1974
-		// (get) Token: 0x06003066 RID: 12390 RVA: 0x001A54B0 File Offset: 0x001A38B0
+		// (get) Token: 0x06003065 RID: 12389 RVA: 0x001A5718 File Offset: 0x001A3B18
 		private Pawn SelPawnForSocialInfo
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003067 RID: 12391 RVA: 0x001A550C File Offset: 0x001A390C
+		// Token: 0x06003066 RID: 12390 RVA: 0x001A5774 File Offset: 0x001A3B74
 		protected override void FillTab()
 		{
 			SocialCardUtility.DrawSocialCard(new Rect(0f, 0f, this.size.x, this.size.y), this.SelPawnForSocialInfo);

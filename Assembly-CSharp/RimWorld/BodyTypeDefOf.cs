@@ -6,22 +6,22 @@ namespace RimWorld
 	[DefOf]
 	public static class BodyTypeDefOf
 	{
-		// Token: 0x04002316 RID: 8982
+		// Token: 0x0400231D RID: 8989
 		public static BodyTypeDef Male;
 
-		// Token: 0x04002317 RID: 8983
+		// Token: 0x0400231E RID: 8990
 		public static BodyTypeDef Female;
 
-		// Token: 0x04002318 RID: 8984
+		// Token: 0x0400231F RID: 8991
 		public static BodyTypeDef Thin;
 
-		// Token: 0x04002319 RID: 8985
+		// Token: 0x04002320 RID: 8992
 		public static BodyTypeDef Hulk;
 
-		// Token: 0x0400231A RID: 8986
+		// Token: 0x04002321 RID: 8993
 		public static BodyTypeDef Fat;
 
-		// Token: 0x06003679 RID: 13945 RVA: 0x001D1037 File Offset: 0x001CF437
+		// Token: 0x06003679 RID: 13945 RVA: 0x001D130B File Offset: 0x001CF70B
 		static BodyTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BodyTypeDef));

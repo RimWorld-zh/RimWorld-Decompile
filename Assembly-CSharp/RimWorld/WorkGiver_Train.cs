@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x02000123 RID: 291
 	public class WorkGiver_Train : WorkGiver_InteractAnimal
 	{
-		// Token: 0x04000309 RID: 777
+		// Token: 0x0400030A RID: 778
 		public const int MinTrainInterval = 15000;
 
-		// Token: 0x06000601 RID: 1537 RVA: 0x00040048 File Offset: 0x0003E448
+		// Token: 0x06000600 RID: 1536 RVA: 0x00040044 File Offset: 0x0003E444
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Pawn> pawnList = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
@@ -22,7 +22,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000602 RID: 1538 RVA: 0x00040074 File Offset: 0x0003E474
+		// Token: 0x06000601 RID: 1537 RVA: 0x00040070 File Offset: 0x0003E470
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;

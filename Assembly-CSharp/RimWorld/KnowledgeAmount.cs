@@ -5,23 +5,23 @@ namespace RimWorld
 	// Token: 0x020008D0 RID: 2256
 	public enum KnowledgeAmount : byte
 	{
-		// Token: 0x04001BB6 RID: 7094
-		None,
-		// Token: 0x04001BB7 RID: 7095
-		FrameDisplayed,
-		// Token: 0x04001BB8 RID: 7096
-		FrameInteraction,
-		// Token: 0x04001BB9 RID: 7097
-		TinyInteraction,
-		// Token: 0x04001BBA RID: 7098
-		SmallInteraction,
-		// Token: 0x04001BBB RID: 7099
-		SpecificInteraction,
 		// Token: 0x04001BBC RID: 7100
-		Total,
+		None,
 		// Token: 0x04001BBD RID: 7101
-		NoteClosed,
+		FrameDisplayed,
 		// Token: 0x04001BBE RID: 7102
+		FrameInteraction,
+		// Token: 0x04001BBF RID: 7103
+		TinyInteraction,
+		// Token: 0x04001BC0 RID: 7104
+		SmallInteraction,
+		// Token: 0x04001BC1 RID: 7105
+		SpecificInteraction,
+		// Token: 0x04001BC2 RID: 7106
+		Total,
+		// Token: 0x04001BC3 RID: 7107
+		NoteClosed,
+		// Token: 0x04001BC4 RID: 7108
 		NoteTaught
 	}
 }

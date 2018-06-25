@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001DF RID: 479
 	public class ThinkNode_ConditionalMustKeepLyingDown : ThinkNode_Conditional
 	{
-		// Token: 0x06000977 RID: 2423 RVA: 0x0005684C File Offset: 0x00054C4C
+		// Token: 0x06000976 RID: 2422 RVA: 0x00056848 File Offset: 0x00054C48
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;

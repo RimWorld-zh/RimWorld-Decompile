@@ -5,15 +5,15 @@ namespace RimWorld
 	// Token: 0x0200029A RID: 666
 	public enum HairGender : byte
 	{
-		// Token: 0x040005FF RID: 1535
-		Male,
-		// Token: 0x04000600 RID: 1536
-		MaleUsually,
 		// Token: 0x04000601 RID: 1537
-		Any,
+		Male,
 		// Token: 0x04000602 RID: 1538
-		FemaleUsually,
+		MaleUsually,
 		// Token: 0x04000603 RID: 1539
+		Any,
+		// Token: 0x04000604 RID: 1540
+		FemaleUsually,
+		// Token: 0x04000605 RID: 1541
 		Female
 	}
 }

@@ -8,20 +8,20 @@ namespace RimWorld
 	public interface IPlantToGrowSettable
 	{
 		// Token: 0x170002A5 RID: 677
-		// (get) Token: 0x06001363 RID: 4963
+		// (get) Token: 0x06001362 RID: 4962
 		Map Map { get; }
 
 		// Token: 0x170002A6 RID: 678
-		// (get) Token: 0x06001364 RID: 4964
+		// (get) Token: 0x06001363 RID: 4963
 		IEnumerable<IntVec3> Cells { get; }
 
-		// Token: 0x06001365 RID: 4965
+		// Token: 0x06001364 RID: 4964
 		ThingDef GetPlantDefToGrow();
 
-		// Token: 0x06001366 RID: 4966
+		// Token: 0x06001365 RID: 4965
 		void SetPlantDefToGrow(ThingDef plantDef);
 
-		// Token: 0x06001367 RID: 4967
+		// Token: 0x06001366 RID: 4966
 		bool CanAcceptSowNow();
 	}
 }

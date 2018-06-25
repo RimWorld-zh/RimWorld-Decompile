@@ -9,13 +9,13 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Command_SetTargetFuelLevel : Command
 	{
-		// Token: 0x04001639 RID: 5689
+		// Token: 0x0400163D RID: 5693
 		public CompRefuelable refuelable;
 
-		// Token: 0x0400163A RID: 5690
+		// Token: 0x0400163E RID: 5694
 		private List<CompRefuelable> refuelables;
 
-		// Token: 0x0600288C RID: 10380 RVA: 0x0015A934 File Offset: 0x00158D34
+		// Token: 0x0600288B RID: 10379 RVA: 0x0015AB94 File Offset: 0x00158F94
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -70,7 +70,7 @@ namespace RimWorld
 			Find.WindowStack.Add(window);
 		}
 
-		// Token: 0x0600288D RID: 10381 RVA: 0x0015AAB8 File Offset: 0x00158EB8
+		// Token: 0x0600288C RID: 10380 RVA: 0x0015AD18 File Offset: 0x00159118
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.refuelables == null)

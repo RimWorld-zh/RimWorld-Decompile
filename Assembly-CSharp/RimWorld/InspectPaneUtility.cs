@@ -11,40 +11,40 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class InspectPaneUtility
 	{
-		// Token: 0x04001A47 RID: 6727
+		// Token: 0x04001A4B RID: 6731
 		private static Dictionary<string, string> truncatedLabelsCached = new Dictionary<string, string>();
 
-		// Token: 0x04001A48 RID: 6728
+		// Token: 0x04001A4C RID: 6732
 		public const float TabWidth = 72f;
 
-		// Token: 0x04001A49 RID: 6729
+		// Token: 0x04001A4D RID: 6733
 		public const float TabHeight = 30f;
 
-		// Token: 0x04001A4A RID: 6730
+		// Token: 0x04001A4E RID: 6734
 		private static readonly Texture2D InspectTabButtonFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.07450981f, 0.08627451f, 0.105882354f, 1f));
 
-		// Token: 0x04001A4B RID: 6731
+		// Token: 0x04001A4F RID: 6735
 		public const float CornerButtonsSize = 24f;
 
-		// Token: 0x04001A4C RID: 6732
+		// Token: 0x04001A50 RID: 6736
 		public const float PaneInnerMargin = 12f;
 
-		// Token: 0x04001A4D RID: 6733
+		// Token: 0x04001A51 RID: 6737
 		public const float PaneHeight = 165f;
 
-		// Token: 0x04001A4E RID: 6734
+		// Token: 0x04001A52 RID: 6738
 		private const int TabMinimum = 6;
 
-		// Token: 0x04001A4F RID: 6735
+		// Token: 0x04001A53 RID: 6739
 		private static List<Thing> selectedThings = new List<Thing>();
 
-		// Token: 0x06003091 RID: 12433 RVA: 0x001A64AB File Offset: 0x001A48AB
+		// Token: 0x06003090 RID: 12432 RVA: 0x001A6713 File Offset: 0x001A4B13
 		public static void Reset()
 		{
 			InspectPaneUtility.truncatedLabelsCached.Clear();
 		}
 
-		// Token: 0x06003092 RID: 12434 RVA: 0x001A64B8 File Offset: 0x001A48B8
+		// Token: 0x06003091 RID: 12433 RVA: 0x001A6720 File Offset: 0x001A4B20
 		public static float PaneWidthFor(IInspectPane pane)
 		{
 			float result;
@@ -67,13 +67,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003093 RID: 12435 RVA: 0x001A6548 File Offset: 0x001A4948
+		// Token: 0x06003092 RID: 12434 RVA: 0x001A67B0 File Offset: 0x001A4BB0
 		public static Vector2 PaneSizeFor(IInspectPane pane)
 		{
 			return new Vector2(InspectPaneUtility.PaneWidthFor(pane), 165f);
 		}
 
-		// Token: 0x06003094 RID: 12436 RVA: 0x001A6570 File Offset: 0x001A4970
+		// Token: 0x06003093 RID: 12435 RVA: 0x001A67D8 File Offset: 0x001A4BD8
 		public static bool CanInspectTogether(object A, object B)
 		{
 			Thing thing = A as Thing;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return thing != null && thing2 != null && thing.def.category != ThingCategory.Pawn && thing.def == thing2.def;
 		}
 
-		// Token: 0x06003095 RID: 12437 RVA: 0x001A65CC File Offset: 0x001A49CC
+		// Token: 0x06003094 RID: 12436 RVA: 0x001A6834 File Offset: 0x001A4C34
 		public static string AdjustedLabelFor(IEnumerable<object> selected, Rect rect)
 		{
 			Zone zone = selected.First<object>() as Zone;
@@ -131,7 +131,7 @@ namespace RimWorld
 			return text.Truncate(rect.width, InspectPaneUtility.truncatedLabelsCached);
 		}
 
-		// Token: 0x06003096 RID: 12438 RVA: 0x001A679C File Offset: 0x001A4B9C
+		// Token: 0x06003095 RID: 12437 RVA: 0x001A6A04 File Offset: 0x001A4E04
 		public static void ExtraOnGUI(IInspectPane pane)
 		{
 			if (pane.AnythingSelected)
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003097 RID: 12439 RVA: 0x001A67D8 File Offset: 0x001A4BD8
+		// Token: 0x06003096 RID: 12438 RVA: 0x001A6A40 File Offset: 0x001A4E40
 		public static void UpdateTabs(IInspectPane pane)
 		{
 			bool flag = false;
@@ -169,7 +169,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003098 RID: 12440 RVA: 0x001A6868 File Offset: 0x001A4C68
+		// Token: 0x06003097 RID: 12439 RVA: 0x001A6AD0 File Offset: 0x001A4ED0
 		public static void InspectPaneOnGUI(Rect inRect, IInspectPane pane)
 		{
 			pane.RecentHeight = 165f;
@@ -220,7 +220,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003099 RID: 12441 RVA: 0x001A6A34 File Offset: 0x001A4E34
+		// Token: 0x06003098 RID: 12440 RVA: 0x001A6C9C File Offset: 0x001A509C
 		private static void DoTabs(IInspectPane pane)
 		{
 			try
@@ -265,13 +265,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600309A RID: 12442 RVA: 0x001A6BC4 File Offset: 0x001A4FC4
+		// Token: 0x06003099 RID: 12441 RVA: 0x001A6E2C File Offset: 0x001A522C
 		private static bool IsOpen(InspectTabBase tab, IInspectPane pane)
 		{
 			return tab.GetType() == pane.OpenTabType;
 		}
 
-		// Token: 0x0600309B RID: 12443 RVA: 0x001A6BE8 File Offset: 0x001A4FE8
+		// Token: 0x0600309A RID: 12442 RVA: 0x001A6E50 File Offset: 0x001A5250
 		private static void ToggleTab(InspectTabBase tab, IInspectPane pane)
 		{
 			if (InspectPaneUtility.IsOpen(tab, pane) || (tab == null && pane.OpenTabType == null))
@@ -287,7 +287,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600309C RID: 12444 RVA: 0x001A6C4C File Offset: 0x001A504C
+		// Token: 0x0600309B RID: 12443 RVA: 0x001A6EB4 File Offset: 0x001A52B4
 		public static InspectTabBase OpenTab(Type inspectTabType)
 		{
 			MainTabWindow_Inspect mainTabWindow_Inspect = (MainTabWindow_Inspect)MainButtonDefOf.Inspect.TabWindow;
@@ -308,7 +308,7 @@ namespace RimWorld
 			return inspectTabBase;
 		}
 
-		// Token: 0x0600309D RID: 12445 RVA: 0x001A6CDC File Offset: 0x001A50DC
+		// Token: 0x0600309C RID: 12444 RVA: 0x001A6F44 File Offset: 0x001A5344
 		private static void InterfaceToggleTab(InspectTabBase tab, IInspectPane pane)
 		{
 			if (!TutorSystem.TutorialMode || InspectPaneUtility.IsOpen(tab, pane) || TutorSystem.AllowAction("ITab-" + tab.tutorTag + "-Open"))

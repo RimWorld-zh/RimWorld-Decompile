@@ -7,19 +7,19 @@ namespace RimWorld
 	[DefOf]
 	public static class TrainabilityDefOf
 	{
-		// Token: 0x040022A9 RID: 8873
+		// Token: 0x040022B0 RID: 8880
 		public static TrainabilityDef None;
 
-		// Token: 0x040022AA RID: 8874
+		// Token: 0x040022B1 RID: 8881
 		public static TrainabilityDef Simple;
 
-		// Token: 0x040022AB RID: 8875
+		// Token: 0x040022B2 RID: 8882
 		public static TrainabilityDef Intermediate;
 
-		// Token: 0x040022AC RID: 8876
+		// Token: 0x040022B3 RID: 8883
 		public static TrainabilityDef Advanced;
 
-		// Token: 0x06003666 RID: 13926 RVA: 0x001D0EE1 File Offset: 0x001CF2E1
+		// Token: 0x06003666 RID: 13926 RVA: 0x001D11B5 File Offset: 0x001CF5B5
 		static TrainabilityDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TrainabilityDefOf));

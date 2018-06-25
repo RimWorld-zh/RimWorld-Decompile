@@ -5,11 +5,11 @@ namespace RimWorld.Planet
 	// Token: 0x0200062D RID: 1581
 	public enum PawnDiscardDecideMode
 	{
-		// Token: 0x0400129F RID: 4767
+		// Token: 0x040012A3 RID: 4771
 		Decide,
-		// Token: 0x040012A0 RID: 4768
+		// Token: 0x040012A4 RID: 4772
 		KeepForever,
-		// Token: 0x040012A1 RID: 4769
+		// Token: 0x040012A5 RID: 4773
 		Discard
 	}
 }

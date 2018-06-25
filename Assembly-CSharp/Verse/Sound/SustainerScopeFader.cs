@@ -2,22 +2,22 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC5 RID: 3525
+	// Token: 0x02000DC6 RID: 3526
 	public class SustainerScopeFader
 	{
-		// Token: 0x04003467 RID: 13415
+		// Token: 0x0400346E RID: 13422
 		public bool inScope = true;
 
-		// Token: 0x04003468 RID: 13416
+		// Token: 0x0400346F RID: 13423
 		public float inScopePercent = 1f;
 
-		// Token: 0x04003469 RID: 13417
+		// Token: 0x04003470 RID: 13424
 		private const float ScopeMatchFallRate = 0.03f;
 
-		// Token: 0x0400346A RID: 13418
+		// Token: 0x04003471 RID: 13425
 		private const float ScopeMatchRiseRate = 0.05f;
 
-		// Token: 0x06004EBC RID: 20156 RVA: 0x002921E0 File Offset: 0x002905E0
+		// Token: 0x06004EBC RID: 20156 RVA: 0x002924C0 File Offset: 0x002908C0
 		public void SustainerScopeUpdate()
 		{
 			if (this.inScope)

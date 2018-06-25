@@ -6,16 +6,16 @@ namespace RimWorld
 	// Token: 0x020002A8 RID: 680
 	public class InspirationWorker
 	{
-		// Token: 0x0400064A RID: 1610
+		// Token: 0x0400064C RID: 1612
 		public InspirationDef def;
 
-		// Token: 0x06000B61 RID: 2913 RVA: 0x00066B1C File Offset: 0x00064F1C
+		// Token: 0x06000B60 RID: 2912 RVA: 0x00066B18 File Offset: 0x00064F18
 		public virtual float CommonalityFor(Pawn pawn)
 		{
 			return this.def.baseCommonality;
 		}
 
-		// Token: 0x06000B62 RID: 2914 RVA: 0x00066B3C File Offset: 0x00064F3C
+		// Token: 0x06000B61 RID: 2913 RVA: 0x00066B38 File Offset: 0x00064F38
 		public virtual bool InspirationCanOccur(Pawn pawn)
 		{
 			bool result;

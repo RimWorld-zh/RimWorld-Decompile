@@ -9,21 +9,21 @@ namespace RimWorld
 	// Token: 0x0200031D RID: 797
 	public abstract class IncidentWorker_Ambush : IncidentWorker
 	{
-		// Token: 0x06000D85 RID: 3461
+		// Token: 0x06000D84 RID: 3460
 		protected abstract List<Pawn> GeneratePawns(IncidentParms parms);
 
-		// Token: 0x06000D86 RID: 3462 RVA: 0x00073E47 File Offset: 0x00072247
+		// Token: 0x06000D85 RID: 3461 RVA: 0x00073E4F File Offset: 0x0007224F
 		protected virtual void PostProcessGeneratedPawnsAfterSpawning(List<Pawn> generatedPawns)
 		{
 		}
 
-		// Token: 0x06000D87 RID: 3463 RVA: 0x00073E4C File Offset: 0x0007224C
+		// Token: 0x06000D86 RID: 3462 RVA: 0x00073E54 File Offset: 0x00072254
 		protected virtual LordJob CreateLordJob(List<Pawn> generatedPawns, IncidentParms parms)
 		{
 			return null;
 		}
 
-		// Token: 0x06000D88 RID: 3464 RVA: 0x00073E64 File Offset: 0x00072264
+		// Token: 0x06000D87 RID: 3463 RVA: 0x00073E6C File Offset: 0x0007226C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = parms.target as Map;
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D89 RID: 3465 RVA: 0x00073EAC File Offset: 0x000722AC
+		// Token: 0x06000D88 RID: 3464 RVA: 0x00073EB4 File Offset: 0x000722B4
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = parms.target as Map;
@@ -73,7 +73,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D8A RID: 3466 RVA: 0x00073F78 File Offset: 0x00072378
+		// Token: 0x06000D89 RID: 3465 RVA: 0x00073F80 File Offset: 0x00072380
 		private bool DoExecute(IncidentParms parms, List<Pawn> generatedEnemies, IntVec3 existingMapEdgeCell)
 		{
 			Map map = parms.target as Map;
@@ -108,31 +108,31 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000D8B RID: 3467 RVA: 0x00074098 File Offset: 0x00072498
+		// Token: 0x06000D8A RID: 3466 RVA: 0x000740A0 File Offset: 0x000724A0
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(map) && map.reachability.CanReachColony(x), map, CellFinder.EdgeRoadChance_Hostile, out cell);
 		}
 
-		// Token: 0x06000D8C RID: 3468 RVA: 0x000740D8 File Offset: 0x000724D8
+		// Token: 0x06000D8B RID: 3467 RVA: 0x000740E0 File Offset: 0x000724E0
 		protected virtual string GetLetterLabel(Pawn anyPawn, IncidentParms parms)
 		{
 			return this.def.letterLabel;
 		}
 
-		// Token: 0x06000D8D RID: 3469 RVA: 0x000740F8 File Offset: 0x000724F8
+		// Token: 0x06000D8C RID: 3468 RVA: 0x00074100 File Offset: 0x00072500
 		protected virtual string GetLetterText(Pawn anyPawn, IncidentParms parms)
 		{
 			return this.def.letterText;
 		}
 
-		// Token: 0x06000D8E RID: 3470 RVA: 0x00074118 File Offset: 0x00072518
+		// Token: 0x06000D8D RID: 3469 RVA: 0x00074120 File Offset: 0x00072520
 		protected virtual LetterDef GetLetterDef(Pawn anyPawn, IncidentParms parms)
 		{
 			return this.def.letterDef;
 		}
 
-		// Token: 0x06000D8F RID: 3471 RVA: 0x00074138 File Offset: 0x00072538
+		// Token: 0x06000D8E RID: 3470 RVA: 0x00074140 File Offset: 0x00072540
 		protected virtual string GetRelatedPawnsInfoLetterText(IncidentParms parms)
 		{
 			return "LetterRelatedPawnsGroupGeneric".Translate(new object[]

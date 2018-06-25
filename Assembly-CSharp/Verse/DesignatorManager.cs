@@ -5,17 +5,17 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E15 RID: 3605
+	// Token: 0x02000E16 RID: 3606
 	public class DesignatorManager
 	{
-		// Token: 0x0400358F RID: 13711
+		// Token: 0x04003596 RID: 13718
 		private Designator selectedDesignator;
 
-		// Token: 0x04003590 RID: 13712
+		// Token: 0x04003597 RID: 13719
 		private DesignationDragger dragger = new DesignationDragger();
 
 		// Token: 0x17000D6E RID: 3438
-		// (get) Token: 0x060051D9 RID: 20953 RVA: 0x0029F1B8 File Offset: 0x0029D5B8
+		// (get) Token: 0x060051D9 RID: 20953 RVA: 0x0029F498 File Offset: 0x0029D898
 		public Designator SelectedDesignator
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000D6F RID: 3439
-		// (get) Token: 0x060051DA RID: 20954 RVA: 0x0029F1D4 File Offset: 0x0029D5D4
+		// (get) Token: 0x060051DA RID: 20954 RVA: 0x0029F4B4 File Offset: 0x0029D8B4
 		public DesignationDragger Dragger
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051DB RID: 20955 RVA: 0x0029F1EF File Offset: 0x0029D5EF
+		// Token: 0x060051DB RID: 20955 RVA: 0x0029F4CF File Offset: 0x0029D8CF
 		public void Select(Designator des)
 		{
 			this.Deselect();
@@ -42,7 +42,7 @@ namespace Verse
 			this.selectedDesignator.Selected();
 		}
 
-		// Token: 0x060051DC RID: 20956 RVA: 0x0029F20A File Offset: 0x0029D60A
+		// Token: 0x060051DC RID: 20956 RVA: 0x0029F4EA File Offset: 0x0029D8EA
 		public void Deselect()
 		{
 			if (this.selectedDesignator != null)
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051DD RID: 20957 RVA: 0x0029F22C File Offset: 0x0029D62C
+		// Token: 0x060051DD RID: 20957 RVA: 0x0029F50C File Offset: 0x0029D90C
 		private bool CheckSelectedDesignatorValid()
 		{
 			bool result;
@@ -72,7 +72,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060051DE RID: 20958 RVA: 0x0029F274 File Offset: 0x0029D674
+		// Token: 0x060051DE RID: 20958 RVA: 0x0029F554 File Offset: 0x0029D954
 		public void ProcessInputEvents()
 		{
 			if (this.CheckSelectedDesignatorValid())
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051DF RID: 20959 RVA: 0x0029F400 File Offset: 0x0029D800
+		// Token: 0x060051DF RID: 20959 RVA: 0x0029F6E0 File Offset: 0x0029DAE0
 		public void DesignationManagerOnGUI()
 		{
 			this.dragger.DraggerOnGUI();
@@ -130,7 +130,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051E0 RID: 20960 RVA: 0x0029F424 File Offset: 0x0029D824
+		// Token: 0x060051E0 RID: 20960 RVA: 0x0029F704 File Offset: 0x0029DB04
 		public void DesignatorManagerUpdate()
 		{
 			this.dragger.DraggerUpdate();

@@ -4,16 +4,16 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A87 RID: 2695
+	// Token: 0x02000A88 RID: 2696
 	public class MentalState_TargetedTantrum : MentalState_Tantrum
 	{
-		// Token: 0x04002582 RID: 9602
+		// Token: 0x04002592 RID: 9618
 		public const int MinMarketValue = 300;
 
-		// Token: 0x04002583 RID: 9603
+		// Token: 0x04002593 RID: 9619
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06003BD2 RID: 15314 RVA: 0x001F8964 File Offset: 0x001F6D64
+		// Token: 0x06003BD3 RID: 15315 RVA: 0x001F8C90 File Offset: 0x001F7090
 		public override void MentalStateTick()
 		{
 			if (this.target == null || this.target.Destroyed)
@@ -44,14 +44,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BD3 RID: 15315 RVA: 0x001F8A54 File Offset: 0x001F6E54
+		// Token: 0x06003BD4 RID: 15316 RVA: 0x001F8D80 File Offset: 0x001F7180
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.TryFindNewTarget();
 		}
 
-		// Token: 0x06003BD4 RID: 15316 RVA: 0x001F8A68 File Offset: 0x001F6E68
+		// Token: 0x06003BD5 RID: 15317 RVA: 0x001F8D94 File Offset: 0x001F7194
 		private bool TryFindNewTarget()
 		{
 			TantrumMentalStateUtility.GetSmashableThingsNear(this.pawn, this.pawn.Position, MentalState_TargetedTantrum.tmpThings, null, 300, 40);
@@ -60,7 +60,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003BD5 RID: 15317 RVA: 0x001F8ADC File Offset: 0x001F6EDC
+		// Token: 0x06003BD6 RID: 15318 RVA: 0x001F8E08 File Offset: 0x001F7208
 		public override string GetBeginLetterText()
 		{
 			string result;

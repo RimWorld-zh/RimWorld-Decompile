@@ -7,113 +7,113 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9A RID: 3738
+	// Token: 0x02000E9B RID: 3739
 	[StaticConstructorOnStartup]
 	public static class GenUI
 	{
-		// Token: 0x04003A52 RID: 14930
+		// Token: 0x04003A5A RID: 14938
 		public const float Pad = 10f;
 
-		// Token: 0x04003A53 RID: 14931
+		// Token: 0x04003A5B RID: 14939
 		public const float GapTiny = 4f;
 
-		// Token: 0x04003A54 RID: 14932
+		// Token: 0x04003A5C RID: 14940
 		public const float GapSmall = 10f;
 
-		// Token: 0x04003A55 RID: 14933
+		// Token: 0x04003A5D RID: 14941
 		public const float Gap = 17f;
 
-		// Token: 0x04003A56 RID: 14934
+		// Token: 0x04003A5E RID: 14942
 		public const float GapWide = 26f;
 
-		// Token: 0x04003A57 RID: 14935
+		// Token: 0x04003A5F RID: 14943
 		public const float ListSpacing = 28f;
 
-		// Token: 0x04003A58 RID: 14936
+		// Token: 0x04003A60 RID: 14944
 		public const float MouseAttachIconSize = 32f;
 
-		// Token: 0x04003A59 RID: 14937
+		// Token: 0x04003A61 RID: 14945
 		public const float MouseAttachIconOffset = 8f;
 
-		// Token: 0x04003A5A RID: 14938
+		// Token: 0x04003A62 RID: 14946
 		public const float ScrollBarWidth = 16f;
 
-		// Token: 0x04003A5B RID: 14939
+		// Token: 0x04003A63 RID: 14947
 		public const float HorizontalSliderHeight = 16f;
 
-		// Token: 0x04003A5C RID: 14940
+		// Token: 0x04003A64 RID: 14948
 		public static readonly Vector2 TradeableDrawSize = new Vector2(150f, 45f);
 
-		// Token: 0x04003A5D RID: 14941
+		// Token: 0x04003A65 RID: 14949
 		public static readonly Color MouseoverColor = new Color(0.3f, 0.7f, 0.9f);
 
-		// Token: 0x04003A5E RID: 14942
+		// Token: 0x04003A66 RID: 14950
 		public static readonly Color SubtleMouseoverColor = new Color(0.7f, 0.7f, 0.7f);
 
-		// Token: 0x04003A5F RID: 14943
+		// Token: 0x04003A67 RID: 14951
 		public static readonly Vector2 MaxWinSize = new Vector2(1010f, 754f);
 
-		// Token: 0x04003A60 RID: 14944
+		// Token: 0x04003A68 RID: 14952
 		public const float SmallIconSize = 24f;
 
-		// Token: 0x04003A61 RID: 14945
+		// Token: 0x04003A69 RID: 14953
 		public const int RootGUIDepth = 50;
 
-		// Token: 0x04003A62 RID: 14946
+		// Token: 0x04003A6A RID: 14954
 		public const int CameraGUIDepth = 100;
 
-		// Token: 0x04003A63 RID: 14947
+		// Token: 0x04003A6B RID: 14955
 		private const float MouseIconSize = 32f;
 
-		// Token: 0x04003A64 RID: 14948
+		// Token: 0x04003A6C RID: 14956
 		private const float MouseIconOffset = 12f;
 
-		// Token: 0x04003A65 RID: 14949
+		// Token: 0x04003A6D RID: 14957
 		private static readonly Material MouseoverBracketMaterial = MaterialPool.MatFrom("UI/Overlays/MouseoverBracketTex", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x04003A66 RID: 14950
+		// Token: 0x04003A6E RID: 14958
 		private static readonly Texture2D UnderShadowTex = ContentFinder<Texture2D>.Get("UI/Misc/ScreenCornerShadow", true);
 
-		// Token: 0x04003A67 RID: 14951
+		// Token: 0x04003A6F RID: 14959
 		private static readonly Texture2D UIFlash = ContentFinder<Texture2D>.Get("UI/Misc/Flash", true);
 
-		// Token: 0x04003A68 RID: 14952
+		// Token: 0x04003A70 RID: 14960
 		private static Dictionary<string, float> labelWidthCache = new Dictionary<string, float>();
 
-		// Token: 0x04003A69 RID: 14953
+		// Token: 0x04003A71 RID: 14961
 		private static readonly Vector2 PieceBarSize = new Vector2(100f, 17f);
 
-		// Token: 0x04003A6A RID: 14954
+		// Token: 0x04003A72 RID: 14962
 		public const float PawnDirectClickRadius = 0.4f;
 
-		// Token: 0x04003A6B RID: 14955
+		// Token: 0x04003A73 RID: 14963
 		private static List<Pawn> clickedPawns = new List<Pawn>();
 
-		// Token: 0x04003A6C RID: 14956
+		// Token: 0x04003A74 RID: 14964
 		[CompilerGenerated]
 		private static Comparison<Pawn> <>f__mg$cache0;
 
-		// Token: 0x04003A6D RID: 14957
+		// Token: 0x04003A75 RID: 14965
 		[CompilerGenerated]
 		private static Comparison<Thing> <>f__mg$cache1;
 
-		// Token: 0x04003A6E RID: 14958
+		// Token: 0x04003A76 RID: 14966
 		[CompilerGenerated]
 		private static Comparison<Pawn> <>f__mg$cache2;
 
-		// Token: 0x06005833 RID: 22579 RVA: 0x002D37B6 File Offset: 0x002D1BB6
+		// Token: 0x06005833 RID: 22579 RVA: 0x002D39A2 File Offset: 0x002D1DA2
 		public static void SetLabelAlign(TextAnchor a)
 		{
 			Text.Anchor = a;
 		}
 
-		// Token: 0x06005834 RID: 22580 RVA: 0x002D37BF File Offset: 0x002D1BBF
+		// Token: 0x06005834 RID: 22580 RVA: 0x002D39AB File Offset: 0x002D1DAB
 		public static void ResetLabelAlign()
 		{
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06005835 RID: 22581 RVA: 0x002D37C8 File Offset: 0x002D1BC8
+		// Token: 0x06005835 RID: 22581 RVA: 0x002D39B4 File Offset: 0x002D1DB4
 		public static float BackgroundDarkAlphaForText()
 		{
 			float result;
@@ -130,7 +130,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005836 RID: 22582 RVA: 0x002D3840 File Offset: 0x002D1C40
+		// Token: 0x06005836 RID: 22582 RVA: 0x002D3A2C File Offset: 0x002D1E2C
 		public static void DrawTextWinterShadow(Rect rect)
 		{
 			float num = GenUI.BackgroundDarkAlphaForText();
@@ -142,7 +142,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005837 RID: 22583 RVA: 0x002D3890 File Offset: 0x002D1C90
+		// Token: 0x06005837 RID: 22583 RVA: 0x002D3A7C File Offset: 0x002D1E7C
 		public static float IconDrawScale(ThingDef tDef)
 		{
 			float num = tDef.uiIconScale;
@@ -156,7 +156,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005838 RID: 22584 RVA: 0x002D3960 File Offset: 0x002D1D60
+		// Token: 0x06005838 RID: 22584 RVA: 0x002D3B4C File Offset: 0x002D1F4C
 		public static void ErrorDialog(string message)
 		{
 			if (Find.WindowStack != null)
@@ -165,7 +165,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005839 RID: 22585 RVA: 0x002D3990 File Offset: 0x002D1D90
+		// Token: 0x06005839 RID: 22585 RVA: 0x002D3B7C File Offset: 0x002D1F7C
 		public static void DrawFlash(float centerX, float centerY, float size, float alpha, Color color)
 		{
 			Rect position = new Rect(centerX - size / 2f, centerY - size / 2f, size, size);
@@ -176,7 +176,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x0600583A RID: 22586 RVA: 0x002D39E0 File Offset: 0x002D1DE0
+		// Token: 0x0600583A RID: 22586 RVA: 0x002D3BCC File Offset: 0x002D1FCC
 		public static float GetWidthCached(this string s)
 		{
 			if (GenUI.labelWidthCache.Count > 2000 || (Time.frameCount % 40000 == 0 && GenUI.labelWidthCache.Count > 100))
@@ -198,19 +198,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600583B RID: 22587 RVA: 0x002D3A6C File Offset: 0x002D1E6C
+		// Token: 0x0600583B RID: 22587 RVA: 0x002D3C58 File Offset: 0x002D2058
 		public static Rect Rounded(this Rect r)
 		{
 			return new Rect((float)((int)r.x), (float)((int)r.y), (float)((int)r.width), (float)((int)r.height));
 		}
 
-		// Token: 0x0600583C RID: 22588 RVA: 0x002D3AAC File Offset: 0x002D1EAC
+		// Token: 0x0600583C RID: 22588 RVA: 0x002D3C98 File Offset: 0x002D2098
 		public static Vector2 Rounded(this Vector2 v)
 		{
 			return new Vector2((float)((int)v.x), (float)((int)v.y));
 		}
 
-		// Token: 0x0600583D RID: 22589 RVA: 0x002D3AD8 File Offset: 0x002D1ED8
+		// Token: 0x0600583D RID: 22589 RVA: 0x002D3CC4 File Offset: 0x002D20C4
 		public static float DistFromRect(Rect r, Vector2 p)
 		{
 			float num = Mathf.Abs(p.x - r.center.x) - r.width / 2f;
@@ -226,7 +226,7 @@ namespace Verse
 			return Mathf.Sqrt(num * num + num2 * num2);
 		}
 
-		// Token: 0x0600583E RID: 22590 RVA: 0x002D3B74 File Offset: 0x002D1F74
+		// Token: 0x0600583E RID: 22590 RVA: 0x002D3D60 File Offset: 0x002D2160
 		public static void DrawMouseAttachment(Texture iconTex, string text = "", float angle = 0f, Vector2 offset = default(Vector2), Rect? customRect = null)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
@@ -260,7 +260,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600583F RID: 22591 RVA: 0x002D3CD4 File Offset: 0x002D20D4
+		// Token: 0x0600583F RID: 22591 RVA: 0x002D3EC0 File Offset: 0x002D22C0
 		public static void DrawMouseAttachment(Texture2D icon)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
@@ -271,14 +271,14 @@ namespace Verse
 			}, false, false, 0f);
 		}
 
-		// Token: 0x06005840 RID: 22592 RVA: 0x002D3D54 File Offset: 0x002D2154
+		// Token: 0x06005840 RID: 22592 RVA: 0x002D3F40 File Offset: 0x002D2340
 		public static void RenderMouseoverBracket()
 		{
 			Vector3 position = UI.MouseCell().ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
 			Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, GenUI.MouseoverBracketMaterial, 0);
 		}
 
-		// Token: 0x06005841 RID: 22593 RVA: 0x002D3D88 File Offset: 0x002D2188
+		// Token: 0x06005841 RID: 22593 RVA: 0x002D3F74 File Offset: 0x002D2374
 		public static void DrawStatusLevel(Need status, Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -295,13 +295,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005842 RID: 22594 RVA: 0x002D3E38 File Offset: 0x002D2238
+		// Token: 0x06005842 RID: 22594 RVA: 0x002D4024 File Offset: 0x002D2424
 		public static IEnumerable<LocalTargetInfo> TargetsAtMouse(TargetingParameters clickParams, bool thingsOnly = false)
 		{
 			return GenUI.TargetsAt(UI.MouseMapPosition(), clickParams, thingsOnly);
 		}
 
-		// Token: 0x06005843 RID: 22595 RVA: 0x002D3E5C File Offset: 0x002D225C
+		// Token: 0x06005843 RID: 22595 RVA: 0x002D4048 File Offset: 0x002D2448
 		public static IEnumerable<LocalTargetInfo> TargetsAt(Vector3 clickPos, TargetingParameters clickParams, bool thingsOnly = false)
 		{
 			List<Thing> clickableList = GenUI.ThingsUnderMouse(clickPos, 0.8f, clickParams);
@@ -320,7 +320,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005844 RID: 22596 RVA: 0x002D3E94 File Offset: 0x002D2294
+		// Token: 0x06005844 RID: 22596 RVA: 0x002D4080 File Offset: 0x002D2480
 		public static List<Thing> ThingsUnderMouse(Vector3 clickPos, float pawnWideClickRadius, TargetingParameters clickParams)
 		{
 			IntVec3 c = IntVec3.FromVector3(clickPos);
@@ -388,7 +388,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005845 RID: 22597 RVA: 0x002D415C File Offset: 0x002D255C
+		// Token: 0x06005845 RID: 22597 RVA: 0x002D4348 File Offset: 0x002D2748
 		private static int CompareThingsByDistanceToMousePointer(Thing a, Thing b)
 		{
 			Vector3 b2 = UI.MouseMapPosition();
@@ -410,7 +410,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005846 RID: 22598 RVA: 0x002D41B8 File Offset: 0x002D25B8
+		// Token: 0x06005846 RID: 22598 RVA: 0x002D43A4 File Offset: 0x002D27A4
 		private static int CompareThingsByDrawAltitude(Thing A, Thing B)
 		{
 			int result;
@@ -429,7 +429,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005847 RID: 22599 RVA: 0x002D4214 File Offset: 0x002D2614
+		// Token: 0x06005847 RID: 22599 RVA: 0x002D4400 File Offset: 0x002D2800
 		public static int CurrentAdjustmentMultiplier()
 		{
 			int result;
@@ -452,25 +452,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005848 RID: 22600 RVA: 0x002D4284 File Offset: 0x002D2684
+		// Token: 0x06005848 RID: 22600 RVA: 0x002D4470 File Offset: 0x002D2870
 		public static Rect GetInnerRect(this Rect rect)
 		{
 			return rect.ContractedBy(17f);
 		}
 
-		// Token: 0x06005849 RID: 22601 RVA: 0x002D42A4 File Offset: 0x002D26A4
+		// Token: 0x06005849 RID: 22601 RVA: 0x002D4490 File Offset: 0x002D2890
 		public static Rect ExpandedBy(this Rect rect, float margin)
 		{
 			return new Rect(rect.x - margin, rect.y - margin, rect.width + margin * 2f, rect.height + margin * 2f);
 		}
 
-		// Token: 0x0600584A RID: 22602 RVA: 0x002D42F0 File Offset: 0x002D26F0
+		// Token: 0x0600584A RID: 22602 RVA: 0x002D44DC File Offset: 0x002D28DC
 		public static Rect ContractedBy(this Rect rect, float margin)
 		{
 			return new Rect(rect.x + margin, rect.y + margin, rect.width - margin * 2f, rect.height - margin * 2f);
 		}
 
-		// Token: 0x0600584B RID: 22603 RVA: 0x002D433C File Offset: 0x002D273C
+		// Token: 0x0600584B RID: 22603 RVA: 0x002D4528 File Offset: 0x002D2928
 		public static Rect ScaledBy(this Rect rect, float scale)
 		{
 			rect.x -= rect.width * (scale - 1f) / 2f;
@@ -480,25 +480,25 @@ namespace Verse
 			return rect;
 		}
 
-		// Token: 0x0600584C RID: 22604 RVA: 0x002D43B8 File Offset: 0x002D27B8
+		// Token: 0x0600584C RID: 22604 RVA: 0x002D45A4 File Offset: 0x002D29A4
 		public static Rect CenteredOnXIn(this Rect rect, Rect otherRect)
 		{
 			return new Rect(otherRect.x + (otherRect.width - rect.width) / 2f, rect.y, rect.width, rect.height);
 		}
 
-		// Token: 0x0600584D RID: 22605 RVA: 0x002D4404 File Offset: 0x002D2804
+		// Token: 0x0600584D RID: 22605 RVA: 0x002D45F0 File Offset: 0x002D29F0
 		public static Rect CenteredOnYIn(this Rect rect, Rect otherRect)
 		{
 			return new Rect(rect.x, otherRect.y + (otherRect.height - rect.height) / 2f, rect.width, rect.height);
 		}
 
-		// Token: 0x0600584E RID: 22606 RVA: 0x002D4450 File Offset: 0x002D2850
+		// Token: 0x0600584E RID: 22606 RVA: 0x002D463C File Offset: 0x002D2A3C
 		public static Rect AtZero(this Rect rect)
 		{
 			return new Rect(0f, 0f, rect.width, rect.height);
 		}
 
-		// Token: 0x0600584F RID: 22607 RVA: 0x002D4482 File Offset: 0x002D2882
+		// Token: 0x0600584F RID: 22607 RVA: 0x002D466E File Offset: 0x002D2A6E
 		public static void AbsorbClicksInRect(Rect r)
 		{
 			if (Event.current.type == EventType.MouseDown && r.Contains(Event.current.mousePosition))
@@ -507,79 +507,79 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005850 RID: 22608 RVA: 0x002D44B4 File Offset: 0x002D28B4
+		// Token: 0x06005850 RID: 22608 RVA: 0x002D46A0 File Offset: 0x002D2AA0
 		public static Rect LeftHalf(this Rect rect)
 		{
 			return new Rect(rect.x, rect.y, rect.width / 2f, rect.height);
 		}
 
-		// Token: 0x06005851 RID: 22609 RVA: 0x002D44F0 File Offset: 0x002D28F0
+		// Token: 0x06005851 RID: 22609 RVA: 0x002D46DC File Offset: 0x002D2ADC
 		public static Rect LeftPart(this Rect rect, float pct)
 		{
 			return new Rect(rect.x, rect.y, rect.width * pct, rect.height);
 		}
 
-		// Token: 0x06005852 RID: 22610 RVA: 0x002D4528 File Offset: 0x002D2928
+		// Token: 0x06005852 RID: 22610 RVA: 0x002D4714 File Offset: 0x002D2B14
 		public static Rect LeftPartPixels(this Rect rect, float width)
 		{
 			return new Rect(rect.x, rect.y, width, rect.height);
 		}
 
-		// Token: 0x06005853 RID: 22611 RVA: 0x002D4558 File Offset: 0x002D2958
+		// Token: 0x06005853 RID: 22611 RVA: 0x002D4744 File Offset: 0x002D2B44
 		public static Rect RightHalf(this Rect rect)
 		{
 			return new Rect(rect.x + rect.width / 2f, rect.y, rect.width / 2f, rect.height);
 		}
 
-		// Token: 0x06005854 RID: 22612 RVA: 0x002D45A4 File Offset: 0x002D29A4
+		// Token: 0x06005854 RID: 22612 RVA: 0x002D4790 File Offset: 0x002D2B90
 		public static Rect RightPart(this Rect rect, float pct)
 		{
 			return new Rect(rect.x + rect.width * (1f - pct), rect.y, rect.width * pct, rect.height);
 		}
 
-		// Token: 0x06005855 RID: 22613 RVA: 0x002D45EC File Offset: 0x002D29EC
+		// Token: 0x06005855 RID: 22613 RVA: 0x002D47D8 File Offset: 0x002D2BD8
 		public static Rect RightPartPixels(this Rect rect, float width)
 		{
 			return new Rect(rect.x + rect.width - width, rect.y, width, rect.height);
 		}
 
-		// Token: 0x06005856 RID: 22614 RVA: 0x002D4628 File Offset: 0x002D2A28
+		// Token: 0x06005856 RID: 22614 RVA: 0x002D4814 File Offset: 0x002D2C14
 		public static Rect TopHalf(this Rect rect)
 		{
 			return new Rect(rect.x, rect.y, rect.width, rect.height / 2f);
 		}
 
-		// Token: 0x06005857 RID: 22615 RVA: 0x002D4664 File Offset: 0x002D2A64
+		// Token: 0x06005857 RID: 22615 RVA: 0x002D4850 File Offset: 0x002D2C50
 		public static Rect TopPart(this Rect rect, float pct)
 		{
 			return new Rect(rect.x, rect.y, rect.width, rect.height * pct);
 		}
 
-		// Token: 0x06005858 RID: 22616 RVA: 0x002D469C File Offset: 0x002D2A9C
+		// Token: 0x06005858 RID: 22616 RVA: 0x002D4888 File Offset: 0x002D2C88
 		public static Rect TopPartPixels(this Rect rect, float height)
 		{
 			return new Rect(rect.x, rect.y, rect.width, height);
 		}
 
-		// Token: 0x06005859 RID: 22617 RVA: 0x002D46CC File Offset: 0x002D2ACC
+		// Token: 0x06005859 RID: 22617 RVA: 0x002D48B8 File Offset: 0x002D2CB8
 		public static Rect BottomHalf(this Rect rect)
 		{
 			return new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height / 2f);
 		}
 
-		// Token: 0x0600585A RID: 22618 RVA: 0x002D4718 File Offset: 0x002D2B18
+		// Token: 0x0600585A RID: 22618 RVA: 0x002D4904 File Offset: 0x002D2D04
 		public static Rect BottomPart(this Rect rect, float pct)
 		{
 			return new Rect(rect.x, rect.y + rect.height * (1f - pct), rect.width, rect.height * pct);
 		}
 
-		// Token: 0x0600585B RID: 22619 RVA: 0x002D4760 File Offset: 0x002D2B60
+		// Token: 0x0600585B RID: 22619 RVA: 0x002D494C File Offset: 0x002D2D4C
 		public static Rect BottomPartPixels(this Rect rect, float height)
 		{
 			return new Rect(rect.x, rect.y + rect.height - height, rect.width, height);
 		}
 
-		// Token: 0x0600585C RID: 22620 RVA: 0x002D479C File Offset: 0x002D2B9C
+		// Token: 0x0600585C RID: 22620 RVA: 0x002D4988 File Offset: 0x002D2D88
 		public static Color LerpColor(List<Pair<float, Color>> colors, float value)
 		{
 			Color result;
@@ -610,7 +610,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600585D RID: 22621 RVA: 0x002D4878 File Offset: 0x002D2C78
+		// Token: 0x0600585D RID: 22621 RVA: 0x002D4A64 File Offset: 0x002D2E64
 		public static Vector2 GetMouseAttachedWindowPos(float width, float height)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
@@ -639,7 +639,7 @@ namespace Verse
 			return new Vector2(x, y);
 		}
 
-		// Token: 0x0600585E RID: 22622 RVA: 0x002D494C File Offset: 0x002D2D4C
+		// Token: 0x0600585E RID: 22622 RVA: 0x002D4B38 File Offset: 0x002D2F38
 		public static float GetCenteredButtonPos(int buttonIndex, int buttonsCount, float totalWidth, float buttonWidth, float pad = 10f)
 		{
 			float num = (float)buttonsCount * buttonWidth + (float)(buttonsCount - 1) * pad;

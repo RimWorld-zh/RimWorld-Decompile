@@ -7,41 +7,41 @@ namespace RimWorld
 	// Token: 0x020002AB RID: 683
 	public class JoyGiverDef : Def
 	{
-		// Token: 0x04000659 RID: 1625
+		// Token: 0x0400065B RID: 1627
 		public Type giverClass = null;
 
-		// Token: 0x0400065A RID: 1626
+		// Token: 0x0400065C RID: 1628
 		public float baseChance = 0f;
 
-		// Token: 0x0400065B RID: 1627
+		// Token: 0x0400065D RID: 1629
 		public List<ThingDef> thingDefs = null;
 
-		// Token: 0x0400065C RID: 1628
+		// Token: 0x0400065E RID: 1630
 		public JobDef jobDef;
 
-		// Token: 0x0400065D RID: 1629
+		// Token: 0x0400065F RID: 1631
 		public bool desireSit = true;
 
-		// Token: 0x0400065E RID: 1630
+		// Token: 0x04000660 RID: 1632
 		public float pctPawnsEverDo = 1f;
 
-		// Token: 0x0400065F RID: 1631
+		// Token: 0x04000661 RID: 1633
 		public bool unroofedOnly = false;
 
-		// Token: 0x04000660 RID: 1632
+		// Token: 0x04000662 RID: 1634
 		public JoyKindDef joyKind;
 
-		// Token: 0x04000661 RID: 1633
+		// Token: 0x04000663 RID: 1635
 		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
 
-		// Token: 0x04000662 RID: 1634
+		// Token: 0x04000664 RID: 1636
 		public bool canDoWhileInBed;
 
-		// Token: 0x04000663 RID: 1635
+		// Token: 0x04000665 RID: 1637
 		private JoyGiver workerInt = null;
 
 		// Token: 0x170001AB RID: 427
-		// (get) Token: 0x06000B6B RID: 2923 RVA: 0x00066F68 File Offset: 0x00065368
+		// (get) Token: 0x06000B6A RID: 2922 RVA: 0x00066F64 File Offset: 0x00065364
 		public JoyGiver Worker
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B6C RID: 2924 RVA: 0x00066FB4 File Offset: 0x000653B4
+		// Token: 0x06000B6B RID: 2923 RVA: 0x00066FB0 File Offset: 0x000653B0
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000EE0 RID: 3808
+	// Token: 0x02000EE1 RID: 3809
 	public static class DataSerializeUtility
 	{
-		// Token: 0x06005A1E RID: 23070 RVA: 0x002E42D4 File Offset: 0x002E26D4
+		// Token: 0x06005A1E RID: 23070 RVA: 0x002E44F4 File Offset: 0x002E28F4
 		public static byte[] SerializeByte(int elements, Func<int, byte> reader)
 		{
 			byte[] array = new byte[elements];
@@ -16,19 +16,19 @@ namespace Verse
 			return array;
 		}
 
-		// Token: 0x06005A1F RID: 23071 RVA: 0x002E4310 File Offset: 0x002E2710
+		// Token: 0x06005A1F RID: 23071 RVA: 0x002E4530 File Offset: 0x002E2930
 		public static byte[] SerializeByte(byte[] data)
 		{
 			return data;
 		}
 
-		// Token: 0x06005A20 RID: 23072 RVA: 0x002E4328 File Offset: 0x002E2728
+		// Token: 0x06005A20 RID: 23072 RVA: 0x002E4548 File Offset: 0x002E2948
 		public static byte[] DeserializeByte(byte[] data)
 		{
 			return data;
 		}
 
-		// Token: 0x06005A21 RID: 23073 RVA: 0x002E4340 File Offset: 0x002E2740
+		// Token: 0x06005A21 RID: 23073 RVA: 0x002E4560 File Offset: 0x002E2960
 		public static void LoadByte(byte[] arr, int elements, Action<int, byte> writer)
 		{
 			if (arr != null && arr.Length != 0)
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A22 RID: 23074 RVA: 0x002E4380 File Offset: 0x002E2780
+		// Token: 0x06005A22 RID: 23074 RVA: 0x002E45A0 File Offset: 0x002E29A0
 		public static byte[] SerializeUshort(int elements, Func<int, ushort> reader)
 		{
 			byte[] array = new byte[elements * 2];
@@ -53,13 +53,13 @@ namespace Verse
 			return array;
 		}
 
-		// Token: 0x06005A23 RID: 23075 RVA: 0x002E43DC File Offset: 0x002E27DC
+		// Token: 0x06005A23 RID: 23075 RVA: 0x002E45FC File Offset: 0x002E29FC
 		public static byte[] SerializeUshort(ushort[] data)
 		{
 			return DataSerializeUtility.SerializeUshort(data.Length, (int i) => data[i]);
 		}
 
-		// Token: 0x06005A24 RID: 23076 RVA: 0x002E4418 File Offset: 0x002E2818
+		// Token: 0x06005A24 RID: 23076 RVA: 0x002E4638 File Offset: 0x002E2A38
 		public static ushort[] DeserializeUshort(byte[] data)
 		{
 			ushort[] result = new ushort[data.Length / 2];
@@ -70,7 +70,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005A25 RID: 23077 RVA: 0x002E4464 File Offset: 0x002E2864
+		// Token: 0x06005A25 RID: 23077 RVA: 0x002E4684 File Offset: 0x002E2A84
 		public static void LoadUshort(byte[] arr, int elements, Action<int, ushort> writer)
 		{
 			if (arr != null && arr.Length != 0)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A26 RID: 23078 RVA: 0x002E44B4 File Offset: 0x002E28B4
+		// Token: 0x06005A26 RID: 23078 RVA: 0x002E46D4 File Offset: 0x002E2AD4
 		public static byte[] SerializeInt(int elements, Func<int, int> reader)
 		{
 			byte[] array = new byte[elements * 4];
@@ -97,13 +97,13 @@ namespace Verse
 			return array;
 		}
 
-		// Token: 0x06005A27 RID: 23079 RVA: 0x002E4534 File Offset: 0x002E2934
+		// Token: 0x06005A27 RID: 23079 RVA: 0x002E4754 File Offset: 0x002E2B54
 		public static byte[] SerializeInt(int[] data)
 		{
 			return DataSerializeUtility.SerializeInt(data.Length, (int i) => data[i]);
 		}
 
-		// Token: 0x06005A28 RID: 23080 RVA: 0x002E4570 File Offset: 0x002E2970
+		// Token: 0x06005A28 RID: 23080 RVA: 0x002E4790 File Offset: 0x002E2B90
 		public static int[] DeserializeInt(byte[] data)
 		{
 			int[] result = new int[data.Length / 4];
@@ -114,7 +114,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005A29 RID: 23081 RVA: 0x002E45BC File Offset: 0x002E29BC
+		// Token: 0x06005A29 RID: 23081 RVA: 0x002E47DC File Offset: 0x002E2BDC
 		public static void LoadInt(byte[] arr, int elements, Action<int, int> writer)
 		{
 			if (arr != null && arr.Length != 0)

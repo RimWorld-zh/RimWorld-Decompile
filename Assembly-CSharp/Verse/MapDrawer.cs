@@ -5,23 +5,23 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000C3F RID: 3135
+	// Token: 0x02000C40 RID: 3136
 	public sealed class MapDrawer
 	{
-		// Token: 0x04002F40 RID: 12096
+		// Token: 0x04002F47 RID: 12103
 		private Map map;
 
-		// Token: 0x04002F41 RID: 12097
+		// Token: 0x04002F48 RID: 12104
 		private Section[,] sections;
 
-		// Token: 0x06004514 RID: 17684 RVA: 0x00245DBC File Offset: 0x002441BC
+		// Token: 0x06004514 RID: 17684 RVA: 0x0024609C File Offset: 0x0024449C
 		public MapDrawer(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000AE5 RID: 2789
-		// (get) Token: 0x06004515 RID: 17685 RVA: 0x00245DCC File Offset: 0x002441CC
+		// (get) Token: 0x06004515 RID: 17685 RVA: 0x002460AC File Offset: 0x002444AC
 		private IntVec2 SectionCount
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AE6 RID: 2790
-		// (get) Token: 0x06004516 RID: 17686 RVA: 0x00245E38 File Offset: 0x00244238
+		// (get) Token: 0x06004516 RID: 17686 RVA: 0x00246118 File Offset: 0x00244518
 		private CellRect VisibleSections
 		{
 			get
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004517 RID: 17687 RVA: 0x00245EE0 File Offset: 0x002442E0
+		// Token: 0x06004517 RID: 17687 RVA: 0x002461C0 File Offset: 0x002445C0
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags)
 		{
 			bool regenAdjacentCells = (dirtyFlags & (MapMeshFlag.FogOfWar | MapMeshFlag.Buildings)) != MapMeshFlag.None;
@@ -66,7 +66,7 @@ namespace Verse
 			this.MapMeshDirty(loc, dirtyFlags, regenAdjacentCells, regenAdjacentSections);
 		}
 
-		// Token: 0x06004518 RID: 17688 RVA: 0x00245F0C File Offset: 0x0024430C
+		// Token: 0x06004518 RID: 17688 RVA: 0x002461EC File Offset: 0x002445EC
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags, bool regenAdjacentCells, bool regenAdjacentSections)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -102,7 +102,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004519 RID: 17689 RVA: 0x00246070 File Offset: 0x00244470
+		// Token: 0x06004519 RID: 17689 RVA: 0x00246350 File Offset: 0x00244750
 		public void MapMeshDrawerUpdate_First()
 		{
 			CellRect visibleSections = this.VisibleSections;
@@ -133,7 +133,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600451A RID: 17690 RVA: 0x00246150 File Offset: 0x00244550
+		// Token: 0x0600451A RID: 17690 RVA: 0x00246430 File Offset: 0x00244830
 		private bool TryUpdateSection(Section sect)
 		{
 			bool result;
@@ -157,7 +157,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600451B RID: 17691 RVA: 0x002461BC File Offset: 0x002445BC
+		// Token: 0x0600451B RID: 17691 RVA: 0x0024649C File Offset: 0x0024489C
 		public void DrawMapMesh()
 		{
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
@@ -176,20 +176,20 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x0600451C RID: 17692 RVA: 0x00246268 File Offset: 0x00244668
+		// Token: 0x0600451C RID: 17692 RVA: 0x00246548 File Offset: 0x00244948
 		private IntVec2 SectionCoordsAt(IntVec3 loc)
 		{
 			return new IntVec2(Mathf.FloorToInt((float)(loc.x / 17)), Mathf.FloorToInt((float)(loc.z / 17)));
 		}
 
-		// Token: 0x0600451D RID: 17693 RVA: 0x002462A4 File Offset: 0x002446A4
+		// Token: 0x0600451D RID: 17693 RVA: 0x00246584 File Offset: 0x00244984
 		public Section SectionAt(IntVec3 loc)
 		{
 			IntVec2 intVec = this.SectionCoordsAt(loc);
 			return this.sections[intVec.x, intVec.z];
 		}
 
-		// Token: 0x0600451E RID: 17694 RVA: 0x002462DC File Offset: 0x002446DC
+		// Token: 0x0600451E RID: 17694 RVA: 0x002465BC File Offset: 0x002449BC
 		public void RegenerateEverythingNow()
 		{
 			if (this.sections == null)
@@ -209,7 +209,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600451F RID: 17695 RVA: 0x002463A4 File Offset: 0x002447A4
+		// Token: 0x0600451F RID: 17695 RVA: 0x00246684 File Offset: 0x00244A84
 		public void WholeMapChanged(MapMeshFlag change)
 		{
 			for (int i = 0; i < this.SectionCount.x; i++)
@@ -221,7 +221,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004520 RID: 17696 RVA: 0x00246410 File Offset: 0x00244810
+		// Token: 0x06004520 RID: 17696 RVA: 0x002466F0 File Offset: 0x00244AF0
 		private CellRect GetSunShadowsViewRect(CellRect rect)
 		{
 			GenCelestial.LightInfo lightSourceInfo = GenCelestial.GetLightSourceInfo(this.map, GenCelestial.LightType.Shadow);

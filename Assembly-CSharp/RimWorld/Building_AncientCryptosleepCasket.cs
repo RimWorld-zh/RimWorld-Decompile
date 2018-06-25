@@ -9,17 +9,17 @@ namespace RimWorld
 	// Token: 0x0200069B RID: 1691
 	public class Building_AncientCryptosleepCasket : Building_CryptosleepCasket
 	{
-		// Token: 0x040013FE RID: 5118
+		// Token: 0x04001402 RID: 5122
 		public int groupID = -1;
 
-		// Token: 0x060023D1 RID: 9169 RVA: 0x00133D42 File Offset: 0x00132142
+		// Token: 0x060023D0 RID: 9168 RVA: 0x00133FAA File Offset: 0x001323AA
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.groupID, "groupID", 0, false);
 		}
 
-		// Token: 0x060023D2 RID: 9170 RVA: 0x00133D60 File Offset: 0x00132160
+		// Token: 0x060023D1 RID: 9169 RVA: 0x00133FC8 File Offset: 0x001323C8
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023D3 RID: 9171 RVA: 0x00133E3C File Offset: 0x0013223C
+		// Token: 0x060023D2 RID: 9170 RVA: 0x001340A4 File Offset: 0x001324A4
 		public override void EjectContents()
 		{
 			List<Thing> list = new List<Thing>();
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023D4 RID: 9172 RVA: 0x00133F8C File Offset: 0x0013238C
+		// Token: 0x060023D3 RID: 9171 RVA: 0x001341F4 File Offset: 0x001325F4
 		private IEnumerable<Building_AncientCryptosleepCasket> UnopenedCasketsInGroup()
 		{
 			yield return this;

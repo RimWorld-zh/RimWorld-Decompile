@@ -10,35 +10,35 @@ namespace RimWorld
 	// Token: 0x02000320 RID: 800
 	public class IncidentWorker_CaravanDemand : IncidentWorker
 	{
-		// Token: 0x040008AE RID: 2222
+		// Token: 0x040008B1 RID: 2225
 		private static readonly FloatRange DemandAsPercentageOfCaravan = new FloatRange(0.02f, 0.35f);
 
-		// Token: 0x040008AF RID: 2223
+		// Token: 0x040008B2 RID: 2226
 		private const float IncidentPointsFactor = 1.5f;
 
-		// Token: 0x040008B0 RID: 2224
+		// Token: 0x040008B3 RID: 2227
 		private const float DemandSilverWeight = 5f;
 
-		// Token: 0x040008B1 RID: 2225
+		// Token: 0x040008B4 RID: 2228
 		private const float DemandAnimalWeight = 1f;
 
-		// Token: 0x040008B2 RID: 2226
+		// Token: 0x040008B5 RID: 2229
 		private const float DemandPrisonerWeight = 1f;
 
-		// Token: 0x040008B3 RID: 2227
+		// Token: 0x040008B6 RID: 2230
 		private const float DemandColonistWeight = 0.2f;
 
-		// Token: 0x040008B4 RID: 2228
+		// Token: 0x040008B7 RID: 2231
 		private const float DemandFallbackWeight = 1f;
 
-		// Token: 0x06000D9B RID: 3483 RVA: 0x000744A0 File Offset: 0x000728A0
+		// Token: 0x06000D9A RID: 3482 RVA: 0x000744A8 File Offset: 0x000728A8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
 			return CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(parms.target.Tile) && PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(parms.points, out faction, null, false, false, false, true);
 		}
 
-		// Token: 0x06000D9C RID: 3484 RVA: 0x000744E0 File Offset: 0x000728E0
+		// Token: 0x06000D9B RID: 3483 RVA: 0x000744E8 File Offset: 0x000728E8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			parms.points *= 1.5f;
@@ -110,7 +110,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D9D RID: 3485 RVA: 0x0007472C File Offset: 0x00072B2C
+		// Token: 0x06000D9C RID: 3484 RVA: 0x00074734 File Offset: 0x00072B34
 		private List<Thing> GenerateDemands(Caravan caravan)
 		{
 			List<Thing> list = new List<Thing>();
@@ -165,7 +165,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000D9E RID: 3486 RVA: 0x00074874 File Offset: 0x00072C74
+		// Token: 0x06000D9D RID: 3485 RVA: 0x0007487C File Offset: 0x00072C7C
 		private string GenerateMessageText(Faction enemyFaction, int attackerCount, List<Thing> demands, Caravan caravan)
 		{
 			return "CaravanDemand".Translate(new object[]
@@ -178,7 +178,7 @@ namespace RimWorld
 			}).CapitalizeFirst();
 		}
 
-		// Token: 0x06000D9F RID: 3487 RVA: 0x000748D4 File Offset: 0x00072CD4
+		// Token: 0x06000D9E RID: 3486 RVA: 0x000748DC File Offset: 0x00072CDC
 		private void TakeFromCaravan(Caravan caravan, List<Thing> demands, Faction enemyFaction)
 		{
 			List<Thing> list = new List<Thing>();
@@ -214,7 +214,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000DA0 RID: 3488 RVA: 0x000749FC File Offset: 0x00072DFC
+		// Token: 0x06000D9F RID: 3487 RVA: 0x00074A04 File Offset: 0x00072E04
 		private void ActionGive(Caravan caravan, List<Thing> demands, List<Pawn> attackers)
 		{
 			this.TakeFromCaravan(caravan, demands, attackers[0].Faction);
@@ -224,7 +224,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000DA1 RID: 3489 RVA: 0x00074A4C File Offset: 0x00072E4C
+		// Token: 0x06000DA0 RID: 3488 RVA: 0x00074A54 File Offset: 0x00072E54
 		private void ActionFight(Caravan caravan, List<Pawn> attackers)
 		{
 			Faction enemyFaction = attackers[0].Faction;

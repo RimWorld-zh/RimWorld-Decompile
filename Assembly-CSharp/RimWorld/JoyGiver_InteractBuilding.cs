@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class JoyGiver_InteractBuilding : JoyGiver
 	{
 		// Token: 0x170000CC RID: 204
-		// (get) Token: 0x0600051B RID: 1307 RVA: 0x00038984 File Offset: 0x00036D84
+		// (get) Token: 0x0600051B RID: 1307 RVA: 0x000389A0 File Offset: 0x00036DA0
 		protected virtual bool CanDoDuringParty
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600051C RID: 1308 RVA: 0x0003899C File Offset: 0x00036D9C
+		// Token: 0x0600051C RID: 1308 RVA: 0x000389B8 File Offset: 0x00036DB8
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, false, IntVec3.Invalid);
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600051D RID: 1309 RVA: 0x000389D4 File Offset: 0x00036DD4
+		// Token: 0x0600051D RID: 1309 RVA: 0x000389F0 File Offset: 0x00036DF0
 		public override Job TryGiveJobWhileInBed(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, true, IntVec3.Invalid);
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600051E RID: 1310 RVA: 0x00038A0C File Offset: 0x00036E0C
+		// Token: 0x0600051E RID: 1310 RVA: 0x00038A28 File Offset: 0x00036E28
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			Job result;
@@ -73,7 +73,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600051F RID: 1311 RVA: 0x00038A54 File Offset: 0x00036E54
+		// Token: 0x0600051F RID: 1311 RVA: 0x00038A70 File Offset: 0x00036E70
 		private Thing FindBestGame(Pawn pawn, bool inBed, IntVec3 partySpot)
 		{
 			List<Thing> searchSet = this.GetSearchSet(pawn);
@@ -92,7 +92,7 @@ namespace RimWorld
 			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
 		}
 
-		// Token: 0x06000520 RID: 1312 RVA: 0x00038B28 File Offset: 0x00036F28
+		// Token: 0x06000520 RID: 1312 RVA: 0x00038B44 File Offset: 0x00036F44
 		protected virtual bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
 			bool result;
@@ -123,7 +123,7 @@ namespace RimWorld
 		// Token: 0x06000521 RID: 1313
 		protected abstract Job TryGivePlayJob(Pawn pawn, Thing bestGame);
 
-		// Token: 0x06000522 RID: 1314 RVA: 0x00038BF0 File Offset: 0x00036FF0
+		// Token: 0x06000522 RID: 1314 RVA: 0x00038C0C File Offset: 0x0003700C
 		protected virtual Job TryGivePlayJobWhileInBed(Pawn pawn, Thing bestGame)
 		{
 			Building_Bed t = pawn.CurrentBed();

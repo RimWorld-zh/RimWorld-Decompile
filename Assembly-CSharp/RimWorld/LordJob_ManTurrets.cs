@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000171 RID: 369
 	public class LordJob_ManTurrets : LordJob
 	{
-		// Token: 0x0600079A RID: 1946 RVA: 0x0004AF74 File Offset: 0x00049374
+		// Token: 0x06000799 RID: 1945 RVA: 0x0004AF70 File Offset: 0x00049370
 		public override StateGraph CreateGraph()
 		{
 			return new StateGraph

@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C08 RID: 3080
+	// Token: 0x02000C09 RID: 3081
 	public static class DebugSolidColorMats
 	{
-		// Token: 0x04002E0D RID: 11789
+		// Token: 0x04002E14 RID: 11796
 		private static Dictionary<Color, Material> colorMatDict = new Dictionary<Color, Material>();
 
-		// Token: 0x06004359 RID: 17241 RVA: 0x0023980C File Offset: 0x00237C0C
+		// Token: 0x06004359 RID: 17241 RVA: 0x00239AEC File Offset: 0x00237EEC
 		public static Material MaterialOf(Color col)
 		{
 			Material material;

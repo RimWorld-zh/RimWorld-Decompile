@@ -7,17 +7,17 @@ namespace RimWorld
 	// Token: 0x020006BE RID: 1726
 	public class SignalAction_Letter : SignalAction
 	{
-		// Token: 0x0400148B RID: 5259
+		// Token: 0x0400148F RID: 5263
 		public Letter letter;
 
-		// Token: 0x06002528 RID: 9512 RVA: 0x0013ECB6 File Offset: 0x0013D0B6
+		// Token: 0x06002527 RID: 9511 RVA: 0x0013EF1E File Offset: 0x0013D31E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<Letter>(ref this.letter, "letter", new object[0]);
 		}
 
-		// Token: 0x06002529 RID: 9513 RVA: 0x0013ECD8 File Offset: 0x0013D0D8
+		// Token: 0x06002528 RID: 9512 RVA: 0x0013EF40 File Offset: 0x0013D340
 		protected override void DoAction(object[] args)
 		{
 			Pawn pawn = null;

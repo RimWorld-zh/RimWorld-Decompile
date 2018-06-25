@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B55 RID: 2901
+	// Token: 0x02000B56 RID: 2902
 	public class MessageTypeDef : Def
 	{
-		// Token: 0x04002A1B RID: 10779
+		// Token: 0x04002A22 RID: 10786
 		public SoundDef sound;
 	}
 }

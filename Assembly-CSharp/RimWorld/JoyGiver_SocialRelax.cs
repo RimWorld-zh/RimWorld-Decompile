@@ -10,36 +10,36 @@ namespace RimWorld
 	// Token: 0x02000101 RID: 257
 	public class JoyGiver_SocialRelax : JoyGiver
 	{
-		// Token: 0x040002DD RID: 733
+		// Token: 0x040002DE RID: 734
 		private static List<CompGatherSpot> workingSpots = new List<CompGatherSpot>();
 
-		// Token: 0x040002DE RID: 734
+		// Token: 0x040002DF RID: 735
 		private const float GatherRadius = 3.9f;
 
-		// Token: 0x040002DF RID: 735
+		// Token: 0x040002E0 RID: 736
 		private static readonly int NumRadiusCells = GenRadial.NumCellsInRadius(3.9f);
 
-		// Token: 0x040002E0 RID: 736
+		// Token: 0x040002E1 RID: 737
 		private static readonly List<IntVec3> RadialPatternMiddleOutward = (from c in GenRadial.RadialPattern.Take(JoyGiver_SocialRelax.NumRadiusCells)
 		orderby Mathf.Abs((c - IntVec3.Zero).LengthHorizontal - 1.95f)
 		select c).ToList<IntVec3>();
 
-		// Token: 0x040002E1 RID: 737
+		// Token: 0x040002E2 RID: 738
 		private static List<ThingDef> nurseableDrugs = new List<ThingDef>();
 
-		// Token: 0x06000562 RID: 1378 RVA: 0x0003A808 File Offset: 0x00038C08
+		// Token: 0x06000562 RID: 1378 RVA: 0x0003A824 File Offset: 0x00038C24
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			return this.TryGiveJobInt(pawn, null);
 		}
 
-		// Token: 0x06000563 RID: 1379 RVA: 0x0003A828 File Offset: 0x00038C28
+		// Token: 0x06000563 RID: 1379 RVA: 0x0003A844 File Offset: 0x00038C44
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			return this.TryGiveJobInt(pawn, (CompGatherSpot x) => PartyUtility.InPartyArea(x.parent.Position, partySpot, pawn.Map));
 		}
 
-		// Token: 0x06000564 RID: 1380 RVA: 0x0003A86C File Offset: 0x00038C6C
+		// Token: 0x06000564 RID: 1380 RVA: 0x0003A888 File Offset: 0x00038C88
 		private Job TryGiveJobInt(Pawn pawn, Predicate<CompGatherSpot> gatherSpotValidator)
 		{
 			Job result;
@@ -113,7 +113,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000565 RID: 1381 RVA: 0x0003AAEC File Offset: 0x00038EEC
+		// Token: 0x06000565 RID: 1381 RVA: 0x0003AB08 File Offset: 0x00038F08
 		private static bool TryFindIngestibleToNurse(IntVec3 center, Pawn ingester, out Thing ingestible)
 		{
 			bool result;
@@ -158,7 +158,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000566 RID: 1382 RVA: 0x0003AC64 File Offset: 0x00039064
+		// Token: 0x06000566 RID: 1382 RVA: 0x0003AC80 File Offset: 0x00039080
 		private static bool TryFindChairBesideTable(Thing table, Pawn sitter, out Thing chair)
 		{
 			for (int i = 0; i < 30; i++)
@@ -175,7 +175,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000567 RID: 1383 RVA: 0x0003ACE4 File Offset: 0x000390E4
+		// Token: 0x06000567 RID: 1383 RVA: 0x0003AD00 File Offset: 0x00039100
 		private static bool TryFindChairNear(IntVec3 center, Pawn sitter, out Thing chair)
 		{
 			for (int i = 0; i < JoyGiver_SocialRelax.RadialPatternMiddleOutward.Count; i++)
@@ -192,7 +192,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000568 RID: 1384 RVA: 0x0003AD9C File Offset: 0x0003919C
+		// Token: 0x06000568 RID: 1384 RVA: 0x0003ADB8 File Offset: 0x000391B8
 		private static bool TryFindSitSpotOnGroundNear(IntVec3 center, Pawn sitter, out IntVec3 result)
 		{
 			for (int i = 0; i < 30; i++)

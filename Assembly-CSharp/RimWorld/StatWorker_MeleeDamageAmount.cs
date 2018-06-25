@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020009C5 RID: 2501
 	public abstract class StatWorker_MeleeDamageAmount : StatWorker
 	{
-		// Token: 0x06003815 RID: 14357 RVA: 0x001DE7E0 File Offset: 0x001DCBE0
+		// Token: 0x06003815 RID: 14357 RVA: 0x001DEAB4 File Offset: 0x001DCEB4
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			float num = base.GetValueUnfinalized(req, true);
@@ -27,7 +27,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003816 RID: 14358 RVA: 0x001DE84C File Offset: 0x001DCC4C
+		// Token: 0x06003816 RID: 14358 RVA: 0x001DEB20 File Offset: 0x001DCF20
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

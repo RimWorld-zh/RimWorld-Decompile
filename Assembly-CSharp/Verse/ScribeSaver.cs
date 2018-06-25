@@ -5,31 +5,31 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000DA1 RID: 3489
+	// Token: 0x02000DA2 RID: 3490
 	public class ScribeSaver
 	{
-		// Token: 0x04003404 RID: 13316
+		// Token: 0x0400340B RID: 13323
 		public DebugLoadIDsSavingErrorsChecker loadIDsErrorsChecker = new DebugLoadIDsSavingErrorsChecker();
 
-		// Token: 0x04003405 RID: 13317
+		// Token: 0x0400340C RID: 13324
 		public bool savingForDebug;
 
-		// Token: 0x04003406 RID: 13318
+		// Token: 0x0400340D RID: 13325
 		private Stream saveStream;
 
-		// Token: 0x04003407 RID: 13319
+		// Token: 0x0400340E RID: 13326
 		private XmlWriter writer;
 
-		// Token: 0x04003408 RID: 13320
+		// Token: 0x0400340F RID: 13327
 		private string curPath;
 
-		// Token: 0x04003409 RID: 13321
+		// Token: 0x04003410 RID: 13328
 		private HashSet<string> savedNodes = new HashSet<string>();
 
-		// Token: 0x0400340A RID: 13322
+		// Token: 0x04003411 RID: 13329
 		private int nextListElementTemporaryId;
 
-		// Token: 0x06004DFB RID: 19963 RVA: 0x0028BF14 File Offset: 0x0028A314
+		// Token: 0x06004DFB RID: 19963 RVA: 0x0028C1F4 File Offset: 0x0028A5F4
 		public void InitSaving(string filePath, string documentElementName)
 		{
 			if (Scribe.mode != LoadSaveMode.Inactive)
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFC RID: 19964 RVA: 0x0028C01C File Offset: 0x0028A41C
+		// Token: 0x06004DFC RID: 19964 RVA: 0x0028C2FC File Offset: 0x0028A6FC
 		public void FinalizeSaving()
 		{
 			if (Scribe.mode != LoadSaveMode.Saving)
@@ -110,7 +110,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFD RID: 19965 RVA: 0x0028C120 File Offset: 0x0028A520
+		// Token: 0x06004DFD RID: 19965 RVA: 0x0028C400 File Offset: 0x0028A800
 		public void WriteElement(string elementName, string value)
 		{
 			if (this.writer == null)
@@ -138,7 +138,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFE RID: 19966 RVA: 0x0028C1C7 File Offset: 0x0028A5C7
+		// Token: 0x06004DFE RID: 19966 RVA: 0x0028C4A7 File Offset: 0x0028A8A7
 		public void WriteAttribute(string attributeName, string value)
 		{
 			if (this.writer == null)
@@ -151,7 +151,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFF RID: 19967 RVA: 0x0028C1F4 File Offset: 0x0028A5F4
+		// Token: 0x06004DFF RID: 19967 RVA: 0x0028C4D4 File Offset: 0x0028A8D4
 		public string DebugOutputFor(IExposable saveable)
 		{
 			string result;
@@ -196,7 +196,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E00 RID: 19968 RVA: 0x0028C308 File Offset: 0x0028A708
+		// Token: 0x06004E00 RID: 19968 RVA: 0x0028C5E8 File Offset: 0x0028A9E8
 		public bool EnterNode(string nodeName)
 		{
 			bool result;
@@ -221,7 +221,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E01 RID: 19969 RVA: 0x0028C3B0 File Offset: 0x0028A7B0
+		// Token: 0x06004E01 RID: 19969 RVA: 0x0028C690 File Offset: 0x0028AA90
 		public void ExitNode()
 		{
 			if (this.writer != null)
@@ -235,7 +235,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E02 RID: 19970 RVA: 0x0028C420 File Offset: 0x0028A820
+		// Token: 0x06004E02 RID: 19970 RVA: 0x0028C700 File Offset: 0x0028AB00
 		public void ForceStop()
 		{
 			if (this.writer != null)

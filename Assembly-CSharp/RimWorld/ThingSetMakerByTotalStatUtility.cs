@@ -9,10 +9,10 @@ namespace RimWorld
 	// Token: 0x020006FD RID: 1789
 	public static class ThingSetMakerByTotalStatUtility
 	{
-		// Token: 0x040015AD RID: 5549
+		// Token: 0x040015B1 RID: 5553
 		private static List<ThingStuffPairWithQuality> allowedThingStuffPairs = new List<ThingStuffPairWithQuality>();
 
-		// Token: 0x060026FC RID: 9980 RVA: 0x0014EF60 File Offset: 0x0014D360
+		// Token: 0x060026FB RID: 9979 RVA: 0x0014F1C0 File Offset: 0x0014D5C0
 		public static List<ThingStuffPairWithQuality> GenerateDefsWithPossibleTotalValue(IntRange countRange, float totalValue, IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue, Func<ThingDef, float> weightSelector = null, int tries = 100, float maxMass = 3.40282347E+38f)
 		{
 			List<ThingStuffPairWithQuality> chosen = new List<ThingStuffPairWithQuality>();
@@ -167,7 +167,7 @@ namespace RimWorld
 			return chosen2;
 		}
 
-		// Token: 0x060026FD RID: 9981 RVA: 0x0014F38C File Offset: 0x0014D78C
+		// Token: 0x060026FC RID: 9980 RVA: 0x0014F5EC File Offset: 0x0014D9EC
 		public static void IncreaseStackCountsToTotalValue(List<Thing> things, float totalValue, Func<Thing, float> getValue, float maxMass = 3.40282347E+38f)
 		{
 			float num = 0f;
@@ -195,7 +195,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026FE RID: 9982 RVA: 0x0014F4D0 File Offset: 0x0014D8D0
+		// Token: 0x060026FD RID: 9981 RVA: 0x0014F730 File Offset: 0x0014DB30
 		private static void DistributeEvenly(List<Thing> things, float totalValue, ref float currentTotalValue, ref float currentTotalMass, Func<Thing, float> getValue, float maxMass, bool useValueMassRatio = false)
 		{
 			float num = (totalValue - currentTotalValue) / (float)things.Count;
@@ -239,7 +239,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026FF RID: 9983 RVA: 0x0014F6A8 File Offset: 0x0014DAA8
+		// Token: 0x060026FE RID: 9982 RVA: 0x0014F908 File Offset: 0x0014DD08
 		private static void GiveRemainingValueToAnything(List<Thing> things, float totalValue, ref float currentTotalValue, ref float currentTotalMass, Func<Thing, float> getValue, float maxMass)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -263,7 +263,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002700 RID: 9984 RVA: 0x0014F7A4 File Offset: 0x0014DBA4
+		// Token: 0x060026FF RID: 9983 RVA: 0x0014FA04 File Offset: 0x0014DE04
 		private static void CalculateAllowedThingStuffPairs(IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator)
 		{
 			ThingSetMakerByTotalStatUtility.allowedThingStuffPairs.Clear();
@@ -281,7 +281,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002701 RID: 9985 RVA: 0x0014F85C File Offset: 0x0014DC5C
+		// Token: 0x06002700 RID: 9984 RVA: 0x0014FABC File Offset: 0x0014DEBC
 		private static float GetTrashThreshold(IntRange countRange, float totalValue, Func<ThingStuffPairWithQuality, float> getMaxValue)
 		{
 			float num = GenMath.Median<ThingStuffPairWithQuality>(ThingSetMakerByTotalStatUtility.allowedThingStuffPairs, getMaxValue, 0f, 0.5f);
@@ -289,14 +289,14 @@ namespace RimWorld
 			return totalValue / (float)num2 * 0.2f;
 		}
 
-		// Token: 0x06002702 RID: 9986 RVA: 0x0014F8B0 File Offset: 0x0014DCB0
+		// Token: 0x06002701 RID: 9985 RVA: 0x0014FB10 File Offset: 0x0014DF10
 		private static float GetNonTrashMass(ThingStuffPairWithQuality t, float trashThreshold, Func<ThingStuffPairWithQuality, float> getMinValue)
 		{
 			int num = Mathf.Clamp(Mathf.CeilToInt(trashThreshold / getMinValue(t)), 1, t.thing.stackLimit);
 			return t.GetStatValue(StatDefOf.Mass) * (float)num;
 		}
 
-		// Token: 0x06002703 RID: 9987 RVA: 0x0014F8F8 File Offset: 0x0014DCF8
+		// Token: 0x06002702 RID: 9986 RVA: 0x0014FB58 File Offset: 0x0014DF58
 		private static float GetMaxValueWithMaxMass(ThingStuffPairWithQuality t, float massSoFar, float maxMass, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue)
 		{
 			float result;

@@ -3,19 +3,19 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D33 RID: 3379
+	// Token: 0x02000D34 RID: 3380
 	public class HediffGiver_BrainInjury : HediffGiver
 	{
-		// Token: 0x0400324E RID: 12878
+		// Token: 0x04003255 RID: 12885
 		public float chancePerDamagePct;
 
-		// Token: 0x0400324F RID: 12879
+		// Token: 0x04003256 RID: 12886
 		public string letterLabel;
 
-		// Token: 0x04003250 RID: 12880
+		// Token: 0x04003257 RID: 12887
 		public string letter;
 
-		// Token: 0x06004A86 RID: 19078 RVA: 0x0026DD64 File Offset: 0x0026C164
+		// Token: 0x06004A86 RID: 19078 RVA: 0x0026E044 File Offset: 0x0026C444
 		public override bool OnHediffAdded(Pawn pawn, Hediff hediff)
 		{
 			bool result;

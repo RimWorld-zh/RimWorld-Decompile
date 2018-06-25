@@ -9,17 +9,17 @@ namespace RimWorld
 	// Token: 0x020003F9 RID: 1017
 	public class GenStep_ElevationFertility : GenStep
 	{
-		// Token: 0x04000A9D RID: 2717
+		// Token: 0x04000AA0 RID: 2720
 		private const float ElevationFreq = 0.021f;
 
-		// Token: 0x04000A9E RID: 2718
+		// Token: 0x04000AA1 RID: 2721
 		private const float FertilityFreq = 0.021f;
 
-		// Token: 0x04000A9F RID: 2719
+		// Token: 0x04000AA2 RID: 2722
 		private const float EdgeMountainSpan = 0.42f;
 
 		// Token: 0x17000253 RID: 595
-		// (get) Token: 0x0600117E RID: 4478 RVA: 0x00097634 File Offset: 0x00095A34
+		// (get) Token: 0x0600117D RID: 4477 RVA: 0x00097644 File Offset: 0x00095A44
 		public override int SeedPart
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600117F RID: 4479 RVA: 0x00097650 File Offset: 0x00095A50
+		// Token: 0x0600117E RID: 4478 RVA: 0x00097660 File Offset: 0x00095A60
 		public override void Generate(Map map)
 		{
 			NoiseRenderer.renderSize = new IntVec2(map.Size.x, map.Size.z);

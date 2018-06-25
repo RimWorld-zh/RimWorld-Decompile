@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x02000994 RID: 2452
 	public static class ShortCircuitUtility
 	{
-		// Token: 0x0400238F RID: 9103
+		// Token: 0x04002396 RID: 9110
 		private static Dictionary<PowerNet, bool> tmpPowerNetHasActivePowerSource = new Dictionary<PowerNet, bool>();
 
-		// Token: 0x04002390 RID: 9104
+		// Token: 0x04002397 RID: 9111
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x06003718 RID: 14104 RVA: 0x001D7A48 File Offset: 0x001D5E48
+		// Token: 0x06003718 RID: 14104 RVA: 0x001D7D1C File Offset: 0x001D611C
 		public static IEnumerable<Building> GetShortCircuitablePowerConduits(Map map)
 		{
 			ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Clear();
@@ -48,7 +48,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003719 RID: 14105 RVA: 0x001D7A74 File Offset: 0x001D5E74
+		// Token: 0x06003719 RID: 14105 RVA: 0x001D7D48 File Offset: 0x001D6148
 		public static void DoShortCircuit(Building culprit)
 		{
 			PowerNet powerNet = culprit.PowerComp.PowerNet;
@@ -112,7 +112,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(culprit.Position, map, false), null, null);
 		}
 
-		// Token: 0x0600371A RID: 14106 RVA: 0x001D7C40 File Offset: 0x001D6040
+		// Token: 0x0600371A RID: 14106 RVA: 0x001D7F14 File Offset: 0x001D6314
 		public static bool TryShortCircuitInRain(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
@@ -142,7 +142,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600371B RID: 14107 RVA: 0x001D7D60 File Offset: 0x001D6160
+		// Token: 0x0600371B RID: 14107 RVA: 0x001D8034 File Offset: 0x001D6434
 		private static void DrainBatteriesAndCauseExplosion(PowerNet net, Building culprit, out float totalEnergy, out float explosionRadius)
 		{
 			totalEnergy = 0f;
@@ -161,7 +161,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600371C RID: 14108 RVA: 0x001D7E54 File Offset: 0x001D6254
+		// Token: 0x0600371C RID: 14108 RVA: 0x001D8128 File Offset: 0x001D6528
 		private static bool TryStartFireNear(Building b)
 		{
 			ShortCircuitUtility.tmpCells.Clear();

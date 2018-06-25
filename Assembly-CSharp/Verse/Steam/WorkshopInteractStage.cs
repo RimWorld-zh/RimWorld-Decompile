@@ -2,14 +2,14 @@
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FCB RID: 4043
+	// Token: 0x02000FCC RID: 4044
 	public enum WorkshopInteractStage
 	{
-		// Token: 0x04003FDD RID: 16349
+		// Token: 0x04003FE5 RID: 16357
 		None,
-		// Token: 0x04003FDE RID: 16350
+		// Token: 0x04003FE6 RID: 16358
 		CreatingItem,
-		// Token: 0x04003FDF RID: 16351
+		// Token: 0x04003FE7 RID: 16359
 		SubmittingItem
 	}
 }

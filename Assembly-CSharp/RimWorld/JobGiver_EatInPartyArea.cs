@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000C9 RID: 201
 	public class JobGiver_EatInPartyArea : ThinkNode_JobGiver
 	{
-		// Token: 0x0600049E RID: 1182 RVA: 0x000346F0 File Offset: 0x00032AF0
+		// Token: 0x0600049E RID: 1182 RVA: 0x0003470C File Offset: 0x00032B0C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			PawnDuty duty = pawn.mindState.duty;
@@ -43,7 +43,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600049F RID: 1183 RVA: 0x000347A8 File Offset: 0x00032BA8
+		// Token: 0x0600049F RID: 1183 RVA: 0x000347C4 File Offset: 0x00032BC4
 		private Thing FindFood(Pawn pawn, IntVec3 partySpot)
 		{
 			Predicate<Thing> validator = (Thing x) => x.IngestibleNow && x.def.IsNutritionGivingIngestible && PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && !x.def.IsDrug && x.def.ingestible.preferability > FoodPreferability.RawBad && pawn.RaceProps.WillAutomaticallyEat(x) && !x.IsForbidden(pawn) && x.IsSociallyProper(pawn) && pawn.CanReserve(x, 1, -1, null, false);

@@ -6,22 +6,22 @@ namespace RimWorld
 	[DefOf]
 	public static class IncidentTargetTypeDefOf
 	{
-		// Token: 0x040022C8 RID: 8904
+		// Token: 0x040022CF RID: 8911
 		public static IncidentTargetTypeDef World;
 
-		// Token: 0x040022C9 RID: 8905
+		// Token: 0x040022D0 RID: 8912
 		public static IncidentTargetTypeDef Caravan;
 
-		// Token: 0x040022CA RID: 8906
+		// Token: 0x040022D1 RID: 8913
 		public static IncidentTargetTypeDef Map_RaidBeacon;
 
-		// Token: 0x040022CB RID: 8907
+		// Token: 0x040022D2 RID: 8914
 		public static IncidentTargetTypeDef Map_PlayerHome;
 
-		// Token: 0x040022CC RID: 8908
+		// Token: 0x040022D3 RID: 8915
 		public static IncidentTargetTypeDef Map_Misc;
 
-		// Token: 0x0600366C RID: 13932 RVA: 0x001D0F4D File Offset: 0x001CF34D
+		// Token: 0x0600366C RID: 13932 RVA: 0x001D1221 File Offset: 0x001CF621
 		static IncidentTargetTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentTargetTypeDefOf));

@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D3D RID: 3389
+	// Token: 0x02000D3E RID: 3390
 	public class ImmunityRecord : IExposable
 	{
-		// Token: 0x0400326D RID: 12909
+		// Token: 0x04003274 RID: 12916
 		public HediffDef hediffDef = null;
 
-		// Token: 0x0400326E RID: 12910
+		// Token: 0x04003275 RID: 12917
 		public HediffDef source = null;
 
-		// Token: 0x0400326F RID: 12911
+		// Token: 0x04003276 RID: 12918
 		public float immunity = 0f;
 
-		// Token: 0x06004ACF RID: 19151 RVA: 0x00270D60 File Offset: 0x0026F160
+		// Token: 0x06004ACF RID: 19151 RVA: 0x00271040 File Offset: 0x0026F440
 		public float ImmunityChangePerTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
 			float result;
@@ -49,14 +49,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AD0 RID: 19152 RVA: 0x00270E2E File Offset: 0x0026F22E
+		// Token: 0x06004AD0 RID: 19152 RVA: 0x0027110E File Offset: 0x0026F50E
 		public void ImmunityTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
 			this.immunity += this.ImmunityChangePerTick(pawn, sick, diseaseInstance);
 			this.immunity = Mathf.Clamp01(this.immunity);
 		}
 
-		// Token: 0x06004AD1 RID: 19153 RVA: 0x00270E58 File Offset: 0x0026F258
+		// Token: 0x06004AD1 RID: 19153 RVA: 0x00271138 File Offset: 0x0026F538
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HediffDef>(ref this.hediffDef, "hediffDef");

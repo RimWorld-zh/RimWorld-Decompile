@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000203 RID: 515
 	public class ThoughtWorker_ChemicalInterestVsTeetotaler : ThoughtWorker
 	{
-		// Token: 0x060009D2 RID: 2514 RVA: 0x00058328 File Offset: 0x00056728
+		// Token: 0x060009D1 RID: 2513 RVA: 0x00058324 File Offset: 0x00056724
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
 			ThoughtState result;

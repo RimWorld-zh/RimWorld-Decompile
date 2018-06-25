@@ -10,7 +10,7 @@ namespace RimWorld
 	public class LordToil_ExitMapAndEscortCarriers : LordToil
 	{
 		// Token: 0x1700014F RID: 335
-		// (get) Token: 0x06000844 RID: 2116 RVA: 0x0004F5B4 File Offset: 0x0004D9B4
+		// (get) Token: 0x06000843 RID: 2115 RVA: 0x0004F5B0 File Offset: 0x0004D9B0
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000150 RID: 336
-		// (get) Token: 0x06000845 RID: 2117 RVA: 0x0004F5CC File Offset: 0x0004D9CC
+		// (get) Token: 0x06000844 RID: 2116 RVA: 0x0004F5C8 File Offset: 0x0004D9C8
 		public override bool AllowSelfTend
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000846 RID: 2118 RVA: 0x0004F5E4 File Offset: 0x0004D9E4
+		// Token: 0x06000845 RID: 2117 RVA: 0x0004F5E0 File Offset: 0x0004D9E0
 		public override void UpdateAllDuties()
 		{
 			Pawn trader;
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000847 RID: 2119 RVA: 0x0004F658 File Offset: 0x0004DA58
+		// Token: 0x06000846 RID: 2118 RVA: 0x0004F654 File Offset: 0x0004DA54
 		private void UpdateTraderDuty(out Pawn trader)
 		{
 			trader = TraderCaravanUtility.FindTrader(this.lord);
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000848 RID: 2120 RVA: 0x0004F6BC File Offset: 0x0004DABC
+		// Token: 0x06000847 RID: 2119 RVA: 0x0004F6B8 File Offset: 0x0004DAB8
 		private void UpdateCarriersDuties(Pawn trader)
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000849 RID: 2121 RVA: 0x0004F760 File Offset: 0x0004DB60
+		// Token: 0x06000848 RID: 2120 RVA: 0x0004F75C File Offset: 0x0004DB5C
 		private void UpdateDutyForChattelOrGuard(Pawn p, Pawn trader)
 		{
 			TraderCaravanRole traderCaravanRole = p.GetTraderCaravanRole();
@@ -111,7 +111,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600084A RID: 2122 RVA: 0x0004F87C File Offset: 0x0004DC7C
+		// Token: 0x06000849 RID: 2121 RVA: 0x0004F878 File Offset: 0x0004DC78
 		private bool TryToDefendClosestCarrier(Pawn p, float escortRadius)
 		{
 			Pawn closestCarrier = this.GetClosestCarrier(p);
@@ -160,13 +160,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600084B RID: 2123 RVA: 0x0004FA78 File Offset: 0x0004DE78
+		// Token: 0x0600084A RID: 2122 RVA: 0x0004FA74 File Offset: 0x0004DE74
 		public static bool IsDefendingPosition(Pawn pawn)
 		{
 			return pawn.mindState.duty != null && pawn.mindState.duty.def == DutyDefOf.Defend;
 		}
 
-		// Token: 0x0600084C RID: 2124 RVA: 0x0004FAB8 File Offset: 0x0004DEB8
+		// Token: 0x0600084B RID: 2123 RVA: 0x0004FAB4 File Offset: 0x0004DEB4
 		public static bool IsAnyDefendingPosition(List<Pawn> pawns)
 		{
 			for (int i = 0; i < pawns.Count; i++)
@@ -179,7 +179,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600084D RID: 2125 RVA: 0x0004FB00 File Offset: 0x0004DF00
+		// Token: 0x0600084C RID: 2124 RVA: 0x0004FAFC File Offset: 0x0004DEFC
 		private Pawn GetClosestCarrier(Pawn closestTo)
 		{
 			Pawn pawn = null;

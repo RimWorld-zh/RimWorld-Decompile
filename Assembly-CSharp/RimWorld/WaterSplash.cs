@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006DC RID: 1756
 	public class WaterSplash : Projectile
 	{
-		// Token: 0x06002634 RID: 9780 RVA: 0x00147C1C File Offset: 0x0014601C
+		// Token: 0x06002633 RID: 9779 RVA: 0x00147E7C File Offset: 0x0014627C
 		protected override void Impact(Thing hitThing)
 		{
 			base.Impact(hitThing);

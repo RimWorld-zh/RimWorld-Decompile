@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000136 RID: 310
 	public class WorkGiver_Warden_Feed : WorkGiver_Warden
 	{
-		// Token: 0x0600065C RID: 1628 RVA: 0x00042708 File Offset: 0x00040B08
+		// Token: 0x0600065B RID: 1627 RVA: 0x00042704 File Offset: 0x00040B04
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

@@ -12,53 +12,53 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_History : MainTabWindow
 	{
-		// Token: 0x04001A85 RID: 6789
+		// Token: 0x04001A89 RID: 6793
 		private HistoryAutoRecorderGroup historyAutoRecorderGroup = null;
 
-		// Token: 0x04001A86 RID: 6790
+		// Token: 0x04001A8A RID: 6794
 		private FloatRange graphSection;
 
-		// Token: 0x04001A87 RID: 6791
+		// Token: 0x04001A8B RID: 6795
 		private Vector2 messagesScrollPos;
 
-		// Token: 0x04001A88 RID: 6792
+		// Token: 0x04001A8C RID: 6796
 		private float messagesLastHeight;
 
-		// Token: 0x04001A89 RID: 6793
+		// Token: 0x04001A8D RID: 6797
 		private static MainTabWindow_History.HistoryTab curTab = MainTabWindow_History.HistoryTab.Graph;
 
-		// Token: 0x04001A8A RID: 6794
+		// Token: 0x04001A8E RID: 6798
 		private static bool showLetters = true;
 
-		// Token: 0x04001A8B RID: 6795
+		// Token: 0x04001A8F RID: 6799
 		private static bool showMessages;
 
-		// Token: 0x04001A8C RID: 6796
+		// Token: 0x04001A90 RID: 6800
 		private const float MessagesRowHeight = 30f;
 
-		// Token: 0x04001A8D RID: 6797
+		// Token: 0x04001A91 RID: 6801
 		private const float PinColumnSize = 30f;
 
-		// Token: 0x04001A8E RID: 6798
+		// Token: 0x04001A92 RID: 6802
 		private const float PinSize = 22f;
 
-		// Token: 0x04001A8F RID: 6799
+		// Token: 0x04001A93 RID: 6803
 		private const float IconColumnSize = 30f;
 
-		// Token: 0x04001A90 RID: 6800
+		// Token: 0x04001A94 RID: 6804
 		private const float DateSize = 200f;
 
-		// Token: 0x04001A91 RID: 6801
+		// Token: 0x04001A95 RID: 6805
 		private const float SpaceBetweenColumns = 10f;
 
-		// Token: 0x04001A92 RID: 6802
+		// Token: 0x04001A96 RID: 6806
 		private static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Icons/Pin", true);
 
-		// Token: 0x04001A93 RID: 6803
+		// Token: 0x04001A97 RID: 6807
 		private static List<CurveMark> marks = new List<CurveMark>();
 
 		// Token: 0x170007DC RID: 2012
-		// (get) Token: 0x06003119 RID: 12569 RVA: 0x001AA7EC File Offset: 0x001A8BEC
+		// (get) Token: 0x06003118 RID: 12568 RVA: 0x001AAA54 File Offset: 0x001A8E54
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311A RID: 12570 RVA: 0x001AA810 File Offset: 0x001A8C10
+		// Token: 0x06003119 RID: 12569 RVA: 0x001AAA78 File Offset: 0x001A8E78
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311B RID: 12571 RVA: 0x001AA898 File Offset: 0x001A8C98
+		// Token: 0x0600311A RID: 12570 RVA: 0x001AAB00 File Offset: 0x001A8F00
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -124,7 +124,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311C RID: 12572 RVA: 0x001AA9C8 File Offset: 0x001A8DC8
+		// Token: 0x0600311B RID: 12571 RVA: 0x001AAC30 File Offset: 0x001A9030
 		private void DoStatisticsPage(Rect rect)
 		{
 			rect.yMin += 17f;
@@ -176,7 +176,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600311D RID: 12573 RVA: 0x001AAD4C File Offset: 0x001A914C
+		// Token: 0x0600311C RID: 12572 RVA: 0x001AAFB4 File Offset: 0x001A93B4
 		private void DoMessagesPage(Rect rect)
 		{
 			rect.yMin += 10f;
@@ -212,7 +212,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311E RID: 12574 RVA: 0x001AAF58 File Offset: 0x001A9358
+		// Token: 0x0600311D RID: 12573 RVA: 0x001AB1C0 File Offset: 0x001A95C0
 		private void DoArchivableRow(Rect rect, IArchivable archivable, int index)
 		{
 			if (index % 2 == 1)
@@ -315,7 +315,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311F RID: 12575 RVA: 0x001AB2C4 File Offset: 0x001A96C4
+		// Token: 0x0600311E RID: 12574 RVA: 0x001AB52C File Offset: 0x001A992C
 		private void DoGraphPage(Rect rect)
 		{
 			rect.yMin += 17f;
@@ -378,11 +378,11 @@ namespace RimWorld
 		// Token: 0x02000871 RID: 2161
 		private enum HistoryTab : byte
 		{
-			// Token: 0x04001A98 RID: 6808
+			// Token: 0x04001A9C RID: 6812
 			Graph,
-			// Token: 0x04001A99 RID: 6809
+			// Token: 0x04001A9D RID: 6813
 			Messages,
-			// Token: 0x04001A9A RID: 6810
+			// Token: 0x04001A9E RID: 6814
 			Statistics
 		}
 	}

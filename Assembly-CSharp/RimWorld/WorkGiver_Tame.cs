@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x02000122 RID: 290
 	public class WorkGiver_Tame : WorkGiver_InteractAnimal
 	{
-		// Token: 0x04000308 RID: 776
+		// Token: 0x04000309 RID: 777
 		public const int MinTameInterval = 30000;
 
-		// Token: 0x060005FE RID: 1534 RVA: 0x0003FD34 File Offset: 0x0003E134
+		// Token: 0x060005FD RID: 1533 RVA: 0x0003FD30 File Offset: 0x0003E130
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Tame))
@@ -21,7 +21,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060005FF RID: 1535 RVA: 0x0003FD60 File Offset: 0x0003E160
+		// Token: 0x060005FE RID: 1534 RVA: 0x0003FD5C File Offset: 0x0003E15C
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;

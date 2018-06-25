@@ -4,10 +4,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A48 RID: 2632
+	// Token: 0x02000A49 RID: 2633
 	public static class ToilFailConditions
 	{
-		// Token: 0x06003A95 RID: 14997 RVA: 0x001F0CA0 File Offset: 0x001EF0A0
+		// Token: 0x06003A96 RID: 14998 RVA: 0x001F0FCC File Offset: 0x001EF3CC
 		public static Toil FailOn(this Toil toil, Func<Toil, bool> condition)
 		{
 			toil.AddEndCondition(delegate
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A96 RID: 14998 RVA: 0x001F0CE8 File Offset: 0x001EF0E8
+		// Token: 0x06003A97 RID: 14999 RVA: 0x001F1014 File Offset: 0x001EF414
 		public static T FailOn<T>(this T f, Func<bool> condition) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -45,7 +45,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A97 RID: 14999 RVA: 0x001F0D24 File Offset: 0x001EF124
+		// Token: 0x06003A98 RID: 15000 RVA: 0x001F1050 File Offset: 0x001EF450
 		public static T FailOnDestroyedOrNull<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -64,7 +64,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A98 RID: 15000 RVA: 0x001F0D70 File Offset: 0x001EF170
+		// Token: 0x06003A99 RID: 15001 RVA: 0x001F109C File Offset: 0x001EF49C
 		public static T FailOnDespawnedOrNull<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -89,7 +89,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A99 RID: 15001 RVA: 0x001F0DBC File Offset: 0x001EF1BC
+		// Token: 0x06003A9A RID: 15002 RVA: 0x001F10E8 File Offset: 0x001EF4E8
 		public static T EndOnDespawnedOrNull<T>(this T f, TargetIndex ind, JobCondition endCondition = JobCondition.Incompletable) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -114,7 +114,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A9A RID: 15002 RVA: 0x001F0E10 File Offset: 0x001EF210
+		// Token: 0x06003A9B RID: 15003 RVA: 0x001F113C File Offset: 0x001EF53C
 		public static T EndOnNoTargetInQueue<T>(this T f, TargetIndex ind, JobCondition endCondition = JobCondition.Incompletable) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -136,7 +136,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A9B RID: 15003 RVA: 0x001F0E64 File Offset: 0x001EF264
+		// Token: 0x06003A9C RID: 15004 RVA: 0x001F1190 File Offset: 0x001EF590
 		public static T FailOnDowned<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -156,7 +156,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A9C RID: 15004 RVA: 0x001F0EB0 File Offset: 0x001EF2B0
+		// Token: 0x06003A9D RID: 15005 RVA: 0x001F11DC File Offset: 0x001EF5DC
 		public static T FailOnMobile<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -176,7 +176,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A9D RID: 15005 RVA: 0x001F0EFC File Offset: 0x001EF2FC
+		// Token: 0x06003A9E RID: 15006 RVA: 0x001F1228 File Offset: 0x001EF628
 		public static T FailOnNotDowned<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -196,7 +196,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A9E RID: 15006 RVA: 0x001F0F48 File Offset: 0x001EF348
+		// Token: 0x06003A9F RID: 15007 RVA: 0x001F1274 File Offset: 0x001EF674
 		public static T FailOnNotAwake<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -216,7 +216,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003A9F RID: 15007 RVA: 0x001F0F94 File Offset: 0x001EF394
+		// Token: 0x06003AA0 RID: 15008 RVA: 0x001F12C0 File Offset: 0x001EF6C0
 		public static T FailOnNotCasualInterruptible<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -236,7 +236,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA0 RID: 15008 RVA: 0x001F0FE0 File Offset: 0x001EF3E0
+		// Token: 0x06003AA1 RID: 15009 RVA: 0x001F130C File Offset: 0x001EF70C
 		public static T FailOnMentalState<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -256,7 +256,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA1 RID: 15009 RVA: 0x001F102C File Offset: 0x001EF42C
+		// Token: 0x06003AA2 RID: 15010 RVA: 0x001F1358 File Offset: 0x001EF758
 		public static T FailOnAggroMentalState<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -276,7 +276,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA2 RID: 15010 RVA: 0x001F1078 File Offset: 0x001EF478
+		// Token: 0x06003AA3 RID: 15011 RVA: 0x001F13A4 File Offset: 0x001EF7A4
 		public static T FailOnAggroMentalStateAndHostile<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -296,7 +296,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA3 RID: 15011 RVA: 0x001F10C4 File Offset: 0x001EF4C4
+		// Token: 0x06003AA4 RID: 15012 RVA: 0x001F13F0 File Offset: 0x001EF7F0
 		public static T FailOnSomeonePhysicallyInteracting<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -317,7 +317,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA4 RID: 15012 RVA: 0x001F1110 File Offset: 0x001EF510
+		// Token: 0x06003AA5 RID: 15013 RVA: 0x001F143C File Offset: 0x001EF83C
 		public static T FailOnForbidden<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -353,7 +353,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA5 RID: 15013 RVA: 0x001F115C File Offset: 0x001EF55C
+		// Token: 0x06003AA6 RID: 15014 RVA: 0x001F1488 File Offset: 0x001EF888
 		public static T FailOnDespawnedNullOrForbidden<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.FailOnDespawnedOrNull(ind);
@@ -361,7 +361,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA6 RID: 15014 RVA: 0x001F1184 File Offset: 0x001EF584
+		// Token: 0x06003AA7 RID: 15015 RVA: 0x001F14B0 File Offset: 0x001EF8B0
 		public static T FailOnDestroyedNullOrForbidden<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.FailOnDestroyedOrNull(ind);
@@ -369,7 +369,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA7 RID: 15015 RVA: 0x001F11AC File Offset: 0x001EF5AC
+		// Token: 0x06003AA8 RID: 15016 RVA: 0x001F14D8 File Offset: 0x001EF8D8
 		public static T FailOnThingMissingDesignation<T>(this T f, TargetIndex ind, DesignationDef desDef) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -398,7 +398,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA8 RID: 15016 RVA: 0x001F1200 File Offset: 0x001EF600
+		// Token: 0x06003AA9 RID: 15017 RVA: 0x001F152C File Offset: 0x001EF92C
 		public static T FailOnCellMissingDesignation<T>(this T f, TargetIndex ind, DesignationDef desDef) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -423,7 +423,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AA9 RID: 15017 RVA: 0x001F1254 File Offset: 0x001EF654
+		// Token: 0x06003AAA RID: 15018 RVA: 0x001F1580 File Offset: 0x001EF980
 		public static T FailOnBurningImmobile<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -442,7 +442,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AAA RID: 15018 RVA: 0x001F12A0 File Offset: 0x001EF6A0
+		// Token: 0x06003AAB RID: 15019 RVA: 0x001F15CC File Offset: 0x001EF9CC
 		public static T FailOnCannotTouch<T>(this T f, TargetIndex ind, PathEndMode peMode) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -461,7 +461,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AAB RID: 15019 RVA: 0x001F12F4 File Offset: 0x001EF6F4
+		// Token: 0x06003AAC RID: 15020 RVA: 0x001F1620 File Offset: 0x001EFA20
 		public static T FailOnIncapable<T>(this T f, PawnCapacityDef pawnCapacity) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -480,7 +480,7 @@ namespace Verse.AI
 			return f;
 		}
 
-		// Token: 0x06003AAC RID: 15020 RVA: 0x001F1340 File Offset: 0x001EF740
+		// Token: 0x06003AAD RID: 15021 RVA: 0x001F166C File Offset: 0x001EFA6C
 		public static Toil FailOnDespawnedNullOrForbiddenPlacedThings(this Toil toil)
 		{
 			toil.AddFailCondition(delegate

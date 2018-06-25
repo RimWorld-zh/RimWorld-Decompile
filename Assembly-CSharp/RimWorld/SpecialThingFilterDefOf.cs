@@ -7,13 +7,13 @@ namespace RimWorld
 	[DefOf]
 	public static class SpecialThingFilterDefOf
 	{
-		// Token: 0x0400209D RID: 8349
+		// Token: 0x040020A4 RID: 8356
 		public static SpecialThingFilterDef AllowDeadmansApparel;
 
-		// Token: 0x0400209E RID: 8350
+		// Token: 0x040020A5 RID: 8357
 		public static SpecialThingFilterDef AllowNonDeadmansApparel;
 
-		// Token: 0x06003646 RID: 13894 RVA: 0x001D0CA1 File Offset: 0x001CF0A1
+		// Token: 0x06003646 RID: 13894 RVA: 0x001D0F75 File Offset: 0x001CF375
 		static SpecialThingFilterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SpecialThingFilterDefOf));

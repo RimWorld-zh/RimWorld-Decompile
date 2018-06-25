@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000283 RID: 643
 	public class WorldObjectCompProperties_TimedForcedExit : WorldObjectCompProperties
 	{
-		// Token: 0x06000AF1 RID: 2801 RVA: 0x0006313E File Offset: 0x0006153E
+		// Token: 0x06000AF0 RID: 2800 RVA: 0x0006313A File Offset: 0x0006153A
 		public WorldObjectCompProperties_TimedForcedExit()
 		{
 			this.compClass = typeof(TimedForcedExit);
 		}
 
-		// Token: 0x06000AF2 RID: 2802 RVA: 0x00063158 File Offset: 0x00061558
+		// Token: 0x06000AF1 RID: 2801 RVA: 0x00063154 File Offset: 0x00061554
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

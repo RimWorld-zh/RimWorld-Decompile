@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000796 RID: 1942
 	public class Alert_NeedWarden : Alert
 	{
-		// Token: 0x06002B09 RID: 11017 RVA: 0x0016BC31 File Offset: 0x0016A031
+		// Token: 0x06002B08 RID: 11016 RVA: 0x0016BE95 File Offset: 0x0016A295
 		public Alert_NeedWarden()
 		{
 			this.defaultLabel = "NeedWarden".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B0A RID: 11018 RVA: 0x0016BC64 File Offset: 0x0016A064
+		// Token: 0x06002B09 RID: 11017 RVA: 0x0016BEC8 File Offset: 0x0016A2C8
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;

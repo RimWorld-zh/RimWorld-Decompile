@@ -8,25 +8,25 @@ namespace RimWorld
 	// Token: 0x02000802 RID: 2050
 	public class Dialog_ManageOutfits : Window
 	{
-		// Token: 0x04001846 RID: 6214
+		// Token: 0x0400184A RID: 6218
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001847 RID: 6215
+		// Token: 0x0400184B RID: 6219
 		private Outfit selOutfitInt = null;
 
-		// Token: 0x04001848 RID: 6216
+		// Token: 0x0400184C RID: 6220
 		private const float TopAreaHeight = 40f;
 
-		// Token: 0x04001849 RID: 6217
+		// Token: 0x0400184D RID: 6221
 		private const float TopButtonHeight = 35f;
 
-		// Token: 0x0400184A RID: 6218
+		// Token: 0x0400184E RID: 6222
 		private const float TopButtonWidth = 150f;
 
-		// Token: 0x0400184B RID: 6219
+		// Token: 0x0400184F RID: 6223
 		private static ThingFilter apparelGlobalFilter;
 
-		// Token: 0x06002DC7 RID: 11719 RVA: 0x00181A20 File Offset: 0x0017FE20
+		// Token: 0x06002DC6 RID: 11718 RVA: 0x00181C84 File Offset: 0x00180084
 		public Dialog_ManageOutfits(Outfit selectedOutfit)
 		{
 			this.forcePause = true;
@@ -43,8 +43,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000750 RID: 1872
-		// (get) Token: 0x06002DC8 RID: 11720 RVA: 0x00181A90 File Offset: 0x0017FE90
-		// (set) Token: 0x06002DC9 RID: 11721 RVA: 0x00181AAB File Offset: 0x0017FEAB
+		// (get) Token: 0x06002DC7 RID: 11719 RVA: 0x00181CF4 File Offset: 0x001800F4
+		// (set) Token: 0x06002DC8 RID: 11720 RVA: 0x00181D0F File Offset: 0x0018010F
 		private Outfit SelectedOutfit
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000751 RID: 1873
-		// (get) Token: 0x06002DCA RID: 11722 RVA: 0x00181ABC File Offset: 0x0017FEBC
+		// (get) Token: 0x06002DC9 RID: 11721 RVA: 0x00181D20 File Offset: 0x00180120
 		public override Vector2 InitialSize
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCB RID: 11723 RVA: 0x00181AE0 File Offset: 0x0017FEE0
+		// Token: 0x06002DCA RID: 11722 RVA: 0x00181D44 File Offset: 0x00180144
 		private void CheckSelectedOutfitHasName()
 		{
 			if (this.SelectedOutfit != null && this.SelectedOutfit.label.NullOrEmpty())
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCC RID: 11724 RVA: 0x00181B14 File Offset: 0x0017FF14
+		// Token: 0x06002DCB RID: 11723 RVA: 0x00181D78 File Offset: 0x00180178
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = 0f;
@@ -153,21 +153,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCD RID: 11725 RVA: 0x00181E84 File Offset: 0x00180284
+		// Token: 0x06002DCC RID: 11724 RVA: 0x001820E8 File Offset: 0x001804E8
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
 		{
 			yield return SpecialThingFilterDefOf.AllowNonDeadmansApparel;
 			yield break;
 		}
 
-		// Token: 0x06002DCE RID: 11726 RVA: 0x00181EA7 File Offset: 0x001802A7
+		// Token: 0x06002DCD RID: 11725 RVA: 0x0018210B File Offset: 0x0018050B
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.CheckSelectedOutfitHasName();
 		}
 
-		// Token: 0x06002DCF RID: 11727 RVA: 0x00181EB6 File Offset: 0x001802B6
+		// Token: 0x06002DCE RID: 11726 RVA: 0x0018211A File Offset: 0x0018051A
 		public static void DoNameInputRect(Rect rect, ref string name)
 		{
 			name = Widgets.TextField(rect, name, 30, Outfit.ValidNameRegex);

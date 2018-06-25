@@ -6,10 +6,10 @@ namespace RimWorld
 	// Token: 0x020002B9 RID: 697
 	public class PawnRelationWorker
 	{
-		// Token: 0x040006C2 RID: 1730
+		// Token: 0x040006C4 RID: 1732
 		public PawnRelationDef def;
 
-		// Token: 0x06000BAF RID: 2991 RVA: 0x000690F8 File Offset: 0x000674F8
+		// Token: 0x06000BAE RID: 2990 RVA: 0x000690F4 File Offset: 0x000674F4
 		public virtual bool InRelation(Pawn me, Pawn other)
 		{
 			if (this.def.implied)
@@ -19,13 +19,13 @@ namespace RimWorld
 			return me.relations.DirectRelationExists(this.def, other);
 		}
 
-		// Token: 0x06000BB0 RID: 2992 RVA: 0x00069148 File Offset: 0x00067548
+		// Token: 0x06000BAF RID: 2991 RVA: 0x00069144 File Offset: 0x00067544
 		public virtual float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			return 0f;
 		}
 
-		// Token: 0x06000BB1 RID: 2993 RVA: 0x00069162 File Offset: 0x00067562
+		// Token: 0x06000BB0 RID: 2992 RVA: 0x0006915E File Offset: 0x0006755E
 		public virtual void CreateRelation(Pawn generated, Pawn other, ref PawnGenerationRequest request)
 		{
 			if (!this.def.implied)
@@ -36,7 +36,7 @@ namespace RimWorld
 			throw new NotImplementedException(this.def + " lacks CreateRelation implementation.");
 		}
 
-		// Token: 0x06000BB2 RID: 2994 RVA: 0x000691A4 File Offset: 0x000675A4
+		// Token: 0x06000BB1 RID: 2993 RVA: 0x000691A0 File Offset: 0x000675A0
 		public float BaseGenerationChanceFactor(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			float num = 1f;

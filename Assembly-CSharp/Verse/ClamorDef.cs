@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B04 RID: 2820
+	// Token: 0x02000B05 RID: 2821
 	public class ClamorDef : Def
 	{
 	}

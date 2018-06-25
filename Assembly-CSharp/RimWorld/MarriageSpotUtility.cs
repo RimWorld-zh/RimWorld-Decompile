@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020006AA RID: 1706
 	public static class MarriageSpotUtility
 	{
-		// Token: 0x0600248F RID: 9359 RVA: 0x001390A4 File Offset: 0x001374A4
+		// Token: 0x0600248E RID: 9358 RVA: 0x0013930C File Offset: 0x0013770C
 		public static bool IsValidMarriageSpot(IntVec3 cell, Map map, StringBuilder outFailReason = null)
 		{
 			bool result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002490 RID: 9360 RVA: 0x00139108 File Offset: 0x00137508
+		// Token: 0x0600248F RID: 9359 RVA: 0x00139370 File Offset: 0x00137770
 		public static bool IsValidMarriageSpotFor(IntVec3 cell, Pawn firstFiance, Pawn secondFiance, StringBuilder outFailReason = null)
 		{
 			bool result;

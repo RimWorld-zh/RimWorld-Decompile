@@ -7,13 +7,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CF RID: 975
 	public class SymbolResolver_OutdoorLighting : SymbolResolver
 	{
-		// Token: 0x04000A3A RID: 2618
+		// Token: 0x04000A3D RID: 2621
 		private static List<CompGlower> nearbyGlowers = new List<CompGlower>();
 
-		// Token: 0x04000A3B RID: 2619
+		// Token: 0x04000A3E RID: 2622
 		private const float Margin = 2f;
 
-		// Token: 0x060010CB RID: 4299 RVA: 0x0008F10C File Offset: 0x0008D50C
+		// Token: 0x060010CA RID: 4298 RVA: 0x0008F11C File Offset: 0x0008D51C
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -53,7 +53,7 @@ namespace RimWorld.BaseGen
 			SymbolResolver_OutdoorLighting.nearbyGlowers.Clear();
 		}
 
-		// Token: 0x060010CC RID: 4300 RVA: 0x0008F280 File Offset: 0x0008D680
+		// Token: 0x060010CB RID: 4299 RVA: 0x0008F290 File Offset: 0x0008D690
 		private void FindNearbyGlowers(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -80,7 +80,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010CD RID: 4301 RVA: 0x0008F350 File Offset: 0x0008D750
+		// Token: 0x060010CC RID: 4300 RVA: 0x0008F360 File Offset: 0x0008D760
 		private bool AnyGlowerNearby(IntVec3 c)
 		{
 			for (int i = 0; i < SymbolResolver_OutdoorLighting.nearbyGlowers.Count; i++)

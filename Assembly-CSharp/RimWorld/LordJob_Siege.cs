@@ -7,21 +7,21 @@ namespace RimWorld
 	// Token: 0x02000174 RID: 372
 	public class LordJob_Siege : LordJob
 	{
-		// Token: 0x04000357 RID: 855
+		// Token: 0x04000358 RID: 856
 		private Faction faction;
 
-		// Token: 0x04000358 RID: 856
+		// Token: 0x04000359 RID: 857
 		private IntVec3 siegeSpot;
 
-		// Token: 0x04000359 RID: 857
+		// Token: 0x0400035A RID: 858
 		private float blueprintPoints;
 
-		// Token: 0x060007A8 RID: 1960 RVA: 0x0004B466 File Offset: 0x00049866
+		// Token: 0x060007A7 RID: 1959 RVA: 0x0004B462 File Offset: 0x00049862
 		public LordJob_Siege()
 		{
 		}
 
-		// Token: 0x060007A9 RID: 1961 RVA: 0x0004B46F File Offset: 0x0004986F
+		// Token: 0x060007A8 RID: 1960 RVA: 0x0004B46B File Offset: 0x0004986B
 		public LordJob_Siege(Faction faction, IntVec3 siegeSpot, float blueprintPoints)
 		{
 			this.faction = faction;
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000131 RID: 305
-		// (get) Token: 0x060007AA RID: 1962 RVA: 0x0004B490 File Offset: 0x00049890
+		// (get) Token: 0x060007A9 RID: 1961 RVA: 0x0004B48C File Offset: 0x0004988C
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007AB RID: 1963 RVA: 0x0004B4A8 File Offset: 0x000498A8
+		// Token: 0x060007AA RID: 1962 RVA: 0x0004B4A4 File Offset: 0x000498A4
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -67,7 +67,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007AC RID: 1964 RVA: 0x0004B620 File Offset: 0x00049A20
+		// Token: 0x060007AB RID: 1963 RVA: 0x0004B61C File Offset: 0x00049A1C
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);

@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x0200023A RID: 570
 	public static class ThingDefGenerator_Corpses
 	{
-		// Token: 0x040003F0 RID: 1008
+		// Token: 0x040003F2 RID: 1010
 		private const float DaysToStartRot = 2.5f;
 
-		// Token: 0x040003F1 RID: 1009
+		// Token: 0x040003F3 RID: 1011
 		private const float DaysToDessicate = 5f;
 
-		// Token: 0x040003F2 RID: 1010
+		// Token: 0x040003F4 RID: 1012
 		private const float RotDamagePerDay = 2f;
 
-		// Token: 0x040003F3 RID: 1011
+		// Token: 0x040003F5 RID: 1013
 		private const float DessicatedDamagePerDay = 0.7f;
 
-		// Token: 0x06000A48 RID: 2632 RVA: 0x0005C7F4 File Offset: 0x0005ABF4
+		// Token: 0x06000A47 RID: 2631 RVA: 0x0005C7F0 File Offset: 0x0005ABF0
 		public static IEnumerable<ThingDef> ImpliedCorpseDefs()
 		{
 			foreach (ThingDef raceDef in DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>())

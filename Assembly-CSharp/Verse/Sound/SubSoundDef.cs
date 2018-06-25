@@ -5,131 +5,131 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000BA1 RID: 2977
+	// Token: 0x02000BA2 RID: 2978
 	public class SubSoundDef : Editable
 	{
-		// Token: 0x04002B47 RID: 11079
+		// Token: 0x04002B4E RID: 11086
 		[Description("A name to help you identify the sound.")]
 		[DefaultValue("UnnamedSubSoundDef")]
 		public string name = "UnnamedSubSoundDef";
 
-		// Token: 0x04002B48 RID: 11080
+		// Token: 0x04002B4F RID: 11087
 		[Description("Whether this sound plays on the camera or in the world.\n\nThis must match what the game expects from the sound Def with this name.")]
 		[DefaultValue(false)]
 		public bool onCamera = false;
 
-		// Token: 0x04002B49 RID: 11081
+		// Token: 0x04002B50 RID: 11088
 		[Description("Whether to mute this subSound while the game is paused (either by the pausing in play or by opening a menu)")]
 		[DefaultValue(false)]
 		public bool muteWhenPaused = false;
 
-		// Token: 0x04002B4A RID: 11082
+		// Token: 0x04002B51 RID: 11089
 		[Description("Whether this subSound's tempo should be affected by the current tick rate.")]
 		[DefaultValue(false)]
 		public bool tempoAffectedByGameSpeed;
 
-		// Token: 0x04002B4B RID: 11083
+		// Token: 0x04002B52 RID: 11090
 		[Description("The sound grains used for this sample. The game will choose one of these randomly when the sound plays. Sustainers choose one for each sample as it begins.")]
 		public List<AudioGrain> grains = new List<AudioGrain>();
 
-		// Token: 0x04002B4C RID: 11084
+		// Token: 0x04002B53 RID: 11091
 		[EditSliderRange(0f, 100f)]
 		[Description("This sound will play at a random volume inside this range.\n\nSustainers will choose a different random volume for each sample.")]
 		[DefaultFloatRange(50f, 50f)]
 		public FloatRange volumeRange = new FloatRange(50f, 50f);
 
-		// Token: 0x04002B4D RID: 11085
+		// Token: 0x04002B54 RID: 11092
 		[EditSliderRange(0.05f, 2f)]
 		[Description("This sound will play at a random pitch inside this range.\n\nSustainers will choose a different random pitch for each sample.")]
 		[DefaultFloatRange(1f, 1f)]
 		public FloatRange pitchRange = FloatRange.One;
 
-		// Token: 0x04002B4E RID: 11086
+		// Token: 0x04002B55 RID: 11093
 		[EditSliderRange(0f, 200f)]
 		[Description("This sound will play max volume when it is under minDistance from the camera.\n\nIt will fade out linearly until the camera distance reaches its max.")]
 		[DefaultFloatRange(25f, 70f)]
 		public FloatRange distRange = new FloatRange(25f, 70f);
 
-		// Token: 0x04002B4F RID: 11087
+		// Token: 0x04002B56 RID: 11094
 		[Description("When the sound chooses the next grain, you may use this setting to have it avoid repeating the last grain, or avoid repeating any of the grains in the last X played, X being half the total number of grains defined.")]
 		[DefaultValue(RepeatSelectMode.NeverLastHalf)]
 		public RepeatSelectMode repeatMode = RepeatSelectMode.NeverLastHalf;
 
-		// Token: 0x04002B50 RID: 11088
+		// Token: 0x04002B57 RID: 11095
 		[Description("Mappings between game parameters (like fire size or wind speed) and properties of the sound.")]
 		[DefaultEmptyList(typeof(SoundParameterMapping))]
 		public List<SoundParameterMapping> paramMappings = new List<SoundParameterMapping>();
 
-		// Token: 0x04002B51 RID: 11089
+		// Token: 0x04002B58 RID: 11096
 		[Description("The filters to be applied to this sound.")]
 		[DefaultEmptyList(typeof(SoundFilter))]
 		public List<SoundFilter> filters = new List<SoundFilter>();
 
-		// Token: 0x04002B52 RID: 11090
+		// Token: 0x04002B59 RID: 11097
 		[Description("A range of possible times between when this sound is triggered and when it will actually start playing.")]
 		[DefaultFloatRange(0f, 0f)]
 		public FloatRange startDelayRange = FloatRange.Zero;
 
-		// Token: 0x04002B53 RID: 11091
+		// Token: 0x04002B5A RID: 11098
 		[Description("If true, each sample in the sustainer will be looped and ended only after sustainerLoopDurationRange. If not, the sounds will just play once and end after their own length.")]
 		[DefaultValue(true)]
 		public bool sustainLoop = true;
 
-		// Token: 0x04002B54 RID: 11092
+		// Token: 0x04002B5B RID: 11099
 		[EditSliderRange(0f, 10f)]
 		[Description("The range of durations that individual looped samples in the sustainer will have. Each sample ends after a time randomly chosen in this range.\n\nOnly used if the sustainer is looped.")]
 		[DefaultFloatRange(9999f, 9999f)]
 		public FloatRange sustainLoopDurationRange = new FloatRange(9999f, 9999f);
 
-		// Token: 0x04002B55 RID: 11093
+		// Token: 0x04002B5C RID: 11100
 		[EditSliderRange(-2f, 2f)]
 		[Description("The time between when one sample ends and the next starts.\n\nSet to negative if you wish samples to overlap.")]
 		[LoadAlias("sustainInterval")]
 		[DefaultFloatRange(0f, 0f)]
 		public FloatRange sustainIntervalRange = FloatRange.Zero;
 
-		// Token: 0x04002B56 RID: 11094
+		// Token: 0x04002B5D RID: 11101
 		[EditSliderRange(0f, 2f)]
 		[Description("The fade-in time of each sample. The sample will start at 0 volume and fade in over this number of seconds.")]
 		[DefaultValue(0f)]
 		public float sustainAttack = 0f;
 
-		// Token: 0x04002B57 RID: 11095
+		// Token: 0x04002B5E RID: 11102
 		[Description("Skip the attack on the first sustainer sample.")]
 		[DefaultValue(true)]
 		public bool sustainSkipFirstAttack = true;
 
-		// Token: 0x04002B58 RID: 11096
+		// Token: 0x04002B5F RID: 11103
 		[EditSliderRange(0f, 2f)]
 		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
 		[DefaultValue(0f)]
 		public float sustainRelease = 0f;
 
-		// Token: 0x04002B59 RID: 11097
+		// Token: 0x04002B60 RID: 11104
 		[Unsaved]
 		public SoundDef parentDef;
 
-		// Token: 0x04002B5A RID: 11098
+		// Token: 0x04002B61 RID: 11105
 		[Unsaved]
 		private List<ResolvedGrain> resolvedGrains = new List<ResolvedGrain>();
 
-		// Token: 0x04002B5B RID: 11099
+		// Token: 0x04002B62 RID: 11106
 		[Unsaved]
 		private ResolvedGrain lastPlayedResolvedGrain = null;
 
-		// Token: 0x04002B5C RID: 11100
+		// Token: 0x04002B63 RID: 11107
 		[Unsaved]
 		private int numToAvoid = 0;
 
-		// Token: 0x04002B5D RID: 11101
+		// Token: 0x04002B64 RID: 11108
 		[Unsaved]
 		private int distinctResolvedGrainsCount = 0;
 
-		// Token: 0x04002B5E RID: 11102
+		// Token: 0x04002B65 RID: 11109
 		[Unsaved]
 		private Queue<ResolvedGrain> recentlyPlayedResolvedGrains = new Queue<ResolvedGrain>();
 
-		// Token: 0x06004068 RID: 16488 RVA: 0x0021D6FC File Offset: 0x0021BAFC
+		// Token: 0x06004068 RID: 16488 RVA: 0x0021D9DC File Offset: 0x0021BDDC
 		public virtual void TryPlay(SoundInfo info)
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -176,7 +176,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004069 RID: 16489 RVA: 0x0021D840 File Offset: 0x0021BC40
+		// Token: 0x06004069 RID: 16489 RVA: 0x0021DB20 File Offset: 0x0021BF20
 		public ResolvedGrain RandomizedResolvedGrain()
 		{
 			ResolvedGrain chosenGrain = null;
@@ -211,14 +211,14 @@ namespace Verse.Sound
 			return chosenGrain;
 		}
 
-		// Token: 0x0600406A RID: 16490 RVA: 0x0021D8F0 File Offset: 0x0021BCF0
+		// Token: 0x0600406A RID: 16490 RVA: 0x0021DBD0 File Offset: 0x0021BFD0
 		public float RandomizedVolume()
 		{
 			float randomInRange = this.volumeRange.RandomInRange;
 			return randomInRange / 100f;
 		}
 
-		// Token: 0x0600406B RID: 16491 RVA: 0x0021D91A File Offset: 0x0021BD1A
+		// Token: 0x0600406B RID: 16491 RVA: 0x0021DBFA File Offset: 0x0021BFFA
 		public override void ResolveReferences()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -240,7 +240,7 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x0600406C RID: 16492 RVA: 0x0021D930 File Offset: 0x0021BD30
+		// Token: 0x0600406C RID: 16492 RVA: 0x0021DC10 File Offset: 0x0021C010
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -279,7 +279,7 @@ namespace Verse.Sound
 			yield break;
 		}
 
-		// Token: 0x0600406D RID: 16493 RVA: 0x0021D95C File Offset: 0x0021BD5C
+		// Token: 0x0600406D RID: 16493 RVA: 0x0021DC3C File Offset: 0x0021C03C
 		public override string ToString()
 		{
 			return this.name;

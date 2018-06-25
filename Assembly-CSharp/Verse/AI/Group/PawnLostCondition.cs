@@ -2,28 +2,28 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009E4 RID: 2532
+	// Token: 0x020009E5 RID: 2533
 	public enum PawnLostCondition : byte
 	{
-		// Token: 0x0400243A RID: 9274
+		// Token: 0x0400244A RID: 9290
 		Undefined,
-		// Token: 0x0400243B RID: 9275
+		// Token: 0x0400244B RID: 9291
 		Vanished,
-		// Token: 0x0400243C RID: 9276
+		// Token: 0x0400244C RID: 9292
 		IncappedOrKilled,
-		// Token: 0x0400243D RID: 9277
+		// Token: 0x0400244D RID: 9293
 		MadePrisoner,
-		// Token: 0x0400243E RID: 9278
+		// Token: 0x0400244E RID: 9294
 		ChangedFaction,
-		// Token: 0x0400243F RID: 9279
+		// Token: 0x0400244F RID: 9295
 		ExitedMap,
-		// Token: 0x04002440 RID: 9280
+		// Token: 0x04002450 RID: 9296
 		LeftVoluntarily,
-		// Token: 0x04002441 RID: 9281
+		// Token: 0x04002451 RID: 9297
 		Drafted,
-		// Token: 0x04002442 RID: 9282
+		// Token: 0x04002452 RID: 9298
 		ForcedToJoinOtherLord,
-		// Token: 0x04002443 RID: 9283
+		// Token: 0x04002453 RID: 9299
 		ForcedByPlayerAction
 	}
 }

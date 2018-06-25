@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E31 RID: 3633
+	// Token: 0x02000E32 RID: 3634
 	[AttributeUsage(AttributeTargets.Method)]
 	public class ModeRestrictionPlayAttribute : Attribute
 	{

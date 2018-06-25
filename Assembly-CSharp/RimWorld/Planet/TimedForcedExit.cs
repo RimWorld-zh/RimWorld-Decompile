@@ -8,17 +8,17 @@ namespace RimWorld.Planet
 	// Token: 0x02000625 RID: 1573
 	public class TimedForcedExit : WorldObjectComp
 	{
-		// Token: 0x0400126E RID: 4718
+		// Token: 0x04001272 RID: 4722
 		private int ticksLeftToForceExitAndRemoveMap = -1;
 
-		// Token: 0x0400126F RID: 4719
+		// Token: 0x04001273 RID: 4723
 		public const int DefaultForceExitAndRemoveMapCountdownHours = 24;
 
-		// Token: 0x04001270 RID: 4720
+		// Token: 0x04001274 RID: 4724
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
 		// Token: 0x170004C7 RID: 1223
-		// (get) Token: 0x06001FF9 RID: 8185 RVA: 0x00113254 File Offset: 0x00111654
+		// (get) Token: 0x06001FF8 RID: 8184 RVA: 0x001134BC File Offset: 0x001118BC
 		public bool ForceExitAndRemoveMapCountdownActive
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004C8 RID: 1224
-		// (get) Token: 0x06001FFA RID: 8186 RVA: 0x00113278 File Offset: 0x00111678
+		// (get) Token: 0x06001FF9 RID: 8185 RVA: 0x001134E0 File Offset: 0x001118E0
 		public string ForceExitAndRemoveMapCountdownTimeLeftString
 		{
 			get
@@ -46,26 +46,26 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FFB RID: 8187 RVA: 0x001132AE File Offset: 0x001116AE
+		// Token: 0x06001FFA RID: 8186 RVA: 0x00113516 File Offset: 0x00111916
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeftToForceExitAndRemoveMap, "ticksLeftToForceExitAndRemoveMap", -1, false);
 		}
 
-		// Token: 0x06001FFC RID: 8188 RVA: 0x001132C9 File Offset: 0x001116C9
+		// Token: 0x06001FFB RID: 8187 RVA: 0x00113531 File Offset: 0x00111931
 		public void StartForceExitAndRemoveMapCountdown()
 		{
 			this.StartForceExitAndRemoveMapCountdown(60000);
 		}
 
-		// Token: 0x06001FFD RID: 8189 RVA: 0x001132D7 File Offset: 0x001116D7
+		// Token: 0x06001FFC RID: 8188 RVA: 0x0011353F File Offset: 0x0011193F
 		public void StartForceExitAndRemoveMapCountdown(int duration)
 		{
 			this.ticksLeftToForceExitAndRemoveMap = duration;
 		}
 
-		// Token: 0x06001FFE RID: 8190 RVA: 0x001132E4 File Offset: 0x001116E4
+		// Token: 0x06001FFD RID: 8189 RVA: 0x0011354C File Offset: 0x0011194C
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -83,7 +83,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001FFF RID: 8191 RVA: 0x00113330 File Offset: 0x00111730
+		// Token: 0x06001FFE RID: 8190 RVA: 0x00113598 File Offset: 0x00111998
 		public override void CompTick()
 		{
 			MapParent mapParent = (MapParent)this.parent;
@@ -104,7 +104,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002000 RID: 8192 RVA: 0x00113390 File Offset: 0x00111790
+		// Token: 0x06001FFF RID: 8191 RVA: 0x001135F8 File Offset: 0x001119F8
 		public static string GetForceExitAndRemoveMapCountdownTimeLeftString(int ticksLeft)
 		{
 			string result;
@@ -119,7 +119,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06002001 RID: 8193 RVA: 0x001133C0 File Offset: 0x001117C0
+		// Token: 0x06002000 RID: 8192 RVA: 0x00113628 File Offset: 0x00111A28
 		public static void ForceReform(MapParent mapParent)
 		{
 			if (Dialog_FormCaravan.AllSendablePawns(mapParent.Map, true).Any((Pawn x) => x.IsColonist))

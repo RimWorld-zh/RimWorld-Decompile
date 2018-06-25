@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200030B RID: 779
 	public static class GameConditionUtility
 	{
-		// Token: 0x06000D08 RID: 3336 RVA: 0x00071774 File Offset: 0x0006FB74
+		// Token: 0x06000D07 RID: 3335 RVA: 0x0007177C File Offset: 0x0006FB7C
 		public static float LerpInOutValue(GameCondition gameCondition, float lerpTime, float lerpTarget = 1f)
 		{
 			float result;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D09 RID: 3337 RVA: 0x000717C4 File Offset: 0x0006FBC4
+		// Token: 0x06000D08 RID: 3336 RVA: 0x000717CC File Offset: 0x0006FBCC
 		public static float LerpInOutValue(float timePassed, float timeLeft, float lerpTime, float lerpTarget = 1f)
 		{
 			float num = 1f;

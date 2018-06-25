@@ -6,58 +6,58 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EA3 RID: 3747
+	// Token: 0x02000EA4 RID: 3748
 	public static class ReorderableWidget
 	{
-		// Token: 0x04003A7C RID: 14972
+		// Token: 0x04003A84 RID: 14980
 		private static List<ReorderableWidget.ReorderableGroup> groups = new List<ReorderableWidget.ReorderableGroup>();
 
-		// Token: 0x04003A7D RID: 14973
+		// Token: 0x04003A85 RID: 14981
 		private static List<ReorderableWidget.ReorderableInstance> reorderables = new List<ReorderableWidget.ReorderableInstance>();
 
-		// Token: 0x04003A7E RID: 14974
+		// Token: 0x04003A86 RID: 14982
 		private static int draggingReorderable = -1;
 
-		// Token: 0x04003A7F RID: 14975
+		// Token: 0x04003A87 RID: 14983
 		private static Vector2 dragStartPos;
 
-		// Token: 0x04003A80 RID: 14976
+		// Token: 0x04003A88 RID: 14984
 		private static bool clicked;
 
-		// Token: 0x04003A81 RID: 14977
+		// Token: 0x04003A89 RID: 14985
 		private static bool released;
 
-		// Token: 0x04003A82 RID: 14978
+		// Token: 0x04003A8A RID: 14986
 		private static bool dragBegun;
 
-		// Token: 0x04003A83 RID: 14979
+		// Token: 0x04003A8B RID: 14987
 		private static Vector2 clickedAt;
 
-		// Token: 0x04003A84 RID: 14980
+		// Token: 0x04003A8C RID: 14988
 		private static Rect clickedInRect;
 
-		// Token: 0x04003A85 RID: 14981
+		// Token: 0x04003A8D RID: 14989
 		private static int lastInsertNear = -1;
 
-		// Token: 0x04003A86 RID: 14982
+		// Token: 0x04003A8E RID: 14990
 		private static bool lastInsertNearLeft;
 
-		// Token: 0x04003A87 RID: 14983
+		// Token: 0x04003A8F RID: 14991
 		private static int lastFrameReorderableCount = -1;
 
-		// Token: 0x04003A88 RID: 14984
+		// Token: 0x04003A90 RID: 14992
 		private const float MinMouseMoveToHighlightReorderable = 5f;
 
-		// Token: 0x04003A89 RID: 14985
+		// Token: 0x04003A91 RID: 14993
 		private static readonly Color LineColor = new Color(1f, 1f, 1f, 0.6f);
 
-		// Token: 0x04003A8A RID: 14986
+		// Token: 0x04003A92 RID: 14994
 		private static readonly Color HighlightColor = new Color(1f, 1f, 1f, 0.3f);
 
-		// Token: 0x04003A8B RID: 14987
+		// Token: 0x04003A93 RID: 14995
 		private const float LineWidth = 2f;
 
-		// Token: 0x06005870 RID: 22640 RVA: 0x002D5300 File Offset: 0x002D3700
+		// Token: 0x06005870 RID: 22640 RVA: 0x002D54EC File Offset: 0x002D38EC
 		public static void ReorderableWidgetOnGUI_BeforeWindowStack()
 		{
 			if (ReorderableWidget.dragBegun && ReorderableWidget.draggingReorderable >= 0 && ReorderableWidget.draggingReorderable < ReorderableWidget.reorderables.Count)
@@ -70,7 +70,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005871 RID: 22641 RVA: 0x002D53A8 File Offset: 0x002D37A8
+		// Token: 0x06005871 RID: 22641 RVA: 0x002D5594 File Offset: 0x002D3994
 		public static void ReorderableWidgetOnGUI_AfterWindowStack()
 		{
 			if (Event.current.rawType == EventType.MouseUp)
@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005872 RID: 22642 RVA: 0x002D55E0 File Offset: 0x002D39E0
+		// Token: 0x06005872 RID: 22642 RVA: 0x002D57CC File Offset: 0x002D3BCC
 		public static int NewGroup(Action<int, int> reorderedAction, ReorderableDirection direction, float drawLineExactlyBetween_space = -1f, Action<int, Vector2> extraDraggedItemOnGUI = null)
 		{
 			int result;
@@ -171,7 +171,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005873 RID: 22643 RVA: 0x002D564C File Offset: 0x002D3A4C
+		// Token: 0x06005873 RID: 22643 RVA: 0x002D5838 File Offset: 0x002D3C38
 		public static bool Reorderable(int groupID, Rect rect, bool useRightButton = false)
 		{
 			bool result;
@@ -255,7 +255,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005874 RID: 22644 RVA: 0x002D59AC File Offset: 0x002D3DAC
+		// Token: 0x06005874 RID: 22644 RVA: 0x002D5B98 File Offset: 0x002D3F98
 		private static int CurrentInsertNear(out bool toTheLeft)
 		{
 			toTheLeft = false;
@@ -304,7 +304,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005875 RID: 22645 RVA: 0x002D5B40 File Offset: 0x002D3F40
+		// Token: 0x06005875 RID: 22645 RVA: 0x002D5D2C File Offset: 0x002D412C
 		private static int GetIndexWithinGroup(int index)
 		{
 			int result;
@@ -327,7 +327,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005876 RID: 22646 RVA: 0x002D5BBC File Offset: 0x002D3FBC
+		// Token: 0x06005876 RID: 22646 RVA: 0x002D5DA8 File Offset: 0x002D41A8
 		private static void StopDragging()
 		{
 			ReorderableWidget.draggingReorderable = -1;
@@ -336,23 +336,23 @@ namespace Verse
 			ReorderableWidget.dragBegun = false;
 		}
 
-		// Token: 0x02000EA4 RID: 3748
+		// Token: 0x02000EA5 RID: 3749
 		private struct ReorderableGroup
 		{
-			// Token: 0x04003A8C RID: 14988
+			// Token: 0x04003A94 RID: 14996
 			public Action<int, int> reorderedAction;
 
-			// Token: 0x04003A8D RID: 14989
+			// Token: 0x04003A95 RID: 14997
 			public ReorderableDirection direction;
 
-			// Token: 0x04003A8E RID: 14990
+			// Token: 0x04003A96 RID: 14998
 			public float drawLineExactlyBetween_space;
 
-			// Token: 0x04003A8F RID: 14991
+			// Token: 0x04003A97 RID: 14999
 			public Action<int, Vector2> extraDraggedItemOnGUI;
 
 			// Token: 0x17000DF4 RID: 3572
-			// (get) Token: 0x06005878 RID: 22648 RVA: 0x002D5C5C File Offset: 0x002D405C
+			// (get) Token: 0x06005878 RID: 22648 RVA: 0x002D5E48 File Offset: 0x002D4248
 			public bool DrawLineExactlyBetween
 			{
 				get
@@ -362,16 +362,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000EA5 RID: 3749
+		// Token: 0x02000EA6 RID: 3750
 		private struct ReorderableInstance
 		{
-			// Token: 0x04003A90 RID: 14992
+			// Token: 0x04003A98 RID: 15000
 			public int groupID;
 
-			// Token: 0x04003A91 RID: 14993
+			// Token: 0x04003A99 RID: 15001
 			public Rect rect;
 
-			// Token: 0x04003A92 RID: 14994
+			// Token: 0x04003A9A RID: 15002
 			public Rect absRect;
 		}
 	}

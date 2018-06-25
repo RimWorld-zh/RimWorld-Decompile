@@ -7,34 +7,34 @@ namespace RimWorld
 	// Token: 0x0200045E RID: 1118
 	public class PawnFootprintMaker
 	{
-		// Token: 0x04000BE2 RID: 3042
+		// Token: 0x04000BE5 RID: 3045
 		private Pawn pawn;
 
-		// Token: 0x04000BE3 RID: 3043
+		// Token: 0x04000BE6 RID: 3046
 		private Vector3 lastFootprintPlacePos;
 
-		// Token: 0x04000BE4 RID: 3044
+		// Token: 0x04000BE7 RID: 3047
 		private bool lastFootprintRight = false;
 
-		// Token: 0x04000BE5 RID: 3045
+		// Token: 0x04000BE8 RID: 3048
 		private const float FootprintIntervalDist = 0.632f;
 
-		// Token: 0x04000BE6 RID: 3046
+		// Token: 0x04000BE9 RID: 3049
 		private static readonly Vector3 FootprintOffset = new Vector3(0f, 0f, -0.3f);
 
-		// Token: 0x04000BE7 RID: 3047
+		// Token: 0x04000BEA RID: 3050
 		private const float LeftRightOffsetDist = 0.17f;
 
-		// Token: 0x04000BE8 RID: 3048
+		// Token: 0x04000BEB RID: 3051
 		private const float FootprintSplashSize = 2f;
 
-		// Token: 0x0600139B RID: 5019 RVA: 0x000A94CB File Offset: 0x000A78CB
+		// Token: 0x0600139A RID: 5018 RVA: 0x000A96CB File Offset: 0x000A7ACB
 		public PawnFootprintMaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x0600139C RID: 5020 RVA: 0x000A94E4 File Offset: 0x000A78E4
+		// Token: 0x0600139B RID: 5019 RVA: 0x000A96E4 File Offset: 0x000A7AE4
 		public void FootprintMakerTick()
 		{
 			if (!this.pawn.RaceProps.makesFootprints)
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600139D RID: 5021 RVA: 0x000A956C File Offset: 0x000A796C
+		// Token: 0x0600139C RID: 5020 RVA: 0x000A976C File Offset: 0x000A7B6C
 		private void TryPlaceFootprint()
 		{
 			Vector3 drawPos = this.pawn.Drawer.DrawPos;

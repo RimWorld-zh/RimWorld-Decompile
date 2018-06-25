@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000328 RID: 808
 	public class IncidentWorker_DeepDrillInfestation : IncidentWorker
 	{
-		// Token: 0x040008C6 RID: 2246
+		// Token: 0x040008C9 RID: 2249
 		private static List<Thing> tmpDrills = new List<Thing>();
 
-		// Token: 0x040008C7 RID: 2247
+		// Token: 0x040008CA RID: 2250
 		private const float PointsFactor = 0.32f;
 
-		// Token: 0x040008C8 RID: 2248
+		// Token: 0x040008CB RID: 2251
 		private const float MinPoints = 115f;
 
-		// Token: 0x040008C9 RID: 2249
+		// Token: 0x040008CC RID: 2252
 		private const float MaxPoints = 530f;
 
-		// Token: 0x06000DCB RID: 3531 RVA: 0x00075FEC File Offset: 0x000743EC
+		// Token: 0x06000DCA RID: 3530 RVA: 0x00075FF4 File Offset: 0x000743F4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DCC RID: 3532 RVA: 0x00076040 File Offset: 0x00074440
+		// Token: 0x06000DCB RID: 3531 RVA: 0x00076048 File Offset: 0x00074448
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

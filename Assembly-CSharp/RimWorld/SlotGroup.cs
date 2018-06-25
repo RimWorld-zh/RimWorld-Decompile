@@ -7,17 +7,17 @@ namespace RimWorld
 	// Token: 0x02000692 RID: 1682
 	public class SlotGroup
 	{
-		// Token: 0x040013EB RID: 5099
+		// Token: 0x040013EF RID: 5103
 		public ISlotGroupParent parent;
 
-		// Token: 0x060023AA RID: 9130 RVA: 0x00132090 File Offset: 0x00130490
+		// Token: 0x060023A9 RID: 9129 RVA: 0x001322F8 File Offset: 0x001306F8
 		public SlotGroup(ISlotGroupParent parent)
 		{
 			this.parent = parent;
 		}
 
 		// Token: 0x17000550 RID: 1360
-		// (get) Token: 0x060023AB RID: 9131 RVA: 0x001320A0 File Offset: 0x001304A0
+		// (get) Token: 0x060023AA RID: 9130 RVA: 0x00132308 File Offset: 0x00130708
 		private Map Map
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000551 RID: 1361
-		// (get) Token: 0x060023AC RID: 9132 RVA: 0x001320C0 File Offset: 0x001304C0
+		// (get) Token: 0x060023AB RID: 9131 RVA: 0x00132328 File Offset: 0x00130728
 		public StorageSettings Settings
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000552 RID: 1362
-		// (get) Token: 0x060023AD RID: 9133 RVA: 0x001320E0 File Offset: 0x001304E0
+		// (get) Token: 0x060023AC RID: 9132 RVA: 0x00132348 File Offset: 0x00130748
 		public IEnumerable<Thing> HeldThings
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000553 RID: 1363
-		// (get) Token: 0x060023AE RID: 9134 RVA: 0x0013210C File Offset: 0x0013050C
+		// (get) Token: 0x060023AD RID: 9133 RVA: 0x00132374 File Offset: 0x00130774
 		public List<IntVec3> CellsList
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023AF RID: 9135 RVA: 0x0013212C File Offset: 0x0013052C
+		// Token: 0x060023AE RID: 9134 RVA: 0x00132394 File Offset: 0x00130794
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
 			List<IntVec3> cellsList = this.CellsList;
@@ -80,7 +80,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060023B0 RID: 9136 RVA: 0x0013214E File Offset: 0x0013054E
+		// Token: 0x060023AF RID: 9135 RVA: 0x001323B6 File Offset: 0x001307B6
 		public void Notify_AddedCell(IntVec3 c)
 		{
 			this.Map.haulDestinationManager.SetCellFor(c, this);
@@ -88,7 +88,7 @@ namespace RimWorld
 			this.Map.listerMergeables.RecalcAllInCell(c);
 		}
 
-		// Token: 0x060023B1 RID: 9137 RVA: 0x00132185 File Offset: 0x00130585
+		// Token: 0x060023B0 RID: 9136 RVA: 0x001323ED File Offset: 0x001307ED
 		public void Notify_LostCell(IntVec3 c)
 		{
 			this.Map.haulDestinationManager.ClearCellFor(c, this);
@@ -96,7 +96,7 @@ namespace RimWorld
 			this.Map.listerMergeables.RecalcAllInCell(c);
 		}
 
-		// Token: 0x060023B2 RID: 9138 RVA: 0x001321BC File Offset: 0x001305BC
+		// Token: 0x060023B1 RID: 9137 RVA: 0x00132424 File Offset: 0x00130824
 		public override string ToString()
 		{
 			string result;

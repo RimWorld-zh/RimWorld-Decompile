@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000C7F RID: 3199
+	// Token: 0x02000C80 RID: 3200
 	public enum BoolUnknown : byte
 	{
-		// Token: 0x04002FBF RID: 12223
+		// Token: 0x04002FC6 RID: 12230
 		True,
-		// Token: 0x04002FC0 RID: 12224
+		// Token: 0x04002FC7 RID: 12231
 		False,
-		// Token: 0x04002FC1 RID: 12225
+		// Token: 0x04002FC8 RID: 12232
 		Unknown
 	}
 }

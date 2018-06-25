@@ -5,15 +5,15 @@ namespace RimWorld
 	// Token: 0x0200051F RID: 1311
 	public enum MedicalCareCategory : byte
 	{
-		// Token: 0x04000E14 RID: 3604
-		NoCare,
-		// Token: 0x04000E15 RID: 3605
-		NoMeds,
-		// Token: 0x04000E16 RID: 3606
-		HerbalOrWorse,
-		// Token: 0x04000E17 RID: 3607
-		NormalOrWorse,
 		// Token: 0x04000E18 RID: 3608
+		NoCare,
+		// Token: 0x04000E19 RID: 3609
+		NoMeds,
+		// Token: 0x04000E1A RID: 3610
+		HerbalOrWorse,
+		// Token: 0x04000E1B RID: 3611
+		NormalOrWorse,
+		// Token: 0x04000E1C RID: 3612
 		Best
 	}
 }

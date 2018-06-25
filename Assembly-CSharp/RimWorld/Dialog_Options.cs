@@ -12,10 +12,10 @@ namespace RimWorld
 	// Token: 0x0200080C RID: 2060
 	public class Dialog_Options : Window
 	{
-		// Token: 0x04001861 RID: 6241
+		// Token: 0x04001865 RID: 6245
 		private const float SubOptionTabWidth = 40f;
 
-		// Token: 0x04001862 RID: 6242
+		// Token: 0x04001866 RID: 6246
 		private static readonly float[] UIScales = new float[]
 		{
 			1f,
@@ -29,7 +29,7 @@ namespace RimWorld
 			4f
 		};
 
-		// Token: 0x06002DF6 RID: 11766 RVA: 0x00183227 File Offset: 0x00181627
+		// Token: 0x06002DF5 RID: 11765 RVA: 0x0018348B File Offset: 0x0018188B
 		public Dialog_Options()
 		{
 			this.doCloseButton = true;
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000755 RID: 1877
-		// (get) Token: 0x06002DF7 RID: 11767 RVA: 0x0018324C File Offset: 0x0018164C
+		// (get) Token: 0x06002DF6 RID: 11766 RVA: 0x001834B0 File Offset: 0x001818B0
 		public override Vector2 InitialSize
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF8 RID: 11768 RVA: 0x00183270 File Offset: 0x00181670
+		// Token: 0x06002DF7 RID: 11767 RVA: 0x001834D4 File Offset: 0x001818D4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = inRect.AtZero();
@@ -415,14 +415,14 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002DF9 RID: 11769 RVA: 0x001841FC File Offset: 0x001825FC
+		// Token: 0x06002DF8 RID: 11768 RVA: 0x00184460 File Offset: 0x00182860
 		public override void PreClose()
 		{
 			base.PreClose();
 			Prefs.Save();
 		}
 
-		// Token: 0x06002DFA RID: 11770 RVA: 0x0018420C File Offset: 0x0018260C
+		// Token: 0x06002DF9 RID: 11769 RVA: 0x00184470 File Offset: 0x00182870
 		public static string ResToString(int width, int height)
 		{
 			string text = width + "x" + height;
@@ -437,7 +437,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06002DFB RID: 11771 RVA: 0x00184280 File Offset: 0x00182680
+		// Token: 0x06002DFA RID: 11770 RVA: 0x001844E4 File Offset: 0x001828E4
 		public void RestoreToDefaultSettings()
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.ConfigFolderPath);

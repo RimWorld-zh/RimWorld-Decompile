@@ -2,16 +2,16 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A2E RID: 2606
+	// Token: 0x02000A2F RID: 2607
 	public enum HaulMode : byte
 	{
-		// Token: 0x040024BA RID: 9402
+		// Token: 0x040024CA RID: 9418
 		Undefined,
-		// Token: 0x040024BB RID: 9403
+		// Token: 0x040024CB RID: 9419
 		ToCellStorage,
-		// Token: 0x040024BC RID: 9404
+		// Token: 0x040024CC RID: 9420
 		ToCellNonStorage,
-		// Token: 0x040024BD RID: 9405
+		// Token: 0x040024CD RID: 9421
 		ToContainer
 	}
 }

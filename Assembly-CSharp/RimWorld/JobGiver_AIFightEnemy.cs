@@ -10,52 +10,52 @@ namespace RimWorld
 	// Token: 0x020000B8 RID: 184
 	public abstract class JobGiver_AIFightEnemy : ThinkNode_JobGiver
 	{
-		// Token: 0x04000286 RID: 646
+		// Token: 0x04000287 RID: 647
 		private float targetAcquireRadius = 56f;
 
-		// Token: 0x04000287 RID: 647
+		// Token: 0x04000288 RID: 648
 		private float targetKeepRadius = 65f;
 
-		// Token: 0x04000288 RID: 648
+		// Token: 0x04000289 RID: 649
 		private bool needLOSToAcquireNonPawnTargets = false;
 
-		// Token: 0x04000289 RID: 649
+		// Token: 0x0400028A RID: 650
 		private bool chaseTarget = false;
 
-		// Token: 0x0400028A RID: 650
+		// Token: 0x0400028B RID: 651
 		public static readonly IntRange ExpiryInterval_ShooterSucceeded = new IntRange(450, 550);
 
-		// Token: 0x0400028B RID: 651
+		// Token: 0x0400028C RID: 652
 		private static readonly IntRange ExpiryInterval_Melee = new IntRange(360, 480);
 
-		// Token: 0x0400028C RID: 652
+		// Token: 0x0400028D RID: 653
 		private const int MinTargetDistanceToMove = 5;
 
-		// Token: 0x0400028D RID: 653
+		// Token: 0x0400028E RID: 654
 		private const int TicksSinceEngageToLoseTarget = 400;
 
 		// Token: 0x0600045A RID: 1114
 		protected abstract bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest);
 
-		// Token: 0x0600045B RID: 1115 RVA: 0x0002FF0C File Offset: 0x0002E30C
+		// Token: 0x0600045B RID: 1115 RVA: 0x0002FF28 File Offset: 0x0002E328
 		protected virtual float GetFlagRadius(Pawn pawn)
 		{
 			return 999999f;
 		}
 
-		// Token: 0x0600045C RID: 1116 RVA: 0x0002FF28 File Offset: 0x0002E328
+		// Token: 0x0600045C RID: 1116 RVA: 0x0002FF44 File Offset: 0x0002E344
 		protected virtual IntVec3 GetFlagPosition(Pawn pawn)
 		{
 			return IntVec3.Invalid;
 		}
 
-		// Token: 0x0600045D RID: 1117 RVA: 0x0002FF44 File Offset: 0x0002E344
+		// Token: 0x0600045D RID: 1117 RVA: 0x0002FF60 File Offset: 0x0002E360
 		protected virtual bool ExtraTargetValidator(Pawn pawn, Thing target)
 		{
 			return true;
 		}
 
-		// Token: 0x0600045E RID: 1118 RVA: 0x0002FF5C File Offset: 0x0002E35C
+		// Token: 0x0600045E RID: 1118 RVA: 0x0002FF78 File Offset: 0x0002E378
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_AIFightEnemy jobGiver_AIFightEnemy = (JobGiver_AIFightEnemy)base.DeepCopy(resolve);
@@ -66,7 +66,7 @@ namespace RimWorld
 			return jobGiver_AIFightEnemy;
 		}
 
-		// Token: 0x0600045F RID: 1119 RVA: 0x0002FFB0 File Offset: 0x0002E3B0
+		// Token: 0x0600045F RID: 1119 RVA: 0x0002FFCC File Offset: 0x0002E3CC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			this.UpdateEnemyTarget(pawn);
@@ -120,7 +120,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000460 RID: 1120 RVA: 0x00030144 File Offset: 0x0002E544
+		// Token: 0x06000460 RID: 1120 RVA: 0x00030160 File Offset: 0x0002E560
 		protected virtual Job MeleeAttackJob(Thing enemyTarget)
 		{
 			return new Job(JobDefOf.AttackMelee, enemyTarget)
@@ -131,7 +131,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06000461 RID: 1121 RVA: 0x0003018C File Offset: 0x0002E58C
+		// Token: 0x06000461 RID: 1121 RVA: 0x000301A8 File Offset: 0x0002E5A8
 		protected virtual void UpdateEnemyTarget(Pawn pawn)
 		{
 			Profiler.BeginSample("UpdateEnemyTarget");
@@ -178,7 +178,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06000462 RID: 1122 RVA: 0x00030314 File Offset: 0x0002E714
+		// Token: 0x06000462 RID: 1122 RVA: 0x00030330 File Offset: 0x0002E730
 		private Thing FindAttackTargetIfPossible(Pawn pawn)
 		{
 			Thing result;
@@ -193,7 +193,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000463 RID: 1123 RVA: 0x0003034C File Offset: 0x0002E74C
+		// Token: 0x06000463 RID: 1123 RVA: 0x00030368 File Offset: 0x0002E768
 		protected virtual Thing FindAttackTarget(Pawn pawn)
 		{
 			TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat;
@@ -208,7 +208,7 @@ namespace RimWorld
 			return (Thing)AttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Thing x) => this.ExtraTargetValidator(pawn, x), 0f, this.targetAcquireRadius, this.GetFlagPosition(pawn), this.GetFlagRadius(pawn), false);
 		}
 
-		// Token: 0x06000464 RID: 1124 RVA: 0x000303E0 File Offset: 0x0002E7E0
+		// Token: 0x06000464 RID: 1124 RVA: 0x000303FC File Offset: 0x0002E7FC
 		private bool PrimaryVerbIsIncendiary(Pawn pawn)
 		{
 			if (pawn.equipment != null && pawn.equipment.Primary != null)

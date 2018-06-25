@@ -9,16 +9,16 @@ namespace RimWorld
 	// Token: 0x020004B7 RID: 1207
 	public class InteractionWorker_MarriageProposal : InteractionWorker
 	{
-		// Token: 0x04000CB2 RID: 3250
+		// Token: 0x04000CB5 RID: 3253
 		private const float BaseSelectionWeight = 0.4f;
 
-		// Token: 0x04000CB3 RID: 3251
+		// Token: 0x04000CB6 RID: 3254
 		private const float BaseAcceptanceChance = 0.9f;
 
-		// Token: 0x04000CB4 RID: 3252
+		// Token: 0x04000CB7 RID: 3255
 		private const float BreakupChanceOnRejection = 0.4f;
 
-		// Token: 0x06001582 RID: 5506 RVA: 0x000BF044 File Offset: 0x000BD444
+		// Token: 0x06001581 RID: 5505 RVA: 0x000BF244 File Offset: 0x000BD644
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			DirectPawnRelation directRelation = initiator.relations.GetDirectRelation(PawnRelationDefOf.Lover, recipient);
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001583 RID: 5507 RVA: 0x000BF148 File Offset: 0x000BD548
+		// Token: 0x06001582 RID: 5506 RVA: 0x000BF348 File Offset: 0x000BD748
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			float num = this.AcceptanceChance(initiator, recipient);
@@ -129,7 +129,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001584 RID: 5508 RVA: 0x000BF3D8 File Offset: 0x000BD7D8
+		// Token: 0x06001583 RID: 5507 RVA: 0x000BF5D8 File Offset: 0x000BD9D8
 		public float AcceptanceChance(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.9f;

@@ -7,42 +7,42 @@ namespace RimWorld
 	// Token: 0x02000782 RID: 1922
 	public class Tradeable : Transferable
 	{
-		// Token: 0x040016E9 RID: 5865
+		// Token: 0x040016ED RID: 5869
 		public List<Thing> thingsColony = new List<Thing>();
 
-		// Token: 0x040016EA RID: 5866
+		// Token: 0x040016EE RID: 5870
 		public List<Thing> thingsTrader = new List<Thing>();
 
-		// Token: 0x040016EB RID: 5867
+		// Token: 0x040016EF RID: 5871
 		private int countToTransfer;
 
-		// Token: 0x040016EC RID: 5868
+		// Token: 0x040016F0 RID: 5872
 		private float pricePlayerBuy = -1f;
 
-		// Token: 0x040016ED RID: 5869
+		// Token: 0x040016F1 RID: 5873
 		private float pricePlayerSell = -1f;
 
-		// Token: 0x040016EE RID: 5870
+		// Token: 0x040016F2 RID: 5874
 		private float priceFactorBuy_TraderPriceType;
 
-		// Token: 0x040016EF RID: 5871
+		// Token: 0x040016F3 RID: 5875
 		private float priceFactorSell_TraderPriceType;
 
-		// Token: 0x040016F0 RID: 5872
+		// Token: 0x040016F4 RID: 5876
 		private float priceFactorSell_ItemSellPriceFactor;
 
-		// Token: 0x040016F1 RID: 5873
+		// Token: 0x040016F5 RID: 5877
 		private float priceGain_PlayerNegotiator;
 
-		// Token: 0x040016F2 RID: 5874
+		// Token: 0x040016F6 RID: 5878
 		private float priceGain_FactionBase;
 
-		// Token: 0x06002A7F RID: 10879 RVA: 0x0016864A File Offset: 0x00166A4A
+		// Token: 0x06002A7E RID: 10878 RVA: 0x001688AA File Offset: 0x00166CAA
 		public Tradeable()
 		{
 		}
 
-		// Token: 0x06002A80 RID: 10880 RVA: 0x00168680 File Offset: 0x00166A80
+		// Token: 0x06002A7F RID: 10879 RVA: 0x001688E0 File Offset: 0x00166CE0
 		public Tradeable(Thing thingColony, Thing thingTrader)
 		{
 			this.thingsColony.Add(thingColony);
@@ -50,8 +50,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700068E RID: 1678
-		// (get) Token: 0x06002A81 RID: 10881 RVA: 0x001686D8 File Offset: 0x00166AD8
-		// (set) Token: 0x06002A82 RID: 10882 RVA: 0x001686F3 File Offset: 0x00166AF3
+		// (get) Token: 0x06002A80 RID: 10880 RVA: 0x00168938 File Offset: 0x00166D38
+		// (set) Token: 0x06002A81 RID: 10881 RVA: 0x00168953 File Offset: 0x00166D53
 		public override int CountToTransfer
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700068F RID: 1679
-		// (get) Token: 0x06002A83 RID: 10883 RVA: 0x0016870C File Offset: 0x00166B0C
+		// (get) Token: 0x06002A82 RID: 10882 RVA: 0x0016896C File Offset: 0x00166D6C
 		public Thing FirstThingColony
 		{
 			get
@@ -85,7 +85,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000690 RID: 1680
-		// (get) Token: 0x06002A84 RID: 10884 RVA: 0x00168744 File Offset: 0x00166B44
+		// (get) Token: 0x06002A83 RID: 10883 RVA: 0x001689A4 File Offset: 0x00166DA4
 		public Thing FirstThingTrader
 		{
 			get
@@ -104,7 +104,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000691 RID: 1681
-		// (get) Token: 0x06002A85 RID: 10885 RVA: 0x0016877C File Offset: 0x00166B7C
+		// (get) Token: 0x06002A84 RID: 10884 RVA: 0x001689DC File Offset: 0x00166DDC
 		public override string Label
 		{
 			get
@@ -114,7 +114,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000692 RID: 1682
-		// (get) Token: 0x06002A86 RID: 10886 RVA: 0x0016879C File Offset: 0x00166B9C
+		// (get) Token: 0x06002A85 RID: 10885 RVA: 0x001689FC File Offset: 0x00166DFC
 		public virtual float BaseMarketValue
 		{
 			get
@@ -124,7 +124,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000693 RID: 1683
-		// (get) Token: 0x06002A87 RID: 10887 RVA: 0x001687BC File Offset: 0x00166BBC
+		// (get) Token: 0x06002A86 RID: 10886 RVA: 0x00168A1C File Offset: 0x00166E1C
 		public override bool Interactive
 		{
 			get
@@ -134,7 +134,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000694 RID: 1684
-		// (get) Token: 0x06002A88 RID: 10888 RVA: 0x001687F4 File Offset: 0x00166BF4
+		// (get) Token: 0x06002A87 RID: 10887 RVA: 0x00168A54 File Offset: 0x00166E54
 		public bool TraderWillTrade
 		{
 			get
@@ -144,7 +144,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000695 RID: 1685
-		// (get) Token: 0x06002A89 RID: 10889 RVA: 0x00168820 File Offset: 0x00166C20
+		// (get) Token: 0x06002A88 RID: 10888 RVA: 0x00168A80 File Offset: 0x00166E80
 		public override bool HasAnyThing
 		{
 			get
@@ -154,7 +154,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000696 RID: 1686
-		// (get) Token: 0x06002A8A RID: 10890 RVA: 0x00168850 File Offset: 0x00166C50
+		// (get) Token: 0x06002A89 RID: 10889 RVA: 0x00168AB0 File Offset: 0x00166EB0
 		public override Thing AnyThing
 		{
 			get
@@ -178,7 +178,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000697 RID: 1687
-		// (get) Token: 0x06002A8B RID: 10891 RVA: 0x001688B4 File Offset: 0x00166CB4
+		// (get) Token: 0x06002A8A RID: 10890 RVA: 0x00168B14 File Offset: 0x00166F14
 		public override ThingDef ThingDef
 		{
 			get
@@ -197,7 +197,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000698 RID: 1688
-		// (get) Token: 0x06002A8C RID: 10892 RVA: 0x001688E8 File Offset: 0x00166CE8
+		// (get) Token: 0x06002A8B RID: 10891 RVA: 0x00168B48 File Offset: 0x00166F48
 		public ThingDef StuffDef
 		{
 			get
@@ -216,7 +216,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000699 RID: 1689
-		// (get) Token: 0x06002A8D RID: 10893 RVA: 0x0016891C File Offset: 0x00166D1C
+		// (get) Token: 0x06002A8C RID: 10892 RVA: 0x00168B7C File Offset: 0x00166F7C
 		public override string TipDescription
 		{
 			get
@@ -235,7 +235,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700069A RID: 1690
-		// (get) Token: 0x06002A8E RID: 10894 RVA: 0x00168954 File Offset: 0x00166D54
+		// (get) Token: 0x06002A8D RID: 10893 RVA: 0x00168BB4 File Offset: 0x00166FB4
 		public TradeAction ActionToDo
 		{
 			get
@@ -258,7 +258,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700069B RID: 1691
-		// (get) Token: 0x06002A8F RID: 10895 RVA: 0x00168990 File Offset: 0x00166D90
+		// (get) Token: 0x06002A8E RID: 10894 RVA: 0x00168BF0 File Offset: 0x00166FF0
 		public bool IsCurrency
 		{
 			get
@@ -268,7 +268,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700069C RID: 1692
-		// (get) Token: 0x06002A90 RID: 10896 RVA: 0x001689C4 File Offset: 0x00166DC4
+		// (get) Token: 0x06002A8F RID: 10895 RVA: 0x00168C24 File Offset: 0x00167024
 		public override TransferablePositiveCountDirection PositiveCountDirection
 		{
 			get
@@ -287,7 +287,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700069D RID: 1693
-		// (get) Token: 0x06002A91 RID: 10897 RVA: 0x001689F8 File Offset: 0x00166DF8
+		// (get) Token: 0x06002A90 RID: 10896 RVA: 0x00168C58 File Offset: 0x00167058
 		public float CurTotalSilverCostForSource
 		{
 			get
@@ -306,7 +306,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700069E RID: 1694
-		// (get) Token: 0x06002A92 RID: 10898 RVA: 0x00168A38 File Offset: 0x00166E38
+		// (get) Token: 0x06002A91 RID: 10897 RVA: 0x00168C98 File Offset: 0x00167098
 		public float CurTotalSilverCostForDestination
 		{
 			get
@@ -325,7 +325,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700069F RID: 1695
-		// (get) Token: 0x06002A93 RID: 10899 RVA: 0x00168A78 File Offset: 0x00166E78
+		// (get) Token: 0x06002A92 RID: 10898 RVA: 0x00168CD8 File Offset: 0x001670D8
 		public virtual Window NewInfoDialog
 		{
 			get
@@ -335,7 +335,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006A0 RID: 1696
-		// (get) Token: 0x06002A94 RID: 10900 RVA: 0x00168A98 File Offset: 0x00166E98
+		// (get) Token: 0x06002A93 RID: 10899 RVA: 0x00168CF8 File Offset: 0x001670F8
 		private bool Bugged
 		{
 			get
@@ -354,7 +354,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A95 RID: 10901 RVA: 0x00168ADC File Offset: 0x00166EDC
+		// Token: 0x06002A94 RID: 10900 RVA: 0x00168D3C File Offset: 0x0016713C
 		public void AddThing(Thing t, Transactor trans)
 		{
 			if (trans == Transactor.Colony)
@@ -367,13 +367,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A96 RID: 10902 RVA: 0x00168B04 File Offset: 0x00166F04
+		// Token: 0x06002A95 RID: 10901 RVA: 0x00168D64 File Offset: 0x00167164
 		public PriceType PriceTypeFor(TradeAction action)
 		{
 			return TradeSession.trader.TraderKind.PriceTypeFor(this.ThingDef, action);
 		}
 
-		// Token: 0x06002A97 RID: 10903 RVA: 0x00168B30 File Offset: 0x00166F30
+		// Token: 0x06002A96 RID: 10902 RVA: 0x00168D90 File Offset: 0x00167190
 		private void InitPriceDataIfNeeded()
 		{
 			if (this.pricePlayerBuy <= 0f)
@@ -401,7 +401,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A98 RID: 10904 RVA: 0x00168C64 File Offset: 0x00167064
+		// Token: 0x06002A97 RID: 10903 RVA: 0x00168EC4 File Offset: 0x001672C4
 		public string GetPriceTooltip(TradeAction action)
 		{
 			string result;
@@ -414,7 +414,7 @@ namespace RimWorld
 				this.InitPriceDataIfNeeded();
 				string text = (action != TradeAction.PlayerBuys) ? "SellPriceDesc".Translate() : "BuyPriceDesc".Translate();
 				text += "\n\n";
-				text = text + StatDefOf.MarketValue.LabelCap + ": " + this.BaseMarketValue.ToStringMoney();
+				text = text + StatDefOf.MarketValue.LabelCap + ": " + this.BaseMarketValue.ToStringMoney("F2");
 				if (action == TradeAction.PlayerBuys)
 				{
 					string text2 = text;
@@ -562,7 +562,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A99 RID: 10905 RVA: 0x0016912C File Offset: 0x0016752C
+		// Token: 0x06002A98 RID: 10904 RVA: 0x00169390 File Offset: 0x00167790
 		public float GetPriceFor(TradeAction action)
 		{
 			this.InitPriceDataIfNeeded();
@@ -578,7 +578,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A9A RID: 10906 RVA: 0x00169160 File Offset: 0x00167560
+		// Token: 0x06002A99 RID: 10905 RVA: 0x001693C4 File Offset: 0x001677C4
 		public override int GetMinimumToTransfer()
 		{
 			int result;
@@ -593,7 +593,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A9B RID: 10907 RVA: 0x00169198 File Offset: 0x00167598
+		// Token: 0x06002A9A RID: 10906 RVA: 0x001693FC File Offset: 0x001677FC
 		public override int GetMaximumToTransfer()
 		{
 			int result;
@@ -608,7 +608,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A9C RID: 10908 RVA: 0x001691D0 File Offset: 0x001675D0
+		// Token: 0x06002A9B RID: 10907 RVA: 0x00169434 File Offset: 0x00167834
 		public override AcceptanceReport UnderflowReport()
 		{
 			AcceptanceReport result;
@@ -623,7 +623,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A9D RID: 10909 RVA: 0x00169218 File Offset: 0x00167618
+		// Token: 0x06002A9C RID: 10908 RVA: 0x0016947C File Offset: 0x0016787C
 		public override AcceptanceReport OverflowReport()
 		{
 			AcceptanceReport result;
@@ -638,7 +638,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A9E RID: 10910 RVA: 0x00169260 File Offset: 0x00167660
+		// Token: 0x06002A9D RID: 10909 RVA: 0x001694C4 File Offset: 0x001678C4
 		private List<Thing> TransactorThings(Transactor trans)
 		{
 			List<Thing> result;
@@ -653,7 +653,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A9F RID: 10911 RVA: 0x00169290 File Offset: 0x00167690
+		// Token: 0x06002A9E RID: 10910 RVA: 0x001694F4 File Offset: 0x001678F4
 		public int CountHeldBy(Transactor trans)
 		{
 			List<Thing> list = this.TransactorThings(trans);
@@ -665,7 +665,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002AA0 RID: 10912 RVA: 0x001692D8 File Offset: 0x001676D8
+		// Token: 0x06002A9F RID: 10911 RVA: 0x0016953C File Offset: 0x0016793C
 		public int CountPostDealFor(Transactor trans)
 		{
 			int result;
@@ -680,7 +680,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AA1 RID: 10913 RVA: 0x00169318 File Offset: 0x00167718
+		// Token: 0x06002AA0 RID: 10912 RVA: 0x0016957C File Offset: 0x0016797C
 		public virtual void ResolveTrade()
 		{
 			if (this.ActionToDo == TradeAction.PlayerSells)
@@ -700,7 +700,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AA2 RID: 10914 RVA: 0x00169398 File Offset: 0x00167798
+		// Token: 0x06002AA1 RID: 10913 RVA: 0x001695FC File Offset: 0x001679FC
 		private void CheckTeachOpportunity(Thing boughtThing, int boughtCount)
 		{
 			Building building = boughtThing as Building;
@@ -721,7 +721,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AA3 RID: 10915 RVA: 0x00169414 File Offset: 0x00167814
+		// Token: 0x06002AA2 RID: 10914 RVA: 0x00169678 File Offset: 0x00167A78
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -735,13 +735,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002AA4 RID: 10916 RVA: 0x0016946C File Offset: 0x0016786C
+		// Token: 0x06002AA3 RID: 10915 RVA: 0x001696D0 File Offset: 0x00167AD0
 		public override int GetHashCode()
 		{
 			return this.AnyThing.GetHashCode();
 		}
 
-		// Token: 0x06002AA5 RID: 10917 RVA: 0x0016948C File Offset: 0x0016788C
+		// Token: 0x06002AA4 RID: 10916 RVA: 0x001696F0 File Offset: 0x00167AF0
 		public override void ExposeData()
 		{
 			base.ExposeData();

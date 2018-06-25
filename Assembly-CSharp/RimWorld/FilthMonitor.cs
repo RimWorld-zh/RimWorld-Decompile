@@ -7,28 +7,28 @@ namespace RimWorld
 	// Token: 0x0200097B RID: 2427
 	internal static class FilthMonitor
 	{
-		// Token: 0x04002336 RID: 9014
+		// Token: 0x0400233D RID: 9021
 		private static int lastUpdate = 0;
 
-		// Token: 0x04002337 RID: 9015
+		// Token: 0x0400233E RID: 9022
 		private static int filthAccumulated = 0;
 
-		// Token: 0x04002338 RID: 9016
+		// Token: 0x0400233F RID: 9023
 		private static int filthDropped = 0;
 
-		// Token: 0x04002339 RID: 9017
+		// Token: 0x04002340 RID: 9024
 		private static int filthAnimalGenerated = 0;
 
-		// Token: 0x0400233A RID: 9018
+		// Token: 0x04002341 RID: 9025
 		private static int filthHumanGenerated = 0;
 
-		// Token: 0x0400233B RID: 9019
+		// Token: 0x04002342 RID: 9026
 		private static int filthSpawned = 0;
 
-		// Token: 0x0400233C RID: 9020
+		// Token: 0x04002343 RID: 9027
 		private const int SampleDuration = 2500;
 
-		// Token: 0x0600368D RID: 13965 RVA: 0x001D1784 File Offset: 0x001CFB84
+		// Token: 0x0600368D RID: 13965 RVA: 0x001D1A58 File Offset: 0x001CFE58
 		public static void FilthMonitorTick()
 		{
 			if (DebugViewSettings.logFilthSummary)
@@ -56,8 +56,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600368E RID: 13966 RVA: 0x001D1909 File Offset: 0x001CFD09
-		public static void Notify_FilthAccumulated(ThingDef filth)
+		// Token: 0x0600368E RID: 13966 RVA: 0x001D1BDD File Offset: 0x001CFFDD
+		public static void Notify_FilthAccumulated()
 		{
 			if (DebugViewSettings.logFilthSummary)
 			{
@@ -65,8 +65,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600368F RID: 13967 RVA: 0x001D1927 File Offset: 0x001CFD27
-		public static void Notify_FilthDropped(ThingDef filth)
+		// Token: 0x0600368F RID: 13967 RVA: 0x001D1BFB File Offset: 0x001CFFFB
+		public static void Notify_FilthDropped()
 		{
 			if (DebugViewSettings.logFilthSummary)
 			{
@@ -74,8 +74,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003690 RID: 13968 RVA: 0x001D1945 File Offset: 0x001CFD45
-		public static void Notify_FilthAnimalGenerated(ThingDef filth)
+		// Token: 0x06003690 RID: 13968 RVA: 0x001D1C19 File Offset: 0x001D0019
+		public static void Notify_FilthAnimalGenerated()
 		{
 			if (DebugViewSettings.logFilthSummary)
 			{
@@ -83,8 +83,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003691 RID: 13969 RVA: 0x001D1963 File Offset: 0x001CFD63
-		public static void Notify_FilthHumanGenerated(ThingDef filth)
+		// Token: 0x06003691 RID: 13969 RVA: 0x001D1C37 File Offset: 0x001D0037
+		public static void Notify_FilthHumanGenerated()
 		{
 			if (DebugViewSettings.logFilthSummary)
 			{
@@ -92,8 +92,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003692 RID: 13970 RVA: 0x001D1981 File Offset: 0x001CFD81
-		public static void Notify_FilthSpawned(ThingDef filth)
+		// Token: 0x06003692 RID: 13970 RVA: 0x001D1C55 File Offset: 0x001D0055
+		public static void Notify_FilthSpawned()
 		{
 			if (DebugViewSettings.logFilthSummary)
 			{

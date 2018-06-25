@@ -2,23 +2,23 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A19 RID: 2585
+	// Token: 0x02000A1A RID: 2586
 	public class Trigger_ChanceOnSignal : Trigger
 	{
-		// Token: 0x040024AC RID: 9388
+		// Token: 0x040024BC RID: 9404
 		private TriggerSignalType signalType;
 
-		// Token: 0x040024AD RID: 9389
+		// Token: 0x040024BD RID: 9405
 		private float chance;
 
-		// Token: 0x060039AF RID: 14767 RVA: 0x001E8526 File Offset: 0x001E6926
+		// Token: 0x060039B0 RID: 14768 RVA: 0x001E8852 File Offset: 0x001E6C52
 		public Trigger_ChanceOnSignal(TriggerSignalType signalType, float chance)
 		{
 			this.signalType = signalType;
 			this.chance = chance;
 		}
 
-		// Token: 0x060039B0 RID: 14768 RVA: 0x001E8540 File Offset: 0x001E6940
+		// Token: 0x060039B1 RID: 14769 RVA: 0x001E886C File Offset: 0x001E6C6C
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			return signal.type == this.signalType && Rand.Value < this.chance;

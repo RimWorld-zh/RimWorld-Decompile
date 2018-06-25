@@ -9,7 +9,7 @@ namespace RimWorld
 	public class StorytellerComp_RandomMain : StorytellerComp
 	{
 		// Token: 0x17000223 RID: 547
-		// (get) Token: 0x06000F3E RID: 3902 RVA: 0x00081160 File Offset: 0x0007F560
+		// (get) Token: 0x06000F3D RID: 3901 RVA: 0x00081170 File Offset: 0x0007F570
 		protected StorytellerCompProperties_RandomMain Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F3F RID: 3903 RVA: 0x00081180 File Offset: 0x0007F580
+		// Token: 0x06000F3E RID: 3902 RVA: 0x00081190 File Offset: 0x0007F590
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
@@ -53,7 +53,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F40 RID: 3904 RVA: 0x000811B4 File Offset: 0x0007F5B4
+		// Token: 0x06000F3F RID: 3903 RVA: 0x000811C4 File Offset: 0x0007F5C4
 		private IncidentCategoryDef DecideCategory(IIncidentTarget target, List<IncidentCategoryDef> skipCategories)
 		{
 			if (!skipCategories.Contains(IncidentCategoryDefOf.ThreatBig))
@@ -69,7 +69,7 @@ namespace RimWorld
 			select cw).RandomElementByWeight((IncidentCategoryEntry cw) => cw.weight).category;
 		}
 
-		// Token: 0x06000F41 RID: 3905 RVA: 0x0008126C File Offset: 0x0007F66C
+		// Token: 0x06000F40 RID: 3904 RVA: 0x0008127C File Offset: 0x0007F67C
 		public override IncidentParms GenerateParms(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(incCat, target);

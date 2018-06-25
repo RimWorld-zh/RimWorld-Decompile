@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x02000081 RID: 129
 	public class JobDriver_TakeBeerOutOfFermentingBarrel : JobDriver
 	{
-		// Token: 0x0400023A RID: 570
+		// Token: 0x0400023B RID: 571
 		private const TargetIndex BarrelInd = TargetIndex.A;
 
-		// Token: 0x0400023B RID: 571
+		// Token: 0x0400023C RID: 572
 		private const TargetIndex BeerToHaulInd = TargetIndex.B;
 
-		// Token: 0x0400023C RID: 572
+		// Token: 0x0400023D RID: 573
 		private const TargetIndex StorageCellInd = TargetIndex.C;
 
-		// Token: 0x0400023D RID: 573
+		// Token: 0x0400023E RID: 574
 		private const int Duration = 200;
 
 		// Token: 0x170000B2 RID: 178
-		// (get) Token: 0x06000364 RID: 868 RVA: 0x000257F8 File Offset: 0x00023BF8
+		// (get) Token: 0x06000364 RID: 868 RVA: 0x00025814 File Offset: 0x00023C14
 		protected Building_FermentingBarrel Barrel
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000B3 RID: 179
-		// (get) Token: 0x06000365 RID: 869 RVA: 0x00025828 File Offset: 0x00023C28
+		// (get) Token: 0x06000365 RID: 869 RVA: 0x00025844 File Offset: 0x00023C44
 		protected Thing Beer
 		{
 			get
@@ -40,13 +40,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000366 RID: 870 RVA: 0x00025854 File Offset: 0x00023C54
+		// Token: 0x06000366 RID: 870 RVA: 0x00025870 File Offset: 0x00023C70
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Barrel, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000367 RID: 871 RVA: 0x00025888 File Offset: 0x00023C88
+		// Token: 0x06000367 RID: 871 RVA: 0x000258A4 File Offset: 0x00023CA4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

@@ -7,77 +7,77 @@ namespace RimWorld
 	// Token: 0x020002EF RID: 751
 	public class InstructionDef : Def
 	{
-		// Token: 0x04000800 RID: 2048
+		// Token: 0x04000803 RID: 2051
 		public Type instructionClass = typeof(Instruction_Basic);
 
-		// Token: 0x04000801 RID: 2049
+		// Token: 0x04000804 RID: 2052
 		[MustTranslate]
 		public string text;
 
-		// Token: 0x04000802 RID: 2050
+		// Token: 0x04000805 RID: 2053
 		public bool startCentered = false;
 
-		// Token: 0x04000803 RID: 2051
-		public bool tutorialModeOnly = true;
-
-		// Token: 0x04000804 RID: 2052
-		[NoTranslate]
-		public string eventTagInitiate;
-
-		// Token: 0x04000805 RID: 2053
-		public InstructionDef eventTagInitiateSource;
-
 		// Token: 0x04000806 RID: 2054
-		[NoTranslate]
-		public List<string> eventTagsEnd;
+		public bool tutorialModeOnly = true;
 
 		// Token: 0x04000807 RID: 2055
 		[NoTranslate]
-		public List<string> actionTagsAllowed = null;
+		public string eventTagInitiate;
 
 		// Token: 0x04000808 RID: 2056
-		[MustTranslate]
-		public string rejectInputMessage = null;
+		public InstructionDef eventTagInitiateSource;
 
 		// Token: 0x04000809 RID: 2057
-		public ConceptDef concept = null;
+		[NoTranslate]
+		public List<string> eventTagsEnd;
 
 		// Token: 0x0400080A RID: 2058
 		[NoTranslate]
-		public List<string> highlightTags;
+		public List<string> actionTagsAllowed = null;
 
 		// Token: 0x0400080B RID: 2059
 		[MustTranslate]
-		public string onMapInstruction;
+		public string rejectInputMessage = null;
 
 		// Token: 0x0400080C RID: 2060
-		public int targetCount;
+		public ConceptDef concept = null;
 
 		// Token: 0x0400080D RID: 2061
-		public ThingDef thingDef;
+		[NoTranslate]
+		public List<string> highlightTags;
 
 		// Token: 0x0400080E RID: 2062
-		public RecipeDef recipeDef;
+		[MustTranslate]
+		public string onMapInstruction;
 
 		// Token: 0x0400080F RID: 2063
-		public int recipeTargetCount = 1;
+		public int targetCount;
 
 		// Token: 0x04000810 RID: 2064
-		public ThingDef giveOnActivateDef;
+		public ThingDef thingDef;
 
 		// Token: 0x04000811 RID: 2065
-		public int giveOnActivateCount;
+		public RecipeDef recipeDef;
 
 		// Token: 0x04000812 RID: 2066
-		public bool endTutorial = false;
+		public int recipeTargetCount = 1;
 
 		// Token: 0x04000813 RID: 2067
-		public bool resetBuildDesignatorStuffs = false;
+		public ThingDef giveOnActivateDef;
 
 		// Token: 0x04000814 RID: 2068
+		public int giveOnActivateCount;
+
+		// Token: 0x04000815 RID: 2069
+		public bool endTutorial = false;
+
+		// Token: 0x04000816 RID: 2070
+		public bool resetBuildDesignatorStuffs = false;
+
+		// Token: 0x04000817 RID: 2071
 		private static List<string> tmpParseErrors = new List<string>();
 
-		// Token: 0x06000C65 RID: 3173 RVA: 0x0006DF84 File Offset: 0x0006C384
+		// Token: 0x06000C64 RID: 3172 RVA: 0x0006DF8C File Offset: 0x0006C38C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

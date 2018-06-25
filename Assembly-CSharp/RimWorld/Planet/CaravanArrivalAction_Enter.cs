@@ -7,22 +7,22 @@ namespace RimWorld.Planet
 	// Token: 0x020005CC RID: 1484
 	public class CaravanArrivalAction_Enter : CaravanArrivalAction
 	{
-		// Token: 0x04001151 RID: 4433
+		// Token: 0x04001155 RID: 4437
 		private MapParent mapParent;
 
-		// Token: 0x06001CCD RID: 7373 RVA: 0x000F74D7 File Offset: 0x000F58D7
+		// Token: 0x06001CCC RID: 7372 RVA: 0x000F773F File Offset: 0x000F5B3F
 		public CaravanArrivalAction_Enter()
 		{
 		}
 
-		// Token: 0x06001CCE RID: 7374 RVA: 0x000F74E0 File Offset: 0x000F58E0
+		// Token: 0x06001CCD RID: 7373 RVA: 0x000F7748 File Offset: 0x000F5B48
 		public CaravanArrivalAction_Enter(MapParent mapParent)
 		{
 			this.mapParent = mapParent;
 		}
 
 		// Token: 0x17000430 RID: 1072
-		// (get) Token: 0x06001CCF RID: 7375 RVA: 0x000F74F0 File Offset: 0x000F58F0
+		// (get) Token: 0x06001CCE RID: 7374 RVA: 0x000F7758 File Offset: 0x000F5B58
 		public override string Label
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000431 RID: 1073
-		// (get) Token: 0x06001CD0 RID: 7376 RVA: 0x000F7524 File Offset: 0x000F5924
+		// (get) Token: 0x06001CCF RID: 7375 RVA: 0x000F778C File Offset: 0x000F5B8C
 		public override string ReportString
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CD1 RID: 7377 RVA: 0x000F7558 File Offset: 0x000F5958
+		// Token: 0x06001CD0 RID: 7376 RVA: 0x000F77C0 File Offset: 0x000F5BC0
 		public override FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(caravan, destinationTile);
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CD2 RID: 7378 RVA: 0x000F75BC File Offset: 0x000F59BC
+		// Token: 0x06001CD1 RID: 7377 RVA: 0x000F7824 File Offset: 0x000F5C24
 		public override void Arrived(Caravan caravan)
 		{
 			Map map = this.mapParent.Map;
@@ -96,14 +96,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CD3 RID: 7379 RVA: 0x000F76F8 File Offset: 0x000F5AF8
+		// Token: 0x06001CD2 RID: 7378 RVA: 0x000F7960 File Offset: 0x000F5D60
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<MapParent>(ref this.mapParent, "mapParent", false);
 		}
 
-		// Token: 0x06001CD4 RID: 7380 RVA: 0x000F7714 File Offset: 0x000F5B14
+		// Token: 0x06001CD3 RID: 7379 RVA: 0x000F797C File Offset: 0x000F5D7C
 		public static FloatMenuAcceptanceReport CanEnter(Caravan caravan, MapParent mapParent)
 		{
 			FloatMenuAcceptanceReport result;
@@ -125,7 +125,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CD5 RID: 7381 RVA: 0x000F7794 File Offset: 0x000F5B94
+		// Token: 0x06001CD4 RID: 7380 RVA: 0x000F79FC File Offset: 0x000F5DFC
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, MapParent mapParent)
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_Enter>(() => CaravanArrivalAction_Enter.CanEnter(caravan, mapParent), () => new CaravanArrivalAction_Enter(mapParent), "EnterMap".Translate(new object[]

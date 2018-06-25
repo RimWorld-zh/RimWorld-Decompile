@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200022D RID: 557
 	public class ThoughtWorker_PassionateWork : ThoughtWorker
 	{
-		// Token: 0x06000A28 RID: 2600 RVA: 0x00059BEC File Offset: 0x00057FEC
+		// Token: 0x06000A27 RID: 2599 RVA: 0x00059BE8 File Offset: 0x00057FE8
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			JobDriver curDriver = p.jobs.curDriver;

@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E35 RID: 3637
+	// Token: 0x02000E36 RID: 3638
 	public class Dialog_DebugSettingsMenu : Dialog_DebugOptionLister
 	{
-		// Token: 0x06005619 RID: 22041 RVA: 0x002C62BF File Offset: 0x002C46BF
+		// Token: 0x06005619 RID: 22041 RVA: 0x002C64AB File Offset: 0x002C48AB
 		public Dialog_DebugSettingsMenu()
 		{
 			this.forcePause = true;
 		}
 
 		// Token: 0x17000D73 RID: 3443
-		// (get) Token: 0x0600561A RID: 22042 RVA: 0x002C62D0 File Offset: 0x002C46D0
+		// (get) Token: 0x0600561A RID: 22042 RVA: 0x002C64BC File Offset: 0x002C48BC
 		public override bool IsDebug
 		{
 			get
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600561B RID: 22043 RVA: 0x002C62E8 File Offset: 0x002C46E8
+		// Token: 0x0600561B RID: 22043 RVA: 0x002C64D4 File Offset: 0x002C48D4
 		protected override void DoListingItems()
 		{
 			if (KeyBindingDefOf.Dev_ToggleDebugSettingsMenu.KeyDownEvent)
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600561C RID: 22044 RVA: 0x002C63CC File Offset: 0x002C47CC
+		// Token: 0x0600561C RID: 22044 RVA: 0x002C65B8 File Offset: 0x002C49B8
 		private void DoField(FieldInfo fi)
 		{
 			if (!fi.IsLiteral)

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007DD RID: 2013
 	public class Designator_Strip : Designator
 	{
-		// Token: 0x06002C9E RID: 11422 RVA: 0x00177D98 File Offset: 0x00176198
+		// Token: 0x06002C9D RID: 11421 RVA: 0x00177FFC File Offset: 0x001763FC
 		public Designator_Strip()
 		{
 			this.defaultLabel = "DesignatorStrip".Translate();
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000705 RID: 1797
-		// (get) Token: 0x06002C9F RID: 11423 RVA: 0x00177E10 File Offset: 0x00176210
+		// (get) Token: 0x06002C9E RID: 11422 RVA: 0x00178074 File Offset: 0x00176474
 		public override int DraggableDimensions
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000706 RID: 1798
-		// (get) Token: 0x06002CA0 RID: 11424 RVA: 0x00177E28 File Offset: 0x00176228
+		// (get) Token: 0x06002C9F RID: 11423 RVA: 0x0017808C File Offset: 0x0017648C
 		protected override DesignationDef Designation
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA1 RID: 11425 RVA: 0x00177E44 File Offset: 0x00176244
+		// Token: 0x06002CA0 RID: 11424 RVA: 0x001780A8 File Offset: 0x001764A8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -61,7 +61,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA2 RID: 11426 RVA: 0x00177EA4 File Offset: 0x001762A4
+		// Token: 0x06002CA1 RID: 11425 RVA: 0x00178108 File Offset: 0x00176508
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.StrippablesInCell(c))
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA3 RID: 11427 RVA: 0x00177F04 File Offset: 0x00176304
+		// Token: 0x06002CA2 RID: 11426 RVA: 0x00178168 File Offset: 0x00176568
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport result;
@@ -85,13 +85,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA4 RID: 11428 RVA: 0x00177F4C File Offset: 0x0017634C
+		// Token: 0x06002CA3 RID: 11427 RVA: 0x001781B0 File Offset: 0x001765B0
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002CA5 RID: 11429 RVA: 0x00177F70 File Offset: 0x00176370
+		// Token: 0x06002CA4 RID: 11428 RVA: 0x001781D4 File Offset: 0x001765D4
 		private IEnumerable<Thing> StrippablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))

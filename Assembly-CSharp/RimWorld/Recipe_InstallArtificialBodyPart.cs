@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000467 RID: 1127
 	public class Recipe_InstallArtificialBodyPart : Recipe_Surgery
 	{
-		// Token: 0x060013D0 RID: 5072 RVA: 0x000AC550 File Offset: 0x000AA950
+		// Token: 0x060013CF RID: 5071 RVA: 0x000AC750 File Offset: 0x000AAB50
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			for (int i = 0; i < recipe.appliedOnFixedBodyParts.Count; i++)
@@ -39,7 +39,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013D1 RID: 5073 RVA: 0x000AC584 File Offset: 0x000AA984
+		// Token: 0x060013D0 RID: 5072 RVA: 0x000AC784 File Offset: 0x000AAB84
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			if (billDoer != null)

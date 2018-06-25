@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000771 RID: 1905
 	public class StockGenerator_Category : StockGenerator
 	{
-		// Token: 0x040016B1 RID: 5809
+		// Token: 0x040016B5 RID: 5813
 		private ThingCategoryDef categoryDef = null;
 
-		// Token: 0x040016B2 RID: 5810
+		// Token: 0x040016B6 RID: 5814
 		private IntRange thingDefCountRange = IntRange.one;
 
-		// Token: 0x040016B3 RID: 5811
+		// Token: 0x040016B7 RID: 5815
 		private List<ThingDef> excludedThingDefs = null;
 
-		// Token: 0x040016B4 RID: 5812
+		// Token: 0x040016B8 RID: 5816
 		private List<ThingCategoryDef> excludedCategories = null;
 
-		// Token: 0x06002A17 RID: 10775 RVA: 0x00164A50 File Offset: 0x00162E50
+		// Token: 0x06002A16 RID: 10774 RVA: 0x00164CB0 File Offset: 0x001630B0
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			List<ThingDef> generatedDefs = new List<ThingDef>();
@@ -43,7 +43,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A18 RID: 10776 RVA: 0x00164A7C File Offset: 0x00162E7C
+		// Token: 0x06002A17 RID: 10775 RVA: 0x00164CDC File Offset: 0x001630DC
 		public override bool HandlesThingDef(ThingDef t)
 		{
 			return this.categoryDef.DescendantThingDefs.Contains(t) && t.tradeability != Tradeability.None && t.techLevel <= this.maxTechLevelBuy && (this.excludedThingDefs == null || !this.excludedThingDefs.Contains(t)) && (this.excludedCategories == null || !this.excludedCategories.Any((ThingCategoryDef c) => c.DescendantThingDefs.Contains(t)));

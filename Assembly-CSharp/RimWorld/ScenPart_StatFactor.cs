@@ -9,16 +9,16 @@ namespace RimWorld
 	// Token: 0x02000649 RID: 1609
 	public class ScenPart_StatFactor : ScenPart
 	{
-		// Token: 0x04001301 RID: 4865
+		// Token: 0x04001305 RID: 4869
 		private StatDef stat;
 
-		// Token: 0x04001302 RID: 4866
+		// Token: 0x04001306 RID: 4870
 		private float factor;
 
-		// Token: 0x04001303 RID: 4867
+		// Token: 0x04001307 RID: 4871
 		private string factorBuf;
 
-		// Token: 0x0600216C RID: 8556 RVA: 0x0011BAD9 File Offset: 0x00119ED9
+		// Token: 0x0600216B RID: 8555 RVA: 0x0011BD41 File Offset: 0x0011A141
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -26,7 +26,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.factor, "factor", 0f, false);
 		}
 
-		// Token: 0x0600216D RID: 8557 RVA: 0x0011BB08 File Offset: 0x00119F08
+		// Token: 0x0600216C RID: 8556 RVA: 0x0011BD70 File Offset: 0x0011A170
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
@@ -53,7 +53,7 @@ namespace RimWorld
 			Widgets.TextFieldPercent(rect4, ref this.factor, ref this.factorBuf, 0f, 100f);
 		}
 
-		// Token: 0x0600216E RID: 8558 RVA: 0x0011BC54 File Offset: 0x0011A054
+		// Token: 0x0600216D RID: 8557 RVA: 0x0011BEBC File Offset: 0x0011A2BC
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_StatFactor".Translate(new object[]
@@ -63,7 +63,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600216F RID: 8559 RVA: 0x0011BC98 File Offset: 0x0011A098
+		// Token: 0x0600216E RID: 8558 RVA: 0x0011BF00 File Offset: 0x0011A300
 		public override void Randomize()
 		{
 			this.stat = (from d in DefDatabase<StatDef>.AllDefs
@@ -72,7 +72,7 @@ namespace RimWorld
 			this.factor = GenMath.RoundedHundredth(Rand.Range(0.1f, 3f));
 		}
 
-		// Token: 0x06002170 RID: 8560 RVA: 0x0011BCF4 File Offset: 0x0011A0F4
+		// Token: 0x0600216F RID: 8559 RVA: 0x0011BF5C File Offset: 0x0011A35C
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StatFactor scenPart_StatFactor = other as ScenPart_StatFactor;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002171 RID: 8561 RVA: 0x0011BD44 File Offset: 0x0011A144
+		// Token: 0x06002170 RID: 8560 RVA: 0x0011BFAC File Offset: 0x0011A3AC
 		public float GetStatFactor(StatDef stat)
 		{
 			float result;

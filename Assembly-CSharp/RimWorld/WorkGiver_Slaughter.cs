@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000121 RID: 289
 	public class WorkGiver_Slaughter : WorkGiver_Scanner
 	{
-		// Token: 0x060005F9 RID: 1529 RVA: 0x0003F9F0 File Offset: 0x0003DDF0
+		// Token: 0x060005F8 RID: 1528 RVA: 0x0003F9EC File Offset: 0x0003DDEC
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Slaughter))
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000DA RID: 218
-		// (get) Token: 0x060005FA RID: 1530 RVA: 0x0003FA1C File Offset: 0x0003DE1C
+		// (get) Token: 0x060005F9 RID: 1529 RVA: 0x0003FA18 File Offset: 0x0003DE18
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060005FB RID: 1531 RVA: 0x0003FA34 File Offset: 0x0003DE34
+		// Token: 0x060005FA RID: 1530 RVA: 0x0003FA30 File Offset: 0x0003DE30
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005FC RID: 1532 RVA: 0x0003FB14 File Offset: 0x0003DF14
+		// Token: 0x060005FB RID: 1531 RVA: 0x0003FB10 File Offset: 0x0003DF10
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.Slaughter, t);

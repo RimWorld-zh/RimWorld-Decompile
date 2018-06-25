@@ -6,10 +6,10 @@ namespace RimWorld.Planet
 	// Token: 0x02000579 RID: 1401
 	public static class OverallRainfallUtility
 	{
-		// Token: 0x04000F93 RID: 3987
+		// Token: 0x04000F97 RID: 3991
 		private static int cachedEnumValuesCount = -1;
 
-		// Token: 0x04000F94 RID: 3988
+		// Token: 0x04000F98 RID: 3992
 		private static readonly SimpleCurve Curve_AlmostNone = new SimpleCurve
 		{
 			{
@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F95 RID: 3989
+		// Token: 0x04000F99 RID: 3993
 		private static readonly SimpleCurve Curve_Little = new SimpleCurve
 		{
 			{
@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F96 RID: 3990
+		// Token: 0x04000F9A RID: 3994
 		private static readonly SimpleCurve Curve_LittleBitLess = new SimpleCurve
 		{
 			{
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F97 RID: 3991
+		// Token: 0x04000F9B RID: 3995
 		private static readonly SimpleCurve Curve_LittleBitMore = new SimpleCurve
 		{
 			{
@@ -101,7 +101,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F98 RID: 3992
+		// Token: 0x04000F9C RID: 3996
 		private static readonly SimpleCurve Curve_High = new SimpleCurve
 		{
 			{
@@ -134,7 +134,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F99 RID: 3993
+		// Token: 0x04000F9D RID: 3997
 		private static readonly SimpleCurve Curve_VeryHigh = new SimpleCurve
 		{
 			{
@@ -168,7 +168,7 @@ namespace RimWorld.Planet
 		};
 
 		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06001AD1 RID: 6865 RVA: 0x000E6730 File Offset: 0x000E4B30
+		// (get) Token: 0x06001AD0 RID: 6864 RVA: 0x000E6998 File Offset: 0x000E4D98
 		public static int EnumValuesCount
 		{
 			get
@@ -181,7 +181,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AD2 RID: 6866 RVA: 0x000E676C File Offset: 0x000E4B6C
+		// Token: 0x06001AD1 RID: 6865 RVA: 0x000E69D4 File Offset: 0x000E4DD4
 		public static SimpleCurve GetRainfallCurve(this OverallRainfall overallRainfall)
 		{
 			switch (overallRainfall)

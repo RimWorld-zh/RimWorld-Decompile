@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x020001AE RID: 430
 	public class Trigger_KidnapVictimPresent : Trigger
 	{
-		// Token: 0x040003BD RID: 957
+		// Token: 0x040003BE RID: 958
 		private const int CheckInterval = 120;
 
-		// Token: 0x040003BE RID: 958
+		// Token: 0x040003BF RID: 959
 		private const int MinTicksSinceDamage = 300;
 
-		// Token: 0x060008DB RID: 2267 RVA: 0x00053885 File Offset: 0x00051C85
+		// Token: 0x060008DA RID: 2266 RVA: 0x00053881 File Offset: 0x00051C81
 		public Trigger_KidnapVictimPresent()
 		{
 			this.data = new TriggerData_PawnCycleInd();
 		}
 
 		// Token: 0x1700016D RID: 365
-		// (get) Token: 0x060008DC RID: 2268 RVA: 0x0005389C File Offset: 0x00051C9C
+		// (get) Token: 0x060008DB RID: 2267 RVA: 0x00053898 File Offset: 0x00051C98
 		private TriggerData_PawnCycleInd Data
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008DD RID: 2269 RVA: 0x000538BC File Offset: 0x00051CBC
+		// Token: 0x060008DC RID: 2268 RVA: 0x000538B8 File Offset: 0x00051CB8
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % 120 == 0)

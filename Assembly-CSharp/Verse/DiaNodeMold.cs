@@ -3,34 +3,34 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EC2 RID: 3778
+	// Token: 0x02000EC3 RID: 3779
 	public class DiaNodeMold
 	{
-		// Token: 0x04003BA1 RID: 15265
+		// Token: 0x04003BA9 RID: 15273
 		public string name = "Unnamed";
 
-		// Token: 0x04003BA2 RID: 15266
+		// Token: 0x04003BAA RID: 15274
 		public bool unique = false;
 
-		// Token: 0x04003BA3 RID: 15267
+		// Token: 0x04003BAB RID: 15275
 		public List<string> texts = new List<string>();
 
-		// Token: 0x04003BA4 RID: 15268
+		// Token: 0x04003BAC RID: 15276
 		public List<DiaOptionMold> optionList = new List<DiaOptionMold>();
 
-		// Token: 0x04003BA5 RID: 15269
+		// Token: 0x04003BAD RID: 15277
 		[Unsaved]
 		public bool isRoot = true;
 
-		// Token: 0x04003BA6 RID: 15270
+		// Token: 0x04003BAE RID: 15278
 		[Unsaved]
 		public bool used = false;
 
-		// Token: 0x04003BA7 RID: 15271
+		// Token: 0x04003BAF RID: 15279
 		[Unsaved]
 		public DiaNodeType nodeType = DiaNodeType.Undefined;
 
-		// Token: 0x06005964 RID: 22884 RVA: 0x002DD224 File Offset: 0x002DB624
+		// Token: 0x06005964 RID: 22884 RVA: 0x002DD410 File Offset: 0x002DB810
 		public void PostLoad()
 		{
 			int num = 0;

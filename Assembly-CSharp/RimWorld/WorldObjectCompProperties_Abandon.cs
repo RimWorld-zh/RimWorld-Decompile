@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x0200027A RID: 634
 	public class WorldObjectCompProperties_Abandon : WorldObjectCompProperties
 	{
-		// Token: 0x06000AE0 RID: 2784 RVA: 0x00062600 File Offset: 0x00060A00
+		// Token: 0x06000ADF RID: 2783 RVA: 0x000625FC File Offset: 0x000609FC
 		public WorldObjectCompProperties_Abandon()
 		{
 			this.compClass = typeof(AbandonComp);
 		}
 
-		// Token: 0x06000AE1 RID: 2785 RVA: 0x0006261C File Offset: 0x00060A1C
+		// Token: 0x06000AE0 RID: 2784 RVA: 0x00062618 File Offset: 0x00060A18
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

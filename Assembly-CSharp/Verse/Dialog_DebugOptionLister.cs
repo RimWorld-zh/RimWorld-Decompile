@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E2B RID: 3627
+	// Token: 0x02000E2C RID: 3628
 	public abstract class Dialog_DebugOptionLister : Dialog_OptionLister
 	{
-		// Token: 0x040038CF RID: 14543
+		// Token: 0x040038D7 RID: 14551
 		private const float DebugOptionsGap = 7f;
 
-		// Token: 0x06005605 RID: 22021 RVA: 0x002BB818 File Offset: 0x002B9C18
+		// Token: 0x06005605 RID: 22021 RVA: 0x002BBA04 File Offset: 0x002B9E04
 		protected bool DebugAction(string label, Action action)
 		{
 			bool result = false;
@@ -33,7 +33,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005606 RID: 22022 RVA: 0x002BB8A8 File Offset: 0x002B9CA8
+		// Token: 0x06005606 RID: 22022 RVA: 0x002BBA94 File Offset: 0x002B9E94
 		protected void DebugToolMap(string label, Action toolAction)
 		{
 			if (!WorldRendererUtility.WorldRenderedNow)
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005607 RID: 22023 RVA: 0x002BB944 File Offset: 0x002B9D44
+		// Token: 0x06005607 RID: 22023 RVA: 0x002BBB30 File Offset: 0x002B9F30
 		protected void DebugToolMapForPawns(string label, Action<Pawn> pawnAction)
 		{
 			this.DebugToolMap(label, delegate
@@ -72,7 +72,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005608 RID: 22024 RVA: 0x002BB974 File Offset: 0x002B9D74
+		// Token: 0x06005608 RID: 22024 RVA: 0x002BBB60 File Offset: 0x002B9F60
 		protected void DebugToolWorld(string label, Action toolAction)
 		{
 			if (WorldRendererUtility.WorldRenderedNow)
@@ -94,7 +94,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005609 RID: 22025 RVA: 0x002BBA10 File Offset: 0x002B9E10
+		// Token: 0x06005609 RID: 22025 RVA: 0x002BBBFC File Offset: 0x002B9FFC
 		protected void CheckboxLabeledDebug(string label, ref bool checkOn)
 		{
 			if (!base.FilterAllows(label))
@@ -109,7 +109,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600560A RID: 22026 RVA: 0x002BBA81 File Offset: 0x002B9E81
+		// Token: 0x0600560A RID: 22026 RVA: 0x002BBC6D File Offset: 0x002BA06D
 		protected void DoLabel(string label)
 		{
 			Text.Font = GameFont.Small;
@@ -117,7 +117,7 @@ namespace Verse
 			this.totalOptionsHeight += Text.CalcHeight(label, 300f) + 2f;
 		}
 
-		// Token: 0x0600560B RID: 22027 RVA: 0x002BBABA File Offset: 0x002B9EBA
+		// Token: 0x0600560B RID: 22027 RVA: 0x002BBCA6 File Offset: 0x002BA0A6
 		protected void DoGap()
 		{
 			this.listing.Gap(7f);

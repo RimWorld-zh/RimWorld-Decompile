@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000108 RID: 264
 	public static class JoyUtility
 	{
-		// Token: 0x0600057D RID: 1405 RVA: 0x0003BB44 File Offset: 0x00039F44
+		// Token: 0x0600057D RID: 1405 RVA: 0x0003BB60 File Offset: 0x00039F60
 		public static bool EnjoyableOutsideNow(Map map, StringBuilder outFailReason = null)
 		{
 			bool result;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600057E RID: 1406 RVA: 0x0003BBC4 File Offset: 0x00039FC4
+		// Token: 0x0600057E RID: 1406 RVA: 0x0003BBE0 File Offset: 0x00039FE0
 		public static bool EnjoyableOutsideNow(Pawn pawn, StringBuilder outFailReason = null)
 		{
 			Map mapHeld = pawn.MapHeld;
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600057F RID: 1407 RVA: 0x0003BC40 File Offset: 0x0003A040
+		// Token: 0x0600057F RID: 1407 RVA: 0x0003BC5C File Offset: 0x0003A05C
 		public static void JoyTickCheckEnd(Pawn pawn, JoyTickFullJoyAction fullJoyAction = JoyTickFullJoyAction.EndJob, float extraJoyGainFactor = 1f, Building joySource = null)
 		{
 			Job curJob = pawn.CurJob;
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000580 RID: 1408 RVA: 0x0003BDE8 File Offset: 0x0003A1E8
+		// Token: 0x06000580 RID: 1408 RVA: 0x0003BE04 File Offset: 0x0003A204
 		public static void TryGainRecRoomThought(Pawn pawn)
 		{
 			Room room = pawn.GetRoom(RegionType.Set_Passable);
@@ -120,14 +120,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000581 RID: 1409 RVA: 0x0003BE58 File Offset: 0x0003A258
+		// Token: 0x06000581 RID: 1409 RVA: 0x0003BE74 File Offset: 0x0003A274
 		public static bool LordPreventsGettingJoy(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
 			return lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds;
 		}
 
-		// Token: 0x06000582 RID: 1410 RVA: 0x0003BE94 File Offset: 0x0003A294
+		// Token: 0x06000582 RID: 1410 RVA: 0x0003BEB0 File Offset: 0x0003A2B0
 		public static bool TimetablePreventsGettingJoy(Pawn pawn)
 		{
 			TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;

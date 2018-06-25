@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020000C1 RID: 193
 	internal static class TrashUtility
 	{
-		// Token: 0x04000297 RID: 663
+		// Token: 0x04000298 RID: 664
 		private const float ChanceHateInertBuilding = 0.008f;
 
-		// Token: 0x04000298 RID: 664
+		// Token: 0x04000299 RID: 665
 		private static readonly IntRange TrashJobCheckOverrideInterval = new IntRange(450, 500);
 
-		// Token: 0x06000481 RID: 1153 RVA: 0x0003371C File Offset: 0x00031B1C
+		// Token: 0x06000481 RID: 1153 RVA: 0x00033738 File Offset: 0x00031B38
 		public static bool ShouldTrashPlant(Pawn pawn, Plant p)
 		{
 			bool result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000482 RID: 1154 RVA: 0x00033818 File Offset: 0x00031C18
+		// Token: 0x06000482 RID: 1154 RVA: 0x00033834 File Offset: 0x00031C34
 		public static bool ShouldTrashBuilding(Pawn pawn, Building b, bool attackAllInert = false)
 		{
 			bool result;
@@ -62,13 +62,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000483 RID: 1155 RVA: 0x00033904 File Offset: 0x00031D04
+		// Token: 0x06000483 RID: 1155 RVA: 0x00033920 File Offset: 0x00031D20
 		private static bool CanTrash(Pawn pawn, Thing t)
 		{
 			return pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning();
 		}
 
-		// Token: 0x06000484 RID: 1156 RVA: 0x00033944 File Offset: 0x00031D44
+		// Token: 0x06000484 RID: 1156 RVA: 0x00033960 File Offset: 0x00031D60
 		public static Job TrashJob(Pawn pawn, Thing t)
 		{
 			Plant plant = t as Plant;
@@ -110,7 +110,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000485 RID: 1157 RVA: 0x00033AA8 File Offset: 0x00031EA8
+		// Token: 0x06000485 RID: 1157 RVA: 0x00033AC4 File Offset: 0x00031EC4
 		private static void FinalizeTrashJob(Job job)
 		{
 			job.expiryInterval = TrashUtility.TrashJobCheckOverrideInterval.RandomInRange;

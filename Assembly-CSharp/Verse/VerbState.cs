@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000FD3 RID: 4051
+	// Token: 0x02000FD4 RID: 4052
 	public enum VerbState : byte
 	{
-		// Token: 0x0400400B RID: 16395
+		// Token: 0x04004013 RID: 16403
 		Idle,
-		// Token: 0x0400400C RID: 16396
+		// Token: 0x04004014 RID: 16404
 		Bursting
 	}
 }

@@ -7,13 +7,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C6 RID: 966
 	public class SymbolResolver_FactionBase : SymbolResolver
 	{
-		// Token: 0x04000A30 RID: 2608
+		// Token: 0x04000A33 RID: 2611
 		private static readonly FloatRange NeolithicPawnsPoints = new FloatRange(880f, 1250f);
 
-		// Token: 0x04000A31 RID: 2609
+		// Token: 0x04000A34 RID: 2612
 		private static readonly FloatRange MedievalPawnsPoints = new FloatRange(1150f, 1600f);
 
-		// Token: 0x060010AC RID: 4268 RVA: 0x0008DB18 File Offset: 0x0008BF18
+		// Token: 0x060010AB RID: 4267 RVA: 0x0008DB28 File Offset: 0x0008BF28
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_FactionBase.<Resolve>c__AnonStorey0 <Resolve>c__AnonStorey = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey0();

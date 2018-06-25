@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200074C RID: 1868
 	public class CompShipPart : ThingComp
 	{
-		// Token: 0x06002972 RID: 10610 RVA: 0x0016043C File Offset: 0x0015E83C
+		// Token: 0x06002971 RID: 10609 RVA: 0x0016069C File Offset: 0x0015EA9C
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			yield return new Command_Action
@@ -24,7 +24,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002973 RID: 10611 RVA: 0x00160468 File Offset: 0x0015E868
+		// Token: 0x06002972 RID: 10610 RVA: 0x001606C8 File Offset: 0x0015EAC8
 		public void ShowReport()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

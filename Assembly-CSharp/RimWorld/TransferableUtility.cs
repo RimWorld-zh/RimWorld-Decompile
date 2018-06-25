@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x0200082C RID: 2092
 	public static class TransferableUtility
 	{
-		// Token: 0x0400195A RID: 6490
+		// Token: 0x0400195E RID: 6494
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06002F0B RID: 12043 RVA: 0x001923B0 File Offset: 0x001907B0
+		// Token: 0x06002F0A RID: 12042 RVA: 0x00192618 File Offset: 0x00190A18
 		public static void Transfer(List<Thing> things, int count, Action<Thing, IThingHolder> transferred)
 		{
 			if (count > 0)
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F0C RID: 12044 RVA: 0x0019247C File Offset: 0x0019087C
+		// Token: 0x06002F0B RID: 12043 RVA: 0x001926E4 File Offset: 0x00190AE4
 		public static void TransferNoSplit(List<Thing> things, int count, Action<Thing, int> transfer, bool removeIfTakingEntireThing = true, bool errorIfNotEnoughThings = true)
 		{
 			if (count > 0)
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F0D RID: 12045 RVA: 0x00192544 File Offset: 0x00190944
+		// Token: 0x06002F0C RID: 12044 RVA: 0x001927AC File Offset: 0x00190BAC
 		public static bool TransferAsOne(Thing a, Thing b, TransferAsOneMode mode)
 		{
 			bool result;
@@ -201,7 +201,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F0E RID: 12046 RVA: 0x001928F4 File Offset: 0x00190CF4
+		// Token: 0x06002F0D RID: 12045 RVA: 0x00192B5C File Offset: 0x00190F5C
 		public static bool CanStack(Thing thing)
 		{
 			if (thing.def.category == ThingCategory.Pawn)
@@ -231,7 +231,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06002F0F RID: 12047 RVA: 0x001929C4 File Offset: 0x00190DC4
+		// Token: 0x06002F0E RID: 12046 RVA: 0x00192C2C File Offset: 0x0019102C
 		public static T TransferableMatching<T>(Thing thing, List<T> transferables, TransferAsOneMode mode) where T : Transferable
 		{
 			T result;
@@ -257,7 +257,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F10 RID: 12048 RVA: 0x00192A50 File Offset: 0x00190E50
+		// Token: 0x06002F0F RID: 12047 RVA: 0x00192CB8 File Offset: 0x001910B8
 		public static Tradeable TradeableMatching(Thing thing, List<Tradeable> tradeables)
 		{
 			Tradeable result;
@@ -284,7 +284,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F11 RID: 12049 RVA: 0x00192AD8 File Offset: 0x00190ED8
+		// Token: 0x06002F10 RID: 12048 RVA: 0x00192D40 File Offset: 0x00191140
 		public static TransferableOneWay TransferableMatchingDesperate(Thing thing, List<TransferableOneWay> transferables, TransferAsOneMode mode)
 		{
 			TransferableOneWay result;
@@ -332,7 +332,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F12 RID: 12050 RVA: 0x00192BEC File Offset: 0x00190FEC
+		// Token: 0x06002F11 RID: 12049 RVA: 0x00192E54 File Offset: 0x00191254
 		public static List<Pawn> GetPawnsFromTransferables(List<TransferableOneWay> transferables)
 		{
 			List<Pawn> list = new List<Pawn>();
@@ -353,7 +353,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06002F13 RID: 12051 RVA: 0x00192C94 File Offset: 0x00191094
+		// Token: 0x06002F12 RID: 12050 RVA: 0x00192EFC File Offset: 0x001912FC
 		public static void SimulateTradeableTransfer(List<Thing> all, List<Tradeable> tradeables, List<ThingCount> outThingsAfterTransfer)
 		{
 			outThingsAfterTransfer.Clear();

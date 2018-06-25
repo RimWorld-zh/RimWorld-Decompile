@@ -7,13 +7,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C7 RID: 967
 	public class SymbolResolver_Farm : SymbolResolver
 	{
-		// Token: 0x060010AF RID: 4271 RVA: 0x0008DF1C File Offset: 0x0008C31C
+		// Token: 0x060010AE RID: 4270 RVA: 0x0008DF2C File Offset: 0x0008C32C
 		public override bool CanResolve(ResolveParams rp)
 		{
 			return base.CanResolve(rp) && (rp.cultivatedPlantDef != null || SymbolResolver_CultivatedPlants.DeterminePlantDef(rp.rect) != null);
 		}
 
-		// Token: 0x060010B0 RID: 4272 RVA: 0x0008DF64 File Offset: 0x0008C364
+		// Token: 0x060010AF RID: 4271 RVA: 0x0008DF74 File Offset: 0x0008C374
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.cultivatedPlantDef ?? SymbolResolver_CultivatedPlants.DeterminePlantDef(rp.rect);

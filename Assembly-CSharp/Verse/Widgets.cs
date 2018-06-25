@@ -11,226 +11,226 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EB0 RID: 3760
+	// Token: 0x02000EB1 RID: 3761
 	[StaticConstructorOnStartup]
 	public static class Widgets
 	{
-		// Token: 0x04003B12 RID: 15122
+		// Token: 0x04003B1A RID: 15130
 		public static Stack<bool> mouseOverScrollViewStack = new Stack<bool>();
 
-		// Token: 0x04003B13 RID: 15123
+		// Token: 0x04003B1B RID: 15131
 		public static readonly GUIStyle EmptyStyle = new GUIStyle();
 
-		// Token: 0x04003B14 RID: 15124
+		// Token: 0x04003B1C RID: 15132
 		[TweakValue("Input", 0f, 100f)]
 		private static float DragStartDistanceSquared = 20f;
 
-		// Token: 0x04003B15 RID: 15125
+		// Token: 0x04003B1D RID: 15133
 		private static readonly Color InactiveColor = new Color(0.37f, 0.37f, 0.37f, 0.8f);
 
-		// Token: 0x04003B16 RID: 15126
+		// Token: 0x04003B1E RID: 15134
 		private static readonly Texture2D DefaultBarBgTex = BaseContent.BlackTex;
 
-		// Token: 0x04003B17 RID: 15127
+		// Token: 0x04003B1F RID: 15135
 		private static readonly Texture2D BarFullTexHor = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.8f, 0.85f));
 
-		// Token: 0x04003B18 RID: 15128
+		// Token: 0x04003B20 RID: 15136
 		public static readonly Texture2D CheckboxOnTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckOn", true);
 
-		// Token: 0x04003B19 RID: 15129
+		// Token: 0x04003B21 RID: 15137
 		public static readonly Texture2D CheckboxOffTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckOff", true);
 
-		// Token: 0x04003B1A RID: 15130
+		// Token: 0x04003B22 RID: 15138
 		public static readonly Texture2D CheckboxPartialTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckPartial", true);
 
-		// Token: 0x04003B1B RID: 15131
+		// Token: 0x04003B23 RID: 15139
 		public const float CheckboxSize = 24f;
 
-		// Token: 0x04003B1C RID: 15132
+		// Token: 0x04003B24 RID: 15140
 		public const float RadioButtonSize = 24f;
 
-		// Token: 0x04003B1D RID: 15133
+		// Token: 0x04003B25 RID: 15141
 		private static readonly Texture2D RadioButOnTex = ContentFinder<Texture2D>.Get("UI/Widgets/RadioButOn", true);
 
-		// Token: 0x04003B1E RID: 15134
+		// Token: 0x04003B26 RID: 15142
 		private static readonly Texture2D RadioButOffTex = ContentFinder<Texture2D>.Get("UI/Widgets/RadioButOff", true);
 
-		// Token: 0x04003B1F RID: 15135
+		// Token: 0x04003B27 RID: 15143
 		private static readonly Texture2D FillArrowTexRight = ContentFinder<Texture2D>.Get("UI/Widgets/FillChangeArrowRight", true);
 
-		// Token: 0x04003B20 RID: 15136
+		// Token: 0x04003B28 RID: 15144
 		private static readonly Texture2D FillArrowTexLeft = ContentFinder<Texture2D>.Get("UI/Widgets/FillChangeArrowLeft", true);
 
-		// Token: 0x04003B21 RID: 15137
+		// Token: 0x04003B29 RID: 15145
 		private const int FillableBarBorderWidth = 3;
 
-		// Token: 0x04003B22 RID: 15138
+		// Token: 0x04003B2A RID: 15146
 		private const int MaxFillChangeArrowHeight = 16;
 
-		// Token: 0x04003B23 RID: 15139
+		// Token: 0x04003B2B RID: 15147
 		private const int FillChangeArrowWidth = 8;
 
-		// Token: 0x04003B24 RID: 15140
+		// Token: 0x04003B2C RID: 15148
 		private const float CloseButtonSize = 18f;
 
-		// Token: 0x04003B25 RID: 15141
+		// Token: 0x04003B2D RID: 15149
 		private const float CloseButtonMargin = 4f;
 
-		// Token: 0x04003B26 RID: 15142
+		// Token: 0x04003B2E RID: 15150
 		private static readonly Texture2D ShadowAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/DropShadow", true);
 
-		// Token: 0x04003B27 RID: 15143
+		// Token: 0x04003B2F RID: 15151
 		private static readonly Texture2D ButtonBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBG", true);
 
-		// Token: 0x04003B28 RID: 15144
+		// Token: 0x04003B30 RID: 15152
 		private static readonly Texture2D ButtonBGAtlasMouseover = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBGMouseover", true);
 
-		// Token: 0x04003B29 RID: 15145
+		// Token: 0x04003B31 RID: 15153
 		private static readonly Texture2D ButtonBGAtlasClick = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBGClick", true);
 
-		// Token: 0x04003B2A RID: 15146
+		// Token: 0x04003B32 RID: 15154
 		private static readonly Texture2D FloatRangeSliderTex = ContentFinder<Texture2D>.Get("UI/Widgets/RangeSlider", true);
 
-		// Token: 0x04003B2B RID: 15147
+		// Token: 0x04003B33 RID: 15155
 		public static readonly Texture2D LightHighlight = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.04f));
 
-		// Token: 0x04003B2C RID: 15148
+		// Token: 0x04003B34 RID: 15156
 		[TweakValue("Input", 0f, 100f)]
 		private static int IntEntryButtonWidth = 40;
 
-		// Token: 0x04003B2D RID: 15149
+		// Token: 0x04003B35 RID: 15157
 		private static Texture2D LineTexAA = null;
 
-		// Token: 0x04003B2E RID: 15150
+		// Token: 0x04003B36 RID: 15158
 		private static readonly Rect LineRect = new Rect(0f, 0f, 1f, 1f);
 
-		// Token: 0x04003B2F RID: 15151
+		// Token: 0x04003B37 RID: 15159
 		private static readonly Material LineMat = null;
 
-		// Token: 0x04003B30 RID: 15152
+		// Token: 0x04003B38 RID: 15160
 		private static readonly Texture2D AltTexture = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.05f));
 
-		// Token: 0x04003B31 RID: 15153
+		// Token: 0x04003B39 RID: 15161
 		public static readonly Color NormalOptionColor = new Color(0.8f, 0.85f, 1f);
 
-		// Token: 0x04003B32 RID: 15154
+		// Token: 0x04003B3A RID: 15162
 		public static readonly Color MouseoverOptionColor = Color.yellow;
 
-		// Token: 0x04003B33 RID: 15155
+		// Token: 0x04003B3B RID: 15163
 		private static Dictionary<string, float> LabelCache = new Dictionary<string, float>();
 
-		// Token: 0x04003B34 RID: 15156
+		// Token: 0x04003B3C RID: 15164
 		public static readonly Color SeparatorLabelColor = new Color(0.8f, 0.8f, 0.8f, 1f);
 
-		// Token: 0x04003B35 RID: 15157
+		// Token: 0x04003B3D RID: 15165
 		private static readonly Color SeparatorLineColor = new Color(0.3f, 0.3f, 0.3f, 1f);
 
-		// Token: 0x04003B36 RID: 15158
+		// Token: 0x04003B3E RID: 15166
 		private const float SeparatorLabelHeight = 20f;
 
-		// Token: 0x04003B37 RID: 15159
+		// Token: 0x04003B3F RID: 15167
 		public const float ListSeparatorHeight = 25f;
 
-		// Token: 0x04003B38 RID: 15160
+		// Token: 0x04003B40 RID: 15168
 		private static bool checkboxPainting = false;
 
-		// Token: 0x04003B39 RID: 15161
+		// Token: 0x04003B41 RID: 15169
 		private static bool checkboxPaintingState = false;
 
-		// Token: 0x04003B3A RID: 15162
+		// Token: 0x04003B42 RID: 15170
 		public static readonly Texture2D ButtonSubtleAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonSubtleAtlas", true);
 
-		// Token: 0x04003B3B RID: 15163
+		// Token: 0x04003B43 RID: 15171
 		private static readonly Texture2D ButtonBarTex;
 
-		// Token: 0x04003B3C RID: 15164
+		// Token: 0x04003B44 RID: 15172
 		public const float ButtonSubtleDefaultMarginPct = 0.15f;
 
-		// Token: 0x04003B3D RID: 15165
+		// Token: 0x04003B45 RID: 15173
 		private static int buttonInvisibleDraggable_activeControl;
 
-		// Token: 0x04003B3E RID: 15166
+		// Token: 0x04003B46 RID: 15174
 		private static bool buttonInvisibleDraggable_dragged;
 
-		// Token: 0x04003B3F RID: 15167
+		// Token: 0x04003B47 RID: 15175
 		private static Vector3 buttonInvisibleDraggable_mouseStart;
 
-		// Token: 0x04003B40 RID: 15168
+		// Token: 0x04003B48 RID: 15176
 		public const float RangeControlIdealHeight = 31f;
 
-		// Token: 0x04003B41 RID: 15169
+		// Token: 0x04003B49 RID: 15177
 		public const float RangeControlCompactHeight = 28f;
 
-		// Token: 0x04003B42 RID: 15170
+		// Token: 0x04003B4A RID: 15178
 		private const float RangeSliderSize = 16f;
 
-		// Token: 0x04003B43 RID: 15171
+		// Token: 0x04003B4B RID: 15179
 		private static readonly Color RangeControlTextColor;
 
-		// Token: 0x04003B44 RID: 15172
+		// Token: 0x04003B4C RID: 15180
 		private static int draggingId;
 
-		// Token: 0x04003B45 RID: 15173
+		// Token: 0x04003B4D RID: 15181
 		private static Widgets.RangeEnd curDragEnd;
 
-		// Token: 0x04003B46 RID: 15174
+		// Token: 0x04003B4E RID: 15182
 		private static float lastDragSliderSoundTime;
 
-		// Token: 0x04003B47 RID: 15175
+		// Token: 0x04003B4F RID: 15183
 		private static float FillableBarChangeRateDisplayRatio;
 
-		// Token: 0x04003B48 RID: 15176
+		// Token: 0x04003B50 RID: 15184
 		public static int MaxFillableBarChangeRate;
 
-		// Token: 0x04003B49 RID: 15177
+		// Token: 0x04003B51 RID: 15185
 		private static readonly Color WindowBGBorderColor;
 
-		// Token: 0x04003B4A RID: 15178
+		// Token: 0x04003B52 RID: 15186
 		public static readonly Color WindowBGFillColor;
 
-		// Token: 0x04003B4B RID: 15179
+		// Token: 0x04003B53 RID: 15187
 		private static readonly Color MenuSectionBGFillColor;
 
-		// Token: 0x04003B4C RID: 15180
+		// Token: 0x04003B54 RID: 15188
 		private static readonly Color MenuSectionBGBorderColor;
 
-		// Token: 0x04003B4D RID: 15181
+		// Token: 0x04003B55 RID: 15189
 		private static readonly Color TutorWindowBGFillColor;
 
-		// Token: 0x04003B4E RID: 15182
+		// Token: 0x04003B56 RID: 15190
 		private static readonly Color TutorWindowBGBorderColor;
 
-		// Token: 0x04003B4F RID: 15183
+		// Token: 0x04003B57 RID: 15191
 		private static readonly Color OptionUnselectedBGFillColor;
 
-		// Token: 0x04003B50 RID: 15184
+		// Token: 0x04003B58 RID: 15192
 		private static readonly Color OptionUnselectedBGBorderColor;
 
-		// Token: 0x04003B51 RID: 15185
+		// Token: 0x04003B59 RID: 15193
 		private static readonly Color OptionSelectedBGFillColor;
 
-		// Token: 0x04003B52 RID: 15186
+		// Token: 0x04003B5A RID: 15194
 		private static readonly Color OptionSelectedBGBorderColor;
 
-		// Token: 0x04003B53 RID: 15187
+		// Token: 0x04003B5B RID: 15195
 		public const float InfoCardButtonSize = 24f;
 
-		// Token: 0x04003B54 RID: 15188
+		// Token: 0x04003B5C RID: 15196
 		private static bool dropdownPainting;
 
-		// Token: 0x04003B55 RID: 15189
+		// Token: 0x04003B5D RID: 15197
 		private static object dropdownPainting_Payload;
 
-		// Token: 0x04003B56 RID: 15190
+		// Token: 0x04003B5E RID: 15198
 		private static Type dropdownPainting_Type;
 
-		// Token: 0x04003B57 RID: 15191
+		// Token: 0x04003B5F RID: 15199
 		private static string dropdownPainting_Text;
 
-		// Token: 0x04003B58 RID: 15192
+		// Token: 0x04003B60 RID: 15200
 		private static Texture2D dropdownPainting_Icon;
 
-		// Token: 0x060058AB RID: 22699 RVA: 0x002D74A4 File Offset: 0x002D58A4
+		// Token: 0x060058AB RID: 22699 RVA: 0x002D7690 File Offset: 0x002D5A90
 		static Widgets()
 		{
 			ColorInt colorInt = new ColorInt(78, 109, 129, 130);
@@ -275,7 +275,7 @@ namespace Verse
 			Widgets.LineMat = (Material)typeof(GUI).GetMethod("get_blendMaterial", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
 		}
 
-		// Token: 0x060058AC RID: 22700 RVA: 0x002D7908 File Offset: 0x002D5D08
+		// Token: 0x060058AC RID: 22700 RVA: 0x002D7AF4 File Offset: 0x002D5EF4
 		public static void ThingIcon(Rect rect, Thing thing, float alpha = 1f)
 		{
 			thing = thing.GetInnerIfMinified();
@@ -326,7 +326,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060058AD RID: 22701 RVA: 0x002D7ACC File Offset: 0x002D5ECC
+		// Token: 0x060058AD RID: 22701 RVA: 0x002D7CB8 File Offset: 0x002D60B8
 		public static void ThingIcon(Rect rect, ThingDef thingDef)
 		{
 			if (!(thingDef.uiIcon == null) && !(thingDef.uiIcon == BaseContent.BadTex))
@@ -337,7 +337,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058AE RID: 22702 RVA: 0x002D7B30 File Offset: 0x002D5F30
+		// Token: 0x060058AE RID: 22702 RVA: 0x002D7D1C File Offset: 0x002D611C
 		private static void ThingIconWorker(Rect rect, ThingDef thingDef, Texture resolvedIcon, float resolvedIconAngle)
 		{
 			float num = GenUI.IconDrawScale(thingDef);
@@ -352,13 +352,13 @@ namespace Verse
 			Widgets.DrawTextureRotated(rect, resolvedIcon, resolvedIconAngle);
 		}
 
-		// Token: 0x060058AF RID: 22703 RVA: 0x002D7BD5 File Offset: 0x002D5FD5
+		// Token: 0x060058AF RID: 22703 RVA: 0x002D7DC1 File Offset: 0x002D61C1
 		public static void DrawAltRect(Rect rect)
 		{
 			GUI.DrawTexture(rect, Widgets.AltTexture);
 		}
 
-		// Token: 0x060058B0 RID: 22704 RVA: 0x002D7BE4 File Offset: 0x002D5FE4
+		// Token: 0x060058B0 RID: 22704 RVA: 0x002D7DD0 File Offset: 0x002D61D0
 		public static void ListSeparator(ref float curY, float width, string label)
 		{
 			Color color = GUI.color;
@@ -374,7 +374,7 @@ namespace Verse
 			GUI.color = color;
 		}
 
-		// Token: 0x060058B1 RID: 22705 RVA: 0x002D7C60 File Offset: 0x002D6060
+		// Token: 0x060058B1 RID: 22705 RVA: 0x002D7E4C File Offset: 0x002D624C
 		public static void DrawLine(Vector2 start, Vector2 end, Color color, float width)
 		{
 			float num = end.x - start.x;
@@ -399,21 +399,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058B2 RID: 22706 RVA: 0x002D7D48 File Offset: 0x002D6148
+		// Token: 0x060058B2 RID: 22706 RVA: 0x002D7F34 File Offset: 0x002D6334
 		public static void DrawLineHorizontal(float x, float y, float length)
 		{
 			Rect position = new Rect(x, y, length, 1f);
 			GUI.DrawTexture(position, BaseContent.WhiteTex);
 		}
 
-		// Token: 0x060058B3 RID: 22707 RVA: 0x002D7D70 File Offset: 0x002D6170
+		// Token: 0x060058B3 RID: 22707 RVA: 0x002D7F5C File Offset: 0x002D635C
 		public static void DrawLineVertical(float x, float y, float length)
 		{
 			Rect position = new Rect(x, y, 1f, length);
 			GUI.DrawTexture(position, BaseContent.WhiteTex);
 		}
 
-		// Token: 0x060058B4 RID: 22708 RVA: 0x002D7D98 File Offset: 0x002D6198
+		// Token: 0x060058B4 RID: 22708 RVA: 0x002D7F84 File Offset: 0x002D6384
 		public static void DrawBoxSolid(Rect rect, Color color)
 		{
 			Color color2 = GUI.color;
@@ -422,7 +422,7 @@ namespace Verse
 			GUI.color = color2;
 		}
 
-		// Token: 0x060058B5 RID: 22709 RVA: 0x002D7DC4 File Offset: 0x002D61C4
+		// Token: 0x060058B5 RID: 22709 RVA: 0x002D7FB0 File Offset: 0x002D63B0
 		public static void DrawBox(Rect rect, int thickness = 1)
 		{
 			Vector2 b = new Vector2(rect.x, rect.y);
@@ -446,7 +446,7 @@ namespace Verse
 			GUI.DrawTexture(new Rect(b.x + (float)thickness, a.y - (float)thickness, vector.x - (float)(thickness * 2), (float)thickness), BaseContent.WhiteTex);
 		}
 
-		// Token: 0x060058B6 RID: 22710 RVA: 0x002D7F30 File Offset: 0x002D6330
+		// Token: 0x060058B6 RID: 22710 RVA: 0x002D811C File Offset: 0x002D651C
 		public static void LabelCacheHeight(ref Rect rect, string label, bool renderLabel = true, bool forceInvalidation = false)
 		{
 			bool flag = Widgets.LabelCache.ContainsKey(label);
@@ -470,19 +470,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058B7 RID: 22711 RVA: 0x002D7F95 File Offset: 0x002D6395
+		// Token: 0x060058B7 RID: 22711 RVA: 0x002D8181 File Offset: 0x002D6581
 		public static void Label(Rect rect, GUIContent content)
 		{
 			GUI.Label(rect, content, Text.CurFontStyle);
 		}
 
-		// Token: 0x060058B8 RID: 22712 RVA: 0x002D7FA4 File Offset: 0x002D63A4
+		// Token: 0x060058B8 RID: 22712 RVA: 0x002D8190 File Offset: 0x002D6590
 		public static void Label(Rect rect, string label)
 		{
 			GUI.Label(rect, label, Text.CurFontStyle);
 		}
 
-		// Token: 0x060058B9 RID: 22713 RVA: 0x002D7FB4 File Offset: 0x002D63B4
+		// Token: 0x060058B9 RID: 22713 RVA: 0x002D81A0 File Offset: 0x002D65A0
 		public static void LabelScrollable(Rect rect, string label, ref Vector2 scrollbarPosition, bool dontConsumeScrollEventsIfNoScrollbar = false)
 		{
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, Mathf.Max(Text.CalcHeight(label, rect.width) + 10f, rect.height));
@@ -506,13 +506,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058BA RID: 22714 RVA: 0x002D8055 File Offset: 0x002D6455
+		// Token: 0x060058BA RID: 22714 RVA: 0x002D8241 File Offset: 0x002D6641
 		public static void Checkbox(Vector2 topLeft, ref bool checkOn, float size = 24f, bool disabled = false, bool paintable = false, Texture2D texChecked = null, Texture2D texUnchecked = null)
 		{
 			Widgets.Checkbox(topLeft.x, topLeft.y, ref checkOn, size, disabled, paintable, texChecked, texUnchecked);
 		}
 
-		// Token: 0x060058BB RID: 22715 RVA: 0x002D8074 File Offset: 0x002D6474
+		// Token: 0x060058BB RID: 22715 RVA: 0x002D8260 File Offset: 0x002D6660
 		public static void Checkbox(float x, float y, ref bool checkOn, float size = 24f, bool disabled = false, bool paintable = false, Texture2D texChecked = null, Texture2D texUnchecked = null)
 		{
 			if (disabled)
@@ -564,7 +564,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058BC RID: 22716 RVA: 0x002D8180 File Offset: 0x002D6580
+		// Token: 0x060058BC RID: 22716 RVA: 0x002D836C File Offset: 0x002D676C
 		public static void CheckboxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, Texture2D texChecked = null, Texture2D texUnchecked = null, bool placeCheckboxNearText = false)
 		{
 			TextAnchor anchor = Text.Anchor;
@@ -593,7 +593,7 @@ namespace Verse
 			Text.Anchor = anchor;
 		}
 
-		// Token: 0x060058BD RID: 22717 RVA: 0x002D8248 File Offset: 0x002D6648
+		// Token: 0x060058BD RID: 22717 RVA: 0x002D8434 File Offset: 0x002D6834
 		public static bool CheckboxLabeledSelectable(Rect rect, string label, ref bool selected, ref bool checkOn)
 		{
 			if (selected)
@@ -629,7 +629,7 @@ namespace Verse
 			return selected && !flag;
 		}
 
-		// Token: 0x060058BE RID: 22718 RVA: 0x002D8354 File Offset: 0x002D6754
+		// Token: 0x060058BE RID: 22718 RVA: 0x002D8540 File Offset: 0x002D6940
 		private static void CheckboxDraw(float x, float y, bool active, bool disabled, float size = 24f, Texture2D texChecked = null, Texture2D texUnchecked = null)
 		{
 			Color color = GUI.color;
@@ -654,7 +654,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058BF RID: 22719 RVA: 0x002D83D8 File Offset: 0x002D67D8
+		// Token: 0x060058BF RID: 22719 RVA: 0x002D85C4 File Offset: 0x002D69C4
 		public static MultiCheckboxState CheckboxMulti(Rect rect, MultiCheckboxState state, bool paintable = false)
 		{
 			Texture2D tex;
@@ -712,13 +712,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058C0 RID: 22720 RVA: 0x002D84DC File Offset: 0x002D68DC
+		// Token: 0x060058C0 RID: 22720 RVA: 0x002D86C8 File Offset: 0x002D6AC8
 		public static bool RadioButton(Vector2 topLeft, bool chosen)
 		{
 			return Widgets.RadioButton(topLeft.x, topLeft.y, chosen);
 		}
 
-		// Token: 0x060058C1 RID: 22721 RVA: 0x002D8508 File Offset: 0x002D6908
+		// Token: 0x060058C1 RID: 22721 RVA: 0x002D86F4 File Offset: 0x002D6AF4
 		public static bool RadioButton(float x, float y, bool chosen)
 		{
 			Rect rect = new Rect(x, y, 24f, 24f);
@@ -732,7 +732,7 @@ namespace Verse
 			return flag;
 		}
 
-		// Token: 0x060058C2 RID: 22722 RVA: 0x002D8560 File Offset: 0x002D6960
+		// Token: 0x060058C2 RID: 22722 RVA: 0x002D874C File Offset: 0x002D6B4C
 		public static bool RadioButtonLabeled(Rect rect, string labelText, bool chosen)
 		{
 			TextAnchor anchor = Text.Anchor;
@@ -748,7 +748,7 @@ namespace Verse
 			return flag;
 		}
 
-		// Token: 0x060058C3 RID: 22723 RVA: 0x002D85E4 File Offset: 0x002D69E4
+		// Token: 0x060058C3 RID: 22723 RVA: 0x002D87D0 File Offset: 0x002D6BD0
 		private static void RadioButtonDraw(float x, float y, bool chosen)
 		{
 			Texture2D image;
@@ -764,31 +764,31 @@ namespace Verse
 			GUI.DrawTexture(position, image);
 		}
 
-		// Token: 0x060058C4 RID: 22724 RVA: 0x002D8624 File Offset: 0x002D6A24
+		// Token: 0x060058C4 RID: 22724 RVA: 0x002D8810 File Offset: 0x002D6C10
 		public static bool ButtonText(Rect rect, string label, bool drawBackground = true, bool doMouseoverSound = false, bool active = true)
 		{
 			return Widgets.ButtonText(rect, label, drawBackground, doMouseoverSound, Widgets.NormalOptionColor, active);
 		}
 
-		// Token: 0x060058C5 RID: 22725 RVA: 0x002D864C File Offset: 0x002D6A4C
+		// Token: 0x060058C5 RID: 22725 RVA: 0x002D8838 File Offset: 0x002D6C38
 		public static bool ButtonText(Rect rect, string label, bool drawBackground, bool doMouseoverSound, Color textColor, bool active = true)
 		{
 			return Widgets.ButtonTextWorker(rect, label, drawBackground, doMouseoverSound, textColor, active, false).AnyPressed();
 		}
 
-		// Token: 0x060058C6 RID: 22726 RVA: 0x002D8674 File Offset: 0x002D6A74
+		// Token: 0x060058C6 RID: 22726 RVA: 0x002D8860 File Offset: 0x002D6C60
 		public static Widgets.DraggableResult ButtonTextDraggable(Rect rect, string label, bool drawBackground = true, bool doMouseoverSound = false, bool active = true)
 		{
 			return Widgets.ButtonTextDraggable(rect, label, drawBackground, doMouseoverSound, Widgets.NormalOptionColor, active);
 		}
 
-		// Token: 0x060058C7 RID: 22727 RVA: 0x002D869C File Offset: 0x002D6A9C
+		// Token: 0x060058C7 RID: 22727 RVA: 0x002D8888 File Offset: 0x002D6C88
 		public static Widgets.DraggableResult ButtonTextDraggable(Rect rect, string label, bool drawBackground, bool doMouseoverSound, Color textColor, bool active = true)
 		{
 			return Widgets.ButtonTextWorker(rect, label, drawBackground, doMouseoverSound, Widgets.NormalOptionColor, active, true);
 		}
 
-		// Token: 0x060058C8 RID: 22728 RVA: 0x002D86C4 File Offset: 0x002D6AC4
+		// Token: 0x060058C8 RID: 22728 RVA: 0x002D88B0 File Offset: 0x002D6CB0
 		private static Widgets.DraggableResult ButtonTextWorker(Rect rect, string label, bool drawBackground, bool doMouseoverSound, Color textColor, bool active, bool draggable)
 		{
 			TextAnchor anchor = Text.Anchor;
@@ -845,7 +845,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058C9 RID: 22729 RVA: 0x002D87B4 File Offset: 0x002D6BB4
+		// Token: 0x060058C9 RID: 22729 RVA: 0x002D89A0 File Offset: 0x002D6DA0
 		public static void DrawRectFast(Rect position, Color color, GUIContent content = null)
 		{
 			Color backgroundColor = GUI.backgroundColor;
@@ -854,7 +854,7 @@ namespace Verse
 			GUI.backgroundColor = backgroundColor;
 		}
 
-		// Token: 0x060058CA RID: 22730 RVA: 0x002D87EC File Offset: 0x002D6BEC
+		// Token: 0x060058CA RID: 22730 RVA: 0x002D89D8 File Offset: 0x002D6DD8
 		public static bool CustomButtonText(ref Rect rect, string label, Color bgColor, Color textColor, Color borderColor, bool cacheHeight = false, int borderSize = 1, bool doMouseoverSound = true, bool active = true)
 		{
 			if (cacheHeight)
@@ -886,7 +886,7 @@ namespace Verse
 			return active && Widgets.ButtonInvisible(rect, false);
 		}
 
-		// Token: 0x060058CB RID: 22731 RVA: 0x002D88F4 File Offset: 0x002D6CF4
+		// Token: 0x060058CB RID: 22731 RVA: 0x002D8AE0 File Offset: 0x002D6EE0
 		public static bool ButtonTextSubtle(Rect rect, string label, float barPercent = 0f, float textLeftMargin = -1f, SoundDef mouseoverSound = null, Vector2 functionalSizeOffset = default(Vector2))
 		{
 			Rect rect2 = rect;
@@ -934,19 +934,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058CC RID: 22732 RVA: 0x002D8A4C File Offset: 0x002D6E4C
+		// Token: 0x060058CC RID: 22732 RVA: 0x002D8C38 File Offset: 0x002D7038
 		public static bool ButtonImage(Rect butRect, Texture2D tex)
 		{
 			return Widgets.ButtonImage(butRect, tex, Color.white);
 		}
 
-		// Token: 0x060058CD RID: 22733 RVA: 0x002D8A70 File Offset: 0x002D6E70
+		// Token: 0x060058CD RID: 22733 RVA: 0x002D8C5C File Offset: 0x002D705C
 		public static bool ButtonImage(Rect butRect, Texture2D tex, Color baseColor)
 		{
 			return Widgets.ButtonImage(butRect, tex, baseColor, GenUI.MouseoverColor);
 		}
 
-		// Token: 0x060058CE RID: 22734 RVA: 0x002D8A94 File Offset: 0x002D6E94
+		// Token: 0x060058CE RID: 22734 RVA: 0x002D8C80 File Offset: 0x002D7080
 		public static bool ButtonImage(Rect butRect, Texture2D tex, Color baseColor, Color mouseoverColor)
 		{
 			if (Mouse.IsOver(butRect))
@@ -962,19 +962,19 @@ namespace Verse
 			return Widgets.ButtonInvisible(butRect, false);
 		}
 
-		// Token: 0x060058CF RID: 22735 RVA: 0x002D8ADC File Offset: 0x002D6EDC
+		// Token: 0x060058CF RID: 22735 RVA: 0x002D8CC8 File Offset: 0x002D70C8
 		public static Widgets.DraggableResult ButtonImageDraggable(Rect butRect, Texture2D tex)
 		{
 			return Widgets.ButtonImageDraggable(butRect, tex, Color.white);
 		}
 
-		// Token: 0x060058D0 RID: 22736 RVA: 0x002D8B00 File Offset: 0x002D6F00
+		// Token: 0x060058D0 RID: 22736 RVA: 0x002D8CEC File Offset: 0x002D70EC
 		public static Widgets.DraggableResult ButtonImageDraggable(Rect butRect, Texture2D tex, Color baseColor)
 		{
 			return Widgets.ButtonImageDraggable(butRect, tex, baseColor, GenUI.MouseoverColor);
 		}
 
-		// Token: 0x060058D1 RID: 22737 RVA: 0x002D8B24 File Offset: 0x002D6F24
+		// Token: 0x060058D1 RID: 22737 RVA: 0x002D8D10 File Offset: 0x002D7110
 		public static Widgets.DraggableResult ButtonImageDraggable(Rect butRect, Texture2D tex, Color baseColor, Color mouseoverColor)
 		{
 			if (Mouse.IsOver(butRect))
@@ -990,19 +990,19 @@ namespace Verse
 			return Widgets.ButtonInvisibleDraggable(butRect, false);
 		}
 
-		// Token: 0x060058D2 RID: 22738 RVA: 0x002D8B6C File Offset: 0x002D6F6C
+		// Token: 0x060058D2 RID: 22738 RVA: 0x002D8D58 File Offset: 0x002D7158
 		public static bool ButtonImageFitted(Rect butRect, Texture2D tex)
 		{
 			return Widgets.ButtonImageFitted(butRect, tex, Color.white);
 		}
 
-		// Token: 0x060058D3 RID: 22739 RVA: 0x002D8B90 File Offset: 0x002D6F90
+		// Token: 0x060058D3 RID: 22739 RVA: 0x002D8D7C File Offset: 0x002D717C
 		public static bool ButtonImageFitted(Rect butRect, Texture2D tex, Color baseColor)
 		{
 			return Widgets.ButtonImageFitted(butRect, tex, baseColor, GenUI.MouseoverColor);
 		}
 
-		// Token: 0x060058D4 RID: 22740 RVA: 0x002D8BB4 File Offset: 0x002D6FB4
+		// Token: 0x060058D4 RID: 22740 RVA: 0x002D8DA0 File Offset: 0x002D71A0
 		public static bool ButtonImageFitted(Rect butRect, Texture2D tex, Color baseColor, Color mouseoverColor)
 		{
 			if (Mouse.IsOver(butRect))
@@ -1018,7 +1018,7 @@ namespace Verse
 			return Widgets.ButtonInvisible(butRect, false);
 		}
 
-		// Token: 0x060058D5 RID: 22741 RVA: 0x002D8C00 File Offset: 0x002D7000
+		// Token: 0x060058D5 RID: 22741 RVA: 0x002D8DEC File Offset: 0x002D71EC
 		public static bool ButtonImageWithBG(Rect butRect, Texture2D image, Vector2? imageSize = null)
 		{
 			bool result = Widgets.ButtonText(butRect, "", true, false, true);
@@ -1035,14 +1035,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058D6 RID: 22742 RVA: 0x002D8CCC File Offset: 0x002D70CC
+		// Token: 0x060058D6 RID: 22742 RVA: 0x002D8EB8 File Offset: 0x002D72B8
 		public static bool CloseButtonFor(Rect rectToClose)
 		{
 			Rect butRect = new Rect(rectToClose.x + rectToClose.width - 18f - 4f, rectToClose.y + 4f, 18f, 18f);
 			return Widgets.ButtonImage(butRect, TexButton.CloseXSmall);
 		}
 
-		// Token: 0x060058D7 RID: 22743 RVA: 0x002D8D28 File Offset: 0x002D7128
+		// Token: 0x060058D7 RID: 22743 RVA: 0x002D8F14 File Offset: 0x002D7314
 		public static bool ButtonInvisible(Rect butRect, bool doMouseoverSound = false)
 		{
 			if (doMouseoverSound)
@@ -1052,7 +1052,7 @@ namespace Verse
 			return GUI.Button(butRect, "", Widgets.EmptyStyle);
 		}
 
-		// Token: 0x060058D8 RID: 22744 RVA: 0x002D8D5C File Offset: 0x002D715C
+		// Token: 0x060058D8 RID: 22744 RVA: 0x002D8F48 File Offset: 0x002D7348
 		public static Widgets.DraggableResult ButtonInvisibleDraggable(Rect butRect, bool doMouseoverSound = false)
 		{
 			if (doMouseoverSound)
@@ -1094,7 +1094,7 @@ namespace Verse
 			return Widgets.DraggableResult.Idle;
 		}
 
-		// Token: 0x060058D9 RID: 22745 RVA: 0x002D8E50 File Offset: 0x002D7250
+		// Token: 0x060058D9 RID: 22745 RVA: 0x002D903C File Offset: 0x002D743C
 		public static string TextField(Rect rect, string text)
 		{
 			if (text == null)
@@ -1104,7 +1104,7 @@ namespace Verse
 			return GUI.TextField(rect, text, Text.CurTextFieldStyle);
 		}
 
-		// Token: 0x060058DA RID: 22746 RVA: 0x002D8E80 File Offset: 0x002D7280
+		// Token: 0x060058DA RID: 22746 RVA: 0x002D906C File Offset: 0x002D746C
 		public static string TextField(Rect rect, string text, int maxLength, Regex inputValidator)
 		{
 			string text2 = Widgets.TextField(rect, text);
@@ -1120,7 +1120,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058DB RID: 22747 RVA: 0x002D8EC0 File Offset: 0x002D72C0
+		// Token: 0x060058DB RID: 22747 RVA: 0x002D90AC File Offset: 0x002D74AC
 		public static string TextArea(Rect rect, string text, bool readOnly = false)
 		{
 			if (text == null)
@@ -1130,7 +1130,7 @@ namespace Verse
 			return GUI.TextArea(rect, text, (!readOnly) ? Text.CurTextAreaStyle : Text.CurTextAreaReadOnlyStyle);
 		}
 
-		// Token: 0x060058DC RID: 22748 RVA: 0x002D8F00 File Offset: 0x002D7300
+		// Token: 0x060058DC RID: 22748 RVA: 0x002D90EC File Offset: 0x002D74EC
 		public static string TextAreaScrollable(Rect rect, string text, ref Vector2 scrollbarPosition, bool readOnly = false)
 		{
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, Mathf.Max(Text.CalcHeight(text, rect.width) + 10f, rect.height));
@@ -1140,7 +1140,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058DD RID: 22749 RVA: 0x002D8F6C File Offset: 0x002D736C
+		// Token: 0x060058DD RID: 22749 RVA: 0x002D9158 File Offset: 0x002D7558
 		public static string TextEntryLabeled(Rect rect, string label, string text)
 		{
 			Rect rect2 = rect.LeftHalf().Rounded();
@@ -1161,7 +1161,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058DE RID: 22750 RVA: 0x002D8FD8 File Offset: 0x002D73D8
+		// Token: 0x060058DE RID: 22750 RVA: 0x002D91C4 File Offset: 0x002D75C4
 		public static void TextFieldNumeric<T>(Rect rect, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			if (buffer == null)
@@ -1185,7 +1185,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058DF RID: 22751 RVA: 0x002D90A0 File Offset: 0x002D74A0
+		// Token: 0x060058DF RID: 22751 RVA: 0x002D928C File Offset: 0x002D768C
 		private static void ResolveParseNow<T>(string edited, ref T val, ref string buffer, float min, float max, bool force)
 		{
 			if (typeof(T) == typeof(int))
@@ -1224,7 +1224,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058E0 RID: 22752 RVA: 0x002D91C0 File Offset: 0x002D75C0
+		// Token: 0x060058E0 RID: 22752 RVA: 0x002D93AC File Offset: 0x002D77AC
 		private static void ResetValue<T>(string edited, ref T val, ref string buffer, float min, float max)
 		{
 			val = default(T);
@@ -1239,7 +1239,7 @@ namespace Verse
 			buffer = Widgets.ToStringTypedIn<T>(val);
 		}
 
-		// Token: 0x060058E1 RID: 22753 RVA: 0x002D9230 File Offset: 0x002D7630
+		// Token: 0x060058E1 RID: 22753 RVA: 0x002D941C File Offset: 0x002D781C
 		private static string ToStringTypedIn<T>(T val)
 		{
 			string result;
@@ -1254,7 +1254,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058E2 RID: 22754 RVA: 0x002D928C File Offset: 0x002D768C
+		// Token: 0x060058E2 RID: 22754 RVA: 0x002D9478 File Offset: 0x002D7878
 		private static bool IsPartiallyOrFullyTypedNumber<T>(ref T val, string s, float min, float max)
 		{
 			bool result;
@@ -1293,7 +1293,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058E3 RID: 22755 RVA: 0x002D9380 File Offset: 0x002D7780
+		// Token: 0x060058E3 RID: 22755 RVA: 0x002D956C File Offset: 0x002D796C
 		private static bool IsFullyTypedNumber<T>(this string s)
 		{
 			bool result;
@@ -1334,7 +1334,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058E4 RID: 22756 RVA: 0x002D9470 File Offset: 0x002D7870
+		// Token: 0x060058E4 RID: 22756 RVA: 0x002D965C File Offset: 0x002D7A5C
 		private static bool ContainsOnlyCharacters(this string s, string allowedChars)
 		{
 			for (int i = 0; i < s.Length; i++)
@@ -1347,7 +1347,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x060058E5 RID: 22757 RVA: 0x002D94B8 File Offset: 0x002D78B8
+		// Token: 0x060058E5 RID: 22757 RVA: 0x002D96A4 File Offset: 0x002D7AA4
 		private static int CharacterCount(this string s, char c)
 		{
 			int num = 0;
@@ -1361,7 +1361,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060058E6 RID: 22758 RVA: 0x002D94FC File Offset: 0x002D78FC
+		// Token: 0x060058E6 RID: 22758 RVA: 0x002D96E8 File Offset: 0x002D7AE8
 		public static void TextFieldNumericLabeled<T>(Rect rect, string label, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			Rect rect2 = rect.LeftHalf().Rounded();
@@ -1373,7 +1373,7 @@ namespace Verse
 			Widgets.TextFieldNumeric<T>(rect3, ref val, ref buffer, min, max);
 		}
 
-		// Token: 0x060058E7 RID: 22759 RVA: 0x002D9548 File Offset: 0x002D7948
+		// Token: 0x060058E7 RID: 22759 RVA: 0x002D9734 File Offset: 0x002D7B34
 		public static void TextFieldPercent(Rect rect, ref float val, ref string buffer, float min = 0f, float max = 1f)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width - 25f, rect.height);
@@ -1389,13 +1389,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058E8 RID: 22760 RVA: 0x002D95F4 File Offset: 0x002D79F4
+		// Token: 0x060058E8 RID: 22760 RVA: 0x002D97E0 File Offset: 0x002D7BE0
 		public static T ChangeType<T>(this object obj)
 		{
 			return (T)((object)Convert.ChangeType(obj, typeof(T)));
 		}
 
-		// Token: 0x060058E9 RID: 22761 RVA: 0x002D9620 File Offset: 0x002D7A20
+		// Token: 0x060058E9 RID: 22761 RVA: 0x002D980C File Offset: 0x002D7C0C
 		public static float HorizontalSlider(Rect rect, float value, float leftValue, float rightValue, bool middleAlignment = false, string label = null, string leftAlignedLabel = null, string rightAlignedLabel = null, float roundTo = -1f)
 		{
 			if (middleAlignment || !label.NullOrEmpty())
@@ -1439,7 +1439,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060058EA RID: 22762 RVA: 0x002D978C File Offset: 0x002D7B8C
+		// Token: 0x060058EA RID: 22762 RVA: 0x002D9978 File Offset: 0x002D7D78
 		public static float FrequencyHorizontalSlider(Rect rect, float freq, float minFreq, float maxFreq, bool roundToInt = false)
 		{
 			float num;
@@ -1497,7 +1497,7 @@ namespace Verse
 			return freq;
 		}
 
-		// Token: 0x060058EB RID: 22763 RVA: 0x002D9908 File Offset: 0x002D7D08
+		// Token: 0x060058EB RID: 22763 RVA: 0x002D9AF4 File Offset: 0x002D7EF4
 		public static void IntEntry(Rect rect, ref int value, ref string editBuffer, int multiplier = 1)
 		{
 			int num = Mathf.Min(Widgets.IntEntryButtonWidth, (int)rect.width / 5);
@@ -1524,7 +1524,7 @@ namespace Verse
 			Widgets.TextFieldNumeric<int>(new Rect(rect.xMin + (float)(num * 2), rect.yMin, rect.width - (float)(num * 4), rect.height), ref value, ref editBuffer, 0f, 1E+09f);
 		}
 
-		// Token: 0x060058EC RID: 22764 RVA: 0x002D9A98 File Offset: 0x002D7E98
+		// Token: 0x060058EC RID: 22764 RVA: 0x002D9C84 File Offset: 0x002D8084
 		public static void FloatRange(Rect rect, int id, ref FloatRange range, float min = 0f, float max = 1f, string labelKey = null, ToStringStyle valueStyle = ToStringStyle.FloatTwo)
 		{
 			Rect rect2 = rect;
@@ -1620,7 +1620,7 @@ namespace Verse
 			Text.Font = font;
 		}
 
-		// Token: 0x060058ED RID: 22765 RVA: 0x002D9E6C File Offset: 0x002D826C
+		// Token: 0x060058ED RID: 22765 RVA: 0x002DA058 File Offset: 0x002D8458
 		public static void IntRange(Rect rect, int id, ref IntRange range, int min = 0, int max = 100, string labelKey = null, int minWidth = 0)
 		{
 			Rect rect2 = rect;
@@ -1727,7 +1727,7 @@ namespace Verse
 			Text.Font = font;
 		}
 
-		// Token: 0x060058EE RID: 22766 RVA: 0x002DA291 File Offset: 0x002D8691
+		// Token: 0x060058EE RID: 22766 RVA: 0x002DA47D File Offset: 0x002D887D
 		private static void CheckPlayDragSliderSound()
 		{
 			if (Time.realtimeSinceStartup > Widgets.lastDragSliderSoundTime + 0.075f)
@@ -1737,7 +1737,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058EF RID: 22767 RVA: 0x002DA2C0 File Offset: 0x002D86C0
+		// Token: 0x060058EF RID: 22767 RVA: 0x002DA4AC File Offset: 0x002D88AC
 		public static void QualityRange(Rect rect, int id, ref QualityRange range)
 		{
 			Rect rect2 = rect;
@@ -1843,7 +1843,7 @@ namespace Verse
 			Text.Font = font;
 		}
 
-		// Token: 0x060058F0 RID: 22768 RVA: 0x002DA700 File Offset: 0x002D8B00
+		// Token: 0x060058F0 RID: 22768 RVA: 0x002DA8EC File Offset: 0x002D8CEC
 		public static void FloatRangeWithTypeIn(Rect rect, int id, ref FloatRange fRange, float sliderMin = 0f, float sliderMax = 1f, ToStringStyle valueStyle = ToStringStyle.FloatTwo, string labelKey = null)
 		{
 			Rect rect2 = new Rect(rect);
@@ -1869,20 +1869,20 @@ namespace Verse
 			float.TryParse(Widgets.TextField(rect4, fRange.max.ToString()), out fRange.max);
 		}
 
-		// Token: 0x060058F1 RID: 22769 RVA: 0x002DA868 File Offset: 0x002D8C68
+		// Token: 0x060058F1 RID: 22769 RVA: 0x002DAA54 File Offset: 0x002D8E54
 		public static Rect FillableBar(Rect rect, float fillPercent)
 		{
 			return Widgets.FillableBar(rect, fillPercent, Widgets.BarFullTexHor);
 		}
 
-		// Token: 0x060058F2 RID: 22770 RVA: 0x002DA88C File Offset: 0x002D8C8C
+		// Token: 0x060058F2 RID: 22770 RVA: 0x002DAA78 File Offset: 0x002D8E78
 		public static Rect FillableBar(Rect rect, float fillPercent, Texture2D fillTex)
 		{
 			bool doBorder = rect.height > 15f && rect.width > 20f;
 			return Widgets.FillableBar(rect, fillPercent, fillTex, Widgets.DefaultBarBgTex, doBorder);
 		}
 
-		// Token: 0x060058F3 RID: 22771 RVA: 0x002DA8D4 File Offset: 0x002D8CD4
+		// Token: 0x060058F3 RID: 22771 RVA: 0x002DAAC0 File Offset: 0x002D8EC0
 		public static Rect FillableBar(Rect rect, float fillPercent, Texture2D fillTex, Texture2D bgTex, bool doBorder)
 		{
 			if (doBorder)
@@ -1900,7 +1900,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060058F4 RID: 22772 RVA: 0x002DA938 File Offset: 0x002D8D38
+		// Token: 0x060058F4 RID: 22772 RVA: 0x002DAB24 File Offset: 0x002D8F24
 		public static void FillableBarLabeled(Rect rect, float fillPercent, int labelWidth, string label)
 		{
 			if (fillPercent < 0f)
@@ -1920,14 +1920,14 @@ namespace Verse
 			Widgets.FillableBar(rect3, fillPercent);
 		}
 
-		// Token: 0x060058F5 RID: 22773 RVA: 0x002DA9A8 File Offset: 0x002D8DA8
+		// Token: 0x060058F5 RID: 22773 RVA: 0x002DAB94 File Offset: 0x002D8F94
 		public static void FillableBarChangeArrows(Rect barRect, float changeRate)
 		{
 			int changeRate2 = (int)(changeRate * Widgets.FillableBarChangeRateDisplayRatio);
 			Widgets.FillableBarChangeArrows(barRect, changeRate2);
 		}
 
-		// Token: 0x060058F6 RID: 22774 RVA: 0x002DA9C8 File Offset: 0x002D8DC8
+		// Token: 0x060058F6 RID: 22774 RVA: 0x002DABB4 File Offset: 0x002D8FB4
 		public static void FillableBarChangeArrows(Rect barRect, int changeRate)
 		{
 			if (changeRate != 0)
@@ -1971,7 +1971,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058F7 RID: 22775 RVA: 0x002DAAD0 File Offset: 0x002D8ED0
+		// Token: 0x060058F7 RID: 22775 RVA: 0x002DACBC File Offset: 0x002D90BC
 		public static void DrawWindowBackground(Rect rect)
 		{
 			GUI.color = Widgets.WindowBGFillColor;
@@ -1981,7 +1981,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060058F8 RID: 22776 RVA: 0x002DAB03 File Offset: 0x002D8F03
+		// Token: 0x060058F8 RID: 22776 RVA: 0x002DACEF File Offset: 0x002D90EF
 		public static void DrawMenuSection(Rect rect)
 		{
 			GUI.color = Widgets.MenuSectionBGFillColor;
@@ -1991,7 +1991,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060058F9 RID: 22777 RVA: 0x002DAB36 File Offset: 0x002D8F36
+		// Token: 0x060058F9 RID: 22777 RVA: 0x002DAD22 File Offset: 0x002D9122
 		public static void DrawWindowBackgroundTutor(Rect rect)
 		{
 			GUI.color = Widgets.TutorWindowBGFillColor;
@@ -2001,7 +2001,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060058FA RID: 22778 RVA: 0x002DAB69 File Offset: 0x002D8F69
+		// Token: 0x060058FA RID: 22778 RVA: 0x002DAD55 File Offset: 0x002D9155
 		public static void DrawOptionUnselected(Rect rect)
 		{
 			GUI.color = Widgets.OptionUnselectedBGFillColor;
@@ -2011,7 +2011,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060058FB RID: 22779 RVA: 0x002DAB9C File Offset: 0x002D8F9C
+		// Token: 0x060058FB RID: 22779 RVA: 0x002DAD88 File Offset: 0x002D9188
 		public static void DrawOptionSelected(Rect rect)
 		{
 			GUI.color = Widgets.OptionSelectedBGFillColor;
@@ -2021,7 +2021,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060058FC RID: 22780 RVA: 0x002DABCF File Offset: 0x002D8FCF
+		// Token: 0x060058FC RID: 22780 RVA: 0x002DADBB File Offset: 0x002D91BB
 		public static void DrawOptionBackground(Rect rect, bool selected)
 		{
 			if (selected)
@@ -2035,7 +2035,7 @@ namespace Verse
 			Widgets.DrawHighlightIfMouseover(rect);
 		}
 
-		// Token: 0x060058FD RID: 22781 RVA: 0x002DABF0 File Offset: 0x002D8FF0
+		// Token: 0x060058FD RID: 22781 RVA: 0x002DADDC File Offset: 0x002D91DC
 		public static void DrawShadowAround(Rect rect)
 		{
 			Rect rect2 = rect.ContractedBy(-9f);
@@ -2044,13 +2044,13 @@ namespace Verse
 			Widgets.DrawAtlas(rect2, Widgets.ShadowAtlas);
 		}
 
-		// Token: 0x060058FE RID: 22782 RVA: 0x002DAC3B File Offset: 0x002D903B
+		// Token: 0x060058FE RID: 22782 RVA: 0x002DAE27 File Offset: 0x002D9227
 		public static void DrawAtlas(Rect rect, Texture2D atlas)
 		{
 			Widgets.DrawAtlas(rect, atlas, true);
 		}
 
-		// Token: 0x060058FF RID: 22783 RVA: 0x002DAC48 File Offset: 0x002D9048
+		// Token: 0x060058FF RID: 22783 RVA: 0x002DAE34 File Offset: 0x002D9234
 		public static void DrawAtlas(Rect rect, Texture2D atlas, bool drawTop)
 		{
 			rect.x = Mathf.Round(rect.x);
@@ -2113,20 +2113,20 @@ namespace Verse
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06005900 RID: 22784 RVA: 0x002DAFA8 File Offset: 0x002D93A8
+		// Token: 0x06005900 RID: 22784 RVA: 0x002DB194 File Offset: 0x002D9594
 		public static Rect ToUVRect(this Rect r, Vector2 texSize)
 		{
 			return new Rect(r.x / texSize.x, r.y / texSize.y, r.width / texSize.x, r.height / texSize.y);
 		}
 
-		// Token: 0x06005901 RID: 22785 RVA: 0x002DAFFE File Offset: 0x002D93FE
+		// Token: 0x06005901 RID: 22785 RVA: 0x002DB1EA File Offset: 0x002D95EA
 		public static void DrawTexturePart(Rect drawRect, Rect uvRect, Texture2D tex)
 		{
 			uvRect.y = 1f - uvRect.y - uvRect.height;
 			GUI.DrawTextureWithTexCoords(drawRect, tex, uvRect);
 		}
 
-		// Token: 0x06005902 RID: 22786 RVA: 0x002DB028 File Offset: 0x002D9428
+		// Token: 0x06005902 RID: 22786 RVA: 0x002DB214 File Offset: 0x002D9614
 		public static void ScrollHorizontal(Rect outRect, ref Vector2 scrollPosition, Rect viewRect, float ScrollWheelSpeed = 20f)
 		{
 			if (Event.current.type == EventType.ScrollWheel && Mouse.IsOver(outRect))
@@ -2146,7 +2146,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005903 RID: 22787 RVA: 0x002DB0C4 File Offset: 0x002D94C4
+		// Token: 0x06005903 RID: 22787 RVA: 0x002DB2B0 File Offset: 0x002D96B0
 		public static void BeginScrollView(Rect outRect, ref Vector2 scrollPosition, Rect viewRect, bool showScrollbars = true)
 		{
 			if (Widgets.mouseOverScrollViewStack.Count > 0)
@@ -2167,14 +2167,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005904 RID: 22788 RVA: 0x002DB16A File Offset: 0x002D956A
+		// Token: 0x06005904 RID: 22788 RVA: 0x002DB356 File Offset: 0x002D9756
 		public static void EndScrollView()
 		{
 			Widgets.mouseOverScrollViewStack.Pop();
 			GUI.EndScrollView();
 		}
 
-		// Token: 0x06005905 RID: 22789 RVA: 0x002DB17D File Offset: 0x002D957D
+		// Token: 0x06005905 RID: 22789 RVA: 0x002DB369 File Offset: 0x002D9769
 		public static void EnsureMousePositionStackEmpty()
 		{
 			if (Widgets.mouseOverScrollViewStack.Count > 0)
@@ -2184,13 +2184,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005906 RID: 22790 RVA: 0x002DB1A7 File Offset: 0x002D95A7
+		// Token: 0x06005906 RID: 22790 RVA: 0x002DB393 File Offset: 0x002D9793
 		public static void DrawHighlightSelected(Rect rect)
 		{
 			GUI.DrawTexture(rect, TexUI.HighlightSelectedTex);
 		}
 
-		// Token: 0x06005907 RID: 22791 RVA: 0x002DB1B5 File Offset: 0x002D95B5
+		// Token: 0x06005907 RID: 22791 RVA: 0x002DB3A1 File Offset: 0x002D97A1
 		public static void DrawHighlightIfMouseover(Rect rect)
 		{
 			if (Mouse.IsOver(rect))
@@ -2199,25 +2199,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005908 RID: 22792 RVA: 0x002DB1C9 File Offset: 0x002D95C9
+		// Token: 0x06005908 RID: 22792 RVA: 0x002DB3B5 File Offset: 0x002D97B5
 		public static void DrawHighlight(Rect rect)
 		{
 			GUI.DrawTexture(rect, TexUI.HighlightTex);
 		}
 
-		// Token: 0x06005909 RID: 22793 RVA: 0x002DB1D7 File Offset: 0x002D95D7
+		// Token: 0x06005909 RID: 22793 RVA: 0x002DB3C3 File Offset: 0x002D97C3
 		public static void DrawLightHighlight(Rect rect)
 		{
 			GUI.DrawTexture(rect, Widgets.LightHighlight);
 		}
 
-		// Token: 0x0600590A RID: 22794 RVA: 0x002DB1E5 File Offset: 0x002D95E5
+		// Token: 0x0600590A RID: 22794 RVA: 0x002DB3D1 File Offset: 0x002D97D1
 		public static void DrawTitleBG(Rect rect)
 		{
 			GUI.DrawTexture(rect, TexUI.TitleBGTex);
 		}
 
-		// Token: 0x0600590B RID: 22795 RVA: 0x002DB1F4 File Offset: 0x002D95F4
+		// Token: 0x0600590B RID: 22795 RVA: 0x002DB3E0 File Offset: 0x002D97E0
 		public static bool InfoCardButton(float x, float y, Thing thing)
 		{
 			IConstructible constructible = thing as IConstructible;
@@ -2246,7 +2246,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600590C RID: 22796 RVA: 0x002DB280 File Offset: 0x002D9680
+		// Token: 0x0600590C RID: 22796 RVA: 0x002DB46C File Offset: 0x002D986C
 		public static bool InfoCardButton(float x, float y, Def def)
 		{
 			bool result;
@@ -2262,7 +2262,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600590D RID: 22797 RVA: 0x002DB2BC File Offset: 0x002D96BC
+		// Token: 0x0600590D RID: 22797 RVA: 0x002DB4A8 File Offset: 0x002D98A8
 		public static bool InfoCardButton(float x, float y, ThingDef thingDef, ThingDef stuffDef)
 		{
 			bool result;
@@ -2278,7 +2278,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600590E RID: 22798 RVA: 0x002DB2F8 File Offset: 0x002D96F8
+		// Token: 0x0600590E RID: 22798 RVA: 0x002DB4E4 File Offset: 0x002D98E4
 		public static bool InfoCardButton(float x, float y, WorldObject worldObject)
 		{
 			bool result;
@@ -2294,13 +2294,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600590F RID: 22799 RVA: 0x002DB334 File Offset: 0x002D9734
+		// Token: 0x0600590F RID: 22799 RVA: 0x002DB520 File Offset: 0x002D9920
 		public static bool InfoCardButtonCentered(Rect rect, Thing thing)
 		{
 			return Widgets.InfoCardButton(rect.center.x - 12f, rect.center.y - 12f, thing);
 		}
 
-		// Token: 0x06005910 RID: 22800 RVA: 0x002DB37C File Offset: 0x002D977C
+		// Token: 0x06005910 RID: 22800 RVA: 0x002DB568 File Offset: 0x002D9968
 		private static bool InfoCardButtonWorker(float x, float y)
 		{
 			Rect rect = new Rect(x, y, 24f, 24f);
@@ -2310,13 +2310,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005911 RID: 22801 RVA: 0x002DB3D6 File Offset: 0x002D97D6
+		// Token: 0x06005911 RID: 22801 RVA: 0x002DB5C2 File Offset: 0x002D99C2
 		public static void DrawTextureFitted(Rect outerRect, Texture tex, float scale)
 		{
 			Widgets.DrawTextureFitted(outerRect, tex, scale, new Vector2((float)tex.width, (float)tex.height), new Rect(0f, 0f, 1f, 1f), 0f, null);
 		}
 
-		// Token: 0x06005912 RID: 22802 RVA: 0x002DB414 File Offset: 0x002D9814
+		// Token: 0x06005912 RID: 22802 RVA: 0x002DB600 File Offset: 0x002D9A00
 		public static void DrawTextureFitted(Rect outerRect, Texture tex, float scale, Vector2 texProportions, Rect texCoords, float angle = 0f, Material mat = null)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -2357,7 +2357,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005913 RID: 22803 RVA: 0x002DB57C File Offset: 0x002D997C
+		// Token: 0x06005913 RID: 22803 RVA: 0x002DB768 File Offset: 0x002D9B68
 		public static void DrawTextureRotated(Vector2 center, Texture tex, float angle, float scale = 1f)
 		{
 			float num = (float)tex.width * scale;
@@ -2366,7 +2366,7 @@ namespace Verse
 			Widgets.DrawTextureRotated(rect, tex, angle);
 		}
 
-		// Token: 0x06005914 RID: 22804 RVA: 0x002DB5D0 File Offset: 0x002D99D0
+		// Token: 0x06005914 RID: 22804 RVA: 0x002DB7BC File Offset: 0x002D9BBC
 		public static void DrawTextureRotated(Rect rect, Texture tex, float angle)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -2385,13 +2385,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005915 RID: 22805 RVA: 0x002DB62C File Offset: 0x002D9A2C
+		// Token: 0x06005915 RID: 22805 RVA: 0x002DB818 File Offset: 0x002D9C18
 		public static void NoneLabel(float y, float width, string customLabel = null)
 		{
 			Widgets.NoneLabel(ref y, width, customLabel);
 		}
 
-		// Token: 0x06005916 RID: 22806 RVA: 0x002DB638 File Offset: 0x002D9A38
+		// Token: 0x06005916 RID: 22806 RVA: 0x002DB824 File Offset: 0x002D9C24
 		public static void NoneLabel(ref float curY, float width, string customLabel = null)
 		{
 			GUI.color = Color.gray;
@@ -2402,7 +2402,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06005917 RID: 22807 RVA: 0x002DB699 File Offset: 0x002D9A99
+		// Token: 0x06005917 RID: 22807 RVA: 0x002DB885 File Offset: 0x002D9C85
 		public static void NoneLabelCenteredVertically(Rect rect, string customLabel = null)
 		{
 			GUI.color = Color.gray;
@@ -2412,7 +2412,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06005918 RID: 22808 RVA: 0x002DB6D4 File Offset: 0x002D9AD4
+		// Token: 0x06005918 RID: 22808 RVA: 0x002DB8C0 File Offset: 0x002D9CC0
 		public static void Dropdown<Target, Payload>(Rect rect, Target target, Func<Target, Payload> getPayload, Func<Target, IEnumerable<Widgets.DropdownMenuElement<Payload>>> menuGenerator, string buttonLabel = null, Texture2D buttonIcon = null, string dragLabel = null, Texture2D dragIcon = null, Action dropdownOpened = null, bool paintable = false)
 		{
 			Widgets.DraggableResult draggableResult;
@@ -2462,7 +2462,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005919 RID: 22809 RVA: 0x002DB880 File Offset: 0x002D9C80
+		// Token: 0x06005919 RID: 22809 RVA: 0x002DBA6C File Offset: 0x002D9E6C
 		public static void WidgetsOnGUI()
 		{
 			if (Event.current.rawType == EventType.MouseUp || Input.GetMouseButtonUp(0))
@@ -2480,37 +2480,37 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000EB1 RID: 3761
+		// Token: 0x02000EB2 RID: 3762
 		public enum DraggableResult
 		{
-			// Token: 0x04003B5A RID: 15194
+			// Token: 0x04003B62 RID: 15202
 			Idle,
-			// Token: 0x04003B5B RID: 15195
+			// Token: 0x04003B63 RID: 15203
 			Pressed,
-			// Token: 0x04003B5C RID: 15196
+			// Token: 0x04003B64 RID: 15204
 			Dragged,
-			// Token: 0x04003B5D RID: 15197
+			// Token: 0x04003B65 RID: 15205
 			DraggedThenPressed
 		}
 
-		// Token: 0x02000EB2 RID: 3762
+		// Token: 0x02000EB3 RID: 3763
 		private enum RangeEnd : byte
 		{
-			// Token: 0x04003B5F RID: 15199
+			// Token: 0x04003B67 RID: 15207
 			None,
-			// Token: 0x04003B60 RID: 15200
+			// Token: 0x04003B68 RID: 15208
 			Min,
-			// Token: 0x04003B61 RID: 15201
+			// Token: 0x04003B69 RID: 15209
 			Max
 		}
 
-		// Token: 0x02000EB3 RID: 3763
+		// Token: 0x02000EB4 RID: 3764
 		public struct DropdownMenuElement<Payload>
 		{
-			// Token: 0x04003B62 RID: 15202
+			// Token: 0x04003B6A RID: 15210
 			public FloatMenuOption option;
 
-			// Token: 0x04003B63 RID: 15203
+			// Token: 0x04003B6B RID: 15211
 			public Payload payload;
 		}
 	}

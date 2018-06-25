@@ -2,30 +2,30 @@
 
 namespace Verse
 {
-	// Token: 0x02000DF5 RID: 3573
+	// Token: 0x02000DF6 RID: 3574
 	public enum ThingCategory : byte
 	{
-		// Token: 0x04003527 RID: 13607
-		None,
-		// Token: 0x04003528 RID: 13608
-		Pawn,
-		// Token: 0x04003529 RID: 13609
-		Item,
-		// Token: 0x0400352A RID: 13610
-		Building,
-		// Token: 0x0400352B RID: 13611
-		Plant,
-		// Token: 0x0400352C RID: 13612
-		Projectile,
-		// Token: 0x0400352D RID: 13613
-		Filth,
 		// Token: 0x0400352E RID: 13614
-		Gas,
+		None,
 		// Token: 0x0400352F RID: 13615
-		Attachment,
+		Pawn,
 		// Token: 0x04003530 RID: 13616
-		Mote,
+		Item,
 		// Token: 0x04003531 RID: 13617
+		Building,
+		// Token: 0x04003532 RID: 13618
+		Plant,
+		// Token: 0x04003533 RID: 13619
+		Projectile,
+		// Token: 0x04003534 RID: 13620
+		Filth,
+		// Token: 0x04003535 RID: 13621
+		Gas,
+		// Token: 0x04003536 RID: 13622
+		Attachment,
+		// Token: 0x04003537 RID: 13623
+		Mote,
+		// Token: 0x04003538 RID: 13624
 		Ethereal
 	}
 }

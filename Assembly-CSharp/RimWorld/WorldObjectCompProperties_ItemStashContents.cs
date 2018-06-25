@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000281 RID: 641
 	public class WorldObjectCompProperties_ItemStashContents : WorldObjectCompProperties
 	{
-		// Token: 0x06000AEF RID: 2799 RVA: 0x0006310C File Offset: 0x0006150C
+		// Token: 0x06000AEE RID: 2798 RVA: 0x00063108 File Offset: 0x00061508
 		public WorldObjectCompProperties_ItemStashContents()
 		{
 			this.compClass = typeof(ItemStashContentsComp);

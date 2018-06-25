@@ -8,23 +8,23 @@ namespace RimWorld.Planet
 	// Token: 0x020005DD RID: 1501
 	public static class CaravanIncidentUtility
 	{
-		// Token: 0x04001190 RID: 4496
+		// Token: 0x04001194 RID: 4500
 		private const int MapCellsPerPawn = 900;
 
-		// Token: 0x04001191 RID: 4497
+		// Token: 0x04001195 RID: 4501
 		private const int MinMapSize = 75;
 
-		// Token: 0x04001192 RID: 4498
+		// Token: 0x04001196 RID: 4502
 		private const int MaxMapSize = 110;
 
-		// Token: 0x06001D98 RID: 7576 RVA: 0x000FF304 File Offset: 0x000FD704
+		// Token: 0x06001D97 RID: 7575 RVA: 0x000FF56C File Offset: 0x000FD96C
 		public static int CalculateIncidentMapSize(List<Pawn> caravanPawns, List<Pawn> enemies)
 		{
 			int num = Mathf.RoundToInt((float)((caravanPawns.Count + enemies.Count) * 900));
 			return Mathf.Clamp(Mathf.RoundToInt(Mathf.Sqrt((float)num)), 75, 110);
 		}
 
-		// Token: 0x06001D99 RID: 7577 RVA: 0x000FF348 File Offset: 0x000FD748
+		// Token: 0x06001D98 RID: 7576 RVA: 0x000FF5B0 File Offset: 0x000FD9B0
 		public static bool CanFireIncidentWhichWantsToGenerateMapAt(int tile)
 		{
 			bool result;
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D9A RID: 7578 RVA: 0x000FF3EC File Offset: 0x000FD7EC
+		// Token: 0x06001D99 RID: 7577 RVA: 0x000FF654 File Offset: 0x000FDA54
 		public static Map SetupCaravanAttackMap(Caravan caravan, List<Pawn> enemies, bool sendLetterIfRelatedPawns)
 		{
 			int num = CaravanIncidentUtility.CalculateIncidentMapSize(caravan.PawnsListForReading, enemies);
@@ -75,7 +75,7 @@ namespace RimWorld.Planet
 			return map;
 		}
 
-		// Token: 0x06001D9B RID: 7579 RVA: 0x000FF4E0 File Offset: 0x000FD8E0
+		// Token: 0x06001D9A RID: 7578 RVA: 0x000FF748 File Offset: 0x000FDB48
 		public static Map GetOrGenerateMapForIncident(Caravan caravan, IntVec3 size, WorldObjectDef suggestedMapParentDef)
 		{
 			int tile = caravan.Tile;

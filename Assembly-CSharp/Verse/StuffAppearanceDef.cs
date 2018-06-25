@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B2D RID: 2861
+	// Token: 0x02000B2E RID: 2862
 	public class StuffAppearanceDef : Def
 	{
-		// Token: 0x040028E2 RID: 10466
+		// Token: 0x040028E9 RID: 10473
 		public string pathPrefix = null;
 	}
 }

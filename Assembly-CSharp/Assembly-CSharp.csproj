@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{328F2579-267B-40D2-8687-278744431C73}</ProjectGuid>
+    <ProjectGuid>{2CF8ACA1-56FD-4D93-A529-9B1D3DC822BF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -101,6 +101,7 @@
     <Compile Include="RimWorld\ActiveLessonHandler.cs" />
     <Compile Include="RimWorld\AddictionUtility.cs" />
     <Compile Include="RimWorld\AgeInjuryUtility.cs" />
+    <Compile Include="RimWorld\AITuning.cs" />
     <Compile Include="RimWorld\Alert.cs" />
     <Compile Include="RimWorld\AlertBounce.cs" />
     <Compile Include="RimWorld\AlertPriority.cs" />
@@ -3211,7 +3212,7 @@
     <Compile Include="Verse\GridsUtility.cs" />
     <Compile Include="Verse\GUIEventFilterForOSX.cs" />
     <Compile Include="Verse\HasDebugOutputAttribute.cs" />
-    <Compile Include="Verse\HealthTunings.cs" />
+    <Compile Include="Verse\HealthTuning.cs" />
     <Compile Include="Verse\HealthUtility.cs" />
     <Compile Include="Verse\Hediff.cs" />
     <Compile Include="Verse\HediffComp.cs" />
@@ -3687,7 +3688,7 @@
     <Compile Include="Verse\ShadowMeshPool.cs" />
     <Compile Include="Verse\ShootLeanUtility.cs" />
     <Compile Include="Verse\ShootLine.cs" />
-    <Compile Include="Verse\ShootTunings.cs" />
+    <Compile Include="Verse\ShootTuning.cs" />
     <Compile Include="Verse\ShortHashGiver.cs" />
     <Compile Include="Verse\ShotReport.cs" />
     <Compile Include="Verse\SimpleColor.cs" />
@@ -3971,7 +3972,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{328f2579-267b-40d2-8687-278744431c74}</Project>
+      <Project>{2cf8aca1-56fd-4d93-a529-9b1d3dc822c0}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

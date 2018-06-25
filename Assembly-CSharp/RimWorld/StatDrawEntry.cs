@@ -8,37 +8,37 @@ namespace RimWorld
 	// Token: 0x0200081F RID: 2079
 	public class StatDrawEntry
 	{
-		// Token: 0x040018E3 RID: 6371
+		// Token: 0x040018E7 RID: 6375
 		public StatCategoryDef category;
 
-		// Token: 0x040018E4 RID: 6372
+		// Token: 0x040018E8 RID: 6376
 		private int displayOrderWithinCategory = 0;
 
-		// Token: 0x040018E5 RID: 6373
+		// Token: 0x040018E9 RID: 6377
 		public StatDef stat;
 
-		// Token: 0x040018E6 RID: 6374
+		// Token: 0x040018EA RID: 6378
 		private float value;
 
-		// Token: 0x040018E7 RID: 6375
+		// Token: 0x040018EB RID: 6379
 		public StatRequest optionalReq;
 
-		// Token: 0x040018E8 RID: 6376
+		// Token: 0x040018EC RID: 6380
 		public bool hasOptionalReq;
 
-		// Token: 0x040018E9 RID: 6377
+		// Token: 0x040018ED RID: 6381
 		private string labelInt;
 
-		// Token: 0x040018EA RID: 6378
+		// Token: 0x040018EE RID: 6382
 		private string valueStringInt;
 
-		// Token: 0x040018EB RID: 6379
+		// Token: 0x040018EF RID: 6383
 		public string overrideReportText = null;
 
-		// Token: 0x040018EC RID: 6380
+		// Token: 0x040018F0 RID: 6384
 		private ToStringNumberSense numberSense;
 
-		// Token: 0x06002E7D RID: 11901 RVA: 0x0018D324 File Offset: 0x0018B724
+		// Token: 0x06002E7C RID: 11900 RVA: 0x0018D588 File Offset: 0x0018B988
 		public StatDrawEntry(StatCategoryDef category, StatDef stat, float value, StatRequest optionalReq, ToStringNumberSense numberSense = ToStringNumberSense.Undefined)
 		{
 			this.category = category;
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E7E RID: 11902 RVA: 0x0018D3A0 File Offset: 0x0018B7A0
+		// Token: 0x06002E7D RID: 11901 RVA: 0x0018D604 File Offset: 0x0018BA04
 		public StatDrawEntry(StatCategoryDef category, string label, string valueString, int displayPriorityWithinCategory = 0, string overrideReportText = "")
 		{
 			this.category = category;
@@ -72,7 +72,7 @@ namespace RimWorld
 			this.overrideReportText = overrideReportText;
 		}
 
-		// Token: 0x06002E7F RID: 11903 RVA: 0x0018D400 File Offset: 0x0018B800
+		// Token: 0x06002E7E RID: 11902 RVA: 0x0018D664 File Offset: 0x0018BA64
 		public StatDrawEntry(StatCategoryDef category, StatDef stat)
 		{
 			this.category = category;
@@ -85,7 +85,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700075A RID: 1882
-		// (get) Token: 0x06002E80 RID: 11904 RVA: 0x0018D45C File Offset: 0x0018B85C
+		// (get) Token: 0x06002E7F RID: 11903 RVA: 0x0018D6C0 File Offset: 0x0018BAC0
 		public bool ShouldDisplay
 		{
 			get
@@ -95,7 +95,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700075B RID: 1883
-		// (get) Token: 0x06002E81 RID: 11905 RVA: 0x0018D49C File Offset: 0x0018B89C
+		// (get) Token: 0x06002E80 RID: 11904 RVA: 0x0018D700 File Offset: 0x0018BB00
 		public string LabelCap
 		{
 			get
@@ -114,7 +114,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700075C RID: 1884
-		// (get) Token: 0x06002E82 RID: 11906 RVA: 0x0018D4D8 File Offset: 0x0018B8D8
+		// (get) Token: 0x06002E81 RID: 11905 RVA: 0x0018D73C File Offset: 0x0018BB3C
 		public string ValueString
 		{
 			get
@@ -137,7 +137,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700075D RID: 1885
-		// (get) Token: 0x06002E83 RID: 11907 RVA: 0x0018D54C File Offset: 0x0018B94C
+		// (get) Token: 0x06002E82 RID: 11906 RVA: 0x0018D7B0 File Offset: 0x0018BBB0
 		public int DisplayPriorityWithinCategory
 		{
 			get
@@ -155,7 +155,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E84 RID: 11908 RVA: 0x0018D584 File Offset: 0x0018B984
+		// Token: 0x06002E83 RID: 11907 RVA: 0x0018D7E8 File Offset: 0x0018BBE8
 		public string GetExplanationText(StatRequest optionalReq)
 		{
 			string result;
@@ -183,7 +183,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E85 RID: 11909 RVA: 0x0018D640 File Offset: 0x0018BA40
+		// Token: 0x06002E84 RID: 11908 RVA: 0x0018D8A4 File Offset: 0x0018BCA4
 		public float Draw(float x, float y, float width, bool selected, Action clickedCallback, Action mousedOverCallback, Vector2 scrollPosition, Rect scrollOutRect)
 		{
 			float num = width * 0.45f;
@@ -222,7 +222,7 @@ namespace RimWorld
 			return rect.height;
 		}
 
-		// Token: 0x06002E86 RID: 11910 RVA: 0x0018D788 File Offset: 0x0018BB88
+		// Token: 0x06002E85 RID: 11909 RVA: 0x0018D9EC File Offset: 0x0018BDEC
 		public override string ToString()
 		{
 			return string.Concat(new string[]

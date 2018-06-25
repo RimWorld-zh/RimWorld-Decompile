@@ -3,19 +3,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000F0B RID: 3851
+	// Token: 0x02000F0C RID: 3852
 	public struct ThingStuffPairWithQuality : IEquatable<ThingStuffPairWithQuality>
 	{
-		// Token: 0x04003CF9 RID: 15609
+		// Token: 0x04003D01 RID: 15617
 		public ThingDef thing;
 
-		// Token: 0x04003CFA RID: 15610
+		// Token: 0x04003D02 RID: 15618
 		public ThingDef stuff;
 
-		// Token: 0x04003CFB RID: 15611
+		// Token: 0x04003D03 RID: 15619
 		public QualityCategory? quality;
 
-		// Token: 0x06005C7B RID: 23675 RVA: 0x002EF76C File Offset: 0x002EDB6C
+		// Token: 0x06005C7B RID: 23675 RVA: 0x002EF98C File Offset: 0x002EDD8C
 		public ThingStuffPairWithQuality(ThingDef thing, ThingDef stuff, QualityCategory quality)
 		{
 			this.thing = thing;
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000ED9 RID: 3801
-		// (get) Token: 0x06005C7C RID: 23676 RVA: 0x002EF834 File Offset: 0x002EDC34
+		// (get) Token: 0x06005C7C RID: 23676 RVA: 0x002EFA54 File Offset: 0x002EDE54
 		public QualityCategory Quality
 		{
 			get
@@ -58,13 +58,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06005C7D RID: 23677 RVA: 0x002EF86C File Offset: 0x002EDC6C
+		// Token: 0x06005C7D RID: 23677 RVA: 0x002EFA8C File Offset: 0x002EDE8C
 		public float GetStatValue(StatDef stat)
 		{
 			return stat.Worker.GetValue(StatRequest.For(this.thing, this.stuff, this.Quality), true);
 		}
 
-		// Token: 0x06005C7E RID: 23678 RVA: 0x002EF8A4 File Offset: 0x002EDCA4
+		// Token: 0x06005C7E RID: 23678 RVA: 0x002EFAC4 File Offset: 0x002EDEC4
 		public static bool operator ==(ThingStuffPairWithQuality a, ThingStuffPairWithQuality b)
 		{
 			bool result;
@@ -82,25 +82,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06005C7F RID: 23679 RVA: 0x002EF918 File Offset: 0x002EDD18
+		// Token: 0x06005C7F RID: 23679 RVA: 0x002EFB38 File Offset: 0x002EDF38
 		public static bool operator !=(ThingStuffPairWithQuality a, ThingStuffPairWithQuality b)
 		{
 			return !(a == b);
 		}
 
-		// Token: 0x06005C80 RID: 23680 RVA: 0x002EF938 File Offset: 0x002EDD38
+		// Token: 0x06005C80 RID: 23680 RVA: 0x002EFB58 File Offset: 0x002EDF58
 		public override bool Equals(object obj)
 		{
 			return obj is ThingStuffPairWithQuality && this.Equals((ThingStuffPairWithQuality)obj);
 		}
 
-		// Token: 0x06005C81 RID: 23681 RVA: 0x002EF96C File Offset: 0x002EDD6C
+		// Token: 0x06005C81 RID: 23681 RVA: 0x002EFB8C File Offset: 0x002EDF8C
 		public bool Equals(ThingStuffPairWithQuality other)
 		{
 			return this == other;
 		}
 
-		// Token: 0x06005C82 RID: 23682 RVA: 0x002EF990 File Offset: 0x002EDD90
+		// Token: 0x06005C82 RID: 23682 RVA: 0x002EFBB0 File Offset: 0x002EDFB0
 		public override int GetHashCode()
 		{
 			int seed = 0;
@@ -109,13 +109,13 @@ namespace RimWorld
 			return Gen.HashCombine<QualityCategory?>(seed, this.quality);
 		}
 
-		// Token: 0x06005C83 RID: 23683 RVA: 0x002EF9D0 File Offset: 0x002EDDD0
+		// Token: 0x06005C83 RID: 23683 RVA: 0x002EFBF0 File Offset: 0x002EDFF0
 		public static explicit operator ThingStuffPairWithQuality(ThingStuffPair p)
 		{
 			return new ThingStuffPairWithQuality(p.thing, p.stuff, QualityCategory.Normal);
 		}
 
-		// Token: 0x06005C84 RID: 23684 RVA: 0x002EF9FC File Offset: 0x002EDDFC
+		// Token: 0x06005C84 RID: 23684 RVA: 0x002EFC1C File Offset: 0x002EE01C
 		public Thing MakeThing()
 		{
 			Thing result = ThingMaker.MakeThing(this.thing, this.stuff);

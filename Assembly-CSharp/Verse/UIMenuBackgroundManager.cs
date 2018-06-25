@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000E5C RID: 3676
+	// Token: 0x02000E5D RID: 3677
 	public static class UIMenuBackgroundManager
 	{
-		// Token: 0x04003962 RID: 14690
+		// Token: 0x0400396A RID: 14698
 		public static UIMenuBackground background;
 	}
 }

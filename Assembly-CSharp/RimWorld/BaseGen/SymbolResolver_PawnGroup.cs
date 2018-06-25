@@ -7,10 +7,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B6 RID: 950
 	public class SymbolResolver_PawnGroup : SymbolResolver
 	{
-		// Token: 0x04000A21 RID: 2593
+		// Token: 0x04000A24 RID: 2596
 		private const float DefaultPoints = 250f;
 
-		// Token: 0x06001079 RID: 4217 RVA: 0x0008B5A8 File Offset: 0x000899A8
+		// Token: 0x06001078 RID: 4216 RVA: 0x0008B5B8 File Offset: 0x000899B8
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -27,7 +27,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600107A RID: 4218 RVA: 0x0008B610 File Offset: 0x00089A10
+		// Token: 0x06001079 RID: 4217 RVA: 0x0008B620 File Offset: 0x00089A20
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

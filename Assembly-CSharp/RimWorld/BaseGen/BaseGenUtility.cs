@@ -8,14 +8,14 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000391 RID: 913
 	public static class BaseGenUtility
 	{
-		// Token: 0x06000FE9 RID: 4073 RVA: 0x00085934 File Offset: 0x00083D34
+		// Token: 0x06000FE8 RID: 4072 RVA: 0x00085944 File Offset: 0x00083D44
 		public static ThingDef RandomCheapWallStuff(Faction faction, bool notVeryFlammable = false)
 		{
 			TechLevel techLevel = (faction != null) ? faction.def.techLevel : TechLevel.Spacer;
 			return BaseGenUtility.RandomCheapWallStuff(techLevel, notVeryFlammable);
 		}
 
-		// Token: 0x06000FEA RID: 4074 RVA: 0x00085968 File Offset: 0x00083D68
+		// Token: 0x06000FE9 RID: 4073 RVA: 0x00085978 File Offset: 0x00083D78
 		public static ThingDef RandomCheapWallStuff(TechLevel techLevel, bool notVeryFlammable = false)
 		{
 			ThingDef result;
@@ -32,13 +32,13 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FEB RID: 4075 RVA: 0x000859BC File Offset: 0x00083DBC
+		// Token: 0x06000FEA RID: 4074 RVA: 0x000859CC File Offset: 0x00083DCC
 		public static bool IsCheapWallStuff(ThingDef d)
 		{
 			return d.IsStuff && d.stuffProps.CanMake(ThingDefOf.Wall) && d.BaseMarketValue / d.VolumePerUnit < 5f;
 		}
 
-		// Token: 0x06000FEC RID: 4076 RVA: 0x00085A08 File Offset: 0x00083E08
+		// Token: 0x06000FEB RID: 4075 RVA: 0x00085A18 File Offset: 0x00083E18
 		public static ThingDef RandomHightechWallStuff()
 		{
 			ThingDef result;
@@ -53,13 +53,13 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FED RID: 4077 RVA: 0x00085A3C File Offset: 0x00083E3C
+		// Token: 0x06000FEC RID: 4076 RVA: 0x00085A4C File Offset: 0x00083E4C
 		public static TerrainDef RandomHightechFloorDef()
 		{
 			return Rand.Element<TerrainDef>(TerrainDefOf.Concrete, TerrainDefOf.Concrete, TerrainDefOf.PavedTile, TerrainDefOf.PavedTile, TerrainDefOf.MetalTile);
 		}
 
-		// Token: 0x06000FEE RID: 4078 RVA: 0x00085A70 File Offset: 0x00083E70
+		// Token: 0x06000FED RID: 4077 RVA: 0x00085A80 File Offset: 0x00083E80
 		public static TerrainDef RandomBasicFloorDef(Faction faction, bool allowCarpet = false)
 		{
 			TerrainDef result;
@@ -76,7 +76,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FEF RID: 4079 RVA: 0x00085B04 File Offset: 0x00083F04
+		// Token: 0x06000FEE RID: 4078 RVA: 0x00085B14 File Offset: 0x00083F14
 		public static TerrainDef CorrespondingTerrainDef(ThingDef stuffDef, bool beautiful)
 		{
 			TerrainDef terrainDef = null;
@@ -104,7 +104,7 @@ namespace RimWorld.BaseGen
 			return terrainDef;
 		}
 
-		// Token: 0x06000FF0 RID: 4080 RVA: 0x00085C10 File Offset: 0x00084010
+		// Token: 0x06000FEF RID: 4079 RVA: 0x00085C20 File Offset: 0x00084020
 		public static TerrainDef RegionalRockTerrainDef(int tile, bool beautiful)
 		{
 			ThingDef thingDef = Find.World.NaturalRockTypesIn(tile).RandomElementWithFallback(null);
@@ -113,7 +113,7 @@ namespace RimWorld.BaseGen
 			return BaseGenUtility.CorrespondingTerrainDef(stuffDef, beautiful);
 		}
 
-		// Token: 0x06000FF1 RID: 4081 RVA: 0x00085C90 File Offset: 0x00084090
+		// Token: 0x06000FF0 RID: 4080 RVA: 0x00085CA0 File Offset: 0x000840A0
 		public static bool AnyDoorAdjacentCardinalTo(IntVec3 cell, Map map)
 		{
 			for (int i = 0; i < 4; i++)
@@ -127,7 +127,7 @@ namespace RimWorld.BaseGen
 			return false;
 		}
 
-		// Token: 0x06000FF2 RID: 4082 RVA: 0x00085CF0 File Offset: 0x000840F0
+		// Token: 0x06000FF1 RID: 4081 RVA: 0x00085D00 File Offset: 0x00084100
 		public static bool AnyDoorAdjacentCardinalTo(CellRect rect, Map map)
 		{
 			foreach (IntVec3 c in rect.AdjacentCellsCardinal)
@@ -143,7 +143,7 @@ namespace RimWorld.BaseGen
 			return false;
 		}
 
-		// Token: 0x06000FF3 RID: 4083 RVA: 0x00085D74 File Offset: 0x00084174
+		// Token: 0x06000FF2 RID: 4082 RVA: 0x00085D84 File Offset: 0x00084184
 		public static ThingDef WallStuffAt(IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);

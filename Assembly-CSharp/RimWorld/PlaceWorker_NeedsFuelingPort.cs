@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C7A RID: 3194
+	// Token: 0x02000C7B RID: 3195
 	public class PlaceWorker_NeedsFuelingPort : PlaceWorker
 	{
-		// Token: 0x060045FD RID: 17917 RVA: 0x0024E498 File Offset: 0x0024C898
+		// Token: 0x060045FD RID: 17917 RVA: 0x0024E778 File Offset: 0x0024CB78
 		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			AcceptanceReport result;
@@ -23,7 +23,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060045FE RID: 17918 RVA: 0x0024E4D8 File Offset: 0x0024C8D8
+		// Token: 0x060045FE RID: 17918 RVA: 0x0024E7B8 File Offset: 0x0024CBB8
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 			Map currentMap = Find.CurrentMap;

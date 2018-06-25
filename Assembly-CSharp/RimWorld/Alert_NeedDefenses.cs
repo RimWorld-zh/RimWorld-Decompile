@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000793 RID: 1939
 	public class Alert_NeedDefenses : Alert
 	{
-		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B4B1 File Offset: 0x001698B1
+		// Token: 0x06002AFD RID: 11005 RVA: 0x0016B715 File Offset: 0x00169B15
 		public Alert_NeedDefenses()
 		{
 			this.defaultLabel = "NeedDefenses".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002AFF RID: 11007 RVA: 0x0016B4E4 File Offset: 0x001698E4
+		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B748 File Offset: 0x00169B48
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B00 RID: 11008 RVA: 0x0016B560 File Offset: 0x00169960
+		// Token: 0x06002AFF RID: 11007 RVA: 0x0016B7C4 File Offset: 0x00169BC4
 		private bool NeedDefenses(Map map)
 		{
 			bool result;

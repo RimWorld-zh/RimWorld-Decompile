@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x020000D5 RID: 213
 	public class JobGiver_LoadTransporters : ThinkNode_JobGiver
 	{
-		// Token: 0x040002A6 RID: 678
+		// Token: 0x040002A7 RID: 679
 		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
 
-		// Token: 0x060004BE RID: 1214 RVA: 0x0003566C File Offset: 0x00033A6C
+		// Token: 0x060004BE RID: 1214 RVA: 0x00035688 File Offset: 0x00033A88
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			int transportersGroup = pawn.mindState.duty.transportersGroup;

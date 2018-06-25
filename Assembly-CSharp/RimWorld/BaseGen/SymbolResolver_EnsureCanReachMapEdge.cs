@@ -7,16 +7,16 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B1 RID: 945
 	public class SymbolResolver_EnsureCanReachMapEdge : SymbolResolver
 	{
-		// Token: 0x04000A1E RID: 2590
+		// Token: 0x04000A21 RID: 2593
 		private static HashSet<Room> visited = new HashSet<Room>();
 
-		// Token: 0x04000A1F RID: 2591
+		// Token: 0x04000A22 RID: 2594
 		private static List<IntVec3> path = new List<IntVec3>();
 
-		// Token: 0x04000A20 RID: 2592
+		// Token: 0x04000A23 RID: 2595
 		private static List<IntVec3> cellsInRandomOrder = new List<IntVec3>();
 
-		// Token: 0x06001063 RID: 4195 RVA: 0x0008A570 File Offset: 0x00088970
+		// Token: 0x06001062 RID: 4194 RVA: 0x0008A580 File Offset: 0x00088980
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_EnsureCanReachMapEdge.cellsInRandomOrder.Clear();
@@ -31,7 +31,7 @@ namespace RimWorld.BaseGen
 			this.TryMakeAllCellsReachable(true, rp);
 		}
 
-		// Token: 0x06001064 RID: 4196 RVA: 0x0008A5DC File Offset: 0x000889DC
+		// Token: 0x06001063 RID: 4195 RVA: 0x0008A5EC File Offset: 0x000889EC
 		private void TryMakeAllCellsReachable(bool canPathThroughNonStandable, ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -72,7 +72,7 @@ namespace RimWorld.BaseGen
 			SymbolResolver_EnsureCanReachMapEdge.visited.Clear();
 		}
 
-		// Token: 0x06001065 RID: 4197 RVA: 0x0008A734 File Offset: 0x00088B34
+		// Token: 0x06001064 RID: 4196 RVA: 0x0008A744 File Offset: 0x00088B44
 		private void ReconstructPathAndDestroyWalls(IntVec3 foundDest, Room room, ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -126,7 +126,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001066 RID: 4198 RVA: 0x0008A920 File Offset: 0x00088D20
+		// Token: 0x06001065 RID: 4197 RVA: 0x0008A930 File Offset: 0x00088D30
 		private bool CanTraverse(IntVec3 c, bool canPathThroughNonStandable)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -134,7 +134,7 @@ namespace RimWorld.BaseGen
 			return this.IsWallOrRock(edifice) || ((canPathThroughNonStandable || c.Standable(map)) && !c.Impassable(map));
 		}
 
-		// Token: 0x06001067 RID: 4199 RVA: 0x0008A988 File Offset: 0x00088D88
+		// Token: 0x06001066 RID: 4198 RVA: 0x0008A998 File Offset: 0x00088D98
 		private bool IsWallOrRock(Building b)
 		{
 			return b != null && (b.def == ThingDefOf.Wall || b.def.building.isNaturalRock);

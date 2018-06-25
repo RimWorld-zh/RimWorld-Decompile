@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000BA3 RID: 2979
+	// Token: 0x02000BA4 RID: 2980
 	public class TerrainAffordanceDef : Def
 	{
-		// Token: 0x04002B63 RID: 11107
+		// Token: 0x04002B6A RID: 11114
 		public int order;
 	}
 }

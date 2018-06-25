@@ -7,10 +7,10 @@ namespace RimWorld
 	[DefOf]
 	public static class SubcameraDefOf
 	{
-		// Token: 0x040022C7 RID: 8903
+		// Token: 0x040022CE RID: 8910
 		public static SubcameraDef WaterDepth;
 
-		// Token: 0x0600366B RID: 13931 RVA: 0x001D0F3B File Offset: 0x001CF33B
+		// Token: 0x0600366B RID: 13931 RVA: 0x001D120F File Offset: 0x001CF60F
 		static SubcameraDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SubcameraDefOf));

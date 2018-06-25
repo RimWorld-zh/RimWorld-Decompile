@@ -3,25 +3,25 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BA2 RID: 2978
+	// Token: 0x02000BA3 RID: 2979
 	public class SubcameraDef : Def
 	{
-		// Token: 0x04002B5F RID: 11103
+		// Token: 0x04002B66 RID: 11110
 		[NoTranslate]
 		public string layer;
 
-		// Token: 0x04002B60 RID: 11104
+		// Token: 0x04002B67 RID: 11111
 		public int depth;
 
-		// Token: 0x04002B61 RID: 11105
+		// Token: 0x04002B68 RID: 11112
 		public RenderTextureFormat format;
 
-		// Token: 0x04002B62 RID: 11106
+		// Token: 0x04002B69 RID: 11113
 		[Unsaved]
 		private int layerCached = -1;
 
 		// Token: 0x170009D9 RID: 2521
-		// (get) Token: 0x06004070 RID: 16496 RVA: 0x0021DE78 File Offset: 0x0021C278
+		// (get) Token: 0x06004070 RID: 16496 RVA: 0x0021E158 File Offset: 0x0021C558
 		public int LayerId
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009DA RID: 2522
-		// (get) Token: 0x06004071 RID: 16497 RVA: 0x0021DEB0 File Offset: 0x0021C2B0
+		// (get) Token: 0x06004071 RID: 16497 RVA: 0x0021E190 File Offset: 0x0021C590
 		public RenderTextureFormat BestFormat
 		{
 			get

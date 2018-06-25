@@ -3,18 +3,18 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000F22 RID: 3874
+	// Token: 0x02000F23 RID: 3875
 	public class SubEffecter_InteractSymbol : SubEffecter
 	{
-		// Token: 0x04003D9B RID: 15771
+		// Token: 0x04003DA3 RID: 15779
 		private Mote interactMote = null;
 
-		// Token: 0x06005CDC RID: 23772 RVA: 0x002F1A3D File Offset: 0x002EFE3D
+		// Token: 0x06005CDC RID: 23772 RVA: 0x002F1C5D File Offset: 0x002F005D
 		public SubEffecter_InteractSymbol(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CDD RID: 23773 RVA: 0x002F1A4F File Offset: 0x002EFE4F
+		// Token: 0x06005CDD RID: 23773 RVA: 0x002F1C6F File Offset: 0x002F006F
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			if (this.interactMote == null)
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CDE RID: 23774 RVA: 0x002F1A75 File Offset: 0x002EFE75
+		// Token: 0x06005CDE RID: 23774 RVA: 0x002F1C95 File Offset: 0x002F0095
 		public override void SubCleanup()
 		{
 			if (this.interactMote != null && !this.interactMote.Destroyed)

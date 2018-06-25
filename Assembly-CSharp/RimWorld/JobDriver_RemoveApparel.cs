@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x0200009E RID: 158
 	public class JobDriver_RemoveApparel : JobDriver
 	{
-		// Token: 0x04000269 RID: 617
+		// Token: 0x0400026A RID: 618
 		private int duration;
 
-		// Token: 0x0400026A RID: 618
+		// Token: 0x0400026B RID: 619
 		private const TargetIndex ApparelInd = TargetIndex.A;
 
 		// Token: 0x170000C6 RID: 198
-		// (get) Token: 0x060003F8 RID: 1016 RVA: 0x0002EEDC File Offset: 0x0002D2DC
+		// (get) Token: 0x060003F8 RID: 1016 RVA: 0x0002EEF8 File Offset: 0x0002D2F8
 		private Apparel Apparel
 		{
 			get
@@ -24,27 +24,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003F9 RID: 1017 RVA: 0x0002EF0A File Offset: 0x0002D30A
+		// Token: 0x060003F9 RID: 1017 RVA: 0x0002EF26 File Offset: 0x0002D326
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.duration, "duration", 0, false);
 		}
 
-		// Token: 0x060003FA RID: 1018 RVA: 0x0002EF28 File Offset: 0x0002D328
+		// Token: 0x060003FA RID: 1018 RVA: 0x0002EF44 File Offset: 0x0002D344
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060003FB RID: 1019 RVA: 0x0002EF3E File Offset: 0x0002D33E
+		// Token: 0x060003FB RID: 1019 RVA: 0x0002EF5A File Offset: 0x0002D35A
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.duration = (int)(this.Apparel.GetStatValue(StatDefOf.EquipDelay, true) * 60f);
 		}
 
-		// Token: 0x060003FC RID: 1020 RVA: 0x0002EF68 File Offset: 0x0002D368
+		// Token: 0x060003FC RID: 1020 RVA: 0x0002EF84 File Offset: 0x0002D384
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

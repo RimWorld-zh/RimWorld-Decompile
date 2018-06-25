@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000689 RID: 1673
 	public static class TurretGunUtility
 	{
-		// Token: 0x0600236C RID: 9068 RVA: 0x0013072C File Offset: 0x0012EB2C
+		// Token: 0x0600236B RID: 9067 RVA: 0x00130994 File Offset: 0x0012ED94
 		public static bool NeedsShells(ThingDef turret)
 		{
 			return turret.category == ThingCategory.Building && turret.building.IsTurret && turret.building.turretGunDef.HasComp(typeof(CompChangeableProjectile));
 		}
 
-		// Token: 0x0600236D RID: 9069 RVA: 0x0013077C File Offset: 0x0012EB7C
+		// Token: 0x0600236C RID: 9068 RVA: 0x001309E4 File Offset: 0x0012EDE4
 		public static ThingDef TryFindRandomShellDef(ThingDef turret, bool allowEMP = true, bool mustHarmHealth = true, TechLevel techLevel = TechLevel.Undefined, bool allowAntigrainWarhead = false, float maxMarketValue = -1f)
 		{
 			ThingDef result;

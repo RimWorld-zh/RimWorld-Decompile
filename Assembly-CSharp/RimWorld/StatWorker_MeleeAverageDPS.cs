@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x020009C3 RID: 2499
 	public class StatWorker_MeleeAverageDPS : StatWorker
 	{
-		// Token: 0x06003809 RID: 14345 RVA: 0x001DDE48 File Offset: 0x001DC248
+		// Token: 0x06003809 RID: 14345 RVA: 0x001DE11C File Offset: 0x001DC51C
 		public override bool ShouldShowFor(StatRequest req)
 		{
 			ThingDef thingDef = req.Def as ThingDef;
 			return thingDef != null && thingDef.IsWeapon && !thingDef.tools.NullOrEmpty<Tool>();
 		}
 
-		// Token: 0x0600380A RID: 14346 RVA: 0x001DDE8C File Offset: 0x001DC28C
+		// Token: 0x0600380A RID: 14346 RVA: 0x001DE160 File Offset: 0x001DC560
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			Thing thing = req.Thing;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return num / num2;
 		}
 
-		// Token: 0x0600380B RID: 14347 RVA: 0x001DDF98 File Offset: 0x001DC398
+		// Token: 0x0600380B RID: 14347 RVA: 0x001DE26C File Offset: 0x001DC66C
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

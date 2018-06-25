@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000301 RID: 769
 	public class HistoryAutoRecorderWorker_WealthItems : HistoryAutoRecorderWorker
 	{
-		// Token: 0x06000CC9 RID: 3273 RVA: 0x0007055C File Offset: 0x0006E95C
+		// Token: 0x06000CC8 RID: 3272 RVA: 0x00070564 File Offset: 0x0006E964
 		public override float PullRecord()
 		{
 			float num = 0f;

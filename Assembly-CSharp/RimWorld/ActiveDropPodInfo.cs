@@ -7,37 +7,37 @@ namespace RimWorld
 	// Token: 0x020006E4 RID: 1764
 	public class ActiveDropPodInfo : IThingHolder, IExposable
 	{
-		// Token: 0x04001560 RID: 5472
+		// Token: 0x04001564 RID: 5476
 		public IThingHolder parent;
 
-		// Token: 0x04001561 RID: 5473
+		// Token: 0x04001565 RID: 5477
 		public ThingOwner innerContainer;
 
-		// Token: 0x04001562 RID: 5474
+		// Token: 0x04001566 RID: 5478
 		public int openDelay = 110;
 
-		// Token: 0x04001563 RID: 5475
+		// Token: 0x04001567 RID: 5479
 		public bool leaveSlag = false;
 
-		// Token: 0x04001564 RID: 5476
+		// Token: 0x04001568 RID: 5480
 		public bool savePawnsWithReferenceMode;
 
-		// Token: 0x04001565 RID: 5477
+		// Token: 0x04001569 RID: 5481
 		public const int DefaultOpenDelay = 110;
 
-		// Token: 0x04001566 RID: 5478
+		// Token: 0x0400156A RID: 5482
 		private List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04001567 RID: 5479
+		// Token: 0x0400156B RID: 5483
 		private List<Pawn> tmpSavedPawns = new List<Pawn>();
 
-		// Token: 0x06002660 RID: 9824 RVA: 0x001499FB File Offset: 0x00147DFB
+		// Token: 0x0600265F RID: 9823 RVA: 0x00149C5B File Offset: 0x0014805B
 		public ActiveDropPodInfo()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
 		}
 
-		// Token: 0x06002661 RID: 9825 RVA: 0x00149A38 File Offset: 0x00147E38
+		// Token: 0x06002660 RID: 9824 RVA: 0x00149C98 File Offset: 0x00148098
 		public ActiveDropPodInfo(IThingHolder parent)
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
@@ -45,8 +45,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D7 RID: 1495
-		// (get) Token: 0x06002662 RID: 9826 RVA: 0x00149A84 File Offset: 0x00147E84
-		// (set) Token: 0x06002663 RID: 9827 RVA: 0x00149AD8 File Offset: 0x00147ED8
+		// (get) Token: 0x06002661 RID: 9825 RVA: 0x00149CE4 File Offset: 0x001480E4
+		// (set) Token: 0x06002662 RID: 9826 RVA: 0x00149D38 File Offset: 0x00148138
 		public Thing SingleContainedThing
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D8 RID: 1496
-		// (get) Token: 0x06002664 RID: 9828 RVA: 0x00149AF4 File Offset: 0x00147EF4
+		// (get) Token: 0x06002663 RID: 9827 RVA: 0x00149D54 File Offset: 0x00148154
 		public IThingHolder ParentHolder
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002665 RID: 9829 RVA: 0x00149B10 File Offset: 0x00147F10
+		// Token: 0x06002664 RID: 9828 RVA: 0x00149D70 File Offset: 0x00148170
 		public void ExposeData()
 		{
 			if (this.savePawnsWithReferenceMode && Scribe.mode == LoadSaveMode.Saving)
@@ -123,13 +123,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002666 RID: 9830 RVA: 0x00149C94 File Offset: 0x00148094
+		// Token: 0x06002665 RID: 9829 RVA: 0x00149EF4 File Offset: 0x001482F4
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06002667 RID: 9831 RVA: 0x00149CAF File Offset: 0x001480AF
+		// Token: 0x06002666 RID: 9830 RVA: 0x00149F0F File Offset: 0x0014830F
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());

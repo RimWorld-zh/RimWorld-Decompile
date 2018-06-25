@@ -4,28 +4,28 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F4A RID: 3914
+	// Token: 0x02000F4B RID: 3915
 	public static class GenRadial
 	{
-		// Token: 0x04003E29 RID: 15913
+		// Token: 0x04003E31 RID: 15921
 		public static IntVec3[] ManualRadialPattern = new IntVec3[49];
 
-		// Token: 0x04003E2A RID: 15914
+		// Token: 0x04003E32 RID: 15922
 		public static IntVec3[] RadialPattern = new IntVec3[10000];
 
-		// Token: 0x04003E2B RID: 15915
+		// Token: 0x04003E33 RID: 15923
 		private static float[] RadialPatternRadii = new float[10000];
 
-		// Token: 0x04003E2C RID: 15916
+		// Token: 0x04003E34 RID: 15924
 		private const int RadialPatternCount = 10000;
 
-		// Token: 0x04003E2D RID: 15917
+		// Token: 0x04003E35 RID: 15925
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x04003E2E RID: 15918
+		// Token: 0x04003E36 RID: 15926
 		private static bool working = false;
 
-		// Token: 0x06005EA6 RID: 24230 RVA: 0x00301BD4 File Offset: 0x002FFFD4
+		// Token: 0x06005EA6 RID: 24230 RVA: 0x00301DF4 File Offset: 0x003001F4
 		static GenRadial()
 		{
 			GenRadial.SetupManualRadialPattern();
@@ -33,7 +33,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000F3D RID: 3901
-		// (get) Token: 0x06005EA7 RID: 24231 RVA: 0x00301C28 File Offset: 0x00300028
+		// (get) Token: 0x06005EA7 RID: 24231 RVA: 0x00301E48 File Offset: 0x00300248
 		public static float MaxRadialPatternRadius
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EA8 RID: 24232 RVA: 0x00301C4C File Offset: 0x0030004C
+		// Token: 0x06005EA8 RID: 24232 RVA: 0x00301E6C File Offset: 0x0030026C
 		private static void SetupManualRadialPattern()
 		{
 			GenRadial.ManualRadialPattern[0] = new IntVec3(0, 0, 0);
@@ -96,7 +96,7 @@ namespace Verse
 			GenRadial.ManualRadialPattern[48] = new IntVec3(-3, 0, -3);
 		}
 
-		// Token: 0x06005EA9 RID: 24233 RVA: 0x00302138 File Offset: 0x00300538
+		// Token: 0x06005EA9 RID: 24233 RVA: 0x00302358 File Offset: 0x00300758
 		private static void SetupRadialPattern()
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -133,7 +133,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EAA RID: 24234 RVA: 0x003021F0 File Offset: 0x003005F0
+		// Token: 0x06005EAA RID: 24234 RVA: 0x00302410 File Offset: 0x00300810
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
 			int result;
@@ -161,7 +161,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EAB RID: 24235 RVA: 0x0030224C File Offset: 0x0030064C
+		// Token: 0x06005EAB RID: 24235 RVA: 0x0030246C File Offset: 0x0030086C
 		public static int NumCellsInRadius(float radius)
 		{
 			int result;
@@ -191,13 +191,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EAC RID: 24236 RVA: 0x003022E8 File Offset: 0x003006E8
+		// Token: 0x06005EAC RID: 24236 RVA: 0x00302508 File Offset: 0x00300908
 		public static float RadiusOfNumCells(int numCells)
 		{
 			return GenRadial.RadialPatternRadii[numCells];
 		}
 
-		// Token: 0x06005EAD RID: 24237 RVA: 0x00302304 File Offset: 0x00300704
+		// Token: 0x06005EAD RID: 24237 RVA: 0x00302524 File Offset: 0x00300924
 		public static IEnumerable<IntVec3> RadialPatternInRadius(float radius)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
@@ -208,7 +208,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EAE RID: 24238 RVA: 0x00302330 File Offset: 0x00300730
+		// Token: 0x06005EAE RID: 24238 RVA: 0x00302550 File Offset: 0x00300950
 		public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
@@ -219,7 +219,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EAF RID: 24239 RVA: 0x00302368 File Offset: 0x00300768
+		// Token: 0x06005EAF RID: 24239 RVA: 0x00302588 File Offset: 0x00300988
 		public static IEnumerable<Thing> RadialDistinctThingsAround(IntVec3 center, Map map, float radius, bool useCenter)
 		{
 			int numCells = GenRadial.NumCellsInRadius(radius);
@@ -259,7 +259,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EB0 RID: 24240 RVA: 0x003023A8 File Offset: 0x003007A8
+		// Token: 0x06005EB0 RID: 24240 RVA: 0x003025C8 File Offset: 0x003009C8
 		public static void ProcessEquidistantCells(IntVec3 center, float radius, Func<List<IntVec3>, bool> processor, Map map = null)
 		{
 			if (GenRadial.working)

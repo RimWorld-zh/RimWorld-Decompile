@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A9E RID: 2718
+	// Token: 0x02000A9F RID: 2719
 	public static class TouchPathEndModeUtility
 	{
-		// Token: 0x06003C87 RID: 15495 RVA: 0x002000C0 File Offset: 0x001FE4C0
+		// Token: 0x06003C88 RID: 15496 RVA: 0x002003EC File Offset: 0x001FE7EC
 		public static bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z, Map map)
 		{
 			Building building = map.edificeGrid[new IntVec3(cornerX, 0, cornerZ)];
@@ -24,20 +24,20 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C88 RID: 15496 RVA: 0x00200164 File Offset: 0x001FE564
+		// Token: 0x06003C89 RID: 15497 RVA: 0x00200490 File Offset: 0x001FE890
 		public static bool MakesOccupiedCellsAlwaysReachableDiagonally(ThingDef def)
 		{
 			ThingDef thingDef = (!def.IsFrame) ? def : (def.entityDefToBuild as ThingDef);
 			return thingDef != null && thingDef.CanInteractThroughCorners;
 		}
 
-		// Token: 0x06003C89 RID: 15497 RVA: 0x002001B0 File Offset: 0x001FE5B0
+		// Token: 0x06003C8A RID: 15498 RVA: 0x002004DC File Offset: 0x001FE8DC
 		public static bool IsAdjacentCornerAndNotAllowed(IntVec3 cell, IntVec3 BL, IntVec3 TL, IntVec3 TR, IntVec3 BR, Map map)
 		{
 			return (cell == BL && !TouchPathEndModeUtility.IsCornerTouchAllowed(BL.x + 1, BL.z + 1, BL.x + 1, BL.z, BL.x, BL.z + 1, map)) || (cell == TL && !TouchPathEndModeUtility.IsCornerTouchAllowed(TL.x + 1, TL.z - 1, TL.x + 1, TL.z, TL.x, TL.z - 1, map)) || (cell == TR && !TouchPathEndModeUtility.IsCornerTouchAllowed(TR.x - 1, TR.z - 1, TR.x - 1, TR.z, TR.x, TR.z - 1, map)) || (cell == BR && !TouchPathEndModeUtility.IsCornerTouchAllowed(BR.x - 1, BR.z + 1, BR.x - 1, BR.z, BR.x, BR.z + 1, map));
 		}
 
-		// Token: 0x06003C8A RID: 15498 RVA: 0x0020030C File Offset: 0x001FE70C
+		// Token: 0x06003C8B RID: 15499 RVA: 0x00200638 File Offset: 0x001FEA38
 		public static void AddAllowedAdjacentRegions(LocalTargetInfo dest, TraverseParms traverseParams, Map map, List<Region> regions)
 		{
 			IntVec3 bl;
@@ -78,7 +78,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C8B RID: 15499 RVA: 0x00200484 File Offset: 0x001FE884
+		// Token: 0x06003C8C RID: 15500 RVA: 0x002007B0 File Offset: 0x001FEBB0
 		public static bool IsAdjacentOrInsideAndAllowedToTouch(IntVec3 root, LocalTargetInfo target, Map map)
 		{
 			IntVec3 bl;

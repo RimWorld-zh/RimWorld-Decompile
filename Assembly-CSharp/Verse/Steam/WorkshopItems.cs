@@ -6,20 +6,20 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FCA RID: 4042
+	// Token: 0x02000FCB RID: 4043
 	public static class WorkshopItems
 	{
-		// Token: 0x04003FDB RID: 16347
+		// Token: 0x04003FE3 RID: 16355
 		private static List<WorkshopItem> subbedItems = new List<WorkshopItem>();
 
-		// Token: 0x060061BA RID: 25018 RVA: 0x00314F91 File Offset: 0x00313391
+		// Token: 0x060061BA RID: 25018 RVA: 0x003151D5 File Offset: 0x003135D5
 		static WorkshopItems()
 		{
 			WorkshopItems.RebuildItemsList();
 		}
 
 		// Token: 0x17000FD1 RID: 4049
-		// (get) Token: 0x060061BB RID: 25019 RVA: 0x00314FA4 File Offset: 0x003133A4
+		// (get) Token: 0x060061BB RID: 25019 RVA: 0x003151E8 File Offset: 0x003135E8
 		public static IEnumerable<WorkshopItem> AllSubscribedItems
 		{
 			get
@@ -29,7 +29,7 @@ namespace Verse.Steam
 		}
 
 		// Token: 0x17000FD2 RID: 4050
-		// (get) Token: 0x060061BC RID: 25020 RVA: 0x00314FC0 File Offset: 0x003133C0
+		// (get) Token: 0x060061BC RID: 25020 RVA: 0x00315204 File Offset: 0x00313604
 		public static int DownloadingItemsCount
 		{
 			get
@@ -46,7 +46,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x060061BD RID: 25021 RVA: 0x00315010 File Offset: 0x00313410
+		// Token: 0x060061BD RID: 25021 RVA: 0x00315254 File Offset: 0x00313654
 		public static WorkshopItem GetItem(PublishedFileId_t pfid)
 		{
 			for (int i = 0; i < WorkshopItems.subbedItems.Count; i++)
@@ -59,13 +59,13 @@ namespace Verse.Steam
 			return null;
 		}
 
-		// Token: 0x060061BE RID: 25022 RVA: 0x00315070 File Offset: 0x00313470
+		// Token: 0x060061BE RID: 25022 RVA: 0x003152B4 File Offset: 0x003136B4
 		public static bool HasItem(PublishedFileId_t pfid)
 		{
 			return WorkshopItems.GetItem(pfid) != null;
 		}
 
-		// Token: 0x060061BF RID: 25023 RVA: 0x00315094 File Offset: 0x00313494
+		// Token: 0x060061BF RID: 25023 RVA: 0x003152D8 File Offset: 0x003136D8
 		private static void RebuildItemsList()
 		{
 			if (SteamManager.Initialized)
@@ -80,25 +80,25 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x060061C0 RID: 25024 RVA: 0x0031511C File Offset: 0x0031351C
+		// Token: 0x060061C0 RID: 25024 RVA: 0x00315360 File Offset: 0x00313760
 		internal static void Notify_Subscribed(PublishedFileId_t pfid)
 		{
 			WorkshopItems.RebuildItemsList();
 		}
 
-		// Token: 0x060061C1 RID: 25025 RVA: 0x00315124 File Offset: 0x00313524
+		// Token: 0x060061C1 RID: 25025 RVA: 0x00315368 File Offset: 0x00313768
 		internal static void Notify_Installed(PublishedFileId_t pfid)
 		{
 			WorkshopItems.RebuildItemsList();
 		}
 
-		// Token: 0x060061C2 RID: 25026 RVA: 0x0031512C File Offset: 0x0031352C
+		// Token: 0x060061C2 RID: 25026 RVA: 0x00315370 File Offset: 0x00313770
 		internal static void Notify_Unsubscribed(PublishedFileId_t pfid)
 		{
 			WorkshopItems.RebuildItemsList();
 		}
 
-		// Token: 0x060061C3 RID: 25027 RVA: 0x00315134 File Offset: 0x00313534
+		// Token: 0x060061C3 RID: 25027 RVA: 0x00315378 File Offset: 0x00313778
 		public static string DebugOutput()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

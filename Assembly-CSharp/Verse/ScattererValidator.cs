@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C5D RID: 3165
+	// Token: 0x02000C5E RID: 3166
 	public abstract class ScattererValidator
 	{
 		// Token: 0x060045A8 RID: 17832

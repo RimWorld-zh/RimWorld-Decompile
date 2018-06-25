@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000F51 RID: 3921
+	// Token: 0x02000F52 RID: 3922
 	public enum ThingPlaceMode : byte
 	{
-		// Token: 0x04003E3C RID: 15932
+		// Token: 0x04003E44 RID: 15940
 		Direct,
-		// Token: 0x04003E3D RID: 15933
+		// Token: 0x04003E45 RID: 15941
 		Near
 	}
 }

@@ -5,23 +5,23 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EFA RID: 3834
+	// Token: 0x02000EFB RID: 3835
 	public class SimpleCurveView
 	{
-		// Token: 0x04003CB2 RID: 15538
+		// Token: 0x04003CBA RID: 15546
 		public Rect rect;
 
-		// Token: 0x04003CB3 RID: 15539
+		// Token: 0x04003CBB RID: 15547
 		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
 
-		// Token: 0x04003CB4 RID: 15540
+		// Token: 0x04003CBC RID: 15548
 		private const float ResetZoomBuffer = 0.1f;
 
-		// Token: 0x04003CB5 RID: 15541
+		// Token: 0x04003CBD RID: 15549
 		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
 
 		// Token: 0x17000EA1 RID: 3745
-		// (get) Token: 0x06005BA7 RID: 23463 RVA: 0x002EB1C0 File Offset: 0x002E95C0
+		// (get) Token: 0x06005BA7 RID: 23463 RVA: 0x002EB3E0 File Offset: 0x002E97E0
 		public IEnumerable<float> DebugInputValues
 		{
 			get
@@ -38,13 +38,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BA8 RID: 23464 RVA: 0x002EB1EA File Offset: 0x002E95EA
+		// Token: 0x06005BA8 RID: 23464 RVA: 0x002EB40A File Offset: 0x002E980A
 		public void SetDebugInput(object key, float value)
 		{
 			this.debugInputValues[key] = value;
 		}
 
-		// Token: 0x06005BA9 RID: 23465 RVA: 0x002EB1FA File Offset: 0x002E95FA
+		// Token: 0x06005BA9 RID: 23465 RVA: 0x002EB41A File Offset: 0x002E981A
 		public void ClearDebugInputFrom(object key)
 		{
 			if (this.debugInputValues.ContainsKey(key))
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BAA RID: 23466 RVA: 0x002EB21C File Offset: 0x002E961C
+		// Token: 0x06005BAA RID: 23466 RVA: 0x002EB43C File Offset: 0x002E983C
 		public void SetViewRectAround(SimpleCurve curve)
 		{
 			if (curve.PointsCount == 0)

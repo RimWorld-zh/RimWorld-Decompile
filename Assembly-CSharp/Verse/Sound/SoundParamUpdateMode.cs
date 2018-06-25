@@ -2,12 +2,12 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9C RID: 2972
+	// Token: 0x02000B9D RID: 2973
 	public enum SoundParamUpdateMode : byte
 	{
-		// Token: 0x04002B36 RID: 11062
+		// Token: 0x04002B3D RID: 11069
 		Constant,
-		// Token: 0x04002B37 RID: 11063
+		// Token: 0x04002B3E RID: 11070
 		OncePerSample
 	}
 }

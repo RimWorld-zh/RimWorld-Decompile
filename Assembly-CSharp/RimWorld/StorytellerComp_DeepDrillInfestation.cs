@@ -7,11 +7,11 @@ namespace RimWorld
 	// Token: 0x02000369 RID: 873
 	public class StorytellerComp_DeepDrillInfestation : StorytellerComp
 	{
-		// Token: 0x0400094C RID: 2380
+		// Token: 0x0400094F RID: 2383
 		private static List<Thing> tmpDrills = new List<Thing>();
 
 		// Token: 0x1700021E RID: 542
-		// (get) Token: 0x06000F29 RID: 3881 RVA: 0x000806A8 File Offset: 0x0007EAA8
+		// (get) Token: 0x06000F28 RID: 3880 RVA: 0x000806B8 File Offset: 0x0007EAB8
 		protected StorytellerCompProperties_DeepDrillInfestation Props
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700021F RID: 543
-		// (get) Token: 0x06000F2A RID: 3882 RVA: 0x000806C8 File Offset: 0x0007EAC8
+		// (get) Token: 0x06000F29 RID: 3881 RVA: 0x000806D8 File Offset: 0x0007EAD8
 		private float DeepDrillInfestationMTBDaysPerDrill
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F2B RID: 3883 RVA: 0x00080718 File Offset: 0x0007EB18
+		// Token: 0x06000F2A RID: 3882 RVA: 0x00080728 File Offset: 0x0007EB28
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			Map map = (Map)target;

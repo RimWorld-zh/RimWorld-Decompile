@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000502 RID: 1282
 	public static class RestCategoryUtility
 	{
-		// Token: 0x0600170B RID: 5899 RVA: 0x000CB468 File Offset: 0x000C9868
+		// Token: 0x0600170A RID: 5898 RVA: 0x000CB668 File Offset: 0x000C9A68
 		public static string GetLabel(this RestCategory fatigue)
 		{
 			string result;

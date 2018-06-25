@@ -6,28 +6,28 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000FD0 RID: 4048
+	// Token: 0x02000FD1 RID: 4049
 	public static class ThingFilterUI
 	{
-		// Token: 0x04004003 RID: 16387
+		// Token: 0x0400400B RID: 16395
 		private static float viewHeight;
 
-		// Token: 0x04004004 RID: 16388
+		// Token: 0x0400400C RID: 16396
 		private const float ExtraViewHeight = 90f;
 
-		// Token: 0x04004005 RID: 16389
+		// Token: 0x0400400D RID: 16397
 		private const float RangeLabelTab = 10f;
 
-		// Token: 0x04004006 RID: 16390
+		// Token: 0x0400400E RID: 16398
 		private const float RangeLabelHeight = 19f;
 
-		// Token: 0x04004007 RID: 16391
+		// Token: 0x0400400F RID: 16399
 		private const float SliderHeight = 28f;
 
-		// Token: 0x04004008 RID: 16392
+		// Token: 0x04004010 RID: 16400
 		private const float SliderTab = 20f;
 
-		// Token: 0x060061F4 RID: 25076 RVA: 0x00316F4C File Offset: 0x0031534C
+		// Token: 0x060061F4 RID: 25076 RVA: 0x00317190 File Offset: 0x00315590
 		public static void DoThingFilterConfigWindow(Rect rect, ref Vector2 scrollPosition, ThingFilter filter, ThingFilter parentFilter = null, int openMask = 1, IEnumerable<ThingDef> forceHiddenDefs = null, IEnumerable<SpecialThingFilterDef> forceHiddenFilters = null, List<ThingDef> suppressSmallVolumeTags = null, Map map = null)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -80,7 +80,7 @@ namespace Verse
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x060061F5 RID: 25077 RVA: 0x00317154 File Offset: 0x00315554
+		// Token: 0x060061F5 RID: 25077 RVA: 0x00317398 File Offset: 0x00315798
 		private static void DrawHitPointsFilterConfig(ref float y, float width, ThingFilter filter)
 		{
 			Rect rect = new Rect(20f, y, width - 20f, 28f);
@@ -92,7 +92,7 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x060061F6 RID: 25078 RVA: 0x003171C0 File Offset: 0x003155C0
+		// Token: 0x060061F6 RID: 25078 RVA: 0x00317404 File Offset: 0x00315804
 		private static void DrawQualityFilterConfig(ref float y, float width, ThingFilter filter)
 		{
 			Rect rect = new Rect(20f, y, width - 20f, 28f);

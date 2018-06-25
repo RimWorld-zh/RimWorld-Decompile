@@ -6,29 +6,29 @@ namespace RimWorld.Planet
 	// Token: 0x020005C8 RID: 1480
 	public class WorldInfo : IExposable
 	{
-		// Token: 0x04001149 RID: 4425
+		// Token: 0x0400114D RID: 4429
 		public string name = "DefaultWorldName";
 
-		// Token: 0x0400114A RID: 4426
+		// Token: 0x0400114E RID: 4430
 		public float planetCoverage;
 
-		// Token: 0x0400114B RID: 4427
+		// Token: 0x0400114F RID: 4431
 		public string seedString = "SeedError";
 
-		// Token: 0x0400114C RID: 4428
+		// Token: 0x04001150 RID: 4432
 		public int randomValue = Rand.Int;
 
-		// Token: 0x0400114D RID: 4429
+		// Token: 0x04001151 RID: 4433
 		public OverallRainfall overallRainfall = OverallRainfall.Normal;
 
-		// Token: 0x0400114E RID: 4430
+		// Token: 0x04001152 RID: 4434
 		public OverallTemperature overallTemperature = OverallTemperature.Normal;
 
-		// Token: 0x0400114F RID: 4431
+		// Token: 0x04001153 RID: 4435
 		public IntVec3 initialMapSize = new IntVec3(250, 1, 250);
 
 		// Token: 0x1700042A RID: 1066
-		// (get) Token: 0x06001CBA RID: 7354 RVA: 0x000F6D00 File Offset: 0x000F5100
+		// (get) Token: 0x06001CB9 RID: 7353 RVA: 0x000F6F68 File Offset: 0x000F5368
 		public string FileNameNoExtension
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700042B RID: 1067
-		// (get) Token: 0x06001CBB RID: 7355 RVA: 0x000F6D20 File Offset: 0x000F5120
+		// (get) Token: 0x06001CBA RID: 7354 RVA: 0x000F6F88 File Offset: 0x000F5388
 		public int Seed
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CBC RID: 7356 RVA: 0x000F6D40 File Offset: 0x000F5140
+		// Token: 0x06001CBB RID: 7355 RVA: 0x000F6FA8 File Offset: 0x000F53A8
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);

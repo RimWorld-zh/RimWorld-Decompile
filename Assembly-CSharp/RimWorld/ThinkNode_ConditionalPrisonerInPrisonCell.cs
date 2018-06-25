@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001BC RID: 444
 	public class ThinkNode_ConditionalPrisonerInPrisonCell : ThinkNode_Conditional
 	{
-		// Token: 0x0600092D RID: 2349 RVA: 0x00055E88 File Offset: 0x00054288
+		// Token: 0x0600092C RID: 2348 RVA: 0x00055E84 File Offset: 0x00054284
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;

@@ -6,17 +6,17 @@ namespace RimWorld
 	// Token: 0x020001EE RID: 494
 	public struct ThoughtState
 	{
-		// Token: 0x040003E4 RID: 996
+		// Token: 0x040003E5 RID: 997
 		private int stageIndex;
 
-		// Token: 0x040003E5 RID: 997
+		// Token: 0x040003E6 RID: 998
 		private string reason;
 
-		// Token: 0x040003E6 RID: 998
+		// Token: 0x040003E7 RID: 999
 		private const int InactiveIndex = -99999;
 
 		// Token: 0x17000173 RID: 371
-		// (get) Token: 0x06000997 RID: 2455 RVA: 0x00057048 File Offset: 0x00055448
+		// (get) Token: 0x06000996 RID: 2454 RVA: 0x00057044 File Offset: 0x00055444
 		public bool Active
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000174 RID: 372
-		// (get) Token: 0x06000998 RID: 2456 RVA: 0x00057070 File Offset: 0x00055470
+		// (get) Token: 0x06000997 RID: 2455 RVA: 0x0005706C File Offset: 0x0005546C
 		public int StageIndex
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000175 RID: 373
-		// (get) Token: 0x06000999 RID: 2457 RVA: 0x0005708C File Offset: 0x0005548C
+		// (get) Token: 0x06000998 RID: 2456 RVA: 0x00057088 File Offset: 0x00055488
 		public string Reason
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000176 RID: 374
-		// (get) Token: 0x0600099A RID: 2458 RVA: 0x000570A8 File Offset: 0x000554A8
+		// (get) Token: 0x06000999 RID: 2457 RVA: 0x000570A4 File Offset: 0x000554A4
 		public static ThoughtState ActiveDefault
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000177 RID: 375
-		// (get) Token: 0x0600099B RID: 2459 RVA: 0x000570C4 File Offset: 0x000554C4
+		// (get) Token: 0x0600099A RID: 2458 RVA: 0x000570C0 File Offset: 0x000554C0
 		public static ThoughtState Inactive
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600099C RID: 2460 RVA: 0x000570F0 File Offset: 0x000554F0
+		// Token: 0x0600099B RID: 2459 RVA: 0x000570EC File Offset: 0x000554EC
 		public static ThoughtState ActiveAtStage(int stageIndex)
 		{
 			return new ThoughtState
@@ -77,7 +77,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600099D RID: 2461 RVA: 0x00057118 File Offset: 0x00055518
+		// Token: 0x0600099C RID: 2460 RVA: 0x00057114 File Offset: 0x00055514
 		public static ThoughtState ActiveAtStage(int stageIndex, string reason)
 		{
 			return new ThoughtState
@@ -87,7 +87,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600099E RID: 2462 RVA: 0x00057148 File Offset: 0x00055548
+		// Token: 0x0600099D RID: 2461 RVA: 0x00057144 File Offset: 0x00055544
 		public static ThoughtState ActiveWithReason(string reason)
 		{
 			ThoughtState activeDefault = ThoughtState.ActiveDefault;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return activeDefault;
 		}
 
-		// Token: 0x0600099F RID: 2463 RVA: 0x0005716C File Offset: 0x0005556C
+		// Token: 0x0600099E RID: 2462 RVA: 0x00057168 File Offset: 0x00055568
 		public static implicit operator ThoughtState(bool value)
 		{
 			ThoughtState result;
@@ -110,7 +110,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060009A0 RID: 2464 RVA: 0x00057198 File Offset: 0x00055598
+		// Token: 0x0600099F RID: 2463 RVA: 0x00057194 File Offset: 0x00055594
 		public bool ActiveFor(ThoughtDef thoughtDef)
 		{
 			bool result;
@@ -126,7 +126,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060009A1 RID: 2465 RVA: 0x000571E4 File Offset: 0x000555E4
+		// Token: 0x060009A0 RID: 2464 RVA: 0x000571E0 File Offset: 0x000555E0
 		public int StageIndexFor(ThoughtDef thoughtDef)
 		{
 			return Mathf.Min(this.StageIndex, thoughtDef.stages.Count - 1);

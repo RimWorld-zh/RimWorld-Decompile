@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x020000BD RID: 189
 	public class JobGiver_AISapper : ThinkNode_JobGiver
 	{
-		// Token: 0x04000290 RID: 656
+		// Token: 0x04000291 RID: 657
 		private bool canMineMineables = true;
 
-		// Token: 0x04000291 RID: 657
+		// Token: 0x04000292 RID: 658
 		private bool canMineNonMineables = true;
 
-		// Token: 0x04000292 RID: 658
+		// Token: 0x04000293 RID: 659
 		private const float ReachDestDist = 10f;
 
-		// Token: 0x04000293 RID: 659
+		// Token: 0x04000294 RID: 660
 		private const int CheckOverrideInterval = 500;
 
-		// Token: 0x06000476 RID: 1142 RVA: 0x00032F98 File Offset: 0x00031398
+		// Token: 0x06000476 RID: 1142 RVA: 0x00032FB4 File Offset: 0x000313B4
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_AISapper jobGiver_AISapper = (JobGiver_AISapper)base.DeepCopy(resolve);
@@ -30,7 +30,7 @@ namespace RimWorld
 			return jobGiver_AISapper;
 		}
 
-		// Token: 0x06000477 RID: 1143 RVA: 0x00032FD4 File Offset: 0x000313D4
+		// Token: 0x06000477 RID: 1143 RVA: 0x00032FF0 File Offset: 0x000313F0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 intVec = (IntVec3)pawn.mindState.duty.focus;

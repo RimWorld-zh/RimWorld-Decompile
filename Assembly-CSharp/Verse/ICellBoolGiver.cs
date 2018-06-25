@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C00 RID: 3072
+	// Token: 0x02000C01 RID: 3073
 	public interface ICellBoolGiver
 	{
 		// Token: 0x17000A90 RID: 2704

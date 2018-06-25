@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000891 RID: 2193
 	public static class DrugPolicyUIUtility
 	{
-		// Token: 0x04001AD6 RID: 6870
+		// Token: 0x04001ADA RID: 6874
 		public const string AssigningDrugsTutorHighlightTag = "ButtonAssignDrugs";
 
-		// Token: 0x04001AD7 RID: 6871
+		// Token: 0x04001ADB RID: 6875
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>>> <>f__mg$cache0;
 
-		// Token: 0x0600320E RID: 12814 RVA: 0x001AF794 File Offset: 0x001ADB94
+		// Token: 0x0600320D RID: 12813 RVA: 0x001AF9FC File Offset: 0x001ADDFC
 		public static void DoAssignDrugPolicyButtons(Rect rect, Pawn pawn)
 		{
 			int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
@@ -57,7 +57,7 @@ namespace RimWorld
 			num3 += (float)num2;
 		}
 
-		// Token: 0x0600320F RID: 12815 RVA: 0x001AF980 File Offset: 0x001ADD80
+		// Token: 0x0600320E RID: 12814 RVA: 0x001AFBE8 File Offset: 0x001ADFE8
 		private static IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>> Button_GenerateMenu(Pawn pawn)
 		{
 			using (List<DrugPolicy>.Enumerator enumerator = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator())

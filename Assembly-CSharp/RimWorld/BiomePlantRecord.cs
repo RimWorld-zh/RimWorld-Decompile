@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x0200028A RID: 650
 	public class BiomePlantRecord
 	{
-		// Token: 0x04000562 RID: 1378
+		// Token: 0x04000564 RID: 1380
 		public ThingDef plant;
 
-		// Token: 0x04000563 RID: 1379
+		// Token: 0x04000565 RID: 1381
 		public float commonality = 0f;
 
-		// Token: 0x06000AFD RID: 2813 RVA: 0x00063C84 File Offset: 0x00062084
+		// Token: 0x06000AFC RID: 2812 RVA: 0x00063C80 File Offset: 0x00062080
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "plant", xmlRoot.Name);

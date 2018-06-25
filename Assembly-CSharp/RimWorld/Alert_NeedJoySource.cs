@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020007A2 RID: 1954
 	public class Alert_NeedJoySource : Alert
 	{
-		// Token: 0x06002B42 RID: 11074 RVA: 0x0016DCC0 File Offset: 0x0016C0C0
+		// Token: 0x06002B41 RID: 11073 RVA: 0x0016DF24 File Offset: 0x0016C324
 		public Alert_NeedJoySource()
 		{
 			this.defaultLabel = "NeedJoySource".Translate();
 			this.defaultExplanation = "NeedJoySourceDesc".Translate();
 		}
 
-		// Token: 0x06002B43 RID: 11075 RVA: 0x0016DCEC File Offset: 0x0016C0EC
+		// Token: 0x06002B42 RID: 11074 RVA: 0x0016DF50 File Offset: 0x0016C350
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B44 RID: 11076 RVA: 0x0016DD60 File Offset: 0x0016C160
+		// Token: 0x06002B43 RID: 11075 RVA: 0x0016DFC4 File Offset: 0x0016C3C4
 		private bool NeedJoySource(Map map)
 		{
 			bool result;

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D48 RID: 3400
+	// Token: 0x02000D49 RID: 3401
 	public abstract class Name : IExposable
 	{
 		// Token: 0x17000BF3 RID: 3059
@@ -18,7 +18,7 @@ namespace Verse
 		public abstract bool IsValid { get; }
 
 		// Token: 0x17000BF6 RID: 3062
-		// (get) Token: 0x06004AF4 RID: 19188 RVA: 0x00271C40 File Offset: 0x00270040
+		// (get) Token: 0x06004AF4 RID: 19188 RVA: 0x00271F20 File Offset: 0x00270320
 		public bool UsedThisGame
 		{
 			get

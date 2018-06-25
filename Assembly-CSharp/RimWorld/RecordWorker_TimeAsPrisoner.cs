@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004A4 RID: 1188
 	public class RecordWorker_TimeAsPrisoner : RecordWorker
 	{
-		// Token: 0x0600154A RID: 5450 RVA: 0x000BD730 File Offset: 0x000BBB30
+		// Token: 0x06001549 RID: 5449 RVA: 0x000BD930 File Offset: 0x000BBD30
 		public override bool ShouldMeasureTimeNow(Pawn pawn)
 		{
 			return pawn.IsPrisoner;

@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x020006AC RID: 1708
 	public class Building_OrbitalTradeBeacon : Building
 	{
-		// Token: 0x0400143A RID: 5178
+		// Token: 0x0400143E RID: 5182
 		private const float TradeRadius = 7.9f;
 
-		// Token: 0x0400143B RID: 5179
+		// Token: 0x0400143F RID: 5183
 		private static List<IntVec3> tradeableCells = new List<IntVec3>();
 
 		// Token: 0x17000588 RID: 1416
-		// (get) Token: 0x060024A0 RID: 9376 RVA: 0x001398FC File Offset: 0x00137CFC
+		// (get) Token: 0x0600249F RID: 9375 RVA: 0x00139B64 File Offset: 0x00137F64
 		public IEnumerable<IntVec3> TradeableCells
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024A1 RID: 9377 RVA: 0x00139924 File Offset: 0x00137D24
+		// Token: 0x060024A0 RID: 9376 RVA: 0x00139B8C File Offset: 0x00137F8C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -46,7 +46,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024A2 RID: 9378 RVA: 0x00139950 File Offset: 0x00137D50
+		// Token: 0x060024A1 RID: 9377 RVA: 0x00139BB8 File Offset: 0x00137FB8
 		private void MakeMatchingStockpile()
 		{
 			Designator des = DesignatorUtility.FindAllowedDesignator<Designator_ZoneAddStockpile_Resources>();
@@ -55,7 +55,7 @@ namespace RimWorld
 			select c);
 		}
 
-		// Token: 0x060024A3 RID: 9379 RVA: 0x00139994 File Offset: 0x00137D94
+		// Token: 0x060024A2 RID: 9378 RVA: 0x00139BFC File Offset: 0x00137FFC
 		public static List<IntVec3> TradeableCellsAround(IntVec3 pos, Map map)
 		{
 			Building_OrbitalTradeBeacon.tradeableCells.Clear();
@@ -90,7 +90,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060024A4 RID: 9380 RVA: 0x00139A34 File Offset: 0x00137E34
+		// Token: 0x060024A3 RID: 9379 RVA: 0x00139C9C File Offset: 0x0013809C
 		public static IEnumerable<Building_OrbitalTradeBeacon> AllPowered(Map map)
 		{
 			foreach (Building_OrbitalTradeBeacon b in map.listerBuildings.AllBuildingsColonistOfClass<Building_OrbitalTradeBeacon>())

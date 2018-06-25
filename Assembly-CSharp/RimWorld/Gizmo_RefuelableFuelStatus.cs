@@ -8,34 +8,34 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class Gizmo_RefuelableFuelStatus : Gizmo
 	{
-		// Token: 0x04001634 RID: 5684
+		// Token: 0x04001638 RID: 5688
 		public CompRefuelable refuelable;
 
-		// Token: 0x04001635 RID: 5685
+		// Token: 0x04001639 RID: 5689
 		private static readonly Texture2D FullBarTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.35f, 0.35f, 0.2f));
 
-		// Token: 0x04001636 RID: 5686
+		// Token: 0x0400163A RID: 5690
 		private static readonly Texture2D EmptyBarTex = SolidColorMaterials.NewSolidColorTexture(Color.black);
 
-		// Token: 0x04001637 RID: 5687
+		// Token: 0x0400163B RID: 5691
 		private static readonly Texture2D TargetLevelArrow = ContentFinder<Texture2D>.Get("UI/Misc/BarInstantMarkerRotated", true);
 
-		// Token: 0x04001638 RID: 5688
+		// Token: 0x0400163C RID: 5692
 		private const float ArrowScale = 0.5f;
 
-		// Token: 0x06002887 RID: 10375 RVA: 0x00159FB7 File Offset: 0x001583B7
+		// Token: 0x06002886 RID: 10374 RVA: 0x0015A217 File Offset: 0x00158617
 		public Gizmo_RefuelableFuelStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x06002888 RID: 10376 RVA: 0x00159FCC File Offset: 0x001583CC
+		// Token: 0x06002887 RID: 10375 RVA: 0x0015A22C File Offset: 0x0015862C
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x06002889 RID: 10377 RVA: 0x00159FE8 File Offset: 0x001583E8
+		// Token: 0x06002888 RID: 10376 RVA: 0x0015A248 File Offset: 0x00158648
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);

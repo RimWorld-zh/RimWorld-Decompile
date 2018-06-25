@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F45 RID: 3909
+	// Token: 0x02000F46 RID: 3910
 	public static class GenList
 	{
-		// Token: 0x06005E65 RID: 24165 RVA: 0x00300098 File Offset: 0x002FE498
+		// Token: 0x06005E65 RID: 24165 RVA: 0x003002B8 File Offset: 0x002FE6B8
 		public static int CountAllowNull<T>(this IList<T> list)
 		{
 			return (list == null) ? 0 : list.Count;
 		}
 
-		// Token: 0x06005E66 RID: 24166 RVA: 0x003000C0 File Offset: 0x002FE4C0
+		// Token: 0x06005E66 RID: 24166 RVA: 0x003002E0 File Offset: 0x002FE6E0
 		public static bool NullOrEmpty<T>(this IList<T> list)
 		{
 			return list == null || list.Count == 0;
 		}
 
-		// Token: 0x06005E67 RID: 24167 RVA: 0x003000E8 File Offset: 0x002FE4E8
+		// Token: 0x06005E67 RID: 24167 RVA: 0x00300308 File Offset: 0x002FE708
 		public static List<T> ListFullCopy<T>(this List<T> source)
 		{
 			List<T> list = new List<T>(source.Count);
@@ -29,7 +29,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005E68 RID: 24168 RVA: 0x00300130 File Offset: 0x002FE530
+		// Token: 0x06005E68 RID: 24168 RVA: 0x00300350 File Offset: 0x002FE750
 		public static List<T> ListFullCopyOrNull<T>(this List<T> source)
 		{
 			List<T> result;
@@ -44,7 +44,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E69 RID: 24169 RVA: 0x00300158 File Offset: 0x002FE558
+		// Token: 0x06005E69 RID: 24169 RVA: 0x00300378 File Offset: 0x002FE778
 		public static void RemoveDuplicates<T>(this List<T> list) where T : class
 		{
 			if (list.Count > 1)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E6A RID: 24170 RVA: 0x003001D0 File Offset: 0x002FE5D0
+		// Token: 0x06005E6A RID: 24170 RVA: 0x003003F0 File Offset: 0x002FE7F0
 		public static void Shuffle<T>(this IList<T> list)
 		{
 			int i = list.Count;
@@ -77,7 +77,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E6B RID: 24171 RVA: 0x00300220 File Offset: 0x002FE620
+		// Token: 0x06005E6B RID: 24171 RVA: 0x00300440 File Offset: 0x002FE840
 		public static void InsertionSort<T>(this IList<T> list, Comparison<T> comparison)
 		{
 			int count = list.Count;

@@ -8,10 +8,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D1 RID: 977
 	public class SymbolResolver_RandomMechanoidGroup : SymbolResolver
 	{
-		// Token: 0x04000A3D RID: 2621
+		// Token: 0x04000A40 RID: 2624
 		private static readonly IntRange DefaultMechanoidCountRange = new IntRange(1, 5);
 
-		// Token: 0x060010D3 RID: 4307 RVA: 0x0008F664 File Offset: 0x0008DA64
+		// Token: 0x060010D2 RID: 4306 RVA: 0x0008F674 File Offset: 0x0008DA74
 		public override void Resolve(ResolveParams rp)
 		{
 			int? mechanoidsCount = rp.mechanoidsCount;

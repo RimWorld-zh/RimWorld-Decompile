@@ -5,19 +5,19 @@ namespace RimWorld
 	// Token: 0x020004F1 RID: 1265
 	public enum BeautyCategory : byte
 	{
-		// Token: 0x04000D42 RID: 3394
-		Hideous,
-		// Token: 0x04000D43 RID: 3395
-		VeryUgly,
-		// Token: 0x04000D44 RID: 3396
-		Ugly,
 		// Token: 0x04000D45 RID: 3397
-		Neutral,
+		Hideous,
 		// Token: 0x04000D46 RID: 3398
-		Pretty,
+		VeryUgly,
 		// Token: 0x04000D47 RID: 3399
-		VeryPretty,
+		Ugly,
 		// Token: 0x04000D48 RID: 3400
+		Neutral,
+		// Token: 0x04000D49 RID: 3401
+		Pretty,
+		// Token: 0x04000D4A RID: 3402
+		VeryPretty,
+		// Token: 0x04000D4B RID: 3403
 		Beautiful
 	}
 }

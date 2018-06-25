@@ -5,47 +5,47 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C5B RID: 3163
+	// Token: 0x02000C5C RID: 3164
 	public class GenStep_ScatterThings : GenStep_Scatterer
 	{
-		// Token: 0x04002F86 RID: 12166
+		// Token: 0x04002F8D RID: 12173
 		public ThingDef thingDef;
 
-		// Token: 0x04002F87 RID: 12167
+		// Token: 0x04002F8E RID: 12174
 		public ThingDef stuff;
 
-		// Token: 0x04002F88 RID: 12168
+		// Token: 0x04002F8F RID: 12175
 		public int clearSpaceSize;
 
-		// Token: 0x04002F89 RID: 12169
+		// Token: 0x04002F90 RID: 12176
 		public int clusterSize = 1;
 
-		// Token: 0x04002F8A RID: 12170
+		// Token: 0x04002F91 RID: 12177
 		public float terrainValidationRadius = 0f;
 
-		// Token: 0x04002F8B RID: 12171
+		// Token: 0x04002F92 RID: 12178
 		[NoTranslate]
 		private List<string> terrainValidationDisallowed;
 
-		// Token: 0x04002F8C RID: 12172
+		// Token: 0x04002F93 RID: 12179
 		[Unsaved]
 		private IntVec3 clusterCenter;
 
-		// Token: 0x04002F8D RID: 12173
+		// Token: 0x04002F94 RID: 12180
 		[Unsaved]
 		private int leftInCluster = 0;
 
-		// Token: 0x04002F8E RID: 12174
+		// Token: 0x04002F95 RID: 12181
 		private const int ClusterRadius = 4;
 
-		// Token: 0x04002F8F RID: 12175
+		// Token: 0x04002F96 RID: 12182
 		private List<Rot4> possibleRotationsInt;
 
-		// Token: 0x04002F90 RID: 12176
+		// Token: 0x04002F97 RID: 12183
 		private static List<Rot4> tmpRotations = new List<Rot4>();
 
 		// Token: 0x17000AFC RID: 2812
-		// (get) Token: 0x06004593 RID: 17811 RVA: 0x0024C638 File Offset: 0x0024AA38
+		// (get) Token: 0x06004593 RID: 17811 RVA: 0x0024C918 File Offset: 0x0024AD18
 		public override int SeedPart
 		{
 			get
@@ -55,7 +55,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AFD RID: 2813
-		// (get) Token: 0x06004594 RID: 17812 RVA: 0x0024C654 File Offset: 0x0024AA54
+		// (get) Token: 0x06004594 RID: 17812 RVA: 0x0024C934 File Offset: 0x0024AD34
 		private List<Rot4> PossibleRotations
 		{
 			get
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004595 RID: 17813 RVA: 0x0024C6F0 File Offset: 0x0024AAF0
+		// Token: 0x06004595 RID: 17813 RVA: 0x0024C9D0 File Offset: 0x0024ADD0
 		public override void Generate(Map map)
 		{
 			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
@@ -115,7 +115,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004596 RID: 17814 RVA: 0x0024C834 File Offset: 0x0024AC34
+		// Token: 0x06004596 RID: 17814 RVA: 0x0024CB14 File Offset: 0x0024AF14
 		protected override bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
 			bool result2;
@@ -144,7 +144,7 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06004597 RID: 17815 RVA: 0x0024C900 File Offset: 0x0024AD00
+		// Token: 0x06004597 RID: 17815 RVA: 0x0024CBE0 File Offset: 0x0024AFE0
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			Rot4 rot;
@@ -188,7 +188,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004598 RID: 17816 RVA: 0x0024CA5C File Offset: 0x0024AE5C
+		// Token: 0x06004598 RID: 17816 RVA: 0x0024CD3C File Offset: 0x0024B13C
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
 			bool result;
@@ -225,7 +225,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004599 RID: 17817 RVA: 0x0024CB58 File Offset: 0x0024AF58
+		// Token: 0x06004599 RID: 17817 RVA: 0x0024CE38 File Offset: 0x0024B238
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)
 		{
 			List<Rot4> possibleRotations = this.PossibleRotations;
@@ -250,13 +250,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600459A RID: 17818 RVA: 0x0024CBE4 File Offset: 0x0024AFE4
+		// Token: 0x0600459A RID: 17818 RVA: 0x0024CEC4 File Offset: 0x0024B2C4
 		private bool IsRotationValid(IntVec3 loc, Rot4 rot, Map map)
 		{
 			return GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map) && !GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth));
 		}
 
-		// Token: 0x0600459B RID: 17819 RVA: 0x0024CC48 File Offset: 0x0024B048
+		// Token: 0x0600459B RID: 17819 RVA: 0x0024CF28 File Offset: 0x0024B328
 		public static List<int> CountDividedIntoStacks(int count, IntRange stackSizeRange)
 		{
 			List<int> list = new List<int>();

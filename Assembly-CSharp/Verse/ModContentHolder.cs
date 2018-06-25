@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC2 RID: 3266
+	// Token: 0x02000CC3 RID: 3267
 	public class ModContentHolder<T> where T : class
 	{
-		// Token: 0x040030CF RID: 12495
+		// Token: 0x040030D6 RID: 12502
 		private ModContentPack mod;
 
-		// Token: 0x040030D0 RID: 12496
+		// Token: 0x040030D7 RID: 12503
 		public Dictionary<string, T> contentList = new Dictionary<string, T>();
 
-		// Token: 0x06004814 RID: 18452 RVA: 0x0025F092 File Offset: 0x0025D492
+		// Token: 0x06004814 RID: 18452 RVA: 0x0025F372 File Offset: 0x0025D772
 		public ModContentHolder(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
-		// Token: 0x06004815 RID: 18453 RVA: 0x0025F0B0 File Offset: 0x0025D4B0
+		// Token: 0x06004815 RID: 18453 RVA: 0x0025F390 File Offset: 0x0025D790
 		public void ClearDestroy()
 		{
 			if (typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)))
@@ -36,7 +36,7 @@ namespace Verse
 			this.contentList.Clear();
 		}
 
-		// Token: 0x06004816 RID: 18454 RVA: 0x0025F158 File Offset: 0x0025D558
+		// Token: 0x06004816 RID: 18454 RVA: 0x0025F438 File Offset: 0x0025D838
 		public void ReloadAll()
 		{
 			foreach (LoadedContentItem<T> loadedContentItem in ModContentLoader<T>.LoadAllForMod(this.mod))
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004817 RID: 18455 RVA: 0x0025F220 File Offset: 0x0025D620
+		// Token: 0x06004817 RID: 18455 RVA: 0x0025F500 File Offset: 0x0025D900
 		public T Get(string path)
 		{
 			T t;
@@ -74,7 +74,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004818 RID: 18456 RVA: 0x0025F258 File Offset: 0x0025D658
+		// Token: 0x06004818 RID: 18456 RVA: 0x0025F538 File Offset: 0x0025D938
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
 			foreach (KeyValuePair<string, T> kvp in this.contentList)

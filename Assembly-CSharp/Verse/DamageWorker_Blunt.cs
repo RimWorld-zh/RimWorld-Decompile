@@ -7,20 +7,20 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CF4 RID: 3316
+	// Token: 0x02000CF5 RID: 3317
 	[HasDebugOutput]
 	public class DamageWorker_Blunt : DamageWorker_AddInjury
 	{
-		// Token: 0x0400318D RID: 12685
+		// Token: 0x04003194 RID: 12692
 		private const float StunDuration = 3.5f;
 
-		// Token: 0x06004917 RID: 18711 RVA: 0x00266704 File Offset: 0x00264B04
+		// Token: 0x06004917 RID: 18711 RVA: 0x002669E4 File Offset: 0x00264DE4
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, BodyPartDepth.Outside);
 		}
 
-		// Token: 0x06004918 RID: 18712 RVA: 0x00266738 File Offset: 0x00264B38
+		// Token: 0x06004918 RID: 18712 RVA: 0x00266A18 File Offset: 0x00264E18
 		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			bool flag = Rand.Chance(this.def.bluntInnerHitChance);
@@ -91,7 +91,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004919 RID: 18713 RVA: 0x00266A54 File Offset: 0x00264E54
+		// Token: 0x06004919 RID: 18713 RVA: 0x00266D34 File Offset: 0x00265134
 		[DebugOutput]
 		public static void StunChances()
 		{
@@ -130,7 +130,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x0600491A RID: 18714 RVA: 0x00266C84 File Offset: 0x00265084
+		// Token: 0x0600491A RID: 18714 RVA: 0x00266F64 File Offset: 0x00265364
 		private bool InSameBranch(BodyPartRecord lhs, BodyPartRecord rhs)
 		{
 			while (lhs.parent != null && lhs.parent.parent != null)

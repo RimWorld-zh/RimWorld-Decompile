@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x0200009D RID: 157
 	public class JobDriver_DropEquipment : JobDriver
 	{
-		// Token: 0x04000268 RID: 616
+		// Token: 0x04000269 RID: 617
 		private const int DurationTicks = 30;
 
 		// Token: 0x170000C5 RID: 197
-		// (get) Token: 0x060003F4 RID: 1012 RVA: 0x0002EC68 File Offset: 0x0002D068
+		// (get) Token: 0x060003F4 RID: 1012 RVA: 0x0002EC84 File Offset: 0x0002D084
 		private ThingWithComps TargetEquipment
 		{
 			get
@@ -21,13 +21,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003F5 RID: 1013 RVA: 0x0002EC90 File Offset: 0x0002D090
+		// Token: 0x060003F5 RID: 1013 RVA: 0x0002ECAC File Offset: 0x0002D0AC
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060003F6 RID: 1014 RVA: 0x0002ECA8 File Offset: 0x0002D0A8
+		// Token: 0x060003F6 RID: 1014 RVA: 0x0002ECC4 File Offset: 0x0002D0C4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

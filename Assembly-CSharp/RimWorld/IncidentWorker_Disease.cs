@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x0200032A RID: 810
 	public abstract class IncidentWorker_Disease : IncidentWorker
 	{
-		// Token: 0x06000DD0 RID: 3536
+		// Token: 0x06000DCF RID: 3535
 		protected abstract IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target);
 
-		// Token: 0x06000DD1 RID: 3537 RVA: 0x00076288 File Offset: 0x00074688
+		// Token: 0x06000DD0 RID: 3536 RVA: 0x00076290 File Offset: 0x00074690
 		protected IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
 		{
 			return this.PotentialVictimCandidates(target).Where(delegate(Pawn p)
@@ -45,10 +45,10 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06000DD2 RID: 3538
+		// Token: 0x06000DD1 RID: 3537
 		protected abstract IEnumerable<Pawn> ActualVictims(IncidentParms parms);
 
-		// Token: 0x06000DD3 RID: 3539 RVA: 0x000762B8 File Offset: 0x000746B8
+		// Token: 0x06000DD2 RID: 3538 RVA: 0x000762C0 File Offset: 0x000746C0
 		private static bool CanAddHediffToAnyPartOfDef(Pawn pawn, HediffDef hediffDef, BodyPartDef partDef)
 		{
 			List<BodyPartRecord> allParts = pawn.def.race.body.AllParts;
@@ -63,20 +63,20 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000DD4 RID: 3540 RVA: 0x00076348 File Offset: 0x00074748
+		// Token: 0x06000DD3 RID: 3539 RVA: 0x00076350 File Offset: 0x00074750
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			return this.PotentialVictims(parms.target).Any<Pawn>();
 		}
 
-		// Token: 0x06000DD5 RID: 3541 RVA: 0x0007637C File Offset: 0x0007477C
+		// Token: 0x06000DD4 RID: 3540 RVA: 0x00076384 File Offset: 0x00074784
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			this.ApplyToPawns(this.ActualVictims(parms));
 			return true;
 		}
 
-		// Token: 0x06000DD6 RID: 3542 RVA: 0x000763A0 File Offset: 0x000747A0
+		// Token: 0x06000DD5 RID: 3541 RVA: 0x000763A8 File Offset: 0x000747A8
 		public void ApplyToPawns(IEnumerable<Pawn> pawns)
 		{
 			Dictionary<HediffDef, List<Pawn>> dictionary = new Dictionary<HediffDef, List<Pawn>>();

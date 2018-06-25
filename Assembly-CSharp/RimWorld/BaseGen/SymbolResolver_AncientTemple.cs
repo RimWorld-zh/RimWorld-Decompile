@@ -5,7 +5,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C1 RID: 961
 	public class SymbolResolver_AncientTemple : SymbolResolver
 	{
-		// Token: 0x0600109F RID: 4255 RVA: 0x0008CE70 File Offset: 0x0008B270
+		// Token: 0x0600109E RID: 4254 RVA: 0x0008CE80 File Offset: 0x0008B280
 		public override void Resolve(ResolveParams rp)
 		{
 			BaseGen.symbolStack.Push("ensureCanHoldRoof", rp);

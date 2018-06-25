@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020007A1 RID: 1953
 	public class Alert_NeedMealSource : Alert
 	{
-		// Token: 0x06002B3E RID: 11070 RVA: 0x0016DB89 File Offset: 0x0016BF89
+		// Token: 0x06002B3D RID: 11069 RVA: 0x0016DDED File Offset: 0x0016C1ED
 		public Alert_NeedMealSource()
 		{
 			this.defaultLabel = "NeedMealSource".Translate();
 			this.defaultExplanation = "NeedMealSourceDesc".Translate();
 		}
 
-		// Token: 0x06002B3F RID: 11071 RVA: 0x0016DBB4 File Offset: 0x0016BFB4
+		// Token: 0x06002B3E RID: 11070 RVA: 0x0016DE18 File Offset: 0x0016C218
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B40 RID: 11072 RVA: 0x0016DC24 File Offset: 0x0016C024
+		// Token: 0x06002B3F RID: 11071 RVA: 0x0016DE88 File Offset: 0x0016C288
 		private bool NeedMealSource(Map map)
 		{
 			bool result;

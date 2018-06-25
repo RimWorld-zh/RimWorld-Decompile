@@ -11,14 +11,14 @@ namespace RimWorld
 	// Token: 0x020001B3 RID: 435
 	public static class RestUtility
 	{
-		// Token: 0x040003CF RID: 975
+		// Token: 0x040003D0 RID: 976
 		private static List<ThingDef> bedDefsBestToWorst_RestEffectiveness;
 
-		// Token: 0x040003D0 RID: 976
+		// Token: 0x040003D1 RID: 977
 		private static List<ThingDef> bedDefsBestToWorst_Medical;
 
 		// Token: 0x17000172 RID: 370
-		// (get) Token: 0x060008FD RID: 2301 RVA: 0x000544A8 File Offset: 0x000528A8
+		// (get) Token: 0x060008FC RID: 2300 RVA: 0x000544A4 File Offset: 0x000528A4
 		public static List<ThingDef> AllBedDefBestToWorst
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008FE RID: 2302 RVA: 0x000544C4 File Offset: 0x000528C4
+		// Token: 0x060008FD RID: 2301 RVA: 0x000544C0 File Offset: 0x000528C0
 		public static void Reset()
 		{
 			RestUtility.bedDefsBestToWorst_RestEffectiveness = (from d in DefDatabase<ThingDef>.AllDefs
@@ -40,7 +40,7 @@ namespace RimWorld
 			select d).ToList<ThingDef>();
 		}
 
-		// Token: 0x060008FF RID: 2303 RVA: 0x000545E0 File Offset: 0x000529E0
+		// Token: 0x060008FE RID: 2302 RVA: 0x000545DC File Offset: 0x000529DC
 		public static bool IsValidBedFor(Thing bedThing, Pawn sleeper, Pawn traveler, bool sleeperWillBePrisoner, bool checkSocialProperness, bool allowMedBedEvenIfSetToNoCare = false, bool ignoreOtherReservations = false)
 		{
 			Building_Bed building_Bed = bedThing as Building_Bed;
@@ -145,7 +145,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000900 RID: 2304 RVA: 0x00054830 File Offset: 0x00052C30
+		// Token: 0x060008FF RID: 2303 RVA: 0x0005482C File Offset: 0x00052C2C
 		private static bool IsAnyOwnerLovePartnerOf(Building_Bed bed, Pawn sleeper)
 		{
 			for (int i = 0; i < bed.owners.Count; i++)
@@ -158,13 +158,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000901 RID: 2305 RVA: 0x00054884 File Offset: 0x00052C84
+		// Token: 0x06000900 RID: 2304 RVA: 0x00054880 File Offset: 0x00052C80
 		public static Building_Bed FindBedFor(Pawn p)
 		{
 			return RestUtility.FindBedFor(p, p, p.IsPrisoner, true, false);
 		}
 
-		// Token: 0x06000902 RID: 2306 RVA: 0x000548A8 File Offset: 0x00052CA8
+		// Token: 0x06000901 RID: 2305 RVA: 0x000548A4 File Offset: 0x00052CA4
 		public static Building_Bed FindBedFor(Pawn sleeper, Pawn traveler, bool sleeperWillBePrisoner, bool checkSocialProperness, bool ignoreOtherReservations = false)
 		{
 			if (HealthAIUtility.ShouldSeekMedicalRest(sleeper))
@@ -283,7 +283,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000903 RID: 2307 RVA: 0x00054C40 File Offset: 0x00053040
+		// Token: 0x06000902 RID: 2306 RVA: 0x00054C3C File Offset: 0x0005303C
 		public static Building_Bed FindPatientBedFor(Pawn pawn)
 		{
 			Predicate<Thing> medBedValidator = delegate(Thing t)
@@ -312,7 +312,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000904 RID: 2308 RVA: 0x00054D50 File Offset: 0x00053150
+		// Token: 0x06000903 RID: 2307 RVA: 0x00054D4C File Offset: 0x0005314C
 		public static IntVec3 GetBedSleepingSlotPosFor(Pawn pawn, Building_Bed bed)
 		{
 			for (int i = 0; i < bed.owners.Count; i++)
@@ -342,37 +342,37 @@ namespace RimWorld
 			return bed.GetSleepingSlotPos(0);
 		}
 
-		// Token: 0x06000905 RID: 2309 RVA: 0x00054E78 File Offset: 0x00053278
+		// Token: 0x06000904 RID: 2308 RVA: 0x00054E74 File Offset: 0x00053274
 		public static bool CanUseBedEver(Pawn p, ThingDef bedDef)
 		{
 			return p.BodySize <= bedDef.building.bed_maxBodySize && p.RaceProps.Humanlike == bedDef.building.bed_humanlike;
 		}
 
-		// Token: 0x06000906 RID: 2310 RVA: 0x00054ED0 File Offset: 0x000532D0
+		// Token: 0x06000905 RID: 2309 RVA: 0x00054ECC File Offset: 0x000532CC
 		public static bool TimetablePreventsLayDown(Pawn pawn)
 		{
 			return pawn.timetable != null && !pawn.timetable.CurrentAssignment.allowRest && pawn.needs.rest.CurLevel >= 0.2f;
 		}
 
-		// Token: 0x06000907 RID: 2311 RVA: 0x00054F28 File Offset: 0x00053328
+		// Token: 0x06000906 RID: 2310 RVA: 0x00054F24 File Offset: 0x00053324
 		public static bool DisturbancePreventsLyingDown(Pawn pawn)
 		{
 			return !pawn.Downed && Find.TickManager.TicksGame - pawn.mindState.lastDisturbanceTick < 400;
 		}
 
-		// Token: 0x06000908 RID: 2312 RVA: 0x00054F6C File Offset: 0x0005336C
+		// Token: 0x06000907 RID: 2311 RVA: 0x00054F68 File Offset: 0x00053368
 		public static float PawnHealthRestEffectivenessFactor(Pawn pawn)
 		{
 			return pawn.health.capacities.GetLevel(PawnCapacityDefOf.BloodPumping) * pawn.health.capacities.GetLevel(PawnCapacityDefOf.Metabolism) * pawn.health.capacities.GetLevel(PawnCapacityDefOf.Breathing);
 		}
 
-		// Token: 0x06000909 RID: 2313 RVA: 0x00054FC4 File Offset: 0x000533C4
+		// Token: 0x06000908 RID: 2312 RVA: 0x00054FC0 File Offset: 0x000533C0
 		public static bool Awake(this Pawn p)
 		{
 			return p.health.capacities.CanBeAwake && (!p.Spawned || p.CurJob == null || p.jobs.curDriver == null || !p.jobs.curDriver.asleep);
 		}
 
-		// Token: 0x0600090A RID: 2314 RVA: 0x00055038 File Offset: 0x00053438
+		// Token: 0x06000909 RID: 2313 RVA: 0x00055034 File Offset: 0x00053434
 		public static Building_Bed CurrentBed(this Pawn p)
 		{
 			Building_Bed result;
@@ -411,13 +411,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600090B RID: 2315 RVA: 0x000550FC File Offset: 0x000534FC
+		// Token: 0x0600090A RID: 2314 RVA: 0x000550F8 File Offset: 0x000534F8
 		public static bool InBed(this Pawn p)
 		{
 			return p.CurrentBed() != null;
 		}
 
-		// Token: 0x0600090C RID: 2316 RVA: 0x0005511D File Offset: 0x0005351D
+		// Token: 0x0600090B RID: 2315 RVA: 0x00055119 File Offset: 0x00053519
 		public static void WakeUp(Pawn p)
 		{
 			if (p.CurJob != null && p.GetPosture().Laying() && !p.Downed)
@@ -426,7 +426,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600090D RID: 2317 RVA: 0x00055154 File Offset: 0x00053554
+		// Token: 0x0600090C RID: 2316 RVA: 0x00055150 File Offset: 0x00053550
 		public static float WakeThreshold(Pawn p)
 		{
 			Lord lord = p.GetLord();
@@ -442,7 +442,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600090E RID: 2318 RVA: 0x000551B8 File Offset: 0x000535B8
+		// Token: 0x0600090D RID: 2317 RVA: 0x000551B4 File Offset: 0x000535B4
 		public static float FallAsleepMaxLevel(Pawn p)
 		{
 			return Mathf.Min(0.75f, RestUtility.WakeThreshold(p) - 0.01f);

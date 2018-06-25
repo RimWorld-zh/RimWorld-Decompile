@@ -4,22 +4,22 @@ using System.Xml.Serialization;
 
 namespace Verse
 {
-	// Token: 0x02000EC5 RID: 3781
+	// Token: 0x02000EC6 RID: 3782
 	public class DiaOptionMold
 	{
-		// Token: 0x04003BB5 RID: 15285
+		// Token: 0x04003BBD RID: 15293
 		public string Text = "OK".Translate();
 
-		// Token: 0x04003BB6 RID: 15286
+		// Token: 0x04003BBE RID: 15294
 		[XmlElement("Node")]
 		public List<DiaNodeMold> ChildNodes = new List<DiaNodeMold>();
 
-		// Token: 0x04003BB7 RID: 15287
+		// Token: 0x04003BBF RID: 15295
 		[XmlElement("NodeName")]
 		[DefaultValue("")]
 		public List<string> ChildNodeNames = new List<string>();
 
-		// Token: 0x06005970 RID: 22896 RVA: 0x002DD744 File Offset: 0x002DBB44
+		// Token: 0x06005970 RID: 22896 RVA: 0x002DD930 File Offset: 0x002DBD30
 		public DiaNodeMold RandomLinkNode()
 		{
 			List<DiaNodeMold> list = this.ChildNodes.ListFullCopy<DiaNodeMold>();

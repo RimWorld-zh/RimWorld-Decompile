@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000193 RID: 403
 	public class LordToil_HuntEnemies : LordToil
 	{
-		// Token: 0x06000858 RID: 2136 RVA: 0x0004FCFE File Offset: 0x0004E0FE
+		// Token: 0x06000857 RID: 2135 RVA: 0x0004FCFA File Offset: 0x0004E0FA
 		public LordToil_HuntEnemies(IntVec3 fallbackLocation)
 		{
 			this.data = new LordToilData_HuntEnemies();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000152 RID: 338
-		// (get) Token: 0x06000859 RID: 2137 RVA: 0x0004FD20 File Offset: 0x0004E120
+		// (get) Token: 0x06000858 RID: 2136 RVA: 0x0004FD1C File Offset: 0x0004E11C
 		private LordToilData_HuntEnemies Data
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000153 RID: 339
-		// (get) Token: 0x0600085A RID: 2138 RVA: 0x0004FD40 File Offset: 0x0004E140
+		// (get) Token: 0x06000859 RID: 2137 RVA: 0x0004FD3C File Offset: 0x0004E13C
 		public override bool ForceHighStoryDanger
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600085B RID: 2139 RVA: 0x0004FD58 File Offset: 0x0004E158
+		// Token: 0x0600085A RID: 2138 RVA: 0x0004FD54 File Offset: 0x0004E154
 		public override void UpdateAllDuties()
 		{
 			LordToilData_HuntEnemies data = this.Data;

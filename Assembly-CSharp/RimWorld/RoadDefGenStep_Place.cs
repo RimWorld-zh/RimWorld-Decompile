@@ -6,19 +6,19 @@ namespace RimWorld
 	// Token: 0x020003F3 RID: 1011
 	public class RoadDefGenStep_Place : RoadDefGenStep_Bulldoze
 	{
-		// Token: 0x04000A97 RID: 2711
+		// Token: 0x04000A9A RID: 2714
 		public BuildableDef place;
 
-		// Token: 0x04000A98 RID: 2712
+		// Token: 0x04000A9B RID: 2715
 		public int proximitySpacing;
 
-		// Token: 0x04000A99 RID: 2713
+		// Token: 0x04000A9C RID: 2716
 		public bool onlyIfOriginAllows;
 
-		// Token: 0x04000A9A RID: 2714
+		// Token: 0x04000A9D RID: 2717
 		public string suppressOnTerrainTag;
 
-		// Token: 0x06001169 RID: 4457 RVA: 0x00096DF8 File Offset: 0x000951F8
+		// Token: 0x06001168 RID: 4456 RVA: 0x00096E08 File Offset: 0x00095208
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef, IntVec3 origin, GenStep_Roads.DistanceElement[,] distance)
 		{
 			if (this.onlyIfOriginAllows)

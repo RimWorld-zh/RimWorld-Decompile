@@ -11,31 +11,31 @@ namespace RimWorld
 	// Token: 0x02000407 RID: 1031
 	internal class RiverMaker
 	{
-		// Token: 0x04000ACA RID: 2762
+		// Token: 0x04000ACD RID: 2765
 		private ModuleBase generator;
 
-		// Token: 0x04000ACB RID: 2763
+		// Token: 0x04000ACE RID: 2766
 		private ModuleBase coordinateX;
 
-		// Token: 0x04000ACC RID: 2764
+		// Token: 0x04000ACF RID: 2767
 		private ModuleBase coordinateZ;
 
-		// Token: 0x04000ACD RID: 2765
+		// Token: 0x04000AD0 RID: 2768
 		private ModuleBase shallowizer;
 
-		// Token: 0x04000ACE RID: 2766
+		// Token: 0x04000AD1 RID: 2769
 		private float surfaceLevel;
 
-		// Token: 0x04000ACF RID: 2767
+		// Token: 0x04000AD2 RID: 2770
 		private float shallowFactor = 0.2f;
 
-		// Token: 0x04000AD0 RID: 2768
+		// Token: 0x04000AD3 RID: 2771
 		private List<IntVec3> lhs = new List<IntVec3>();
 
-		// Token: 0x04000AD1 RID: 2769
+		// Token: 0x04000AD4 RID: 2772
 		private List<IntVec3> rhs = new List<IntVec3>();
 
-		// Token: 0x060011B7 RID: 4535 RVA: 0x0009A2FC File Offset: 0x000986FC
+		// Token: 0x060011B6 RID: 4534 RVA: 0x0009A30C File Offset: 0x0009870C
 		public RiverMaker(Vector3 center, float angle, RiverDef riverDef)
 		{
 			this.surfaceLevel = riverDef.widthOnMap / 2f;
@@ -57,7 +57,7 @@ namespace RimWorld
 			this.shallowizer = new Abs(this.shallowizer);
 		}
 
-		// Token: 0x060011B8 RID: 4536 RVA: 0x0009A50C File Offset: 0x0009890C
+		// Token: 0x060011B7 RID: 4535 RVA: 0x0009A51C File Offset: 0x0009891C
 		public TerrainDef TerrainAt(IntVec3 loc, bool recordForValidation = false)
 		{
 			float value = this.generator.GetValue(loc);
@@ -89,13 +89,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011B9 RID: 4537 RVA: 0x0009A5B4 File Offset: 0x000989B4
+		// Token: 0x060011B8 RID: 4536 RVA: 0x0009A5C4 File Offset: 0x000989C4
 		public Vector3 WaterCoordinateAt(IntVec3 loc)
 		{
 			return new Vector3(this.coordinateX.GetValue(loc), 0f, this.coordinateZ.GetValue(loc));
 		}
 
-		// Token: 0x060011BA RID: 4538 RVA: 0x0009A5EC File Offset: 0x000989EC
+		// Token: 0x060011B9 RID: 4537 RVA: 0x0009A5FC File Offset: 0x000989FC
 		public void ValidatePassage(Map map)
 		{
 			IntVec3 intVec = (from loc in this.lhs

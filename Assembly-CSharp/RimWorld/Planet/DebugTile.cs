@@ -8,32 +8,32 @@ namespace RimWorld.Planet
 	// Token: 0x02000587 RID: 1415
 	internal class DebugTile
 	{
-		// Token: 0x04000FE4 RID: 4068
+		// Token: 0x04000FE8 RID: 4072
 		public int tile;
 
-		// Token: 0x04000FE5 RID: 4069
+		// Token: 0x04000FE9 RID: 4073
 		public string displayString;
 
-		// Token: 0x04000FE6 RID: 4070
+		// Token: 0x04000FEA RID: 4074
 		public float colorPct;
 
-		// Token: 0x04000FE7 RID: 4071
+		// Token: 0x04000FEB RID: 4075
 		public int ticksLeft;
 
-		// Token: 0x04000FE8 RID: 4072
+		// Token: 0x04000FEC RID: 4076
 		public Material customMat;
 
-		// Token: 0x04000FE9 RID: 4073
+		// Token: 0x04000FED RID: 4077
 		private Mesh mesh;
 
-		// Token: 0x04000FEA RID: 4074
+		// Token: 0x04000FEE RID: 4078
 		private static List<Vector3> tmpVerts = new List<Vector3>();
 
-		// Token: 0x04000FEB RID: 4075
+		// Token: 0x04000FEF RID: 4079
 		private static List<int> tmpIndices = new List<int>();
 
 		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x06001B02 RID: 6914 RVA: 0x000E8344 File Offset: 0x000E6744
+		// (get) Token: 0x06001B01 RID: 6913 RVA: 0x000E85AC File Offset: 0x000E69AC
 		private Vector2 ScreenPos
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x06001B03 RID: 6915 RVA: 0x000E8374 File Offset: 0x000E6774
+		// (get) Token: 0x06001B02 RID: 6914 RVA: 0x000E85DC File Offset: 0x000E69DC
 		private bool VisibleForCamera
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x06001B04 RID: 6916 RVA: 0x000E83B4 File Offset: 0x000E67B4
+		// (get) Token: 0x06001B03 RID: 6915 RVA: 0x000E861C File Offset: 0x000E6A1C
 		public float DistanceToCamera
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B05 RID: 6917 RVA: 0x000E83F0 File Offset: 0x000E67F0
+		// Token: 0x06001B04 RID: 6916 RVA: 0x000E8658 File Offset: 0x000E6A58
 		public void Draw()
 		{
 			if (this.VisibleForCamera)
@@ -105,7 +105,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B06 RID: 6918 RVA: 0x000E8568 File Offset: 0x000E6968
+		// Token: 0x06001B05 RID: 6917 RVA: 0x000E87D0 File Offset: 0x000E6BD0
 		public void OnGUI()
 		{
 			if (this.VisibleForCamera)

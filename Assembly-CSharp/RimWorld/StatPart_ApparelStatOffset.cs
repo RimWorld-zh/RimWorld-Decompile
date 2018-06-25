@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020009A3 RID: 2467
 	public class StatPart_ApparelStatOffset : StatPart
 	{
-		// Token: 0x04002397 RID: 9111
+		// Token: 0x0400239E RID: 9118
 		private StatDef apparelStat;
 
-		// Token: 0x04002398 RID: 9112
+		// Token: 0x0400239F RID: 9119
 		private bool subtract;
 
-		// Token: 0x06003755 RID: 14165 RVA: 0x001D9048 File Offset: 0x001D7448
+		// Token: 0x06003755 RID: 14165 RVA: 0x001D931C File Offset: 0x001D771C
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && req.Thing != null)
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003756 RID: 14166 RVA: 0x001D90F0 File Offset: 0x001D74F0
+		// Token: 0x06003756 RID: 14166 RVA: 0x001D93C4 File Offset: 0x001D77C4
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing && req.Thing != null)
@@ -62,7 +62,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003757 RID: 14167 RVA: 0x001D91C0 File Offset: 0x001D75C0
+		// Token: 0x06003757 RID: 14167 RVA: 0x001D9494 File Offset: 0x001D7894
 		private string InfoTextLineFrom(Thing gear)
 		{
 			float num = gear.GetStatValue(this.apparelStat, true);
@@ -73,7 +73,7 @@ namespace RimWorld
 			return "    " + gear.LabelCap + ": " + num.ToStringByStyle(this.parentStat.toStringStyle, ToStringNumberSense.Offset);
 		}
 
-		// Token: 0x06003758 RID: 14168 RVA: 0x001D9218 File Offset: 0x001D7618
+		// Token: 0x06003758 RID: 14168 RVA: 0x001D94EC File Offset: 0x001D78EC
 		private bool PawnWearingRelevantGear(Pawn pawn)
 		{
 			if (pawn.apparel != null)

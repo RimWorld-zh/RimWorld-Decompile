@@ -6,23 +6,23 @@ namespace RimWorld
 	// Token: 0x02000516 RID: 1302
 	public class Pawn_NativeVerbs : IExposable
 	{
-		// Token: 0x04000DEA RID: 3562
+		// Token: 0x04000DEE RID: 3566
 		private Pawn pawn;
 
-		// Token: 0x04000DEB RID: 3563
+		// Token: 0x04000DEF RID: 3567
 		private Verb_BeatFire beatFireVerb;
 
-		// Token: 0x04000DEC RID: 3564
+		// Token: 0x04000DF0 RID: 3568
 		private Verb_Ignite igniteVerb;
 
-		// Token: 0x06001792 RID: 6034 RVA: 0x000CE7CF File Offset: 0x000CCBCF
+		// Token: 0x06001791 RID: 6033 RVA: 0x000CEA37 File Offset: 0x000CCE37
 		public Pawn_NativeVerbs(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000340 RID: 832
-		// (get) Token: 0x06001793 RID: 6035 RVA: 0x000CE7E0 File Offset: 0x000CCBE0
+		// (get) Token: 0x06001792 RID: 6034 RVA: 0x000CEA48 File Offset: 0x000CCE48
 		public Verb_BeatFire BeatFireVerb
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000341 RID: 833
-		// (get) Token: 0x06001794 RID: 6036 RVA: 0x000CE80C File Offset: 0x000CCC0C
+		// (get) Token: 0x06001793 RID: 6035 RVA: 0x000CEA74 File Offset: 0x000CCE74
 		public Verb_Ignite IgniteVerb
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001795 RID: 6037 RVA: 0x000CE838 File Offset: 0x000CCC38
+		// Token: 0x06001794 RID: 6036 RVA: 0x000CEAA0 File Offset: 0x000CCEA0
 		public void NativeVerbsTick()
 		{
 			if (this.BeatFireVerb != null)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001796 RID: 6038 RVA: 0x000CE868 File Offset: 0x000CCC68
+		// Token: 0x06001795 RID: 6037 RVA: 0x000CEAD0 File Offset: 0x000CCED0
 		public bool TryStartIgnite(Thing target)
 		{
 			bool result;
@@ -84,7 +84,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001797 RID: 6039 RVA: 0x000CE8F4 File Offset: 0x000CCCF4
+		// Token: 0x06001796 RID: 6038 RVA: 0x000CEB5C File Offset: 0x000CCF5C
 		public bool TryBeatFire(Fire targetFire)
 		{
 			bool result;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001798 RID: 6040 RVA: 0x000CE97E File Offset: 0x000CCD7E
+		// Token: 0x06001797 RID: 6039 RVA: 0x000CEBE6 File Offset: 0x000CCFE6
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<Verb_BeatFire>(ref this.beatFireVerb, "beatFireVerb", new object[0]);
@@ -117,7 +117,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001799 RID: 6041 RVA: 0x000CE9C0 File Offset: 0x000CCDC0
+		// Token: 0x06001798 RID: 6040 RVA: 0x000CEC28 File Offset: 0x000CD028
 		private void CreateVerbs()
 		{
 			if (this.pawn.RaceProps.intelligence >= Intelligence.ToolUser)
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600179A RID: 6042 RVA: 0x000CEA20 File Offset: 0x000CCE20
+		// Token: 0x06001799 RID: 6041 RVA: 0x000CEC88 File Offset: 0x000CD088
 		private void UpdateVerbsLinksAndProps()
 		{
 			if (this.beatFireVerb != null)

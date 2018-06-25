@@ -3,16 +3,16 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A50 RID: 2640
+	// Token: 0x02000A51 RID: 2641
 	public static class Toils_Goto
 	{
-		// Token: 0x06003AD1 RID: 15057 RVA: 0x001F3AE8 File Offset: 0x001F1EE8
+		// Token: 0x06003AD2 RID: 15058 RVA: 0x001F3E14 File Offset: 0x001F2214
 		public static Toil Goto(TargetIndex ind, PathEndMode peMode)
 		{
 			return Toils_Goto.GotoThing(ind, peMode);
 		}
 
-		// Token: 0x06003AD2 RID: 15058 RVA: 0x001F3B04 File Offset: 0x001F1F04
+		// Token: 0x06003AD3 RID: 15059 RVA: 0x001F3E30 File Offset: 0x001F2230
 		public static Toil GotoThing(TargetIndex ind, PathEndMode peMode)
 		{
 			Toil toil = new Toil();
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD3 RID: 15059 RVA: 0x001F3B74 File Offset: 0x001F1F74
+		// Token: 0x06003AD4 RID: 15060 RVA: 0x001F3EA0 File Offset: 0x001F22A0
 		public static Toil GotoThing(TargetIndex ind, IntVec3 exactCell)
 		{
 			Toil toil = new Toil();
@@ -40,7 +40,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD4 RID: 15060 RVA: 0x001F3BD8 File Offset: 0x001F1FD8
+		// Token: 0x06003AD5 RID: 15061 RVA: 0x001F3F04 File Offset: 0x001F2304
 		public static Toil GotoCell(TargetIndex ind, PathEndMode peMode)
 		{
 			Toil toil = new Toil();
@@ -53,7 +53,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD5 RID: 15061 RVA: 0x001F3C38 File Offset: 0x001F2038
+		// Token: 0x06003AD6 RID: 15062 RVA: 0x001F3F64 File Offset: 0x001F2364
 		public static Toil GotoCell(IntVec3 cell, PathEndMode peMode)
 		{
 			Toil toil = new Toil();
@@ -66,7 +66,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD6 RID: 15062 RVA: 0x001F3C98 File Offset: 0x001F2098
+		// Token: 0x06003AD7 RID: 15063 RVA: 0x001F3FC4 File Offset: 0x001F23C4
 		public static Toil MoveOffTargetBlueprint(TargetIndex targetInd)
 		{
 			Toil toil = new Toil();

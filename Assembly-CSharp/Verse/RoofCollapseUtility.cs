@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000C9F RID: 3231
+	// Token: 0x02000CA0 RID: 3232
 	public static class RoofCollapseUtility
 	{
-		// Token: 0x0400305E RID: 12382
+		// Token: 0x04003065 RID: 12389
 		public const float RoofMaxSupportDistance = 6.9f;
 
-		// Token: 0x0400305F RID: 12383
+		// Token: 0x04003066 RID: 12390
 		public static readonly int RoofSupportRadialCellsCount = GenRadial.NumCellsInRadius(6.9f);
 
-		// Token: 0x0600472B RID: 18219 RVA: 0x00258DBC File Offset: 0x002571BC
+		// Token: 0x0600472B RID: 18219 RVA: 0x0025909C File Offset: 0x0025749C
 		public static bool WithinRangeOfRoofHolder(IntVec3 c, Map map, bool assumeNonNoRoofCellsAreRoofed = false)
 		{
 			bool connected = false;
@@ -35,7 +35,7 @@ namespace Verse
 			return connected;
 		}
 
-		// Token: 0x0600472C RID: 18220 RVA: 0x00258E30 File Offset: 0x00257230
+		// Token: 0x0600472C RID: 18220 RVA: 0x00259110 File Offset: 0x00257510
 		public static bool ConnectedToRoofHolder(IntVec3 c, Map map, bool assumeRoofAtRoot)
 		{
 			bool connected = false;

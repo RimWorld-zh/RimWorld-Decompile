@@ -9,25 +9,25 @@ namespace RimWorld
 	// Token: 0x020000E6 RID: 230
 	public class JobGiver_OptimizeApparel : ThinkNode_JobGiver
 	{
-		// Token: 0x040002BB RID: 699
+		// Token: 0x040002BC RID: 700
 		private static NeededWarmth neededWarmth;
 
-		// Token: 0x040002BC RID: 700
+		// Token: 0x040002BD RID: 701
 		private static StringBuilder debugSb;
 
-		// Token: 0x040002BD RID: 701
+		// Token: 0x040002BE RID: 702
 		private const int ApparelOptimizeCheckIntervalMin = 6000;
 
-		// Token: 0x040002BE RID: 702
+		// Token: 0x040002BF RID: 703
 		private const int ApparelOptimizeCheckIntervalMax = 9000;
 
-		// Token: 0x040002BF RID: 703
+		// Token: 0x040002C0 RID: 704
 		private const float MinScoreGainToCare = 0.05f;
 
-		// Token: 0x040002C0 RID: 704
+		// Token: 0x040002C1 RID: 705
 		private const float ScoreFactorIfNotReplacing = 10f;
 
-		// Token: 0x040002C1 RID: 705
+		// Token: 0x040002C2 RID: 706
 		private static readonly SimpleCurve InsulationColdScoreFactorCurve_NeedWarm = new SimpleCurve
 		{
 			{
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x040002C2 RID: 706
+		// Token: 0x040002C3 RID: 707
 		private static readonly SimpleCurve HitPointsPercentScoreFactorCurve = new SimpleCurve
 		{
 			{
@@ -69,13 +69,13 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x060004F4 RID: 1268 RVA: 0x0003705E File Offset: 0x0003545E
+		// Token: 0x060004F4 RID: 1268 RVA: 0x0003707A File Offset: 0x0003547A
 		private void SetNextOptimizeTick(Pawn pawn)
 		{
 			pawn.mindState.nextApparelOptimizeTick = Find.TickManager.TicksGame + Rand.Range(6000, 9000);
 		}
 
-		// Token: 0x060004F5 RID: 1269 RVA: 0x00037088 File Offset: 0x00035488
+		// Token: 0x060004F5 RID: 1269 RVA: 0x000370A4 File Offset: 0x000354A4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -181,7 +181,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004F6 RID: 1270 RVA: 0x000373B4 File Offset: 0x000357B4
+		// Token: 0x060004F6 RID: 1270 RVA: 0x000373D0 File Offset: 0x000357D0
 		public static float ApparelScoreGain(Pawn pawn, Apparel ap)
 		{
 			float result;
@@ -215,7 +215,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004F7 RID: 1271 RVA: 0x000374B0 File Offset: 0x000358B0
+		// Token: 0x060004F7 RID: 1271 RVA: 0x000374CC File Offset: 0x000358CC
 		public static float ApparelScoreRaw(Pawn pawn, Apparel ap)
 		{
 			float num = 0.1f;

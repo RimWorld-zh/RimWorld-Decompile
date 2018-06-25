@@ -9,29 +9,29 @@ namespace RimWorld.Planet
 	// Token: 0x02000618 RID: 1560
 	public class TravelingTransportPods : WorldObject, IThingHolder
 	{
-		// Token: 0x0400124E RID: 4686
+		// Token: 0x04001252 RID: 4690
 		public int destinationTile = -1;
 
-		// Token: 0x0400124F RID: 4687
+		// Token: 0x04001253 RID: 4691
 		public TransportPodsArrivalAction arrivalAction;
 
-		// Token: 0x04001250 RID: 4688
+		// Token: 0x04001254 RID: 4692
 		private List<ActiveDropPodInfo> pods = new List<ActiveDropPodInfo>();
 
-		// Token: 0x04001251 RID: 4689
+		// Token: 0x04001255 RID: 4693
 		private bool arrived;
 
-		// Token: 0x04001252 RID: 4690
+		// Token: 0x04001256 RID: 4694
 		private int initialTile = -1;
 
-		// Token: 0x04001253 RID: 4691
+		// Token: 0x04001257 RID: 4695
 		private float traveledPct;
 
-		// Token: 0x04001254 RID: 4692
+		// Token: 0x04001258 RID: 4696
 		private const float TravelSpeed = 0.00025f;
 
 		// Token: 0x1700049F RID: 1183
-		// (get) Token: 0x06001F73 RID: 8051 RVA: 0x00110CE8 File Offset: 0x0010F0E8
+		// (get) Token: 0x06001F72 RID: 8050 RVA: 0x00110F50 File Offset: 0x0010F350
 		private Vector3 Start
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A0 RID: 1184
-		// (get) Token: 0x06001F74 RID: 8052 RVA: 0x00110D10 File Offset: 0x0010F110
+		// (get) Token: 0x06001F73 RID: 8051 RVA: 0x00110F78 File Offset: 0x0010F378
 		private Vector3 End
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A1 RID: 1185
-		// (get) Token: 0x06001F75 RID: 8053 RVA: 0x00110D38 File Offset: 0x0010F138
+		// (get) Token: 0x06001F74 RID: 8052 RVA: 0x00110FA0 File Offset: 0x0010F3A0
 		public override Vector3 DrawPos
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A2 RID: 1186
-		// (get) Token: 0x06001F76 RID: 8054 RVA: 0x00110D64 File Offset: 0x0010F164
+		// (get) Token: 0x06001F75 RID: 8053 RVA: 0x00110FCC File Offset: 0x0010F3CC
 		private float TraveledPctStepPerTick
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A3 RID: 1187
-		// (get) Token: 0x06001F77 RID: 8055 RVA: 0x00110DD0 File Offset: 0x0010F1D0
+		// (get) Token: 0x06001F76 RID: 8054 RVA: 0x00111038 File Offset: 0x0010F438
 		private bool PodsHaveAnyPotentialCaravanOwner
 		{
 			get
@@ -112,7 +112,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A4 RID: 1188
-		// (get) Token: 0x06001F78 RID: 8056 RVA: 0x00110E60 File Offset: 0x0010F260
+		// (get) Token: 0x06001F77 RID: 8055 RVA: 0x001110C8 File Offset: 0x0010F4C8
 		public bool PodsHaveAnyFreeColonist
 		{
 			get
@@ -134,7 +134,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A5 RID: 1189
-		// (get) Token: 0x06001F79 RID: 8057 RVA: 0x00110EF4 File Offset: 0x0010F2F4
+		// (get) Token: 0x06001F78 RID: 8056 RVA: 0x0011115C File Offset: 0x0010F55C
 		public IEnumerable<Pawn> Pawns
 		{
 			get
@@ -155,7 +155,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F7A RID: 8058 RVA: 0x00110F20 File Offset: 0x0010F320
+		// Token: 0x06001F79 RID: 8057 RVA: 0x00111188 File Offset: 0x0010F588
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -174,14 +174,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F7B RID: 8059 RVA: 0x00110FEA File Offset: 0x0010F3EA
+		// Token: 0x06001F7A RID: 8058 RVA: 0x00111252 File Offset: 0x0010F652
 		public override void PostAdd()
 		{
 			base.PostAdd();
 			this.initialTile = base.Tile;
 		}
 
-		// Token: 0x06001F7C RID: 8060 RVA: 0x00110FFF File Offset: 0x0010F3FF
+		// Token: 0x06001F7B RID: 8059 RVA: 0x00111267 File Offset: 0x0010F667
 		public override void Tick()
 		{
 			base.Tick();
@@ -193,7 +193,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F7D RID: 8061 RVA: 0x00111040 File Offset: 0x0010F440
+		// Token: 0x06001F7C RID: 8060 RVA: 0x001112A8 File Offset: 0x0010F6A8
 		public void AddPod(ActiveDropPodInfo contents, bool justLeftTheMap)
 		{
 			contents.parent = this;
@@ -221,7 +221,7 @@ namespace RimWorld.Planet
 			contents.savePawnsWithReferenceMode = true;
 		}
 
-		// Token: 0x06001F7E RID: 8062 RVA: 0x001110EC File Offset: 0x0010F4EC
+		// Token: 0x06001F7D RID: 8061 RVA: 0x00111354 File Offset: 0x0010F754
 		public bool ContainsPawn(Pawn p)
 		{
 			for (int i = 0; i < this.pods.Count; i++)
@@ -234,7 +234,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001F7F RID: 8063 RVA: 0x00111144 File Offset: 0x0010F544
+		// Token: 0x06001F7E RID: 8062 RVA: 0x001113AC File Offset: 0x0010F7AC
 		private void Arrived()
 		{
 			if (!this.arrived)
@@ -286,7 +286,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F80 RID: 8064 RVA: 0x001112FC File Offset: 0x0010F6FC
+		// Token: 0x06001F7F RID: 8063 RVA: 0x00111564 File Offset: 0x0010F964
 		private void DoArrivalAction()
 		{
 			for (int i = 0; i < this.pods.Count; i++)
@@ -318,13 +318,13 @@ namespace RimWorld.Planet
 			Find.WorldObjects.Remove(this);
 		}
 
-		// Token: 0x06001F81 RID: 8065 RVA: 0x00111420 File Offset: 0x0010F820
+		// Token: 0x06001F80 RID: 8064 RVA: 0x00111688 File Offset: 0x0010FA88
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x06001F82 RID: 8066 RVA: 0x00111438 File Offset: 0x0010F838
+		// Token: 0x06001F81 RID: 8065 RVA: 0x001116A0 File Offset: 0x0010FAA0
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());

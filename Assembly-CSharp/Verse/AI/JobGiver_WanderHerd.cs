@@ -4,20 +4,20 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AD4 RID: 2772
+	// Token: 0x02000AD5 RID: 2773
 	public class JobGiver_WanderHerd : JobGiver_Wander
 	{
-		// Token: 0x040026C1 RID: 9921
+		// Token: 0x040026C8 RID: 9928
 		private const int MinDistToHumanlike = 15;
 
-		// Token: 0x06003D88 RID: 15752 RVA: 0x002061FD File Offset: 0x002045FD
+		// Token: 0x06003D88 RID: 15752 RVA: 0x002064DD File Offset: 0x002048DD
 		public JobGiver_WanderHerd()
 		{
 			this.wanderRadius = 5f;
 			this.ticksBetweenWandersRange = new IntRange(125, 200);
 		}
 
-		// Token: 0x06003D89 RID: 15753 RVA: 0x00206224 File Offset: 0x00204624
+		// Token: 0x06003D89 RID: 15753 RVA: 0x00206504 File Offset: 0x00204904
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)

@@ -8,10 +8,10 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_Fog : SkyOverlay
 	{
-		// Token: 0x04000BAB RID: 2987
+		// Token: 0x04000BAE RID: 2990
 		private static readonly Material FogOverlayWorld = MatLoader.LoadMat("Weather/FogOverlayWorld", -1);
 
-		// Token: 0x06001333 RID: 4915 RVA: 0x000A55C8 File Offset: 0x000A39C8
+		// Token: 0x06001332 RID: 4914 RVA: 0x000A57C8 File Offset: 0x000A3BC8
 		public WeatherOverlay_Fog()
 		{
 			this.worldOverlayMat = WeatherOverlay_Fog.FogOverlayWorld;

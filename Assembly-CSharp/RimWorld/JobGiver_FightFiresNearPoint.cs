@@ -8,10 +8,10 @@ namespace RimWorld
 	// Token: 0x020000D0 RID: 208
 	internal class JobGiver_FightFiresNearPoint : ThinkNode_JobGiver
 	{
-		// Token: 0x0400029E RID: 670
+		// Token: 0x0400029F RID: 671
 		public float maxDistFromPoint = -1f;
 
-		// Token: 0x060004B2 RID: 1202 RVA: 0x00035084 File Offset: 0x00033484
+		// Token: 0x060004B2 RID: 1202 RVA: 0x000350A0 File Offset: 0x000334A0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_FightFiresNearPoint jobGiver_FightFiresNearPoint = (JobGiver_FightFiresNearPoint)base.DeepCopy(resolve);
@@ -19,7 +19,7 @@ namespace RimWorld
 			return jobGiver_FightFiresNearPoint;
 		}
 
-		// Token: 0x060004B3 RID: 1203 RVA: 0x000350B4 File Offset: 0x000334B4
+		// Token: 0x060004B3 RID: 1203 RVA: 0x000350D0 File Offset: 0x000334D0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000388 RID: 904
 	public static class FlickUtility
 	{
-		// Token: 0x06000FA4 RID: 4004 RVA: 0x00083E84 File Offset: 0x00082284
+		// Token: 0x06000FA3 RID: 4003 RVA: 0x00083E94 File Offset: 0x00082294
 		public static void UpdateFlickDesignation(Thing t)
 		{
 			bool flag = false;
@@ -35,7 +35,7 @@ namespace RimWorld
 			TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.SwitchFlickingDesignation);
 		}
 
-		// Token: 0x06000FA5 RID: 4005 RVA: 0x00083F54 File Offset: 0x00082354
+		// Token: 0x06000FA4 RID: 4004 RVA: 0x00083F64 File Offset: 0x00082364
 		public static bool WantsToBeOn(Thing t)
 		{
 			CompFlickable compFlickable = t.TryGetComp<CompFlickable>();

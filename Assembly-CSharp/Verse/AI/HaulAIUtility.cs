@@ -9,25 +9,25 @@ namespace Verse.AI
 	// Token: 0x02000118 RID: 280
 	public static class HaulAIUtility
 	{
-		// Token: 0x040002FC RID: 764
+		// Token: 0x040002FD RID: 765
 		private static string ForbiddenLowerTrans;
 
-		// Token: 0x040002FD RID: 765
+		// Token: 0x040002FE RID: 766
 		private static string ForbiddenOutsideAllowedAreaLowerTrans;
 
-		// Token: 0x040002FE RID: 766
+		// Token: 0x040002FF RID: 767
 		private static string ReservedForPrisonersTrans;
 
-		// Token: 0x040002FF RID: 767
+		// Token: 0x04000300 RID: 768
 		private static string BurningLowerTrans;
 
-		// Token: 0x04000300 RID: 768
+		// Token: 0x04000301 RID: 769
 		private static string NoEmptyPlaceLowerTrans;
 
-		// Token: 0x04000301 RID: 769
+		// Token: 0x04000302 RID: 770
 		private static List<IntVec3> candidates = new List<IntVec3>();
 
-		// Token: 0x060005B2 RID: 1458 RVA: 0x0003DBF0 File Offset: 0x0003BFF0
+		// Token: 0x060005B2 RID: 1458 RVA: 0x0003DC0C File Offset: 0x0003C00C
 		public static void Reset()
 		{
 			HaulAIUtility.ForbiddenLowerTrans = "ForbiddenLower".Translate();
@@ -37,7 +37,7 @@ namespace Verse.AI
 			HaulAIUtility.NoEmptyPlaceLowerTrans = "NoEmptyPlaceLower".Translate();
 		}
 
-		// Token: 0x060005B3 RID: 1459 RVA: 0x0003DC4C File Offset: 0x0003C04C
+		// Token: 0x060005B3 RID: 1459 RVA: 0x0003DC68 File Offset: 0x0003C068
 		public static bool PawnCanAutomaticallyHaul(Pawn p, Thing t, bool forced)
 		{
 			bool result;
@@ -59,19 +59,13 @@ namespace Verse.AI
 			}
 			else
 			{
-				result = ((t.def.alwaysHaulable || t.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) != null || t.IsInValidStorage()) && HaulAIUtility.PawnCanAutomaticallyHaulBasicChecks(p, t, forced));
+				result = ((t.def.alwaysHaulable || t.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) != null || t.IsInValidStorage()) && HaulAIUtility.PawnCanAutomaticallyHaulFast(p, t, forced));
 			}
 			return result;
 		}
 
-		// Token: 0x060005B4 RID: 1460 RVA: 0x0003DD0C File Offset: 0x0003C10C
+		// Token: 0x060005B4 RID: 1460 RVA: 0x0003DD28 File Offset: 0x0003C128
 		public static bool PawnCanAutomaticallyHaulFast(Pawn p, Thing t, bool forced)
-		{
-			return HaulAIUtility.PawnCanAutomaticallyHaulBasicChecks(p, t, forced);
-		}
-
-		// Token: 0x060005B5 RID: 1461 RVA: 0x0003DD2C File Offset: 0x0003C12C
-		private static bool PawnCanAutomaticallyHaulBasicChecks(Pawn p, Thing t, bool forced)
 		{
 			UnfinishedThing unfinishedThing = t as UnfinishedThing;
 			bool result;
@@ -120,7 +114,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060005B6 RID: 1462 RVA: 0x0003DE24 File Offset: 0x0003C224
+		// Token: 0x060005B5 RID: 1461 RVA: 0x0003DE20 File Offset: 0x0003C220
 		public static Job HaulToStorageJob(Pawn p, Thing t)
 		{
 			StoragePriority currentPriority = StoreUtility.CurrentStoragePriorityOf(t);
@@ -152,7 +146,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060005B7 RID: 1463 RVA: 0x0003DED8 File Offset: 0x0003C2D8
+		// Token: 0x060005B6 RID: 1462 RVA: 0x0003DED4 File Offset: 0x0003C2D4
 		public static Job HaulToCellStorageJob(Pawn p, Thing t, IntVec3 storeCell, bool fitInStoreCell)
 		{
 			Job job = new Job(JobDefOf.HaulToCell, t, storeCell);
@@ -205,7 +199,7 @@ namespace Verse.AI
 			return job;
 		}
 
-		// Token: 0x060005B8 RID: 1464 RVA: 0x0003E080 File Offset: 0x0003C480
+		// Token: 0x060005B7 RID: 1463 RVA: 0x0003E07C File Offset: 0x0003C47C
 		public static Job HaulToContainerJob(Pawn p, Thing t, Thing container)
 		{
 			ThingOwner thingOwner = container.TryGetInnerInteractableThingOwner();
@@ -226,14 +220,14 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060005B9 RID: 1465 RVA: 0x0003E0F8 File Offset: 0x0003C4F8
+		// Token: 0x060005B8 RID: 1464 RVA: 0x0003E0F4 File Offset: 0x0003C4F4
 		public static bool CanHaulAside(Pawn p, Thing t, out IntVec3 storeCell)
 		{
 			storeCell = IntVec3.Invalid;
 			return t.def.EverHaulable && !t.IsBurning() && p.CanReserveAndReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false) && HaulAIUtility.TryFindSpotToPlaceHaulableCloseTo(t, p, t.PositionHeld, out storeCell);
 		}
 
-		// Token: 0x060005BA RID: 1466 RVA: 0x0003E180 File Offset: 0x0003C580
+		// Token: 0x060005B9 RID: 1465 RVA: 0x0003E17C File Offset: 0x0003C57C
 		public static Job HaulAsideJobFor(Pawn p, Thing t)
 		{
 			IntVec3 c;
@@ -255,7 +249,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060005BB RID: 1467 RVA: 0x0003E1E4 File Offset: 0x0003C5E4
+		// Token: 0x060005BA RID: 1466 RVA: 0x0003E1E0 File Offset: 0x0003C5E0
 		private static bool TryFindSpotToPlaceHaulableCloseTo(Thing haulable, Pawn worker, IntVec3 center, out IntVec3 spot)
 		{
 			Region region = center.GetRegion(worker.Map, RegionType.Set_Passable);
@@ -299,7 +293,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060005BC RID: 1468 RVA: 0x0003E2B8 File Offset: 0x0003C6B8
+		// Token: 0x060005BB RID: 1467 RVA: 0x0003E2B4 File Offset: 0x0003C6B4
 		private static bool HaulablePlaceValidator(Thing haulable, Pawn worker, IntVec3 c)
 		{
 			bool result;

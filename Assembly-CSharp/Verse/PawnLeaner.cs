@@ -3,32 +3,32 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE2 RID: 3298
+	// Token: 0x02000CE3 RID: 3299
 	public class PawnLeaner
 	{
-		// Token: 0x04003129 RID: 12585
+		// Token: 0x04003130 RID: 12592
 		private Pawn pawn;
 
-		// Token: 0x0400312A RID: 12586
+		// Token: 0x04003131 RID: 12593
 		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
 
-		// Token: 0x0400312B RID: 12587
+		// Token: 0x04003132 RID: 12594
 		private float leanOffsetCurPct = 0f;
 
-		// Token: 0x0400312C RID: 12588
+		// Token: 0x04003133 RID: 12595
 		private const float LeanOffsetPctChangeRate = 0.075f;
 
-		// Token: 0x0400312D RID: 12589
+		// Token: 0x04003134 RID: 12596
 		private const float LeanOffsetDistanceMultiplier = 0.5f;
 
-		// Token: 0x060048B0 RID: 18608 RVA: 0x002627A2 File Offset: 0x00260BA2
+		// Token: 0x060048B0 RID: 18608 RVA: 0x00262A82 File Offset: 0x00260E82
 		public PawnLeaner(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000B7A RID: 2938
-		// (get) Token: 0x060048B1 RID: 18609 RVA: 0x002627CC File Offset: 0x00260BCC
+		// (get) Token: 0x060048B1 RID: 18609 RVA: 0x00262AAC File Offset: 0x00260EAC
 		public Vector3 LeanOffset
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B2 RID: 18610 RVA: 0x00262804 File Offset: 0x00260C04
+		// Token: 0x060048B2 RID: 18610 RVA: 0x00262AE4 File Offset: 0x00260EE4
 		public void LeanerTick()
 		{
 			if (this.ShouldLean())
@@ -58,14 +58,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B3 RID: 18611 RVA: 0x00262880 File Offset: 0x00260C80
+		// Token: 0x060048B3 RID: 18611 RVA: 0x00262B60 File Offset: 0x00260F60
 		public bool ShouldLean()
 		{
 			Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
 			return stance_Busy != null && !(this.shootSourceOffset == new IntVec3(0, 0, 0));
 		}
 
-		// Token: 0x060048B4 RID: 18612 RVA: 0x002628D9 File Offset: 0x00260CD9
+		// Token: 0x060048B4 RID: 18612 RVA: 0x00262BB9 File Offset: 0x00260FB9
 		public void Notify_WarmingCastAlongLine(ShootLine newShootLine, IntVec3 ShootPosition)
 		{
 			this.shootSourceOffset = newShootLine.Source - this.pawn.Position;

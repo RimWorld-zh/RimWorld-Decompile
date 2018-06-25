@@ -8,26 +8,26 @@ namespace RimWorld
 	// Token: 0x020003E9 RID: 1001
 	public class GenStep_CaveHives : GenStep
 	{
-		// Token: 0x04000A5E RID: 2654
+		// Token: 0x04000A61 RID: 2657
 		private List<IntVec3> rockCells = new List<IntVec3>();
 
-		// Token: 0x04000A5F RID: 2655
+		// Token: 0x04000A62 RID: 2658
 		private List<IntVec3> possibleSpawnCells = new List<IntVec3>();
 
-		// Token: 0x04000A60 RID: 2656
+		// Token: 0x04000A63 RID: 2659
 		private List<Hive> spawnedHives = new List<Hive>();
 
-		// Token: 0x04000A61 RID: 2657
+		// Token: 0x04000A64 RID: 2660
 		private const int MinDistToOpenSpace = 10;
 
-		// Token: 0x04000A62 RID: 2658
+		// Token: 0x04000A65 RID: 2661
 		private const int MinDistFromFactionBase = 50;
 
-		// Token: 0x04000A63 RID: 2659
+		// Token: 0x04000A66 RID: 2662
 		private const float CaveCellsPerHive = 1000f;
 
 		// Token: 0x17000249 RID: 585
-		// (get) Token: 0x06001120 RID: 4384 RVA: 0x00092AA4 File Offset: 0x00090EA4
+		// (get) Token: 0x0600111F RID: 4383 RVA: 0x00092AB4 File Offset: 0x00090EB4
 		public override int SeedPart
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001121 RID: 4385 RVA: 0x00092AC0 File Offset: 0x00090EC0
+		// Token: 0x06001120 RID: 4384 RVA: 0x00092AD0 File Offset: 0x00090ED0
 		public override void Generate(Map map)
 		{
 			if (Find.Storyteller.difficulty.allowCaveHives)
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001122 RID: 4386 RVA: 0x00092CE4 File Offset: 0x000910E4
+		// Token: 0x06001121 RID: 4385 RVA: 0x00092CF4 File Offset: 0x000910F4
 		private void TrySpawnHive(Map map)
 		{
 			IntVec3 intVec;
@@ -105,7 +105,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001123 RID: 4387 RVA: 0x00092DA8 File Offset: 0x000911A8
+		// Token: 0x06001122 RID: 4386 RVA: 0x00092DB8 File Offset: 0x000911B8
 		private bool TryFindHiveSpawnCell(Map map, out IntVec3 spawnCell)
 		{
 			float num = -1f;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200048B RID: 1163
 	public static class PawnInventoryGenerator
 	{
-		// Token: 0x06001486 RID: 5254 RVA: 0x000B43E8 File Offset: 0x000B27E8
+		// Token: 0x06001485 RID: 5253 RVA: 0x000B45E8 File Offset: 0x000B29E8
 		public static void GenerateInventoryFor(Pawn p, PawnGenerationRequest request)
 		{
 			p.inventory.DestroyAll(DestroyMode.Vanish);
@@ -34,7 +34,7 @@ namespace RimWorld
 			PawnInventoryGenerator.GiveCombatEnhancingDrugs(p);
 		}
 
-		// Token: 0x06001487 RID: 5255 RVA: 0x000B4500 File Offset: 0x000B2900
+		// Token: 0x06001486 RID: 5254 RVA: 0x000B4700 File Offset: 0x000B2B00
 		public static void GiveRandomFood(Pawn p)
 		{
 			if (p.kindDef.invNutrition > 0.001f)
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001488 RID: 5256 RVA: 0x000B45BC File Offset: 0x000B29BC
+		// Token: 0x06001487 RID: 5255 RVA: 0x000B47BC File Offset: 0x000B2BBC
 		private static void GiveDrugsIfAddicted(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
@@ -108,7 +108,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001489 RID: 5257 RVA: 0x000B46B8 File Offset: 0x000B2AB8
+		// Token: 0x06001488 RID: 5256 RVA: 0x000B48B8 File Offset: 0x000B2CB8
 		private static void GiveCombatEnhancingDrugs(Pawn pawn)
 		{
 			if (Rand.Value < pawn.kindDef.combatEnhancingDrugsChance)

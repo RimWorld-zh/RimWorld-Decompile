@@ -4,20 +4,20 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A41 RID: 2625
+	// Token: 0x02000A42 RID: 2626
 	public class JobDriver_HaulToContainer : JobDriver
 	{
-		// Token: 0x04002512 RID: 9490
+		// Token: 0x04002522 RID: 9506
 		private const TargetIndex CarryThingIndex = TargetIndex.A;
 
-		// Token: 0x04002513 RID: 9491
+		// Token: 0x04002523 RID: 9507
 		private const TargetIndex DestIndex = TargetIndex.B;
 
-		// Token: 0x04002514 RID: 9492
+		// Token: 0x04002524 RID: 9508
 		private const TargetIndex PrimaryDestIndex = TargetIndex.C;
 
 		// Token: 0x170008EB RID: 2283
-		// (get) Token: 0x06003A3F RID: 14911 RVA: 0x001EE4A8 File Offset: 0x001EC8A8
+		// (get) Token: 0x06003A40 RID: 14912 RVA: 0x001EE7D4 File Offset: 0x001ECBD4
 		private Thing ThingToCarry
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008EC RID: 2284
-		// (get) Token: 0x06003A40 RID: 14912 RVA: 0x001EE4D0 File Offset: 0x001EC8D0
+		// (get) Token: 0x06003A41 RID: 14913 RVA: 0x001EE7FC File Offset: 0x001ECBFC
 		private Thing Container
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008ED RID: 2285
-		// (get) Token: 0x06003A41 RID: 14913 RVA: 0x001EE4F8 File Offset: 0x001EC8F8
+		// (get) Token: 0x06003A42 RID: 14914 RVA: 0x001EE824 File Offset: 0x001ECC24
 		private int Duration
 		{
 			get
@@ -46,7 +46,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A42 RID: 14914 RVA: 0x001EE544 File Offset: 0x001EC944
+		// Token: 0x06003A43 RID: 14915 RVA: 0x001EE870 File Offset: 0x001ECC70
 		public override string GetReport()
 		{
 			Thing thing;
@@ -74,7 +74,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A43 RID: 14915 RVA: 0x001EE600 File Offset: 0x001ECA00
+		// Token: 0x06003A44 RID: 14916 RVA: 0x001EE92C File Offset: 0x001ECD2C
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
@@ -82,7 +82,7 @@ namespace Verse.AI
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A44 RID: 14916 RVA: 0x001EE6A0 File Offset: 0x001ECAA0
+		// Token: 0x06003A45 RID: 14917 RVA: 0x001EE9CC File Offset: 0x001ECDCC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

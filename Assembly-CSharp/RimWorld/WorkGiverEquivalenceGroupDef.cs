@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000BB4 RID: 2996
+	// Token: 0x02000BB5 RID: 2997
 	public class WorkGiverEquivalenceGroupDef : Def
 	{
 	}

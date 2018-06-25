@@ -6,11 +6,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000BE1 RID: 3041
+	// Token: 0x02000BE2 RID: 3042
 	public static class StartingPawnUtility
 	{
 		// Token: 0x17000A6F RID: 2671
-		// (get) Token: 0x0600425F RID: 16991 RVA: 0x0022EB2C File Offset: 0x0022CF2C
+		// (get) Token: 0x0600425F RID: 16991 RVA: 0x0022EE0C File Offset: 0x0022D20C
 		private static List<Pawn> StartingAndOptionalPawns
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004260 RID: 16992 RVA: 0x0022EB4C File Offset: 0x0022CF4C
+		// Token: 0x06004260 RID: 16992 RVA: 0x0022EE2C File Offset: 0x0022D22C
 		public static void ClearAllStartingPawns()
 		{
 			for (int i = StartingPawnUtility.StartingAndOptionalPawns.Count - 1; i >= 0; i--)
@@ -35,14 +35,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004261 RID: 16993 RVA: 0x0022EBDC File Offset: 0x0022CFDC
+		// Token: 0x06004261 RID: 16993 RVA: 0x0022EEBC File Offset: 0x0022D2BC
 		public static Pawn RandomizeInPlace(Pawn p)
 		{
 			int index = StartingPawnUtility.StartingAndOptionalPawns.IndexOf(p);
 			return StartingPawnUtility.RegenerateStartingPawnInPlace(index);
 		}
 
-		// Token: 0x06004262 RID: 16994 RVA: 0x0022EC08 File Offset: 0x0022D008
+		// Token: 0x06004262 RID: 16994 RVA: 0x0022EEE8 File Offset: 0x0022D2E8
 		private static Pawn RegenerateStartingPawnInPlace(int index)
 		{
 			Pawn pawn = StartingPawnUtility.StartingAndOptionalPawns[index];
@@ -63,7 +63,7 @@ namespace Verse
 			return pawn2;
 		}
 
-		// Token: 0x06004263 RID: 16995 RVA: 0x0022ECA8 File Offset: 0x0022D0A8
+		// Token: 0x06004263 RID: 16995 RVA: 0x0022EF88 File Offset: 0x0022D388
 		public static Pawn NewGeneratedStartingPawn()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, TutorSystem.TutorialMode, 20f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
@@ -82,7 +82,7 @@ namespace Verse
 			return pawn;
 		}
 
-		// Token: 0x06004264 RID: 16996 RVA: 0x0022ED78 File Offset: 0x0022D178
+		// Token: 0x06004264 RID: 16996 RVA: 0x0022F058 File Offset: 0x0022D458
 		public static bool WorkTypeRequirementsSatisfied()
 		{
 			bool result;
@@ -125,7 +125,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004265 RID: 16997 RVA: 0x0022EE84 File Offset: 0x0022D284
+		// Token: 0x06004265 RID: 16997 RVA: 0x0022F164 File Offset: 0x0022D564
 		public static IEnumerable<WorkTypeDef> RequiredWorkTypesDisabledForEveryone()
 		{
 			List<WorkTypeDef> workTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;

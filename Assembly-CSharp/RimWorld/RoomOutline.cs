@@ -6,17 +6,17 @@ namespace RimWorld
 	// Token: 0x020003E7 RID: 999
 	public class RoomOutline
 	{
-		// Token: 0x04000A59 RID: 2649
+		// Token: 0x04000A5C RID: 2652
 		public CellRect rect;
 
-		// Token: 0x06001118 RID: 4376 RVA: 0x00092643 File Offset: 0x00090A43
+		// Token: 0x06001117 RID: 4375 RVA: 0x00092653 File Offset: 0x00090A53
 		public RoomOutline(CellRect rect)
 		{
 			this.rect = rect;
 		}
 
 		// Token: 0x17000248 RID: 584
-		// (get) Token: 0x06001119 RID: 4377 RVA: 0x00092654 File Offset: 0x00090A54
+		// (get) Token: 0x06001118 RID: 4376 RVA: 0x00092664 File Offset: 0x00090A64
 		public int CellsCountIgnoringWalls
 		{
 			get

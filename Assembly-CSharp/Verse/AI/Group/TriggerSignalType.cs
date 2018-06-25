@@ -2,24 +2,24 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A0E RID: 2574
+	// Token: 0x02000A0F RID: 2575
 	public enum TriggerSignalType : byte
 	{
-		// Token: 0x04002494 RID: 9364
+		// Token: 0x040024A4 RID: 9380
 		Undefined,
-		// Token: 0x04002495 RID: 9365
+		// Token: 0x040024A5 RID: 9381
 		Tick,
-		// Token: 0x04002496 RID: 9366
+		// Token: 0x040024A6 RID: 9382
 		Memo,
-		// Token: 0x04002497 RID: 9367
+		// Token: 0x040024A7 RID: 9383
 		PawnDamaged,
-		// Token: 0x04002498 RID: 9368
+		// Token: 0x040024A8 RID: 9384
 		PawnArrestAttempted,
-		// Token: 0x04002499 RID: 9369
+		// Token: 0x040024A9 RID: 9385
 		PawnLost,
-		// Token: 0x0400249A RID: 9370
+		// Token: 0x040024AA RID: 9386
 		BuildingDamaged,
-		// Token: 0x0400249B RID: 9371
+		// Token: 0x040024AB RID: 9387
 		FactionRelationsChanged
 	}
 }

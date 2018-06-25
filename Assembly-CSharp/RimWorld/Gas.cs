@@ -6,16 +6,16 @@ namespace RimWorld
 	// Token: 0x020006C5 RID: 1733
 	public class Gas : Thing
 	{
-		// Token: 0x040014DE RID: 5342
+		// Token: 0x040014E2 RID: 5346
 		public int destroyTick;
 
-		// Token: 0x040014DF RID: 5343
+		// Token: 0x040014E3 RID: 5347
 		public float graphicRotation = 0f;
 
-		// Token: 0x040014E0 RID: 5344
+		// Token: 0x040014E4 RID: 5348
 		public float graphicRotationSpeed = 0f;
 
-		// Token: 0x06002577 RID: 9591 RVA: 0x001417F0 File Offset: 0x0013FBF0
+		// Token: 0x06002576 RID: 9590 RVA: 0x00141A50 File Offset: 0x0013FE50
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			for (;;)
@@ -32,7 +32,7 @@ namespace RimWorld
 			this.graphicRotationSpeed = Rand.Range(-this.def.gas.rotationSpeed, this.def.gas.rotationSpeed) / 60f;
 		}
 
-		// Token: 0x06002578 RID: 9592 RVA: 0x0014188A File Offset: 0x0013FC8A
+		// Token: 0x06002577 RID: 9591 RVA: 0x00141AEA File Offset: 0x0013FEEA
 		public override void Tick()
 		{
 			if (this.destroyTick <= Find.TickManager.TicksGame)
@@ -42,7 +42,7 @@ namespace RimWorld
 			this.graphicRotation += this.graphicRotationSpeed;
 		}
 
-		// Token: 0x06002579 RID: 9593 RVA: 0x001418BC File Offset: 0x0013FCBC
+		// Token: 0x06002578 RID: 9592 RVA: 0x00141B1C File Offset: 0x0013FF1C
 		public override void ExposeData()
 		{
 			base.ExposeData();

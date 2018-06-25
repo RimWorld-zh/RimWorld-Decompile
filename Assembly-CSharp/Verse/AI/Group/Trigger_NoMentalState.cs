@@ -2,10 +2,10 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A24 RID: 2596
+	// Token: 0x02000A25 RID: 2597
 	public class Trigger_NoMentalState : Trigger
 	{
-		// Token: 0x060039C8 RID: 14792 RVA: 0x001E8B4C File Offset: 0x001E6F4C
+		// Token: 0x060039C9 RID: 14793 RVA: 0x001E8E78 File Offset: 0x001E7278
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;

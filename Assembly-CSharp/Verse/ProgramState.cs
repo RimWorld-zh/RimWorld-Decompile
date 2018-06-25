@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000BDA RID: 3034
+	// Token: 0x02000BDB RID: 3035
 	public enum ProgramState : byte
 	{
-		// Token: 0x04002D42 RID: 11586
+		// Token: 0x04002D49 RID: 11593
 		Entry,
-		// Token: 0x04002D43 RID: 11587
+		// Token: 0x04002D4A RID: 11594
 		MapInitializing,
-		// Token: 0x04002D44 RID: 11588
+		// Token: 0x04002D4B RID: 11595
 		Playing
 	}
 }

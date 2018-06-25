@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E82 RID: 3714
+	// Token: 0x02000E83 RID: 3715
 	public class Listing_Tree : Listing_Lines
 	{
-		// Token: 0x040039F0 RID: 14832
+		// Token: 0x040039F8 RID: 14840
 		public float nestIndentWidth = 11f;
 
-		// Token: 0x040039F1 RID: 14833
+		// Token: 0x040039F9 RID: 14841
 		protected const float OpenCloseWidgetSize = 18f;
 
 		// Token: 0x17000DD1 RID: 3537
-		// (get) Token: 0x060057A1 RID: 22433 RVA: 0x001B2EA0 File Offset: 0x001B12A0
+		// (get) Token: 0x060057A1 RID: 22433 RVA: 0x001B3108 File Offset: 0x001B1508
 		protected virtual float LabelWidth
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000DD2 RID: 3538
-		// (get) Token: 0x060057A2 RID: 22434 RVA: 0x001B2EC4 File Offset: 0x001B12C4
+		// (get) Token: 0x060057A2 RID: 22434 RVA: 0x001B312C File Offset: 0x001B152C
 		protected float EditAreaWidth
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057A3 RID: 22435 RVA: 0x001B2EE6 File Offset: 0x001B12E6
+		// Token: 0x060057A3 RID: 22435 RVA: 0x001B314E File Offset: 0x001B154E
 		public override void Begin(Rect rect)
 		{
 			base.Begin(rect);
@@ -40,7 +40,7 @@ namespace Verse
 			Text.WordWrap = false;
 		}
 
-		// Token: 0x060057A4 RID: 22436 RVA: 0x001B2EFC File Offset: 0x001B12FC
+		// Token: 0x060057A4 RID: 22436 RVA: 0x001B3164 File Offset: 0x001B1564
 		public override void End()
 		{
 			base.End();
@@ -48,13 +48,13 @@ namespace Verse
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x060057A5 RID: 22437 RVA: 0x001B2F14 File Offset: 0x001B1314
+		// Token: 0x060057A5 RID: 22437 RVA: 0x001B317C File Offset: 0x001B157C
 		protected float XAtIndentLevel(int indentLevel)
 		{
 			return (float)indentLevel * this.nestIndentWidth;
 		}
 
-		// Token: 0x060057A6 RID: 22438 RVA: 0x001B2F34 File Offset: 0x001B1334
+		// Token: 0x060057A6 RID: 22438 RVA: 0x001B319C File Offset: 0x001B159C
 		protected void LabelLeft(string label, string tipText, int indentLevel)
 		{
 			Rect rect = new Rect(0f, this.curY, base.ColumnWidth, this.lineHeight)
@@ -78,7 +78,7 @@ namespace Verse
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x060057A7 RID: 22439 RVA: 0x001B2FF0 File Offset: 0x001B13F0
+		// Token: 0x060057A7 RID: 22439 RVA: 0x001B3258 File Offset: 0x001B1658
 		protected bool OpenCloseWidget(TreeNode node, int indentLevel, int openMask)
 		{
 			bool result;
@@ -105,7 +105,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057A8 RID: 22440 RVA: 0x001B3090 File Offset: 0x001B1490
+		// Token: 0x060057A8 RID: 22440 RVA: 0x001B32F8 File Offset: 0x001B16F8
 		public void InfoText(string text, int indentLevel)
 		{
 			Text.WordWrap = true;
@@ -117,7 +117,7 @@ namespace Verse
 			Text.WordWrap = false;
 		}
 
-		// Token: 0x060057A9 RID: 22441 RVA: 0x001B3104 File Offset: 0x001B1504
+		// Token: 0x060057A9 RID: 22441 RVA: 0x001B336C File Offset: 0x001B176C
 		public bool ButtonText(string label)
 		{
 			Text.WordWrap = true;
@@ -129,7 +129,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057AA RID: 22442 RVA: 0x001B3168 File Offset: 0x001B1568
+		// Token: 0x060057AA RID: 22442 RVA: 0x001B33D0 File Offset: 0x001B17D0
 		public WidgetRow StartWidgetsRow(int indentLevel)
 		{
 			WidgetRow result = new WidgetRow(this.LabelWidth, this.curY, UIDirection.RightThenUp, 99999f, 4f);

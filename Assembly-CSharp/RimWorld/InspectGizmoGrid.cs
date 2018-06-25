@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200085F RID: 2143
 	internal static class InspectGizmoGrid
 	{
-		// Token: 0x04001A45 RID: 6725
+		// Token: 0x04001A49 RID: 6729
 		private static List<object> objList = new List<object>();
 
-		// Token: 0x04001A46 RID: 6726
+		// Token: 0x04001A4A RID: 6730
 		private static List<Gizmo> gizmoList = new List<Gizmo>();
 
-		// Token: 0x0600308F RID: 12431 RVA: 0x001A61CC File Offset: 0x001A45CC
+		// Token: 0x0600308E RID: 12430 RVA: 0x001A6434 File Offset: 0x001A4834
 		public static void DrawInspectGizmoGridFor(IEnumerable<object> selectedObjects, out Gizmo mouseoverGizmo)
 		{
 			mouseoverGizmo = null;

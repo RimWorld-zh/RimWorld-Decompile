@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000238 RID: 568
 	internal static class TerrainDefGenerator_Stone
 	{
-		// Token: 0x06000A3F RID: 2623 RVA: 0x0005B550 File Offset: 0x00059950
+		// Token: 0x06000A3E RID: 2622 RVA: 0x0005B54C File Offset: 0x0005994C
 		public static IEnumerable<TerrainDef> ImpliedTerrainDefs()
 		{
 			int i = 0;

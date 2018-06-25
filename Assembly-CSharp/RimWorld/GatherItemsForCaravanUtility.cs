@@ -11,10 +11,10 @@ namespace RimWorld
 	// Token: 0x020000C4 RID: 196
 	public static class GatherItemsForCaravanUtility
 	{
-		// Token: 0x0400029A RID: 666
+		// Token: 0x0400029B RID: 667
 		private static HashSet<Thing> neededItems = new HashSet<Thing>();
 
-		// Token: 0x0600048C RID: 1164 RVA: 0x00033DC4 File Offset: 0x000321C4
+		// Token: 0x0600048C RID: 1164 RVA: 0x00033DE0 File Offset: 0x000321E0
 		public static Thing FindThingToHaul(Pawn p, Lord lord)
 		{
 			GatherItemsForCaravanUtility.neededItems.Clear();
@@ -44,7 +44,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600048D RID: 1165 RVA: 0x00033EE4 File Offset: 0x000322E4
+		// Token: 0x0600048D RID: 1165 RVA: 0x00033F00 File Offset: 0x00032300
 		public static int CountLeftToTransfer(Pawn pawn, TransferableOneWay transferable, Lord lord)
 		{
 			int result;
@@ -59,7 +59,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600048E RID: 1166 RVA: 0x00033F2C File Offset: 0x0003232C
+		// Token: 0x0600048E RID: 1166 RVA: 0x00033F48 File Offset: 0x00032348
 		private static int TransferableCountHauledByOthers(Pawn pawn, TransferableOneWay transferable, Lord lord)
 		{
 			int result;

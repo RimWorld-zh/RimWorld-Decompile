@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000D9B RID: 3483
+	// Token: 0x02000D9C RID: 3484
 	public class PostLoadIniter
 	{
-		// Token: 0x040033F0 RID: 13296
+		// Token: 0x040033F7 RID: 13303
 		private HashSet<IExposable> saveablesToPostLoad = new HashSet<IExposable>();
 
-		// Token: 0x06004DD9 RID: 19929 RVA: 0x0028A8B8 File Offset: 0x00288CB8
+		// Token: 0x06004DD9 RID: 19929 RVA: 0x0028AB98 File Offset: 0x00288F98
 		public void RegisterForPostLoadInit(IExposable s)
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DDA RID: 19930 RVA: 0x0028A958 File Offset: 0x00288D58
+		// Token: 0x06004DDA RID: 19930 RVA: 0x0028AC38 File Offset: 0x00289038
 		public void DoAllPostLoadInits()
 		{
 			Scribe.mode = LoadSaveMode.PostLoadInit;
@@ -65,7 +65,7 @@ namespace Verse
 			Scribe.mode = LoadSaveMode.Inactive;
 		}
 
-		// Token: 0x06004DDB RID: 19931 RVA: 0x0028AA40 File Offset: 0x00288E40
+		// Token: 0x06004DDB RID: 19931 RVA: 0x0028AD20 File Offset: 0x00289120
 		public void Clear()
 		{
 			this.saveablesToPostLoad.Clear();

@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x0200007C RID: 124
 	public class JobDriver_Research : JobDriver
 	{
-		// Token: 0x04000231 RID: 561
+		// Token: 0x04000232 RID: 562
 		private const int JobEndInterval = 4000;
 
-		// Token: 0x04000232 RID: 562
+		// Token: 0x04000233 RID: 563
 		private const float BaseResearchSpeed = 1.1f;
 
 		// Token: 0x170000AC RID: 172
-		// (get) Token: 0x0600034D RID: 845 RVA: 0x00024A88 File Offset: 0x00022E88
+		// (get) Token: 0x0600034D RID: 845 RVA: 0x00024AA4 File Offset: 0x00022EA4
 		private ResearchProjectDef Project
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000AD RID: 173
-		// (get) Token: 0x0600034E RID: 846 RVA: 0x00024AA8 File Offset: 0x00022EA8
+		// (get) Token: 0x0600034E RID: 846 RVA: 0x00024AC4 File Offset: 0x00022EC4
 		private Building_ResearchBench ResearchBench
 		{
 			get
@@ -34,13 +34,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x00024AC8 File Offset: 0x00022EC8
+		// Token: 0x0600034F RID: 847 RVA: 0x00024AE4 File Offset: 0x00022EE4
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.ResearchBench, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x00024AFC File Offset: 0x00022EFC
+		// Token: 0x06000350 RID: 848 RVA: 0x00024B18 File Offset: 0x00022F18
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

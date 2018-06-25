@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x020002D1 RID: 721
 	public class SiteCoreWorker : SiteWorkerBase
 	{
-		// Token: 0x04000721 RID: 1825
+		// Token: 0x04000723 RID: 1827
 		public static readonly IntVec3 MapSize = new IntVec3(120, 1, 120);
 
 		// Token: 0x170001C3 RID: 451
-		// (get) Token: 0x06000BE4 RID: 3044 RVA: 0x0006A02C File Offset: 0x0006842C
+		// (get) Token: 0x06000BE3 RID: 3043 RVA: 0x0006A028 File Offset: 0x00068428
 		public SiteCoreDef Def
 		{
 			get
@@ -21,18 +21,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BE5 RID: 3045 RVA: 0x0006A04C File Offset: 0x0006844C
+		// Token: 0x06000BE4 RID: 3044 RVA: 0x0006A048 File Offset: 0x00068448
 		public virtual void SiteCoreWorkerTick(Site site)
 		{
 		}
 
-		// Token: 0x06000BE6 RID: 3046 RVA: 0x0006A04F File Offset: 0x0006844F
+		// Token: 0x06000BE5 RID: 3045 RVA: 0x0006A04B File Offset: 0x0006844B
 		public virtual void VisitAction(Caravan caravan, Site site)
 		{
 			this.Enter(caravan, site);
 		}
 
-		// Token: 0x06000BE7 RID: 3047 RVA: 0x0006A05C File Offset: 0x0006845C
+		// Token: 0x06000BE6 RID: 3046 RVA: 0x0006A058 File Offset: 0x00068458
 		public IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Site site)
 		{
 			if (!site.HasMap)
@@ -45,7 +45,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000BE8 RID: 3048 RVA: 0x0006A090 File Offset: 0x00068490
+		// Token: 0x06000BE7 RID: 3047 RVA: 0x0006A08C File Offset: 0x0006848C
 		public virtual IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative, Site site)
 		{
 			foreach (FloatMenuOption f in TransportPodsArrivalAction_VisitSite.GetFloatMenuOptions(representative, pods, site))
@@ -55,7 +55,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000BE9 RID: 3049 RVA: 0x0006A0C8 File Offset: 0x000684C8
+		// Token: 0x06000BE8 RID: 3048 RVA: 0x0006A0C4 File Offset: 0x000684C4
 		protected void Enter(Caravan caravan, Site site)
 		{
 			if (!site.HasMap)
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BEA RID: 3050 RVA: 0x0006A130 File Offset: 0x00068530
+		// Token: 0x06000BE9 RID: 3049 RVA: 0x0006A12C File Offset: 0x0006852C
 		private void DoEnter(Caravan caravan, Site site)
 		{
 			Pawn t = caravan.PawnsListForReading[0];

@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000BA9 RID: 2985
+	// Token: 0x02000BAA RID: 2986
 	public enum ResourceCountPriority : byte
 	{
-		// Token: 0x04002B9B RID: 11163
+		// Token: 0x04002BA2 RID: 11170
 		Uncounted,
-		// Token: 0x04002B9C RID: 11164
+		// Token: 0x04002BA3 RID: 11171
 		Last,
-		// Token: 0x04002B9D RID: 11165
+		// Token: 0x04002BA4 RID: 11172
 		Middle,
-		// Token: 0x04002B9E RID: 11166
+		// Token: 0x04002BA5 RID: 11173
 		First
 	}
 }

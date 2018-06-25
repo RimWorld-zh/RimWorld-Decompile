@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x02000665 RID: 1637
 	public static class TaleTextGenerator
 	{
-		// Token: 0x04001377 RID: 4983
+		// Token: 0x0400137B RID: 4987
 		private const float TalelessChanceWithTales = 0.2f;
 
-		// Token: 0x06002242 RID: 8770 RVA: 0x00122BD8 File Offset: 0x00120FD8
+		// Token: 0x06002241 RID: 8769 RVA: 0x00122E40 File Offset: 0x00121240
 		public static string GenerateTextFromTale(TextGenerationPurpose purpose, Tale tale, int seed, RulePackDef extraInclude)
 		{
 			Rand.PushState();

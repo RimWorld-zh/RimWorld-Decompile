@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000FAC RID: 4012
+	// Token: 0x02000FAD RID: 4013
 	public static class AnimalNameDisplayModeExtension
 	{
-		// Token: 0x06006103 RID: 24835 RVA: 0x00310A6C File Offset: 0x0030EE6C
+		// Token: 0x06006103 RID: 24835 RVA: 0x00310CB0 File Offset: 0x0030F0B0
 		public static string ToStringHuman(this AnimalNameDisplayMode mode)
 		{
 			string result;

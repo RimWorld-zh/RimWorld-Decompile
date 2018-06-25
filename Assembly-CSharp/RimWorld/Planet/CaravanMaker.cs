@@ -7,10 +7,10 @@ namespace RimWorld.Planet
 	// Token: 0x020005DF RID: 1503
 	public static class CaravanMaker
 	{
-		// Token: 0x04001197 RID: 4503
+		// Token: 0x0400119B RID: 4507
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
-		// Token: 0x06001DAD RID: 7597 RVA: 0x000FFFD0 File Offset: 0x000FE3D0
+		// Token: 0x06001DAC RID: 7596 RVA: 0x00100238 File Offset: 0x000FE638
 		public static Caravan MakeCaravan(IEnumerable<Pawn> pawns, Faction faction, int startingTile, bool addToWorldPawnsIfNotAlready)
 		{
 			if (startingTile < 0 && addToWorldPawnsIfNotAlready)

@@ -8,10 +8,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C2 RID: 962
 	public class SymbolResolver_ChargeBatteries : SymbolResolver
 	{
-		// Token: 0x04000A2D RID: 2605
+		// Token: 0x04000A30 RID: 2608
 		private static List<CompPowerBattery> batteries = new List<CompPowerBattery>();
 
-		// Token: 0x060010A1 RID: 4257 RVA: 0x0008CF24 File Offset: 0x0008B324
+		// Token: 0x060010A0 RID: 4256 RVA: 0x0008CF34 File Offset: 0x0008B334
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x02000336 RID: 822
 	public class IncidentWorker_OrbitalTraderArrival : IncidentWorker
 	{
-		// Token: 0x040008DD RID: 2269
+		// Token: 0x040008E0 RID: 2272
 		private const int MaxShips = 5;
 
-		// Token: 0x06000E0B RID: 3595 RVA: 0x00077C38 File Offset: 0x00076038
+		// Token: 0x06000E0A RID: 3594 RVA: 0x00077C40 File Offset: 0x00076040
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E0C RID: 3596 RVA: 0x00077C8C File Offset: 0x0007608C
+		// Token: 0x06000E0B RID: 3595 RVA: 0x00077C94 File Offset: 0x00076094
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

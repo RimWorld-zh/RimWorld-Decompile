@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B75 RID: 2933
+	// Token: 0x02000B76 RID: 2934
 	public abstract class AudioGrain
 	{
 		// Token: 0x06003FFE RID: 16382

@@ -9,10 +9,10 @@ namespace RimWorld
 	// Token: 0x020000A8 RID: 168
 	public class JobGiver_ConfigurableHostilityResponse : ThinkNode_JobGiver
 	{
-		// Token: 0x04000271 RID: 625
+		// Token: 0x04000272 RID: 626
 		private static List<Thing> tmpThreats = new List<Thing>();
 
-		// Token: 0x06000418 RID: 1048 RVA: 0x00030EEC File Offset: 0x0002F2EC
+		// Token: 0x06000418 RID: 1048 RVA: 0x00030F08 File Offset: 0x0002F308
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -45,7 +45,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000419 RID: 1049 RVA: 0x00030F7C File Offset: 0x0002F37C
+		// Token: 0x06000419 RID: 1049 RVA: 0x00030F98 File Offset: 0x0002F398
 		private Job TryGetAttackNearbyEnemyJob(Pawn pawn)
 		{
 			Job result;
@@ -85,7 +85,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600041A RID: 1050 RVA: 0x000310B8 File Offset: 0x0002F4B8
+		// Token: 0x0600041A RID: 1050 RVA: 0x000310D4 File Offset: 0x0002F4D4
 		private Job TryGetFleeJob(Pawn pawn)
 		{
 			Job result;

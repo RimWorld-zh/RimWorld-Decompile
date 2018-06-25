@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EFC RID: 3836
+	// Token: 0x02000EFD RID: 3837
 	public class SimpleCurve2D : IEnumerable<CurveColumn>, IEnumerable
 	{
-		// Token: 0x04003CBD RID: 15549
+		// Token: 0x04003CC5 RID: 15557
 		private List<CurveColumn> columns = new List<CurveColumn>();
 
-		// Token: 0x06005BC4 RID: 23492 RVA: 0x002EBF48 File Offset: 0x002EA348
+		// Token: 0x06005BC4 RID: 23492 RVA: 0x002EC168 File Offset: 0x002EA568
 		public float Evaluate(float x, float y)
 		{
 			float result;
@@ -50,19 +50,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005BC5 RID: 23493 RVA: 0x002EC0E1 File Offset: 0x002EA4E1
+		// Token: 0x06005BC5 RID: 23493 RVA: 0x002EC301 File Offset: 0x002EA701
 		public void Add(CurveColumn newColumn)
 		{
 			this.columns.Add(newColumn);
 		}
 
-		// Token: 0x06005BC6 RID: 23494 RVA: 0x002EC0F0 File Offset: 0x002EA4F0
+		// Token: 0x06005BC6 RID: 23494 RVA: 0x002EC310 File Offset: 0x002EA710
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
 		}
 
-		// Token: 0x06005BC7 RID: 23495 RVA: 0x002EC10C File Offset: 0x002EA50C
+		// Token: 0x06005BC7 RID: 23495 RVA: 0x002EC32C File Offset: 0x002EA72C
 		public IEnumerator<CurveColumn> GetEnumerator()
 		{
 			foreach (CurveColumn column in this.columns)
@@ -72,7 +72,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005BC8 RID: 23496 RVA: 0x002EC130 File Offset: 0x002EA530
+		// Token: 0x06005BC8 RID: 23496 RVA: 0x002EC350 File Offset: 0x002EA750
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
 			for (int i = 0; i < this.columns.Count - 1; i++)

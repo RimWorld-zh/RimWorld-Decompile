@@ -8,16 +8,16 @@ namespace RimWorld
 	// Token: 0x0200010C RID: 268
 	internal class JobGiver_FireStartingSpree : ThinkNode_JobGiver
 	{
-		// Token: 0x040002EF RID: 751
+		// Token: 0x040002F0 RID: 752
 		private IntRange waitTicks = new IntRange(80, 140);
 
-		// Token: 0x040002F0 RID: 752
+		// Token: 0x040002F1 RID: 753
 		private const float FireStartChance = 0.75f;
 
-		// Token: 0x040002F1 RID: 753
+		// Token: 0x040002F2 RID: 754
 		private static List<Thing> potentialTargets = new List<Thing>();
 
-		// Token: 0x0600058D RID: 1421 RVA: 0x0003C1F0 File Offset: 0x0003A5F0
+		// Token: 0x0600058D RID: 1421 RVA: 0x0003C20C File Offset: 0x0003A60C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_FireStartingSpree jobGiver_FireStartingSpree = (JobGiver_FireStartingSpree)base.DeepCopy(resolve);
@@ -25,7 +25,7 @@ namespace RimWorld
 			return jobGiver_FireStartingSpree;
 		}
 
-		// Token: 0x0600058E RID: 1422 RVA: 0x0003C220 File Offset: 0x0003A620
+		// Token: 0x0600058E RID: 1422 RVA: 0x0003C23C File Offset: 0x0003A63C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -61,7 +61,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600058F RID: 1423 RVA: 0x0003C2FC File Offset: 0x0003A6FC
+		// Token: 0x0600058F RID: 1423 RVA: 0x0003C318 File Offset: 0x0003A718
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
 			Region region;

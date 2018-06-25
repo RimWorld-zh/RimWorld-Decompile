@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000B49 RID: 2889
+	// Token: 0x02000B4A RID: 2890
 	public enum CheckJobOverrideOnDamageMode
 	{
-		// Token: 0x040029BA RID: 10682
+		// Token: 0x040029C1 RID: 10689
 		Never,
-		// Token: 0x040029BB RID: 10683
+		// Token: 0x040029C2 RID: 10690
 		OnlyIfInstigatorNotJobTarget,
-		// Token: 0x040029BC RID: 10684
+		// Token: 0x040029C3 RID: 10691
 		Always
 	}
 }

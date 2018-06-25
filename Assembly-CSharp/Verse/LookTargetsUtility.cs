@@ -3,16 +3,16 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000EF4 RID: 3828
+	// Token: 0x02000EF5 RID: 3829
 	public static class LookTargetsUtility
 	{
-		// Token: 0x06005B76 RID: 23414 RVA: 0x002EA804 File Offset: 0x002E8C04
+		// Token: 0x06005B76 RID: 23414 RVA: 0x002EAA24 File Offset: 0x002E8E24
 		public static bool IsValid(this LookTargets lookTargets)
 		{
 			return lookTargets != null && lookTargets.IsValid;
 		}
 
-		// Token: 0x06005B77 RID: 23415 RVA: 0x002EA828 File Offset: 0x002E8C28
+		// Token: 0x06005B77 RID: 23415 RVA: 0x002EAA48 File Offset: 0x002E8E48
 		public static GlobalTargetInfo TryGetPrimaryTarget(this LookTargets lookTargets)
 		{
 			GlobalTargetInfo result;
@@ -27,7 +27,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B78 RID: 23416 RVA: 0x002EA854 File Offset: 0x002E8C54
+		// Token: 0x06005B78 RID: 23416 RVA: 0x002EAA74 File Offset: 0x002E8E74
 		public static void TryHighlight(this LookTargets lookTargets, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
 			if (lookTargets != null)

@@ -3,31 +3,31 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C52 RID: 3154
+	// Token: 0x02000C53 RID: 3155
 	public static class Printer_Shadow
 	{
-		// Token: 0x04002F77 RID: 12151
+		// Token: 0x04002F7E RID: 12158
 		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 
-		// Token: 0x04002F78 RID: 12152
+		// Token: 0x04002F7F RID: 12159
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowSizeOffsetX = 0f;
 
-		// Token: 0x04002F79 RID: 12153
+		// Token: 0x04002F80 RID: 12160
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowSizeOffsetY = 0f;
 
-		// Token: 0x04002F7A RID: 12154
+		// Token: 0x04002F81 RID: 12161
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowSizeOffsetZ = 0f;
 
-		// Token: 0x06004574 RID: 17780 RVA: 0x0024BBC8 File Offset: 0x00249FC8
+		// Token: 0x06004574 RID: 17780 RVA: 0x0024BEA8 File Offset: 0x0024A2A8
 		public static void PrintShadow(SectionLayer layer, Vector3 center, ShadowData shadow, Rot4 rotation)
 		{
 			Printer_Shadow.PrintShadow(layer, center, shadow.volume, rotation);
 		}
 
-		// Token: 0x06004575 RID: 17781 RVA: 0x0024BBDC File Offset: 0x00249FDC
+		// Token: 0x06004575 RID: 17781 RVA: 0x0024BEBC File Offset: 0x0024A2BC
 		public static void PrintShadow(SectionLayer layer, Vector3 center, Vector3 volume, Rot4 rotation)
 		{
 			if (DebugViewSettings.drawShadows)

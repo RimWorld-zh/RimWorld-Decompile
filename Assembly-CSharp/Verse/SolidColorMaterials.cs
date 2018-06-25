@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F6F RID: 3951
+	// Token: 0x02000F70 RID: 3952
 	public static class SolidColorMaterials
 	{
-		// Token: 0x04003EBE RID: 16062
+		// Token: 0x04003EC6 RID: 16070
 		private static Dictionary<Color, Material> simpleColorMats = new Dictionary<Color, Material>();
 
-		// Token: 0x04003EBF RID: 16063
+		// Token: 0x04003EC7 RID: 16071
 		private static Dictionary<Color, Material> simpleColorAndVertexColorMats = new Dictionary<Color, Material>();
 
 		// Token: 0x17000F47 RID: 3911
-		// (get) Token: 0x06005F6B RID: 24427 RVA: 0x0030A7B8 File Offset: 0x00308BB8
+		// (get) Token: 0x06005F6B RID: 24427 RVA: 0x0030A9FC File Offset: 0x00308DFC
 		public static int SimpleColorMatCount
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F6C RID: 24428 RVA: 0x0030A7E4 File Offset: 0x00308BE4
+		// Token: 0x06005F6C RID: 24428 RVA: 0x0030AA28 File Offset: 0x00308E28
 		public static Material SimpleSolidColorMaterial(Color col, bool careAboutVertexColors = false)
 		{
 			Material material;
@@ -43,7 +43,7 @@ namespace Verse
 			return material;
 		}
 
-		// Token: 0x06005F6D RID: 24429 RVA: 0x0030A864 File Offset: 0x00308C64
+		// Token: 0x06005F6D RID: 24429 RVA: 0x0030AAA8 File Offset: 0x00308EA8
 		public static Material NewSolidColorMaterial(Color col, Shader shader)
 		{
 			Material result;
@@ -68,13 +68,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F6E RID: 24430 RVA: 0x0030A8D8 File Offset: 0x00308CD8
+		// Token: 0x06005F6E RID: 24430 RVA: 0x0030AB1C File Offset: 0x00308F1C
 		public static Texture2D NewSolidColorTexture(float r, float g, float b, float a)
 		{
 			return SolidColorMaterials.NewSolidColorTexture(new Color(r, g, b, a));
 		}
 
-		// Token: 0x06005F6F RID: 24431 RVA: 0x0030A8FC File Offset: 0x00308CFC
+		// Token: 0x06005F6F RID: 24431 RVA: 0x0030AB40 File Offset: 0x00308F40
 		public static Texture2D NewSolidColorTexture(Color color)
 		{
 			Texture2D result;

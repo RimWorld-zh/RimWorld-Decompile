@@ -9,13 +9,13 @@ namespace RimWorld.Planet
 	// Token: 0x0200059A RID: 1434
 	public class WorldLayer_UngeneratedPlanetParts : WorldLayer
 	{
-		// Token: 0x04001022 RID: 4130
+		// Token: 0x04001026 RID: 4134
 		private const int SubdivisionsCount = 4;
 
-		// Token: 0x04001023 RID: 4131
+		// Token: 0x04001027 RID: 4135
 		private const float ViewAngleOffset = 10f;
 
-		// Token: 0x06001B5E RID: 7006 RVA: 0x000EC3F0 File Offset: 0x000EA7F0
+		// Token: 0x06001B5D RID: 7005 RVA: 0x000EC658 File Offset: 0x000EAA58
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

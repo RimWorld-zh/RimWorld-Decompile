@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CAA RID: 3242
+	// Token: 0x02000CAB RID: 3243
 	public sealed class TemperatureCache : IExposable
 	{
-		// Token: 0x04003077 RID: 12407
+		// Token: 0x0400307E RID: 12414
 		private Map map;
 
-		// Token: 0x04003078 RID: 12408
+		// Token: 0x0400307F RID: 12415
 		internal TemperatureSaveLoad temperatureSaveLoad;
 
-		// Token: 0x04003079 RID: 12409
+		// Token: 0x04003080 RID: 12416
 		public CachedTempInfo[] tempCache;
 
-		// Token: 0x0400307A RID: 12410
+		// Token: 0x04003081 RID: 12417
 		private HashSet<int> processedRoomGroupIDs = new HashSet<int>();
 
-		// Token: 0x0400307B RID: 12411
+		// Token: 0x04003082 RID: 12418
 		private List<CachedTempInfo> relevantTempInfoList = new List<CachedTempInfo>();
 
-		// Token: 0x0600477B RID: 18299 RVA: 0x0025B578 File Offset: 0x00259978
+		// Token: 0x0600477B RID: 18299 RVA: 0x0025B858 File Offset: 0x00259C58
 		public TemperatureCache(Map map)
 		{
 			this.map = map;
@@ -29,7 +29,7 @@ namespace Verse
 			this.temperatureSaveLoad = new TemperatureSaveLoad(map);
 		}
 
-		// Token: 0x0600477C RID: 18300 RVA: 0x0025B5CC File Offset: 0x002599CC
+		// Token: 0x0600477C RID: 18300 RVA: 0x0025B8AC File Offset: 0x00259CAC
 		public void ResetTemperatureCache()
 		{
 			int numGridCells = this.map.cellIndices.NumGridCells;
@@ -39,25 +39,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600477D RID: 18301 RVA: 0x0025B610 File Offset: 0x00259A10
+		// Token: 0x0600477D RID: 18301 RVA: 0x0025B8F0 File Offset: 0x00259CF0
 		public void ExposeData()
 		{
 			this.temperatureSaveLoad.DoExposeWork();
 		}
 
-		// Token: 0x0600477E RID: 18302 RVA: 0x0025B61E File Offset: 0x00259A1E
+		// Token: 0x0600477E RID: 18302 RVA: 0x0025B8FE File Offset: 0x00259CFE
 		public void ResetCachedCellInfo(IntVec3 c)
 		{
 			this.tempCache[this.map.cellIndices.CellToIndex(c)].Reset();
 		}
 
-		// Token: 0x0600477F RID: 18303 RVA: 0x0025B642 File Offset: 0x00259A42
+		// Token: 0x0600477F RID: 18303 RVA: 0x0025B922 File Offset: 0x00259D22
 		private void SetCachedCellInfo(IntVec3 c, CachedTempInfo info)
 		{
 			this.tempCache[this.map.cellIndices.CellToIndex(c)] = info;
 		}
 
-		// Token: 0x06004780 RID: 18304 RVA: 0x0025B668 File Offset: 0x00259A68
+		// Token: 0x06004780 RID: 18304 RVA: 0x0025B948 File Offset: 0x00259D48
 		public void TryCacheRegionTempInfo(IntVec3 c, Region reg)
 		{
 			Room room = reg.Room;
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004781 RID: 18305 RVA: 0x0025B6AC File Offset: 0x00259AAC
+		// Token: 0x06004781 RID: 18305 RVA: 0x0025B98C File Offset: 0x00259D8C
 		public bool TryGetAverageCachedRoomGroupTemp(RoomGroup r, out float result)
 		{
 			CellIndices cellIndices = this.map.cellIndices;

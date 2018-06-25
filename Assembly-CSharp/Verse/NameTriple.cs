@@ -3,30 +3,30 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D4A RID: 3402
+	// Token: 0x02000D4B RID: 3403
 	public class NameTriple : Name
 	{
-		// Token: 0x04003280 RID: 12928
+		// Token: 0x04003287 RID: 12935
 		[LoadAlias("first")]
 		private string firstInt;
 
-		// Token: 0x04003281 RID: 12929
+		// Token: 0x04003288 RID: 12936
 		[LoadAlias("nick")]
 		private string nickInt;
 
-		// Token: 0x04003282 RID: 12930
+		// Token: 0x04003289 RID: 12937
 		[LoadAlias("last")]
 		private string lastInt;
 
-		// Token: 0x04003283 RID: 12931
+		// Token: 0x0400328A RID: 12938
 		private static NameTriple invalidInt = new NameTriple("Invalid", "Invalid", "Invalid");
 
-		// Token: 0x06004B07 RID: 19207 RVA: 0x00272002 File Offset: 0x00270402
+		// Token: 0x06004B07 RID: 19207 RVA: 0x002722E2 File Offset: 0x002706E2
 		public NameTriple()
 		{
 		}
 
-		// Token: 0x06004B08 RID: 19208 RVA: 0x0027200B File Offset: 0x0027040B
+		// Token: 0x06004B08 RID: 19208 RVA: 0x002722EB File Offset: 0x002706EB
 		public NameTriple(string first, string nick, string last)
 		{
 			this.firstInt = first.Trim();
@@ -35,7 +35,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C00 RID: 3072
-		// (get) Token: 0x06004B09 RID: 19209 RVA: 0x00272038 File Offset: 0x00270438
+		// (get) Token: 0x06004B09 RID: 19209 RVA: 0x00272318 File Offset: 0x00270718
 		public string First
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C01 RID: 3073
-		// (get) Token: 0x06004B0A RID: 19210 RVA: 0x00272054 File Offset: 0x00270454
+		// (get) Token: 0x06004B0A RID: 19210 RVA: 0x00272334 File Offset: 0x00270734
 		public string Nick
 		{
 			get
@@ -55,7 +55,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C02 RID: 3074
-		// (get) Token: 0x06004B0B RID: 19211 RVA: 0x00272070 File Offset: 0x00270470
+		// (get) Token: 0x06004B0B RID: 19211 RVA: 0x00272350 File Offset: 0x00270750
 		public string Last
 		{
 			get
@@ -65,7 +65,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C03 RID: 3075
-		// (get) Token: 0x06004B0C RID: 19212 RVA: 0x0027208C File Offset: 0x0027048C
+		// (get) Token: 0x06004B0C RID: 19212 RVA: 0x0027236C File Offset: 0x0027076C
 		public override string ToStringFull
 		{
 			get
@@ -91,7 +91,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C04 RID: 3076
-		// (get) Token: 0x06004B0D RID: 19213 RVA: 0x00272120 File Offset: 0x00270520
+		// (get) Token: 0x06004B0D RID: 19213 RVA: 0x00272400 File Offset: 0x00270800
 		public override string ToStringShort
 		{
 			get
@@ -101,7 +101,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C05 RID: 3077
-		// (get) Token: 0x06004B0E RID: 19214 RVA: 0x0027213C File Offset: 0x0027053C
+		// (get) Token: 0x06004B0E RID: 19214 RVA: 0x0027241C File Offset: 0x0027081C
 		public override bool IsValid
 		{
 			get
@@ -111,7 +111,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C06 RID: 3078
-		// (get) Token: 0x06004B0F RID: 19215 RVA: 0x00272174 File Offset: 0x00270574
+		// (get) Token: 0x06004B0F RID: 19215 RVA: 0x00272454 File Offset: 0x00270854
 		public override bool Numerical
 		{
 			get
@@ -121,7 +121,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000C07 RID: 3079
-		// (get) Token: 0x06004B10 RID: 19216 RVA: 0x0027218C File Offset: 0x0027058C
+		// (get) Token: 0x06004B10 RID: 19216 RVA: 0x0027246C File Offset: 0x0027086C
 		public static NameTriple Invalid
 		{
 			get
@@ -130,7 +130,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B11 RID: 19217 RVA: 0x002721A6 File Offset: 0x002705A6
+		// Token: 0x06004B11 RID: 19217 RVA: 0x00272486 File Offset: 0x00270886
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.firstInt, "first", null, false);
@@ -138,7 +138,7 @@ namespace Verse
 			Scribe_Values.Look<string>(ref this.lastInt, "last", null, false);
 		}
 
-		// Token: 0x06004B12 RID: 19218 RVA: 0x002721E0 File Offset: 0x002705E0
+		// Token: 0x06004B12 RID: 19218 RVA: 0x002724C0 File Offset: 0x002708C0
 		public void PostLoad()
 		{
 			if (this.firstInt != null)
@@ -155,7 +155,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B13 RID: 19219 RVA: 0x00272244 File Offset: 0x00270644
+		// Token: 0x06004B13 RID: 19219 RVA: 0x00272524 File Offset: 0x00270924
 		public void ResolveMissingPieces(string overrideLastName = null)
 		{
 			if (this.First.NullOrEmpty() && this.Nick.NullOrEmpty() && this.Last.NullOrEmpty())
@@ -199,7 +199,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B14 RID: 19220 RVA: 0x0027236C File Offset: 0x0027076C
+		// Token: 0x06004B14 RID: 19220 RVA: 0x0027264C File Offset: 0x00270A4C
 		public override bool ConfusinglySimilarTo(Name other)
 		{
 			NameTriple nameTriple = other as NameTriple;
@@ -218,7 +218,7 @@ namespace Verse
 			return nameSingle != null && nameSingle.Name == this.Nick;
 		}
 
-		// Token: 0x06004B15 RID: 19221 RVA: 0x00272418 File Offset: 0x00270818
+		// Token: 0x06004B15 RID: 19221 RVA: 0x002726F8 File Offset: 0x00270AF8
 		public static NameTriple FromString(string rawName)
 		{
 			NameTriple result;
@@ -292,7 +292,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B16 RID: 19222 RVA: 0x0027262C File Offset: 0x00270A2C
+		// Token: 0x06004B16 RID: 19222 RVA: 0x0027290C File Offset: 0x00270D0C
 		public void CapitalizeNick()
 		{
 			if (!this.nickInt.NullOrEmpty())
@@ -301,7 +301,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B17 RID: 19223 RVA: 0x0027266C File Offset: 0x00270A6C
+		// Token: 0x06004B17 RID: 19223 RVA: 0x0027294C File Offset: 0x00270D4C
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -314,7 +314,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004B18 RID: 19224 RVA: 0x002726B8 File Offset: 0x00270AB8
+		// Token: 0x06004B18 RID: 19224 RVA: 0x00272998 File Offset: 0x00270D98
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -334,7 +334,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B19 RID: 19225 RVA: 0x00272734 File Offset: 0x00270B34
+		// Token: 0x06004B19 RID: 19225 RVA: 0x00272A14 File Offset: 0x00270E14
 		public override int GetHashCode()
 		{
 			int seed = 0;

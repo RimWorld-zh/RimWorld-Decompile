@@ -9,26 +9,26 @@ namespace RimWorld.Planet
 	// Token: 0x020005C2 RID: 1474
 	public class WorldGenStep_Roads : WorldGenStep
 	{
-		// Token: 0x040010F3 RID: 4339
+		// Token: 0x040010F7 RID: 4343
 		private static readonly FloatRange ExtraRoadNodesPer100kTiles = new FloatRange(30f, 50f);
 
-		// Token: 0x040010F4 RID: 4340
+		// Token: 0x040010F8 RID: 4344
 		private static readonly IntRange RoadDistanceFromSettlement = new IntRange(-4, 4);
 
-		// Token: 0x040010F5 RID: 4341
+		// Token: 0x040010F9 RID: 4345
 		private const float ChanceExtraNonSpanningTreeLink = 0.015f;
 
-		// Token: 0x040010F6 RID: 4342
+		// Token: 0x040010FA RID: 4346
 		private const float ChanceHideSpanningTreeLink = 0.1f;
 
-		// Token: 0x040010F7 RID: 4343
+		// Token: 0x040010FB RID: 4347
 		private const float ChanceWorldObjectReclusive = 0.05f;
 
-		// Token: 0x040010F8 RID: 4344
+		// Token: 0x040010FC RID: 4348
 		private const int PotentialSpanningTreeLinksPerSettlement = 8;
 
 		// Token: 0x17000422 RID: 1058
-		// (get) Token: 0x06001C57 RID: 7255 RVA: 0x000F38CC File Offset: 0x000F1CCC
+		// (get) Token: 0x06001C56 RID: 7254 RVA: 0x000F3B34 File Offset: 0x000F1F34
 		public override int SeedPart
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C58 RID: 7256 RVA: 0x000F38E6 File Offset: 0x000F1CE6
+		// Token: 0x06001C57 RID: 7255 RVA: 0x000F3B4E File Offset: 0x000F1F4E
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateRoadEndpoints();
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C59 RID: 7257 RVA: 0x000F390A File Offset: 0x000F1D0A
+		// Token: 0x06001C58 RID: 7256 RVA: 0x000F3B72 File Offset: 0x000F1F72
 		public override void GenerateWithoutWorldData(string seed)
 		{
 			Rand.PushState();
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C5A RID: 7258 RVA: 0x000F3928 File Offset: 0x000F1D28
+		// Token: 0x06001C59 RID: 7257 RVA: 0x000F3B90 File Offset: 0x000F1F90
 		private void GenerateRoadEndpoints()
 		{
 			List<int> list = (from wo in Find.WorldObjects.AllWorldObjects
@@ -86,7 +86,7 @@ namespace RimWorld.Planet
 			Find.World.genData.roadNodes = list;
 		}
 
-		// Token: 0x06001C5B RID: 7259 RVA: 0x000F3A84 File Offset: 0x000F1E84
+		// Token: 0x06001C5A RID: 7258 RVA: 0x000F3CEC File Offset: 0x000F20EC
 		private void GenerateRoadNetwork()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(new int?(0));
@@ -95,7 +95,7 @@ namespace RimWorld.Planet
 			this.DrawLinksOnWorld(linkFinal, Find.World.genData.roadNodes);
 		}
 
-		// Token: 0x06001C5C RID: 7260 RVA: 0x000F3AEC File Offset: 0x000F1EEC
+		// Token: 0x06001C5B RID: 7259 RVA: 0x000F3D54 File Offset: 0x000F2154
 		private List<WorldGenStep_Roads.Link> GenerateProspectiveLinks(List<int> indexToTile)
 		{
 			Dictionary<int, int> tileToIndexLookup = new Dictionary<int, int>();
@@ -131,7 +131,7 @@ namespace RimWorld.Planet
 			return linkProspective;
 		}
 
-		// Token: 0x06001C5D RID: 7261 RVA: 0x000F3C30 File Offset: 0x000F2030
+		// Token: 0x06001C5C RID: 7260 RVA: 0x000F3E98 File Offset: 0x000F2298
 		private List<WorldGenStep_Roads.Link> GenerateFinalLinks(List<WorldGenStep_Roads.Link> linkProspective, int endpointCount)
 		{
 			List<WorldGenStep_Roads.Connectedness> list = new List<WorldGenStep_Roads.Connectedness>();
@@ -174,7 +174,7 @@ namespace RimWorld.Planet
 			return list2;
 		}
 
-		// Token: 0x06001C5E RID: 7262 RVA: 0x000F3DA0 File Offset: 0x000F21A0
+		// Token: 0x06001C5D RID: 7261 RVA: 0x000F4008 File Offset: 0x000F2408
 		private void DrawLinksOnWorld(List<WorldGenStep_Roads.Link> linkFinal, List<int> indexToTile)
 		{
 			foreach (WorldGenStep_Roads.Link link in linkFinal)
@@ -195,23 +195,23 @@ namespace RimWorld.Planet
 		// Token: 0x020005C3 RID: 1475
 		private struct Link
 		{
-			// Token: 0x040010FE RID: 4350
+			// Token: 0x04001102 RID: 4354
 			public float distance;
 
-			// Token: 0x040010FF RID: 4351
+			// Token: 0x04001103 RID: 4355
 			public int indexA;
 
-			// Token: 0x04001100 RID: 4352
+			// Token: 0x04001104 RID: 4356
 			public int indexB;
 		}
 
 		// Token: 0x020005C4 RID: 1476
 		private class Connectedness
 		{
-			// Token: 0x04001101 RID: 4353
+			// Token: 0x04001105 RID: 4357
 			public WorldGenStep_Roads.Connectedness parent;
 
-			// Token: 0x06001C66 RID: 7270 RVA: 0x000F3F70 File Offset: 0x000F2370
+			// Token: 0x06001C65 RID: 7269 RVA: 0x000F41D8 File Offset: 0x000F25D8
 			public WorldGenStep_Roads.Connectedness Group()
 			{
 				WorldGenStep_Roads.Connectedness result;

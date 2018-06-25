@@ -2,22 +2,22 @@
 
 namespace Verse
 {
-	// Token: 0x02000ED3 RID: 3795
+	// Token: 0x02000ED4 RID: 3796
 	public static class CellIndicesUtility
 	{
-		// Token: 0x060059F6 RID: 23030 RVA: 0x002E33D8 File Offset: 0x002E17D8
+		// Token: 0x060059F6 RID: 23030 RVA: 0x002E35F8 File Offset: 0x002E19F8
 		public static int CellToIndex(IntVec3 c, int mapSizeX)
 		{
 			return c.z * mapSizeX + c.x;
 		}
 
-		// Token: 0x060059F7 RID: 23031 RVA: 0x002E3400 File Offset: 0x002E1800
+		// Token: 0x060059F7 RID: 23031 RVA: 0x002E3620 File Offset: 0x002E1A20
 		public static int CellToIndex(int x, int z, int mapSizeX)
 		{
 			return z * mapSizeX + x;
 		}
 
-		// Token: 0x060059F8 RID: 23032 RVA: 0x002E341C File Offset: 0x002E181C
+		// Token: 0x060059F8 RID: 23032 RVA: 0x002E363C File Offset: 0x002E1A3C
 		public static IntVec3 IndexToCell(int ind, int mapSizeX)
 		{
 			int newX = ind % mapSizeX;

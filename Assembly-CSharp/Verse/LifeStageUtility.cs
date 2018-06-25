@@ -3,10 +3,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000F61 RID: 3937
+	// Token: 0x02000F62 RID: 3938
 	public static class LifeStageUtility
 	{
-		// Token: 0x06005F4E RID: 24398 RVA: 0x00309BB0 File Offset: 0x00307FB0
+		// Token: 0x06005F4E RID: 24398 RVA: 0x00309DF4 File Offset: 0x003081F4
 		public static void PlayNearestLifestageSound(Pawn pawn, Func<LifeStageAge, SoundDef> getter, float volumeFactor = 1f)
 		{
 			SoundDef soundDef;
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F4F RID: 24399 RVA: 0x00309C18 File Offset: 0x00308018
+		// Token: 0x06005F4F RID: 24399 RVA: 0x00309E5C File Offset: 0x0030825C
 		private static void GetNearestLifestageSound(Pawn pawn, Func<LifeStageAge, SoundDef> getter, out SoundDef def, out float pitch, out float volume)
 		{
 			int num = pawn.ageTracker.CurLifeStageIndex;

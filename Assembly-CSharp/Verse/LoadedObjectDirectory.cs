@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000D9A RID: 3482
+	// Token: 0x02000D9B RID: 3483
 	public class LoadedObjectDirectory
 	{
-		// Token: 0x040033EF RID: 13295
+		// Token: 0x040033F6 RID: 13302
 		private Dictionary<string, ILoadReferenceable> allObjectsByLoadID = new Dictionary<string, ILoadReferenceable>();
 
-		// Token: 0x06004DD5 RID: 19925 RVA: 0x0028A589 File Offset: 0x00288989
+		// Token: 0x06004DD5 RID: 19925 RVA: 0x0028A869 File Offset: 0x00288C69
 		public void Clear()
 		{
 			this.allObjectsByLoadID.Clear();
 		}
 
-		// Token: 0x06004DD6 RID: 19926 RVA: 0x0028A598 File Offset: 0x00288998
+		// Token: 0x06004DD6 RID: 19926 RVA: 0x0028A878 File Offset: 0x00288C78
 		public void RegisterLoaded(ILoadReferenceable reffable)
 		{
 			if (Prefs.DevMode)
@@ -92,7 +92,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD7 RID: 19927 RVA: 0x0028A750 File Offset: 0x00288B50
+		// Token: 0x06004DD7 RID: 19927 RVA: 0x0028AA30 File Offset: 0x00288E30
 		public T ObjectWithLoadID<T>(string loadID)
 		{
 			T result;

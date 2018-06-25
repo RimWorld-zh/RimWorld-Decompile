@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001BD RID: 445
 	public class ThinkNode_ConditionalGuest : ThinkNode_Conditional
 	{
-		// Token: 0x0600092F RID: 2351 RVA: 0x00055ED0 File Offset: 0x000542D0
+		// Token: 0x0600092E RID: 2350 RVA: 0x00055ECC File Offset: 0x000542CC
 		protected override bool Satisfied(Pawn pawn)
 		{
 			return pawn.HostFaction != null && !pawn.IsPrisoner;

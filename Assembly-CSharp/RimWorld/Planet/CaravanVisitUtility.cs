@@ -10,10 +10,10 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanVisitUtility
 	{
-		// Token: 0x040011B0 RID: 4528
+		// Token: 0x040011B4 RID: 4532
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true);
 
-		// Token: 0x06001DEB RID: 7659 RVA: 0x00101BA4 File Offset: 0x000FFFA4
+		// Token: 0x06001DEA RID: 7658 RVA: 0x00101E0C File Offset: 0x0010020C
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
 			Settlement result;
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DEC RID: 7660 RVA: 0x00101C40 File Offset: 0x00100040
+		// Token: 0x06001DEB RID: 7659 RVA: 0x00101EA8 File Offset: 0x001002A8
 		public static Command TradeCommand(Caravan caravan)
 		{
 			Pawn bestNegotiator = BestCaravanPawnUtility.FindBestNegotiator(caravan);

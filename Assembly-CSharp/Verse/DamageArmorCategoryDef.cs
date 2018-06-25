@@ -3,13 +3,13 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B05 RID: 2821
+	// Token: 0x02000B06 RID: 2822
 	public class DamageArmorCategoryDef : Def
 	{
-		// Token: 0x040027AF RID: 10159
+		// Token: 0x040027B6 RID: 10166
 		public StatDef multStat;
 
-		// Token: 0x040027B0 RID: 10160
+		// Token: 0x040027B7 RID: 10167
 		public StatDef deflectionStat;
 	}
 }

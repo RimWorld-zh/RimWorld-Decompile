@@ -5,7 +5,7 @@ namespace RimWorld
 	// Token: 0x0200084F RID: 2127
 	public class ITab_Pawn_Prisoner : ITab_Pawn_Visitor
 	{
-		// Token: 0x0600303A RID: 12346 RVA: 0x001A412B File Offset: 0x001A252B
+		// Token: 0x06003039 RID: 12345 RVA: 0x001A4393 File Offset: 0x001A2793
 		public ITab_Pawn_Prisoner()
 		{
 			this.labelKey = "TabPrisoner";
@@ -13,7 +13,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B1 RID: 1969
-		// (get) Token: 0x0600303B RID: 12347 RVA: 0x001A414C File Offset: 0x001A254C
+		// (get) Token: 0x0600303A RID: 12346 RVA: 0x001A43B4 File Offset: 0x001A27B4
 		public override bool IsVisible
 		{
 			get

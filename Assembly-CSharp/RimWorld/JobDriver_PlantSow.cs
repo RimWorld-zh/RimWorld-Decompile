@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x0200008B RID: 139
 	public class JobDriver_PlantSow : JobDriver
 	{
-		// Token: 0x0400024A RID: 586
+		// Token: 0x0400024B RID: 587
 		private float sowWorkDone = 0f;
 
 		// Token: 0x170000B8 RID: 184
-		// (get) Token: 0x06000390 RID: 912 RVA: 0x00028190 File Offset: 0x00026590
+		// (get) Token: 0x06000390 RID: 912 RVA: 0x000281AC File Offset: 0x000265AC
 		private Plant Plant
 		{
 			get
@@ -21,20 +21,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000391 RID: 913 RVA: 0x000281BE File Offset: 0x000265BE
+		// Token: 0x06000391 RID: 913 RVA: 0x000281DA File Offset: 0x000265DA
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.sowWorkDone, "sowWorkDone", 0f, false);
 		}
 
-		// Token: 0x06000392 RID: 914 RVA: 0x000281E0 File Offset: 0x000265E0
+		// Token: 0x06000392 RID: 914 RVA: 0x000281FC File Offset: 0x000265FC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000393 RID: 915 RVA: 0x00028214 File Offset: 0x00026614
+		// Token: 0x06000393 RID: 915 RVA: 0x00028230 File Offset: 0x00026630
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn(() => GenPlant.AdjacentSowBlocker(this.job.plantDefToSow, this.TargetA.Cell, this.Map) != null).FailOn(() => !this.job.plantDefToSow.CanEverPlantAt(this.TargetLocA, this.Map));
@@ -52,7 +52,7 @@ namespace RimWorld
 				Pawn actor = sowToil.actor;
 				if (actor.skills != null)
 				{
-					actor.skills.Learn(SkillDefOf.Growing, 0.0935f, false);
+					actor.skills.Learn(SkillDefOf.Plants, 0.0935f, false);
 				}
 				float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
 				float num = statValue;
@@ -87,7 +87,7 @@ namespace RimWorld
 					}
 				}
 			});
-			sowToil.activeSkill = (() => SkillDefOf.Growing);
+			sowToil.activeSkill = (() => SkillDefOf.Plants);
 			yield return sowToil;
 			yield break;
 		}

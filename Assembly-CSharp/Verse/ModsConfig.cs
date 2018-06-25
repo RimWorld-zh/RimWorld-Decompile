@@ -6,13 +6,13 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CCA RID: 3274
+	// Token: 0x02000CCB RID: 3275
 	public static class ModsConfig
 	{
-		// Token: 0x040030F7 RID: 12535
+		// Token: 0x040030FE RID: 12542
 		private static ModsConfig.ModsConfigData data;
 
-		// Token: 0x0600486C RID: 18540 RVA: 0x00260FD0 File Offset: 0x0025F3D0
+		// Token: 0x0600486C RID: 18540 RVA: 0x002612B0 File Offset: 0x0025F6B0
 		static ModsConfig()
 		{
 			bool flag = false;
@@ -40,7 +40,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B79 RID: 2937
-		// (get) Token: 0x0600486D RID: 18541 RVA: 0x0026109C File Offset: 0x0025F49C
+		// (get) Token: 0x0600486D RID: 18541 RVA: 0x0026137C File Offset: 0x0025F77C
 		public static IEnumerable<ModMetaData> ActiveModsInLoadOrder
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600486E RID: 18542 RVA: 0x002610C0 File Offset: 0x0025F4C0
+		// Token: 0x0600486E RID: 18542 RVA: 0x002613A0 File Offset: 0x0025F7A0
 		public static void DeactivateNotInstalledMods(Action<string> logCallback = null)
 		{
 			int i;
@@ -71,7 +71,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600486F RID: 18543 RVA: 0x00261169 File Offset: 0x0025F569
+		// Token: 0x0600486F RID: 18543 RVA: 0x00261449 File Offset: 0x0025F849
 		public static void Reset()
 		{
 			ModsConfig.data.activeMods.Clear();
@@ -79,7 +79,7 @@ namespace Verse
 			ModsConfig.Save();
 		}
 
-		// Token: 0x06004870 RID: 18544 RVA: 0x00261194 File Offset: 0x0025F594
+		// Token: 0x06004870 RID: 18544 RVA: 0x00261474 File Offset: 0x0025F874
 		internal static void Reorder(int modIndex, int newIndex)
 		{
 			if (modIndex != newIndex)
@@ -89,19 +89,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004871 RID: 18545 RVA: 0x002611F0 File Offset: 0x0025F5F0
+		// Token: 0x06004871 RID: 18545 RVA: 0x002614D0 File Offset: 0x0025F8D0
 		public static bool IsActive(ModMetaData mod)
 		{
 			return ModsConfig.data.activeMods.Contains(mod.Identifier);
 		}
 
-		// Token: 0x06004872 RID: 18546 RVA: 0x0026121A File Offset: 0x0025F61A
+		// Token: 0x06004872 RID: 18546 RVA: 0x002614FA File Offset: 0x0025F8FA
 		public static void SetActive(ModMetaData mod, bool active)
 		{
 			ModsConfig.SetActive(mod.Identifier, active);
 		}
 
-		// Token: 0x06004873 RID: 18547 RVA: 0x0026122C File Offset: 0x0025F62C
+		// Token: 0x06004873 RID: 18547 RVA: 0x0026150C File Offset: 0x0025F90C
 		public static void SetActive(string modIdentifier, bool active)
 		{
 			if (active)
@@ -117,7 +117,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004874 RID: 18548 RVA: 0x00261294 File Offset: 0x0025F694
+		// Token: 0x06004874 RID: 18548 RVA: 0x00261574 File Offset: 0x0025F974
 		public static void SetActiveToList(List<string> mods)
 		{
 			ModsConfig.data.activeMods = (from mod in mods
@@ -125,13 +125,13 @@ namespace Verse
 			select mod).ToList<string>();
 		}
 
-		// Token: 0x06004875 RID: 18549 RVA: 0x002612C9 File Offset: 0x0025F6C9
+		// Token: 0x06004875 RID: 18549 RVA: 0x002615A9 File Offset: 0x0025F9A9
 		public static void Save()
 		{
 			DirectXmlSaver.SaveDataObject(ModsConfig.data, GenFilePaths.ModsConfigFilePath);
 		}
 
-		// Token: 0x06004876 RID: 18550 RVA: 0x002612DC File Offset: 0x0025F6DC
+		// Token: 0x06004876 RID: 18550 RVA: 0x002615BC File Offset: 0x0025F9BC
 		public static void RestartFromChangedMods()
 		{
 			Find.WindowStack.Add(new Dialog_MessageBox("ModsChanged".Translate(), null, delegate()
@@ -140,13 +140,13 @@ namespace Verse
 			}, null, null, null, false, null, null));
 		}
 
-		// Token: 0x02000CCB RID: 3275
+		// Token: 0x02000CCC RID: 3276
 		private class ModsConfigData
 		{
-			// Token: 0x040030FA RID: 12538
+			// Token: 0x04003101 RID: 12545
 			public int buildNumber = -1;
 
-			// Token: 0x040030FB RID: 12539
+			// Token: 0x04003102 RID: 12546
 			public List<string> activeMods = new List<string>();
 		}
 	}

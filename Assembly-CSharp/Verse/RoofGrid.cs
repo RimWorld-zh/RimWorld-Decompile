@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CA1 RID: 3233
+	// Token: 0x02000CA2 RID: 3234
 	public sealed class RoofGrid : IExposable, ICellBoolGiver
 	{
-		// Token: 0x04003061 RID: 12385
+		// Token: 0x04003068 RID: 12392
 		private Map map;
 
-		// Token: 0x04003062 RID: 12386
+		// Token: 0x04003069 RID: 12393
 		private RoofDef[] roofGrid;
 
-		// Token: 0x04003063 RID: 12387
+		// Token: 0x0400306A RID: 12394
 		private CellBoolDrawer drawerInt;
 
-		// Token: 0x06004736 RID: 18230 RVA: 0x00259755 File Offset: 0x00257B55
+		// Token: 0x06004736 RID: 18230 RVA: 0x00259A35 File Offset: 0x00257E35
 		public RoofGrid(Map map)
 		{
 			this.map = map;
@@ -24,7 +24,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B46 RID: 2886
-		// (get) Token: 0x06004737 RID: 18231 RVA: 0x0025977C File Offset: 0x00257B7C
+		// (get) Token: 0x06004737 RID: 18231 RVA: 0x00259A5C File Offset: 0x00257E5C
 		public CellBoolDrawer Drawer
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B47 RID: 2887
-		// (get) Token: 0x06004738 RID: 18232 RVA: 0x002597DC File Offset: 0x00257BDC
+		// (get) Token: 0x06004738 RID: 18232 RVA: 0x00259ABC File Offset: 0x00257EBC
 		public Color Color
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004739 RID: 18233 RVA: 0x00259805 File Offset: 0x00257C05
+		// Token: 0x06004739 RID: 18233 RVA: 0x00259AE5 File Offset: 0x00257EE5
 		public void ExposeData()
 		{
 			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => (this.roofGrid[this.map.cellIndices.CellToIndex(c)] != null) ? this.roofGrid[this.map.cellIndices.CellToIndex(c)].shortHash : 0, delegate(IntVec3 c, ushort val)
@@ -56,13 +56,13 @@ namespace Verse
 			}, "roofs");
 		}
 
-		// Token: 0x0600473A RID: 18234 RVA: 0x00259830 File Offset: 0x00257C30
+		// Token: 0x0600473A RID: 18234 RVA: 0x00259B10 File Offset: 0x00257F10
 		public bool GetCellBool(int index)
 		{
 			return this.roofGrid[index] != null && !this.map.fogGrid.IsFogged(index);
 		}
 
-		// Token: 0x0600473B RID: 18235 RVA: 0x0025986C File Offset: 0x00257C6C
+		// Token: 0x0600473B RID: 18235 RVA: 0x00259B4C File Offset: 0x00257F4C
 		public Color GetCellExtraColor(int index)
 		{
 			Color result;
@@ -77,43 +77,43 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600473C RID: 18236 RVA: 0x002598B0 File Offset: 0x00257CB0
+		// Token: 0x0600473C RID: 18236 RVA: 0x00259B90 File Offset: 0x00257F90
 		public bool Roofed(int index)
 		{
 			return this.roofGrid[index] != null;
 		}
 
-		// Token: 0x0600473D RID: 18237 RVA: 0x002598D4 File Offset: 0x00257CD4
+		// Token: 0x0600473D RID: 18237 RVA: 0x00259BB4 File Offset: 0x00257FB4
 		public bool Roofed(int x, int z)
 		{
 			return this.roofGrid[this.map.cellIndices.CellToIndex(x, z)] != null;
 		}
 
-		// Token: 0x0600473E RID: 18238 RVA: 0x00259908 File Offset: 0x00257D08
+		// Token: 0x0600473E RID: 18238 RVA: 0x00259BE8 File Offset: 0x00257FE8
 		public bool Roofed(IntVec3 c)
 		{
 			return this.roofGrid[this.map.cellIndices.CellToIndex(c)] != null;
 		}
 
-		// Token: 0x0600473F RID: 18239 RVA: 0x0025993C File Offset: 0x00257D3C
+		// Token: 0x0600473F RID: 18239 RVA: 0x00259C1C File Offset: 0x0025801C
 		public RoofDef RoofAt(int index)
 		{
 			return this.roofGrid[index];
 		}
 
-		// Token: 0x06004740 RID: 18240 RVA: 0x0025995C File Offset: 0x00257D5C
+		// Token: 0x06004740 RID: 18240 RVA: 0x00259C3C File Offset: 0x0025803C
 		public RoofDef RoofAt(IntVec3 c)
 		{
 			return this.roofGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x06004741 RID: 18241 RVA: 0x0025998C File Offset: 0x00257D8C
+		// Token: 0x06004741 RID: 18241 RVA: 0x00259C6C File Offset: 0x0025806C
 		public RoofDef RoofAt(int x, int z)
 		{
 			return this.roofGrid[this.map.cellIndices.CellToIndex(x, z)];
 		}
 
-		// Token: 0x06004742 RID: 18242 RVA: 0x002599BC File Offset: 0x00257DBC
+		// Token: 0x06004742 RID: 18242 RVA: 0x00259C9C File Offset: 0x0025809C
 		public void SetRoof(IntVec3 c, RoofDef def)
 		{
 			if (this.roofGrid[this.map.cellIndices.CellToIndex(c)] != def)
@@ -133,7 +133,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004743 RID: 18243 RVA: 0x00259A63 File Offset: 0x00257E63
+		// Token: 0x06004743 RID: 18243 RVA: 0x00259D43 File Offset: 0x00258143
 		public void RoofGridUpdate()
 		{
 			if (Find.PlaySettings.showRoofOverlay)

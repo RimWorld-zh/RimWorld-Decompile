@@ -6,20 +6,20 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000CC6 RID: 3270
+	// Token: 0x02000CC7 RID: 3271
 	public static class ModLister
 	{
-		// Token: 0x040030E2 RID: 12514
+		// Token: 0x040030E9 RID: 12521
 		private static List<ModMetaData> mods = new List<ModMetaData>();
 
-		// Token: 0x06004836 RID: 18486 RVA: 0x002602E3 File Offset: 0x0025E6E3
+		// Token: 0x06004836 RID: 18486 RVA: 0x002605C3 File Offset: 0x0025E9C3
 		static ModLister()
 		{
 			ModLister.RebuildModList();
 		}
 
 		// Token: 0x17000B68 RID: 2920
-		// (get) Token: 0x06004837 RID: 18487 RVA: 0x002602F8 File Offset: 0x0025E6F8
+		// (get) Token: 0x06004837 RID: 18487 RVA: 0x002605D8 File Offset: 0x0025E9D8
 		public static IEnumerable<ModMetaData> AllInstalledMods
 		{
 			get
@@ -29,7 +29,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000B69 RID: 2921
-		// (get) Token: 0x06004838 RID: 18488 RVA: 0x00260314 File Offset: 0x0025E714
+		// (get) Token: 0x06004838 RID: 18488 RVA: 0x002605F4 File Offset: 0x0025E9F4
 		public static IEnumerable<DirectoryInfo> AllActiveModDirs
 		{
 			get
@@ -40,12 +40,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004839 RID: 18489 RVA: 0x00260372 File Offset: 0x0025E772
+		// Token: 0x06004839 RID: 18489 RVA: 0x00260652 File Offset: 0x0025EA52
 		internal static void EnsureInit()
 		{
 		}
 
-		// Token: 0x0600483A RID: 18490 RVA: 0x00260378 File Offset: 0x0025E778
+		// Token: 0x0600483A RID: 18490 RVA: 0x00260658 File Offset: 0x0025EA58
 		internal static void RebuildModList()
 		{
 			string s = "Rebuilding mods list";
@@ -83,7 +83,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600483B RID: 18491 RVA: 0x002605BC File Offset: 0x0025E9BC
+		// Token: 0x0600483B RID: 18491 RVA: 0x0026089C File Offset: 0x0025EC9C
 		public static int InstalledModsListHash(bool activeOnly)
 		{
 			int num = 17;
@@ -99,7 +99,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x0600483C RID: 18492 RVA: 0x00260638 File Offset: 0x0025EA38
+		// Token: 0x0600483C RID: 18492 RVA: 0x00260918 File Offset: 0x0025ED18
 		internal static ModMetaData GetModWithIdentifier(string identifier)
 		{
 			for (int i = 0; i < ModLister.mods.Count; i++)
@@ -112,7 +112,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600483D RID: 18493 RVA: 0x00260698 File Offset: 0x0025EA98
+		// Token: 0x0600483D RID: 18493 RVA: 0x00260978 File Offset: 0x0025ED78
 		public static bool HasActiveModWithName(string name)
 		{
 			for (int i = 0; i < ModLister.mods.Count; i++)

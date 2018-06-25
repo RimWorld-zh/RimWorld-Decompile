@@ -5,21 +5,21 @@ namespace RimWorld.Planet
 	// Token: 0x0200062C RID: 1580
 	public enum WorldPawnSituation
 	{
-		// Token: 0x04001296 RID: 4758
-		None,
-		// Token: 0x04001297 RID: 4759
-		Free,
-		// Token: 0x04001298 RID: 4760
-		Dead,
-		// Token: 0x04001299 RID: 4761
-		FactionLeader,
 		// Token: 0x0400129A RID: 4762
-		Kidnapped,
+		None,
 		// Token: 0x0400129B RID: 4763
-		CaravanMember,
+		Free,
 		// Token: 0x0400129C RID: 4764
-		InTravelingTransportPod,
+		Dead,
 		// Token: 0x0400129D RID: 4765
+		FactionLeader,
+		// Token: 0x0400129E RID: 4766
+		Kidnapped,
+		// Token: 0x0400129F RID: 4767
+		CaravanMember,
+		// Token: 0x040012A0 RID: 4768
+		InTravelingTransportPod,
+		// Token: 0x040012A1 RID: 4769
 		ForSaleBySettlement
 	}
 }

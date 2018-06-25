@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020007E0 RID: 2016
 	public class Designator_Unforbid : Designator
 	{
-		// Token: 0x06002CB3 RID: 11443 RVA: 0x00178860 File Offset: 0x00176C60
+		// Token: 0x06002CB2 RID: 11442 RVA: 0x00178AC4 File Offset: 0x00176EC4
 		public Designator_Unforbid()
 		{
 			this.defaultLabel = "DesignatorUnforbid".Translate();
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000709 RID: 1801
-		// (get) Token: 0x06002CB4 RID: 11444 RVA: 0x001788F0 File Offset: 0x00176CF0
+		// (get) Token: 0x06002CB3 RID: 11443 RVA: 0x00178B54 File Offset: 0x00176F54
 		public override int DraggableDimensions
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CB5 RID: 11445 RVA: 0x00178908 File Offset: 0x00176D08
+		// Token: 0x06002CB4 RID: 11444 RVA: 0x00178B6C File Offset: 0x00176F6C
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CB6 RID: 11446 RVA: 0x00178988 File Offset: 0x00176D88
+		// Token: 0x06002CB5 RID: 11445 RVA: 0x00178BEC File Offset: 0x00176FEC
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);
@@ -65,7 +65,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CB7 RID: 11447 RVA: 0x001789E4 File Offset: 0x00176DE4
+		// Token: 0x06002CB6 RID: 11446 RVA: 0x00178C48 File Offset: 0x00177048
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport result;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CB8 RID: 11448 RVA: 0x00178A31 File Offset: 0x00176E31
+		// Token: 0x06002CB7 RID: 11447 RVA: 0x00178C95 File Offset: 0x00177095
 		public override void DesignateThing(Thing t)
 		{
 			t.SetForbidden(false, false);

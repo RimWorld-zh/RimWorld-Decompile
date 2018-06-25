@@ -5,69 +5,69 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000AF8 RID: 2808
+	// Token: 0x02000AF9 RID: 2809
 	public class Def : Editable
 	{
-		// Token: 0x0400274A RID: 10058
+		// Token: 0x04002751 RID: 10065
 		[Description("The name of this Def. It is used as an identifier by the game code.")]
 		[NoTranslate]
 		public string defName = "UnnamedDef";
 
-		// Token: 0x0400274B RID: 10059
+		// Token: 0x04002752 RID: 10066
 		[Description("A human-readable label used to identify this in game.")]
 		[DefaultValue(null)]
 		[MustTranslate]
 		public string label = null;
 
-		// Token: 0x0400274C RID: 10060
+		// Token: 0x04002753 RID: 10067
 		[Description("A human-readable description given when the Def is inspected by players.")]
 		[DefaultValue(null)]
 		[MustTranslate]
 		public string description = null;
 
-		// Token: 0x0400274D RID: 10061
+		// Token: 0x04002754 RID: 10068
 		[Description("Disables config error checking. Intended for mod use. (Be careful!)")]
 		[DefaultValue(false)]
 		[MustTranslate]
 		public bool ignoreConfigErrors = false;
 
-		// Token: 0x0400274E RID: 10062
+		// Token: 0x04002755 RID: 10069
 		[Description("Mod-specific data. Not used by core game code.")]
 		[DefaultValue(null)]
 		public List<DefModExtension> modExtensions;
 
-		// Token: 0x0400274F RID: 10063
+		// Token: 0x04002756 RID: 10070
 		[Unsaved]
 		public ushort shortHash;
 
-		// Token: 0x04002750 RID: 10064
+		// Token: 0x04002757 RID: 10071
 		[Unsaved]
 		public ushort index = ushort.MaxValue;
 
-		// Token: 0x04002751 RID: 10065
+		// Token: 0x04002758 RID: 10072
 		[Unsaved]
 		public ModContentPack modContentPack;
 
-		// Token: 0x04002752 RID: 10066
+		// Token: 0x04002759 RID: 10073
 		[Unsaved]
 		private string cachedLabelCap = null;
 
-		// Token: 0x04002753 RID: 10067
+		// Token: 0x0400275A RID: 10074
 		[Unsaved]
 		public bool generated;
 
-		// Token: 0x04002754 RID: 10068
+		// Token: 0x0400275B RID: 10075
 		[Unsaved]
 		public ushort debugRandomId = (ushort)Rand.RangeInclusive(0, 65535);
 
-		// Token: 0x04002755 RID: 10069
+		// Token: 0x0400275C RID: 10076
 		public const string DefaultDefName = "UnnamedDef";
 
-		// Token: 0x04002756 RID: 10070
+		// Token: 0x0400275D RID: 10077
 		private static Regex AllowedDefnamesRegex = new Regex("^[a-zA-Z0-9\\-_]*$");
 
 		// Token: 0x17000958 RID: 2392
-		// (get) Token: 0x06003E34 RID: 15924 RVA: 0x00063540 File Offset: 0x00061940
+		// (get) Token: 0x06003E34 RID: 15924 RVA: 0x0006353C File Offset: 0x0006193C
 		public string LabelCap
 		{
 			get
@@ -89,13 +89,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E35 RID: 15925 RVA: 0x00063598 File Offset: 0x00061998
+		// Token: 0x06003E35 RID: 15925 RVA: 0x00063594 File Offset: 0x00061994
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			yield break;
 		}
 
-		// Token: 0x06003E36 RID: 15926 RVA: 0x000635BC File Offset: 0x000619BC
+		// Token: 0x06003E36 RID: 15926 RVA: 0x000635B8 File Offset: 0x000619B8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.defName == "UnnamedDef")
@@ -138,25 +138,25 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E37 RID: 15927 RVA: 0x000635E6 File Offset: 0x000619E6
+		// Token: 0x06003E37 RID: 15927 RVA: 0x000635E2 File Offset: 0x000619E2
 		public virtual void ClearCachedData()
 		{
 			this.cachedLabelCap = null;
 		}
 
-		// Token: 0x06003E38 RID: 15928 RVA: 0x000635F0 File Offset: 0x000619F0
+		// Token: 0x06003E38 RID: 15928 RVA: 0x000635EC File Offset: 0x000619EC
 		public override string ToString()
 		{
 			return this.defName;
 		}
 
-		// Token: 0x06003E39 RID: 15929 RVA: 0x0006360C File Offset: 0x00061A0C
+		// Token: 0x06003E39 RID: 15929 RVA: 0x00063608 File Offset: 0x00061A08
 		public override int GetHashCode()
 		{
 			return this.defName.GetHashCode();
 		}
 
-		// Token: 0x06003E3A RID: 15930 RVA: 0x0006362C File Offset: 0x00061A2C
+		// Token: 0x06003E3A RID: 15930 RVA: 0x00063628 File Offset: 0x00061A28
 		public T GetModExtension<T>() where T : DefModExtension
 		{
 			T result;
@@ -178,7 +178,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E3B RID: 15931 RVA: 0x000636B0 File Offset: 0x00061AB0
+		// Token: 0x06003E3B RID: 15931 RVA: 0x000636AC File Offset: 0x00061AAC
 		public bool HasModExtension<T>() where T : DefModExtension
 		{
 			return this.GetModExtension<T>() != null;

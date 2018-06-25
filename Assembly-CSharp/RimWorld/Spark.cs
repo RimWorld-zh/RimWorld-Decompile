@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020006DB RID: 1755
 	public class Spark : Projectile
 	{
-		// Token: 0x06002632 RID: 9778 RVA: 0x00147BE4 File Offset: 0x00145FE4
+		// Token: 0x06002631 RID: 9777 RVA: 0x00147E44 File Offset: 0x00146244
 		protected override void Impact(Thing hitThing)
 		{
 			Map map = base.Map;

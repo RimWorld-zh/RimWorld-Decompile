@@ -6,26 +6,26 @@ namespace RimWorld.Planet
 	// Token: 0x020005ED RID: 1517
 	public class Caravan_Tweener
 	{
-		// Token: 0x040011CF RID: 4559
+		// Token: 0x040011D3 RID: 4563
 		private Caravan caravan;
 
-		// Token: 0x040011D0 RID: 4560
+		// Token: 0x040011D4 RID: 4564
 		private Vector3 tweenedPos = Vector3.zero;
 
-		// Token: 0x040011D1 RID: 4561
+		// Token: 0x040011D5 RID: 4565
 		private Vector3 lastTickSpringPos;
 
-		// Token: 0x040011D2 RID: 4562
+		// Token: 0x040011D6 RID: 4566
 		private const float SpringTightness = 0.09f;
 
-		// Token: 0x06001E23 RID: 7715 RVA: 0x00103968 File Offset: 0x00101D68
+		// Token: 0x06001E22 RID: 7714 RVA: 0x00103BD0 File Offset: 0x00101FD0
 		public Caravan_Tweener(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x17000472 RID: 1138
-		// (get) Token: 0x06001E24 RID: 7716 RVA: 0x00103984 File Offset: 0x00101D84
+		// (get) Token: 0x06001E23 RID: 7715 RVA: 0x00103BEC File Offset: 0x00101FEC
 		public Vector3 TweenedPos
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000473 RID: 1139
-		// (get) Token: 0x06001E25 RID: 7717 RVA: 0x001039A0 File Offset: 0x00101DA0
+		// (get) Token: 0x06001E24 RID: 7716 RVA: 0x00103C08 File Offset: 0x00102008
 		public Vector3 LastTickTweenedVelocity
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000474 RID: 1140
-		// (get) Token: 0x06001E26 RID: 7718 RVA: 0x001039C8 File Offset: 0x00101DC8
+		// (get) Token: 0x06001E25 RID: 7717 RVA: 0x00103C30 File Offset: 0x00102030
 		public Vector3 TweenedPosRoot
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E27 RID: 7719 RVA: 0x001039F8 File Offset: 0x00101DF8
+		// Token: 0x06001E26 RID: 7718 RVA: 0x00103C60 File Offset: 0x00102060
 		public void TweenerTick()
 		{
 			this.lastTickSpringPos = this.tweenedPos;
@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 			this.tweenedPos += a * 0.09f;
 		}
 
-		// Token: 0x06001E28 RID: 7720 RVA: 0x00103A40 File Offset: 0x00101E40
+		// Token: 0x06001E27 RID: 7719 RVA: 0x00103CA8 File Offset: 0x001020A8
 		public void ResetTweenedPosToRoot()
 		{
 			this.tweenedPos = this.TweenedPosRoot;

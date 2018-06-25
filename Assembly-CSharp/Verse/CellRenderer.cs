@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C0B RID: 3083
+	// Token: 0x02000C0C RID: 3084
 	public static class CellRenderer
 	{
-		// Token: 0x04002E15 RID: 11797
+		// Token: 0x04002E1C RID: 11804
 		private static int lastCameraUpdateFrame = -1;
 
-		// Token: 0x04002E16 RID: 11798
+		// Token: 0x04002E1D RID: 11805
 		private static CellRect viewRect;
 
-		// Token: 0x06004360 RID: 17248 RVA: 0x00239ACE File Offset: 0x00237ECE
+		// Token: 0x06004360 RID: 17248 RVA: 0x00239DAE File Offset: 0x002381AE
 		private static void InitFrame()
 		{
 			if (Time.frameCount != CellRenderer.lastCameraUpdateFrame)
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004361 RID: 17249 RVA: 0x00239AFC File Offset: 0x00237EFC
+		// Token: 0x06004361 RID: 17249 RVA: 0x00239DDC File Offset: 0x002381DC
 		private static Material MatFromColorPct(float colorPct, bool transparent)
 		{
 			int num = Mathf.RoundToInt(colorPct * 100f);
@@ -30,13 +30,13 @@ namespace Verse
 			return DebugMatsSpectrum.Mat(num, transparent);
 		}
 
-		// Token: 0x06004362 RID: 17250 RVA: 0x00239B2E File Offset: 0x00237F2E
+		// Token: 0x06004362 RID: 17250 RVA: 0x00239E0E File Offset: 0x0023820E
 		public static void RenderCell(IntVec3 c, float colorPct = 0.5f)
 		{
 			CellRenderer.RenderCell(c, CellRenderer.MatFromColorPct(colorPct, true));
 		}
 
-		// Token: 0x06004363 RID: 17251 RVA: 0x00239B40 File Offset: 0x00237F40
+		// Token: 0x06004363 RID: 17251 RVA: 0x00239E20 File Offset: 0x00238220
 		public static void RenderCell(IntVec3 c, Material mat)
 		{
 			CellRenderer.InitFrame();
@@ -47,13 +47,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004364 RID: 17252 RVA: 0x00239B84 File Offset: 0x00237F84
+		// Token: 0x06004364 RID: 17252 RVA: 0x00239E64 File Offset: 0x00238264
 		public static void RenderSpot(Vector3 loc, float colorPct = 0.5f)
 		{
 			CellRenderer.RenderSpot(loc, CellRenderer.MatFromColorPct(colorPct, false), 0.15f);
 		}
 
-		// Token: 0x06004365 RID: 17253 RVA: 0x00239B9C File Offset: 0x00237F9C
+		// Token: 0x06004365 RID: 17253 RVA: 0x00239E7C File Offset: 0x0023827C
 		public static void RenderSpot(Vector3 loc, Material mat, float scale = 0.15f)
 		{
 			CellRenderer.InitFrame();

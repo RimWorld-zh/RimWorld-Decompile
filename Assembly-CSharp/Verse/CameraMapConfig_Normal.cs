@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000AE8 RID: 2792
+	// Token: 0x02000AE9 RID: 2793
 	public class CameraMapConfig_Normal : CameraMapConfig
 	{
 	}

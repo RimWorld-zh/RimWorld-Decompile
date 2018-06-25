@@ -7,35 +7,35 @@ namespace RimWorld
 	// Token: 0x02000247 RID: 583
 	public class CompProperties_Facility : CompProperties
 	{
-		// Token: 0x04000486 RID: 1158
+		// Token: 0x04000488 RID: 1160
 		[Unsaved]
 		public List<ThingDef> linkableBuildings = null;
 
-		// Token: 0x04000487 RID: 1159
+		// Token: 0x04000489 RID: 1161
 		public List<StatModifier> statOffsets = null;
 
-		// Token: 0x04000488 RID: 1160
+		// Token: 0x0400048A RID: 1162
 		public int maxSimultaneous = 1;
 
-		// Token: 0x04000489 RID: 1161
+		// Token: 0x0400048B RID: 1163
 		public bool mustBePlacedAdjacent = false;
 
-		// Token: 0x0400048A RID: 1162
+		// Token: 0x0400048C RID: 1164
 		public bool mustBePlacedAdjacentCardinalToBedHead = false;
 
-		// Token: 0x0400048B RID: 1163
+		// Token: 0x0400048D RID: 1165
 		public bool canLinkToMedBedsOnly = false;
 
-		// Token: 0x0400048C RID: 1164
+		// Token: 0x0400048E RID: 1166
 		public float maxDistance = 8f;
 
-		// Token: 0x06000A7B RID: 2683 RVA: 0x0005F2B8 File Offset: 0x0005D6B8
+		// Token: 0x06000A7A RID: 2682 RVA: 0x0005F2B4 File Offset: 0x0005D6B4
 		public CompProperties_Facility()
 		{
 			this.compClass = typeof(CompFacility);
 		}
 
-		// Token: 0x06000A7C RID: 2684 RVA: 0x0005F314 File Offset: 0x0005D714
+		// Token: 0x06000A7B RID: 2683 RVA: 0x0005F310 File Offset: 0x0005D710
 		public override void ResolveReferences(ThingDef parentDef)
 		{
 			this.linkableBuildings = new List<ThingDef>();

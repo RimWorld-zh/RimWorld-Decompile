@@ -3,10 +3,10 @@ using RimWorld.Planet;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBA RID: 3514
+	// Token: 0x02000DBB RID: 3515
 	public static class SoundStarter
 	{
-		// Token: 0x06004E8B RID: 20107 RVA: 0x00290AB0 File Offset: 0x0028EEB0
+		// Token: 0x06004E8B RID: 20107 RVA: 0x00290D90 File Offset: 0x0028F190
 		public static void PlayOneShotOnCamera(this SoundDef soundDef, Map onlyThisMap = null)
 		{
 			if (UnityData.IsInMainThread)
@@ -37,7 +37,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E8C RID: 20108 RVA: 0x00290B74 File Offset: 0x0028EF74
+		// Token: 0x06004E8C RID: 20108 RVA: 0x00290E54 File Offset: 0x0028F254
 		public static void PlayOneShot(this SoundDef soundDef, SoundInfo info)
 		{
 			if (UnityData.IsInMainThread)
@@ -80,7 +80,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E8D RID: 20109 RVA: 0x00290C90 File Offset: 0x0028F090
+		// Token: 0x06004E8D RID: 20109 RVA: 0x00290F70 File Offset: 0x0028F370
 		public static Sustainer TrySpawnSustainer(this SoundDef soundDef, SoundInfo info)
 		{
 			DebugSoundEventsLog.Notify_SoundEvent(soundDef, info);

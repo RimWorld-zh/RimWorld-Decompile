@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000185 RID: 389
 	public class LordToil_PrepareCaravan_Pause : LordToil
 	{
-		// Token: 0x06000819 RID: 2073 RVA: 0x0004E62C File Offset: 0x0004CA2C
+		// Token: 0x06000818 RID: 2072 RVA: 0x0004E628 File Offset: 0x0004CA28
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)

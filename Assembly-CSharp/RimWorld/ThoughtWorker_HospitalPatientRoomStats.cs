@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020001F3 RID: 499
 	public class ThoughtWorker_HospitalPatientRoomStats : ThoughtWorker
 	{
-		// Token: 0x060009AF RID: 2479 RVA: 0x00057460 File Offset: 0x00055860
+		// Token: 0x060009AE RID: 2478 RVA: 0x0005745C File Offset: 0x0005585C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			Building_Bed building_Bed = p.CurrentBed();

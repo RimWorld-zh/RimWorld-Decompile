@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000EC1 RID: 3777
+	// Token: 0x02000EC2 RID: 3778
 	public enum DiaNodeType : byte
 	{
-		// Token: 0x04003B9D RID: 15261
+		// Token: 0x04003BA5 RID: 15269
 		Undefined,
-		// Token: 0x04003B9E RID: 15262
+		// Token: 0x04003BA6 RID: 15270
 		Special,
-		// Token: 0x04003B9F RID: 15263
+		// Token: 0x04003BA7 RID: 15271
 		BaseEncounters,
-		// Token: 0x04003BA0 RID: 15264
+		// Token: 0x04003BA8 RID: 15272
 		InsanityBattles
 	}
 }

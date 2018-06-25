@@ -3,19 +3,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E24 RID: 3620
+	// Token: 0x02000E25 RID: 3621
 	public class DebugTool
 	{
-		// Token: 0x0400380C RID: 14348
+		// Token: 0x04003813 RID: 14355
 		private string label;
 
-		// Token: 0x0400380D RID: 14349
+		// Token: 0x04003814 RID: 14356
 		private Action clickAction = null;
 
-		// Token: 0x0400380E RID: 14350
+		// Token: 0x04003815 RID: 14357
 		private Action onGUIAction = null;
 
-		// Token: 0x060054F8 RID: 21752 RVA: 0x002B9DAF File Offset: 0x002B81AF
+		// Token: 0x060054F8 RID: 21752 RVA: 0x002BA0A3 File Offset: 0x002B84A3
 		public DebugTool(string label, Action clickAction, Action onGUIAction = null)
 		{
 			this.label = label;
@@ -23,7 +23,7 @@ namespace Verse
 			this.onGUIAction = onGUIAction;
 		}
 
-		// Token: 0x060054F9 RID: 21753 RVA: 0x002B9DDC File Offset: 0x002B81DC
+		// Token: 0x060054F9 RID: 21753 RVA: 0x002BA0D0 File Offset: 0x002B84D0
 		public DebugTool(string label, Action clickAction, IntVec3 firstRectCorner)
 		{
 			this.label = label;
@@ -59,7 +59,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x060054FA RID: 21754 RVA: 0x002B9E2C File Offset: 0x002B822C
+		// Token: 0x060054FA RID: 21754 RVA: 0x002BA120 File Offset: 0x002B8520
 		public void DebugToolOnGUI()
 		{
 			if (Event.current.type == EventType.MouseDown)

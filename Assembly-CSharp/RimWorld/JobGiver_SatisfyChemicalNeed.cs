@@ -9,10 +9,10 @@ namespace RimWorld
 	// Token: 0x020000AF RID: 175
 	public class JobGiver_SatisfyChemicalNeed : ThinkNode_JobGiver
 	{
-		// Token: 0x04000282 RID: 642
+		// Token: 0x04000283 RID: 643
 		private static List<Need_Chemical> tmpChemicalNeeds = new List<Need_Chemical>();
 
-		// Token: 0x06000437 RID: 1079 RVA: 0x00032098 File Offset: 0x00030498
+		// Token: 0x06000437 RID: 1079 RVA: 0x000320B4 File Offset: 0x000304B4
 		public override float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000438 RID: 1080 RVA: 0x000320E0 File Offset: 0x000304E0
+		// Token: 0x06000438 RID: 1080 RVA: 0x000320FC File Offset: 0x000304FC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Profiler.BeginSample("SatisfyChemicalNeed");
@@ -66,14 +66,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000439 RID: 1081 RVA: 0x00032200 File Offset: 0x00030600
+		// Token: 0x06000439 RID: 1081 RVA: 0x0003221C File Offset: 0x0003061C
 		private bool ShouldSatisfy(Need need)
 		{
 			Need_Chemical need_Chemical = need as Need_Chemical;
 			return need_Chemical != null && need_Chemical.CurCategory <= DrugDesireCategory.Desire;
 		}
 
-		// Token: 0x0600043A RID: 1082 RVA: 0x00032238 File Offset: 0x00030638
+		// Token: 0x0600043A RID: 1082 RVA: 0x00032254 File Offset: 0x00030654
 		private Thing FindDrugFor(Pawn pawn, Need_Chemical need)
 		{
 			Hediff_Addiction addictionHediff = need.AddictionHediff;
@@ -97,7 +97,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600043B RID: 1083 RVA: 0x0003231C File Offset: 0x0003071C
+		// Token: 0x0600043B RID: 1083 RVA: 0x00032338 File Offset: 0x00030738
 		private bool DrugValidator(Pawn pawn, Hediff_Addiction addiction, Thing drug)
 		{
 			bool result;

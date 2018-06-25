@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x020006AD RID: 1709
 	public class Building_PlantGrower : Building, IPlantToGrowSettable
 	{
-		// Token: 0x0400143D RID: 5181
+		// Token: 0x04001441 RID: 5185
 		private ThingDef plantDefToGrow;
 
-		// Token: 0x0400143E RID: 5182
+		// Token: 0x04001442 RID: 5186
 		private CompPowerTrader compPower;
 
 		// Token: 0x1700058A RID: 1418
-		// (get) Token: 0x060024A9 RID: 9385 RVA: 0x00139FFC File Offset: 0x001383FC
+		// (get) Token: 0x060024A8 RID: 9384 RVA: 0x0013A264 File Offset: 0x00138664
 		public IEnumerable<Plant> PlantsOnMe
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000589 RID: 1417
-		// (get) Token: 0x060024AA RID: 9386 RVA: 0x0013A028 File Offset: 0x00138428
+		// (get) Token: 0x060024A9 RID: 9385 RVA: 0x0013A290 File Offset: 0x00138690
 		IEnumerable<IntVec3> IPlantToGrowSettable.Cells
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024AB RID: 9387 RVA: 0x0013A04C File Offset: 0x0013844C
+		// Token: 0x060024AA RID: 9386 RVA: 0x0013A2B4 File Offset: 0x001386B4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -63,14 +63,14 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024AC RID: 9388 RVA: 0x0013A076 File Offset: 0x00138476
+		// Token: 0x060024AB RID: 9387 RVA: 0x0013A2DE File Offset: 0x001386DE
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.plantDefToGrow = this.def.building.defaultPlantToGrow;
 		}
 
-		// Token: 0x060024AD RID: 9389 RVA: 0x0013A095 File Offset: 0x00138495
+		// Token: 0x060024AC RID: 9388 RVA: 0x0013A2FD File Offset: 0x001386FD
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -78,14 +78,14 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.GrowingFood, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x060024AE RID: 9390 RVA: 0x0013A0B7 File Offset: 0x001384B7
+		// Token: 0x060024AD RID: 9389 RVA: 0x0013A31F File Offset: 0x0013871F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.plantDefToGrow, "plantDefToGrow");
 		}
 
-		// Token: 0x060024AF RID: 9391 RVA: 0x0013A0D0 File Offset: 0x001384D0
+		// Token: 0x060024AE RID: 9390 RVA: 0x0013A338 File Offset: 0x00138738
 		public override void TickRare()
 		{
 			if (this.compPower != null && !this.compPower.PowerOn)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024B0 RID: 9392 RVA: 0x0013A168 File Offset: 0x00138568
+		// Token: 0x060024AF RID: 9391 RVA: 0x0013A3D0 File Offset: 0x001387D0
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			foreach (Plant plant in this.PlantsOnMe.ToList<Plant>())
@@ -108,7 +108,7 @@ namespace RimWorld
 			base.DeSpawn(mode);
 		}
 
-		// Token: 0x060024B1 RID: 9393 RVA: 0x0013A1D4 File Offset: 0x001385D4
+		// Token: 0x060024B0 RID: 9392 RVA: 0x0013A43C File Offset: 0x0013883C
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -126,19 +126,19 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060024B2 RID: 9394 RVA: 0x0013A248 File Offset: 0x00138648
+		// Token: 0x060024B1 RID: 9393 RVA: 0x0013A4B0 File Offset: 0x001388B0
 		public ThingDef GetPlantDefToGrow()
 		{
 			return this.plantDefToGrow;
 		}
 
-		// Token: 0x060024B3 RID: 9395 RVA: 0x0013A263 File Offset: 0x00138663
+		// Token: 0x060024B2 RID: 9394 RVA: 0x0013A4CB File Offset: 0x001388CB
 		public void SetPlantDefToGrow(ThingDef plantDef)
 		{
 			this.plantDefToGrow = plantDef;
 		}
 
-		// Token: 0x060024B4 RID: 9396 RVA: 0x0013A270 File Offset: 0x00138670
+		// Token: 0x060024B3 RID: 9395 RVA: 0x0013A4D8 File Offset: 0x001388D8
 		public bool CanAcceptSowNow()
 		{
 			return this.compPower == null || this.compPower.PowerOn;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A4F RID: 2639
+	// Token: 0x02000A50 RID: 2640
 	public static class Toils_Jump
 	{
-		// Token: 0x06003AC9 RID: 15049 RVA: 0x001F3560 File Offset: 0x001F1960
+		// Token: 0x06003ACA RID: 15050 RVA: 0x001F388C File Offset: 0x001F1C8C
 		public static Toil Jump(Toil jumpTarget)
 		{
 			Toil toil = new Toil();
@@ -17,7 +17,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ACA RID: 15050 RVA: 0x001F35AC File Offset: 0x001F19AC
+		// Token: 0x06003ACB RID: 15051 RVA: 0x001F38D8 File Offset: 0x001F1CD8
 		public static Toil JumpIf(Toil jumpTarget, Func<bool> condition)
 		{
 			Toil toil = new Toil();
@@ -31,7 +31,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ACB RID: 15051 RVA: 0x001F3600 File Offset: 0x001F1A00
+		// Token: 0x06003ACC RID: 15052 RVA: 0x001F392C File Offset: 0x001F1D2C
 		public static Toil JumpIfTargetDespawnedOrNull(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
@@ -46,7 +46,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ACC RID: 15052 RVA: 0x001F3654 File Offset: 0x001F1A54
+		// Token: 0x06003ACD RID: 15053 RVA: 0x001F3980 File Offset: 0x001F1D80
 		public static Toil JumpIfTargetInvalid(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
@@ -60,7 +60,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ACD RID: 15053 RVA: 0x001F36A8 File Offset: 0x001F1AA8
+		// Token: 0x06003ACE RID: 15054 RVA: 0x001F39D4 File Offset: 0x001F1DD4
 		public static Toil JumpIfTargetNotHittable(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
@@ -77,7 +77,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ACE RID: 15054 RVA: 0x001F36FC File Offset: 0x001F1AFC
+		// Token: 0x06003ACF RID: 15055 RVA: 0x001F3A28 File Offset: 0x001F1E28
 		public static Toil JumpIfTargetDowned(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
@@ -94,7 +94,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003ACF RID: 15055 RVA: 0x001F3750 File Offset: 0x001F1B50
+		// Token: 0x06003AD0 RID: 15056 RVA: 0x001F3A7C File Offset: 0x001F1E7C
 		public static Toil JumpIfHaveTargetInQueue(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
@@ -111,7 +111,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD0 RID: 15056 RVA: 0x001F37A4 File Offset: 0x001F1BA4
+		// Token: 0x06003AD1 RID: 15057 RVA: 0x001F3AD0 File Offset: 0x001F1ED0
 		public static Toil JumpIfCannotTouch(TargetIndex ind, PathEndMode peMode, Toil jumpToil)
 		{
 			Toil toil = new Toil();

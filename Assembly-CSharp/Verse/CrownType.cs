@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000DCE RID: 3534
+	// Token: 0x02000DCF RID: 3535
 	public enum CrownType : byte
 	{
-		// Token: 0x040034A2 RID: 13474
+		// Token: 0x040034A9 RID: 13481
 		Undefined,
-		// Token: 0x040034A3 RID: 13475
+		// Token: 0x040034AA RID: 13482
 		Average,
-		// Token: 0x040034A4 RID: 13476
+		// Token: 0x040034AB RID: 13483
 		Narrow
 	}
 }

@@ -8,25 +8,25 @@ namespace RimWorld
 	// Token: 0x0200030F RID: 783
 	public class GameCondition_Flashstorm : GameCondition
 	{
-		// Token: 0x04000875 RID: 2165
+		// Token: 0x04000878 RID: 2168
 		private static readonly IntRange AreaRadiusRange = new IntRange(45, 60);
 
-		// Token: 0x04000876 RID: 2166
+		// Token: 0x04000879 RID: 2169
 		private static readonly IntRange TicksBetweenStrikes = new IntRange(320, 800);
 
-		// Token: 0x04000877 RID: 2167
+		// Token: 0x0400087A RID: 2170
 		private const int RainDisableTicksAfterConditionEnds = 30000;
 
-		// Token: 0x04000878 RID: 2168
+		// Token: 0x0400087B RID: 2171
 		public IntVec2 centerLocation;
 
-		// Token: 0x04000879 RID: 2169
+		// Token: 0x0400087C RID: 2172
 		private int areaRadius = 0;
 
-		// Token: 0x0400087A RID: 2170
+		// Token: 0x0400087D RID: 2173
 		private int nextLightningTicks = 0;
 
-		// Token: 0x06000D37 RID: 3383 RVA: 0x0007272C File Offset: 0x00070B2C
+		// Token: 0x06000D36 RID: 3382 RVA: 0x00072734 File Offset: 0x00070B34
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -35,7 +35,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.nextLightningTicks, "nextLightningTicks", 0, false);
 		}
 
-		// Token: 0x06000D38 RID: 3384 RVA: 0x00072780 File Offset: 0x00070B80
+		// Token: 0x06000D37 RID: 3383 RVA: 0x00072788 File Offset: 0x00070B88
 		public override void Init()
 		{
 			base.Init();
@@ -43,7 +43,7 @@ namespace RimWorld
 			this.FindGoodCenterLocation();
 		}
 
-		// Token: 0x06000D39 RID: 3385 RVA: 0x000727B0 File Offset: 0x00070BB0
+		// Token: 0x06000D38 RID: 3384 RVA: 0x000727B8 File Offset: 0x00070BB8
 		public override void GameConditionTick()
 		{
 			if (Find.TickManager.TicksGame > this.nextLightningTicks)
@@ -58,14 +58,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D3A RID: 3386 RVA: 0x0007287A File Offset: 0x00070C7A
+		// Token: 0x06000D39 RID: 3385 RVA: 0x00072882 File Offset: 0x00070C82
 		public override void End()
 		{
 			base.SingleMap.weatherDecider.DisableRainFor(30000);
 			base.End();
 		}
 
-		// Token: 0x06000D3B RID: 3387 RVA: 0x00072898 File Offset: 0x00070C98
+		// Token: 0x06000D3A RID: 3386 RVA: 0x000728A0 File Offset: 0x00070CA0
 		private void FindGoodCenterLocation()
 		{
 			if (base.SingleMap.Size.x <= 16 || base.SingleMap.Size.z <= 16)
@@ -82,13 +82,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D3C RID: 3388 RVA: 0x00072954 File Offset: 0x00070D54
+		// Token: 0x06000D3B RID: 3387 RVA: 0x0007295C File Offset: 0x00070D5C
 		private bool IsGoodLocationForStrike(IntVec3 loc)
 		{
 			return loc.InBounds(base.SingleMap) && !loc.Roofed(base.SingleMap) && loc.Standable(base.SingleMap);
 		}
 
-		// Token: 0x06000D3D RID: 3389 RVA: 0x0007299C File Offset: 0x00070D9C
+		// Token: 0x06000D3C RID: 3388 RVA: 0x000729A4 File Offset: 0x00070DA4
 		private bool IsGoodCenterLocation(IntVec2 loc)
 		{
 			int num = 0;
@@ -107,7 +107,7 @@ namespace RimWorld
 			return num >= num2;
 		}
 
-		// Token: 0x06000D3E RID: 3390 RVA: 0x00072A40 File Offset: 0x00070E40
+		// Token: 0x06000D3D RID: 3389 RVA: 0x00072A48 File Offset: 0x00070E48
 		private IEnumerable<IntVec3> GetPotentiallyAffectedCells(IntVec2 center)
 		{
 			for (int x = center.x - this.areaRadius; x <= center.x + this.areaRadius; x++)

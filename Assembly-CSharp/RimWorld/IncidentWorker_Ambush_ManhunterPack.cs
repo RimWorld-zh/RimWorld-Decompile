@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x0200031F RID: 799
 	public class IncidentWorker_Ambush_ManhunterPack : IncidentWorker_Ambush
 	{
-		// Token: 0x06000D96 RID: 3478 RVA: 0x0007433C File Offset: 0x0007273C
+		// Token: 0x06000D95 RID: 3477 RVA: 0x00074344 File Offset: 0x00072744
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			PawnKindDef pawnKindDef;
 			return base.CanFireNowSub(parms) && ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, -1, out pawnKindDef);
 		}
 
-		// Token: 0x06000D97 RID: 3479 RVA: 0x00074374 File Offset: 0x00072774
+		// Token: 0x06000D96 RID: 3478 RVA: 0x0007437C File Offset: 0x0007277C
 		protected override List<Pawn> GeneratePawns(IncidentParms parms)
 		{
 			PawnKindDef animalKind;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D98 RID: 3480 RVA: 0x000743F8 File Offset: 0x000727F8
+		// Token: 0x06000D97 RID: 3479 RVA: 0x00074400 File Offset: 0x00072800
 		protected override void PostProcessGeneratedPawnsAfterSpawning(List<Pawn> generatedPawns)
 		{
 			for (int i = 0; i < generatedPawns.Count; i++)
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D99 RID: 3481 RVA: 0x00074440 File Offset: 0x00072840
+		// Token: 0x06000D98 RID: 3480 RVA: 0x00074448 File Offset: 0x00072848
 		protected override string GetLetterText(Pawn anyPawn, IncidentParms parms)
 		{
 			Caravan caravan = parms.target as Caravan;

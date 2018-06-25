@@ -8,24 +8,24 @@ namespace RimWorld
 	// Token: 0x02000175 RID: 373
 	public class LordJob_SleepThenAssaultColony : LordJob
 	{
-		// Token: 0x0400035A RID: 858
+		// Token: 0x0400035B RID: 859
 		private Faction faction;
 
-		// Token: 0x0400035B RID: 859
+		// Token: 0x0400035C RID: 860
 		private bool wakeUpIfColonistClose;
 
-		// Token: 0x0400035C RID: 860
+		// Token: 0x0400035D RID: 861
 		private const int AnyColonistCloseCheckIntervalTicks = 30;
 
-		// Token: 0x0400035D RID: 861
+		// Token: 0x0400035E RID: 862
 		private const float AnyColonistCloseCheckRadius = 6f;
 
-		// Token: 0x060007AD RID: 1965 RVA: 0x0004B66F File Offset: 0x00049A6F
+		// Token: 0x060007AC RID: 1964 RVA: 0x0004B66B File Offset: 0x00049A6B
 		public LordJob_SleepThenAssaultColony()
 		{
 		}
 
-		// Token: 0x060007AE RID: 1966 RVA: 0x0004B678 File Offset: 0x00049A78
+		// Token: 0x060007AD RID: 1965 RVA: 0x0004B674 File Offset: 0x00049A74
 		public LordJob_SleepThenAssaultColony(Faction faction, bool wakeUpIfColonistClose)
 		{
 			this.faction = faction;
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000132 RID: 306
-		// (get) Token: 0x060007AF RID: 1967 RVA: 0x0004B690 File Offset: 0x00049A90
+		// (get) Token: 0x060007AE RID: 1966 RVA: 0x0004B68C File Offset: 0x00049A8C
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007B0 RID: 1968 RVA: 0x0004B6A8 File Offset: 0x00049AA8
+		// Token: 0x060007AF RID: 1967 RVA: 0x0004B6A4 File Offset: 0x00049AA4
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -64,14 +64,14 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007B1 RID: 1969 RVA: 0x0004B784 File Offset: 0x00049B84
+		// Token: 0x060007B0 RID: 1968 RVA: 0x0004B780 File Offset: 0x00049B80
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<bool>(ref this.wakeUpIfColonistClose, "wakeUpIfColonistClose", false, false);
 		}
 
-		// Token: 0x060007B2 RID: 1970 RVA: 0x0004B7AC File Offset: 0x00049BAC
+		// Token: 0x060007B1 RID: 1969 RVA: 0x0004B7A8 File Offset: 0x00049BA8
 		private bool AnyColonistClose()
 		{
 			int num = GenRadial.NumCellsInRadius(6f);
@@ -91,7 +91,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060007B3 RID: 1971 RVA: 0x0004B87C File Offset: 0x00049C7C
+		// Token: 0x060007B2 RID: 1970 RVA: 0x0004B878 File Offset: 0x00049C78
 		private bool AnyColonistAt(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);

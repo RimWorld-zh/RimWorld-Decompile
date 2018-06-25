@@ -6,22 +6,22 @@ namespace RimWorld
 	[DefOf]
 	public static class SiteCoreDefOf
 	{
-		// Token: 0x04002279 RID: 8825
+		// Token: 0x04002280 RID: 8832
 		public static SiteCoreDef Nothing;
 
-		// Token: 0x0400227A RID: 8826
+		// Token: 0x04002281 RID: 8833
 		public static SiteCoreDef ItemStash;
 
-		// Token: 0x0400227B RID: 8827
+		// Token: 0x04002282 RID: 8834
 		public static SiteCoreDef PreciousLump;
 
-		// Token: 0x0400227C RID: 8828
+		// Token: 0x04002283 RID: 8835
 		public static SiteCoreDef DownedRefugee;
 
-		// Token: 0x0400227D RID: 8829
+		// Token: 0x04002284 RID: 8836
 		public static SiteCoreDef PrisonerWillingToJoin;
 
-		// Token: 0x0600365A RID: 13914 RVA: 0x001D0E09 File Offset: 0x001CF209
+		// Token: 0x0600365A RID: 13914 RVA: 0x001D10DD File Offset: 0x001CF4DD
 		static SiteCoreDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SiteCoreDefOf));

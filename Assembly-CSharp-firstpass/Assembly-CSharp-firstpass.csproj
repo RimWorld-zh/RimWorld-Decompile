@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{328F2579-267B-40D2-8687-278744431C74}</ProjectGuid>
+    <ProjectGuid>{2CF8ACA1-56FD-4D93-A529-9B1D3DC822C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp-firstpass</RootNamespace>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>

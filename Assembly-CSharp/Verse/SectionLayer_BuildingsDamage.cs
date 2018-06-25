@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C45 RID: 3141
+	// Token: 0x02000C46 RID: 3142
 	public class SectionLayer_BuildingsDamage : SectionLayer
 	{
-		// Token: 0x04002F5A RID: 12122
+		// Token: 0x04002F61 RID: 12129
 		private static List<Vector2> scratches = new List<Vector2>();
 
-		// Token: 0x0600453B RID: 17723 RVA: 0x00247961 File Offset: 0x00245D61
+		// Token: 0x0600453B RID: 17723 RVA: 0x00247C41 File Offset: 0x00246041
 		public SectionLayer_BuildingsDamage(Section section) : base(section)
 		{
 			this.relevantChangeTypes = (MapMeshFlag.Buildings | MapMeshFlag.BuildingsDamage);
 		}
 
-		// Token: 0x0600453C RID: 17724 RVA: 0x00247978 File Offset: 0x00245D78
+		// Token: 0x0600453C RID: 17724 RVA: 0x00247C58 File Offset: 0x00246058
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -39,7 +39,7 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x0600453D RID: 17725 RVA: 0x00247AAC File Offset: 0x00245EAC
+		// Token: 0x0600453D RID: 17725 RVA: 0x00247D8C File Offset: 0x0024618C
 		private void PrintDamageVisualsFrom(Building b)
 		{
 			if (b.def.graphicData == null || b.def.graphicData.damageData == null || b.def.graphicData.damageData.enabled)
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600453E RID: 17726 RVA: 0x00247B0C File Offset: 0x00245F0C
+		// Token: 0x0600453E RID: 17726 RVA: 0x00247DEC File Offset: 0x002461EC
 		private void PrintScratches(Building b)
 		{
 			int num = 0;
@@ -99,7 +99,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600453F RID: 17727 RVA: 0x00247D30 File Offset: 0x00246130
+		// Token: 0x0600453F RID: 17727 RVA: 0x00248010 File Offset: 0x00246410
 		private void AddScratch(Building b, float rectWidth, float rectHeight, ref float minDist)
 		{
 			bool flag = false;
@@ -141,7 +141,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004540 RID: 17728 RVA: 0x00247E66 File Offset: 0x00246266
+		// Token: 0x06004540 RID: 17728 RVA: 0x00248146 File Offset: 0x00246546
 		private void PrintCornersAndEdges(Building b)
 		{
 			Rand.PushState();
@@ -157,7 +157,7 @@ namespace Verse
 			Rand.PopState();
 		}
 
-		// Token: 0x06004541 RID: 17729 RVA: 0x00247EA0 File Offset: 0x002462A0
+		// Token: 0x06004541 RID: 17729 RVA: 0x00248180 File Offset: 0x00246580
 		private void DrawLinkableCornersAndEdges(Building b)
 		{
 			if (b.def.graphicData != null)
@@ -207,7 +207,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004542 RID: 17730 RVA: 0x0024815C File Offset: 0x0024655C
+		// Token: 0x06004542 RID: 17730 RVA: 0x0024843C File Offset: 0x0024683C
 		private void DrawFullThingCorners(Building b)
 		{
 			if (b.def.graphicData != null)
@@ -261,7 +261,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004543 RID: 17731 RVA: 0x00248414 File Offset: 0x00246814
+		// Token: 0x06004543 RID: 17731 RVA: 0x002486F4 File Offset: 0x00246AF4
 		private float GetDamageTexturesAltitude(Building b)
 		{
 			return b.def.Altitude + 0.046875f;

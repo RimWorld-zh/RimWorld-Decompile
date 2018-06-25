@@ -8,17 +8,17 @@ namespace RimWorld
 	// Token: 0x02000837 RID: 2103
 	public class Page_SelectStoryteller : Page
 	{
-		// Token: 0x040019B3 RID: 6579
+		// Token: 0x040019B7 RID: 6583
 		private StorytellerDef storyteller;
 
-		// Token: 0x040019B4 RID: 6580
+		// Token: 0x040019B8 RID: 6584
 		private DifficultyDef difficulty;
 
-		// Token: 0x040019B5 RID: 6581
+		// Token: 0x040019B9 RID: 6585
 		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 
 		// Token: 0x1700078A RID: 1930
-		// (get) Token: 0x06002F9B RID: 12187 RVA: 0x00197BDC File Offset: 0x00195FDC
+		// (get) Token: 0x06002F9A RID: 12186 RVA: 0x00197E44 File Offset: 0x00196244
 		public override string PageTitle
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F9C RID: 12188 RVA: 0x00197BFC File Offset: 0x00195FFC
+		// Token: 0x06002F9B RID: 12187 RVA: 0x00197E64 File Offset: 0x00196264
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -37,7 +37,7 @@ namespace RimWorld
 			select d).First<StorytellerDef>();
 		}
 
-		// Token: 0x06002F9D RID: 12189 RVA: 0x00197C64 File Offset: 0x00196064
+		// Token: 0x06002F9C RID: 12188 RVA: 0x00197ECC File Offset: 0x001962CC
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -46,7 +46,7 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002F9E RID: 12190 RVA: 0x00197CAC File Offset: 0x001960AC
+		// Token: 0x06002F9D RID: 12189 RVA: 0x00197F14 File Offset: 0x00196314
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -64,7 +64,7 @@ namespace RimWorld
 						return false;
 					}
 					Messages.Message("Difficulty has been automatically selected (debug mode only)", MessageTypeDefOf.SilentInput, false);
-					this.difficulty = DifficultyDefOf.Hard;
+					this.difficulty = DifficultyDefOf.ExtraHard;
 				}
 				Current.Game.storyteller = new Storyteller(this.storyteller, this.difficulty);
 				result = true;

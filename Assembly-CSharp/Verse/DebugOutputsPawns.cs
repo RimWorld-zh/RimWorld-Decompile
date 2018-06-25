@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E1F RID: 3615
+	// Token: 0x02000E20 RID: 3616
 	[HasDebugOutput]
 	internal static class DebugOutputsPawns
 	{
-		// Token: 0x06005430 RID: 21552 RVA: 0x002B3A84 File Offset: 0x002B1E84
+		// Token: 0x06005430 RID: 21552 RVA: 0x002B3D78 File Offset: 0x002B2178
 		[DebugOutput]
 		public static void PawnKindsBasics()
 		{
@@ -44,7 +44,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x06005431 RID: 21553 RVA: 0x002B3E08 File Offset: 0x002B2208
+		// Token: 0x06005431 RID: 21553 RVA: 0x002B40FC File Offset: 0x002B24FC
 		[DebugOutput]
 		public static void PawnKindsWeaponUsage()
 		{
@@ -88,7 +88,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005432 RID: 21554 RVA: 0x002B4028 File Offset: 0x002B2428
+		// Token: 0x06005432 RID: 21554 RVA: 0x002B431C File Offset: 0x002B271C
 		[DebugOutput]
 		public static void PawnKindsApparelUsage()
 		{
@@ -140,7 +140,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005433 RID: 21555 RVA: 0x002B4228 File Offset: 0x002B2628
+		// Token: 0x06005433 RID: 21555 RVA: 0x002B451C File Offset: 0x002B291C
 		[DebugOutput]
 		public static void PawnKindsTechHediffUsage()
 		{
@@ -184,7 +184,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005434 RID: 21556 RVA: 0x002B4454 File Offset: 0x002B2854
+		// Token: 0x06005434 RID: 21556 RVA: 0x002B4748 File Offset: 0x002B2B48
 		[DebugOutput]
 		public static void PawnKindGearSampled()
 		{
@@ -309,7 +309,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005435 RID: 21557 RVA: 0x002B458C File Offset: 0x002B298C
+		// Token: 0x06005435 RID: 21557 RVA: 0x002B4880 File Offset: 0x002B2C80
 		[DebugOutput]
 		public static void PawnWorkDisablesSampled()
 		{
@@ -409,7 +409,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005436 RID: 21558 RVA: 0x002B46C4 File Offset: 0x002B2AC4
+		// Token: 0x06005436 RID: 21558 RVA: 0x002B49B8 File Offset: 0x002B2DB8
 		[DebugOutput]
 		public static void RacesFoodConsumption()
 		{
@@ -476,7 +476,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005437 RID: 21559 RVA: 0x002B48F0 File Offset: 0x002B2CF0
+		// Token: 0x06005437 RID: 21559 RVA: 0x002B4BE4 File Offset: 0x002B2FE4
 		[DebugOutput]
 		public static void RacesButchery()
 		{
@@ -496,7 +496,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005438 RID: 21560 RVA: 0x002B4AA4 File Offset: 0x002B2EA4
+		// Token: 0x06005438 RID: 21560 RVA: 0x002B4D98 File Offset: 0x002B3198
 		[DebugOutput]
 		public static void AnimalsBasics()
 		{
@@ -572,13 +572,13 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x06005439 RID: 21561 RVA: 0x002B4D7C File Offset: 0x002B317C
+		// Token: 0x06005439 RID: 21561 RVA: 0x002B5070 File Offset: 0x002B3470
 		private static float RaceMeleeDpsEstimate(ThingDef race)
 		{
 			return race.GetStatValueAbstract(StatDefOf.MeleeDPS, null);
 		}
 
-		// Token: 0x0600543A RID: 21562 RVA: 0x002B4DA0 File Offset: 0x002B31A0
+		// Token: 0x0600543A RID: 21562 RVA: 0x002B5094 File Offset: 0x002B3494
 		[DebugOutput]
 		public static void AnimalCombatBalance()
 		{
@@ -626,7 +626,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x0600543B RID: 21563 RVA: 0x002B4F54 File Offset: 0x002B3354
+		// Token: 0x0600543B RID: 21563 RVA: 0x002B5248 File Offset: 0x002B3648
 		[DebugOutput]
 		public static void AnimalTradeTags()
 		{
@@ -647,7 +647,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x0600543C RID: 21564 RVA: 0x002B5080 File Offset: 0x002B3480
+		// Token: 0x0600543C RID: 21564 RVA: 0x002B5374 File Offset: 0x002B3774
 		[DebugOutput]
 		public static void AnimalBehavior()
 		{
@@ -675,7 +675,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x0600543D RID: 21565 RVA: 0x002B5394 File Offset: 0x002B3794
+		// Token: 0x0600543D RID: 21565 RVA: 0x002B5688 File Offset: 0x002B3A88
 		[DebugOutput]
 		public static void AnimalsEcosystem()
 		{

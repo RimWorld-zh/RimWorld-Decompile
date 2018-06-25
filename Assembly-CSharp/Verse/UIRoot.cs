@@ -6,30 +6,30 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E96 RID: 3734
+	// Token: 0x02000E97 RID: 3735
 	public abstract class UIRoot
 	{
-		// Token: 0x04003A48 RID: 14920
+		// Token: 0x04003A50 RID: 14928
 		public WindowStack windows = new WindowStack();
 
-		// Token: 0x04003A49 RID: 14921
+		// Token: 0x04003A51 RID: 14929
 		protected DebugWindowsOpener debugWindowOpener = new DebugWindowsOpener();
 
-		// Token: 0x04003A4A RID: 14922
+		// Token: 0x04003A52 RID: 14930
 		public ScreenshotModeHandler screenshotMode = new ScreenshotModeHandler();
 
-		// Token: 0x04003A4B RID: 14923
+		// Token: 0x04003A53 RID: 14931
 		private ShortcutKeys shortcutKeys = new ShortcutKeys();
 
-		// Token: 0x04003A4C RID: 14924
+		// Token: 0x04003A54 RID: 14932
 		public FeedbackFloaters feedbackFloaters = new FeedbackFloaters();
 
-		// Token: 0x06005822 RID: 22562 RVA: 0x001BADDB File Offset: 0x001B91DB
+		// Token: 0x06005822 RID: 22562 RVA: 0x001BB0AF File Offset: 0x001B94AF
 		public virtual void Init()
 		{
 		}
 
-		// Token: 0x06005823 RID: 22563 RVA: 0x001BADE0 File Offset: 0x001B91E0
+		// Token: 0x06005823 RID: 22563 RVA: 0x001BB0B4 File Offset: 0x001B94B4
 		public virtual void UIRootOnGUI()
 		{
 			UnityGUIBugsFixer.OnGUI();
@@ -59,7 +59,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005824 RID: 22564 RVA: 0x001BAE8A File Offset: 0x001B928A
+		// Token: 0x06005824 RID: 22564 RVA: 0x001BB15E File Offset: 0x001B955E
 		public virtual void UIRootUpdate()
 		{
 			ScreenshotTaker.Update();
@@ -70,7 +70,7 @@ namespace Verse
 			Messages.Update();
 		}
 
-		// Token: 0x06005825 RID: 22565 RVA: 0x001BAEB1 File Offset: 0x001B92B1
+		// Token: 0x06005825 RID: 22565 RVA: 0x001BB185 File Offset: 0x001B9585
 		private void CheckOpenLogWindow()
 		{
 			if (EditWindow_Log.wantsToOpen && !Find.WindowStack.IsOpen(typeof(EditWindow_Log)))

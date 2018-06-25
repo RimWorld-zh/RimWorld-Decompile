@@ -8,10 +8,10 @@ namespace RimWorld.Planet
 	// Token: 0x0200060A RID: 1546
 	public static class SiteMakerHelper
 	{
-		// Token: 0x0400123B RID: 4667
+		// Token: 0x0400123F RID: 4671
 		private static List<Faction> possibleFactions = new List<Faction>();
 
-		// Token: 0x06001F22 RID: 7970 RVA: 0x0010E7AC File Offset: 0x0010CBAC
+		// Token: 0x06001F21 RID: 7969 RVA: 0x0010EA14 File Offset: 0x0010CE14
 		public static bool TryFindSiteParams_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, out SitePartDef sitePart, out Faction faction, Faction factionToUse = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			faction = factionToUse;
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 			return true;
 		}
 
-		// Token: 0x06001F23 RID: 7971 RVA: 0x0010E828 File Offset: 0x0010CC28
+		// Token: 0x06001F22 RID: 7970 RVA: 0x0010EA90 File Offset: 0x0010CE90
 		public static bool TryFindSiteParams_SingleSitePart(SiteCoreDef core, string singleSitePartTag, out SitePartDef sitePart, out Faction faction, Faction factionToUse = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			IEnumerable<SitePartDef> singleSitePartCandidates = (singleSitePartTag == null) ? null : (from x in DefDatabase<SitePartDef>.AllDefsListForReading
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartCandidates, out sitePart, out faction, factionToUse, disallowNonHostileFactions, extraFactionValidator);
 		}
 
-		// Token: 0x06001F24 RID: 7972 RVA: 0x0010E884 File Offset: 0x0010CC84
+		// Token: 0x06001F23 RID: 7971 RVA: 0x0010EAEC File Offset: 0x0010CEEC
 		public static bool TryFindNewRandomSitePartFor(SiteCoreDef core, IEnumerable<SitePartDef> existingSiteParts, IEnumerable<SitePartDef> possibleSiteParts, Faction faction, out SitePartDef sitePart, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			if (faction != null)
@@ -76,7 +76,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001F25 RID: 7973 RVA: 0x0010E968 File Offset: 0x0010CD68
+		// Token: 0x06001F24 RID: 7972 RVA: 0x0010EBD0 File Offset: 0x0010CFD0
 		public static bool TryFindRandomFactionFor(SiteCoreDef core, IEnumerable<SitePartDef> parts, out Faction faction, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			bool result;
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F26 RID: 7974 RVA: 0x0010EA00 File Offset: 0x0010CE00
+		// Token: 0x06001F25 RID: 7973 RVA: 0x0010EC68 File Offset: 0x0010D068
 		public static bool FactionCanOwn(SiteCoreDef core, IEnumerable<SitePartDef> parts, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
 			bool result;
@@ -124,7 +124,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F27 RID: 7975 RVA: 0x0010EA90 File Offset: 0x0010CE90
+		// Token: 0x06001F26 RID: 7974 RVA: 0x0010ECF8 File Offset: 0x0010D0F8
 		private static bool FactionCanOwn(SiteDefBase siteDefBase, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
 			bool result;

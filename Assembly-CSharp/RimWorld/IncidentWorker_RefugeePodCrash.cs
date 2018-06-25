@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200033E RID: 830
 	public class IncidentWorker_RefugeePodCrash : IncidentWorker
 	{
-		// Token: 0x06000E2B RID: 3627 RVA: 0x00078A38 File Offset: 0x00076E38
+		// Token: 0x06000E2A RID: 3626 RVA: 0x00078A40 File Offset: 0x00076E40
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000E2C RID: 3628 RVA: 0x00078B38 File Offset: 0x00076F38
+		// Token: 0x06000E2B RID: 3627 RVA: 0x00078B40 File Offset: 0x00076F40
 		private Pawn FindPawn(List<Thing> things)
 		{
 			int i = 0;

@@ -2,13 +2,13 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC3 RID: 3523
+	// Token: 0x02000DC4 RID: 3524
 	public static class SustainerAggregatorUtility
 	{
-		// Token: 0x04003463 RID: 13411
+		// Token: 0x0400346A RID: 13418
 		private static float AggregateRadius = 12f;
 
-		// Token: 0x06004EAF RID: 20143 RVA: 0x00291C2C File Offset: 0x0029002C
+		// Token: 0x06004EAF RID: 20143 RVA: 0x00291F0C File Offset: 0x0029030C
 		public static Sustainer AggregateOrSpawnSustainerFor(ISizeReporter reporter, SoundDef def, SoundInfo info)
 		{
 			Sustainer sustainer = null;

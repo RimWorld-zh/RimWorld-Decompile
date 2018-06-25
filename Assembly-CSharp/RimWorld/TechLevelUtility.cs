@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200037C RID: 892
 	public static class TechLevelUtility
 	{
-		// Token: 0x06000F65 RID: 3941 RVA: 0x00082E28 File Offset: 0x00081228
+		// Token: 0x06000F64 RID: 3940 RVA: 0x00082E38 File Offset: 0x00081238
 		public static string ToStringHuman(this TechLevel tl)
 		{
 			string result;
@@ -42,7 +42,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F66 RID: 3942 RVA: 0x00082EE8 File Offset: 0x000812E8
+		// Token: 0x06000F65 RID: 3941 RVA: 0x00082EF8 File Offset: 0x000812F8
 		public static bool CanSpawnWithEquipmentFrom(this TechLevel pawnLevel, TechLevel gearLevel)
 		{
 			bool result;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F67 RID: 3943 RVA: 0x00082FC8 File Offset: 0x000813C8
+		// Token: 0x06000F66 RID: 3942 RVA: 0x00082FD8 File Offset: 0x000813D8
 		public static bool IsNeolithicOrWorse(this TechLevel techLevel)
 		{
 			return techLevel != TechLevel.Undefined && techLevel <= TechLevel.Neolithic;

@@ -10,7 +10,7 @@ namespace RimWorld
 	[HasDebugOutput]
 	public static class ManhunterPackIncidentUtility
 	{
-		// Token: 0x06000DFE RID: 3582 RVA: 0x000775C0 File Offset: 0x000759C0
+		// Token: 0x06000DFD RID: 3581 RVA: 0x000775C8 File Offset: 0x000759C8
 		public static float ManhunterAnimalWeight(PawnKindDef animal, float points)
 		{
 			points = Mathf.Max(points, 35f);
@@ -27,7 +27,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DFF RID: 3583 RVA: 0x00077620 File Offset: 0x00075A20
+		// Token: 0x06000DFE RID: 3582 RVA: 0x00077628 File Offset: 0x00075A28
 		public static bool TryFindManhunterAnimalKind(float points, int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
@@ -35,7 +35,7 @@ namespace RimWorld
 			select k).TryRandomElementByWeight((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points), out animalKind);
 		}
 
-		// Token: 0x06000E00 RID: 3584 RVA: 0x00077674 File Offset: 0x00075A74
+		// Token: 0x06000DFF RID: 3583 RVA: 0x0007767C File Offset: 0x00075A7C
 		public static List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile, float points)
 		{
 			int num = Mathf.Max(Mathf.RoundToInt(points / animalKind.combatPower), 1);
@@ -49,7 +49,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000E01 RID: 3585 RVA: 0x00077724 File Offset: 0x00075B24
+		// Token: 0x06000E00 RID: 3584 RVA: 0x0007772C File Offset: 0x00075B2C
 		[DebugOutput]
 		public static void ManhunterResults()
 		{

@@ -8,49 +8,49 @@ namespace RimWorld
 	// Token: 0x020008CF RID: 2255
 	public class Lesson_Note : Lesson
 	{
-		// Token: 0x04001BAB RID: 7083
+		// Token: 0x04001BB1 RID: 7089
 		public ConceptDef def;
 
-		// Token: 0x04001BAC RID: 7084
+		// Token: 0x04001BB2 RID: 7090
 		public bool doFadeIn = true;
 
-		// Token: 0x04001BAD RID: 7085
+		// Token: 0x04001BB3 RID: 7091
 		private float expiryTime = float.MaxValue;
 
-		// Token: 0x04001BAE RID: 7086
+		// Token: 0x04001BB4 RID: 7092
 		private const float RectWidth = 500f;
 
-		// Token: 0x04001BAF RID: 7087
+		// Token: 0x04001BB5 RID: 7093
 		private const float TextWidth = 432f;
 
-		// Token: 0x04001BB0 RID: 7088
+		// Token: 0x04001BB6 RID: 7094
 		private const float FadeInDuration = 0.4f;
 
-		// Token: 0x04001BB1 RID: 7089
+		// Token: 0x04001BB7 RID: 7095
 		private const float DoneButPad = 8f;
 
-		// Token: 0x04001BB2 RID: 7090
+		// Token: 0x04001BB8 RID: 7096
 		private const float DoneButSize = 32f;
 
-		// Token: 0x04001BB3 RID: 7091
+		// Token: 0x04001BB9 RID: 7097
 		private const float ExpiryDuration = 2.1f;
 
-		// Token: 0x04001BB4 RID: 7092
+		// Token: 0x04001BBA RID: 7098
 		private const float ExpiryFadeTime = 1.1f;
 
-		// Token: 0x060033A3 RID: 13219 RVA: 0x001B9B3B File Offset: 0x001B7F3B
+		// Token: 0x060033A3 RID: 13219 RVA: 0x001B9E0F File Offset: 0x001B820F
 		public Lesson_Note()
 		{
 		}
 
-		// Token: 0x060033A4 RID: 13220 RVA: 0x001B9B56 File Offset: 0x001B7F56
+		// Token: 0x060033A4 RID: 13220 RVA: 0x001B9E2A File Offset: 0x001B822A
 		public Lesson_Note(ConceptDef concept)
 		{
 			this.def = concept;
 		}
 
 		// Token: 0x1700083F RID: 2111
-		// (get) Token: 0x060033A5 RID: 13221 RVA: 0x001B9B78 File Offset: 0x001B7F78
+		// (get) Token: 0x060033A5 RID: 13221 RVA: 0x001B9E4C File Offset: 0x001B824C
 		public bool Expiring
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000840 RID: 2112
-		// (get) Token: 0x060033A6 RID: 13222 RVA: 0x001B9B9C File Offset: 0x001B7F9C
+		// (get) Token: 0x060033A6 RID: 13222 RVA: 0x001B9E70 File Offset: 0x001B8270
 		public Rect MainRect
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000841 RID: 2113
-		// (get) Token: 0x060033A7 RID: 13223 RVA: 0x001B9BEC File Offset: 0x001B7FEC
+		// (get) Token: 0x060033A7 RID: 13223 RVA: 0x001B9EC0 File Offset: 0x001B82C0
 		public override float MessagesYOffset
 		{
 			get
@@ -81,20 +81,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033A8 RID: 13224 RVA: 0x001B9C0F File Offset: 0x001B800F
+		// Token: 0x060033A8 RID: 13224 RVA: 0x001B9EE3 File Offset: 0x001B82E3
 		public override void ExposeData()
 		{
 			Scribe_Defs.Look<ConceptDef>(ref this.def, "def");
 		}
 
-		// Token: 0x060033A9 RID: 13225 RVA: 0x001B9C22 File Offset: 0x001B8022
+		// Token: 0x060033A9 RID: 13225 RVA: 0x001B9EF6 File Offset: 0x001B82F6
 		public override void OnActivated()
 		{
 			base.OnActivated();
 			SoundDefOf.TutorMessageAppear.PlayOneShotOnCamera(null);
 		}
 
-		// Token: 0x060033AA RID: 13226 RVA: 0x001B9C38 File Offset: 0x001B8038
+		// Token: 0x060033AA RID: 13226 RVA: 0x001B9F0C File Offset: 0x001B830C
 		public override void LessonOnGUI()
 		{
 			Rect mainRect = this.MainRect;
@@ -157,7 +157,7 @@ namespace RimWorld
 			windowStack.ImmediateWindow(id, mainRect2, layer, doWindowFunc, doBackground, false, alpha2);
 		}
 
-		// Token: 0x060033AB RID: 13227 RVA: 0x001B9D00 File Offset: 0x001B8100
+		// Token: 0x060033AB RID: 13227 RVA: 0x001B9FD4 File Offset: 0x001B83D4
 		private void CloseButtonClicked()
 		{
 			KnowledgeAmount know = (!this.def.noteTeaches) ? KnowledgeAmount.NoteClosed : KnowledgeAmount.NoteTaught;
@@ -165,7 +165,7 @@ namespace RimWorld
 			Find.ActiveLesson.Deactivate();
 		}
 
-		// Token: 0x060033AC RID: 13228 RVA: 0x001B9D3C File Offset: 0x001B813C
+		// Token: 0x060033AC RID: 13228 RVA: 0x001BA010 File Offset: 0x001B8410
 		public override void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
 			if (this.def == conc && PlayerKnowledgeDatabase.GetKnowledge(conc) > 0.2f)

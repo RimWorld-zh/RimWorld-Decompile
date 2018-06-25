@@ -9,65 +9,65 @@ namespace RimWorld.Planet
 	// Token: 0x020005EB RID: 1515
 	public class Caravan_PathFollower : IExposable
 	{
-		// Token: 0x040011BB RID: 4539
+		// Token: 0x040011BF RID: 4543
 		private Caravan caravan;
 
-		// Token: 0x040011BC RID: 4540
+		// Token: 0x040011C0 RID: 4544
 		private bool moving;
 
-		// Token: 0x040011BD RID: 4541
+		// Token: 0x040011C1 RID: 4545
 		private bool paused;
 
-		// Token: 0x040011BE RID: 4542
+		// Token: 0x040011C2 RID: 4546
 		public int nextTile = -1;
 
-		// Token: 0x040011BF RID: 4543
+		// Token: 0x040011C3 RID: 4547
 		public int previousTileForDrawingIfInDoubt = -1;
 
-		// Token: 0x040011C0 RID: 4544
+		// Token: 0x040011C4 RID: 4548
 		public float nextTileCostLeft = 0f;
 
-		// Token: 0x040011C1 RID: 4545
+		// Token: 0x040011C5 RID: 4549
 		public float nextTileCostTotal = 1f;
 
-		// Token: 0x040011C2 RID: 4546
+		// Token: 0x040011C6 RID: 4550
 		private int destTile;
 
-		// Token: 0x040011C3 RID: 4547
+		// Token: 0x040011C7 RID: 4551
 		private CaravanArrivalAction arrivalAction;
 
-		// Token: 0x040011C4 RID: 4548
+		// Token: 0x040011C8 RID: 4552
 		public WorldPath curPath;
 
-		// Token: 0x040011C5 RID: 4549
+		// Token: 0x040011C9 RID: 4553
 		public int lastPathedTargetTile;
 
-		// Token: 0x040011C6 RID: 4550
+		// Token: 0x040011CA RID: 4554
 		public const int MaxMoveTicks = 120000;
 
-		// Token: 0x040011C7 RID: 4551
+		// Token: 0x040011CB RID: 4555
 		private const int MaxCheckAheadNodes = 20;
 
-		// Token: 0x040011C8 RID: 4552
+		// Token: 0x040011CC RID: 4556
 		private const int MinCostWalk = 50;
 
-		// Token: 0x040011C9 RID: 4553
+		// Token: 0x040011CD RID: 4557
 		private const int MinCostAmble = 60;
 
-		// Token: 0x040011CA RID: 4554
+		// Token: 0x040011CE RID: 4558
 		public const float DefaultPathCostToPayPerTick = 1f;
 
-		// Token: 0x040011CB RID: 4555
+		// Token: 0x040011CF RID: 4559
 		public const int FinalNoRestPushMaxDurationTicks = 10000;
 
-		// Token: 0x06001DFA RID: 7674 RVA: 0x001021EF File Offset: 0x001005EF
+		// Token: 0x06001DF9 RID: 7673 RVA: 0x00102457 File Offset: 0x00100857
 		public Caravan_PathFollower(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x17000468 RID: 1128
-		// (get) Token: 0x06001DFB RID: 7675 RVA: 0x00102224 File Offset: 0x00100624
+		// (get) Token: 0x06001DFA RID: 7674 RVA: 0x0010248C File Offset: 0x0010088C
 		public int Destination
 		{
 			get
@@ -77,7 +77,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000469 RID: 1129
-		// (get) Token: 0x06001DFC RID: 7676 RVA: 0x00102240 File Offset: 0x00100640
+		// (get) Token: 0x06001DFB RID: 7675 RVA: 0x001024A8 File Offset: 0x001008A8
 		public bool Moving
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046A RID: 1130
-		// (get) Token: 0x06001DFD RID: 7677 RVA: 0x00102270 File Offset: 0x00100670
+		// (get) Token: 0x06001DFC RID: 7676 RVA: 0x001024D8 File Offset: 0x001008D8
 		public bool MovingNow
 		{
 			get
@@ -97,7 +97,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046B RID: 1131
-		// (get) Token: 0x06001DFE RID: 7678 RVA: 0x001022AC File Offset: 0x001006AC
+		// (get) Token: 0x06001DFD RID: 7677 RVA: 0x00102514 File Offset: 0x00100914
 		public CaravanArrivalAction ArrivalAction
 		{
 			get
@@ -107,8 +107,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046C RID: 1132
-		// (get) Token: 0x06001DFF RID: 7679 RVA: 0x001022D8 File Offset: 0x001006D8
-		// (set) Token: 0x06001E00 RID: 7680 RVA: 0x00102304 File Offset: 0x00100704
+		// (get) Token: 0x06001DFE RID: 7678 RVA: 0x00102540 File Offset: 0x00100940
+		// (set) Token: 0x06001DFF RID: 7679 RVA: 0x0010256C File Offset: 0x0010096C
 		public bool Paused
 		{
 			get
@@ -136,7 +136,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E01 RID: 7681 RVA: 0x00102378 File Offset: 0x00100778
+		// Token: 0x06001E00 RID: 7680 RVA: 0x001025E0 File Offset: 0x001009E0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.moving, "moving", true, false);
@@ -156,7 +156,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E02 RID: 7682 RVA: 0x00102458 File Offset: 0x00100858
+		// Token: 0x06001E01 RID: 7681 RVA: 0x001026C0 File Offset: 0x00100AC0
 		public void StartPath(int destTile, CaravanArrivalAction arrivalAction, bool repathImmediately = false, bool resetPauseStatus = true)
 		{
 			this.caravan.autoJoinable = false;
@@ -217,7 +217,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E03 RID: 7683 RVA: 0x001025DC File Offset: 0x001009DC
+		// Token: 0x06001E02 RID: 7682 RVA: 0x00102844 File Offset: 0x00100C44
 		public void StopDead()
 		{
 			if (this.curPath != null)
@@ -234,7 +234,7 @@ namespace RimWorld.Planet
 			this.caravan.Notify_DestinationOrPauseStatusChanged();
 		}
 
-		// Token: 0x06001E04 RID: 7684 RVA: 0x0010264C File Offset: 0x00100A4C
+		// Token: 0x06001E03 RID: 7683 RVA: 0x001028B4 File Offset: 0x00100CB4
 		public void PatherTick()
 		{
 			if (this.moving && this.arrivalAction != null && !this.arrivalAction.StillValid(this.caravan, this.Destination))
@@ -259,25 +259,25 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E05 RID: 7685 RVA: 0x0010276B File Offset: 0x00100B6B
+		// Token: 0x06001E04 RID: 7684 RVA: 0x001029D3 File Offset: 0x00100DD3
 		public void Notify_Teleported_Int()
 		{
 			this.StopDead();
 		}
 
-		// Token: 0x06001E06 RID: 7686 RVA: 0x00102774 File Offset: 0x00100B74
+		// Token: 0x06001E05 RID: 7685 RVA: 0x001029DC File Offset: 0x00100DDC
 		private bool IsPassable(int tile)
 		{
 			return !Find.World.Impassable(tile);
 		}
 
-		// Token: 0x06001E07 RID: 7687 RVA: 0x00102798 File Offset: 0x00100B98
+		// Token: 0x06001E06 RID: 7686 RVA: 0x00102A00 File Offset: 0x00100E00
 		public bool IsNextTilePassable()
 		{
 			return this.IsPassable(this.nextTile);
 		}
 
-		// Token: 0x06001E08 RID: 7688 RVA: 0x001027BC File Offset: 0x00100BBC
+		// Token: 0x06001E07 RID: 7687 RVA: 0x00102A24 File Offset: 0x00100E24
 		private bool TryRecoverFromUnwalkablePosition()
 		{
 			int num;
@@ -311,7 +311,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E09 RID: 7689 RVA: 0x001028B0 File Offset: 0x00100CB0
+		// Token: 0x06001E08 RID: 7688 RVA: 0x00102B18 File Offset: 0x00100F18
 		private void PatherArrived()
 		{
 			CaravanArrivalAction caravanArrivalAction = this.arrivalAction;
@@ -329,13 +329,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E0A RID: 7690 RVA: 0x0010295C File Offset: 0x00100D5C
+		// Token: 0x06001E09 RID: 7689 RVA: 0x00102BC4 File Offset: 0x00100FC4
 		private void PatherFailed()
 		{
 			this.StopDead();
 		}
 
-		// Token: 0x06001E0B RID: 7691 RVA: 0x00102968 File Offset: 0x00100D68
+		// Token: 0x06001E0A RID: 7690 RVA: 0x00102BD0 File Offset: 0x00100FD0
 		private void TryEnterNextPathTile()
 		{
 			if (!this.IsNextTilePassable())
@@ -368,7 +368,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E0C RID: 7692 RVA: 0x00102A0C File Offset: 0x00100E0C
+		// Token: 0x06001E0B RID: 7691 RVA: 0x00102C74 File Offset: 0x00101074
 		private void SetupMoveIntoNextTile()
 		{
 			if (this.curPath.NodesLeftCount < 2)
@@ -404,19 +404,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E0D RID: 7693 RVA: 0x00102B18 File Offset: 0x00100F18
+		// Token: 0x06001E0C RID: 7692 RVA: 0x00102D80 File Offset: 0x00101180
 		private int CostToMove(int start, int end)
 		{
 			return Caravan_PathFollower.CostToMove(this.caravan, start, end, null);
 		}
 
-		// Token: 0x06001E0E RID: 7694 RVA: 0x00102B44 File Offset: 0x00100F44
+		// Token: 0x06001E0D RID: 7693 RVA: 0x00102DAC File Offset: 0x001011AC
 		public static int CostToMove(Caravan caravan, int start, int end, int? ticksAbs = null)
 		{
 			return Caravan_PathFollower.CostToMove(caravan.TicksPerMove, start, end, ticksAbs, false, null, null);
 		}
 
-		// Token: 0x06001E0F RID: 7695 RVA: 0x00102B6C File Offset: 0x00100F6C
+		// Token: 0x06001E0E RID: 7694 RVA: 0x00102DD4 File Offset: 0x001011D4
 		public static int CostToMove(int caravanTicksPerMove, int start, int end, int? ticksAbs = null, bool perceivedStatic = false, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null)
 		{
 			int result;
@@ -477,7 +477,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E10 RID: 7696 RVA: 0x00102D60 File Offset: 0x00101160
+		// Token: 0x06001E0F RID: 7695 RVA: 0x00102FC8 File Offset: 0x001013C8
 		public static bool IsValidFinalPushDestination(int tile)
 		{
 			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
@@ -491,7 +491,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001E11 RID: 7697 RVA: 0x00102DC4 File Offset: 0x001011C4
+		// Token: 0x06001E10 RID: 7696 RVA: 0x0010302C File Offset: 0x0010142C
 		private float CostToPayThisTick()
 		{
 			float num = 1f;
@@ -506,7 +506,7 @@ namespace RimWorld.Planet
 			return num;
 		}
 
-		// Token: 0x06001E12 RID: 7698 RVA: 0x00102E10 File Offset: 0x00101210
+		// Token: 0x06001E11 RID: 7697 RVA: 0x00103078 File Offset: 0x00101478
 		private bool TrySetNewPath()
 		{
 			WorldPath worldPath = this.GenerateNewPath();
@@ -528,7 +528,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E13 RID: 7699 RVA: 0x00102E64 File Offset: 0x00101264
+		// Token: 0x06001E12 RID: 7698 RVA: 0x001030CC File Offset: 0x001014CC
 		private WorldPath GenerateNewPath()
 		{
 			int num = (!this.moving || this.nextTile < 0 || !this.IsNextTilePassable()) ? this.caravan.Tile : this.nextTile;
@@ -554,13 +554,13 @@ namespace RimWorld.Planet
 			return worldPath;
 		}
 
-		// Token: 0x06001E14 RID: 7700 RVA: 0x00102F78 File Offset: 0x00101378
+		// Token: 0x06001E13 RID: 7699 RVA: 0x001031E0 File Offset: 0x001015E0
 		private bool AtDestinationPosition()
 		{
 			return this.caravan.Tile == this.destTile;
 		}
 
-		// Token: 0x06001E15 RID: 7701 RVA: 0x00102FA0 File Offset: 0x001013A0
+		// Token: 0x06001E14 RID: 7700 RVA: 0x00103208 File Offset: 0x00101608
 		private bool NeedNewPath()
 		{
 			bool result;

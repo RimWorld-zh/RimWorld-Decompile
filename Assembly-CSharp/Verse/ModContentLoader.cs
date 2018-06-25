@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC4 RID: 3268
+	// Token: 0x02000CC5 RID: 3269
 	public static class ModContentLoader<T> where T : class
 	{
-		// Token: 0x040030D3 RID: 12499
+		// Token: 0x040030DA RID: 12506
 		private static string[] AcceptableExtensionsAudio = new string[]
 		{
 			".wav",
@@ -21,20 +21,20 @@ namespace Verse
 			".s3m"
 		};
 
-		// Token: 0x040030D4 RID: 12500
+		// Token: 0x040030DB RID: 12507
 		private static string[] AcceptableExtensionsTexture = new string[]
 		{
 			".png",
 			".jpg"
 		};
 
-		// Token: 0x040030D5 RID: 12501
+		// Token: 0x040030DC RID: 12508
 		private static string[] AcceptableExtensionsString = new string[]
 		{
 			".txt"
 		};
 
-		// Token: 0x0600481A RID: 18458 RVA: 0x0025F4BC File Offset: 0x0025D8BC
+		// Token: 0x0600481A RID: 18458 RVA: 0x0025F79C File Offset: 0x0025DB9C
 		private static bool IsAcceptableExtension(string extension)
 		{
 			string[] array;
@@ -65,7 +65,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600481B RID: 18459 RVA: 0x0025F59C File Offset: 0x0025D99C
+		// Token: 0x0600481B RID: 18459 RVA: 0x0025F87C File Offset: 0x0025DC7C
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
 			string contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
@@ -96,7 +96,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600481C RID: 18460 RVA: 0x0025F5C8 File Offset: 0x0025D9C8
+		// Token: 0x0600481C RID: 18460 RVA: 0x0025F8A8 File Offset: 0x0025DCA8
 		public static LoadedContentItem<T> LoadItem(string absFilePath, string contentDirPath = null)
 		{
 			string text = absFilePath;
@@ -169,7 +169,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600481D RID: 18461 RVA: 0x0025F7E8 File Offset: 0x0025DBE8
+		// Token: 0x0600481D RID: 18461 RVA: 0x0025FAC8 File Offset: 0x0025DEC8
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
 			bool result;
@@ -185,7 +185,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600481E RID: 18462 RVA: 0x0025F824 File Offset: 0x0025DC24
+		// Token: 0x0600481E RID: 18462 RVA: 0x0025FB04 File Offset: 0x0025DF04
 		private static Texture2D LoadPNG(string filePath)
 		{
 			Texture2D texture2D = null;

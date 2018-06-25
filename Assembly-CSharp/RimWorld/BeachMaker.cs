@@ -7,25 +7,25 @@ namespace RimWorld
 	// Token: 0x02000406 RID: 1030
 	internal static class BeachMaker
 	{
-		// Token: 0x04000AC4 RID: 2756
+		// Token: 0x04000AC7 RID: 2759
 		private static ModuleBase beachNoise;
 
-		// Token: 0x04000AC5 RID: 2757
+		// Token: 0x04000AC8 RID: 2760
 		private const float PerlinFrequency = 0.03f;
 
-		// Token: 0x04000AC6 RID: 2758
+		// Token: 0x04000AC9 RID: 2761
 		private const float MaxForDeepWater = 0.1f;
 
-		// Token: 0x04000AC7 RID: 2759
+		// Token: 0x04000ACA RID: 2762
 		private const float MaxForShallowWater = 0.45f;
 
-		// Token: 0x04000AC8 RID: 2760
+		// Token: 0x04000ACB RID: 2763
 		private const float MaxForSand = 1f;
 
-		// Token: 0x04000AC9 RID: 2761
+		// Token: 0x04000ACC RID: 2764
 		private static readonly FloatRange CoastWidthRange = new FloatRange(20f, 60f);
 
-		// Token: 0x060011B3 RID: 4531 RVA: 0x0009A050 File Offset: 0x00098450
+		// Token: 0x060011B2 RID: 4530 RVA: 0x0009A060 File Offset: 0x00098460
 		public static void Init(Map map)
 		{
 			Rot4 a = Find.World.CoastDirectionAt(map.Tile);
@@ -60,13 +60,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011B4 RID: 4532 RVA: 0x0009A250 File Offset: 0x00098650
+		// Token: 0x060011B3 RID: 4531 RVA: 0x0009A260 File Offset: 0x00098660
 		public static void Cleanup()
 		{
 			BeachMaker.beachNoise = null;
 		}
 
-		// Token: 0x060011B5 RID: 4533 RVA: 0x0009A25C File Offset: 0x0009865C
+		// Token: 0x060011B4 RID: 4532 RVA: 0x0009A26C File Offset: 0x0009866C
 		public static TerrainDef BeachTerrainAt(IntVec3 loc, BiomeDef biome)
 		{
 			TerrainDef result;

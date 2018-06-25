@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class IncidentWorker_NeutralGroup : IncidentWorker_PawnsArrive
 	{
 		// Token: 0x1700020E RID: 526
-		// (get) Token: 0x06000E83 RID: 3715 RVA: 0x0007AF70 File Offset: 0x00079370
+		// (get) Token: 0x06000E82 RID: 3714 RVA: 0x0007AF78 File Offset: 0x00079378
 		protected virtual PawnGroupKindDef PawnGroupKindDef
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E84 RID: 3716 RVA: 0x0007AF8C File Offset: 0x0007938C
+		// Token: 0x06000E83 RID: 3715 RVA: 0x0007AF94 File Offset: 0x00079394
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer);
 		}
 
-		// Token: 0x06000E85 RID: 3717 RVA: 0x0007AFD0 File Offset: 0x000793D0
+		// Token: 0x06000E84 RID: 3716 RVA: 0x0007AFD8 File Offset: 0x000793D8
 		protected bool TryResolveParms(IncidentParms parms)
 		{
 			bool result;
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E86 RID: 3718 RVA: 0x0007B000 File Offset: 0x00079400
+		// Token: 0x06000E85 RID: 3717 RVA: 0x0007B008 File Offset: 0x00079408
 		protected virtual bool TryResolveParmsGeneral(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -64,10 +64,10 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000E87 RID: 3719
+		// Token: 0x06000E86 RID: 3718
 		protected abstract void ResolveParmsPoints(IncidentParms parms);
 
-		// Token: 0x06000E88 RID: 3720 RVA: 0x0007B098 File Offset: 0x00079498
+		// Token: 0x06000E87 RID: 3719 RVA: 0x0007B0A0 File Offset: 0x000794A0
 		protected List<Pawn> SpawnPawns(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

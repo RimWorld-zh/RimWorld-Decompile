@@ -10,23 +10,23 @@ namespace RimWorld
 	// Token: 0x02000852 RID: 2130
 	public static class ITab_Pawn_Log_Utility
 	{
-		// Token: 0x04001A2D RID: 6701
+		// Token: 0x04001A31 RID: 6705
 		[TweakValue("Interface", 0f, 1f)]
 		private static float AlternateAlpha = 0.03f;
 
-		// Token: 0x04001A2E RID: 6702
+		// Token: 0x04001A32 RID: 6706
 		[TweakValue("Interface", 0f, 1f)]
 		private static float HighlightAlpha = 0.2f;
 
-		// Token: 0x04001A2F RID: 6703
+		// Token: 0x04001A33 RID: 6707
 		[TweakValue("Interface", 0f, 10f)]
 		private static float HighlightDuration = 4f;
 
-		// Token: 0x04001A30 RID: 6704
+		// Token: 0x04001A34 RID: 6708
 		[TweakValue("Interface", 0f, 30f)]
 		private static float BattleBottomPadding = 20f;
 
-		// Token: 0x06003047 RID: 12359 RVA: 0x001A4974 File Offset: 0x001A2D74
+		// Token: 0x06003046 RID: 12358 RVA: 0x001A4BDC File Offset: 0x001A2FDC
 		public static IEnumerable<ITab_Pawn_Log_Utility.LogLineDisplayable> GenerateLogLinesFor(Pawn pawn, bool showAll, bool showCombat, bool showSocial)
 		{
 			LogEntry[] nonCombatLines = (!showSocial) ? new LogEntry[0] : (from e in Find.PlayLog.AllEntries
@@ -92,16 +92,16 @@ namespace RimWorld
 		// Token: 0x02000853 RID: 2131
 		public class LogDrawData
 		{
-			// Token: 0x04001A31 RID: 6705
+			// Token: 0x04001A35 RID: 6709
 			public bool alternatingBackground = false;
 
-			// Token: 0x04001A32 RID: 6706
+			// Token: 0x04001A36 RID: 6710
 			public LogEntry highlightEntry = null;
 
-			// Token: 0x04001A33 RID: 6707
+			// Token: 0x04001A37 RID: 6711
 			public float highlightIntensity = 0f;
 
-			// Token: 0x0600304A RID: 12362 RVA: 0x001A49FE File Offset: 0x001A2DFE
+			// Token: 0x06003049 RID: 12361 RVA: 0x001A4C66 File Offset: 0x001A3066
 			public void StartNewDraw()
 			{
 				this.alternatingBackground = false;
@@ -111,10 +111,10 @@ namespace RimWorld
 		// Token: 0x02000854 RID: 2132
 		public abstract class LogLineDisplayable
 		{
-			// Token: 0x04001A34 RID: 6708
+			// Token: 0x04001A38 RID: 6712
 			private float cachedHeight = -1f;
 
-			// Token: 0x0600304C RID: 12364 RVA: 0x001A4A1C File Offset: 0x001A2E1C
+			// Token: 0x0600304B RID: 12363 RVA: 0x001A4C84 File Offset: 0x001A3084
 			public float GetHeight(float width)
 			{
 				if (this.cachedHeight == -1f)
@@ -124,16 +124,16 @@ namespace RimWorld
 				return this.cachedHeight;
 			}
 
-			// Token: 0x0600304D RID: 12365
+			// Token: 0x0600304C RID: 12364
 			public abstract float GetHeight_Worker(float width);
 
-			// Token: 0x0600304E RID: 12366
+			// Token: 0x0600304D RID: 12365
 			public abstract void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data);
 
-			// Token: 0x0600304F RID: 12367
+			// Token: 0x0600304E RID: 12366
 			public abstract void AppendTo(StringBuilder sb);
 
-			// Token: 0x06003050 RID: 12368 RVA: 0x001A4A54 File Offset: 0x001A2E54
+			// Token: 0x0600304F RID: 12367 RVA: 0x001A4CBC File Offset: 0x001A30BC
 			public virtual bool Matches(LogEntry log)
 			{
 				return false;
@@ -143,16 +143,16 @@ namespace RimWorld
 		// Token: 0x02000855 RID: 2133
 		public class LogLineDisplayableHeader : ITab_Pawn_Log_Utility.LogLineDisplayable
 		{
-			// Token: 0x04001A35 RID: 6709
+			// Token: 0x04001A39 RID: 6713
 			private string text;
 
-			// Token: 0x06003051 RID: 12369 RVA: 0x001A4A6A File Offset: 0x001A2E6A
+			// Token: 0x06003050 RID: 12368 RVA: 0x001A4CD2 File Offset: 0x001A30D2
 			public LogLineDisplayableHeader(string text)
 			{
 				this.text = text;
 			}
 
-			// Token: 0x06003052 RID: 12370 RVA: 0x001A4A7C File Offset: 0x001A2E7C
+			// Token: 0x06003051 RID: 12369 RVA: 0x001A4CE4 File Offset: 0x001A30E4
 			public override float GetHeight_Worker(float width)
 			{
 				GameFont font = Text.Font;
@@ -162,7 +162,7 @@ namespace RimWorld
 				return result;
 			}
 
-			// Token: 0x06003053 RID: 12371 RVA: 0x001A4AB1 File Offset: 0x001A2EB1
+			// Token: 0x06003052 RID: 12370 RVA: 0x001A4D19 File Offset: 0x001A3119
 			public override void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data)
 			{
 				Text.Font = GameFont.Medium;
@@ -170,7 +170,7 @@ namespace RimWorld
 				Text.Font = GameFont.Small;
 			}
 
-			// Token: 0x06003054 RID: 12372 RVA: 0x001A4ADE File Offset: 0x001A2EDE
+			// Token: 0x06003053 RID: 12371 RVA: 0x001A4D46 File Offset: 0x001A3146
 			public override void AppendTo(StringBuilder sb)
 			{
 				sb.AppendLine("--    " + this.text);
@@ -180,27 +180,27 @@ namespace RimWorld
 		// Token: 0x02000856 RID: 2134
 		public class LogLineDisplayableLog : ITab_Pawn_Log_Utility.LogLineDisplayable
 		{
-			// Token: 0x04001A36 RID: 6710
+			// Token: 0x04001A3A RID: 6714
 			private LogEntry log;
 
-			// Token: 0x04001A37 RID: 6711
+			// Token: 0x04001A3B RID: 6715
 			private Pawn pawn;
 
-			// Token: 0x06003055 RID: 12373 RVA: 0x001A4AF8 File Offset: 0x001A2EF8
+			// Token: 0x06003054 RID: 12372 RVA: 0x001A4D60 File Offset: 0x001A3160
 			public LogLineDisplayableLog(LogEntry log, Pawn pawn)
 			{
 				this.log = log;
 				this.pawn = pawn;
 			}
 
-			// Token: 0x06003056 RID: 12374 RVA: 0x001A4B10 File Offset: 0x001A2F10
+			// Token: 0x06003055 RID: 12373 RVA: 0x001A4D78 File Offset: 0x001A3178
 			public override float GetHeight_Worker(float width)
 			{
 				float width2 = width - 29f;
 				return Mathf.Max(26f, this.log.GetTextHeight(this.pawn, width2));
 			}
 
-			// Token: 0x06003057 RID: 12375 RVA: 0x001A4B4C File Offset: 0x001A2F4C
+			// Token: 0x06003056 RID: 12374 RVA: 0x001A4DB4 File Offset: 0x001A31B4
 			public override void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data)
 			{
 				float height = base.GetHeight(width);
@@ -235,13 +235,13 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x06003058 RID: 12376 RVA: 0x001A4CF9 File Offset: 0x001A30F9
+			// Token: 0x06003057 RID: 12375 RVA: 0x001A4F61 File Offset: 0x001A3361
 			public override void AppendTo(StringBuilder sb)
 			{
 				sb.AppendLine(this.log.ToGameStringFromPOV(this.pawn, false));
 			}
 
-			// Token: 0x06003059 RID: 12377 RVA: 0x001A4D18 File Offset: 0x001A3118
+			// Token: 0x06003058 RID: 12376 RVA: 0x001A4F80 File Offset: 0x001A3380
 			public override bool Matches(LogEntry log)
 			{
 				return log == this.log;
@@ -251,27 +251,27 @@ namespace RimWorld
 		// Token: 0x02000857 RID: 2135
 		public class LogLineDisplayableGap : ITab_Pawn_Log_Utility.LogLineDisplayable
 		{
-			// Token: 0x04001A38 RID: 6712
+			// Token: 0x04001A3C RID: 6716
 			private float height;
 
-			// Token: 0x0600305B RID: 12379 RVA: 0x001A4D57 File Offset: 0x001A3157
+			// Token: 0x0600305A RID: 12378 RVA: 0x001A4FBF File Offset: 0x001A33BF
 			public LogLineDisplayableGap(float height)
 			{
 				this.height = height;
 			}
 
-			// Token: 0x0600305C RID: 12380 RVA: 0x001A4D68 File Offset: 0x001A3168
+			// Token: 0x0600305B RID: 12379 RVA: 0x001A4FD0 File Offset: 0x001A33D0
 			public override float GetHeight_Worker(float width)
 			{
 				return this.height;
 			}
 
-			// Token: 0x0600305D RID: 12381 RVA: 0x001A4D83 File Offset: 0x001A3183
+			// Token: 0x0600305C RID: 12380 RVA: 0x001A4FEB File Offset: 0x001A33EB
 			public override void Draw(float position, float width, ITab_Pawn_Log_Utility.LogDrawData data)
 			{
 			}
 
-			// Token: 0x0600305E RID: 12382 RVA: 0x001A4D86 File Offset: 0x001A3186
+			// Token: 0x0600305D RID: 12381 RVA: 0x001A4FEE File Offset: 0x001A33EE
 			public override void AppendTo(StringBuilder sb)
 			{
 				sb.AppendLine();

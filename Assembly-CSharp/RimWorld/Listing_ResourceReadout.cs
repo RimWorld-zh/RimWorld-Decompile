@@ -8,20 +8,20 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Listing_ResourceReadout : Listing_Tree
 	{
-		// Token: 0x04001B01 RID: 6913
+		// Token: 0x04001B05 RID: 6917
 		private Map map;
 
-		// Token: 0x04001B02 RID: 6914
+		// Token: 0x04001B06 RID: 6918
 		private static Texture2D SolidCategoryBG = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.6f));
 
-		// Token: 0x06003288 RID: 12936 RVA: 0x001B31AD File Offset: 0x001B15AD
+		// Token: 0x06003287 RID: 12935 RVA: 0x001B3415 File Offset: 0x001B1815
 		public Listing_ResourceReadout(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700080C RID: 2060
-		// (get) Token: 0x06003289 RID: 12937 RVA: 0x001B31C0 File Offset: 0x001B15C0
+		// (get) Token: 0x06003288 RID: 12936 RVA: 0x001B3428 File Offset: 0x001B1828
 		protected override float LabelWidth
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328A RID: 12938 RVA: 0x001B31DC File Offset: 0x001B15DC
+		// Token: 0x06003289 RID: 12937 RVA: 0x001B3444 File Offset: 0x001B1844
 		public void DoCategory(TreeNode_ThingCategory node, int nestLevel, int openMask)
 		{
 			int countIn = this.map.resourceCounter.GetCountIn(node.catDef);
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328B RID: 12939 RVA: 0x001B3360 File Offset: 0x001B1760
+		// Token: 0x0600328A RID: 12938 RVA: 0x001B35C8 File Offset: 0x001B19C8
 		public void DoCategoryChildren(TreeNode_ThingCategory node, int indentLevel, int openMask)
 		{
 			foreach (TreeNode_ThingCategory treeNode_ThingCategory in node.ChildCategoryNodes)
@@ -88,7 +88,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328C RID: 12940 RVA: 0x001B3430 File Offset: 0x001B1830
+		// Token: 0x0600328B RID: 12939 RVA: 0x001B3698 File Offset: 0x001B1A98
 		private void DoThingDef(ThingDef thingDef, int nestLevel)
 		{
 			int count = this.map.resourceCounter.GetCount(thingDef);

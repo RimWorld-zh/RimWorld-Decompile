@@ -3,39 +3,39 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AE7 RID: 2791
+	// Token: 0x02000AE8 RID: 2792
 	public abstract class CameraMapConfig
 	{
-		// Token: 0x04002725 RID: 10021
+		// Token: 0x0400272C RID: 10028
 		public float dollyRateKeys = 50f;
 
-		// Token: 0x04002726 RID: 10022
+		// Token: 0x0400272D RID: 10029
 		public float dollyRateMouseDrag = 6.5f;
 
-		// Token: 0x04002727 RID: 10023
+		// Token: 0x0400272E RID: 10030
 		public float dollyRateScreenEdge = 35f;
 
-		// Token: 0x04002728 RID: 10024
+		// Token: 0x0400272F RID: 10031
 		public float camSpeedDecayFactor = 0.85f;
 
-		// Token: 0x04002729 RID: 10025
+		// Token: 0x04002730 RID: 10032
 		public float moveSpeedScale = 2f;
 
-		// Token: 0x0400272A RID: 10026
+		// Token: 0x04002731 RID: 10033
 		public float zoomSpeed = 2.6f;
 
-		// Token: 0x0400272B RID: 10027
+		// Token: 0x04002732 RID: 10034
 		public float zoomPreserveFactor;
 
-		// Token: 0x0400272C RID: 10028
+		// Token: 0x04002733 RID: 10035
 		public bool smoothZoom;
 
-		// Token: 0x06003DED RID: 15853 RVA: 0x0020AF25 File Offset: 0x00209325
+		// Token: 0x06003DED RID: 15853 RVA: 0x0020B205 File Offset: 0x00209605
 		public virtual void ConfigFixedUpdate_60(ref Vector3 velocity)
 		{
 		}
 
-		// Token: 0x06003DEE RID: 15854 RVA: 0x0020AF28 File Offset: 0x00209328
+		// Token: 0x06003DEE RID: 15854 RVA: 0x0020B208 File Offset: 0x00209608
 		public virtual void ConfigOnGUI()
 		{
 		}

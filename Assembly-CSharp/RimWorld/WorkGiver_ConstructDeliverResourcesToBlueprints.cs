@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_ConstructDeliverResourcesToBlueprints : WorkGiver_ConstructDeliverResources
 	{
 		// Token: 0x170000E2 RID: 226
-		// (get) Token: 0x0600062A RID: 1578 RVA: 0x000414D0 File Offset: 0x0003F8D0
+		// (get) Token: 0x06000629 RID: 1577 RVA: 0x000414CC File Offset: 0x0003F8CC
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600062B RID: 1579 RVA: 0x000414EC File Offset: 0x0003F8EC
+		// Token: 0x0600062A RID: 1578 RVA: 0x000414E8 File Offset: 0x0003F8E8
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;
@@ -80,7 +80,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600062C RID: 1580 RVA: 0x000415D4 File Offset: 0x0003F9D4
+		// Token: 0x0600062B RID: 1579 RVA: 0x000415D0 File Offset: 0x0003F9D0
 		private Job NoCostFrameMakeJobFor(Pawn pawn, IConstructible c)
 		{
 			Job result;

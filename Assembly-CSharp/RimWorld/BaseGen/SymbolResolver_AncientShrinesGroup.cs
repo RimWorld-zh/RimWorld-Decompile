@@ -6,19 +6,19 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C0 RID: 960
 	public class SymbolResolver_AncientShrinesGroup : SymbolResolver
 	{
-		// Token: 0x04000A29 RID: 2601
+		// Token: 0x04000A2C RID: 2604
 		public static readonly IntVec2 StandardAncientShrineSize = new IntVec2(4, 3);
 
-		// Token: 0x04000A2A RID: 2602
+		// Token: 0x04000A2D RID: 2605
 		private const int MaxNumCaskets = 6;
 
-		// Token: 0x04000A2B RID: 2603
+		// Token: 0x04000A2E RID: 2606
 		private const float SkipShrineChance = 0.25f;
 
-		// Token: 0x04000A2C RID: 2604
+		// Token: 0x04000A2F RID: 2607
 		public const int MarginCells = 1;
 
-		// Token: 0x0600109C RID: 4252 RVA: 0x0008CC74 File Offset: 0x0008B074
+		// Token: 0x0600109B RID: 4251 RVA: 0x0008CC84 File Offset: 0x0008B084
 		public override void Resolve(ResolveParams rp)
 		{
 			int num = (rp.rect.Width + 1) / (SymbolResolver_AncientShrinesGroup.StandardAncientShrineSize.x + 1);

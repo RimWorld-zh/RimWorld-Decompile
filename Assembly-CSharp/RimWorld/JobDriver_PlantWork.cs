@@ -10,17 +10,17 @@ namespace RimWorld
 	// Token: 0x0200008C RID: 140
 	public abstract class JobDriver_PlantWork : JobDriver
 	{
-		// Token: 0x0400024B RID: 587
+		// Token: 0x0400024C RID: 588
 		private float workDone = 0f;
 
-		// Token: 0x0400024C RID: 588
+		// Token: 0x0400024D RID: 589
 		protected float xpPerTick = 0f;
 
-		// Token: 0x0400024D RID: 589
+		// Token: 0x0400024E RID: 590
 		protected const TargetIndex PlantInd = TargetIndex.A;
 
 		// Token: 0x170000B9 RID: 185
-		// (get) Token: 0x06000395 RID: 917 RVA: 0x000288B4 File Offset: 0x00026CB4
+		// (get) Token: 0x06000395 RID: 917 RVA: 0x000288D0 File Offset: 0x00026CD0
 		protected Plant Plant
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000BA RID: 186
-		// (get) Token: 0x06000396 RID: 918 RVA: 0x000288E0 File Offset: 0x00026CE0
+		// (get) Token: 0x06000396 RID: 918 RVA: 0x000288FC File Offset: 0x00026CFC
 		protected virtual DesignationDef RequiredDesignation
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000397 RID: 919 RVA: 0x000288F8 File Offset: 0x00026CF8
+		// Token: 0x06000397 RID: 919 RVA: 0x00028914 File Offset: 0x00026D14
 		public override bool TryMakePreToilReservations()
 		{
 			LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
@@ -54,7 +54,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000398 RID: 920 RVA: 0x0002896C File Offset: 0x00026D6C
+		// Token: 0x06000398 RID: 920 RVA: 0x00028988 File Offset: 0x00026D88
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.Init();
@@ -75,7 +75,7 @@ namespace RimWorld
 				Pawn actor = cut.actor;
 				if (actor.skills != null)
 				{
-					actor.skills.Learn(SkillDefOf.Growing, this.xpPerTick, false);
+					actor.skills.Learn(SkillDefOf.Plants, this.xpPerTick, false);
 				}
 				float statValue = actor.GetStatValue(StatDefOf.PlantWorkSpeed, true);
 				float num = statValue;
@@ -123,7 +123,7 @@ namespace RimWorld
 			cut.WithEffect(EffecterDefOf.Harvest, TargetIndex.A);
 			cut.WithProgressBar(TargetIndex.A, () => this.workDone / this.Plant.def.plant.harvestWork, true, -0.5f);
 			cut.PlaySustainerOrSound(() => this.Plant.def.plant.soundHarvesting);
-			cut.activeSkill = (() => SkillDefOf.Growing);
+			cut.activeSkill = (() => SkillDefOf.Plants);
 			yield return cut;
 			Toil plantWorkDoneToil = this.PlantWorkDoneToil();
 			if (plantWorkDoneToil != null)
@@ -134,19 +134,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000399 RID: 921 RVA: 0x00028996 File Offset: 0x00026D96
+		// Token: 0x06000399 RID: 921 RVA: 0x000289B2 File Offset: 0x00026DB2
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workDone, "workDone", 0f, false);
 		}
 
-		// Token: 0x0600039A RID: 922 RVA: 0x000289B5 File Offset: 0x00026DB5
+		// Token: 0x0600039A RID: 922 RVA: 0x000289D1 File Offset: 0x00026DD1
 		protected virtual void Init()
 		{
 		}
 
-		// Token: 0x0600039B RID: 923 RVA: 0x000289B8 File Offset: 0x00026DB8
+		// Token: 0x0600039B RID: 923 RVA: 0x000289D4 File Offset: 0x00026DD4
 		protected virtual Toil PlantWorkDoneToil()
 		{
 			return null;

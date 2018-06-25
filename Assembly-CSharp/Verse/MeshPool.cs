@@ -5,78 +5,78 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D7A RID: 3450
+	// Token: 0x02000D7B RID: 3451
 	[StaticConstructorOnStartup]
 	[HasDebugOutput]
 	public static class MeshPool
 	{
-		// Token: 0x04003387 RID: 13191
+		// Token: 0x0400338E RID: 13198
 		private const int MaxGridMeshSize = 15;
 
-		// Token: 0x04003388 RID: 13192
+		// Token: 0x0400338F RID: 13199
 		private const float HumanlikeBodyWidth = 1.5f;
 
-		// Token: 0x04003389 RID: 13193
+		// Token: 0x04003390 RID: 13200
 		private const float HumanlikeHeadAverageWidth = 1.5f;
 
-		// Token: 0x0400338A RID: 13194
+		// Token: 0x04003391 RID: 13201
 		private const float HumanlikeHeadNarrowWidth = 1.3f;
 
-		// Token: 0x0400338B RID: 13195
+		// Token: 0x04003392 RID: 13202
 		public static readonly GraphicMeshSet humanlikeBodySet = new GraphicMeshSet(1.5f);
 
-		// Token: 0x0400338C RID: 13196
+		// Token: 0x04003393 RID: 13203
 		public static readonly GraphicMeshSet humanlikeHeadSet = new GraphicMeshSet(1.5f);
 
-		// Token: 0x0400338D RID: 13197
+		// Token: 0x04003394 RID: 13204
 		public static readonly GraphicMeshSet humanlikeHairSetAverage = new GraphicMeshSet(1.5f);
 
-		// Token: 0x0400338E RID: 13198
+		// Token: 0x04003395 RID: 13205
 		public static readonly GraphicMeshSet humanlikeHairSetNarrow = new GraphicMeshSet(1.3f, 1.5f);
 
-		// Token: 0x0400338F RID: 13199
+		// Token: 0x04003396 RID: 13206
 		public static readonly Mesh plane025 = MeshMakerPlanes.NewPlaneMesh(0.25f);
 
-		// Token: 0x04003390 RID: 13200
+		// Token: 0x04003397 RID: 13207
 		public static readonly Mesh plane03 = MeshMakerPlanes.NewPlaneMesh(0.3f);
 
-		// Token: 0x04003391 RID: 13201
+		// Token: 0x04003398 RID: 13208
 		public static readonly Mesh plane05 = MeshMakerPlanes.NewPlaneMesh(0.5f);
 
-		// Token: 0x04003392 RID: 13202
+		// Token: 0x04003399 RID: 13209
 		public static readonly Mesh plane08 = MeshMakerPlanes.NewPlaneMesh(0.8f);
 
-		// Token: 0x04003393 RID: 13203
+		// Token: 0x0400339A RID: 13210
 		public static readonly Mesh plane10 = MeshMakerPlanes.NewPlaneMesh(1f);
 
-		// Token: 0x04003394 RID: 13204
+		// Token: 0x0400339B RID: 13211
 		public static readonly Mesh plane10Back = MeshMakerPlanes.NewPlaneMesh(1f, false, true);
 
-		// Token: 0x04003395 RID: 13205
+		// Token: 0x0400339C RID: 13212
 		public static readonly Mesh plane10Flip = MeshMakerPlanes.NewPlaneMesh(1f, true);
 
-		// Token: 0x04003396 RID: 13206
+		// Token: 0x0400339D RID: 13213
 		public static readonly Mesh plane14 = MeshMakerPlanes.NewPlaneMesh(1.4f);
 
-		// Token: 0x04003397 RID: 13207
+		// Token: 0x0400339E RID: 13214
 		public static readonly Mesh plane20 = MeshMakerPlanes.NewPlaneMesh(2f);
 
-		// Token: 0x04003398 RID: 13208
+		// Token: 0x0400339F RID: 13215
 		public static readonly Mesh wholeMapPlane;
 
-		// Token: 0x04003399 RID: 13209
+		// Token: 0x040033A0 RID: 13216
 		private static Dictionary<Vector2, Mesh> planes = new Dictionary<Vector2, Mesh>(FastVector2Comparer.Instance);
 
-		// Token: 0x0400339A RID: 13210
+		// Token: 0x040033A1 RID: 13217
 		private static Dictionary<Vector2, Mesh> planesFlip = new Dictionary<Vector2, Mesh>(FastVector2Comparer.Instance);
 
-		// Token: 0x0400339B RID: 13211
+		// Token: 0x040033A2 RID: 13218
 		public static readonly Mesh circle = MeshMakerCircles.MakeCircleMesh(1f);
 
-		// Token: 0x0400339C RID: 13212
+		// Token: 0x040033A3 RID: 13219
 		public static readonly Mesh[] pies = new Mesh[361];
 
-		// Token: 0x06004D54 RID: 19796 RVA: 0x00284854 File Offset: 0x00282C54
+		// Token: 0x06004D54 RID: 19796 RVA: 0x00284B34 File Offset: 0x00282F34
 		static MeshPool()
 		{
 			for (int i = 0; i < 361; i++)
@@ -86,7 +86,7 @@ namespace Verse
 			MeshPool.wholeMapPlane = MeshMakerPlanes.NewWholeMapPlane();
 		}
 
-		// Token: 0x06004D55 RID: 19797 RVA: 0x00284998 File Offset: 0x00282D98
+		// Token: 0x06004D55 RID: 19797 RVA: 0x00284C78 File Offset: 0x00283078
 		public static Mesh GridPlane(Vector2 size)
 		{
 			Mesh mesh;
@@ -98,7 +98,7 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D56 RID: 19798 RVA: 0x002849D8 File Offset: 0x00282DD8
+		// Token: 0x06004D56 RID: 19798 RVA: 0x00284CB8 File Offset: 0x002830B8
 		public static Mesh GridPlaneFlip(Vector2 size)
 		{
 			Mesh mesh;
@@ -110,13 +110,13 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D57 RID: 19799 RVA: 0x00284A18 File Offset: 0x00282E18
+		// Token: 0x06004D57 RID: 19799 RVA: 0x00284CF8 File Offset: 0x002830F8
 		private static Vector2 RoundedToHundredths(this Vector2 v)
 		{
 			return new Vector2((float)((int)(v.x * 100f)) / 100f, (float)((int)(v.y * 100f)) / 100f);
 		}
 
-		// Token: 0x06004D58 RID: 19800 RVA: 0x00284A5C File Offset: 0x00282E5C
+		// Token: 0x06004D58 RID: 19800 RVA: 0x00284D3C File Offset: 0x0028313C
 		[DebugOutput]
 		[Category("System")]
 		public static void MeshPoolStats()

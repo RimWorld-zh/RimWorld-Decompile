@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000E91 RID: 3729
+	// Token: 0x02000E92 RID: 3730
 	public enum TooltipPriority : byte
 	{
-		// Token: 0x04003A36 RID: 14902
+		// Token: 0x04003A3E RID: 14910
 		Default,
-		// Token: 0x04003A37 RID: 14903
+		// Token: 0x04003A3F RID: 14911
 		Pawn
 	}
 }

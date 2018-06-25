@@ -7,16 +7,16 @@ namespace RimWorld
 	[DefOf]
 	public static class DesignationCategoryDefOf
 	{
-		// Token: 0x04001E7F RID: 7807
+		// Token: 0x04001E86 RID: 7814
 		public static DesignationCategoryDef Production;
 
-		// Token: 0x04001E80 RID: 7808
+		// Token: 0x04001E87 RID: 7815
 		public static DesignationCategoryDef Structure;
 
-		// Token: 0x04001E81 RID: 7809
+		// Token: 0x04001E88 RID: 7816
 		public static DesignationCategoryDef Security;
 
-		// Token: 0x06003620 RID: 13856 RVA: 0x001D09F5 File Offset: 0x001CEDF5
+		// Token: 0x06003620 RID: 13856 RVA: 0x001D0CC9 File Offset: 0x001CF0C9
 		static DesignationCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DesignationCategoryDefOf));

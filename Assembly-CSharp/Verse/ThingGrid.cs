@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C27 RID: 3111
+	// Token: 0x02000C28 RID: 3112
 	public sealed class ThingGrid
 	{
-		// Token: 0x04002E6E RID: 11886
+		// Token: 0x04002E75 RID: 11893
 		private Map map;
 
-		// Token: 0x04002E6F RID: 11887
+		// Token: 0x04002E76 RID: 11894
 		private List<Thing>[] thingGrid;
 
-		// Token: 0x04002E70 RID: 11888
+		// Token: 0x04002E77 RID: 11895
 		private static readonly List<Thing> EmptyThingList = new List<Thing>();
 
-		// Token: 0x06004456 RID: 17494 RVA: 0x0023F4D8 File Offset: 0x0023D8D8
+		// Token: 0x06004456 RID: 17494 RVA: 0x0023F7B8 File Offset: 0x0023DBB8
 		public ThingGrid(Map map)
 		{
 			this.map = map;
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004457 RID: 17495 RVA: 0x0023F534 File Offset: 0x0023D934
+		// Token: 0x06004457 RID: 17495 RVA: 0x0023F814 File Offset: 0x0023DC14
 		public void Register(Thing t)
 		{
 			if (t.def.size.x == 1 && t.def.size.z == 1)
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004458 RID: 17496 RVA: 0x0023F5DC File Offset: 0x0023D9DC
+		// Token: 0x06004458 RID: 17496 RVA: 0x0023F8BC File Offset: 0x0023DCBC
 		private void RegisterInCell(Thing t, IntVec3 c)
 		{
 			if (!c.InBounds(this.map))
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004459 RID: 17497 RVA: 0x0023F654 File Offset: 0x0023DA54
+		// Token: 0x06004459 RID: 17497 RVA: 0x0023F934 File Offset: 0x0023DD34
 		public void Deregister(Thing t, bool doEvenIfDespawned = false)
 		{
 			if (t.Spawned || doEvenIfDespawned)
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600445A RID: 17498 RVA: 0x0023F710 File Offset: 0x0023DB10
+		// Token: 0x0600445A RID: 17498 RVA: 0x0023F9F0 File Offset: 0x0023DDF0
 		private void DeregisterInCell(Thing t, IntVec3 c)
 		{
 			if (!c.InBounds(this.map))
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600445B RID: 17499 RVA: 0x0023F780 File Offset: 0x0023DB80
+		// Token: 0x0600445B RID: 17499 RVA: 0x0023FA60 File Offset: 0x0023DE60
 		public IEnumerable<Thing> ThingsAt(IntVec3 c)
 		{
 			if (!c.InBounds(this.map))
@@ -122,7 +122,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600445C RID: 17500 RVA: 0x0023F7B4 File Offset: 0x0023DBB4
+		// Token: 0x0600445C RID: 17500 RVA: 0x0023FA94 File Offset: 0x0023DE94
 		public List<Thing> ThingsListAt(IntVec3 c)
 		{
 			List<Thing> result;
@@ -138,25 +138,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600445D RID: 17501 RVA: 0x0023F81C File Offset: 0x0023DC1C
+		// Token: 0x0600445D RID: 17501 RVA: 0x0023FAFC File Offset: 0x0023DEFC
 		public List<Thing> ThingsListAtFast(IntVec3 c)
 		{
 			return this.thingGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x0600445E RID: 17502 RVA: 0x0023F84C File Offset: 0x0023DC4C
+		// Token: 0x0600445E RID: 17502 RVA: 0x0023FB2C File Offset: 0x0023DF2C
 		public List<Thing> ThingsListAtFast(int index)
 		{
 			return this.thingGrid[index];
 		}
 
-		// Token: 0x0600445F RID: 17503 RVA: 0x0023F86C File Offset: 0x0023DC6C
+		// Token: 0x0600445F RID: 17503 RVA: 0x0023FB4C File Offset: 0x0023DF4C
 		public bool CellContains(IntVec3 c, ThingCategory cat)
 		{
 			return this.ThingAt(c, cat) != null;
 		}
 
-		// Token: 0x06004460 RID: 17504 RVA: 0x0023F890 File Offset: 0x0023DC90
+		// Token: 0x06004460 RID: 17504 RVA: 0x0023FB70 File Offset: 0x0023DF70
 		public Thing ThingAt(IntVec3 c, ThingCategory cat)
 		{
 			Thing result;
@@ -179,13 +179,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004461 RID: 17505 RVA: 0x0023F914 File Offset: 0x0023DD14
+		// Token: 0x06004461 RID: 17505 RVA: 0x0023FBF4 File Offset: 0x0023DFF4
 		public bool CellContains(IntVec3 c, ThingDef def)
 		{
 			return this.ThingAt(c, def) != null;
 		}
 
-		// Token: 0x06004462 RID: 17506 RVA: 0x0023F938 File Offset: 0x0023DD38
+		// Token: 0x06004462 RID: 17506 RVA: 0x0023FC18 File Offset: 0x0023E018
 		public Thing ThingAt(IntVec3 c, ThingDef def)
 		{
 			Thing result;
@@ -208,7 +208,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004463 RID: 17507 RVA: 0x0023F9B8 File Offset: 0x0023DDB8
+		// Token: 0x06004463 RID: 17507 RVA: 0x0023FC98 File Offset: 0x0023E098
 		public T ThingAt<T>(IntVec3 c) where T : Thing
 		{
 			T result;

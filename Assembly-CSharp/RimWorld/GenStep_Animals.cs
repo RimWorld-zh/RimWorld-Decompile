@@ -7,7 +7,7 @@ namespace RimWorld
 	public class GenStep_Animals : GenStep
 	{
 		// Token: 0x17000252 RID: 594
-		// (get) Token: 0x0600117B RID: 4475 RVA: 0x000975AC File Offset: 0x000959AC
+		// (get) Token: 0x0600117A RID: 4474 RVA: 0x000975BC File Offset: 0x000959BC
 		public override int SeedPart
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600117C RID: 4476 RVA: 0x000975C8 File Offset: 0x000959C8
+		// Token: 0x0600117B RID: 4475 RVA: 0x000975D8 File Offset: 0x000959D8
 		public override void Generate(Map map)
 		{
 			int num = 0;

@@ -6,10 +6,10 @@ namespace Verse
 	// Token: 0x02000862 RID: 2146
 	public static class InspectTabManager
 	{
-		// Token: 0x04001A57 RID: 6743
+		// Token: 0x04001A5B RID: 6747
 		private static Dictionary<Type, InspectTabBase> sharedInstances = new Dictionary<Type, InspectTabBase>();
 
-		// Token: 0x060030B0 RID: 12464 RVA: 0x001A6DE8 File Offset: 0x001A51E8
+		// Token: 0x060030AF RID: 12463 RVA: 0x001A7050 File Offset: 0x001A5450
 		public static InspectTabBase GetSharedInstance(Type tabType)
 		{
 			InspectTabBase inspectTabBase;

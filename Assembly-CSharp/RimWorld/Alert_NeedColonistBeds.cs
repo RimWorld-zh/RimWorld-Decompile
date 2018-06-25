@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200079A RID: 1946
 	public class Alert_NeedColonistBeds : Alert
 	{
-		// Token: 0x06002B23 RID: 11043 RVA: 0x0016C860 File Offset: 0x0016AC60
+		// Token: 0x06002B22 RID: 11042 RVA: 0x0016CAC4 File Offset: 0x0016AEC4
 		public Alert_NeedColonistBeds()
 		{
 			this.defaultLabel = "NeedColonistBeds".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B24 RID: 11044 RVA: 0x0016C890 File Offset: 0x0016AC90
+		// Token: 0x06002B23 RID: 11043 RVA: 0x0016CAF4 File Offset: 0x0016AEF4
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B25 RID: 11045 RVA: 0x0016C900 File Offset: 0x0016AD00
+		// Token: 0x06002B24 RID: 11044 RVA: 0x0016CB64 File Offset: 0x0016AF64
 		private bool NeedColonistBeds(Map map)
 		{
 			bool result;

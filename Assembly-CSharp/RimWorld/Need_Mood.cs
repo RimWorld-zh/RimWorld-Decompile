@@ -9,16 +9,16 @@ namespace RimWorld
 	// Token: 0x020004FE RID: 1278
 	public class Need_Mood : Need_Seeker
 	{
-		// Token: 0x04000D85 RID: 3461
+		// Token: 0x04000D88 RID: 3464
 		public ThoughtHandler thoughts;
 
-		// Token: 0x04000D86 RID: 3462
+		// Token: 0x04000D89 RID: 3465
 		public PawnObserver observer;
 
-		// Token: 0x04000D87 RID: 3463
+		// Token: 0x04000D8A RID: 3466
 		public PawnRecentMemory recentMemory;
 
-		// Token: 0x060016FD RID: 5885 RVA: 0x000CADB6 File Offset: 0x000C91B6
+		// Token: 0x060016FC RID: 5884 RVA: 0x000CAFB6 File Offset: 0x000C93B6
 		public Need_Mood(Pawn pawn) : base(pawn)
 		{
 			this.thoughts = new ThoughtHandler(pawn);
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000321 RID: 801
-		// (get) Token: 0x060016FE RID: 5886 RVA: 0x000CADE4 File Offset: 0x000C91E4
+		// (get) Token: 0x060016FD RID: 5885 RVA: 0x000CAFE4 File Offset: 0x000C93E4
 		public override float CurInstantLevel
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000322 RID: 802
-		// (get) Token: 0x060016FF RID: 5887 RVA: 0x000CAE50 File Offset: 0x000C9250
+		// (get) Token: 0x060016FE RID: 5886 RVA: 0x000CB050 File Offset: 0x000C9450
 		public string MoodString
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001700 RID: 5888 RVA: 0x000CAF50 File Offset: 0x000C9350
+		// Token: 0x060016FF RID: 5887 RVA: 0x000CB150 File Offset: 0x000C9550
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -98,7 +98,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001701 RID: 5889 RVA: 0x000CAFA2 File Offset: 0x000C93A2
+		// Token: 0x06001700 RID: 5888 RVA: 0x000CB1A2 File Offset: 0x000C95A2
 		public override void NeedInterval()
 		{
 			base.NeedInterval();
@@ -107,7 +107,7 @@ namespace RimWorld
 			this.observer.ObserverInterval();
 		}
 
-		// Token: 0x06001702 RID: 5890 RVA: 0x000CAFCC File Offset: 0x000C93CC
+		// Token: 0x06001701 RID: 5889 RVA: 0x000CB1CC File Offset: 0x000C95CC
 		public override string GetTipString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -119,7 +119,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001703 RID: 5891 RVA: 0x000CB0A0 File Offset: 0x000C94A0
+		// Token: 0x06001702 RID: 5890 RVA: 0x000CB2A0 File Offset: 0x000C96A0
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (this.threshPercents == null)

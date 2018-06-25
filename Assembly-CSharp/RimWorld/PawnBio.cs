@@ -8,23 +8,23 @@ namespace RimWorld
 	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
-		// Token: 0x04000CFE RID: 3326
+		// Token: 0x04000D01 RID: 3329
 		public GenderPossibility gender;
 
-		// Token: 0x04000CFF RID: 3327
+		// Token: 0x04000D02 RID: 3330
 		public NameTriple name;
 
-		// Token: 0x04000D00 RID: 3328
+		// Token: 0x04000D03 RID: 3331
 		public Backstory childhood;
 
-		// Token: 0x04000D01 RID: 3329
+		// Token: 0x04000D04 RID: 3332
 		public Backstory adulthood;
 
-		// Token: 0x04000D02 RID: 3330
+		// Token: 0x04000D05 RID: 3333
 		public bool pirateKing = false;
 
 		// Token: 0x170002E9 RID: 745
-		// (get) Token: 0x0600164A RID: 5706 RVA: 0x000C5DD4 File Offset: 0x000C41D4
+		// (get) Token: 0x06001649 RID: 5705 RVA: 0x000C5FD4 File Offset: 0x000C43D4
 		public PawnBioType BioType
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600164B RID: 5707 RVA: 0x000C5E0E File Offset: 0x000C420E
+		// Token: 0x0600164A RID: 5706 RVA: 0x000C600E File Offset: 0x000C440E
 		public void PostLoad()
 		{
 			if (this.childhood != null)
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600164C RID: 5708 RVA: 0x000C5E40 File Offset: 0x000C4240
+		// Token: 0x0600164B RID: 5707 RVA: 0x000C6040 File Offset: 0x000C4440
 		public void ResolveReferences()
 		{
 			if (this.adulthood.spawnCategories.Count == 1 && this.adulthood.spawnCategories[0] == "Trader")
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600164D RID: 5709 RVA: 0x000C5EC8 File Offset: 0x000C42C8
+		// Token: 0x0600164C RID: 5708 RVA: 0x000C60C8 File Offset: 0x000C44C8
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.childhood != null)
@@ -110,7 +110,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600164E RID: 5710 RVA: 0x000C5EF4 File Offset: 0x000C42F4
+		// Token: 0x0600164D RID: 5709 RVA: 0x000C60F4 File Offset: 0x000C44F4
 		public override string ToString()
 		{
 			return "PawnBio(" + this.name + ")";

@@ -10,13 +10,13 @@ namespace RimWorld
 	// Token: 0x0200086B RID: 2155
 	public class MainButtonsRoot
 	{
-		// Token: 0x04001A79 RID: 6777
+		// Token: 0x04001A7D RID: 6781
 		public MainTabsRoot tabs = new MainTabsRoot();
 
-		// Token: 0x04001A7A RID: 6778
+		// Token: 0x04001A7E RID: 6782
 		private List<MainButtonDef> allButtonsInOrder;
 
-		// Token: 0x060030FC RID: 12540 RVA: 0x001A9E88 File Offset: 0x001A8288
+		// Token: 0x060030FB RID: 12539 RVA: 0x001AA0F0 File Offset: 0x001A84F0
 		public MainButtonsRoot()
 		{
 			this.allButtonsInOrder = (from x in DefDatabase<MainButtonDef>.AllDefs
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007D5 RID: 2005
-		// (get) Token: 0x060030FD RID: 12541 RVA: 0x001A9EDC File Offset: 0x001A82DC
+		// (get) Token: 0x060030FC RID: 12540 RVA: 0x001AA144 File Offset: 0x001A8544
 		private int VisibleButtonsCount
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030FE RID: 12542 RVA: 0x001A9F2C File Offset: 0x001A832C
+		// Token: 0x060030FD RID: 12541 RVA: 0x001AA194 File Offset: 0x001A8594
 		public void MainButtonsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030FF RID: 12543 RVA: 0x001A9FEC File Offset: 0x001A83EC
+		// Token: 0x060030FE RID: 12542 RVA: 0x001AA254 File Offset: 0x001A8654
 		public void HandleLowPriorityShortcuts()
 		{
 			this.tabs.HandleLowPriorityShortcuts();
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003100 RID: 12544 RVA: 0x001AA054 File Offset: 0x001A8454
+		// Token: 0x060030FF RID: 12543 RVA: 0x001AA2BC File Offset: 0x001A86BC
 		private void DoButtons()
 		{
 			GUI.color = Color.white;

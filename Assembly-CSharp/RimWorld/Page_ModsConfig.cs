@@ -12,55 +12,55 @@ namespace RimWorld
 	// Token: 0x02000832 RID: 2098
 	public class Page_ModsConfig : Page
 	{
-		// Token: 0x04001993 RID: 6547
+		// Token: 0x04001997 RID: 6551
 		public ModMetaData selectedMod = null;
 
-		// Token: 0x04001994 RID: 6548
+		// Token: 0x04001998 RID: 6552
 		private Vector2 modListScrollPosition = Vector2.zero;
 
-		// Token: 0x04001995 RID: 6549
+		// Token: 0x04001999 RID: 6553
 		private Vector2 modDescriptionScrollPosition = Vector2.zero;
 
-		// Token: 0x04001996 RID: 6550
+		// Token: 0x0400199A RID: 6554
 		private int activeModsWhenOpenedHash = -1;
 
-		// Token: 0x04001997 RID: 6551
+		// Token: 0x0400199B RID: 6555
 		private Dictionary<string, string> truncatedModNamesCache = new Dictionary<string, string>();
 
-		// Token: 0x04001998 RID: 6552
+		// Token: 0x0400199C RID: 6556
 		protected string filter = "";
 
-		// Token: 0x04001999 RID: 6553
+		// Token: 0x0400199D RID: 6557
 		private const float ModListAreaWidth = 350f;
 
-		// Token: 0x0400199A RID: 6554
+		// Token: 0x0400199E RID: 6558
 		private const float ModsListButtonHeight = 30f;
 
-		// Token: 0x0400199B RID: 6555
+		// Token: 0x0400199F RID: 6559
 		private const float ModsFolderButHeight = 30f;
 
-		// Token: 0x0400199C RID: 6556
+		// Token: 0x040019A0 RID: 6560
 		private const float ButtonsGap = 4f;
 
-		// Token: 0x0400199D RID: 6557
+		// Token: 0x040019A1 RID: 6561
 		private const float UploadRowHeight = 40f;
 
-		// Token: 0x0400199E RID: 6558
+		// Token: 0x040019A2 RID: 6562
 		private const float PreviewMaxHeight = 300f;
 
-		// Token: 0x0400199F RID: 6559
+		// Token: 0x040019A3 RID: 6563
 		private const float VersionWidth = 30f;
 
-		// Token: 0x040019A0 RID: 6560
+		// Token: 0x040019A4 RID: 6564
 		private const float ModRowHeight = 26f;
 
-		// Token: 0x06002F5C RID: 12124 RVA: 0x00195238 File Offset: 0x00193638
+		// Token: 0x06002F5B RID: 12123 RVA: 0x001954A0 File Offset: 0x001938A0
 		public Page_ModsConfig()
 		{
 			this.doCloseButton = true;
 		}
 
-		// Token: 0x06002F5D RID: 12125 RVA: 0x0019528D File Offset: 0x0019368D
+		// Token: 0x06002F5C RID: 12124 RVA: 0x001954F5 File Offset: 0x001938F5
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -69,7 +69,7 @@ namespace RimWorld
 			this.activeModsWhenOpenedHash = ModLister.InstalledModsListHash(true);
 		}
 
-		// Token: 0x06002F5E RID: 12126 RVA: 0x001952B8 File Offset: 0x001936B8
+		// Token: 0x06002F5D RID: 12125 RVA: 0x00195520 File Offset: 0x00193920
 		private IEnumerable<ModMetaData> ModsInListOrder()
 		{
 			foreach (ModMetaData mod in ModsConfig.ActiveModsInLoadOrder)
@@ -87,7 +87,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002F5F RID: 12127 RVA: 0x001952DC File Offset: 0x001936DC
+		// Token: 0x06002F5E RID: 12126 RVA: 0x00195544 File Offset: 0x00193944
 		public override void DoWindowContents(Rect rect)
 		{
 			Rect mainRect = base.GetMainRect(rect, 0f, true);
@@ -256,7 +256,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F60 RID: 12128 RVA: 0x00195A6C File Offset: 0x00193E6C
+		// Token: 0x06002F5F RID: 12127 RVA: 0x00195CD4 File Offset: 0x001940D4
 		private void DoModRow(Listing_Standard listing, ModMetaData mod, int index, int reorderableGroup)
 		{
 			Rect rect = listing.GetRect(26f);
@@ -330,7 +330,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06002F61 RID: 12129 RVA: 0x00195D38 File Offset: 0x00194138
+		// Token: 0x06002F60 RID: 12128 RVA: 0x00195FA0 File Offset: 0x001943A0
 		private void DoModRowDownloading(Listing_Standard listing, int index)
 		{
 			Rect rect = listing.GetRect(26f);
@@ -339,14 +339,14 @@ namespace RimWorld
 			Widgets.Label(rect, "Downloading".Translate() + GenText.MarchingEllipsis(0f));
 		}
 
-		// Token: 0x06002F62 RID: 12130 RVA: 0x00195D8C File Offset: 0x0019418C
+		// Token: 0x06002F61 RID: 12129 RVA: 0x00195FF4 File Offset: 0x001943F4
 		public void Notify_ModsListChanged()
 		{
 			string selModId = this.selectedMod.Identifier;
 			this.selectedMod = ModLister.AllInstalledMods.FirstOrDefault((ModMetaData m) => m.Identifier == selModId);
 		}
 
-		// Token: 0x06002F63 RID: 12131 RVA: 0x00195DCD File Offset: 0x001941CD
+		// Token: 0x06002F62 RID: 12130 RVA: 0x00196035 File Offset: 0x00194435
 		internal void Notify_SteamItemUnsubscribed(PublishedFileId_t pfid)
 		{
 			if (this.selectedMod != null && this.selectedMod.Identifier == pfid.ToString())
@@ -355,7 +355,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F64 RID: 12132 RVA: 0x00195E04 File Offset: 0x00194204
+		// Token: 0x06002F63 RID: 12131 RVA: 0x0019606C File Offset: 0x0019446C
 		public override void PostClose()
 		{
 			ModsConfig.Save();
@@ -365,7 +365,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F65 RID: 12133 RVA: 0x00195E24 File Offset: 0x00194224
+		// Token: 0x06002F64 RID: 12132 RVA: 0x0019608C File Offset: 0x0019448C
 		private Color FilteredColor(Color color, string label)
 		{
 			Color result;

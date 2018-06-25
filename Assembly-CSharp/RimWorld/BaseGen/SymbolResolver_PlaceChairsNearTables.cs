@@ -7,10 +7,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D0 RID: 976
 	public class SymbolResolver_PlaceChairsNearTables : SymbolResolver
 	{
-		// Token: 0x04000A3C RID: 2620
+		// Token: 0x04000A3F RID: 2623
 		private static List<Thing> tables = new List<Thing>();
 
-		// Token: 0x060010D0 RID: 4304 RVA: 0x0008F3DC File Offset: 0x0008D7DC
+		// Token: 0x060010CF RID: 4303 RVA: 0x0008F3EC File Offset: 0x0008D7EC
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

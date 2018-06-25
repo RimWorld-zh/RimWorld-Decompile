@@ -6,19 +6,19 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnGroupKindDefOf
 	{
-		// Token: 0x04002274 RID: 8820
+		// Token: 0x0400227B RID: 8827
 		public static PawnGroupKindDef Combat;
 
-		// Token: 0x04002275 RID: 8821
+		// Token: 0x0400227C RID: 8828
 		public static PawnGroupKindDef Trader;
 
-		// Token: 0x04002276 RID: 8822
+		// Token: 0x0400227D RID: 8829
 		public static PawnGroupKindDef Peaceful;
 
-		// Token: 0x04002277 RID: 8823
+		// Token: 0x0400227E RID: 8830
 		public static PawnGroupKindDef FactionBase;
 
-		// Token: 0x06003658 RID: 13912 RVA: 0x001D0DE5 File Offset: 0x001CF1E5
+		// Token: 0x06003658 RID: 13912 RVA: 0x001D10B9 File Offset: 0x001CF4B9
 		static PawnGroupKindDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnGroupKindDefOf));

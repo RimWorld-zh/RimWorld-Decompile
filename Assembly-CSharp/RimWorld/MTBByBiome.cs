@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020002A3 RID: 675
 	public class MTBByBiome
 	{
-		// Token: 0x04000615 RID: 1557
+		// Token: 0x04000617 RID: 1559
 		public BiomeDef biome;
 
-		// Token: 0x04000616 RID: 1558
+		// Token: 0x04000618 RID: 1560
 		public float mtbDays;
 
-		// Token: 0x06000B4A RID: 2890 RVA: 0x00065F70 File Offset: 0x00064370
+		// Token: 0x06000B49 RID: 2889 RVA: 0x00065F6C File Offset: 0x0006436C
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)

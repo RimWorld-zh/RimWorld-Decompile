@@ -13,28 +13,28 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanFormingUtility
 	{
-		// Token: 0x04001189 RID: 4489
+		// Token: 0x0400118D RID: 4493
 		private static readonly Texture2D RemoveFromCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/RemoveFromCaravan", true);
 
-		// Token: 0x0400118A RID: 4490
+		// Token: 0x0400118E RID: 4494
 		private static readonly Texture2D AddToCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/AddToCaravan", true);
 
-		// Token: 0x0400118B RID: 4491
+		// Token: 0x0400118F RID: 4495
 		private static List<Thing> tmpReachableItems = new List<Thing>();
 
-		// Token: 0x0400118C RID: 4492
+		// Token: 0x04001190 RID: 4496
 		private static List<Pawn> tmpSendablePawns = new List<Pawn>();
 
-		// Token: 0x0400118D RID: 4493
+		// Token: 0x04001191 RID: 4497
 		private static List<ThingCount> tmpCaravanPawns = new List<ThingCount>();
 
-		// Token: 0x06001D88 RID: 7560 RVA: 0x000FE612 File Offset: 0x000FCA12
+		// Token: 0x06001D87 RID: 7559 RVA: 0x000FE87A File Offset: 0x000FCC7A
 		public static void FormAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile, int destinationTile)
 		{
 			CaravanExitMapUtility.ExitMapAndCreateCaravan(pawns, faction, exitFromTile, directionTile, destinationTile, true);
 		}
 
-		// Token: 0x06001D89 RID: 7561 RVA: 0x000FE624 File Offset: 0x000FCA24
+		// Token: 0x06001D88 RID: 7560 RVA: 0x000FE88C File Offset: 0x000FCC8C
 		public static void StartFormingCaravan(List<Pawn> pawns, Faction faction, List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile, int destinationTile)
 		{
 			if (startingTile < 0)
@@ -74,14 +74,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D8A RID: 7562 RVA: 0x000FE767 File Offset: 0x000FCB67
+		// Token: 0x06001D89 RID: 7561 RVA: 0x000FE9CF File Offset: 0x000FCDCF
 		public static void StopFormingCaravan(Lord lord)
 		{
 			CaravanFormingUtility.SetToUnloadEverything(lord);
 			lord.lordManager.RemoveLord(lord);
 		}
 
-		// Token: 0x06001D8B RID: 7563 RVA: 0x000FE77C File Offset: 0x000FCB7C
+		// Token: 0x06001D8A RID: 7562 RVA: 0x000FE9E4 File Offset: 0x000FCDE4
 		public static void RemovePawnFromCaravan(Pawn pawn, Lord lord)
 		{
 			bool flag = false;
@@ -119,13 +119,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D8C RID: 7564 RVA: 0x000FE868 File Offset: 0x000FCC68
+		// Token: 0x06001D8B RID: 7563 RVA: 0x000FEAD0 File Offset: 0x000FCED0
 		public static void Notify_FormAndSendCaravanLordFailed(Lord lord)
 		{
 			CaravanFormingUtility.SetToUnloadEverything(lord);
 		}
 
-		// Token: 0x06001D8D RID: 7565 RVA: 0x000FE874 File Offset: 0x000FCC74
+		// Token: 0x06001D8C RID: 7564 RVA: 0x000FEADC File Offset: 0x000FCEDC
 		private static void SetToUnloadEverything(Lord lord)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
@@ -134,7 +134,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D8E RID: 7566 RVA: 0x000FE8B8 File Offset: 0x000FCCB8
+		// Token: 0x06001D8D RID: 7565 RVA: 0x000FEB20 File Offset: 0x000FCF20
 		public static List<Thing> AllReachableColonyItems(Map map, bool allowEvenIfOutsideHomeArea = false, bool allowEvenIfReserved = false, bool canMinify = false)
 		{
 			CaravanFormingUtility.tmpReachableItems.Clear();
@@ -151,7 +151,7 @@ namespace RimWorld.Planet
 			return CaravanFormingUtility.tmpReachableItems;
 		}
 
-		// Token: 0x06001D8F RID: 7567 RVA: 0x000FE9C4 File Offset: 0x000FCDC4
+		// Token: 0x06001D8E RID: 7566 RVA: 0x000FEC2C File Offset: 0x000FD02C
 		public static List<Pawn> AllSendablePawns(Map map, bool allowEvenIfDownedOrInMentalState = false, bool allowEvenIfPrisonerNotSecure = false, bool allowCapturableDownedPawns = false)
 		{
 			CaravanFormingUtility.tmpSendablePawns.Clear();
@@ -173,7 +173,7 @@ namespace RimWorld.Planet
 			return CaravanFormingUtility.tmpSendablePawns;
 		}
 
-		// Token: 0x06001D90 RID: 7568 RVA: 0x000FEACC File Offset: 0x000FCECC
+		// Token: 0x06001D8F RID: 7567 RVA: 0x000FED34 File Offset: 0x000FD134
 		public static IEnumerable<Gizmo> GetGizmos(Pawn pawn)
 		{
 			if (pawn.IsFormingCaravan())
@@ -266,7 +266,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001D91 RID: 7569 RVA: 0x000FEAF8 File Offset: 0x000FCEF8
+		// Token: 0x06001D90 RID: 7568 RVA: 0x000FED60 File Offset: 0x000FD160
 		private static void LateJoinFormingCaravan(Pawn pawn, Lord lord)
 		{
 			Lord lord2 = pawn.GetLord();
@@ -281,14 +281,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D92 RID: 7570 RVA: 0x000FEB3C File Offset: 0x000FCF3C
+		// Token: 0x06001D91 RID: 7569 RVA: 0x000FEDA4 File Offset: 0x000FD1A4
 		public static bool IsFormingCaravan(this Pawn p)
 		{
 			Lord lord = p.GetLord();
 			return lord != null && lord.LordJob is LordJob_FormAndSendCaravan;
 		}
 
-		// Token: 0x06001D93 RID: 7571 RVA: 0x000FEB70 File Offset: 0x000FCF70
+		// Token: 0x06001D92 RID: 7570 RVA: 0x000FEDD8 File Offset: 0x000FD1D8
 		public static float CapacityLeft(LordJob_FormAndSendCaravan lordJob)
 		{
 			float num = CollectionsMassCalculator.MassUsageTransferables(lordJob.transferables, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, false, false);
@@ -304,7 +304,7 @@ namespace RimWorld.Planet
 			return num2 - num;
 		}
 
-		// Token: 0x06001D94 RID: 7572 RVA: 0x000FEC14 File Offset: 0x000FD014
+		// Token: 0x06001D93 RID: 7571 RVA: 0x000FEE7C File Offset: 0x000FD27C
 		public static string AppendOverweightInfo(string text, float capacityLeft)
 		{
 			if (capacityLeft < 0f)

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000152 RID: 338
 	public class WorkGiver_PatientGoToBedEmergencyTreatment : WorkGiver_PatientGoToBedRecuperate
 	{
-		// Token: 0x060006FB RID: 1787 RVA: 0x000475C8 File Offset: 0x000459C8
+		// Token: 0x060006FA RID: 1786 RVA: 0x000475C4 File Offset: 0x000459C4
 		public override Job NonScanJob(Pawn pawn)
 		{
 			Job result;

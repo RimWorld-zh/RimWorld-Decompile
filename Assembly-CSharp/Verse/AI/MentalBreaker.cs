@@ -7,58 +7,58 @@ using RimWorld.Planet;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A5E RID: 2654
+	// Token: 0x02000A5F RID: 2655
 	public class MentalBreaker : IExposable
 	{
-		// Token: 0x04002547 RID: 9543
+		// Token: 0x04002557 RID: 9559
 		private Pawn pawn;
 
-		// Token: 0x04002548 RID: 9544
+		// Token: 0x04002558 RID: 9560
 		private int ticksBelowExtreme = 0;
 
-		// Token: 0x04002549 RID: 9545
+		// Token: 0x04002559 RID: 9561
 		private int ticksBelowMajor = 0;
 
-		// Token: 0x0400254A RID: 9546
+		// Token: 0x0400255A RID: 9562
 		private int ticksBelowMinor = 0;
 
-		// Token: 0x0400254B RID: 9547
+		// Token: 0x0400255B RID: 9563
 		private const int CheckInterval = 150;
 
-		// Token: 0x0400254C RID: 9548
+		// Token: 0x0400255C RID: 9564
 		private const float ExtremeBreakMTBDays = 0.7f;
 
-		// Token: 0x0400254D RID: 9549
+		// Token: 0x0400255D RID: 9565
 		private const float MajorBreakMTBDays = 3f;
 
-		// Token: 0x0400254E RID: 9550
+		// Token: 0x0400255E RID: 9566
 		private const float MinorBreakMTBDays = 10f;
 
-		// Token: 0x0400254F RID: 9551
+		// Token: 0x0400255F RID: 9567
 		private const int MinTicksBelowToBreak = 1500;
 
-		// Token: 0x04002550 RID: 9552
+		// Token: 0x04002560 RID: 9568
 		private const float MajorBreakMoodSpan = 0.15f;
 
-		// Token: 0x04002551 RID: 9553
+		// Token: 0x04002561 RID: 9569
 		private const float MinorBreakMoodSpan = 0.15f;
 
-		// Token: 0x04002552 RID: 9554
+		// Token: 0x04002562 RID: 9570
 		private static List<Thought> tmpThoughts = new List<Thought>();
 
-		// Token: 0x06003B07 RID: 15111 RVA: 0x001F5399 File Offset: 0x001F3799
+		// Token: 0x06003B08 RID: 15112 RVA: 0x001F56C5 File Offset: 0x001F3AC5
 		public MentalBreaker()
 		{
 		}
 
-		// Token: 0x06003B08 RID: 15112 RVA: 0x001F53B7 File Offset: 0x001F37B7
+		// Token: 0x06003B09 RID: 15113 RVA: 0x001F56E3 File Offset: 0x001F3AE3
 		public MentalBreaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000902 RID: 2306
-		// (get) Token: 0x06003B09 RID: 15113 RVA: 0x001F53DC File Offset: 0x001F37DC
+		// (get) Token: 0x06003B0A RID: 15114 RVA: 0x001F5708 File Offset: 0x001F3B08
 		public float BreakThresholdExtreme
 		{
 			get
@@ -68,7 +68,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000903 RID: 2307
-		// (get) Token: 0x06003B0A RID: 15114 RVA: 0x001F5404 File Offset: 0x001F3804
+		// (get) Token: 0x06003B0B RID: 15115 RVA: 0x001F5730 File Offset: 0x001F3B30
 		public float BreakThresholdMajor
 		{
 			get
@@ -78,7 +78,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000904 RID: 2308
-		// (get) Token: 0x06003B0B RID: 15115 RVA: 0x001F5430 File Offset: 0x001F3830
+		// (get) Token: 0x06003B0C RID: 15116 RVA: 0x001F575C File Offset: 0x001F3B5C
 		public float BreakThresholdMinor
 		{
 			get
@@ -88,7 +88,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000905 RID: 2309
-		// (get) Token: 0x06003B0C RID: 15116 RVA: 0x001F5464 File Offset: 0x001F3864
+		// (get) Token: 0x06003B0D RID: 15117 RVA: 0x001F5790 File Offset: 0x001F3B90
 		private bool CanDoRandomMentalBreaks
 		{
 			get
@@ -98,7 +98,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000906 RID: 2310
-		// (get) Token: 0x06003B0D RID: 15117 RVA: 0x001F54B0 File Offset: 0x001F38B0
+		// (get) Token: 0x06003B0E RID: 15118 RVA: 0x001F57DC File Offset: 0x001F3BDC
 		public bool BreakExtremeIsImminent
 		{
 			get
@@ -108,7 +108,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000907 RID: 2311
-		// (get) Token: 0x06003B0E RID: 15118 RVA: 0x001F54E8 File Offset: 0x001F38E8
+		// (get) Token: 0x06003B0F RID: 15119 RVA: 0x001F5814 File Offset: 0x001F3C14
 		public bool BreakMajorIsImminent
 		{
 			get
@@ -118,7 +118,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000908 RID: 2312
-		// (get) Token: 0x06003B0F RID: 15119 RVA: 0x001F552C File Offset: 0x001F392C
+		// (get) Token: 0x06003B10 RID: 15120 RVA: 0x001F5858 File Offset: 0x001F3C58
 		public bool BreakMinorIsImminent
 		{
 			get
@@ -128,7 +128,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000909 RID: 2313
-		// (get) Token: 0x06003B10 RID: 15120 RVA: 0x001F5578 File Offset: 0x001F3978
+		// (get) Token: 0x06003B11 RID: 15121 RVA: 0x001F58A4 File Offset: 0x001F3CA4
 		public bool BreakExtremeIsApproaching
 		{
 			get
@@ -138,7 +138,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700090A RID: 2314
-		// (get) Token: 0x06003B11 RID: 15121 RVA: 0x001F55C0 File Offset: 0x001F39C0
+		// (get) Token: 0x06003B12 RID: 15122 RVA: 0x001F58EC File Offset: 0x001F3CEC
 		private float CurMood
 		{
 			get
@@ -157,7 +157,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700090B RID: 2315
-		// (get) Token: 0x06003B12 RID: 15122 RVA: 0x001F560C File Offset: 0x001F3A0C
+		// (get) Token: 0x06003B13 RID: 15123 RVA: 0x001F5938 File Offset: 0x001F3D38
 		private IEnumerable<MentalBreakDef> CurrentPossibleMoodBreaks
 		{
 			get
@@ -184,7 +184,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700090C RID: 2316
-		// (get) Token: 0x06003B13 RID: 15123 RVA: 0x001F5638 File Offset: 0x001F3A38
+		// (get) Token: 0x06003B14 RID: 15124 RVA: 0x001F5964 File Offset: 0x001F3D64
 		private MentalBreakIntensity CurrentDesiredMoodBreakIntensity
 		{
 			get
@@ -210,14 +210,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B14 RID: 15124 RVA: 0x001F5693 File Offset: 0x001F3A93
+		// Token: 0x06003B15 RID: 15125 RVA: 0x001F59BF File Offset: 0x001F3DBF
 		internal void Reset()
 		{
 			this.ticksBelowExtreme = 0;
 			this.ticksBelowMajor = 0;
 		}
 
-		// Token: 0x06003B15 RID: 15125 RVA: 0x001F56A4 File Offset: 0x001F3AA4
+		// Token: 0x06003B16 RID: 15126 RVA: 0x001F59D0 File Offset: 0x001F3DD0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksBelowExtreme, "ticksBelowExtreme", 0, false);
@@ -225,7 +225,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksBelowMinor, "ticksBelowMinor", 0, false);
 		}
 
-		// Token: 0x06003B16 RID: 15126 RVA: 0x001F56E0 File Offset: 0x001F3AE0
+		// Token: 0x06003B17 RID: 15127 RVA: 0x001F5A0C File Offset: 0x001F3E0C
 		public void MentalBreakerTick()
 		{
 			if (this.CanDoRandomMentalBreaks && this.pawn.MentalStateDef == null && this.pawn.IsHashIntervalTick(150))
@@ -289,7 +289,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B17 RID: 15127 RVA: 0x001F58A4 File Offset: 0x001F3CA4
+		// Token: 0x06003B18 RID: 15128 RVA: 0x001F5BD0 File Offset: 0x001F3FD0
 		private bool TestMoodMentalBreak()
 		{
 			bool result;
@@ -308,7 +308,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B18 RID: 15128 RVA: 0x001F5938 File Offset: 0x001F3D38
+		// Token: 0x06003B19 RID: 15129 RVA: 0x001F5C64 File Offset: 0x001F4064
 		public bool TryDoRandomMoodCausedMentalBreak()
 		{
 			bool result;
@@ -333,7 +333,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B19 RID: 15129 RVA: 0x001F59F8 File Offset: 0x001F3DF8
+		// Token: 0x06003B1A RID: 15130 RVA: 0x001F5D24 File Offset: 0x001F4124
 		private Thought RandomFinalStraw()
 		{
 			this.pawn.needs.mood.thoughts.GetAllMoodThoughts(MentalBreaker.tmpThoughts);
@@ -355,7 +355,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B1A RID: 15130 RVA: 0x001F5AC8 File Offset: 0x001F3EC8
+		// Token: 0x06003B1B RID: 15131 RVA: 0x001F5DF4 File Offset: 0x001F41F4
 		public float MentalBreakThresholdFor(MentalBreakIntensity intensity)
 		{
 			float result;
@@ -381,7 +381,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B1B RID: 15131 RVA: 0x001F5B1C File Offset: 0x001F3F1C
+		// Token: 0x06003B1C RID: 15132 RVA: 0x001F5E48 File Offset: 0x001F4248
 		internal string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -427,7 +427,7 @@ namespace Verse.AI
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003B1C RID: 15132 RVA: 0x001F5CF8 File Offset: 0x001F40F8
+		// Token: 0x06003B1D RID: 15133 RVA: 0x001F6024 File Offset: 0x001F4424
 		internal void LogPossibleMentalBreaks()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

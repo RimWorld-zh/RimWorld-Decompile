@@ -8,7 +8,7 @@ namespace RimWorld
 	public class StorytellerComp_CategoryMTB : StorytellerComp
 	{
 		// Token: 0x1700021C RID: 540
-		// (get) Token: 0x06000F20 RID: 3872 RVA: 0x0007FDD4 File Offset: 0x0007E1D4
+		// (get) Token: 0x06000F1F RID: 3871 RVA: 0x0007FDE4 File Offset: 0x0007E1E4
 		protected StorytellerCompProperties_CategoryMTB Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F21 RID: 3873 RVA: 0x0007FDF4 File Offset: 0x0007E1F4
+		// Token: 0x06000F20 RID: 3872 RVA: 0x0007FE04 File Offset: 0x0007E204
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			float mtbNow = this.Props.mtbDays;
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F22 RID: 3874 RVA: 0x0007FE28 File Offset: 0x0007E228
+		// Token: 0x06000F21 RID: 3873 RVA: 0x0007FE38 File Offset: 0x0007E238
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.category;

@@ -8,11 +8,11 @@ namespace RimWorld
 	// Token: 0x02000098 RID: 152
 	public class JobDriver_LayDown : JobDriver
 	{
-		// Token: 0x04000261 RID: 609
+		// Token: 0x04000262 RID: 610
 		public const TargetIndex BedOrRestSpotIndex = TargetIndex.A;
 
 		// Token: 0x170000C4 RID: 196
-		// (get) Token: 0x060003DC RID: 988 RVA: 0x0002C6BC File Offset: 0x0002AABC
+		// (get) Token: 0x060003DC RID: 988 RVA: 0x0002C6D8 File Offset: 0x0002AAD8
 		public Building_Bed Bed
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003DD RID: 989 RVA: 0x0002C6EC File Offset: 0x0002AAEC
+		// Token: 0x060003DD RID: 989 RVA: 0x0002C708 File Offset: 0x0002AB08
 		public override bool TryMakePreToilReservations()
 		{
 			bool hasThing = this.job.GetTarget(TargetIndex.A).HasThing;
@@ -35,13 +35,13 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060003DE RID: 990 RVA: 0x0002C754 File Offset: 0x0002AB54
+		// Token: 0x060003DE RID: 990 RVA: 0x0002C770 File Offset: 0x0002AB70
 		public override bool CanBeginNowWhileLyingDown()
 		{
 			return JobInBedUtility.InBedOrRestSpotNow(this.pawn, this.job.GetTarget(TargetIndex.A));
 		}
 
-		// Token: 0x060003DF RID: 991 RVA: 0x0002C780 File Offset: 0x0002AB80
+		// Token: 0x060003DF RID: 991 RVA: 0x0002C79C File Offset: 0x0002AB9C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			bool hasBed = this.job.GetTarget(TargetIndex.A).HasThing;
@@ -58,7 +58,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060003E0 RID: 992 RVA: 0x0002C7AC File Offset: 0x0002ABAC
+		// Token: 0x060003E0 RID: 992 RVA: 0x0002C7C8 File Offset: 0x0002ABC8
 		public override string GetReport()
 		{
 			string result;

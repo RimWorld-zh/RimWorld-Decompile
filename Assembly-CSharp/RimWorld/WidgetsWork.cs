@@ -11,46 +11,46 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class WidgetsWork
 	{
-		// Token: 0x04001BCE RID: 7118
+		// Token: 0x04001BD4 RID: 7124
 		public const float WorkBoxSize = 25f;
 
-		// Token: 0x04001BCF RID: 7119
+		// Token: 0x04001BD5 RID: 7125
 		public static readonly Texture2D WorkBoxBGTex_Awful = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Awful", true);
 
-		// Token: 0x04001BD0 RID: 7120
+		// Token: 0x04001BD6 RID: 7126
 		public static readonly Texture2D WorkBoxBGTex_Bad = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Bad", true);
 
-		// Token: 0x04001BD1 RID: 7121
+		// Token: 0x04001BD7 RID: 7127
 		private const int AwfulBGMax = 4;
 
-		// Token: 0x04001BD2 RID: 7122
+		// Token: 0x04001BD8 RID: 7128
 		public static readonly Texture2D WorkBoxBGTex_Mid = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Mid", true);
 
-		// Token: 0x04001BD3 RID: 7123
+		// Token: 0x04001BD9 RID: 7129
 		private const int BadBGMax = 14;
 
-		// Token: 0x04001BD4 RID: 7124
+		// Token: 0x04001BDA RID: 7130
 		public static readonly Texture2D WorkBoxBGTex_Excellent = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Excellent", true);
 
-		// Token: 0x04001BD5 RID: 7125
+		// Token: 0x04001BDB RID: 7131
 		public static readonly Texture2D WorkBoxCheckTex = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxCheck", true);
 
-		// Token: 0x04001BD6 RID: 7126
+		// Token: 0x04001BDC RID: 7132
 		public static readonly Texture2D PassionWorkboxMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinorGray", true);
 
-		// Token: 0x04001BD7 RID: 7127
+		// Token: 0x04001BDD RID: 7133
 		public static readonly Texture2D PassionWorkboxMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajorGray", true);
 
-		// Token: 0x04001BD8 RID: 7128
+		// Token: 0x04001BDE RID: 7134
 		public static readonly Texture2D WorkBoxOverlay_Warning = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxOverlay_Warning", true);
 
-		// Token: 0x04001BD9 RID: 7129
+		// Token: 0x04001BDF RID: 7135
 		private const int WarnIfSelectedMax = 2;
 
-		// Token: 0x04001BDA RID: 7130
+		// Token: 0x04001BE0 RID: 7136
 		private const float PassionOpacity = 0.4f;
 
-		// Token: 0x060033D5 RID: 13269 RVA: 0x001BB27C File Offset: 0x001B967C
+		// Token: 0x060033D5 RID: 13269 RVA: 0x001BB550 File Offset: 0x001B9950
 		private static Color ColorOfPriority(int prio)
 		{
 			Color result;
@@ -75,7 +75,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060033D6 RID: 13270 RVA: 0x001BB31C File Offset: 0x001B971C
+		// Token: 0x060033D6 RID: 13270 RVA: 0x001BB5F0 File Offset: 0x001B99F0
 		public static void DrawWorkBoxFor(float x, float y, Pawn p, WorkTypeDef wType, bool incapableBecauseOfCapacities)
 		{
 			if (p.story != null && !p.story.WorkTypeIsDisabled(wType))
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033D7 RID: 13271 RVA: 0x001BB5D8 File Offset: 0x001B99D8
+		// Token: 0x060033D7 RID: 13271 RVA: 0x001BB8AC File Offset: 0x001B9CAC
 		public static string TipForPawnWorker(Pawn p, WorkTypeDef wDef, bool incapableBecauseOfCapacities)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -210,7 +210,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060033D8 RID: 13272 RVA: 0x001BB79C File Offset: 0x001B9B9C
+		// Token: 0x060033D8 RID: 13272 RVA: 0x001BBA70 File Offset: 0x001B9E70
 		private static void DrawWorkBoxBackground(Rect rect, Pawn p, WorkTypeDef workDef)
 		{
 			Profiler.BeginSample("AverageOfRelevantSkillsFor");

@@ -6,10 +6,10 @@ namespace RimWorld
 	// Token: 0x02000345 RID: 837
 	public class IncidentWorker_WandererJoin : IncidentWorker
 	{
-		// Token: 0x040008EB RID: 2283
+		// Token: 0x040008EE RID: 2286
 		private const float RelationWithColonistWeight = 20f;
 
-		// Token: 0x06000E48 RID: 3656 RVA: 0x00079370 File Offset: 0x00077770
+		// Token: 0x06000E47 RID: 3655 RVA: 0x00079378 File Offset: 0x00077778
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E49 RID: 3657 RVA: 0x000793B0 File Offset: 0x000777B0
+		// Token: 0x06000E48 RID: 3656 RVA: 0x000793B8 File Offset: 0x000777B8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E4A RID: 3658 RVA: 0x000794C8 File Offset: 0x000778C8
+		// Token: 0x06000E49 RID: 3657 RVA: 0x000794D0 File Offset: 0x000778D0
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out cell);

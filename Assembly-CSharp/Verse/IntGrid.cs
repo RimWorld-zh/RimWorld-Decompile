@@ -2,24 +2,24 @@
 
 namespace Verse
 {
-	// Token: 0x02000C24 RID: 3108
+	// Token: 0x02000C25 RID: 3109
 	public sealed class IntGrid
 	{
-		// Token: 0x04002E64 RID: 11876
+		// Token: 0x04002E6B RID: 11883
 		private int[] grid;
 
-		// Token: 0x04002E65 RID: 11877
+		// Token: 0x04002E6C RID: 11884
 		private int mapSizeX;
 
-		// Token: 0x04002E66 RID: 11878
+		// Token: 0x04002E6D RID: 11885
 		private int mapSizeZ;
 
-		// Token: 0x0600442A RID: 17450 RVA: 0x0023E692 File Offset: 0x0023CA92
+		// Token: 0x0600442A RID: 17450 RVA: 0x0023E972 File Offset: 0x0023CD72
 		public IntGrid()
 		{
 		}
 
-		// Token: 0x0600442B RID: 17451 RVA: 0x0023E69B File Offset: 0x0023CA9B
+		// Token: 0x0600442B RID: 17451 RVA: 0x0023E97B File Offset: 0x0023CD7B
 		public IntGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
@@ -66,7 +66,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000AB1 RID: 2737
-		// (get) Token: 0x06004432 RID: 17458 RVA: 0x0023E768 File Offset: 0x0023CB68
+		// (get) Token: 0x06004432 RID: 17458 RVA: 0x0023EA48 File Offset: 0x0023CE48
 		public int CellsCount
 		{
 			get
@@ -75,13 +75,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004433 RID: 17459 RVA: 0x0023E788 File Offset: 0x0023CB88
+		// Token: 0x06004433 RID: 17459 RVA: 0x0023EA68 File Offset: 0x0023CE68
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x06004434 RID: 17460 RVA: 0x0023E7D0 File Offset: 0x0023CBD0
+		// Token: 0x06004434 RID: 17460 RVA: 0x0023EAB0 File Offset: 0x0023CEB0
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004435 RID: 17461 RVA: 0x0023E844 File Offset: 0x0023CC44
+		// Token: 0x06004435 RID: 17461 RVA: 0x0023EB24 File Offset: 0x0023CF24
 		public void Clear(int value = 0)
 		{
 			if (value == 0)
@@ -112,7 +112,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004436 RID: 17462 RVA: 0x0023E898 File Offset: 0x0023CC98
+		// Token: 0x06004436 RID: 17462 RVA: 0x0023EB78 File Offset: 0x0023CF78
 		public void DebugDraw()
 		{
 			for (int i = 0; i < this.grid.Length; i++)

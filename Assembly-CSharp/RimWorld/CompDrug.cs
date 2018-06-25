@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompDrug : ThingComp
 	{
 		// Token: 0x170005F0 RID: 1520
-		// (get) Token: 0x06002785 RID: 10117 RVA: 0x00152FBC File Offset: 0x001513BC
+		// (get) Token: 0x06002784 RID: 10116 RVA: 0x0015321C File Offset: 0x0015161C
 		public CompProperties_Drug Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002786 RID: 10118 RVA: 0x00152FDC File Offset: 0x001513DC
+		// Token: 0x06002785 RID: 10117 RVA: 0x0015323C File Offset: 0x0015163C
 		public override void PostIngested(Pawn ingester)
 		{
 			if (this.Props.Addictive && ingester.RaceProps.IsFlesh)

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class GenStep_Fog : GenStep
 	{
 		// Token: 0x1700024C RID: 588
-		// (get) Token: 0x0600113C RID: 4412 RVA: 0x00094020 File Offset: 0x00092420
+		// (get) Token: 0x0600113B RID: 4411 RVA: 0x00094030 File Offset: 0x00092430
 		public override int SeedPart
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113D RID: 4413 RVA: 0x0009403C File Offset: 0x0009243C
+		// Token: 0x0600113C RID: 4412 RVA: 0x0009404C File Offset: 0x0009244C
 		public override void Generate(Map map)
 		{
 			DeepProfiler.Start("GenerateInitialFogGrid");

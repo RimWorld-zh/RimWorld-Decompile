@@ -9,13 +9,13 @@ namespace RimWorld.Planet
 	// Token: 0x020005FA RID: 1530
 	public static class TilesPerDayCalculator
 	{
-		// Token: 0x04001211 RID: 4625
+		// Token: 0x04001215 RID: 4629
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
-		// Token: 0x04001212 RID: 4626
+		// Token: 0x04001216 RID: 4630
 		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 
-		// Token: 0x06001E6E RID: 7790 RVA: 0x001078B4 File Offset: 0x00105CB4
+		// Token: 0x06001E6D RID: 7789 RVA: 0x00107B1C File Offset: 0x00105F1C
 		public static float ApproxTilesPerDay(int caravanTicksPerMove, int tile, int nextTile, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null)
 		{
 			if (nextTile == -1)
@@ -37,13 +37,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E6F RID: 7791 RVA: 0x00107930 File Offset: 0x00105D30
+		// Token: 0x06001E6E RID: 7790 RVA: 0x00107B98 File Offset: 0x00105F98
 		public static float ApproxTilesPerDay(Caravan caravan, StringBuilder explanation = null)
 		{
 			return TilesPerDayCalculator.ApproxTilesPerDay(caravan.TicksPerMove, caravan.Tile, (!caravan.pather.Moving) ? -1 : caravan.pather.nextTile, explanation, (explanation == null) ? null : caravan.TicksPerMoveExplanation);
 		}
 
-		// Token: 0x06001E70 RID: 7792 RVA: 0x0010798C File Offset: 0x00105D8C
+		// Token: 0x06001E6F RID: 7791 RVA: 0x00107BF4 File Offset: 0x00105FF4
 		public static float ApproxTilesPerDay(List<TransferableOneWay> transferables, float massUsage, float massCapacity, int tile, int nextTile, StringBuilder explanation = null)
 		{
 			TilesPerDayCalculator.tmpPawns.Clear();
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E71 RID: 7793 RVA: 0x00107A8C File Offset: 0x00105E8C
+		// Token: 0x06001E70 RID: 7792 RVA: 0x00107CF4 File Offset: 0x001060F4
 		public static float ApproxTilesPerDayLeftAfterTransfer(List<TransferableOneWay> transferables, float massUsageLeftAfterTransfer, float massCapacityLeftAfterTransfer, int tile, int nextTile, StringBuilder explanation = null)
 		{
 			TilesPerDayCalculator.tmpPawns.Clear();
@@ -105,7 +105,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E72 RID: 7794 RVA: 0x00107B98 File Offset: 0x00105F98
+		// Token: 0x06001E71 RID: 7793 RVA: 0x00107E00 File Offset: 0x00106200
 		public static float ApproxTilesPerDayLeftAfterTradeableTransfer(List<Thing> allCurrentThings, List<Tradeable> tradeables, float massUsageLeftAfterTradeableTransfer, float massCapacityLeftAfterTradeableTransfer, int tile, int nextTile, StringBuilder explanation = null)
 		{
 			TilesPerDayCalculator.tmpThingCounts.Clear();
@@ -115,7 +115,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E73 RID: 7795 RVA: 0x00107BE4 File Offset: 0x00105FE4
+		// Token: 0x06001E72 RID: 7794 RVA: 0x00107E4C File Offset: 0x0010624C
 		public static float ApproxTilesPerDay(List<ThingCount> thingCounts, float massUsage, float massCapacity, int tile, int nextTile, StringBuilder explanation = null)
 		{
 			TilesPerDayCalculator.tmpPawns.Clear();

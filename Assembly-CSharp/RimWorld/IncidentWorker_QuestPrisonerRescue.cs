@@ -7,19 +7,19 @@ namespace RimWorld
 	// Token: 0x02000357 RID: 855
 	public class IncidentWorker_QuestPrisonerRescue : IncidentWorker
 	{
-		// Token: 0x0400090E RID: 2318
+		// Token: 0x04000911 RID: 2321
 		private const int MinDistance = 2;
 
-		// Token: 0x0400090F RID: 2319
+		// Token: 0x04000912 RID: 2322
 		private const int MaxDistance = 18;
 
-		// Token: 0x04000910 RID: 2320
+		// Token: 0x04000913 RID: 2323
 		private static readonly string PrisonerRescueQuestThreatTag = "PrisonerRescueQuestThreat";
 
-		// Token: 0x04000911 RID: 2321
+		// Token: 0x04000914 RID: 2324
 		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
 
-		// Token: 0x06000EC5 RID: 3781 RVA: 0x0007CC88 File Offset: 0x0007B088
+		// Token: 0x06000EC4 RID: 3780 RVA: 0x0007CC90 File Offset: 0x0007B090
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && Find.AnyPlayerHomeMap != null && this.TryFindTile(out num) && SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, out sitePartDef, out faction, null, true, null);
 		}
 
-		// Token: 0x06000EC6 RID: 3782 RVA: 0x0007CCFC File Offset: 0x0007B0FC
+		// Token: 0x06000EC5 RID: 3781 RVA: 0x0007CD04 File Offset: 0x0007B104
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile;
@@ -62,13 +62,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EC7 RID: 3783 RVA: 0x0007CDD8 File Offset: 0x0007B1D8
+		// Token: 0x06000EC6 RID: 3782 RVA: 0x0007CDE0 File Offset: 0x0007B1E0
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 2, 18, false, false, -1);
 		}
 
-		// Token: 0x06000EC8 RID: 3784 RVA: 0x0007CDFC File Offset: 0x0007B1FC
+		// Token: 0x06000EC7 RID: 3783 RVA: 0x0007CE04 File Offset: 0x0007B204
 		private void GetLetterText(Pawn prisoner, Faction siteFaction, int days, out string letter, out string label)
 		{
 			letter = string.Format(this.def.letterText.AdjustedFor(prisoner, "PAWN"), siteFaction.Name, prisoner.ageTracker.AgeBiologicalYears, prisoner.story.Title).CapitalizeFirst();

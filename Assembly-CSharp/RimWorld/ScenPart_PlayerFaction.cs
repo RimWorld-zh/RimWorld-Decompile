@@ -10,17 +10,17 @@ namespace RimWorld
 	// Token: 0x02000643 RID: 1603
 	public class ScenPart_PlayerFaction : ScenPart
 	{
-		// Token: 0x040012EE RID: 4846
+		// Token: 0x040012F2 RID: 4850
 		internal FactionDef factionDef;
 
-		// Token: 0x0600213E RID: 8510 RVA: 0x0011A71A File Offset: 0x00118B1A
+		// Token: 0x0600213D RID: 8509 RVA: 0x0011A982 File Offset: 0x00118D82
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<FactionDef>(ref this.factionDef, "factionDef");
 		}
 
-		// Token: 0x0600213F RID: 8511 RVA: 0x0011A734 File Offset: 0x00118B34
+		// Token: 0x0600213E RID: 8510 RVA: 0x0011A99C File Offset: 0x00118D9C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002140 RID: 8512 RVA: 0x0011A830 File Offset: 0x00118C30
+		// Token: 0x0600213F RID: 8511 RVA: 0x0011AA98 File Offset: 0x00118E98
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_PlayerFaction".Translate(new object[]
@@ -50,7 +50,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002141 RID: 8513 RVA: 0x0011A863 File Offset: 0x00118C63
+		// Token: 0x06002140 RID: 8512 RVA: 0x0011AACB File Offset: 0x00118ECB
 		public override void Randomize()
 		{
 			this.factionDef = (from fd in DefDatabase<FactionDef>.AllDefs
@@ -58,7 +58,7 @@ namespace RimWorld
 			select fd).RandomElement<FactionDef>();
 		}
 
-		// Token: 0x06002142 RID: 8514 RVA: 0x0011A898 File Offset: 0x00118C98
+		// Token: 0x06002141 RID: 8513 RVA: 0x0011AB00 File Offset: 0x00118F00
 		public override void PostWorldGenerate()
 		{
 			Find.GameInitData.playerFaction = FactionGenerator.NewGeneratedFaction(this.factionDef);
@@ -66,7 +66,7 @@ namespace RimWorld
 			FactionGenerator.EnsureRequiredEnemies(Find.GameInitData.playerFaction);
 		}
 
-		// Token: 0x06002143 RID: 8515 RVA: 0x0011A8D4 File Offset: 0x00118CD4
+		// Token: 0x06002142 RID: 8514 RVA: 0x0011AB3C File Offset: 0x00118F3C
 		public override void PreMapGenerate()
 		{
 			FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
@@ -76,13 +76,13 @@ namespace RimWorld
 			Find.WorldObjects.Add(factionBase);
 		}
 
-		// Token: 0x06002144 RID: 8516 RVA: 0x0011A93D File Offset: 0x00118D3D
+		// Token: 0x06002143 RID: 8515 RVA: 0x0011ABA5 File Offset: 0x00118FA5
 		public override void PostGameStart()
 		{
 			Find.GameInitData.playerFaction = null;
 		}
 
-		// Token: 0x06002145 RID: 8517 RVA: 0x0011A94C File Offset: 0x00118D4C
+		// Token: 0x06002144 RID: 8516 RVA: 0x0011ABB4 File Offset: 0x00118FB4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.factionDef == null)

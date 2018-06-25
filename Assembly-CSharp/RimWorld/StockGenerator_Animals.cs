@@ -10,27 +10,27 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class StockGenerator_Animals : StockGenerator
 	{
-		// Token: 0x040016B9 RID: 5817
+		// Token: 0x040016BD RID: 5821
 		[NoTranslate]
 		private List<string> tradeTagsSell = null;
 
-		// Token: 0x040016BA RID: 5818
+		// Token: 0x040016BE RID: 5822
 		[NoTranslate]
 		private List<string> tradeTagsBuy = null;
 
-		// Token: 0x040016BB RID: 5819
+		// Token: 0x040016BF RID: 5823
 		private IntRange kindCountRange = new IntRange(1, 1);
 
-		// Token: 0x040016BC RID: 5820
+		// Token: 0x040016C0 RID: 5824
 		private float minWildness = 0f;
 
-		// Token: 0x040016BD RID: 5821
+		// Token: 0x040016C1 RID: 5825
 		private float maxWildness = 1f;
 
-		// Token: 0x040016BE RID: 5822
+		// Token: 0x040016C2 RID: 5826
 		private bool checkTemperature = false;
 
-		// Token: 0x040016BF RID: 5823
+		// Token: 0x040016C3 RID: 5827
 		private static readonly SimpleCurve SelectionChanceFromWildnessCurve = new SimpleCurve
 		{
 			{
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06002A20 RID: 10784 RVA: 0x0016561C File Offset: 0x00163A1C
+		// Token: 0x06002A1F RID: 10783 RVA: 0x0016587C File Offset: 0x00163C7C
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			int numKinds = this.kindCountRange.RandomInRange;
@@ -87,19 +87,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A21 RID: 10785 RVA: 0x00165650 File Offset: 0x00163A50
+		// Token: 0x06002A20 RID: 10784 RVA: 0x001658B0 File Offset: 0x00163CB0
 		private float SelectionChance(PawnKindDef k)
 		{
 			return StockGenerator_Animals.SelectionChanceFromWildnessCurve.Evaluate(k.RaceProps.wildness);
 		}
 
-		// Token: 0x06002A22 RID: 10786 RVA: 0x0016567C File Offset: 0x00163A7C
+		// Token: 0x06002A21 RID: 10785 RVA: 0x001658DC File Offset: 0x00163CDC
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.category == ThingCategory.Pawn && thingDef.race.Animal && thingDef.tradeability != Tradeability.None && (this.tradeTagsSell.Any((string tag) => thingDef.tradeTags.Contains(tag)) || this.tradeTagsBuy.Any((string tag) => thingDef.tradeTags.Contains(tag)));
 		}
 
-		// Token: 0x06002A23 RID: 10787 RVA: 0x00165710 File Offset: 0x00163B10
+		// Token: 0x06002A22 RID: 10786 RVA: 0x00165970 File Offset: 0x00163D70
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
 			bool result;
@@ -126,7 +126,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A24 RID: 10788 RVA: 0x0016585C File Offset: 0x00163C5C
+		// Token: 0x06002A23 RID: 10787 RVA: 0x00165ABC File Offset: 0x00163EBC
 		public void LogAnimalChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -137,7 +137,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06002A25 RID: 10789 RVA: 0x001658F0 File Offset: 0x00163CF0
+		// Token: 0x06002A24 RID: 10788 RVA: 0x00165B50 File Offset: 0x00163F50
 		[DebugOutput]
 		private static void StockGenerationAnimals()
 		{

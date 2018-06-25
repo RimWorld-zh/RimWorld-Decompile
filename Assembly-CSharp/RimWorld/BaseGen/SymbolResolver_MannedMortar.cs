@@ -9,10 +9,10 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CE RID: 974
 	public class SymbolResolver_MannedMortar : SymbolResolver
 	{
-		// Token: 0x04000A38 RID: 2616
+		// Token: 0x04000A3B RID: 2619
 		private const float MaxShellDefMarketValue = 250f;
 
-		// Token: 0x060010C6 RID: 4294 RVA: 0x0008EB28 File Offset: 0x0008CF28
+		// Token: 0x060010C5 RID: 4293 RVA: 0x0008EB38 File Offset: 0x0008CF38
 		public override bool CanResolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -38,7 +38,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x060010C7 RID: 4295 RVA: 0x0008EBAC File Offset: 0x0008CFAC
+		// Token: 0x060010C6 RID: 4294 RVA: 0x0008EBBC File Offset: 0x0008CFBC
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -97,7 +97,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010C8 RID: 4296 RVA: 0x0008EE0C File Offset: 0x0008D20C
+		// Token: 0x060010C7 RID: 4295 RVA: 0x0008EE1C File Offset: 0x0008D21C
 		private bool TryFindMortarSpawnCell(CellRect rect, Rot4 rot, ThingDef mortarDef, out IntVec3 cell)
 		{
 			Map map = BaseGen.globalSettings.map;

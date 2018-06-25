@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200021B RID: 539
 	public class ThoughtWorker_NudistNude : ThoughtWorker
 	{
-		// Token: 0x06000A02 RID: 2562 RVA: 0x0005924C File Offset: 0x0005764C
+		// Token: 0x06000A01 RID: 2561 RVA: 0x00059248 File Offset: 0x00057648
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<Apparel> wornApparel = p.apparel.WornApparel;

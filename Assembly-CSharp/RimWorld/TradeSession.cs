@@ -6,20 +6,20 @@ namespace RimWorld
 	// Token: 0x0200077C RID: 1916
 	public static class TradeSession
 	{
-		// Token: 0x040016CB RID: 5835
+		// Token: 0x040016CF RID: 5839
 		public static ITrader trader;
 
-		// Token: 0x040016CC RID: 5836
+		// Token: 0x040016D0 RID: 5840
 		public static Pawn playerNegotiator;
 
-		// Token: 0x040016CD RID: 5837
+		// Token: 0x040016D1 RID: 5841
 		public static TradeDeal deal;
 
-		// Token: 0x040016CE RID: 5838
+		// Token: 0x040016D2 RID: 5842
 		public static bool giftMode;
 
 		// Token: 0x17000683 RID: 1667
-		// (get) Token: 0x06002A49 RID: 10825 RVA: 0x00166AAC File Offset: 0x00164EAC
+		// (get) Token: 0x06002A48 RID: 10824 RVA: 0x00166D0C File Offset: 0x0016510C
 		public static bool Active
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A4A RID: 10826 RVA: 0x00166ACC File Offset: 0x00164ECC
+		// Token: 0x06002A49 RID: 10825 RVA: 0x00166D2C File Offset: 0x0016512C
 		public static void SetupWith(ITrader newTrader, Pawn newPlayerNegotiator, bool giftMode)
 		{
 			if (!newTrader.CanTradeNow)
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A4B RID: 10827 RVA: 0x00166B51 File Offset: 0x00164F51
+		// Token: 0x06002A4A RID: 10826 RVA: 0x00166DB1 File Offset: 0x001651B1
 		public static void Close()
 		{
 			TradeSession.trader = null;

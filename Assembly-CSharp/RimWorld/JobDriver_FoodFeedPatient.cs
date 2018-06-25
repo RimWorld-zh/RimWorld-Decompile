@@ -8,17 +8,17 @@ namespace RimWorld
 	// Token: 0x02000096 RID: 150
 	public class JobDriver_FoodFeedPatient : JobDriver
 	{
-		// Token: 0x04000258 RID: 600
+		// Token: 0x04000259 RID: 601
 		private const TargetIndex FoodSourceInd = TargetIndex.A;
 
-		// Token: 0x04000259 RID: 601
+		// Token: 0x0400025A RID: 602
 		private const TargetIndex DelivereeInd = TargetIndex.B;
 
-		// Token: 0x0400025A RID: 602
+		// Token: 0x0400025B RID: 603
 		private const float FeedDurationMultiplier = 1.5f;
 
 		// Token: 0x170000C0 RID: 192
-		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AEFC File Offset: 0x000292FC
+		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AF18 File Offset: 0x00029318
 		protected Thing Food
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000C1 RID: 193
-		// (get) Token: 0x060003C7 RID: 967 RVA: 0x0002AF24 File Offset: 0x00029324
+		// (get) Token: 0x060003C7 RID: 967 RVA: 0x0002AF40 File Offset: 0x00029340
 		protected Pawn Deliveree
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003C8 RID: 968 RVA: 0x0002AF50 File Offset: 0x00029350
+		// Token: 0x060003C8 RID: 968 RVA: 0x0002AF6C File Offset: 0x0002936C
 		public override string GetReport()
 		{
 			string result;
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003C9 RID: 969 RVA: 0x0002AFD4 File Offset: 0x000293D4
+		// Token: 0x060003C9 RID: 969 RVA: 0x0002AFF0 File Offset: 0x000293F0
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -74,7 +74,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003CA RID: 970 RVA: 0x0002B080 File Offset: 0x00029480
+		// Token: 0x060003CA RID: 970 RVA: 0x0002B09C File Offset: 0x0002949C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.B);

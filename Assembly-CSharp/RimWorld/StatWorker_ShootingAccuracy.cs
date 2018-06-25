@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020009C8 RID: 2504
 	public class StatWorker_ShootingAccuracy : StatWorker
 	{
-		// Token: 0x06003820 RID: 14368 RVA: 0x001DEA54 File Offset: 0x001DCE54
+		// Token: 0x06003820 RID: 14368 RVA: 0x001DED28 File Offset: 0x001DD128
 		public override string GetExplanationFinalizePart(StatRequest req, ToStringNumberSense numberSense, float finalVal)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

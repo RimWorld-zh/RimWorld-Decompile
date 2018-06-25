@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x020000BE RID: 190
 	public static class DigUtility
 	{
-		// Token: 0x04000294 RID: 660
+		// Token: 0x04000295 RID: 661
 		private const int CheckOverrideInterval = 500;
 
-		// Token: 0x06000478 RID: 1144 RVA: 0x0003323C File Offset: 0x0003163C
+		// Token: 0x06000478 RID: 1144 RVA: 0x00033258 File Offset: 0x00031658
 		public static Job PassBlockerJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker, bool canMineMineables, bool canMineNonMineables)
 		{
 			if (StatDefOf.MiningSpeed.Worker.IsDisabledFor(pawn))
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000479 RID: 1145 RVA: 0x0003334C File Offset: 0x0003174C
+		// Token: 0x06000479 RID: 1145 RVA: 0x00033368 File Offset: 0x00031768
 		private static Job MeleeOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
 		{
 			Job result;
@@ -77,7 +77,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600047A RID: 1146 RVA: 0x000333B8 File Offset: 0x000317B8
+		// Token: 0x0600047A RID: 1146 RVA: 0x000333D4 File Offset: 0x000317D4
 		private static Job MineOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
 		{
 			Job result;
@@ -97,7 +97,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600047B RID: 1147 RVA: 0x00033424 File Offset: 0x00031824
+		// Token: 0x0600047B RID: 1147 RVA: 0x00033440 File Offset: 0x00031840
 		private static Job WaitNearJob(Pawn pawn, IntVec3 cellBeforeBlocker)
 		{
 			IntVec3 intVec = CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null);

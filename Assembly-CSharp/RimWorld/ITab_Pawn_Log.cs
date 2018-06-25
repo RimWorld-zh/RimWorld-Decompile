@@ -10,69 +10,69 @@ namespace RimWorld
 	// Token: 0x02000851 RID: 2129
 	public class ITab_Pawn_Log : ITab
 	{
-		// Token: 0x04001A1B RID: 6683
-		public const float Width = 630f;
-
-		// Token: 0x04001A1C RID: 6684
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowAllX = 60f;
-
-		// Token: 0x04001A1D RID: 6685
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowAllWidth = 100f;
-
-		// Token: 0x04001A1E RID: 6686
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowCombatX = 445f;
-
 		// Token: 0x04001A1F RID: 6687
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowCombatWidth = 115f;
+		public const float Width = 630f;
 
 		// Token: 0x04001A20 RID: 6688
 		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowSocialX = 330f;
+		private static float ShowAllX = 60f;
 
 		// Token: 0x04001A21 RID: 6689
 		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowSocialWidth = 105f;
+		private static float ShowAllWidth = 100f;
 
 		// Token: 0x04001A22 RID: 6690
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowCombatX = 445f;
+
+		// Token: 0x04001A23 RID: 6691
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowCombatWidth = 115f;
+
+		// Token: 0x04001A24 RID: 6692
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowSocialX = 330f;
+
+		// Token: 0x04001A25 RID: 6693
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowSocialWidth = 105f;
+
+		// Token: 0x04001A26 RID: 6694
 		[TweakValue("Interface", 0f, 20f)]
 		private static float ToolbarHeight = 2f;
 
-		// Token: 0x04001A23 RID: 6691
+		// Token: 0x04001A27 RID: 6695
 		[TweakValue("Interface", 0f, 100f)]
 		private static float ButtonOffset = 60f;
 
-		// Token: 0x04001A24 RID: 6692
+		// Token: 0x04001A28 RID: 6696
 		public bool showAll = false;
 
-		// Token: 0x04001A25 RID: 6693
+		// Token: 0x04001A29 RID: 6697
 		public bool showCombat = true;
 
-		// Token: 0x04001A26 RID: 6694
+		// Token: 0x04001A2A RID: 6698
 		public bool showSocial = true;
 
-		// Token: 0x04001A27 RID: 6695
+		// Token: 0x04001A2B RID: 6699
 		public LogEntry logSeek = null;
 
-		// Token: 0x04001A28 RID: 6696
+		// Token: 0x04001A2C RID: 6700
 		public ITab_Pawn_Log_Utility.LogDrawData data = new ITab_Pawn_Log_Utility.LogDrawData();
 
-		// Token: 0x04001A29 RID: 6697
+		// Token: 0x04001A2D RID: 6701
 		public List<ITab_Pawn_Log_Utility.LogLineDisplayable> cachedLogDisplay;
 
-		// Token: 0x04001A2A RID: 6698
+		// Token: 0x04001A2E RID: 6702
 		public int cachedLogDisplayLastTick = -1;
 
-		// Token: 0x04001A2B RID: 6699
+		// Token: 0x04001A2F RID: 6703
 		public int cachedLogPlayLastTick = -1;
 
-		// Token: 0x04001A2C RID: 6700
+		// Token: 0x04001A30 RID: 6704
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x06003041 RID: 12353 RVA: 0x001A43B4 File Offset: 0x001A27B4
+		// Token: 0x06003040 RID: 12352 RVA: 0x001A461C File Offset: 0x001A2A1C
 		public ITab_Pawn_Log()
 		{
 			this.size = new Vector2(630f, 510f);
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B3 RID: 1971
-		// (get) Token: 0x06003042 RID: 12354 RVA: 0x001A442C File Offset: 0x001A282C
+		// (get) Token: 0x06003041 RID: 12353 RVA: 0x001A4694 File Offset: 0x001A2A94
 		private Pawn SelPawnForCombatInfo
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003043 RID: 12355 RVA: 0x001A4488 File Offset: 0x001A2888
+		// Token: 0x06003042 RID: 12354 RVA: 0x001A46F0 File Offset: 0x001A2AF0
 		protected override void FillTab()
 		{
 			Pawn selPawnForCombatInfo = this.SelPawnForCombatInfo;
@@ -183,13 +183,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003044 RID: 12356 RVA: 0x001A48E8 File Offset: 0x001A2CE8
+		// Token: 0x06003043 RID: 12355 RVA: 0x001A4B50 File Offset: 0x001A2F50
 		public void SeekTo(LogEntry entry)
 		{
 			this.logSeek = entry;
 		}
 
-		// Token: 0x06003045 RID: 12357 RVA: 0x001A48F2 File Offset: 0x001A2CF2
+		// Token: 0x06003044 RID: 12356 RVA: 0x001A4B5A File Offset: 0x001A2F5A
 		public void Highlight(LogEntry entry)
 		{
 			this.data.highlightEntry = entry;

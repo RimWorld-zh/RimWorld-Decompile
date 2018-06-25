@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000987 RID: 2439
 	public static class ImpactSoundUtility
 	{
-		// Token: 0x060036EF RID: 14063 RVA: 0x001D5EBC File Offset: 0x001D42BC
+		// Token: 0x060036EF RID: 14063 RVA: 0x001D6190 File Offset: 0x001D4590
 		public static void PlayImpactSound(Thing hitThing, ImpactSoundTypeDef ist, Map map)
 		{
 			if (ist != null)

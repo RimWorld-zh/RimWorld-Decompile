@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9B RID: 3739
+	// Token: 0x02000E9C RID: 3740
 	public static class GhostDrawer
 	{
-		// Token: 0x06005861 RID: 22625 RVA: 0x002D4D40 File Offset: 0x002D3140
+		// Token: 0x06005861 RID: 22625 RVA: 0x002D4F2C File Offset: 0x002D332C
 		public static void DrawGhostThing(IntVec3 center, Rot4 rot, ThingDef thingDef, Graphic baseGraphic, Color ghostCol, AltitudeLayer drawAltitude)
 		{
 			if (baseGraphic == null)

@@ -10,29 +10,29 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class TradeRequestComp : WorldObjectComp, IThingHolder
 	{
-		// Token: 0x04001275 RID: 4725
+		// Token: 0x04001279 RID: 4729
 		public ThingDef requestThingDef;
 
-		// Token: 0x04001276 RID: 4726
+		// Token: 0x0400127A RID: 4730
 		public int requestCount;
 
-		// Token: 0x04001277 RID: 4727
+		// Token: 0x0400127B RID: 4731
 		public ThingOwner rewards;
 
-		// Token: 0x04001278 RID: 4728
+		// Token: 0x0400127C RID: 4732
 		public int expiration = -1;
 
-		// Token: 0x04001279 RID: 4729
+		// Token: 0x0400127D RID: 4733
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/FulfillTradeRequest", true);
 
-		// Token: 0x0600200F RID: 8207 RVA: 0x0011375C File Offset: 0x00111B5C
+		// Token: 0x0600200E RID: 8206 RVA: 0x001139C4 File Offset: 0x00111DC4
 		public TradeRequestComp()
 		{
 			this.rewards = new ThingOwner<Thing>(this);
 		}
 
 		// Token: 0x170004CD RID: 1229
-		// (get) Token: 0x06002010 RID: 8208 RVA: 0x00113778 File Offset: 0x00111B78
+		// (get) Token: 0x0600200F RID: 8207 RVA: 0x001139E0 File Offset: 0x00111DE0
 		public bool ActiveRequest
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002011 RID: 8209 RVA: 0x001137A0 File Offset: 0x00111BA0
+		// Token: 0x06002010 RID: 8208 RVA: 0x00113A08 File Offset: 0x00111E08
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06002012 RID: 8210 RVA: 0x00113828 File Offset: 0x00111C28
+		// Token: 0x06002011 RID: 8209 RVA: 0x00113A90 File Offset: 0x00111E90
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			if (this.ActiveRequest && CaravanVisitUtility.SettlementVisitedNow(caravan) == this.parent)
@@ -71,25 +71,25 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06002013 RID: 8211 RVA: 0x00113859 File Offset: 0x00111C59
+		// Token: 0x06002012 RID: 8210 RVA: 0x00113AC1 File Offset: 0x00111EC1
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06002014 RID: 8212 RVA: 0x00113868 File Offset: 0x00111C68
+		// Token: 0x06002013 RID: 8211 RVA: 0x00113AD0 File Offset: 0x00111ED0
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.rewards;
 		}
 
-		// Token: 0x06002015 RID: 8213 RVA: 0x00113883 File Offset: 0x00111C83
+		// Token: 0x06002014 RID: 8212 RVA: 0x00113AEB File Offset: 0x00111EEB
 		public void Disable()
 		{
 			this.expiration = -1;
 		}
 
-		// Token: 0x06002016 RID: 8214 RVA: 0x00113890 File Offset: 0x00111C90
+		// Token: 0x06002015 RID: 8213 RVA: 0x00113AF8 File Offset: 0x00111EF8
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -106,14 +106,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002017 RID: 8215 RVA: 0x00113903 File Offset: 0x00111D03
+		// Token: 0x06002016 RID: 8214 RVA: 0x00113B6B File Offset: 0x00111F6B
 		public override void PostPostRemove()
 		{
 			base.PostPostRemove();
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06002018 RID: 8216 RVA: 0x00113918 File Offset: 0x00111D18
+		// Token: 0x06002017 RID: 8215 RVA: 0x00113B80 File Offset: 0x00111F80
 		private Command FulfillRequestCommand(Caravan caravan)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -155,7 +155,7 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06002019 RID: 8217 RVA: 0x001139D8 File Offset: 0x00111DD8
+		// Token: 0x06002018 RID: 8216 RVA: 0x00113C40 File Offset: 0x00112040
 		private void Fulfill(Caravan caravan)
 		{
 			int remaining = this.requestCount;
@@ -200,7 +200,7 @@ namespace RimWorld.Planet
 			this.Disable();
 		}
 
-		// Token: 0x0600201A RID: 8218 RVA: 0x00113ACC File Offset: 0x00111ECC
+		// Token: 0x06002019 RID: 8217 RVA: 0x00113D34 File Offset: 0x00112134
 		private bool PlayerCanGive(Thing thing)
 		{
 			bool result;

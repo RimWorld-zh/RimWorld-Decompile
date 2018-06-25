@@ -6,7 +6,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005A5 RID: 1445
 	public static class HillinessUtility
 	{
-		// Token: 0x06001B93 RID: 7059 RVA: 0x000EE218 File Offset: 0x000EC618
+		// Token: 0x06001B92 RID: 7058 RVA: 0x000EE480 File Offset: 0x000EC880
 		public static string GetLabel(this Hilliness h)
 		{
 			string result;
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001B94 RID: 7060 RVA: 0x000EE2D0 File Offset: 0x000EC6D0
+		// Token: 0x06001B93 RID: 7059 RVA: 0x000EE538 File Offset: 0x000EC938
 		public static string GetLabelCap(this Hilliness h)
 		{
 			return h.GetLabel().CapitalizeFirst();

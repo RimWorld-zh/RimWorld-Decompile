@@ -18,10 +18,13 @@ namespace RimWorld
 		public const int BaseTicksBetweenPickHits = 120;
 
 		// Token: 0x04000224 RID: 548
-		private const int BaseDamagePerPickHit = 80;
+		private const int BaseDamagePerPickHit_NaturalRock = 80;
 
 		// Token: 0x04000225 RID: 549
-		private const float MinMiningSpeedForNPCs = 0.5f;
+		private const int BaseDamagePerPickHit_NotNaturalRock = 35;
+
+		// Token: 0x04000226 RID: 550
+		private const float MinMiningSpeedFactorForNPCs = 0.5f;
 
 		// Token: 0x170000A3 RID: 163
 		// (get) Token: 0x0600032D RID: 813 RVA: 0x00022DE4 File Offset: 0x000211E4
@@ -67,7 +70,7 @@ namespace RimWorld
 						this.effecter = EffecterDefOf.Mine.Spawn();
 					}
 					this.effecter.Trigger(actor, mineTarget);
-					int num = 80;
+					int num = (!mineTarget.def.building.isNaturalRock) ? 35 : 80;
 					Mineable mineable = mineTarget as Mineable;
 					if (mineable == null || mineTarget.HitPoints > num)
 					{

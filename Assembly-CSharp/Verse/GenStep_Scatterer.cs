@@ -5,53 +5,53 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C5C RID: 3164
+	// Token: 0x02000C5D RID: 3165
 	public abstract class GenStep_Scatterer : GenStep
 	{
-		// Token: 0x04002F91 RID: 12177
+		// Token: 0x04002F98 RID: 12184
 		public int count = -1;
 
-		// Token: 0x04002F92 RID: 12178
+		// Token: 0x04002F99 RID: 12185
 		public FloatRange countPer10kCellsRange = FloatRange.Zero;
 
-		// Token: 0x04002F93 RID: 12179
+		// Token: 0x04002F9A RID: 12186
 		public bool nearPlayerStart = false;
 
-		// Token: 0x04002F94 RID: 12180
+		// Token: 0x04002F9B RID: 12187
 		public bool nearMapCenter = false;
 
-		// Token: 0x04002F95 RID: 12181
+		// Token: 0x04002F9C RID: 12188
 		public float minSpacing = 10f;
 
-		// Token: 0x04002F96 RID: 12182
+		// Token: 0x04002F9D RID: 12189
 		public bool spotMustBeStandable = false;
 
-		// Token: 0x04002F97 RID: 12183
+		// Token: 0x04002F9E RID: 12190
 		public int minDistToPlayerStart = 0;
 
-		// Token: 0x04002F98 RID: 12184
+		// Token: 0x04002F9F RID: 12191
 		public int minEdgeDist = 0;
 
-		// Token: 0x04002F99 RID: 12185
+		// Token: 0x04002FA0 RID: 12192
 		public int extraNoBuildEdgeDist = 0;
 
-		// Token: 0x04002F9A RID: 12186
+		// Token: 0x04002FA1 RID: 12193
 		public List<ScattererValidator> validators = new List<ScattererValidator>();
 
-		// Token: 0x04002F9B RID: 12187
+		// Token: 0x04002FA2 RID: 12194
 		public bool allowInWaterBiome = true;
 
-		// Token: 0x04002F9C RID: 12188
+		// Token: 0x04002FA3 RID: 12195
 		public bool warnOnFail = true;
 
-		// Token: 0x04002F9D RID: 12189
+		// Token: 0x04002FA4 RID: 12196
 		[Unsaved]
 		protected List<IntVec3> usedSpots = new List<IntVec3>();
 
-		// Token: 0x04002F9E RID: 12190
+		// Token: 0x04002FA5 RID: 12197
 		private const int ScatterNearPlayerRadius = 20;
 
-		// Token: 0x0600459F RID: 17823 RVA: 0x00091D34 File Offset: 0x00090134
+		// Token: 0x0600459F RID: 17823 RVA: 0x00091D44 File Offset: 0x00090144
 		public override void Generate(Map map)
 		{
 			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
@@ -71,7 +71,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045A0 RID: 17824 RVA: 0x00091DB4 File Offset: 0x000901B4
+		// Token: 0x060045A0 RID: 17824 RVA: 0x00091DC4 File Offset: 0x000901C4
 		protected virtual bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
 			if (this.nearMapCenter)
@@ -103,7 +103,7 @@ namespace Verse
 		// Token: 0x060045A1 RID: 17825
 		protected abstract void ScatterAt(IntVec3 loc, Map map, int count = 1);
 
-		// Token: 0x060045A2 RID: 17826 RVA: 0x00091EAC File Offset: 0x000902AC
+		// Token: 0x060045A2 RID: 17826 RVA: 0x00091EBC File Offset: 0x000902BC
 		protected virtual bool CanScatterAt(IntVec3 loc, Map map)
 		{
 			bool result;
@@ -144,7 +144,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045A3 RID: 17827 RVA: 0x00091FC0 File Offset: 0x000903C0
+		// Token: 0x060045A3 RID: 17827 RVA: 0x00091FD0 File Offset: 0x000903D0
 		protected bool NearUsedSpot(IntVec3 c, float dist)
 		{
 			for (int i = 0; i < this.usedSpots.Count; i++)
@@ -157,7 +157,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060045A4 RID: 17828 RVA: 0x00092020 File Offset: 0x00090420
+		// Token: 0x060045A4 RID: 17828 RVA: 0x00092030 File Offset: 0x00090430
 		protected int CalculateFinalCount(Map map)
 		{
 			int result;
@@ -172,7 +172,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045A5 RID: 17829 RVA: 0x00092060 File Offset: 0x00090460
+		// Token: 0x060045A5 RID: 17829 RVA: 0x00092070 File Offset: 0x00090470
 		public static int CountFromPer10kCells(float countPer10kCells, Map map, int mapSize = -1)
 		{
 			if (mapSize < 0)
@@ -183,7 +183,7 @@ namespace Verse
 			return Mathf.RoundToInt((float)(mapSize * mapSize) / (float)num);
 		}
 
-		// Token: 0x060045A6 RID: 17830 RVA: 0x000920A5 File Offset: 0x000904A5
+		// Token: 0x060045A6 RID: 17830 RVA: 0x000920B5 File Offset: 0x000904B5
 		public void ForceScatterAt(IntVec3 loc, Map map)
 		{
 			this.ScatterAt(loc, map, 1);
