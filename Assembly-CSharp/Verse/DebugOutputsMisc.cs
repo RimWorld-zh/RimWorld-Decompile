@@ -1118,15 +1118,15 @@ namespace Verse
 		public static void DamageTest()
 		{
 			ThingDef thingDef = ThingDef.Named("Bullet_BoltActionRifle");
-			PawnKindDef pawnKindDef = PawnKindDef.Named("Slave");
-			Faction faction = FactionUtility.DefaultFactionFrom(pawnKindDef.defaultFactionType);
-			DamageInfo dinfo = new DamageInfo(thingDef.projectile.damageDef, (float)thingDef.projectile.DamageAmount, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+			PawnKindDef slave = PawnKindDefOf.Slave;
+			Faction faction = FactionUtility.DefaultFactionFrom(slave.defaultFactionType);
+			DamageInfo dinfo = new DamageInfo(thingDef.projectile.damageDef, (float)thingDef.projectile.DamageAmount, thingDef.projectile.ArmorPenetration, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 			int num = 0;
 			int num2 = 0;
 			DefMap<BodyPartDef, int> defMap = new DefMap<BodyPartDef, int>();
 			for (int i = 0; i < 500; i++)
 			{
-				PawnGenerationRequest request = new PawnGenerationRequest(pawnKindDef, faction, PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+				PawnGenerationRequest request = new PawnGenerationRequest(slave, faction, PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
 				Pawn pawn = PawnGenerator.GeneratePawn(request);
 				List<BodyPartDef> list = (from hd in pawn.health.hediffSet.GetMissingPartsCommonAncestors()
 				select hd.Part.def).ToList<BodyPartDef>();
@@ -1166,7 +1166,7 @@ namespace Verse
 				"Hit ",
 				500,
 				" ",
-				pawnKindDef.label,
+				slave.label,
 				"s with ",
 				2,
 				"x ",
@@ -1941,7 +1941,7 @@ namespace Verse
 					Pawn pawn = PawnGenerator.GeneratePawn(request);
 					for (int j = 0; j < 1000; j++)
 					{
-						pawn.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						pawn.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 						if (pawn.Destroyed)
 						{
 							num += j + 1;
@@ -2221,8 +2221,9 @@ namespace Verse
 							pawn = pawn;
 							DamageDef executionCut = DamageDefOf.ExecutionCut;
 							float amount = pawn.health.hediffSet.GetPartHealth(bodyPartRecord) / 2f;
+							float armorPenetration = 999f;
 							BodyPartRecord hitPart = bodyPartRecord;
-							pawn.TakeDamage(new DamageInfo(executionCut, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+							pawn.TakeDamage(new DamageInfo(executionCut, amount, armorPenetration, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 							List<PawnCapacityUtility.CapacityImpactor> list2 = new List<PawnCapacityUtility.CapacityImpactor>();
 							PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, cap, list2);
 							if (list2.Any((PawnCapacityUtility.CapacityImpactor imp) => imp.IsDirect))
@@ -3216,7 +3217,7 @@ namespace Verse
 				Pawn pawn = PawnGenerator.GeneratePawn(request);
 				for (int j = 0; j < 1000; j++)
 				{
-					pawn.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					pawn.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					if (pawn.Destroyed)
 					{
 						num += j + 1;
@@ -5477,8 +5478,9 @@ namespace Verse
 					Thing pawn = this.<>f__ref$36.pawn;
 					DamageDef executionCut = DamageDefOf.ExecutionCut;
 					float amount = this.<>f__ref$36.pawn.health.hediffSet.GetPartHealth(bodyPartRecord) / 2f;
+					float armorPenetration = 999f;
 					BodyPartRecord hitPart = bodyPartRecord;
-					pawn.TakeDamage(new DamageInfo(executionCut, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					pawn.TakeDamage(new DamageInfo(executionCut, amount, armorPenetration, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					List<PawnCapacityUtility.CapacityImpactor> list = new List<PawnCapacityUtility.CapacityImpactor>();
 					PawnCapacityUtility.CalculateCapacityLevel(this.<>f__ref$36.pawn.health.hediffSet, this.cap, list);
 					if (list.Any((PawnCapacityUtility.CapacityImpactor imp) => imp.IsDirect))

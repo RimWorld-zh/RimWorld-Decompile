@@ -31,7 +31,8 @@ namespace RimWorld
 						Thing thing = pawn;
 						DamageDef flame = DamageDefOf.Flame;
 						float amount = (float)num;
-						thing.TakeDamage(new DamageInfo(flame, amount, -1f, user, brain, this.parent.def, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						BodyPartRecord hitPart = brain;
+						thing.TakeDamage(new DamageInfo(flame, amount, 0f, -1f, user, hitPart, this.parent.def, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					}
 				}
 			}

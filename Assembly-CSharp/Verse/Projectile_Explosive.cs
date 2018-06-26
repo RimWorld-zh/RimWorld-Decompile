@@ -59,6 +59,7 @@ namespace Verse
 			DamageDef damageDef = this.def.projectile.damageDef;
 			Thing launcher = this.launcher;
 			int damageAmount = this.def.projectile.DamageAmount;
+			float armorPenetration = this.def.projectile.ArmorPenetration;
 			SoundDef soundExplode = this.def.projectile.soundExplode;
 			ThingDef equipmentDef = this.equipmentDef;
 			ThingDef def = this.def;
@@ -67,7 +68,7 @@ namespace Verse
 			float postExplosionSpawnChance = this.def.projectile.postExplosionSpawnChance;
 			int postExplosionSpawnThingCount = this.def.projectile.postExplosionSpawnThingCount;
 			ThingDef preExplosionSpawnThingDef = this.def.projectile.preExplosionSpawnThingDef;
-			GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, this.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, this.def.projectile.preExplosionSpawnChance, this.def.projectile.preExplosionSpawnThingCount, this.def.projectile.explosionChanceToStartFire, this.def.projectile.explosionDamageFalloff);
+			GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, armorPenetration, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, this.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, this.def.projectile.preExplosionSpawnChance, this.def.projectile.preExplosionSpawnThingCount, this.def.projectile.explosionChanceToStartFire, this.def.projectile.explosionDamageFalloff);
 		}
 	}
 }

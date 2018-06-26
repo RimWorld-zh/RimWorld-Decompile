@@ -24,9 +24,9 @@ namespace Verse
 
 		public const float MinAimOnChance_StandardTarget = 0.0201f;
 
-		public static readonly SimpleCurve2D MissDistanceFromAimOnChanceCurves = new SimpleCurve2D
+		public static readonly SimpleSurface MissDistanceFromAimOnChanceCurves = new SimpleSurface
 		{
-			new CurveColumn(0.02f, new SimpleCurve
+			new SurfaceColumn(0.02f, new SimpleCurve
 			{
 				{
 					new CurvePoint(0f, 1f),
@@ -37,7 +37,7 @@ namespace Verse
 					true
 				}
 			}),
-			new CurveColumn(0.04f, new SimpleCurve
+			new SurfaceColumn(0.04f, new SimpleCurve
 			{
 				{
 					new CurvePoint(0f, 1f),
@@ -48,7 +48,7 @@ namespace Verse
 					true
 				}
 			}),
-			new CurveColumn(0.07f, new SimpleCurve
+			new SurfaceColumn(0.07f, new SimpleCurve
 			{
 				{
 					new CurvePoint(0f, 1f),
@@ -59,7 +59,7 @@ namespace Verse
 					true
 				}
 			}),
-			new CurveColumn(0.11f, new SimpleCurve
+			new SurfaceColumn(0.11f, new SimpleCurve
 			{
 				{
 					new CurvePoint(0f, 1f),
@@ -70,7 +70,7 @@ namespace Verse
 					true
 				}
 			}),
-			new CurveColumn(0.22f, new SimpleCurve
+			new SurfaceColumn(0.22f, new SimpleCurve
 			{
 				{
 					new CurvePoint(0f, 1f),
@@ -81,7 +81,7 @@ namespace Verse
 					true
 				}
 			}),
-			new CurveColumn(1f, new SimpleCurve
+			new SurfaceColumn(1f, new SimpleCurve
 			{
 				{
 					new CurvePoint(0f, 1f),

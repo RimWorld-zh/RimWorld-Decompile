@@ -93,12 +93,13 @@ namespace Verse
 							{
 								DamageDef crush = DamageDefOf.Crush;
 								float amount = 99999f;
+								float armorPenetration = 999f;
 								BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
-								dinfo = new DamageInfo(crush, amount, -1f, null, brain, null, DamageInfo.SourceCategory.Collapse, null);
+								dinfo = new DamageInfo(crush, amount, armorPenetration, -1f, null, brain, null, DamageInfo.SourceCategory.Collapse, null);
 							}
 							else
 							{
-								dinfo = new DamageInfo(DamageDefOf.Crush, 99999f, -1f, null, null, null, DamageInfo.SourceCategory.Collapse, null);
+								dinfo = new DamageInfo(DamageDefOf.Crush, 99999f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.Collapse, null);
 								dinfo.SetBodyRegion(BodyPartHeight.Top, BodyPartDepth.Outside);
 							}
 							BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
@@ -135,7 +136,7 @@ namespace Verse
 								battleLogEntry_DamageTaken2 = new BattleLogEntry_DamageTaken((Pawn)thing2, RulePackDefOf.DamageEvent_Ceiling, null);
 								Find.BattleLog.Add(battleLogEntry_DamageTaken2);
 							}
-							DamageInfo dinfo2 = new DamageInfo(DamageDefOf.Crush, (float)GenMath.RoundRandom(num), -1f, null, null, null, DamageInfo.SourceCategory.Collapse, null);
+							DamageInfo dinfo2 = new DamageInfo(DamageDefOf.Crush, (float)GenMath.RoundRandom(num), 0f, -1f, null, null, null, DamageInfo.SourceCategory.Collapse, null);
 							dinfo2.SetBodyRegion(BodyPartHeight.Top, BodyPartDepth.Outside);
 							thing2.TakeDamage(dinfo2).AssociateWithLog(battleLogEntry_DamageTaken2);
 						}

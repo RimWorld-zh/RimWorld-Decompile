@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Permissions;
 
-[assembly: AssemblyVersion("1.0.6750.25475")]
+[assembly: AssemblyVersion("1.0.6751.22438")]
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.DisableOptimizations | DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 [assembly: AssemblyCompany("Ludeon Studios")]
 [assembly: AssemblyCopyright("Copyright Ludeon Studios.")]

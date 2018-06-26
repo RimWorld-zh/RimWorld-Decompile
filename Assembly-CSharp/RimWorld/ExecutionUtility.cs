@@ -39,7 +39,8 @@ namespace RimWorld
 			int num2 = Mathf.Clamp((int)victim.health.hediffSet.GetPartHealth(bodyPartRecord) - 1, 1, 20);
 			DamageDef executionCut = DamageDefOf.ExecutionCut;
 			float amount = (float)num2;
-			DamageInfo damageInfo = new DamageInfo(executionCut, amount, -1f, executioner, bodyPartRecord, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+			float armorPenetration = 999f;
+			DamageInfo damageInfo = new DamageInfo(executionCut, amount, armorPenetration, -1f, executioner, bodyPartRecord, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 			victim.TakeDamage(damageInfo);
 			if (!victim.Dead)
 			{

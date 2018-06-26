@@ -559,7 +559,7 @@ namespace RimWorld
 						}).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
 					}
 				}
-				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 			else if (this.def.plant.dieIfLeafless)
 			{
@@ -586,7 +586,7 @@ namespace RimWorld
 						}
 					}
 				}
-				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 			else
 			{
@@ -636,7 +636,7 @@ namespace RimWorld
 					bool harvestableNow = this.HarvestableNow;
 					bool dyingBecauseExposedToLight = this.DyingBecauseExposedToLight;
 					int num2 = Mathf.CeilToInt(this.CurrentDyingDamagePerTick * 2000f);
-					base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)num2, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)num2, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					if (base.Destroyed)
 					{
 						if (isCrop && this.def.plant.Harvestable && MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfRot-" + this.def.defName, 240f))

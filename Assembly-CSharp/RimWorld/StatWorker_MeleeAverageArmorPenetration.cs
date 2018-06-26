@@ -7,9 +7,9 @@ using Verse;
 
 namespace RimWorld
 {
-	public class StatWorker_MeleeAverageDPS : StatWorker
+	public class StatWorker_MeleeAverageArmorPenetration : StatWorker
 	{
-		public StatWorker_MeleeAverageDPS()
+		public StatWorker_MeleeAverageArmorPenetration()
 		{
 		}
 
@@ -33,9 +33,7 @@ namespace RimWorld
 			{
 				enumerable = ((ThingDef)req.Def).GetConcreteExample(req.StuffDef).TryGetComp<CompEquippable>().AllVerbs.OfType<Verb_MeleeAttack>();
 			}
-			float num = enumerable.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, attacker, thing), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeDamageAmount(verb, attacker, thing));
-			float num2 = enumerable.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, attacker, thing), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedCooldown(verb, attacker, thing));
-			return num / num2;
+			return enumerable.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, attacker, thing), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedArmorPenetration(verb, attacker, thing));
 		}
 
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
@@ -53,7 +51,7 @@ namespace RimWorld
 					select maneuver;
 					if (source.Count<ManeuverDef>() != 1)
 					{
-						Log.ErrorOnce(string.Format("{0} maneuvers when trying to get dps for weapon {1} tool {2} capacity {3}; average DPS explanation may be incorrect", new object[]
+						Log.ErrorOnce(string.Format("{0} maneuvers when trying to get armor penetration for weapon {1} tool {2} capacity {3}; average armor penetration explanation may be incorrect", new object[]
 						{
 							source.Count<ManeuverDef>(),
 							thingDef.label,
@@ -64,9 +62,13 @@ namespace RimWorld
 					ManeuverDef maneuverDef = source.FirstOrDefault<ManeuverDef>();
 					if (maneuverDef != null)
 					{
+						float num = tool.armorPenetration;
+						if (num < 0f)
+						{
+							num = tool.AdjustedBaseMeleeDamageAmount(req.Thing, maneuverDef.verb.meleeDamageDef) * 0.015f;
+						}
 						stringBuilder.AppendLine(string.Format("  {0}: {1} ({2})", "Tool".Translate(), tool.LabelCap, capacity.defName));
-						stringBuilder.AppendLine(string.Format("    {0} {1}", tool.AdjustedBaseMeleeDamageAmount(req.Thing, maneuverDef.verb.meleeDamageDef).ToString("F1"), "DamageLower".Translate()));
-						stringBuilder.AppendLine(string.Format("    {0} {1}", tool.AdjustedCooldown(req.Thing).ToString("F2"), "SecondsPerAttackLower".Translate()));
+						stringBuilder.AppendLine("    " + num.ToStringPercent());
 						stringBuilder.AppendLine();
 					}
 				}
@@ -92,17 +94,7 @@ namespace RimWorld
 
 			internal float <>m__1(Verb_MeleeAttack verb)
 			{
-				return verb.verbProps.AdjustedMeleeDamageAmount(verb, this.attacker, this.thing);
-			}
-
-			internal float <>m__2(Verb_MeleeAttack verb)
-			{
-				return verb.verbProps.AdjustedMeleeSelectionWeight(verb, this.attacker, this.thing);
-			}
-
-			internal float <>m__3(Verb_MeleeAttack verb)
-			{
-				return verb.verbProps.AdjustedCooldown(verb, this.attacker, this.thing);
+				return verb.verbProps.AdjustedArmorPenetration(verb, this.attacker, this.thing);
 			}
 		}
 

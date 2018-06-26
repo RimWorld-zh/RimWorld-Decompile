@@ -60,7 +60,7 @@ namespace Verse
 								DamageDef frostbite = DamageDefOf.Frostbite;
 								float amount = (float)num5;
 								BodyPartRecord hitPart = bodyPartRecord;
-								DamageInfo dinfo = new DamageInfo(frostbite, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+								DamageInfo dinfo = new DamageInfo(frostbite, amount, 0f, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 								pawn.TakeDamage(dinfo);
 							}
 						}

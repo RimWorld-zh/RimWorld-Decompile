@@ -69,7 +69,7 @@ namespace RimWorld
 			Thing instigator = this.instigator;
 			ThingDef def = this.def;
 			ThingDef weaponDef = this.weaponDef;
-			GenExplosion.DoExplosion(center, map, radius, bomb, instigator, -1, null, weaponDef, def, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(center, map, radius, bomb, instigator, -1, -1f, null, weaponDef, def, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			this.anyExplosion = true;
 		}
 

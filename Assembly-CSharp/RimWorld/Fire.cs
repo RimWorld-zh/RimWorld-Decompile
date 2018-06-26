@@ -347,7 +347,7 @@ namespace RimWorld
 						{
 							if (Rand.Value < 6f)
 							{
-								base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+								base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 							}
 						}
 					}
@@ -408,7 +408,7 @@ namespace RimWorld
 			{
 				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Fire, null);
 				Find.BattleLog.Add(battleLogEntry_DamageTaken);
-				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 				dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 				targ.TakeDamage(dinfo).AssociateWithLog(battleLogEntry_DamageTaken);
 				if (pawn.apparel != null)
@@ -416,13 +416,13 @@ namespace RimWorld
 					Apparel apparel;
 					if (pawn.apparel.WornApparel.TryRandomElement(out apparel))
 					{
-						apparel.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						apparel.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					}
 				}
 			}
 			else
 			{
-				targ.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				targ.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 

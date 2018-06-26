@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Linq;
+using RimWorld;
 
 namespace Verse
 {
 	public class HediffGiver_RandomAgeCurved : HediffGiver
 	{
 		public SimpleCurve ageFractionMtbDaysCurve = null;
+
+		public int minPlayerPopulation = 0;
 
 		public HediffGiver_RandomAgeCurved()
 		{
@@ -15,9 +19,12 @@ namespace Verse
 			float x = (float)pawn.ageTracker.AgeBiologicalYears / pawn.RaceProps.lifeExpectancy;
 			if (Rand.MTBEventOccurs(this.ageFractionMtbDaysCurve.Evaluate(x), 60000f, 60f))
 			{
-				if (base.TryApply(pawn, null))
+				if (this.minPlayerPopulation <= 0 || pawn.Faction != Faction.OfPlayer || PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep.Count<Pawn>() >= this.minPlayerPopulation)
 				{
-					base.SendLetter(pawn, cause);
+					if (base.TryApply(pawn, null))
+					{
+						base.SendLetter(pawn, cause);
+					}
 				}
 			}
 		}

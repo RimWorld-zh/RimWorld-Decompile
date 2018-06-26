@@ -70,28 +70,6 @@ namespace RimWorld
 			WorkGiver_DoBill.MissingMaterialsTranslated = "MissingMaterials".Translate();
 		}
 
-		public override bool ShouldSkip(Pawn pawn, bool forced = false)
-		{
-			bool result;
-			if (base.ShouldSkip(pawn, forced))
-			{
-				result = true;
-			}
-			else
-			{
-				List<Thing> list = pawn.Map.listerThings.ThingsMatching(this.PotentialWorkThingRequest);
-				for (int i = 0; i < list.Count; i++)
-				{
-					if (this.HasJobOnThing(pawn, list[i], forced))
-					{
-						return false;
-					}
-				}
-				result = true;
-			}
-			return result;
-		}
-
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
 			IBillGiver billGiver = thing as IBillGiver;

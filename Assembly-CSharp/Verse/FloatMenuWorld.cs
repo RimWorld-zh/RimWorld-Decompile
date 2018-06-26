@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public class FloatMenuWorld : FloatMenu
 	{
 		private Vector2 clickPos;
+
+		private const int RevalidateEveryFrame = 3;
 
 		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos) : base(options, title, false)
 		{
@@ -23,19 +26,35 @@ namespace Verse
 			}
 			else
 			{
-				List<FloatMenuOption> curOpts = FloatMenuMakerWorld.ChoicesAtFor(this.clickPos, caravan);
-				for (int i = 0; i < this.options.Count; i++)
+				if (Time.frameCount % 3 == 0)
 				{
-					if (!this.options[i].Disabled && !FloatMenuWorld.StillValid(this.options[i], curOpts))
+					Profiler.BeginSample("Float menu ChoicesAtFor()");
+					List<FloatMenuOption> list = FloatMenuMakerWorld.ChoicesAtFor(this.clickPos, caravan);
+					Profiler.EndSample();
+					List<FloatMenuOption> list2 = list;
+					Vector2 vector = this.clickPos;
+					Profiler.BeginSample("StillValid()");
+					for (int i = 0; i < this.options.Count; i++)
 					{
-						this.options[i].Disabled = true;
+						if (!this.options[i].Disabled && !FloatMenuWorld.StillValid(this.options[i], list, caravan, ref list2, ref vector))
+						{
+							this.options[i].Disabled = true;
+						}
 					}
+					Profiler.EndSample();
 				}
 				base.DoWindowContents(inRect);
 			}
 		}
 
-		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
+		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts, Caravan forCaravan)
+		{
+			List<FloatMenuOption> list = null;
+			Vector2 vector = new Vector2(-9999f, -9999f);
+			return FloatMenuWorld.StillValid(opt, curOpts, forCaravan, ref list, ref vector);
+		}
+
+		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts, Caravan forCaravan, ref List<FloatMenuOption> cachedChoices, ref Vector2 cachedChoicesForPos)
 		{
 			if (opt.revalidateWorldClickTarget == null)
 			{
@@ -53,18 +72,38 @@ namespace Verse
 				{
 					return false;
 				}
-				Vector2 mousePos = opt.revalidateWorldClickTarget.ScreenPos();
-				mousePos.y = (float)UI.screenHeight - mousePos.y;
-				List<FloatMenuOption> list = FloatMenuMakerWorld.ChoicesAtFor(mousePos, (Caravan)Find.WorldSelector.SingleSelectedObject);
+				Vector2 vector = opt.revalidateWorldClickTarget.ScreenPos();
+				vector.y = (float)UI.screenHeight - vector.y;
+				List<FloatMenuOption> list;
+				if (vector == cachedChoicesForPos)
+				{
+					list = cachedChoices;
+				}
+				else
+				{
+					cachedChoices = FloatMenuMakerWorld.ChoicesAtFor(vector, forCaravan);
+					cachedChoicesForPos = vector;
+					list = cachedChoices;
+				}
 				for (int j = 0; j < list.Count; j++)
 				{
 					if (FloatMenuWorld.OptionsMatch(opt, list[j]))
 					{
-						return true;
+						return !list[j].Disabled;
 					}
 				}
 			}
 			return false;
+		}
+
+		public override void PreOptionChosen(FloatMenuOption opt)
+		{
+			base.PreOptionChosen(opt);
+			Caravan caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
+			if (!opt.Disabled && (caravan == null || !FloatMenuWorld.StillValid(opt, FloatMenuMakerWorld.ChoicesAtFor(this.clickPos, caravan), caravan)))
+			{
+				opt.Disabled = true;
+			}
 		}
 
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)

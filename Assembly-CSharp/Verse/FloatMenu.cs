@@ -327,8 +327,9 @@ namespace Verse
 					rect.width -= 10f;
 					Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight), true);
 				}
-				foreach (FloatMenuOption floatMenuOption in this.options)
+				for (int i = 0; i < this.options.Count; i++)
 				{
+					FloatMenuOption floatMenuOption = this.options[i];
 					float requiredHeight = floatMenuOption.RequiredHeight;
 					if (zero.y + requiredHeight + -1f > maxViewHeight)
 					{
@@ -337,7 +338,7 @@ namespace Verse
 					}
 					Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
 					zero.y += requiredHeight + -1f;
-					bool flag = floatMenuOption.DoGUI(rect2, this.givesColonistOrders);
+					bool flag = floatMenuOption.DoGUI(rect2, this.givesColonistOrders, this);
 					if (flag)
 					{
 						Find.WindowStack.TryRemove(this, true);
@@ -370,6 +371,10 @@ namespace Verse
 		{
 			SoundDefOf.FloatMenu_Cancel.PlayOneShotOnCamera(null);
 			Find.WindowStack.TryRemove(this, true);
+		}
+
+		public virtual void PreOptionChosen(FloatMenuOption opt)
+		{
 		}
 
 		private void UpdateBaseColor()

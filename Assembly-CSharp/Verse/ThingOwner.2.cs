@@ -94,7 +94,7 @@ namespace Verse
 						{
 							stringBuilder.Append(", ");
 						}
-						stringBuilder.Append(this.GetAt(i).Label);
+						stringBuilder.Append(this.GetAt(i).LabelShort);
 					}
 					result = stringBuilder.ToString();
 				}

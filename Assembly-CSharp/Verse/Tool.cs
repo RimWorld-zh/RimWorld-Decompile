@@ -22,6 +22,8 @@ namespace Verse
 
 		public float power;
 
+		public float armorPenetration = -1f;
+
 		public float cooldownTime;
 
 		public SurpriseAttackProps surpriseAttack;
@@ -38,6 +40,14 @@ namespace Verse
 
 		public Tool()
 		{
+		}
+
+		public string LabelCap
+		{
+			get
+			{
+				return this.label.CapitalizeFirst();
+			}
 		}
 
 		public string Id
@@ -57,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		public float AdjustedMeleeDamageAmount(Thing ownerEquipment, DamageDef damageDef)
+		public float AdjustedBaseMeleeDamageAmount(Thing ownerEquipment, DamageDef damageDef)
 		{
 			float num = this.power;
 			if (ownerEquipment != null)

@@ -298,7 +298,7 @@ namespace RimWorld
 			Tornado.tmpThings.AddRange(c.GetThingList(base.Map));
 			Vector3 vector = c.ToVector3Shifted();
 			Vector2 b = new Vector2(vector.x, vector.z);
-			float angle = -this.realPosition.AngleTo(b) + 180f;
+			float num = -this.realPosition.AngleTo(b) + 180f;
 			for (int i = 0; i < Tornado.tmpThings.Count; i++)
 			{
 				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
@@ -333,8 +333,12 @@ namespace RimWorld
 					damageFactor *= 1.7f;
 					break;
 				}
-				int num = Mathf.Max(GenMath.RoundRandom(30f * damageFactor), 1);
-				Tornado.tmpThings[i].TakeDamage(new DamageInfo(DamageDefOf.TornadoScratch, (float)num, angle, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null)).AssociateWithLog(battleLogEntry_DamageTaken);
+				int num2 = Mathf.Max(GenMath.RoundRandom(30f * damageFactor), 1);
+				Thing thing = Tornado.tmpThings[i];
+				DamageDef tornadoScratch = DamageDefOf.TornadoScratch;
+				float amount = (float)num2;
+				float angle = num;
+				thing.TakeDamage(new DamageInfo(tornadoScratch, amount, 0f, angle, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null)).AssociateWithLog(battleLogEntry_DamageTaken);
 			}
 			Tornado.tmpThings.Clear();
 		}

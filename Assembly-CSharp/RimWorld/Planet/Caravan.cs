@@ -935,7 +935,7 @@ namespace RimWorld.Planet
 						Pawn pawn;
 						if (this.PawnsListForReading.TryRandomElement(out pawn))
 						{
-							DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+							DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 							pawn.TakeDamage(dinfo);
 						}
 					}
@@ -1248,7 +1248,7 @@ namespace RimWorld.Planet
 						Pawn pawn;
 						if (base.PawnsListForReading.TryRandomElement(out pawn))
 						{
-							DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+							DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 							pawn.TakeDamage(dinfo);
 						}
 					};
@@ -1675,7 +1675,7 @@ namespace RimWorld.Planet
 				Pawn pawn;
 				if (base.PawnsListForReading.TryRandomElement(out pawn))
 				{
-					DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+					DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, 10f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 					pawn.TakeDamage(dinfo);
 				}
 			}

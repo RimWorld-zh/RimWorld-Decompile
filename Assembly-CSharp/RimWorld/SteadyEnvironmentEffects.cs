@@ -291,7 +291,7 @@ namespace RimWorld
 				float chance = this.deteriorationRate * num / 36f;
 				if (Rand.Chance(chance))
 				{
-					t.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 1f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					t.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 1f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			}
 		}

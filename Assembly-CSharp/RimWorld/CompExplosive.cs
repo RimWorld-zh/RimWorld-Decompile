@@ -228,11 +228,12 @@ namespace RimWorld
 					DamageDef explosiveDamageType = props.explosiveDamageType;
 					Thing thing = this.instigator ?? this.parent;
 					int damageAmountBase = props.damageAmountBase;
+					float armorPenetrationBase = props.armorPenetrationBase;
 					SoundDef explosionSound = props.explosionSound;
 					ThingDef postExplosionSpawnThingDef = props.postExplosionSpawnThingDef;
 					float postExplosionSpawnChance = props.postExplosionSpawnChance;
 					int postExplosionSpawnThingCount = props.postExplosionSpawnThingCount;
-					GenExplosion.DoExplosion(positionHeld, map, radius, explosiveDamageType, thing, damageAmountBase, explosionSound, null, null, null, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, props.applyDamageToExplosionCellsNeighbors, props.preExplosionSpawnThingDef, props.preExplosionSpawnChance, props.preExplosionSpawnThingCount, props.chanceToStartFire, props.damageFalloff);
+					GenExplosion.DoExplosion(positionHeld, map, radius, explosiveDamageType, thing, damageAmountBase, armorPenetrationBase, explosionSound, null, null, null, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, props.applyDamageToExplosionCellsNeighbors, props.preExplosionSpawnThingDef, props.preExplosionSpawnChance, props.preExplosionSpawnThingCount, props.chanceToStartFire, props.damageFalloff);
 				}
 			}
 		}

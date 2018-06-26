@@ -15,6 +15,8 @@ namespace Verse
 
 		public int damAmount;
 
+		public float armorPenetration;
+
 		public Thing instigator;
 
 		public ThingDef weapon;
@@ -172,12 +174,28 @@ namespace Verse
 			return result;
 		}
 
+		public float GetArmorPenetrationAt(IntVec3 c)
+		{
+			float result;
+			if (!this.damageFalloff)
+			{
+				result = this.armorPenetration;
+			}
+			else
+			{
+				float t = c.DistanceTo(base.Position) / this.radius;
+				result = Mathf.Lerp(this.armorPenetration, this.armorPenetration * 0.2f, t);
+			}
+			return result;
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.radius, "radius", 0f, false);
 			Scribe_Defs.Look<DamageDef>(ref this.damType, "damType");
 			Scribe_Values.Look<int>(ref this.damAmount, "damAmount", 0, false);
+			Scribe_Values.Look<float>(ref this.armorPenetration, "armorPenetration", 0f, false);
 			Scribe_References.Look<Thing>(ref this.instigator, "instigator", false);
 			Scribe_Defs.Look<ThingDef>(ref this.weapon, "weapon");
 			Scribe_Defs.Look<ThingDef>(ref this.projectile, "projectile");

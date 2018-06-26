@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C00761D-FA27-4B67-9E85-40AF233A00BC}</ProjectGuid>
+    <ProjectGuid>{9649BED9-64A0-428A-B155-46397D0F7BBB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -2042,6 +2042,8 @@
     <Compile Include="RimWorld\StatUtility.cs" />
     <Compile Include="RimWorld\StatWorker.cs" />
     <Compile Include="RimWorld\StatWorker_MarketValue.cs" />
+    <Compile Include="RimWorld\StatWorker_MeleeArmorPenetration.cs" />
+    <Compile Include="RimWorld\StatWorker_MeleeAverageArmorPenetration.cs" />
     <Compile Include="RimWorld\StatWorker_MeleeAverageDPS.cs" />
     <Compile Include="RimWorld\StatWorker_MeleeDamageAmount.cs" />
     <Compile Include="RimWorld\StatWorker_MeleeDamageAmountTrap.cs" />
@@ -2928,7 +2930,6 @@
     <Compile Include="Verse\CrownType.cs" />
     <Compile Include="Verse\CultureInfoUtility.cs" />
     <Compile Include="Verse\Current.cs" />
-    <Compile Include="Verse\CurveColumn.cs" />
     <Compile Include="Verse\CurveMark.cs" />
     <Compile Include="Verse\CurvePoint.cs" />
     <Compile Include="Verse\CustomCursor.cs" />
@@ -3190,7 +3191,6 @@
     <Compile Include="Verse\GraphicDatabase.cs" />
     <Compile Include="Verse\GraphicDatabaseHeadRecords.cs" />
     <Compile Include="Verse\GraphicDatabaseUtility.cs" />
-    <Compile Include="Verse\GraphicGetter_NakedHumanlike.cs" />
     <Compile Include="Verse\GraphicMeshSet.cs" />
     <Compile Include="Verse\GraphicRequest.cs" />
     <Compile Include="Verse\GraphicUtility.cs" />
@@ -3696,13 +3696,13 @@
     <Compile Include="Verse\SimpleColor.cs" />
     <Compile Include="Verse\SimpleColorExtension.cs" />
     <Compile Include="Verse\SimpleCurve.cs" />
-    <Compile Include="Verse\SimpleCurve2D.cs" />
     <Compile Include="Verse\SimpleCurveDrawer.cs" />
     <Compile Include="Verse\SimpleCurveDrawerStyle.cs" />
     <Compile Include="Verse\SimpleCurveDrawInfo.cs" />
     <Compile Include="Verse\SimpleCurveView.cs" />
     <Compile Include="Verse\SimpleLinearPool.cs" />
     <Compile Include="Verse\SimplePool.cs" />
+    <Compile Include="Verse\SimpleSurface.cs" />
     <Compile Include="Verse\SkillGain.cs" />
     <Compile Include="Verse\SkillRequirement.cs" />
     <Compile Include="Verse\SkyColorSet.cs" />
@@ -3833,6 +3833,7 @@
     <Compile Include="Verse\SubEffecter_SprayerTriggered.cs" />
     <Compile Include="Verse\SubEffecter_Sustainer.cs" />
     <Compile Include="Verse\SummaryHealthHandler.cs" />
+    <Compile Include="Verse\SurfaceColumn.cs" />
     <Compile Include="Verse\SurfaceType.cs" />
     <Compile Include="Verse\SurpriseAttackProps.cs" />
     <Compile Include="Verse\SwoopCallbackMethod.cs" />
@@ -3974,7 +3975,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{4c00761d-fa27-4b67-9e85-40af233a00bd}</Project>
+      <Project>{9649bed9-64a0-428a-b155-46397d0f7bbc}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

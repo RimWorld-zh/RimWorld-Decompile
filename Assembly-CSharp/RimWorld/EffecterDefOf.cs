@@ -30,6 +30,10 @@ namespace RimWorld
 
 		public static EffecterDef Deflect_General_Bullet;
 
+		public static EffecterDef DamageDiminished_Metal;
+
+		public static EffecterDef DamageDiminished_General;
+
 		public static EffecterDef Drill;
 
 		public static EffecterDef Research;

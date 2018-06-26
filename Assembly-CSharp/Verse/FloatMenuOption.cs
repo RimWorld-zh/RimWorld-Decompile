@@ -180,8 +180,12 @@ namespace Verse
 			Text.Font = font;
 		}
 
-		public void Chosen(bool colonistOrdering)
+		public void Chosen(bool colonistOrdering, FloatMenu floatMenu)
 		{
+			if (floatMenu != null)
+			{
+				floatMenu.PreOptionChosen(this);
+			}
 			if (!this.Disabled)
 			{
 				if (this.action != null)
@@ -199,7 +203,7 @@ namespace Verse
 			}
 		}
 
-		public virtual bool DoGUI(Rect rect, bool colonistOrdering)
+		public virtual bool DoGUI(Rect rect, bool colonistOrdering, FloatMenu floatMenu)
 		{
 			Rect rect2 = rect;
 			rect2.height -= 1f;
@@ -276,7 +280,7 @@ namespace Verse
 				}
 				else
 				{
-					this.Chosen(colonistOrdering);
+					this.Chosen(colonistOrdering, floatMenu);
 					if (this.tutorTag != null)
 					{
 						TutorSystem.Notify_Event(this.tutorTag);

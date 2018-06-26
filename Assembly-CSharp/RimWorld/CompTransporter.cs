@@ -289,6 +289,11 @@ namespace RimWorld
 			this.innerContainer.TryDropAll(this.parent.Position, map, ThingPlaceMode.Near, null, null);
 		}
 
+		public override string CompInspectStringExtra()
+		{
+			return "Contents".Translate() + ": " + this.innerContainer.ContentsString.CapitalizeFirst();
+		}
+
 		public void AddToTheToLoadList(TransferableOneWay t, int count)
 		{
 			if (t.HasAnyThing && t.CountToTransfer > 0)

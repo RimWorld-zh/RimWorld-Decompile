@@ -19,6 +19,7 @@ namespace RimWorld
 		private IEnumerable<DamageInfo> DamageInfosToApply(LocalTargetInfo target)
 		{
 			float damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn, this.ownerEquipment);
+			float armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn, this.ownerEquipment);
 			DamageDef damDef = this.verbProps.meleeDamageDef;
 			BodyPartGroupDef bodyPartGroupDef = null;
 			HediffDef hediffDef = null;
@@ -50,9 +51,10 @@ namespace RimWorld
 			}
 			Vector3 direction = (target.Thing.Position - base.CasterPawn.Position).ToVector3();
 			DamageDef def = damDef;
-			float amount2 = (float)GenMath.RoundRandom(damAmount);
+			float num = (float)GenMath.RoundRandom(damAmount);
+			float num2 = armorPenetration;
 			Thing caster = this.caster;
-			DamageInfo mainDinfo = new DamageInfo(def, amount2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
+			DamageInfo mainDinfo = new DamageInfo(def, num, num2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
 			mainDinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 			mainDinfo.SetWeaponBodyPartGroup(bodyPartGroupDef);
 			mainDinfo.SetWeaponHediff(hediffDef);
@@ -71,11 +73,13 @@ namespace RimWorld
 				}
 				foreach (ExtraMeleeDamage extraDamage in extraDamages)
 				{
-					int amount = GenMath.RoundRandom((float)extraDamage.amount * base.GetDamageFactorFor(base.CasterPawn));
+					int extraDamageAmount = GenMath.RoundRandom(extraDamage.AdjustedDamageAmount(this, base.CasterPawn));
+					float extraDamageArmorPenetration = extraDamage.AdjustedArmorPenetration(this, base.CasterPawn);
 					def = extraDamage.def;
-					amount2 = (float)amount;
+					num2 = (float)extraDamageAmount;
+					num = extraDamageArmorPenetration;
 					caster = this.caster;
-					DamageInfo extraDinfo = new DamageInfo(def, amount2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
+					DamageInfo extraDinfo = new DamageInfo(def, num2, num, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
 					extraDinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 					extraDinfo.SetWeaponBodyPartGroup(bodyPartGroupDef);
 					extraDinfo.SetWeaponHediff(hediffDef);
@@ -105,6 +109,8 @@ namespace RimWorld
 		{
 			internal float <damAmount>__0;
 
+			internal float <armorPenetration>__0;
+
 			internal DamageDef <damDef>__0;
 
 			internal BodyPartGroupDef <bodyPartGroupDef>__0;
@@ -125,7 +131,9 @@ namespace RimWorld
 
 			internal ExtraMeleeDamage <extraDamage>__2;
 
-			internal int <amount>__3;
+			internal int <extraDamageAmount>__3;
+
+			internal float <extraDamageArmorPenetration>__3;
 
 			internal DamageInfo <extraDinfo>__3;
 
@@ -152,6 +160,7 @@ namespace RimWorld
 				case 0u:
 				{
 					damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn, this.ownerEquipment);
+					armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn, this.ownerEquipment);
 					damDef = this.verbProps.meleeDamageDef;
 					bodyPartGroupDef = null;
 					hediffDef = null;
@@ -182,9 +191,10 @@ namespace RimWorld
 					}
 					direction = (target.Thing.Position - base.CasterPawn.Position).ToVector3();
 					DamageDef def = damDef;
-					float amount2 = (float)GenMath.RoundRandom(damAmount);
+					float num2 = (float)GenMath.RoundRandom(damAmount);
+					float num3 = armorPenetration;
 					Thing caster = this.caster;
-					mainDinfo = new DamageInfo(def, amount2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
+					mainDinfo = new DamageInfo(def, num2, num3, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
 					mainDinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 					mainDinfo.SetWeaponBodyPartGroup(bodyPartGroupDef);
 					mainDinfo.SetWeaponHediff(hediffDef);
@@ -199,7 +209,7 @@ namespace RimWorld
 				case 1u:
 					if (!this.surpriseAttack || ((this.verbProps.surpriseAttack == null || this.verbProps.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) && this.tool != null && this.tool.surpriseAttack != null && !this.tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()))
 					{
-						goto IL_4BA;
+						goto IL_51B;
 					}
 					extraDamages = Enumerable.Empty<ExtraMeleeDamage>();
 					if (this.verbProps.surpriseAttack != null && this.verbProps.surpriseAttack.extraMeleeDamages != null)
@@ -226,11 +236,13 @@ namespace RimWorld
 					if (enumerator.MoveNext())
 					{
 						extraDamage = enumerator.Current;
-						amount = GenMath.RoundRandom((float)extraDamage.amount * base.GetDamageFactorFor(base.CasterPawn));
+						extraDamageAmount = GenMath.RoundRandom(extraDamage.AdjustedDamageAmount(this, base.CasterPawn));
+						extraDamageArmorPenetration = extraDamage.AdjustedArmorPenetration(this, base.CasterPawn);
 						DamageDef def = extraDamage.def;
-						float amount2 = (float)amount;
+						float num3 = (float)extraDamageAmount;
+						float num2 = extraDamageArmorPenetration;
 						Thing caster = this.caster;
-						extraDinfo = new DamageInfo(def, amount2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
+						extraDinfo = new DamageInfo(def, num3, num2, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown, null);
 						extraDinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 						extraDinfo.SetWeaponBodyPartGroup(bodyPartGroupDef);
 						extraDinfo.SetWeaponHediff(hediffDef);
@@ -254,7 +266,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_4BA:
+				IL_51B:
 				this.$PC = -1;
 				return false;
 			}

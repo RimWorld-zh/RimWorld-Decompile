@@ -837,8 +837,9 @@ namespace RimWorld
 						{
 							DamageDef crush = DamageDefOf.Crush;
 							float amount = 99999f;
+							float armorPenetration = 999f;
 							BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
-							DamageInfo damageInfo = new DamageInfo(crush, amount, -1f, null, brain, null, DamageInfo.SourceCategory.Collapse, null);
+							DamageInfo damageInfo = new DamageInfo(crush, amount, armorPenetration, -1f, null, brain, null, DamageInfo.SourceCategory.Collapse, null);
 							pawn.TakeDamage(damageInfo);
 							if (!pawn.Dead)
 							{

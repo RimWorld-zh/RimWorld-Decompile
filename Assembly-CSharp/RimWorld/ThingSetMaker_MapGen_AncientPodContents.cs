@@ -93,7 +93,7 @@ namespace RimWorld
 				DamageDef bite = DamageDefOf.Bite;
 				float amount = (float)Rand.Range(3, 8);
 				Pawn instigator = pawn;
-				thing.TakeDamage(new DamageInfo(bite, amount, -1f, instigator, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				thing.TakeDamage(new DamageInfo(bite, amount, 0f, -1f, instigator, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 			this.GiveRandomLootInventoryForTombPawn(pawn);
 			return pawn;

@@ -20,12 +20,14 @@ namespace RimWorld
 			if (hitThing != null)
 			{
 				int damageAmount = this.def.projectile.DamageAmount;
+				float armorPenetration = this.def.projectile.ArmorPenetration;
 				DamageDef damageDef = this.def.projectile.damageDef;
 				float amount = (float)damageAmount;
+				float armorPenetration2 = armorPenetration;
 				float y = this.ExactRotation.eulerAngles.y;
 				Thing launcher = this.launcher;
 				ThingDef equipmentDef = this.equipmentDef;
-				DamageInfo dinfo = new DamageInfo(damageDef, amount, y, launcher, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown, this.intendedTarget.Thing);
+				DamageInfo dinfo = new DamageInfo(damageDef, amount, armorPenetration2, y, launcher, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown, this.intendedTarget.Thing);
 				hitThing.TakeDamage(dinfo).AssociateWithLog(battleLogEntry_RangedImpact);
 				Pawn pawn = hitThing as Pawn;
 				if (pawn != null && pawn.stances != null && pawn.BodySize <= this.def.projectile.stoppingPower + 0.001f)

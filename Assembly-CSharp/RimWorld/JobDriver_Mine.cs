@@ -19,7 +19,7 @@ namespace RimWorld
 
 		private const int BaseDamagePerPickHit_NaturalRock = 80;
 
-		private const int BaseDamagePerPickHit_NotNaturalRock = 35;
+		private const int BaseDamagePerPickHit_NotNaturalRock = 40;
 
 		private const float MinMiningSpeedFactorForNPCs = 0.5f;
 
@@ -67,14 +67,14 @@ namespace RimWorld
 						this.effecter = EffecterDefOf.Mine.Spawn();
 					}
 					this.effecter.Trigger(actor, mineTarget);
-					int num = (!mineTarget.def.building.isNaturalRock) ? 35 : 80;
+					int num = (!mineTarget.def.building.isNaturalRock) ? 40 : 80;
 					Mineable mineable = mineTarget as Mineable;
 					if (mineable == null || mineTarget.HitPoints > num)
 					{
 						DamageDef mining = DamageDefOf.Mining;
 						float amount = (float)num;
 						Pawn actor2 = mine.actor;
-						DamageInfo dinfo = new DamageInfo(mining, amount, -1f, actor2, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+						DamageInfo dinfo = new DamageInfo(mining, amount, 0f, -1f, actor2, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 						mineTarget.TakeDamage(dinfo);
 					}
 					else
@@ -201,14 +201,14 @@ namespace RimWorld
 								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.effecter = EffecterDefOf.Mine.Spawn();
 							}
 							<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.effecter.Trigger(actor, mineTarget);
-							int num2 = (!mineTarget.def.building.isNaturalRock) ? 35 : 80;
+							int num2 = (!mineTarget.def.building.isNaturalRock) ? 40 : 80;
 							Mineable mineable = mineTarget as Mineable;
 							if (mineable == null || mineTarget.HitPoints > num2)
 							{
 								DamageDef mining = DamageDefOf.Mining;
 								float amount = (float)num2;
 								Pawn actor2 = <MakeNewToils>c__AnonStorey.mine.actor;
-								DamageInfo dinfo = new DamageInfo(mining, amount, -1f, actor2, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+								DamageInfo dinfo = new DamageInfo(mining, amount, 0f, -1f, actor2, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 								mineTarget.TakeDamage(dinfo);
 							}
 							else
@@ -355,14 +355,14 @@ namespace RimWorld
 							this.<>f__ref$0.$this.effecter = EffecterDefOf.Mine.Spawn();
 						}
 						this.<>f__ref$0.$this.effecter.Trigger(actor, mineTarget);
-						int num = (!mineTarget.def.building.isNaturalRock) ? 35 : 80;
+						int num = (!mineTarget.def.building.isNaturalRock) ? 40 : 80;
 						Mineable mineable = mineTarget as Mineable;
 						if (mineable == null || mineTarget.HitPoints > num)
 						{
 							DamageDef mining = DamageDefOf.Mining;
 							float amount = (float)num;
 							Pawn actor2 = this.mine.actor;
-							DamageInfo dinfo = new DamageInfo(mining, amount, -1f, actor2, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+							DamageInfo dinfo = new DamageInfo(mining, amount, 0f, -1f, actor2, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 							mineTarget.TakeDamage(dinfo);
 						}
 						else

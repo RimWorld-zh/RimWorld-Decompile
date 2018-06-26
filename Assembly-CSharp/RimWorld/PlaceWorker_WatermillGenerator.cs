@@ -20,7 +20,7 @@ namespace RimWorld
 		{
 			foreach (IntVec3 c in CompPowerPlantWater.GroundCells(loc, rot))
 			{
-				if (!map.terrainGrid.TerrainAt(c).affordances.Contains(TerrainAffordanceDefOf.Medium))
+				if (!map.terrainGrid.TerrainAt(c).affordances.Contains(TerrainAffordanceDefOf.Heavy))
 				{
 					return new AcceptanceReport("TerrainCannotSupport".Translate());
 				}
@@ -43,7 +43,7 @@ namespace RimWorld
 
 		public override IEnumerable<TerrainAffordanceDef> DisplayAffordances()
 		{
-			yield return TerrainAffordanceDefOf.Medium;
+			yield return TerrainAffordanceDefOf.Heavy;
 			yield return TerrainAffordanceDefOf.MovingFluid;
 			yield break;
 		}
@@ -69,7 +69,7 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					this.$current = TerrainAffordanceDefOf.Medium;
+					this.$current = TerrainAffordanceDefOf.Heavy;
 					if (!this.$disposing)
 					{
 						this.$PC = 1;

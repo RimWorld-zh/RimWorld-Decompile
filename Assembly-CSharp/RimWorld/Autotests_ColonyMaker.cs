@@ -283,7 +283,7 @@ namespace RimWorld
 				{
 					if (center.x % 7 == 0 && center.z % 7 == 0)
 					{
-						GenExplosion.DoExplosion(center, Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+						GenExplosion.DoExplosion(center, Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 					}
 				}
 			}
@@ -308,7 +308,7 @@ namespace RimWorld
 					DamageDef def3 = (from d in DefDatabase<DamageDef>.AllDefs
 					where d.externalViolence
 					select d).RandomElement<DamageDef>();
-					col.TakeDamage(new DamageInfo(def3, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					col.TakeDamage(new DamageInfo(def3, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				});
 			}
 			if (flags.Contains(ColonyMakerFlag.ColonistsDiseased))
@@ -591,7 +591,7 @@ namespace RimWorld
 			DamageDef def = (from d in DefDatabase<DamageDef>.AllDefs
 			where d.externalViolence
 			select d).RandomElement<DamageDef>();
-			col.TakeDamage(new DamageInfo(def, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+			col.TakeDamage(new DamageInfo(def, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 		}
 
 		[CompilerGenerated]

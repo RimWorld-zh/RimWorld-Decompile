@@ -94,7 +94,7 @@ namespace RimWorld
 				}
 				int num2 = Mathf.Max(1, Mathf.RoundToInt(Rand.Value * (float)num));
 				num -= num2;
-				DamageInfo dinfo = new DamageInfo(DamageDefOf.Stab, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+				DamageInfo dinfo = new DamageInfo(DamageDefOf.Stab, (float)num2, 0f, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 				dinfo.SetBodyRegion(height, BodyPartDepth.Outside);
 				p.TakeDamage(dinfo);
 			}

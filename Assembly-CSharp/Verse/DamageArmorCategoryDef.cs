@@ -7,7 +7,7 @@ namespace Verse
 	{
 		public StatDef multStat;
 
-		public StatDef deflectionStat;
+		public StatDef armorRatingStat;
 
 		public DamageArmorCategoryDef()
 		{

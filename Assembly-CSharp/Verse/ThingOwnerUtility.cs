@@ -246,23 +246,30 @@ namespace Verse
 			}
 		}
 
-		public static bool AnyParentIs<T>(Thing thing) where T : IThingHolder
+		public static bool AnyParentIs<T>(Thing thing) where T : class, IThingHolder
 		{
-			bool result;
-			if (thing is T)
+			return ThingOwnerUtility.GetAnyParent<T>(thing) != null;
+		}
+
+		public static T GetAnyParent<T>(Thing thing) where T : class, IThingHolder
+		{
+			T t = thing as T;
+			T result;
+			if (t != null)
 			{
-				result = true;
+				result = t;
 			}
 			else
 			{
 				for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
 				{
-					if (parentHolder is T)
+					T t2 = parentHolder as T;
+					if (t2 != null)
 					{
-						return true;
+						return t2;
 					}
 				}
-				result = false;
+				result = (T)((object)null);
 			}
 			return result;
 		}

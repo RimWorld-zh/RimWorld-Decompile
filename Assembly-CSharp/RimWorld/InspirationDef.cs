@@ -30,6 +30,8 @@ namespace RimWorld
 
 		public List<PawnCapacityDef> requiredCapacities;
 
+		public List<SkillDef> associatedSkills;
+
 		public List<StatModifier> statOffsets;
 
 		public List<StatModifier> statFactors;

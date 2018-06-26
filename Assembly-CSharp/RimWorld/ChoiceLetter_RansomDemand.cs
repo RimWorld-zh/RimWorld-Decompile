@@ -28,7 +28,7 @@ namespace RimWorld
 			{
 				if (base.ArchivedOnly)
 				{
-					yield return base.OK;
+					yield return base.Option_Dismiss;
 					yield break;
 				}
 				DiaOption accept = new DiaOption("RansomDemand_Accept".Translate());
@@ -64,8 +64,8 @@ namespace RimWorld
 					}));
 				}
 				yield return accept;
-				yield return base.Reject;
-				yield return base.Postpone;
+				yield return base.Option_Reject;
+				yield return base.Option_Postpone;
 				yield break;
 			}
 		}
@@ -114,7 +114,7 @@ namespace RimWorld
 				case 0u:
 					if (base.ArchivedOnly)
 					{
-						this.$current = base.OK;
+						this.$current = base.Option_Dismiss;
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -160,14 +160,14 @@ namespace RimWorld
 					}
 					return true;
 				case 2u:
-					this.$current = base.Reject;
+					this.$current = base.Option_Reject;
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
 					}
 					return true;
 				case 3u:
-					this.$current = base.Postpone;
+					this.$current = base.Option_Postpone;
 					if (!this.$disposing)
 					{
 						this.$PC = 4;

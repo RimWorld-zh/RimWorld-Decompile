@@ -88,7 +88,7 @@ namespace RimWorld
 			{
 				foreach (Plant plant in this.PlantsOnMe)
 				{
-					DamageInfo dinfo = new DamageInfo(DamageDefOf.Rotting, 1f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+					DamageInfo dinfo = new DamageInfo(DamageDefOf.Rotting, 1f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 					plant.TakeDamage(dinfo);
 				}
 			}

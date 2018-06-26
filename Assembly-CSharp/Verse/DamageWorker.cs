@@ -157,10 +157,11 @@ namespace Verse
 						}
 						DamageDef damageDef = this.def;
 						float amount = (float)explosion.GetDamageAmountAt(cell);
+						float armorPenetrationAt = explosion.GetArmorPenetrationAt(cell);
 						float angle = num;
 						Thing instigator = explosion.instigator;
 						ThingDef weapon = explosion.weapon;
-						DamageInfo dinfo = new DamageInfo(damageDef, amount, angle, instigator, null, weapon, DamageInfo.SourceCategory.ThingOrUnknown, explosion.intendedTarget);
+						DamageInfo dinfo = new DamageInfo(damageDef, amount, armorPenetrationAt, angle, instigator, null, weapon, DamageInfo.SourceCategory.ThingOrUnknown, explosion.intendedTarget);
 						if (this.def.explosionAffectOutsidePartsOnly)
 						{
 							dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
@@ -277,6 +278,10 @@ namespace Verse
 			public bool deflected = false;
 
 			public bool deflectedByMetalArmor;
+
+			public bool diminished;
+
+			public bool diminishedByMetalArmor;
 
 			public Thing hitThing = null;
 

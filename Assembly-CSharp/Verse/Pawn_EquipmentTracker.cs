@@ -10,7 +10,7 @@ namespace Verse
 {
 	public class Pawn_EquipmentTracker : IThingHolder, IExposable
 	{
-		private Pawn pawn;
+		public Pawn pawn;
 
 		private ThingOwner<ThingWithComps> equipment;
 

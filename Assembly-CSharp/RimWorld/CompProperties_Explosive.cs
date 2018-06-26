@@ -16,6 +16,8 @@ namespace RimWorld
 
 		public int damageAmountBase = -1;
 
+		public float armorPenetrationBase = -1f;
+
 		public ThingDef postExplosionSpawnThingDef;
 
 		public float postExplosionSpawnChance;

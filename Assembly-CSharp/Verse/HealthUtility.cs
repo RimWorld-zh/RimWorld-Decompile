@@ -270,7 +270,7 @@ namespace Verse
 				DamageDef def = damageDef;
 				float amount = (float)num;
 				BodyPartRecord hitPart = bodyPartRecord;
-				p2.TakeDamage(new DamageInfo(def, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				p2.TakeDamage(new DamageInfo(def, amount, 0f, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				totalDamage -= num;
 			}
 		}
@@ -346,8 +346,9 @@ namespace Verse
 						{
 							DamageDef def = damageDef;
 							float amount = (float)num3;
+							float armorPenetration = 999f;
 							BodyPartRecord hitPart = bodyPartRecord;
-							DamageInfo dinfo = new DamageInfo(def, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+							DamageInfo dinfo = new DamageInfo(def, amount, armorPenetration, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 							dinfo.SetAllowDamagePropagation(false);
 							p.TakeDamage(dinfo);
 						}
@@ -387,8 +388,9 @@ namespace Verse
 				}
 				DamageDef def = damageDef;
 				float amount = (float)num2;
+				float armorPenetration = 999f;
 				BodyPartRecord hitPart = bodyPartRecord;
-				DamageInfo dinfo = new DamageInfo(def, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+				DamageInfo dinfo = new DamageInfo(def, amount, armorPenetration, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 				p.TakeDamage(dinfo);
 			}
 			if (!p.Dead)

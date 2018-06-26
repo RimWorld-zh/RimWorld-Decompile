@@ -9,6 +9,8 @@ namespace Verse
 
 		private float amountInt;
 
+		private float armorPenetrationInt;
+
 		private float angleInt;
 
 		private Thing instigatorInt;
@@ -33,10 +35,11 @@ namespace Verse
 
 		private bool allowDamagePropagationInt;
 
-		public DamageInfo(DamageDef def, float amount, float angle = -1f, Thing instigator = null, BodyPartRecord hitPart = null, ThingDef weapon = null, DamageInfo.SourceCategory category = DamageInfo.SourceCategory.ThingOrUnknown, Thing intendedTarget = null)
+		public DamageInfo(DamageDef def, float amount, float armorPenetration = 0f, float angle = -1f, Thing instigator = null, BodyPartRecord hitPart = null, ThingDef weapon = null, DamageInfo.SourceCategory category = DamageInfo.SourceCategory.ThingOrUnknown, Thing intendedTarget = null)
 		{
 			this.defInt = def;
 			this.amountInt = amount;
+			this.armorPenetrationInt = armorPenetration;
 			if (angle < 0f)
 			{
 				this.angleInt = (float)Rand.RangeInclusive(0, 359);
@@ -62,6 +65,7 @@ namespace Verse
 		{
 			this.defInt = cloneSource.defInt;
 			this.amountInt = cloneSource.amountInt;
+			this.armorPenetrationInt = cloneSource.armorPenetrationInt;
 			this.angleInt = cloneSource.angleInt;
 			this.instigatorInt = cloneSource.instigatorInt;
 			this.categoryInt = cloneSource.categoryInt;
@@ -102,6 +106,14 @@ namespace Verse
 					result = this.amountInt;
 				}
 				return result;
+			}
+		}
+
+		public float ArmorPenetrationInt
+		{
+			get
+			{
+				return this.armorPenetrationInt;
 			}
 		}
 

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public class FloatMenuMap : FloatMenu
 	{
 		private Vector3 clickPos;
+
+		public const int RevalidateEveryFrame = 3;
 
 		public FloatMenuMap(List<FloatMenuOption> options, string title, Vector3 clickPos) : base(options, title, false)
 		{
@@ -23,18 +26,32 @@ namespace Verse
 			}
 			else
 			{
-				List<FloatMenuOption> list = FloatMenuMakerMap.ChoicesAtFor(this.clickPos, pawn);
-				List<FloatMenuOption> list2 = list;
-				Vector3 vector = this.clickPos;
-				for (int i = 0; i < this.options.Count; i++)
+				if (Time.frameCount % 3 == 0)
 				{
-					if (!this.options[i].Disabled && !FloatMenuMap.StillValid(this.options[i], list, pawn, ref list2, ref vector))
+					Profiler.BeginSample("Float menu ChoicesAtFor()");
+					List<FloatMenuOption> list = FloatMenuMakerMap.ChoicesAtFor(this.clickPos, pawn);
+					Profiler.EndSample();
+					List<FloatMenuOption> list2 = list;
+					Vector3 vector = this.clickPos;
+					Profiler.BeginSample("StillValid()");
+					for (int i = 0; i < this.options.Count; i++)
 					{
-						this.options[i].Disabled = true;
+						if (!this.options[i].Disabled && !FloatMenuMap.StillValid(this.options[i], list, pawn, ref list2, ref vector))
+						{
+							this.options[i].Disabled = true;
+						}
 					}
+					Profiler.EndSample();
 				}
 				base.DoWindowContents(inRect);
 			}
+		}
+
+		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts, Pawn forPawn)
+		{
+			List<FloatMenuOption> list = null;
+			Vector3 vector = new Vector3(-9999f, -9999f, -9999f);
+			return FloatMenuMap.StillValid(opt, curOpts, forPawn, ref list, ref vector);
 		}
 
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts, Pawn forPawn, ref List<FloatMenuOption> cachedChoices, ref Vector3 cachedChoicesForPos)
@@ -71,11 +88,21 @@ namespace Verse
 				{
 					if (FloatMenuMap.OptionsMatch(opt, list[j]))
 					{
-						return true;
+						return !list[j].Disabled;
 					}
 				}
 			}
 			return false;
+		}
+
+		public override void PreOptionChosen(FloatMenuOption opt)
+		{
+			base.PreOptionChosen(opt);
+			Pawn pawn = Find.Selector.SingleSelectedThing as Pawn;
+			if (!opt.Disabled && (pawn == null || !FloatMenuMap.StillValid(opt, FloatMenuMakerMap.ChoicesAtFor(this.clickPos, pawn), pawn)))
+			{
+				opt.Disabled = true;
+			}
 		}
 
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)

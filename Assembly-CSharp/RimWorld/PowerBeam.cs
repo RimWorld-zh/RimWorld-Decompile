@@ -63,7 +63,8 @@ namespace RimWorld
 				DamageDef flame = DamageDefOf.Flame;
 				float amount = (float)num;
 				Thing instigator = this.instigator;
-				thing.TakeDamage(new DamageInfo(flame, amount, -1f, instigator, null, this.weaponDef, DamageInfo.SourceCategory.ThingOrUnknown, null)).AssociateWithLog(battleLogEntry_DamageTaken);
+				ThingDef weaponDef = this.weaponDef;
+				thing.TakeDamage(new DamageInfo(flame, amount, 0f, -1f, instigator, null, weaponDef, DamageInfo.SourceCategory.ThingOrUnknown, null)).AssociateWithLog(battleLogEntry_DamageTaken);
 			}
 			PowerBeam.tmpThings.Clear();
 		}

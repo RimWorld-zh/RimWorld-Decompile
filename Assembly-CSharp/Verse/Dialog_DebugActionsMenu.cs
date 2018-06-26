@@ -1067,7 +1067,7 @@ namespace Verse
 						Log.Warning("Could not kill faction leader.", false);
 						break;
 					}
-					leader.TakeDamage(new DamageInfo(DamageDefOf.Bullet, 30f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					leader.TakeDamage(new DamageInfo(DamageDefOf.Bullet, 30f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			});
 			base.DebugAction("Refog map", delegate
@@ -1128,7 +1128,7 @@ namespace Verse
 			{
 				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 				{
-					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			});
 			base.DebugToolMap("T: 10 damage until dead", delegate
@@ -1137,7 +1137,7 @@ namespace Verse
 				{
 					for (int i = 0; i < 1000; i++)
 					{
-						thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 						if (thing.Destroyed)
 						{
 							string str = "Took " + (i + 1) + " hits";
@@ -1171,14 +1171,14 @@ namespace Verse
 			{
 				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 				{
-					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 5000f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			});
 			base.DebugToolMap("T: 5000 flame damage", delegate
 			{
 				foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 				{
-					thing.TakeDamage(new DamageInfo(DamageDefOf.Flame, 5000f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					thing.TakeDamage(new DamageInfo(DamageDefOf.Flame, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}
 			});
 			base.DebugToolMap("T: Clear area 21x21", delegate
@@ -1214,19 +1214,19 @@ namespace Verse
 			base.DoGap();
 			base.DebugToolMap("T: Explosion (bomb)", delegate
 			{
-				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Bomb, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Bomb, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			});
 			base.DebugToolMap("T: Explosion (flame)", delegate
 			{
-				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			});
 			base.DebugToolMap("T: Explosion (stun)", delegate
 			{
-				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Stun, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Stun, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			});
 			base.DebugToolMap("T: Explosion (EMP)", delegate
 			{
-				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.EMP, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.EMP, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			});
 			base.DebugToolMap("T: Explosion (extinguisher)", delegate
 			{
@@ -1236,7 +1236,7 @@ namespace Verse
 				DamageDef extinguish = DamageDefOf.Extinguish;
 				Thing instigator = null;
 				ThingDef filth_FireFoam = ThingDefOf.Filth_FireFoam;
-				GenExplosion.DoExplosion(center, currentMap, radius, extinguish, instigator, -1, null, null, null, null, filth_FireFoam, 1f, 3, true, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(center, currentMap, radius, extinguish, instigator, -1, -1f, null, null, null, null, filth_FireFoam, 1f, 3, true, null, 0f, 1, 0f, false);
 			});
 			base.DebugToolMap("T: Explosion (smoke)", delegate
 			{
@@ -1246,7 +1246,7 @@ namespace Verse
 				DamageDef smoke = DamageDefOf.Smoke;
 				Thing instigator = null;
 				ThingDef gas_Smoke = ThingDefOf.Gas_Smoke;
-				GenExplosion.DoExplosion(center, currentMap, radius, smoke, instigator, -1, null, null, null, null, gas_Smoke, 1f, 1, false, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(center, currentMap, radius, smoke, instigator, -1, -1f, null, null, null, null, gas_Smoke, 1f, 1, false, null, 0f, 1, 0f, false);
 			});
 			base.DebugToolMap("T: Lightning strike", delegate
 			{
@@ -2152,7 +2152,7 @@ namespace Verse
 			{
 				if (p.apparel != null && p.apparel.WornApparelCount > 0)
 				{
-					p.apparel.WornApparel.RandomElement<Apparel>().TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 30f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					p.apparel.WornApparel.RandomElement<Apparel>().TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 30f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					this.DustPuffFrom(p);
 				}
 			});
@@ -3750,7 +3750,7 @@ namespace Verse
 					Log.Warning("Could not kill faction leader.", false);
 					break;
 				}
-				leader.TakeDamage(new DamageInfo(DamageDefOf.Bullet, 30f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				leader.TakeDamage(new DamageInfo(DamageDefOf.Bullet, 30f, 999f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
@@ -3823,7 +3823,7 @@ namespace Verse
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
-				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
@@ -3834,7 +3834,7 @@ namespace Verse
 			{
 				for (int i = 0; i < 1000; i++)
 				{
-					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 10f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 					if (thing.Destroyed)
 					{
 						string str = "Took " + (i + 1) + " hits";
@@ -3870,7 +3870,7 @@ namespace Verse
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
-				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 5000f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				thing.TakeDamage(new DamageInfo(DamageDefOf.Crush, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
@@ -3879,7 +3879,7 @@ namespace Verse
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
-				thing.TakeDamage(new DamageInfo(DamageDefOf.Flame, 5000f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				thing.TakeDamage(new DamageInfo(DamageDefOf.Flame, 5000f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
@@ -3922,25 +3922,25 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__31()
 		{
-			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Bomb, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Bomb, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__32()
 		{
-			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Flame, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__33()
 		{
-			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Stun, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.Stun, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__34()
 		{
-			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.EMP, null, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(UI.MouseCell(), Find.CurrentMap, 3.9f, DamageDefOf.EMP, null, -1, -1f, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
@@ -3952,7 +3952,7 @@ namespace Verse
 			DamageDef extinguish = DamageDefOf.Extinguish;
 			Thing instigator = null;
 			ThingDef filth_FireFoam = ThingDefOf.Filth_FireFoam;
-			GenExplosion.DoExplosion(center, currentMap, radius, extinguish, instigator, -1, null, null, null, null, filth_FireFoam, 1f, 3, true, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(center, currentMap, radius, extinguish, instigator, -1, -1f, null, null, null, null, filth_FireFoam, 1f, 3, true, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
@@ -3964,7 +3964,7 @@ namespace Verse
 			DamageDef smoke = DamageDefOf.Smoke;
 			Thing instigator = null;
 			ThingDef gas_Smoke = ThingDefOf.Gas_Smoke;
-			GenExplosion.DoExplosion(center, currentMap, radius, smoke, instigator, -1, null, null, null, null, gas_Smoke, 1f, 1, false, null, 0f, 1, 0f, false);
+			GenExplosion.DoExplosion(center, currentMap, radius, smoke, instigator, -1, -1f, null, null, null, null, gas_Smoke, 1f, 1, false, null, 0f, 1, 0f, false);
 		}
 
 		[CompilerGenerated]
@@ -5005,7 +5005,7 @@ namespace Verse
 		{
 			if (p.apparel != null && p.apparel.WornApparelCount > 0)
 			{
-				p.apparel.WornApparel.RandomElement<Apparel>().TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 30f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				p.apparel.WornApparel.RandomElement<Apparel>().TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 30f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				this.DustPuffFrom(p);
 			}
 		}

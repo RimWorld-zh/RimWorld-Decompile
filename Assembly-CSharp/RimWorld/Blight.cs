@@ -166,7 +166,7 @@ namespace RimWorld
 			bool isCrop = plant.IsCrop;
 			IntVec3 position = base.Position;
 			Map map = base.Map;
-			plant.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 5f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+			plant.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 5f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			if (plant.Destroyed && isCrop && MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfBlight-" + plant.def.defName, 240f))
 			{
 				Messages.Message("MessagePlantDiedOfBlight".Translate(new object[]

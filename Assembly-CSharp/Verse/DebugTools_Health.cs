@@ -58,7 +58,7 @@ namespace Verse
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			list.Add(new DebugMenuOption("(no body part)", DebugMenuOptionMode.Action, delegate()
 			{
-				p.TakeDamage(new DamageInfo(def, 5f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				p.TakeDamage(new DamageInfo(def, 5f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}));
 			foreach (BodyPartRecord localPart3 in p.RaceProps.body.AllParts)
 			{
@@ -69,7 +69,7 @@ namespace Verse
 					DamageDef def2 = def;
 					float amount = 5f;
 					BodyPartRecord localPart2 = localPart;
-					p2.TakeDamage(new DamageInfo(def2, amount, -1f, null, localPart2, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					p2.TakeDamage(new DamageInfo(def2, amount, 0f, -1f, null, localPart2, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 				}));
 			}
 			return list;
@@ -204,7 +204,7 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				this.p.TakeDamage(new DamageInfo(this.def, 5f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				this.p.TakeDamage(new DamageInfo(this.def, 5f, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
@@ -225,7 +225,7 @@ namespace Verse
 				DamageDef def = this.<>f__ref$3.def;
 				float amount = 5f;
 				BodyPartRecord hitPart = this.localPart;
-				p.TakeDamage(new DamageInfo(def, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+				p.TakeDamage(new DamageInfo(def, amount, 0f, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 

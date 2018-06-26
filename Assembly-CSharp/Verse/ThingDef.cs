@@ -1566,6 +1566,11 @@ namespace Verse
 				{
 					float dam = (float)verb.defaultProjectile.projectile.DamageAmount;
 					yield return new StatDrawEntry(verbStatCategory, "Damage".Translate(), dam.ToString(), 50, "");
+					if (verb.defaultProjectile.projectile.damageDef.armorCategory != null)
+					{
+						float ap = verb.defaultProjectile.projectile.ArmorPenetration;
+						yield return new StatDrawEntry(verbStatCategory, "ArmorPenetration".Translate(), ap.ToStringPercent(), 49, "ArmorPenetrationExplanation".Translate());
+					}
 				}
 				if (verb.LaunchesProjectile)
 				{
@@ -1650,18 +1655,53 @@ namespace Verse
 									{
 										int projDamage = verb2.defaultProjectile.projectile.DamageAmount;
 										yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, "");
+										if (verb2.defaultProjectile.projectile.damageDef.armorCategory != null)
+										{
+											float projArmorPenetration = verb2.defaultProjectile.projectile.ArmorPenetration;
+											StatCategoryDef statCategoryDef = StatCategoryDefOf.Basics;
+											string text = "ArmorPenetration".Translate();
+											string valueString = projArmorPenetration.ToStringPercent();
+											string text2 = "ArmorPenetrationExplanation".Translate();
+											yield return new StatDrawEntry(statCategoryDef, text, valueString, 0, text2);
+										}
 									}
 								}
 								else
 								{
 									int meleeDamage = verb2.meleeDamageBaseAmount;
 									yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, "");
+									if (verb2.meleeDamageDef.armorCategory != null)
+									{
+										float armorPenetration = verb2.meleeArmorPenetrationBase;
+										if (armorPenetration < 0f)
+										{
+											armorPenetration = (float)meleeDamage * 0.015f;
+										}
+										StatCategoryDef statCategoryDef = StatCategoryDefOf.Weapon;
+										string text2 = "ArmorPenetration".Translate();
+										string valueString = armorPenetration.ToStringPercent();
+										string text = "ArmorPenetrationExplanation".Translate();
+										yield return new StatDrawEntry(statCategoryDef, text2, valueString, 0, text);
+									}
 								}
 							}
 							else if (!vg.tools.NullOrEmpty<Tool>())
 							{
 								Tool tool = vg.tools[0];
 								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, "");
+								if (ThingUtility.PrimaryMeleeWeaponDamageType(this).armorCategory != null)
+								{
+									float armorPenetration2 = tool.armorPenetration;
+									if (armorPenetration2 < 0f)
+									{
+										armorPenetration2 = tool.power * 0.015f;
+									}
+									StatCategoryDef statCategoryDef = StatCategoryDefOf.Weapon;
+									string text = "ArmorPenetration".Translate();
+									string valueString = armorPenetration2.ToStringPercent();
+									string text2 = "ArmorPenetrationExplanation".Translate();
+									yield return new StatDrawEntry(statCategoryDef, text, valueString, 0, text2);
+								}
 							}
 						}
 						ThoughtDef thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((ThoughtDef x) => x.hediff == diff);
@@ -3186,53 +3226,61 @@ namespace Verse
 
 			internal float <dam>__6;
 
-			internal int <burstShotCount>__7;
+			internal float <ap>__7;
 
-			internal float <burstShotFireRate>__7;
+			internal int <burstShotCount>__8;
 
-			internal float <range>__7;
+			internal float <burstShotFireRate>__8;
+
+			internal float <range>__8;
 
 			internal IEnumerator<StatDrawEntry> $locvar1;
 
-			internal StatDrawEntry <s>__8;
+			internal StatDrawEntry <s>__9;
 
 			internal IEnumerator<StatDrawEntry> $locvar2;
 
-			internal StatDrawEntry <s>__9;
+			internal StatDrawEntry <s>__10;
 
 			internal IEnumerator<StatDrawEntry> $locvar3;
 
-			internal StatDrawEntry <s>__10;
+			internal StatDrawEntry <s>__11;
 
 			internal IEnumerator<StatDrawEntry> $locvar4;
 
-			internal StatDrawEntry <s>__11;
+			internal StatDrawEntry <s>__12;
 
 			internal IEnumerator<RecipeDef> $locvar5;
 
-			internal RecipeDef <def>__12;
+			internal RecipeDef <def>__13;
 
 			internal IEnumerator<StatDrawEntry> $locvar6;
 
-			internal StatDrawEntry <s>__14;
+			internal StatDrawEntry <s>__15;
 
-			internal HediffCompProperties_VerbGiver <vg>__15;
+			internal HediffCompProperties_VerbGiver <vg>__16;
 
-			internal VerbProperties <verb>__16;
+			internal VerbProperties <verb>__17;
 
-			internal int <projDamage>__17;
+			internal int <projDamage>__18;
 
-			internal int <meleeDamage>__18;
+			internal float <projArmorPenetration>__19;
 
-			internal Tool <tool>__19;
+			internal int <meleeDamage>__20;
 
-			internal ThoughtDef <thought>__15;
+			internal float <armorPenetration>__21;
 
-			internal int <i>__20;
+			internal Tool <tool>__22;
+
+			internal float <armorPenetration>__23;
+
+			internal ThoughtDef <thought>__16;
+
+			internal int <i>__24;
 
 			internal IEnumerator<StatDrawEntry> $locvar7;
 
-			internal StatDrawEntry <s>__21;
+			internal StatDrawEntry <s>__25;
 
 			internal ThingDef $this;
 
@@ -3272,9 +3320,9 @@ namespace Verse
 					}
 					return true;
 				case 3u:
-					goto IL_1C1;
+					goto IL_1D1;
 				case 4u:
-					IL_22A:
+					IL_23A:
 					if (this.fillPercent > 0f && this.fillPercent < 1f && (this.category == ThingCategory.Item || this.category == ThingCategory.Building || this.category == ThingCategory.Plant))
 					{
 						StatDrawEntry sde = new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, "");
@@ -3286,14 +3334,14 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_2EE;
+					goto IL_2FE;
 				case 5u:
-					goto IL_2EE;
+					goto IL_2FE;
 				case 6u:
-					IL_35A:
+					IL_36A:
 					if (this.verbs.NullOrEmpty<VerbProperties>())
 					{
-						goto IL_793;
+						goto IL_826;
 					}
 					verb = (from x in this.verbs
 					where x.isPrimary
@@ -3310,21 +3358,33 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_47F;
+					goto IL_48F;
 				case 7u:
-					goto IL_47F;
+					goto IL_48F;
 				case 8u:
-					goto IL_4F4;
+					if (verb.defaultProjectile.projectile.damageDef.armorCategory != null)
+					{
+						ap = verb.defaultProjectile.projectile.ArmorPenetration;
+						this.$current = new StatDrawEntry(verbStatCategory, "ArmorPenetration".Translate(), ap.ToStringPercent(), 49, "ArmorPenetrationExplanation".Translate());
+						if (!this.$disposing)
+						{
+							this.$PC = 9;
+						}
+						return true;
+					}
+					goto IL_586;
 				case 9u:
+					goto IL_586;
+				case 10u:
 					this.$current = new StatDrawEntry(verbStatCategory, "BurstShotFireRate".Translate(), burstShotFireRate.ToString("0.##") + " rpm", 19, "");
 					if (!this.$disposing)
 					{
-						this.$PC = 10;
+						this.$PC = 11;
 					}
 					return true;
-				case 10u:
-					goto IL_5EA;
 				case 11u:
+					goto IL_67D;
+				case 12u:
 					if (verb.defaultProjectile != null && verb.defaultProjectile.projectile != null && verb.defaultProjectile.projectile.stoppingPower != 0f)
 					{
 						StatCategoryDef category = verbStatCategory;
@@ -3334,24 +3394,24 @@ namespace Verse
 						this.$current = new StatDrawEntry(category, text, valueString, 0, text2);
 						if (!this.$disposing)
 						{
-							this.$PC = 12;
+							this.$PC = 13;
 						}
 						return true;
 					}
-					goto IL_6DB;
-				case 12u:
-					goto IL_6DB;
+					goto IL_76E;
 				case 13u:
+					goto IL_76E;
+				case 14u:
 					this.$current = new StatDrawEntry(verbStatCategory, "DirectHitChance".Translate(), (1f / (float)GenRadial.NumCellsInRadius(verb.forcedMissRadius)).ToStringPercent(), 29, "");
 					if (!this.$disposing)
 					{
-						this.$PC = 14;
+						this.$PC = 15;
 					}
 					return true;
-				case 14u:
-					goto IL_792;
 				case 15u:
-					Block_37:
+					goto IL_825;
+				case 16u:
+					Block_39:
 					try
 					{
 						switch (num)
@@ -3363,7 +3423,7 @@ namespace Verse
 							this.$current = s;
 							if (!this.$disposing)
 							{
-								this.$PC = 15;
+								this.$PC = 16;
 							}
 							flag = true;
 							return true;
@@ -3379,9 +3439,9 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_83C;
-				case 16u:
-					Block_39:
+					goto IL_8CF;
+				case 17u:
+					Block_41:
 					try
 					{
 						switch (num)
@@ -3393,7 +3453,7 @@ namespace Verse
 							this.$current = s2;
 							if (!this.$disposing)
 							{
-								this.$PC = 16;
+								this.$PC = 17;
 							}
 							flag = true;
 							return true;
@@ -3409,9 +3469,9 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_8E5;
-				case 17u:
-					Block_41:
+					goto IL_978;
+				case 18u:
+					Block_43:
 					try
 					{
 						switch (num)
@@ -3423,7 +3483,7 @@ namespace Verse
 							this.$current = s3;
 							if (!this.$disposing)
 							{
-								this.$PC = 17;
+								this.$PC = 18;
 							}
 							flag = true;
 							return true;
@@ -3439,9 +3499,9 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_994;
-				case 18u:
-					Block_43:
+					goto IL_A27;
+				case 19u:
+					Block_45:
 					try
 					{
 						switch (num)
@@ -3453,7 +3513,7 @@ namespace Verse
 							this.$current = s4;
 							if (!this.$disposing)
 							{
-								this.$PC = 18;
+								this.$PC = 19;
 							}
 							flag = true;
 							return true;
@@ -3469,35 +3529,97 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_A43;
-				case 19u:
+					goto IL_AD6;
 				case 20u:
 				case 21u:
 				case 22u:
 				case 23u:
 				case 24u:
-					Block_45:
+				case 25u:
+				case 26u:
+				case 27u:
+				case 28u:
+					Block_47:
 					try
 					{
 						switch (num)
 						{
-						case 19u:
-							IL_B4B:
+						case 20u:
+							IL_BF6:
 							enumerator7 = <SpecialDisplayStats>c__AnonStorey.diff.SpecialDisplayStats().GetEnumerator();
 							num = 4294967293u;
 							break;
-						case 20u:
-							break;
 						case 21u:
-							goto IL_CB7;
+							break;
 						case 22u:
-							goto IL_D18;
+							if (verb2.defaultProjectile.projectile.damageDef.armorCategory != null)
+							{
+								projArmorPenetration = verb2.defaultProjectile.projectile.ArmorPenetration;
+								StatCategoryDef category = StatCategoryDefOf.Basics;
+								string text2 = "ArmorPenetration".Translate();
+								string valueString = projArmorPenetration.ToStringPercent();
+								string text = "ArmorPenetrationExplanation".Translate();
+								this.$current = new StatDrawEntry(category, text2, valueString, 0, text);
+								if (!this.$disposing)
+								{
+									this.$PC = 23;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_DF0;
 						case 23u:
-							goto IL_D99;
+							goto IL_DF0;
 						case 24u:
-							goto IL_E3F;
+							if (verb2.meleeDamageDef.armorCategory != null)
+							{
+								armorPenetration = verb2.meleeArmorPenetrationBase;
+								if (armorPenetration < 0f)
+								{
+									armorPenetration = (float)meleeDamage * 0.015f;
+								}
+								StatCategoryDef category = StatCategoryDefOf.Weapon;
+								string text = "ArmorPenetration".Translate();
+								string valueString = armorPenetration.ToStringPercent();
+								string text2 = "ArmorPenetrationExplanation".Translate();
+								this.$current = new StatDrawEntry(category, text, valueString, 0, text2);
+								if (!this.$disposing)
+								{
+									this.$PC = 25;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_EEF;
+						case 25u:
+							goto IL_EEF;
+						case 26u:
+							if (ThingUtility.PrimaryMeleeWeaponDamageType(this).armorCategory != null)
+							{
+								armorPenetration2 = tool.armorPenetration;
+								if (armorPenetration2 < 0f)
+								{
+									armorPenetration2 = tool.power * 0.015f;
+								}
+								StatCategoryDef category = StatCategoryDefOf.Weapon;
+								string text2 = "ArmorPenetration".Translate();
+								string valueString = armorPenetration2.ToStringPercent();
+								string text = "ArmorPenetrationExplanation".Translate();
+								this.$current = new StatDrawEntry(category, text2, valueString, 0, text);
+								if (!this.$disposing)
+								{
+									this.$PC = 27;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_1012;
+						case 27u:
+							goto IL_1012;
+						case 28u:
+							goto IL_10B9;
 						default:
-							goto IL_E40;
+							goto IL_10BA;
 						}
 						try
 						{
@@ -3510,7 +3632,7 @@ namespace Verse
 								this.$current = s5;
 								if (!this.$disposing)
 								{
-									this.$PC = 20;
+									this.$PC = 21;
 								}
 								flag = true;
 								return true;
@@ -3538,7 +3660,7 @@ namespace Verse
 									this.$current = new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, "");
 									if (!this.$disposing)
 									{
-										this.$PC = 22;
+										this.$PC = 24;
 									}
 									flag = true;
 									return true;
@@ -3549,7 +3671,7 @@ namespace Verse
 									this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, "");
 									if (!this.$disposing)
 									{
-										this.$PC = 21;
+										this.$PC = 22;
 									}
 									flag = true;
 									return true;
@@ -3561,47 +3683,47 @@ namespace Verse
 								this.$current = new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, "");
 								if (!this.$disposing)
 								{
-									this.$PC = 23;
+									this.$PC = 26;
 								}
 								flag = true;
 								return true;
 							}
 						}
-						IL_CB7:
-						IL_D18:
-						IL_D99:
+						IL_DF0:
+						IL_EEF:
+						IL_1012:
 						thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((ThoughtDef x) => x.hediff == <SpecialDisplayStats>c__AnonStorey.diff);
 						if (thought != null && thought.stages != null && thought.stages.Any<ThoughtStage>())
 						{
 							this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First<ThoughtStage>().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, "");
 							if (!this.$disposing)
 							{
-								this.$PC = 24;
+								this.$PC = 28;
 							}
 							flag = true;
 							return true;
 						}
-						IL_E3F:
-						IL_E40:
+						IL_10B9:
+						IL_10BA:
 						if (enumerator6.MoveNext())
 						{
 							def = enumerator6.Current;
 							HediffDef diff = def.addsHediff;
 							if (diff == null)
 							{
-								goto IL_E3F;
+								goto IL_10B9;
 							}
 							if (diff.addedPartProps != null)
 							{
 								this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, "");
 								if (!this.$disposing)
 								{
-									this.$PC = 19;
+									this.$PC = 20;
 								}
 								flag = true;
 								return true;
 							}
-							goto IL_B4B;
+							goto IL_BF6;
 						}
 					}
 					finally
@@ -3614,9 +3736,9 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_E71;
-				case 25u:
-					Block_46:
+					goto IL_10EB;
+				case 29u:
+					Block_48:
 					try
 					{
 						switch (num)
@@ -3628,7 +3750,7 @@ namespace Verse
 							this.$current = s6;
 							if (!this.$disposing)
 							{
-								this.$PC = 25;
+								this.$PC = 29;
 							}
 							flag = true;
 							return true;
@@ -3645,7 +3767,7 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_F2F;
+					goto IL_11A9;
 				default:
 					return false;
 				}
@@ -3686,7 +3808,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1C1:
+				IL_1D1:
 				if (base.IsMedicine && base.MedicineTendXpGainFactor != 1f)
 				{
 					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), base.MedicineTendXpGainFactor.ToStringPercent(), 0, "");
@@ -3696,8 +3818,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_22A;
-				IL_2EE:
+				goto IL_23A;
+				IL_2FE:
 				if (this.constructionSkillPrerequisite > 0)
 				{
 					StatCategoryDef category = StatCategoryDefOf.Basics;
@@ -3711,8 +3833,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_35A;
-				IL_47F:
+				goto IL_36A;
+				IL_48F:
 				if (verb.defaultProjectile != null)
 				{
 					dam = (float)verb.defaultProjectile.projectile.DamageAmount;
@@ -3723,10 +3845,10 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_4F4:
+				IL_586:
 				if (!verb.LaunchesProjectile)
 				{
-					goto IL_6DC;
+					goto IL_76F;
 				}
 				burstShotCount = verb.burstShotCount;
 				burstShotFireRate = 60f / verb.ticksBetweenBurstShots.TicksToSeconds();
@@ -3736,74 +3858,74 @@ namespace Verse
 					this.$current = new StatDrawEntry(verbStatCategory, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, "");
 					if (!this.$disposing)
 					{
-						this.$PC = 9;
+						this.$PC = 10;
 					}
 					return true;
 				}
-				IL_5EA:
+				IL_67D:
 				this.$current = new StatDrawEntry(verbStatCategory, "Range".Translate(), range.ToString("F0"), 10, "");
 				if (!this.$disposing)
 				{
-					this.$PC = 11;
+					this.$PC = 12;
 				}
 				return true;
-				IL_6DB:
-				IL_6DC:
+				IL_76E:
+				IL_76F:
 				if (verb.forcedMissRadius > 0f)
 				{
 					this.$current = new StatDrawEntry(verbStatCategory, "MissRadius".Translate(), verb.forcedMissRadius.ToString("0.#"), 30, "");
 					if (!this.$disposing)
 					{
-						this.$PC = 13;
+						this.$PC = 14;
 					}
 					return true;
 				}
-				IL_792:
-				IL_793:
+				IL_825:
+				IL_826:
 				if (this.plant != null)
 				{
 					enumerator2 = this.plant.SpecialDisplayStats().GetEnumerator();
 					num = 4294967293u;
-					goto Block_37;
+					goto Block_39;
 				}
-				IL_83C:
+				IL_8CF:
 				if (this.ingestible != null)
 				{
 					enumerator3 = this.ingestible.SpecialDisplayStats().GetEnumerator();
 					num = 4294967293u;
-					goto Block_39;
+					goto Block_41;
 				}
-				IL_8E5:
+				IL_978:
 				if (this.race != null)
 				{
 					enumerator4 = this.race.SpecialDisplayStats(this).GetEnumerator();
 					num = 4294967293u;
-					goto Block_41;
+					goto Block_43;
 				}
-				IL_994:
+				IL_A27:
 				if (this.building != null)
 				{
 					enumerator5 = this.building.SpecialDisplayStats(this).GetEnumerator();
 					num = 4294967293u;
-					goto Block_43;
+					goto Block_45;
 				}
-				IL_A43:
+				IL_AD6:
 				if (this.isTechHediff)
 				{
 					enumerator6 = (from x in DefDatabase<RecipeDef>.AllDefs
 					where x.IsIngredient(this)
 					select x).GetEnumerator();
 					num = 4294967293u;
-					goto Block_45;
+					goto Block_47;
 				}
-				IL_E71:
+				IL_10EB:
 				i = 0;
-				IL_F2F:
+				IL_11A9:
 				if (i < this.comps.Count)
 				{
 					enumerator8 = this.comps[i].SpecialDisplayStats().GetEnumerator();
 					num = 4294967293u;
-					goto Block_46;
+					goto Block_48;
 				}
 				this.$PC = -1;
 				return false;
@@ -3847,7 +3969,7 @@ namespace Verse
 						}
 					}
 					break;
-				case 15u:
+				case 16u:
 					try
 					{
 					}
@@ -3859,7 +3981,7 @@ namespace Verse
 						}
 					}
 					break;
-				case 16u:
+				case 17u:
 					try
 					{
 					}
@@ -3871,7 +3993,7 @@ namespace Verse
 						}
 					}
 					break;
-				case 17u:
+				case 18u:
 					try
 					{
 					}
@@ -3883,7 +4005,7 @@ namespace Verse
 						}
 					}
 					break;
-				case 18u:
+				case 19u:
 					try
 					{
 					}
@@ -3895,17 +4017,20 @@ namespace Verse
 						}
 					}
 					break;
-				case 19u:
 				case 20u:
 				case 21u:
 				case 22u:
 				case 23u:
 				case 24u:
+				case 25u:
+				case 26u:
+				case 27u:
+				case 28u:
 					try
 					{
 						switch (num)
 						{
-						case 20u:
+						case 21u:
 							try
 							{
 							}
@@ -3927,7 +4052,7 @@ namespace Verse
 						}
 					}
 					break;
-				case 25u:
+				case 29u:
 					try
 					{
 					}
@@ -3979,6 +4104,8 @@ namespace Verse
 			private sealed class <SpecialDisplayStats>c__AnonStorey7
 			{
 				internal HediffDef diff;
+
+				internal ThingDef.<SpecialDisplayStats>c__Iterator1 <>f__ref$1;
 
 				public <SpecialDisplayStats>c__AnonStorey7()
 				{

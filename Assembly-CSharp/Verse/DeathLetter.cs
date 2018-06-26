@@ -47,7 +47,7 @@ namespace Verse
 		{
 			get
 			{
-				yield return base.OK;
+				yield return base.Option_Dismiss;
 				if (this.lookTargets.IsValid())
 				{
 					yield return this.ReadMore;
@@ -138,7 +138,7 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					this.$current = base.OK;
+					this.$current = base.Option_Dismiss;
 					if (!this.$disposing)
 					{
 						this.$PC = 1;

@@ -57,23 +57,23 @@ namespace Verse
 				GraphicDatabaseHeadRecords.HeadGraphicRecord headGraphicRecord = GraphicDatabaseHeadRecords.heads[i];
 				if (headGraphicRecord.graphicPath == graphicPath)
 				{
-					return headGraphicRecord.GetGraphic(skinColor);
+					return headGraphicRecord.GetGraphic(skinColor, false);
 				}
 			}
 			Log.Message("Tried to get pawn head at path " + graphicPath + " that was not found. Defaulting...", false);
-			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor);
+			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor, false);
 		}
 
 		public static Graphic_Multi GetSkull()
 		{
 			GraphicDatabaseHeadRecords.BuildDatabaseIfNecessary();
-			return GraphicDatabaseHeadRecords.skull.GetGraphic(Color.white);
+			return GraphicDatabaseHeadRecords.skull.GetGraphic(Color.white, true);
 		}
 
 		public static Graphic_Multi GetStump(Color skinColor)
 		{
 			GraphicDatabaseHeadRecords.BuildDatabaseIfNecessary();
-			return GraphicDatabaseHeadRecords.stump.GetGraphic(skinColor);
+			return GraphicDatabaseHeadRecords.stump.GetGraphic(skinColor, false);
 		}
 
 		public static Graphic_Multi GetHeadRandom(Gender gender, Color skinColor, CrownType crownType)
@@ -95,17 +95,17 @@ namespace Verse
 					goto Block_2;
 				}
 			}
-			return headGraphicRecord.GetGraphic(skinColor);
+			return headGraphicRecord.GetGraphic(skinColor, false);
 			Block_2:
 			foreach (GraphicDatabaseHeadRecords.HeadGraphicRecord headGraphicRecord2 in GraphicDatabaseHeadRecords.heads.InRandomOrder(null))
 			{
 				if (predicate(headGraphicRecord2))
 				{
-					return headGraphicRecord2.GetGraphic(skinColor);
+					return headGraphicRecord2.GetGraphic(skinColor, false);
 				}
 			}
 			Log.Error("Failed to find head for gender=" + gender + ". Defaulting...", false);
-			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor);
+			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor, false);
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
@@ -144,7 +144,7 @@ namespace Verse
 				}
 			}
 
-			public Graphic_Multi GetGraphic(Color color)
+			public Graphic_Multi GetGraphic(Color color, bool dessicated = false)
 			{
 				for (int i = 0; i < this.graphics.Count; i++)
 				{
@@ -153,7 +153,8 @@ namespace Verse
 						return this.graphics[i].Value;
 					}
 				}
-				Graphic_Multi graphic_Multi = (Graphic_Multi)GraphicDatabase.Get<Graphic_Multi>(this.graphicPath, ShaderDatabase.CutoutSkin, Vector2.one, color);
+				Shader shader = dessicated ? ShaderDatabase.Cutout : ShaderDatabase.CutoutSkin;
+				Graphic_Multi graphic_Multi = (Graphic_Multi)GraphicDatabase.Get<Graphic_Multi>(this.graphicPath, shader, Vector2.one, color);
 				this.graphics.Add(new KeyValuePair<Color, Graphic_Multi>(color, graphic_Multi));
 				return graphic_Multi;
 			}

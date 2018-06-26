@@ -20,7 +20,42 @@ namespace Verse
 
 		public abstract IEnumerable<DiaOption> Choices { get; }
 
-		protected DiaOption Reject
+		protected DiaOption Option_Dismiss
+		{
+			get
+			{
+				return new DiaOption("Dismiss".Translate())
+				{
+					action = delegate()
+					{
+						Find.LetterStack.RemoveLetter(this);
+					},
+					resolveTree = true
+				};
+			}
+		}
+
+		protected DiaOption Option_JumpToLocation
+		{
+			get
+			{
+				GlobalTargetInfo target = this.lookTargets.TryGetPrimaryTarget();
+				DiaOption diaOption = new DiaOption("JumpToLocation".Translate());
+				diaOption.action = delegate()
+				{
+					CameraJumper.TryJumpAndSelect(target);
+					Find.LetterStack.RemoveLetter(this);
+				};
+				diaOption.resolveTree = true;
+				if (!CameraJumper.CanJump(target))
+				{
+					diaOption.Disable(null);
+				}
+				return diaOption;
+			}
+		}
+
+		protected DiaOption Option_Reject
 		{
 			get
 			{
@@ -35,48 +70,13 @@ namespace Verse
 			}
 		}
 
-		protected DiaOption Postpone
+		protected DiaOption Option_Postpone
 		{
 			get
 			{
 				DiaOption diaOption = new DiaOption("PostponeLetter".Translate());
 				diaOption.resolveTree = true;
 				if (base.TimeoutActive && this.disappearAtTick <= Find.TickManager.TicksGame + 1)
-				{
-					diaOption.Disable(null);
-				}
-				return diaOption;
-			}
-		}
-
-		protected DiaOption OK
-		{
-			get
-			{
-				return new DiaOption("OK".Translate())
-				{
-					action = delegate()
-					{
-						Find.LetterStack.RemoveLetter(this);
-					},
-					resolveTree = true
-				};
-			}
-		}
-
-		protected DiaOption JumpToLocation
-		{
-			get
-			{
-				GlobalTargetInfo target = this.lookTargets.TryGetPrimaryTarget();
-				DiaOption diaOption = new DiaOption("JumpToLocation".Translate());
-				diaOption.action = delegate()
-				{
-					CameraJumper.TryJumpAndSelect(target);
-					Find.LetterStack.RemoveLetter(this);
-				};
-				diaOption.resolveTree = true;
-				if (!CameraJumper.CanJump(target))
 				{
 					diaOption.Disable(null);
 				}
@@ -109,13 +109,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <get_Reject>m__0()
+		private void <get_Option_Dismiss>m__0()
 		{
 			Find.LetterStack.RemoveLetter(this);
 		}
 
 		[CompilerGenerated]
-		private void <get_OK>m__1()
+		private void <get_Option_Reject>m__1()
 		{
 			Find.LetterStack.RemoveLetter(this);
 		}

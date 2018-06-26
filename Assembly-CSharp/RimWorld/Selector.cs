@@ -697,7 +697,7 @@ namespace RimWorld
 			}
 			if (floatMenuOption != null)
 			{
-				floatMenuOption.Chosen(true);
+				floatMenuOption.Chosen(true, null);
 			}
 		}
 

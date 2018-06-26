@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	public class SimpleCurve2D : IEnumerable<CurveColumn>, IEnumerable
+	public class SimpleSurface : IEnumerable<SurfaceColumn>, IEnumerable
 	{
-		private List<CurveColumn> columns = new List<CurveColumn>();
+		private List<SurfaceColumn> columns = new List<SurfaceColumn>();
 
-		public SimpleCurve2D()
+		public SimpleSurface()
 		{
 		}
 
@@ -34,27 +34,27 @@ namespace Verse
 			}
 			else
 			{
-				CurveColumn curveColumn = this.columns[0];
-				CurveColumn curveColumn2 = this.columns[this.columns.Count - 1];
+				SurfaceColumn surfaceColumn = this.columns[0];
+				SurfaceColumn surfaceColumn2 = this.columns[this.columns.Count - 1];
 				for (int i = 0; i < this.columns.Count; i++)
 				{
 					if (x <= this.columns[i].x)
 					{
-						curveColumn2 = this.columns[i];
+						surfaceColumn2 = this.columns[i];
 						if (i > 0)
 						{
-							curveColumn = this.columns[i - 1];
+							surfaceColumn = this.columns[i - 1];
 						}
 						break;
 					}
 				}
-				float t = (x - curveColumn.x) / (curveColumn2.x - curveColumn.x);
-				result = Mathf.Lerp(curveColumn.y.Evaluate(y), curveColumn2.y.Evaluate(y), t);
+				float t = (x - surfaceColumn.x) / (surfaceColumn2.x - surfaceColumn.x);
+				result = Mathf.Lerp(surfaceColumn.y.Evaluate(y), surfaceColumn2.y.Evaluate(y), t);
 			}
 			return result;
 		}
 
-		public void Add(CurveColumn newColumn)
+		public void Add(SurfaceColumn newColumn)
 		{
 			this.columns.Add(newColumn);
 		}
@@ -64,9 +64,9 @@ namespace Verse
 			return this.GetEnumerator();
 		}
 
-		public IEnumerator<CurveColumn> GetEnumerator()
+		public IEnumerator<SurfaceColumn> GetEnumerator()
 		{
-			foreach (CurveColumn column in this.columns)
+			foreach (SurfaceColumn column in this.columns)
 			{
 				yield return column;
 			}
@@ -87,15 +87,15 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <GetEnumerator>c__Iterator0 : IEnumerator, IDisposable, IEnumerator<CurveColumn>
+		private sealed class <GetEnumerator>c__Iterator0 : IEnumerator, IDisposable, IEnumerator<SurfaceColumn>
 		{
-			internal List<CurveColumn>.Enumerator $locvar0;
+			internal List<SurfaceColumn>.Enumerator $locvar0;
 
-			internal CurveColumn <column>__1;
+			internal SurfaceColumn <column>__1;
 
-			internal SimpleCurve2D $this;
+			internal SimpleSurface $this;
 
-			internal CurveColumn $current;
+			internal SurfaceColumn $current;
 
 			internal bool $disposing;
 
@@ -150,7 +150,7 @@ namespace Verse
 				return false;
 			}
 
-			CurveColumn IEnumerator<CurveColumn>.Current
+			SurfaceColumn IEnumerator<SurfaceColumn>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -202,7 +202,7 @@ namespace Verse
 
 			internal string prefix;
 
-			internal SimpleCurve2D $this;
+			internal SimpleSurface $this;
 
 			internal string $current;
 
@@ -288,7 +288,7 @@ namespace Verse
 				{
 					return this;
 				}
-				SimpleCurve2D.<ConfigErrors>c__Iterator1 <ConfigErrors>c__Iterator = new SimpleCurve2D.<ConfigErrors>c__Iterator1();
+				SimpleSurface.<ConfigErrors>c__Iterator1 <ConfigErrors>c__Iterator = new SimpleSurface.<ConfigErrors>c__Iterator1();
 				<ConfigErrors>c__Iterator.$this = this;
 				<ConfigErrors>c__Iterator.prefix = prefix;
 				return <ConfigErrors>c__Iterator;

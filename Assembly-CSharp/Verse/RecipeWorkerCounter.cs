@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using RimWorld;
 
 namespace Verse
@@ -22,7 +20,7 @@ namespace Verse
 		public virtual int CountProducts(Bill_Production bill)
 		{
 			ThingDefCountClass thingDefCountClass = this.recipe.products[0];
-			ThingDef prodDef = thingDefCountClass.thingDef;
+			ThingDef thingDef = thingDefCountClass.thingDef;
 			int result;
 			if (thingDefCountClass.thingDef.CountAsResource && !bill.includeEquipped && (bill.includeTainted || !thingDefCountClass.thingDef.IsApparel || !thingDefCountClass.thingDef.apparel.careIfWornByCorpse) && bill.includeFromZone == null && bill.hpRange.min == 0f && bill.hpRange.max == 1f && bill.qualityRange.min == QualityCategory.Awful && bill.qualityRange.max == QualityCategory.Legendary && !bill.limitToAllowedStuff)
 			{
@@ -33,14 +31,14 @@ namespace Verse
 				int num = 0;
 				if (bill.includeFromZone == null)
 				{
-					num = this.CountValidThings(bill.Map.listerThings.ThingsOfDef(thingDefCountClass.thingDef), bill, prodDef);
+					num = this.CountValidThings(bill.Map.listerThings.ThingsOfDef(thingDefCountClass.thingDef), bill, thingDef);
 					if (thingDefCountClass.thingDef.Minifiable)
 					{
 						List<Thing> list = bill.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing);
 						for (int i = 0; i < list.Count; i++)
 						{
 							MinifiedThing minifiedThing = (MinifiedThing)list[i];
-							if (this.CountValidThing(minifiedThing.InnerThing, bill, prodDef))
+							if (this.CountValidThing(minifiedThing.InnerThing, bill, thingDef))
 							{
 								num += minifiedThing.stackCount * minifiedThing.InnerThing.stackCount;
 							}
@@ -52,7 +50,7 @@ namespace Verse
 					foreach (Thing outerThing in bill.includeFromZone.AllContainedThings)
 					{
 						Thing innerIfMinified = outerThing.GetInnerIfMinified();
-						if (this.CountValidThing(innerIfMinified, bill, prodDef))
+						if (this.CountValidThing(innerIfMinified, bill, thingDef))
 						{
 							num += innerIfMinified.stackCount;
 						}
@@ -62,9 +60,30 @@ namespace Verse
 				{
 					foreach (Pawn pawn in bill.Map.mapPawns.FreeColonistsSpawned)
 					{
-						num += pawn.equipment.AllEquipmentListForReading.Count((ThingWithComps thing) => this.CountValidThing(thing, bill, prodDef));
-						num += pawn.apparel.WornApparel.Count((Apparel thing) => this.CountValidThing(thing, bill, prodDef));
-						num += pawn.inventory.GetDirectlyHeldThings().Count((Thing thing) => this.CountValidThing(thing, bill, prodDef));
+						List<ThingWithComps> allEquipmentListForReading = pawn.equipment.AllEquipmentListForReading;
+						for (int j = 0; j < allEquipmentListForReading.Count; j++)
+						{
+							if (this.CountValidThing(allEquipmentListForReading[j], bill, thingDef))
+							{
+								num += allEquipmentListForReading[j].stackCount;
+							}
+						}
+						List<Apparel> wornApparel = pawn.apparel.WornApparel;
+						for (int k = 0; k < wornApparel.Count; k++)
+						{
+							if (this.CountValidThing(wornApparel[k], bill, thingDef))
+							{
+								num += wornApparel[k].stackCount;
+							}
+						}
+						ThingOwner directlyHeldThings = pawn.inventory.GetDirectlyHeldThings();
+						for (int l = 0; l < directlyHeldThings.Count; l++)
+						{
+							if (this.CountValidThing(directlyHeldThings[l], bill, thingDef))
+							{
+								num += directlyHeldThings[l].stackCount;
+							}
+						}
 					}
 				}
 				result = num;
@@ -93,7 +112,7 @@ namespace Verse
 			{
 				result = false;
 			}
-			else if (!bill.includeTainted && def2.IsApparel && (thing as Apparel).WornByCorpse)
+			else if (!bill.includeTainted && def2.IsApparel && ((Apparel)thing).WornByCorpse)
 			{
 				result = false;
 			}
@@ -117,35 +136,6 @@ namespace Verse
 		public virtual bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			return !this.CanCountProducts(bill) || stockpile.GetStoreSettings().AllowedToAccept(this.recipe.products[0].thingDef);
-		}
-
-		[CompilerGenerated]
-		private sealed class <CountProducts>c__AnonStorey0
-		{
-			internal Bill_Production bill;
-
-			internal ThingDef prodDef;
-
-			internal RecipeWorkerCounter $this;
-
-			public <CountProducts>c__AnonStorey0()
-			{
-			}
-
-			internal bool <>m__0(ThingWithComps thing)
-			{
-				return this.$this.CountValidThing(thing, this.bill, this.prodDef);
-			}
-
-			internal bool <>m__1(Apparel thing)
-			{
-				return this.$this.CountValidThing(thing, this.bill, this.prodDef);
-			}
-
-			internal bool <>m__2(Thing thing)
-			{
-				return this.$this.CountValidThing(thing, this.bill, this.prodDef);
-			}
 		}
 	}
 }

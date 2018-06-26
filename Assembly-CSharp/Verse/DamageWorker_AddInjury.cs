@@ -96,27 +96,38 @@ namespace Verse
 						}
 					}
 				}
-				if (damageResult.deflected)
+				if ((damageResult.deflected || damageResult.diminished) && spawnedOrAnyParentSpawned)
 				{
 					EffecterDef effecterDef;
-					if (damageResult.deflectedByMetalArmor && dinfo.Def.canUseDeflectMetalEffect)
+					if (damageResult.deflected)
 					{
-						if (dinfo.Def == DamageDefOf.Bullet)
+						if (damageResult.deflectedByMetalArmor && dinfo.Def.canUseDeflectMetalEffect)
 						{
-							effecterDef = EffecterDefOf.Deflect_Metal_Bullet;
+							if (dinfo.Def == DamageDefOf.Bullet)
+							{
+								effecterDef = EffecterDefOf.Deflect_Metal_Bullet;
+							}
+							else
+							{
+								effecterDef = EffecterDefOf.Deflect_Metal;
+							}
+						}
+						else if (dinfo.Def == DamageDefOf.Bullet)
+						{
+							effecterDef = EffecterDefOf.Deflect_General_Bullet;
 						}
 						else
 						{
-							effecterDef = EffecterDefOf.Deflect_Metal;
+							effecterDef = EffecterDefOf.Deflect_General;
 						}
 					}
-					else if (dinfo.Def == DamageDefOf.Bullet)
+					else if (damageResult.diminishedByMetalArmor)
 					{
-						effecterDef = EffecterDefOf.Deflect_General_Bullet;
+						effecterDef = EffecterDefOf.DamageDiminished_Metal;
 					}
 					else
 					{
-						effecterDef = EffecterDefOf.Deflect_General;
+						effecterDef = EffecterDefOf.DamageDiminished_General;
 					}
 					if (pawn.health.deflectionEffecter == null || pawn.health.deflectionEffecter.def != effecterDef)
 					{
@@ -128,9 +139,12 @@ namespace Verse
 						pawn.health.deflectionEffecter = effecterDef.Spawn();
 					}
 					pawn.health.deflectionEffecter.Trigger(pawn, dinfo.Instigator ?? pawn);
-					pawn.Drawer.Notify_DamageDeflected(dinfo);
+					if (damageResult.deflected)
+					{
+						pawn.Drawer.Notify_DamageDeflected(dinfo);
+					}
 				}
-				else if (spawnedOrAnyParentSpawned)
+				if (!damageResult.deflected && spawnedOrAnyParentSpawned)
 				{
 					ImpactSoundUtility.PlayImpactSound(pawn, dinfo.Def.impactSoundType, mapHeld);
 				}
@@ -175,7 +189,15 @@ namespace Verse
 				bool deflectedByMetalArmor = false;
 				if (flag)
 				{
-					num = ArmorUtility.GetPostArmorDamage(pawn, num, dinfo.HitPart, dinfo.Def, out deflectedByMetalArmor);
+					DamageDef def = dinfo.Def;
+					bool diminishedByMetalArmor;
+					num = ArmorUtility.GetPostArmorDamage(pawn, num, dinfo.ArmorPenetrationInt, dinfo.HitPart, ref def, out deflectedByMetalArmor, out diminishedByMetalArmor);
+					dinfo.Def = def;
+					if (num < dinfo.Amount)
+					{
+						result.diminished = true;
+						result.diminishedByMetalArmor = diminishedByMetalArmor;
+					}
 				}
 				if (num <= 0f)
 				{

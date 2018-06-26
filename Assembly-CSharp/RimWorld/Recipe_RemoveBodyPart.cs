@@ -65,7 +65,8 @@ namespace RimWorld
 			}
 			DamageDef surgicalCut = DamageDefOf.SurgicalCut;
 			float amount = 99999f;
-			pawn.TakeDamage(new DamageInfo(surgicalCut, amount, -1f, null, part, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+			float armorPenetration = 999f;
+			pawn.TakeDamage(new DamageInfo(surgicalCut, amount, armorPenetration, -1f, null, part, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			if (flag)
 			{
 				if (pawn.Dead)

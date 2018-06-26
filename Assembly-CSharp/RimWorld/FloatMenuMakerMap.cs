@@ -53,7 +53,7 @@ namespace RimWorld
 						}
 						if (flag && floatMenuOption != null)
 						{
-							floatMenuOption.Chosen(true);
+							floatMenuOption.Chosen(true, null);
 						}
 						else
 						{

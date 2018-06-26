@@ -34,6 +34,8 @@ namespace Verse
 
 		public int defaultDamage = -1;
 
+		public float defaultArmorPenetration = -1f;
+
 		public bool isRanged;
 
 		public bool canUseDeflectMetalEffect = true;

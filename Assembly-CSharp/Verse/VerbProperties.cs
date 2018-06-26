@@ -81,6 +81,8 @@ namespace Verse
 
 		public int meleeDamageBaseAmount = 1;
 
+		public float meleeArmorPenetrationBase = -1f;
+
 		public bool ai_IsWeapon = true;
 
 		public bool ai_IsBuildingDestroyer = false;
@@ -116,6 +118,8 @@ namespace Verse
 		public const float DistLong = 50f;
 
 		public const float MeleeRange = 1.42f;
+
+		public const float AutoDamageToArmorPenetrationRatio = 0.015f;
 
 		private const float MeleeGunfireWeighting = 0.25f;
 
@@ -191,7 +195,7 @@ namespace Verse
 			float num;
 			if (ownerVerb != null && ownerVerb.tool != null)
 			{
-				num = ownerVerb.tool.AdjustedMeleeDamageAmount(ownerVerb.ownerEquipment, this.meleeDamageDef);
+				num = ownerVerb.tool.AdjustedBaseMeleeDamageAmount(ownerVerb.ownerEquipment, this.meleeDamageDef);
 			}
 			else
 			{
@@ -204,7 +208,26 @@ namespace Verse
 			return num;
 		}
 
-		private float AdjustedExpectedMeleeDamage(Verb ownerVerb, Pawn attacker, Thing equipment)
+		public float AdjustedArmorPenetration(Verb ownerVerb, Pawn attacker, Thing equipment)
+		{
+			float num;
+			if (ownerVerb != null && ownerVerb.tool != null)
+			{
+				num = ownerVerb.tool.armorPenetration;
+			}
+			else
+			{
+				num = this.meleeArmorPenetrationBase;
+			}
+			if (num < 0f)
+			{
+				float num2 = this.AdjustedMeleeDamageAmount(ownerVerb, attacker, equipment);
+				num = num2 * 0.015f;
+			}
+			return num;
+		}
+
+		private float AdjustedExpectedDamageForVerbWhichCanBeUsedInMelee(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			float result;
 			if (this.IsMeleeAttack)
@@ -231,7 +254,7 @@ namespace Verse
 			}
 			else
 			{
-				float num = this.AdjustedExpectedMeleeDamage(ownerVerb, attacker, equipment) * this.commonality * ((ownerVerb.tool != null) ? ownerVerb.tool.commonality : 1f);
+				float num = this.AdjustedExpectedDamageForVerbWhichCanBeUsedInMelee(ownerVerb, attacker, equipment) * this.commonality * ((ownerVerb.tool != null) ? ownerVerb.tool.commonality : 1f);
 				if (this.IsMeleeAttack && equipment != null)
 				{
 					result = num;

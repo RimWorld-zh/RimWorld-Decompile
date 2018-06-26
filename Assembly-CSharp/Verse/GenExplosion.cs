@@ -9,7 +9,7 @@ namespace Verse
 	{
 		private static readonly int PawnNotifyCellCount = GenRadial.NumCellsInRadius(4.5f);
 
-		public static void DoExplosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, int damAmount = -1, SoundDef explosionSound = null, ThingDef weapon = null, ThingDef projectile = null, Thing intendedTarget = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1, float chanceToStartFire = 0f, bool damageFalloff = false)
+		public static void DoExplosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, int damAmount = -1, float armorPenetration = -1f, SoundDef explosionSound = null, ThingDef weapon = null, ThingDef projectile = null, Thing intendedTarget = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1, float chanceToStartFire = 0f, bool damageFalloff = false)
 		{
 			if (map == null)
 			{
@@ -20,17 +20,23 @@ namespace Verse
 				if (damAmount < 0)
 				{
 					damAmount = damType.defaultDamage;
+					armorPenetration = damType.defaultArmorPenetration;
+					if (damAmount < 0)
+					{
+						Log.ErrorOnce("Attempted to trigger an explosion without defined damage", 91094882, false);
+						damAmount = 1;
+					}
 				}
-				if (damAmount < 0)
+				if (armorPenetration < 0f)
 				{
-					Log.ErrorOnce("Attempted to trigger an explosion without defined damage", 91094882, false);
-					damAmount = 0;
+					armorPenetration = (float)damAmount * 0.015f;
 				}
 				Explosion explosion = (Explosion)GenSpawn.Spawn(ThingDefOf.Explosion, center, map, WipeMode.Vanish);
 				explosion.radius = radius;
 				explosion.damType = damType;
 				explosion.instigator = instigator;
 				explosion.damAmount = damAmount;
+				explosion.armorPenetration = armorPenetration;
 				explosion.weapon = weapon;
 				explosion.projectile = projectile;
 				explosion.intendedTarget = intendedTarget;

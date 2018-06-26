@@ -19,6 +19,8 @@ namespace Verse
 
 		private int damageAmountBase = -1;
 
+		private float armorPenetrationBase = -1f;
+
 		public float stoppingPower = 0f;
 
 		public SoundDef soundHitThickRoof = null;
@@ -76,6 +78,41 @@ namespace Verse
 				{
 					Log.ErrorOnce("Failed to find sane damage amount", 91094882, false);
 					result = 1;
+				}
+				return result;
+			}
+		}
+
+		public float ArmorPenetration
+		{
+			get
+			{
+				float result;
+				if (this.damageDef.armorCategory == null)
+				{
+					result = 0f;
+				}
+				else
+				{
+					float num;
+					if (this.damageAmountBase != -1)
+					{
+						num = this.armorPenetrationBase;
+					}
+					else
+					{
+						if (this.damageDef == null)
+						{
+							return 0f;
+						}
+						num = this.damageDef.defaultArmorPenetration;
+					}
+					if (num < 0f)
+					{
+						int damageAmount = this.DamageAmount;
+						num = (float)damageAmount * 0.015f;
+					}
+					result = num;
 				}
 				return result;
 			}

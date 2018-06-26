@@ -78,7 +78,7 @@ namespace Verse
 						float num5 = ambientTemperature - num4;
 						num5 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num5);
 						int num6 = Mathf.Max(GenMath.RoundRandom(num5 * 0.06f), 3);
-						DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, (float)num6, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+						DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, (float)num6, 0f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 						dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 						pawn.TakeDamage(dinfo);
 						if (pawn.Faction == Faction.OfPlayer)

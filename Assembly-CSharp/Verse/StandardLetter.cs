@@ -17,10 +17,10 @@ namespace Verse
 		{
 			get
 			{
-				yield return base.OK;
+				yield return base.Option_Dismiss;
 				if (this.lookTargets.IsValid())
 				{
-					yield return base.JumpToLocation;
+					yield return base.Option_JumpToLocation;
 				}
 				yield break;
 			}
@@ -49,7 +49,7 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					this.$current = base.OK;
+					this.$current = base.Option_Dismiss;
 					if (!this.$disposing)
 					{
 						this.$PC = 1;
@@ -58,7 +58,7 @@ namespace Verse
 				case 1u:
 					if (this.lookTargets.IsValid())
 					{
-						this.$current = base.JumpToLocation;
+						this.$current = base.Option_JumpToLocation;
 						if (!this.$disposing)
 						{
 							this.$PC = 2;

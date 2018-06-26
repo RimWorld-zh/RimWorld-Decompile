@@ -60,7 +60,7 @@ namespace Verse
 				float num = this.Props.infectionChance;
 				if (base.Pawn.RaceProps.Animal)
 				{
-					num *= 0.2f;
+					num *= 0.1f;
 				}
 				if (Rand.Value <= num)
 				{

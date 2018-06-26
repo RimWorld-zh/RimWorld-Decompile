@@ -46,7 +46,7 @@ namespace Verse
 
 		public static readonly IntRange InfectionDelayRange = new IntRange(15000, 45000);
 
-		public const float AnimalsInfectionChanceFactor = 0.2f;
+		public const float AnimalsInfectionChanceFactor = 0.1f;
 
 		public const float HypothermiaGrowthPerDegreeUnder = 6.45E-05f;
 

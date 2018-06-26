@@ -32,6 +32,8 @@ namespace RimWorld
 
 		public List<MentalStateDef> disallowedMentalStates = null;
 
+		public List<InspirationDef> disallowedInspirations = null;
+
 		public List<MentalBreakDef> theOnlyAllowedMentalBreaks = null;
 
 		public Dictionary<SkillDef, int> skillGains = new Dictionary<SkillDef, int>();

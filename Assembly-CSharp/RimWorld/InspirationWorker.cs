@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -7,13 +8,53 @@ namespace RimWorld
 	{
 		public InspirationDef def;
 
+		private const float ChanceFactorPassionNone = 1f;
+
+		private const float ChanceFactorPassionMinor = 2.5f;
+
+		private const float ChanceFactorPassionMajor = 5f;
+
 		public InspirationWorker()
 		{
 		}
 
 		public virtual float CommonalityFor(Pawn pawn)
 		{
-			return this.def.baseCommonality;
+			float num = 1f;
+			if (pawn.skills != null && this.def.associatedSkills != null)
+			{
+				for (int i = 0; i < this.def.associatedSkills.Count; i++)
+				{
+					SkillDef skillDef = this.def.associatedSkills[i];
+					for (int j = 0; j < pawn.skills.skills.Count; j++)
+					{
+						SkillRecord skillRecord = pawn.skills.skills[j];
+						if (skillDef == skillRecord.def)
+						{
+							Passion passion = pawn.skills.skills[j].passion;
+							if (passion != Passion.None)
+							{
+								if (passion != Passion.Minor)
+								{
+									if (passion == Passion.Major)
+									{
+										num = Mathf.Max(num, 5f);
+									}
+								}
+								else
+								{
+									num = Mathf.Max(num, 2.5f);
+								}
+							}
+							else
+							{
+								num = Mathf.Max(num, 1f);
+							}
+						}
+					}
+				}
+			}
+			return this.def.baseCommonality * num;
 		}
 
 		public virtual bool InspirationCanOccur(Pawn pawn)
@@ -96,6 +137,17 @@ namespace RimWorld
 					for (int n = 0; n < this.def.requiredCapacities.Count; n++)
 					{
 						if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[n]))
+						{
+							return false;
+						}
+					}
+				}
+				if (pawn.story != null)
+				{
+					for (int num = 0; num < pawn.story.traits.allTraits.Count; num++)
+					{
+						Trait trait = pawn.story.traits.allTraits[num];
+						if (trait.CurrentData.disallowedInspirations != null && trait.CurrentData.disallowedInspirations.Contains(this.def))
 						{
 							return false;
 						}

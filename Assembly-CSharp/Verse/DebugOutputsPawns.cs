@@ -203,7 +203,7 @@ namespace Verse
 		private static Func<PawnKindDef, float> <>f__am$cache3E;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, int, string> <>f__am$cache3F;
+		private static Func<Pawn, string> <>f__am$cache3F;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, int, string> <>f__am$cache40;
@@ -212,22 +212,22 @@ namespace Verse
 		private static Func<ThingDef, int, string> <>f__am$cache41;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache42;
+		private static Func<ThingDef, int, string> <>f__am$cache42;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache43;
+		private static Func<ThingDef, bool> <>f__am$cache43;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache44;
+		private static Func<ThingDef, float> <>f__am$cache44;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache45;
+		private static Func<ThingDef, string> <>f__am$cache45;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache46;
+		private static Func<ThingDef, bool> <>f__am$cache46;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache47;
+		private static Func<ThingDef, float> <>f__am$cache47;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache48;
@@ -251,13 +251,13 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache4E;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, float> <>f__am$cache4F;
+		private static Func<ThingDef, string> <>f__am$cache4F;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache50;
+		private static Func<PawnKindDef, float> <>f__am$cache50;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cache51;
+		private static Func<PawnKindDef, bool> <>f__am$cache51;
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, string> <>f__am$cache52;
@@ -293,19 +293,19 @@ namespace Verse
 		private static Func<PawnKindDef, string> <>f__am$cache5C;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, float> <>f__am$cache5D;
+		private static Func<PawnKindDef, string> <>f__am$cache5D;
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, float> <>f__am$cache5E;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache5F;
+		private static Func<PawnKindDef, float> <>f__am$cache5F;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, float> <>f__am$cache60;
+		private static Func<PawnKindDef, bool> <>f__am$cache60;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cache61;
+		private static Func<PawnKindDef, float> <>f__am$cache61;
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, string> <>f__am$cache62;
@@ -320,19 +320,19 @@ namespace Verse
 		private static Func<PawnKindDef, string> <>f__am$cache65;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache66;
+		private static Func<PawnKindDef, string> <>f__am$cache66;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, IEnumerable<string>> <>f__am$cache67;
+		private static Func<PawnKindDef, bool> <>f__am$cache67;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache68;
+		private static Func<PawnKindDef, IEnumerable<string>> <>f__am$cache68;
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, bool> <>f__am$cache69;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cache6A;
+		private static Func<PawnKindDef, bool> <>f__am$cache6A;
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, string> <>f__am$cache6B;
@@ -383,16 +383,16 @@ namespace Verse
 		private static Func<PawnKindDef, string> <>f__am$cache7A;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, float> <>f__am$cache7B;
+		private static Func<PawnKindDef, string> <>f__am$cache7B;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache7C;
+		private static Func<PawnKindDef, float> <>f__am$cache7C;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, float> <>f__am$cache7D;
+		private static Func<PawnKindDef, bool> <>f__am$cache7D;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cache7E;
+		private static Func<PawnKindDef, float> <>f__am$cache7E;
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, string> <>f__am$cache7F;
@@ -405,6 +405,9 @@ namespace Verse
 
 		[CompilerGenerated]
 		private static Func<PawnKindDef, string> <>f__am$cache82;
+
+		[CompilerGenerated]
+		private static Func<PawnKindDef, string> <>f__am$cache83;
 
 		[DebugOutput]
 		public static void PawnKindsBasics()
@@ -794,6 +797,22 @@ namespace Verse
 				list.Add(item);
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
+		}
+
+		[DebugOutput]
+		public static void LivePawnsInspirationChances()
+		{
+			List<TableDataGetter<Pawn>> list = new List<TableDataGetter<Pawn>>();
+			list.Add(new TableDataGetter<Pawn>("name", (Pawn p) => p.Label));
+			using (IEnumerator<InspirationDef> enumerator = DefDatabase<InspirationDef>.AllDefs.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					InspirationDef iDef = enumerator.Current;
+					list.Add(new TableDataGetter<Pawn>(iDef.defName, (Pawn p) => iDef.Worker.InspirationCanOccur(p) ? iDef.Worker.CommonalityFor(p).ToString() : "-no-"));
+				}
+			}
+			DebugTables.MakeTablesDialog<Pawn>(Find.CurrentMap.mapPawns.FreeColonistsSpawned, list.ToArray());
 		}
 
 		[DebugOutput]
@@ -1531,7 +1550,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <RacesFoodConsumption>m__3F(ThingDef d, int lsIndex)
+		private static string <LivePawnsInspirationChances>m__3F(Pawn p)
+		{
+			return p.Label;
+		}
+
+		[CompilerGenerated]
+		private static string <RacesFoodConsumption>m__40(ThingDef d, int lsIndex)
 		{
 			string result;
 			if (d.race.lifeStageAges.Count <= lsIndex)
@@ -1547,7 +1572,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <RacesFoodConsumption>m__40(ThingDef d, int lsIndex)
+		private static string <RacesFoodConsumption>m__41(ThingDef d, int lsIndex)
 		{
 			string result;
 			if (d.race.lifeStageAges.Count <= lsIndex)
@@ -1563,7 +1588,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <RacesFoodConsumption>m__41(ThingDef d, int lsIndex)
+		private static string <RacesFoodConsumption>m__42(ThingDef d, int lsIndex)
 		{
 			string result;
 			if (d.race.lifeStageAges.Count <= lsIndex)
@@ -1579,169 +1604,169 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <RacesFoodConsumption>m__42(ThingDef d)
+		private static bool <RacesFoodConsumption>m__43(ThingDef d)
 		{
 			return d.race != null && d.race.EatsFood;
 		}
 
 		[CompilerGenerated]
-		private static float <RacesFoodConsumption>m__43(ThingDef d)
+		private static float <RacesFoodConsumption>m__44(ThingDef d)
 		{
 			return d.race.baseHungerRate;
 		}
 
 		[CompilerGenerated]
-		private static string <RacesFoodConsumption>m__44(ThingDef d)
+		private static string <RacesFoodConsumption>m__45(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <RacesButchery>m__45(ThingDef d)
+		private static bool <RacesButchery>m__46(ThingDef d)
 		{
 			return d.race != null;
 		}
 
 		[CompilerGenerated]
-		private static float <RacesButchery>m__46(ThingDef d)
+		private static float <RacesButchery>m__47(ThingDef d)
 		{
 			return d.race.baseBodySize;
 		}
 
 		[CompilerGenerated]
-		private static string <RacesButchery>m__47(ThingDef d)
-		{
-			return d.defName;
-		}
-
-		[CompilerGenerated]
 		private static string <RacesButchery>m__48(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0");
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <RacesButchery>m__49(ThingDef d)
 		{
-			return d.race.baseHealthScale.ToString("F2");
+			return d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0");
 		}
 
 		[CompilerGenerated]
 		private static string <RacesButchery>m__4A(ThingDef d)
 		{
-			return d.race.baseHungerRate.ToString("F2");
+			return d.race.baseHealthScale.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <RacesButchery>m__4B(ThingDef d)
 		{
-			return d.race.wildness.ToStringPercent();
+			return d.race.baseHungerRate.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <RacesButchery>m__4C(ThingDef d)
 		{
-			return d.race.baseBodySize.ToString("F2");
+			return d.race.wildness.ToStringPercent();
 		}
 
 		[CompilerGenerated]
 		private static string <RacesButchery>m__4D(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.MeatAmount, null).ToString("F0");
+			return d.race.baseBodySize.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <RacesButchery>m__4E(ThingDef d)
 		{
+			return d.GetStatValueAbstract(StatDefOf.MeatAmount, null).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <RacesButchery>m__4F(ThingDef d)
+		{
 			return d.GetStatValueAbstract(StatDefOf.LeatherAmount, null).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalsBasics>m__4F(PawnKindDef d)
+		private static float <AnimalsBasics>m__50(PawnKindDef d)
 		{
 			return DebugOutputsPawns.RaceMeleeDpsEstimate(d.race);
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalsBasics>m__50(PawnKindDef d)
+		private static bool <AnimalsBasics>m__51(PawnKindDef d)
 		{
 			return d.race != null && d.RaceProps.Animal;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__51(PawnKindDef d)
+		private static string <AnimalsBasics>m__52(PawnKindDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__52(PawnKindDef d)
+		private static string <AnimalsBasics>m__53(PawnKindDef d)
 		{
 			return d.RaceProps.baseHealthScale.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__53(PawnKindDef d)
+		private static string <AnimalsBasics>m__54(PawnKindDef d)
 		{
 			return d.combatPower.ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__54(PawnKindDef d)
+		private static string <AnimalsBasics>m__55(PawnKindDef d)
 		{
 			return d.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__55(PawnKindDef d)
+		private static string <AnimalsBasics>m__56(PawnKindDef d)
 		{
 			return d.race.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__56(PawnKindDef d)
+		private static string <AnimalsBasics>m__57(PawnKindDef d)
 		{
 			return d.RaceProps.baseBodySize.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__57(PawnKindDef d)
+		private static string <AnimalsBasics>m__58(PawnKindDef d)
 		{
 			return d.RaceProps.baseHungerRate.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__58(PawnKindDef d)
+		private static string <AnimalsBasics>m__59(PawnKindDef d)
 		{
 			return d.RaceProps.wildness.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__59(PawnKindDef d)
+		private static string <AnimalsBasics>m__5A(PawnKindDef d)
 		{
 			return d.RaceProps.lifeExpectancy.ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__5A(PawnKindDef d)
+		private static string <AnimalsBasics>m__5B(PawnKindDef d)
 		{
 			return (d.RaceProps.trainability == null) ? "null" : d.RaceProps.trainability.label;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__5B(PawnKindDef d)
+		private static string <AnimalsBasics>m__5C(PawnKindDef d)
 		{
 			return d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsBasics>m__5C(PawnKindDef d)
+		private static string <AnimalsBasics>m__5D(PawnKindDef d)
 		{
 			return d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalCombatBalance>m__5D(PawnKindDef k)
+		private static float <AnimalCombatBalance>m__5E(PawnKindDef k)
 		{
 			Pawn pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(k, null, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, true, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null));
 			while (pawn.health.hediffSet.hediffs.Count > 0)
@@ -1754,7 +1779,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalCombatBalance>m__5E(PawnKindDef k)
+		private static float <AnimalCombatBalance>m__5F(PawnKindDef k)
 		{
 			Pawn pawn = PawnGenerator.GeneratePawn(k, null);
 			while (pawn.health.hediffSet.hediffs.Count > 0)
@@ -1767,217 +1792,217 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalCombatBalance>m__5F(PawnKindDef d)
+		private static bool <AnimalCombatBalance>m__60(PawnKindDef d)
 		{
 			return d.race != null && d.RaceProps.Animal;
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalCombatBalance>m__60(PawnKindDef d)
+		private static float <AnimalCombatBalance>m__61(PawnKindDef d)
 		{
 			return d.combatPower;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalCombatBalance>m__61(PawnKindDef k)
-		{
-			return k.defName;
-		}
-
-		[CompilerGenerated]
 		private static string <AnimalCombatBalance>m__62(PawnKindDef k)
 		{
-			return k.RaceProps.baseHealthScale.ToString();
+			return k.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalCombatBalance>m__63(PawnKindDef k)
 		{
-			return k.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null).ToString();
+			return k.RaceProps.baseHealthScale.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalCombatBalance>m__64(PawnKindDef k)
 		{
+			return k.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null).ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalCombatBalance>m__65(PawnKindDef k)
+		{
 			return k.combatPower.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalTradeTags>m__65(PawnKindDef k)
+		private static string <AnimalTradeTags>m__66(PawnKindDef k)
 		{
 			return k.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalTradeTags>m__66(PawnKindDef k)
+		private static bool <AnimalTradeTags>m__67(PawnKindDef k)
 		{
 			return k.race.tradeTags != null;
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<string> <AnimalTradeTags>m__67(PawnKindDef k)
+		private static IEnumerable<string> <AnimalTradeTags>m__68(PawnKindDef k)
 		{
 			return k.race.tradeTags;
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalTradeTags>m__68(PawnKindDef d)
+		private static bool <AnimalTradeTags>m__69(PawnKindDef d)
 		{
 			return d.race != null && d.RaceProps.Animal;
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalBehavior>m__69(PawnKindDef d)
+		private static bool <AnimalBehavior>m__6A(PawnKindDef d)
 		{
 			return d.race != null && d.RaceProps.Animal;
-		}
-
-		[CompilerGenerated]
-		private static string <AnimalBehavior>m__6A(PawnKindDef k)
-		{
-			return k.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__6B(PawnKindDef k)
 		{
-			return k.RaceProps.wildness.ToStringPercent();
+			return k.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__6C(PawnKindDef k)
 		{
-			return k.RaceProps.manhunterOnDamageChance.ToStringPercentEmptyZero("F1");
+			return k.RaceProps.wildness.ToStringPercent();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__6D(PawnKindDef k)
 		{
-			return k.RaceProps.manhunterOnTameFailChance.ToStringPercentEmptyZero("F1");
+			return k.RaceProps.manhunterOnDamageChance.ToStringPercentEmptyZero("F1");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__6E(PawnKindDef k)
 		{
-			return k.RaceProps.predator.ToStringCheckBlank();
+			return k.RaceProps.manhunterOnTameFailChance.ToStringPercentEmptyZero("F1");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__6F(PawnKindDef k)
 		{
-			return k.RaceProps.baseBodySize.ToString("F2");
+			return k.RaceProps.predator.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__70(PawnKindDef k)
 		{
-			return (!k.RaceProps.predator) ? "" : k.RaceProps.maxPreyBodySize.ToString("F2");
+			return k.RaceProps.baseBodySize.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__71(PawnKindDef k)
 		{
-			return k.RaceProps.canBePredatorPrey.ToStringCheckBlank();
+			return (!k.RaceProps.predator) ? "" : k.RaceProps.maxPreyBodySize.ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__72(PawnKindDef k)
 		{
-			return k.RaceProps.petness.ToStringPercent();
+			return k.RaceProps.canBePredatorPrey.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__73(PawnKindDef k)
 		{
-			return (k.RaceProps.nuzzleMtbHours <= 0f) ? "" : k.RaceProps.nuzzleMtbHours.ToString();
+			return k.RaceProps.petness.ToStringPercent();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__74(PawnKindDef k)
 		{
-			return k.RaceProps.packAnimal.ToStringCheckBlank();
+			return (k.RaceProps.nuzzleMtbHours <= 0f) ? "" : k.RaceProps.nuzzleMtbHours.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__75(PawnKindDef k)
 		{
-			return k.RaceProps.herdAnimal.ToStringCheckBlank();
+			return k.RaceProps.packAnimal.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__76(PawnKindDef k)
 		{
-			return (k.wildGroupSize.min == 1) ? "" : k.wildGroupSize.min.ToString();
+			return k.RaceProps.herdAnimal.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__77(PawnKindDef k)
 		{
-			return (k.wildGroupSize.max == 1) ? "" : k.wildGroupSize.max.ToString();
+			return (k.wildGroupSize.min == 1) ? "" : k.wildGroupSize.min.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__78(PawnKindDef k)
 		{
-			return k.RaceProps.CanDoHerdMigration.ToStringCheckBlank();
+			return (k.wildGroupSize.max == 1) ? "" : k.wildGroupSize.max.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__79(PawnKindDef k)
 		{
-			return k.RaceProps.herdMigrationAllowed.ToStringCheckBlank();
+			return k.RaceProps.CanDoHerdMigration.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <AnimalBehavior>m__7A(PawnKindDef k)
 		{
+			return k.RaceProps.herdMigrationAllowed.ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <AnimalBehavior>m__7B(PawnKindDef k)
+		{
 			return k.RaceProps.mateMtbHours.ToStringEmptyZero("F0");
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalsEcosystem>m__7B(PawnKindDef k)
+		private static float <AnimalsEcosystem>m__7C(PawnKindDef k)
 		{
 			return k.RaceProps.baseBodySize * 0.2f + k.RaceProps.baseHungerRate * 0.8f;
 		}
 
 		[CompilerGenerated]
-		private static bool <AnimalsEcosystem>m__7C(PawnKindDef d)
+		private static bool <AnimalsEcosystem>m__7D(PawnKindDef d)
 		{
 			return d.race != null && d.RaceProps.Animal;
 		}
 
 		[CompilerGenerated]
-		private static float <AnimalsEcosystem>m__7D(PawnKindDef d)
+		private static float <AnimalsEcosystem>m__7E(PawnKindDef d)
 		{
 			return d.ecoSystemWeight;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsEcosystem>m__7E(PawnKindDef d)
+		private static string <AnimalsEcosystem>m__7F(PawnKindDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsEcosystem>m__7F(PawnKindDef d)
+		private static string <AnimalsEcosystem>m__80(PawnKindDef d)
 		{
 			return d.RaceProps.baseBodySize.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsEcosystem>m__80(PawnKindDef d)
+		private static string <AnimalsEcosystem>m__81(PawnKindDef d)
 		{
 			return d.RaceProps.baseHungerRate.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsEcosystem>m__81(PawnKindDef d)
+		private static string <AnimalsEcosystem>m__82(PawnKindDef d)
 		{
 			return d.ecoSystemWeight.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <AnimalsEcosystem>m__82(PawnKindDef d)
+		private static string <AnimalsEcosystem>m__83(PawnKindDef d)
 		{
 			return d.RaceProps.predator.ToStringCheckBlank();
 		}
@@ -2247,7 +2272,22 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <RacesFoodConsumption>c__AnonStorey9
+		private sealed class <LivePawnsInspirationChances>c__AnonStorey9
+		{
+			internal InspirationDef iDef;
+
+			public <LivePawnsInspirationChances>c__AnonStorey9()
+			{
+			}
+
+			internal string <>m__0(Pawn p)
+			{
+				return this.iDef.Worker.InspirationCanOccur(p) ? this.iDef.Worker.CommonalityFor(p).ToString() : "-no-";
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <RacesFoodConsumption>c__AnonStoreyA
 		{
 			internal Func<ThingDef, int, string> lsName;
 
@@ -2255,7 +2295,7 @@ namespace Verse
 
 			internal Func<ThingDef, int, string> hungerRate;
 
-			public <RacesFoodConsumption>c__AnonStorey9()
+			public <RacesFoodConsumption>c__AnonStoreyA()
 			{
 			}
 
@@ -2321,7 +2361,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <AnimalsBasics>c__AnonStoreyA
+		private sealed class <AnimalsBasics>c__AnonStoreyB
 		{
 			internal Func<PawnKindDef, float> dps;
 
@@ -2329,7 +2369,7 @@ namespace Verse
 
 			internal Func<PawnKindDef, float> mktValGuess;
 
-			public <AnimalsBasics>c__AnonStoreyA()
+			public <AnimalsBasics>c__AnonStoreyB()
 			{
 			}
 
@@ -2401,7 +2441,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <AnimalCombatBalance>c__AnonStoreyB
+		private sealed class <AnimalCombatBalance>c__AnonStoreyC
 		{
 			internal Func<PawnKindDef, float> meleeDps;
 
@@ -2409,7 +2449,7 @@ namespace Verse
 
 			internal Func<PawnKindDef, float> combatPowerCalculated;
 
-			public <AnimalCombatBalance>c__AnonStoreyB()
+			public <AnimalCombatBalance>c__AnonStoreyC()
 			{
 			}
 
@@ -2438,11 +2478,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <AnimalTradeTags>c__AnonStoreyC
+		private sealed class <AnimalTradeTags>c__AnonStoreyD
 		{
 			internal string tag;
 
-			public <AnimalTradeTags>c__AnonStoreyC()
+			public <AnimalTradeTags>c__AnonStoreyD()
 			{
 			}
 
@@ -2453,11 +2493,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <AnimalsEcosystem>c__AnonStoreyD
+		private sealed class <AnimalsEcosystem>c__AnonStoreyE
 		{
 			internal Func<PawnKindDef, float> ecosystemWeightGuess;
 
-			public <AnimalsEcosystem>c__AnonStoreyD()
+			public <AnimalsEcosystem>c__AnonStoreyE()
 			{
 			}
 

@@ -25,10 +25,10 @@ namespace Verse
 		private static Func<ThingDef, float> <>f__am$cache3;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, int> <>f__am$cache4;
+		private static Func<ThingDef, float> <>f__am$cache4;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache5;
+		private static Func<ThingDef, int> <>f__am$cache5;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, float> <>f__am$cache6;
@@ -40,10 +40,10 @@ namespace Verse
 		private static Func<ThingDef, float> <>f__am$cache8;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache9;
+		private static Func<ThingDef, float> <>f__am$cache9;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA;
+		private static Func<ThingDef, bool> <>f__am$cacheA;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cacheB;
@@ -61,73 +61,73 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cacheF;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache10;
+		private static Func<ThingDef, string> <>f__am$cache10;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache11;
+		private static Action <>f__am$cache11;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache12;
+		private static Func<ThingDef, bool> <>f__am$cache12;
 
 		[CompilerGenerated]
-		private static Func<Def, float> <>f__am$cache13;
+		private static Func<ThingDef, float> <>f__am$cache13;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache14;
+		private static Func<Def, float> <>f__am$cache14;
 
 		[CompilerGenerated]
-		private static Func<HediffDef, bool> <>f__am$cache15;
+		private static Func<ThingDef, bool> <>f__am$cache15;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache16;
+		private static Func<HediffDef, bool> <>f__am$cache16;
 
 		[CompilerGenerated]
-		private static Func<Def, string> <>f__am$cache17;
+		private static Func<ThingDef, bool> <>f__am$cache17;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache18;
+		private static Func<Def, string> <>f__am$cache18;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache19;
+		private static Action <>f__am$cache19;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache1A;
+		private static Func<ThingDef, bool> <>f__am$cache1A;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache1B;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache1C;
+		private static Func<ThingDef, string> <>f__am$cache1C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache1D;
+		private static Func<ThingDef, bool> <>f__am$cache1D;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache1E;
+		private static Func<ThingDef, float> <>f__am$cache1E;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache1F;
+		private static Func<ThingDef, bool> <>f__am$cache1F;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache20;
+		private static Func<ThingDef, float> <>f__am$cache20;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache21;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache22;
+		private static Func<ThingDef, string> <>f__am$cache22;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache23;
+		private static Func<ThingDef, bool> <>f__am$cache23;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache24;
+		private static Func<ThingDef, float> <>f__am$cache24;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache25;
+		private static Func<ThingDef, bool> <>f__am$cache25;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache26;
+		private static Func<ThingDef, float> <>f__am$cache26;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache27;
@@ -139,13 +139,13 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache29;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache2A;
+		private static Func<ThingDef, string> <>f__am$cache2A;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, ThingCategory> <>f__am$cache2B;
+		private static Func<ThingDef, bool> <>f__am$cache2B;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache2C;
+		private static Func<ThingDef, ThingCategory> <>f__am$cache2C;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache2D;
@@ -169,22 +169,22 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache33;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache34;
+		private static Func<ThingDef, string> <>f__am$cache34;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, bool> <>f__am$cache35;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache36;
+		private static Func<ThingDef, bool> <>f__am$cache36;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, float> <>f__am$cache37;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float, string> <>f__am$cache38;
+		private static Func<ThingDef, float> <>f__am$cache38;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache39;
+		private static Func<ThingDef, float, string> <>f__am$cache39;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache3A;
@@ -196,13 +196,13 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache3C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache3D;
+		private static Func<ThingDef, string> <>f__am$cache3D;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache3E;
+		private static Func<ThingDef, bool> <>f__am$cache3E;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache3F;
+		private static Func<ThingDef, float> <>f__am$cache3F;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache40;
@@ -211,10 +211,10 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache41;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache42;
+		private static Func<ThingDef, string> <>f__am$cache42;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache43;
+		private static Func<ThingDef, bool> <>f__am$cache43;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache44;
@@ -232,18 +232,22 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache48;
 
 		[CompilerGenerated]
-		private static Func<BodyPartGroupDef, string> <>f__am$cache49;
+		private static Func<ThingDef, string> <>f__am$cache49;
 
 		[CompilerGenerated]
-		private static Func<ApparelLayerDef, string> <>f__am$cache4A;
+		private static Func<BodyPartGroupDef, string> <>f__am$cache4A;
 
 		[CompilerGenerated]
-		private static Func<string, string> <>f__am$cache4B;
+		private static Func<ApparelLayerDef, string> <>f__am$cache4B;
+
+		[CompilerGenerated]
+		private static Func<string, string> <>f__am$cache4C;
 
 		[DebugOutput]
 		public static void WeaponsRanged()
 		{
 			Func<ThingDef, int> damage = (ThingDef d) => (d.Verbs[0].defaultProjectile == null) ? 0 : d.Verbs[0].defaultProjectile.projectile.DamageAmount;
+			Func<ThingDef, float> armorPenetration = (ThingDef d) => (d.Verbs[0].defaultProjectile == null) ? 0f : d.Verbs[0].defaultProjectile.projectile.ArmorPenetration;
 			Func<ThingDef, float> stoppingPower = (ThingDef d) => (d.Verbs[0].defaultProjectile == null) ? 0f : d.Verbs[0].defaultProjectile.projectile.stoppingPower;
 			Func<ThingDef, float> warmup = (ThingDef d) => d.Verbs[0].warmupTime;
 			Func<ThingDef, float> cooldown = (ThingDef d) => d.GetStatValueAbstract(StatDefOf.RangedWeapon_Cooldown, null);
@@ -265,31 +269,32 @@ namespace Verse
 			IEnumerable<ThingDef> dataSources = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsRangedWeapon
 			select d).OrderByDescending(dpsAvg);
-			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[24];
+			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[25];
 			array[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
 			array[1] = new TableDataGetter<ThingDef>("damage", (ThingDef d) => damage(d).ToString());
-			array[2] = new TableDataGetter<ThingDef>("stop\npower", (ThingDef d) => (stoppingPower(d) <= 0f) ? "" : stoppingPower(d).ToString("F1"));
-			array[3] = new TableDataGetter<ThingDef>("warmup", (ThingDef d) => warmup(d).ToString("F2"));
-			array[4] = new TableDataGetter<ThingDef>("burst\nshots", (ThingDef d) => burstShots(d).ToString());
-			array[5] = new TableDataGetter<ThingDef>("cooldown", (ThingDef d) => cooldown(d).ToString("F2"));
-			array[6] = new TableDataGetter<ThingDef>("full\ncycle", (ThingDef d) => fullcycle(d).ToString("F2"));
-			array[7] = new TableDataGetter<ThingDef>("range", (ThingDef d) => d.Verbs[0].range.ToString("F1"));
-			array[8] = new TableDataGetter<ThingDef>("projectile\nspeed", (ThingDef d) => (d.projectile == null) ? "" : d.projectile.speed.ToString("F0"));
-			array[9] = new TableDataGetter<ThingDef>("dps\nmissless", (ThingDef d) => dpsMissless(d).ToString("F2"));
-			array[10] = new TableDataGetter<ThingDef>("accuracy\ntouch (" + 4f + ")", (ThingDef d) => accTouch(d).ToStringPercent());
-			array[11] = new TableDataGetter<ThingDef>("accuracy\nshort (" + 15f + ")", (ThingDef d) => accShort(d).ToStringPercent());
-			array[12] = new TableDataGetter<ThingDef>("accuracy\nmed (" + 30f + ")", (ThingDef d) => accMed(d).ToStringPercent());
-			array[13] = new TableDataGetter<ThingDef>("accuracy\nlong (" + 50f + ")", (ThingDef d) => accLong(d).ToStringPercent());
-			array[14] = new TableDataGetter<ThingDef>("accuracy\navg", (ThingDef d) => accAvg(d).ToString("F2"));
-			array[15] = new TableDataGetter<ThingDef>("forced\nmiss\nradius", (ThingDef d) => (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString());
-			array[16] = new TableDataGetter<ThingDef>("dps\ntouch", (ThingDef d) => (dpsMissless(d) * accTouch(d)).ToString("F2"));
-			array[17] = new TableDataGetter<ThingDef>("dps\nshort", (ThingDef d) => (dpsMissless(d) * accShort(d)).ToString("F2"));
-			array[18] = new TableDataGetter<ThingDef>("dps\nmed", (ThingDef d) => (dpsMissless(d) * accMed(d)).ToString("F2"));
-			array[19] = new TableDataGetter<ThingDef>("dps\nlong", (ThingDef d) => (dpsMissless(d) * accLong(d)).ToString("F2"));
-			array[20] = new TableDataGetter<ThingDef>("dps\navg", (ThingDef d) => dpsAvg(d).ToString("F2"));
-			array[21] = new TableDataGetter<ThingDef>("market\nvalue", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0"));
-			array[22] = new TableDataGetter<ThingDef>("work", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, null).ToString("F0"));
-			array[23] = new TableDataGetter<ThingDef>("dpsAvg*100 / market value", (ThingDef d) => (dpsAvg(d) * 100f / d.GetStatValueAbstract(StatDefOf.MarketValue, null)).ToString("F3"));
+			array[2] = new TableDataGetter<ThingDef>("AP", (ThingDef d) => armorPenetration(d).ToStringPercent());
+			array[3] = new TableDataGetter<ThingDef>("stop\npower", (ThingDef d) => (stoppingPower(d) <= 0f) ? "" : stoppingPower(d).ToString("F1"));
+			array[4] = new TableDataGetter<ThingDef>("warmup", (ThingDef d) => warmup(d).ToString("F2"));
+			array[5] = new TableDataGetter<ThingDef>("burst\nshots", (ThingDef d) => burstShots(d).ToString());
+			array[6] = new TableDataGetter<ThingDef>("cooldown", (ThingDef d) => cooldown(d).ToString("F2"));
+			array[7] = new TableDataGetter<ThingDef>("full\ncycle", (ThingDef d) => fullcycle(d).ToString("F2"));
+			array[8] = new TableDataGetter<ThingDef>("range", (ThingDef d) => d.Verbs[0].range.ToString("F1"));
+			array[9] = new TableDataGetter<ThingDef>("projectile\nspeed", (ThingDef d) => (d.projectile == null) ? "" : d.projectile.speed.ToString("F0"));
+			array[10] = new TableDataGetter<ThingDef>("dps\nmissless", (ThingDef d) => dpsMissless(d).ToString("F2"));
+			array[11] = new TableDataGetter<ThingDef>("accuracy\ntouch (" + 4f + ")", (ThingDef d) => accTouch(d).ToStringPercent());
+			array[12] = new TableDataGetter<ThingDef>("accuracy\nshort (" + 15f + ")", (ThingDef d) => accShort(d).ToStringPercent());
+			array[13] = new TableDataGetter<ThingDef>("accuracy\nmed (" + 30f + ")", (ThingDef d) => accMed(d).ToStringPercent());
+			array[14] = new TableDataGetter<ThingDef>("accuracy\nlong (" + 50f + ")", (ThingDef d) => accLong(d).ToStringPercent());
+			array[15] = new TableDataGetter<ThingDef>("accuracy\navg", (ThingDef d) => accAvg(d).ToString("F2"));
+			array[16] = new TableDataGetter<ThingDef>("forced\nmiss\nradius", (ThingDef d) => (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString());
+			array[17] = new TableDataGetter<ThingDef>("dps\ntouch", (ThingDef d) => (dpsMissless(d) * accTouch(d)).ToString("F2"));
+			array[18] = new TableDataGetter<ThingDef>("dps\nshort", (ThingDef d) => (dpsMissless(d) * accShort(d)).ToString("F2"));
+			array[19] = new TableDataGetter<ThingDef>("dps\nmed", (ThingDef d) => (dpsMissless(d) * accMed(d)).ToString("F2"));
+			array[20] = new TableDataGetter<ThingDef>("dps\nlong", (ThingDef d) => (dpsMissless(d) * accLong(d)).ToString("F2"));
+			array[21] = new TableDataGetter<ThingDef>("dps\navg", (ThingDef d) => dpsAvg(d).ToString("F2"));
+			array[22] = new TableDataGetter<ThingDef>("market\nvalue", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0"));
+			array[23] = new TableDataGetter<ThingDef>("work", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, null).ToString("F0"));
+			array[24] = new TableDataGetter<ThingDef>("dpsAvg*100 / market value", (ThingDef d) => (dpsAvg(d) * 100f / d.GetStatValueAbstract(StatDefOf.MarketValue, null)).ToString("F3"));
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
@@ -872,161 +877,167 @@ namespace Verse
 		[CompilerGenerated]
 		private static float <WeaponsRanged>m__1(ThingDef d)
 		{
-			return (d.Verbs[0].defaultProjectile == null) ? 0f : d.Verbs[0].defaultProjectile.projectile.stoppingPower;
+			return (d.Verbs[0].defaultProjectile == null) ? 0f : d.Verbs[0].defaultProjectile.projectile.ArmorPenetration;
 		}
 
 		[CompilerGenerated]
 		private static float <WeaponsRanged>m__2(ThingDef d)
 		{
-			return d.Verbs[0].warmupTime;
+			return (d.Verbs[0].defaultProjectile == null) ? 0f : d.Verbs[0].defaultProjectile.projectile.stoppingPower;
 		}
 
 		[CompilerGenerated]
 		private static float <WeaponsRanged>m__3(ThingDef d)
 		{
+			return d.Verbs[0].warmupTime;
+		}
+
+		[CompilerGenerated]
+		private static float <WeaponsRanged>m__4(ThingDef d)
+		{
 			return d.GetStatValueAbstract(StatDefOf.RangedWeapon_Cooldown, null);
 		}
 
 		[CompilerGenerated]
-		private static int <WeaponsRanged>m__4(ThingDef d)
+		private static int <WeaponsRanged>m__5(ThingDef d)
 		{
 			return d.Verbs[0].burstShotCount;
 		}
 
 		[CompilerGenerated]
-		private static float <WeaponsRanged>m__5(ThingDef d)
+		private static float <WeaponsRanged>m__6(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.AccuracyTouch, null);
 		}
 
 		[CompilerGenerated]
-		private static float <WeaponsRanged>m__6(ThingDef d)
+		private static float <WeaponsRanged>m__7(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.AccuracyShort, null);
 		}
 
 		[CompilerGenerated]
-		private static float <WeaponsRanged>m__7(ThingDef d)
+		private static float <WeaponsRanged>m__8(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.AccuracyMedium, null);
 		}
 
 		[CompilerGenerated]
-		private static float <WeaponsRanged>m__8(ThingDef d)
+		private static float <WeaponsRanged>m__9(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.AccuracyLong, null);
 		}
 
 		[CompilerGenerated]
-		private static bool <WeaponsRanged>m__9(ThingDef d)
+		private static bool <WeaponsRanged>m__A(ThingDef d)
 		{
 			return d.IsRangedWeapon;
 		}
 
 		[CompilerGenerated]
-		private static string <WeaponsRanged>m__A(ThingDef d)
-		{
-			return d.defName;
-		}
-
-		[CompilerGenerated]
 		private static string <WeaponsRanged>m__B(ThingDef d)
 		{
-			return d.Verbs[0].range.ToString("F1");
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <WeaponsRanged>m__C(ThingDef d)
 		{
-			return (d.projectile == null) ? "" : d.projectile.speed.ToString("F0");
+			return d.Verbs[0].range.ToString("F1");
 		}
 
 		[CompilerGenerated]
 		private static string <WeaponsRanged>m__D(ThingDef d)
 		{
-			return (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString();
+			return (d.projectile == null) ? "" : d.projectile.speed.ToString("F0");
 		}
 
 		[CompilerGenerated]
 		private static string <WeaponsRanged>m__E(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0");
+			return (d.Verbs[0].forcedMissRadius <= 0f) ? "" : d.Verbs[0].forcedMissRadius.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <WeaponsRanged>m__F(ThingDef d)
 		{
+			return d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0");
+		}
+
+		[CompilerGenerated]
+		private static string <WeaponsRanged>m__10(ThingDef d)
+		{
 			return d.GetStatValueAbstract(StatDefOf.WorkToMake, null).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static void <MeleeByStuff>m__10()
+		private static void <MeleeByStuff>m__11()
 		{
 			DebugOutputsGeneral.DoTableInternalApparel(null);
 		}
 
 		[CompilerGenerated]
-		private static bool <MeleeByStuff>m__11(ThingDef td)
+		private static bool <MeleeByStuff>m__12(ThingDef td)
 		{
 			return td.IsStuff;
 		}
 
 		[CompilerGenerated]
-		private static float <MeleeByStuff>m__12(ThingDef td)
+		private static float <MeleeByStuff>m__13(ThingDef td)
 		{
 			return td.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null);
 		}
 
 		[CompilerGenerated]
-		private static float <DoTablesInternalMelee>m__13(Def d)
+		private static float <DoTablesInternalMelee>m__14(Def d)
 		{
 			return 0f;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoTablesInternalMelee>m__14(ThingDef d)
+		private static bool <DoTablesInternalMelee>m__15(ThingDef d)
 		{
 			return d.IsWeapon;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoTablesInternalMelee>m__15(HediffDef h)
+		private static bool <DoTablesInternalMelee>m__16(HediffDef h)
 		{
 			return h.CompProps<HediffCompProperties_VerbGiver>() != null;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoTablesInternalMelee>m__16(ThingDef d)
+		private static bool <DoTablesInternalMelee>m__17(ThingDef d)
 		{
 			return d.race != null;
 		}
 
 		[CompilerGenerated]
-		private static string <DoTablesInternalMelee>m__17(Def d)
+		private static string <DoTablesInternalMelee>m__18(Def d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static void <ApparelByStuff>m__18()
+		private static void <ApparelByStuff>m__19()
 		{
 			DebugOutputsGeneral.DoTableInternalApparel(null);
 		}
 
 		[CompilerGenerated]
-		private static bool <ApparelByStuff>m__19(ThingDef td)
+		private static bool <ApparelByStuff>m__1A(ThingDef td)
 		{
 			return td.IsStuff;
 		}
 
 		[CompilerGenerated]
-		private static string <ApparelArmor>m__1A(ThingDef x)
+		private static string <ApparelArmor>m__1B(ThingDef x)
 		{
 			return x.LabelCap;
 		}
 
 		[CompilerGenerated]
-		private static string <ApparelArmor>m__1B(ThingDef x)
+		private static string <ApparelArmor>m__1C(ThingDef x)
 		{
 			string result;
 			if (x.MadeFromStuff)
@@ -1048,37 +1059,37 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <ApparelArmor>m__1C(ThingDef x)
+		private static bool <ApparelArmor>m__1D(ThingDef x)
 		{
 			return x.IsStuff;
 		}
 
 		[CompilerGenerated]
-		private static float <ApparelArmor>m__1D(ThingDef x)
+		private static float <ApparelArmor>m__1E(ThingDef x)
 		{
 			return x.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static bool <ApparelArmor>m__1E(ThingDef x)
+		private static bool <ApparelArmor>m__1F(ThingDef x)
 		{
 			return x.IsApparel;
 		}
 
 		[CompilerGenerated]
-		private static float <ApparelArmor>m__1F(ThingDef x)
+		private static float <ApparelArmor>m__20(ThingDef x)
 		{
 			return x.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static string <ApparelInsulation>m__20(ThingDef x)
+		private static string <ApparelInsulation>m__21(ThingDef x)
 		{
 			return x.LabelCap;
 		}
 
 		[CompilerGenerated]
-		private static string <ApparelInsulation>m__21(ThingDef x)
+		private static string <ApparelInsulation>m__22(ThingDef x)
 		{
 			string result;
 			if (x.MadeFromStuff)
@@ -1093,148 +1104,148 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <ApparelInsulation>m__22(ThingDef x)
+		private static bool <ApparelInsulation>m__23(ThingDef x)
 		{
 			return x.IsStuff;
 		}
 
 		[CompilerGenerated]
-		private static float <ApparelInsulation>m__23(ThingDef x)
+		private static float <ApparelInsulation>m__24(ThingDef x)
 		{
 			return x.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static bool <ApparelInsulation>m__24(ThingDef x)
+		private static bool <ApparelInsulation>m__25(ThingDef x)
 		{
 			return x.IsApparel;
 		}
 
 		[CompilerGenerated]
-		private static float <ApparelInsulation>m__25(ThingDef x)
+		private static float <ApparelInsulation>m__26(ThingDef x)
 		{
 			return x.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__26(ThingDef d)
+		private static string <DoTableInternalApparel>m__27(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__27(ThingDef d)
+		private static string <DoTableInternalApparel>m__28(ThingDef d)
 		{
 			return GenText.ToSpaceList(from bp in d.apparel.bodyPartGroups
 			select bp.defName);
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__28(ThingDef d)
+		private static string <DoTableInternalApparel>m__29(ThingDef d)
 		{
 			return GenText.ToSpaceList(from l in d.apparel.layers
 			select l.ToString());
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__29(ThingDef d)
+		private static string <DoTableInternalApparel>m__2A(ThingDef d)
 		{
 			return GenText.ToSpaceList(from t in d.apparel.tags
 			select t.ToString());
 		}
 
 		[CompilerGenerated]
-		private static bool <ThingDamageData>m__2A(ThingDef d)
+		private static bool <ThingDamageData>m__2B(ThingDef d)
 		{
 			return d.useHitPoints;
 		}
 
 		[CompilerGenerated]
-		private static ThingCategory <ThingDamageData>m__2B(ThingDef d)
+		private static ThingCategory <ThingDamageData>m__2C(ThingDef d)
 		{
 			return d.category;
 		}
 
 		[CompilerGenerated]
-		private static string <ThingDamageData>m__2C(ThingDef d)
-		{
-			return d.defName;
-		}
-
-		[CompilerGenerated]
 		private static string <ThingDamageData>m__2D(ThingDef d)
 		{
-			return d.category.ToString();
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__2E(ThingDef d)
 		{
-			return d.defName;
+			return d.category.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__2F(ThingDef d)
 		{
-			return d.BaseMaxHitPoints.ToString();
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__30(ThingDef d)
 		{
-			return (d.BaseFlammability <= 0f) ? "" : d.BaseFlammability.ToString();
+			return d.BaseMaxHitPoints.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__31(ThingDef d)
 		{
-			return d.MadeFromStuff.ToStringCheckBlank();
+			return (d.BaseFlammability <= 0f) ? "" : d.BaseFlammability.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__32(ThingDef d)
 		{
-			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString();
+			return d.MadeFromStuff.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <ThingDamageData>m__33(ThingDef d)
 		{
-			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString();
+			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString();
 		}
 
 		[CompilerGenerated]
-		private static bool <ThingMasses>m__34(ThingDef x)
+		private static string <ThingDamageData>m__34(ThingDef d)
 		{
-			return x.category == ThingCategory.Item || x.Minifiable;
+			return (d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) <= 0f) ? "" : ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString();
 		}
 
 		[CompilerGenerated]
 		private static bool <ThingMasses>m__35(ThingDef x)
 		{
-			return x.thingClass != typeof(MinifiedThing) && x.thingClass != typeof(UnfinishedThing);
+			return x.category == ThingCategory.Item || x.Minifiable;
 		}
 
 		[CompilerGenerated]
-		private static float <ThingMasses>m__36(ThingDef x)
+		private static bool <ThingMasses>m__36(ThingDef x)
 		{
-			return x.GetStatValueAbstract(StatDefOf.Mass, null);
+			return x.thingClass != typeof(MinifiedThing) && x.thingClass != typeof(UnfinishedThing);
 		}
 
 		[CompilerGenerated]
 		private static float <ThingMasses>m__37(ThingDef x)
 		{
+			return x.GetStatValueAbstract(StatDefOf.Mass, null);
+		}
+
+		[CompilerGenerated]
+		private static float <ThingMasses>m__38(ThingDef x)
+		{
 			return x.GetStatValueAbstract(StatDefOf.MarketValue, null);
 		}
 
 		[CompilerGenerated]
-		private static string <ThingMasses>m__38(ThingDef d, float bodySize)
+		private static string <ThingMasses>m__39(ThingDef d, float bodySize)
 		{
 			return (bodySize * 35f / d.GetStatValueAbstract(StatDefOf.Mass, null)).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <ThingMasses>m__39(ThingDef d)
+		private static string <ThingMasses>m__3A(ThingDef d)
 		{
 			string result;
 			if (d.ingestible == null || d.GetStatValueAbstract(StatDefOf.Nutrition, null) == 0f)
@@ -1249,7 +1260,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <ThingMasses>m__3A(ThingDef d)
+		private static string <ThingMasses>m__3B(ThingDef d)
 		{
 			string result;
 			if (d.Minifiable)
@@ -1269,103 +1280,103 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <ThingMasses>m__3B(ThingDef d)
+		private static string <ThingMasses>m__3C(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.Mass, null).ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <ThingMasses>m__3C(ThingDef d)
+		private static string <ThingMasses>m__3D(ThingDef d)
 		{
 			return (!d.smallVolume) ? "" : "small";
 		}
 
 		[CompilerGenerated]
-		private static bool <ThingFillPercents>m__3D(ThingDef d)
+		private static bool <ThingFillPercents>m__3E(ThingDef d)
 		{
 			return d.fillPercent > 0f;
 		}
 
 		[CompilerGenerated]
-		private static float <ThingFillPercents>m__3E(ThingDef d)
+		private static float <ThingFillPercents>m__3F(ThingDef d)
 		{
 			return d.fillPercent;
 		}
 
 		[CompilerGenerated]
-		private static string <ThingFillPercents>m__3F(ThingDef d)
-		{
-			return d.defName;
-		}
-
-		[CompilerGenerated]
 		private static string <ThingFillPercents>m__40(ThingDef d)
 		{
-			return d.fillPercent.ToStringPercent();
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <ThingFillPercents>m__41(ThingDef d)
 		{
+			return d.fillPercent.ToStringPercent();
+		}
+
+		[CompilerGenerated]
+		private static string <ThingFillPercents>m__42(ThingDef d)
+		{
 			return d.category.ToString();
 		}
 
 		[CompilerGenerated]
-		private static bool <ThingNutritions>m__42(ThingDef d)
+		private static bool <ThingNutritions>m__43(ThingDef d)
 		{
 			return d.ingestible != null;
 		}
 
 		[CompilerGenerated]
-		private static string <ThingNutritions>m__43(ThingDef d)
+		private static string <ThingNutritions>m__44(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <ThingNutritions>m__44(ThingDef d)
+		private static string <ThingNutritions>m__45(ThingDef d)
 		{
 			return d.BaseMarketValue.ToString("F1");
 		}
 
 		[CompilerGenerated]
-		private static string <ThingNutritions>m__45(ThingDef d)
+		private static string <ThingNutritions>m__46(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.Nutrition, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <ThingNutritions>m__46(ThingDef d)
+		private static string <ThingNutritions>m__47(ThingDef d)
 		{
 			return (d.GetStatValueAbstract(StatDefOf.Nutrition, null) / d.BaseMarketValue).ToString("F3");
 		}
 
 		[CompilerGenerated]
-		private static string <MakeTablePairsByThing>m__47(ThingDef t)
+		private static string <MakeTablePairsByThing>m__48(ThingDef t)
 		{
 			return t.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <MakeTablePairsByThing>m__48(ThingDef t)
+		private static string <MakeTablePairsByThing>m__49(ThingDef t)
 		{
 			return t.generateCommonality.ToString("F4");
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__49(BodyPartGroupDef bp)
+		private static string <DoTableInternalApparel>m__4A(BodyPartGroupDef bp)
 		{
 			return bp.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__4A(ApparelLayerDef l)
+		private static string <DoTableInternalApparel>m__4B(ApparelLayerDef l)
 		{
 			return l.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <DoTableInternalApparel>m__4B(string t)
+		private static string <DoTableInternalApparel>m__4C(string t)
 		{
 			return t.ToString();
 		}
@@ -1392,6 +1403,8 @@ namespace Verse
 			internal Func<ThingDef, float> dpsMissless;
 
 			internal Func<ThingDef, float> accAvg;
+
+			internal Func<ThingDef, float> armorPenetration;
 
 			internal Func<ThingDef, float> stoppingPower;
 
@@ -1433,85 +1446,90 @@ namespace Verse
 
 			internal string <>m__5(ThingDef d)
 			{
-				return (this.stoppingPower(d) <= 0f) ? "" : this.stoppingPower(d).ToString("F1");
+				return this.armorPenetration(d).ToStringPercent();
 			}
 
 			internal string <>m__6(ThingDef d)
 			{
-				return this.warmup(d).ToString("F2");
+				return (this.stoppingPower(d) <= 0f) ? "" : this.stoppingPower(d).ToString("F1");
 			}
 
 			internal string <>m__7(ThingDef d)
 			{
-				return this.burstShots(d).ToString();
+				return this.warmup(d).ToString("F2");
 			}
 
 			internal string <>m__8(ThingDef d)
 			{
-				return this.cooldown(d).ToString("F2");
+				return this.burstShots(d).ToString();
 			}
 
 			internal string <>m__9(ThingDef d)
 			{
-				return this.fullcycle(d).ToString("F2");
+				return this.cooldown(d).ToString("F2");
 			}
 
 			internal string <>m__A(ThingDef d)
 			{
-				return this.dpsMissless(d).ToString("F2");
+				return this.fullcycle(d).ToString("F2");
 			}
 
 			internal string <>m__B(ThingDef d)
 			{
-				return this.accTouch(d).ToStringPercent();
+				return this.dpsMissless(d).ToString("F2");
 			}
 
 			internal string <>m__C(ThingDef d)
 			{
-				return this.accShort(d).ToStringPercent();
+				return this.accTouch(d).ToStringPercent();
 			}
 
 			internal string <>m__D(ThingDef d)
 			{
-				return this.accMed(d).ToStringPercent();
+				return this.accShort(d).ToStringPercent();
 			}
 
 			internal string <>m__E(ThingDef d)
 			{
-				return this.accLong(d).ToStringPercent();
+				return this.accMed(d).ToStringPercent();
 			}
 
 			internal string <>m__F(ThingDef d)
 			{
-				return this.accAvg(d).ToString("F2");
+				return this.accLong(d).ToStringPercent();
 			}
 
 			internal string <>m__10(ThingDef d)
 			{
-				return (this.dpsMissless(d) * this.accTouch(d)).ToString("F2");
+				return this.accAvg(d).ToString("F2");
 			}
 
 			internal string <>m__11(ThingDef d)
 			{
-				return (this.dpsMissless(d) * this.accShort(d)).ToString("F2");
+				return (this.dpsMissless(d) * this.accTouch(d)).ToString("F2");
 			}
 
 			internal string <>m__12(ThingDef d)
 			{
-				return (this.dpsMissless(d) * this.accMed(d)).ToString("F2");
+				return (this.dpsMissless(d) * this.accShort(d)).ToString("F2");
 			}
 
 			internal string <>m__13(ThingDef d)
 			{
-				return (this.dpsMissless(d) * this.accLong(d)).ToString("F2");
+				return (this.dpsMissless(d) * this.accMed(d)).ToString("F2");
 			}
 
 			internal string <>m__14(ThingDef d)
 			{
-				return this.dpsAvg(d).ToString("F2");
+				return (this.dpsMissless(d) * this.accLong(d)).ToString("F2");
 			}
 
 			internal string <>m__15(ThingDef d)
+			{
+				return this.dpsAvg(d).ToString("F2");
+			}
+
+			internal string <>m__16(ThingDef d)
 			{
 				return (this.dpsAvg(d) * 100f / d.GetStatValueAbstract(StatDefOf.MarketValue, null)).ToString("F3");
 			}
