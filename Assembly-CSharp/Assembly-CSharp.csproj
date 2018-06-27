@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9649BED9-64A0-428A-B155-46397D0F7BBB}</ProjectGuid>
+    <ProjectGuid>{22769FDD-2CF4-46F6-B990-31B52F3EE46D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -2876,6 +2876,7 @@
     <Compile Include="Verse\CheckJobOverrideOnDamageMode.cs" />
     <Compile Include="Verse\ChoiceLetter.cs" />
     <Compile Include="Verse\ClamorDef.cs" />
+    <Compile Include="Verse\ColorExtension.cs" />
     <Compile Include="Verse\ColorGenerator.cs" />
     <Compile Include="Verse\ColorGenerator_Options.cs" />
     <Compile Include="Verse\ColorGenerator_Single.cs" />
@@ -3975,7 +3976,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{9649bed9-64a0-428a-b155-46397d0f7bbc}</Project>
+      <Project>{22769fdd-2cf4-46f6-b990-31b52f3ee46e}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

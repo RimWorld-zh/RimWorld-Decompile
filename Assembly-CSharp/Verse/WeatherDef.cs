@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using RimWorld;
 
 namespace Verse
 {
@@ -30,6 +31,8 @@ namespace Verse
 		public float accuracyMultiplier = 1f;
 
 		public float perceivePriority;
+
+		public ThoughtDef exposedThought = null;
 
 		public List<SoundDef> ambientSounds = new List<SoundDef>();
 

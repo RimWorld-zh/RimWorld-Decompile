@@ -71,6 +71,19 @@ namespace RimWorld
 			}
 		}
 
+		public void TryGainMemoryFast(ThoughtDef mem)
+		{
+			Thought_Memory firstMemoryOfDef = this.GetFirstMemoryOfDef(mem);
+			if (firstMemoryOfDef != null)
+			{
+				firstMemoryOfDef.Renew();
+			}
+			else
+			{
+				this.TryGainMemory(mem, null);
+			}
+		}
+
 		public void TryGainMemory(ThoughtDef def, Pawn otherPawn = null)
 		{
 			if (!def.IsMemory)

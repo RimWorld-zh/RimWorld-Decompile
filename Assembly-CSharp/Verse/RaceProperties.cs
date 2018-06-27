@@ -102,6 +102,8 @@ namespace Verse
 
 		public Color meatColor;
 
+		public float meatMarketValue;
+
 		public ThingDef useMeatFrom;
 
 		public ThingDef useLeatherFrom;
@@ -135,6 +137,7 @@ namespace Verse
 		{
 			ColorInt colorInt = new ColorInt(141, 56, 52);
 			this.meatColor = colorInt.ToColor;
+			this.meatMarketValue = 2f;
 			this.useMeatFrom = null;
 			this.useLeatherFrom = null;
 			this.specialShadowData = null;

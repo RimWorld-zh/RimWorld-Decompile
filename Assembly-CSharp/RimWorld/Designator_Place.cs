@@ -16,6 +16,10 @@ namespace RimWorld
 
 		private const float RotButSpacing = 10f;
 
+		public static readonly Color CanPlaceColor = new Color(0.5f, 1f, 0.6f, 0.4f);
+
+		public static readonly Color CannotPlaceColor = new Color(1f, 0f, 0f, 0.4f);
+
 		public Designator_Place()
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragBuilding;
@@ -87,11 +91,11 @@ namespace RimWorld
 					Color ghostCol;
 					if (this.CanDesignateCell(intVec).Accepted)
 					{
-						ghostCol = new Color(0.5f, 1f, 0.6f, 0.4f);
+						ghostCol = Designator_Place.CanPlaceColor;
 					}
 					else
 					{
-						ghostCol = new Color(1f, 0f, 0f, 0.4f);
+						ghostCol = Designator_Place.CannotPlaceColor;
 					}
 					this.DrawGhost(ghostCol);
 					if (this.CanDesignateCell(intVec).Accepted)
@@ -149,6 +153,11 @@ namespace RimWorld
 		public override void Selected()
 		{
 			this.placingRot = this.PlacingDef.defaultPlacingRot;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static Designator_Place()
+		{
 		}
 
 		[CompilerGenerated]

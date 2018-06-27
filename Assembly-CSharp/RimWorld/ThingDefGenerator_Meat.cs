@@ -78,7 +78,7 @@ namespace RimWorld
 							d.SetStatBaseValue(StatDefOf.Flammability, 0.5f);
 							d.SetStatBaseValue(StatDefOf.Nutrition, 0.05f);
 							d.SetStatBaseValue(StatDefOf.FoodPoisonChanceFixedHuman, 0.02f);
-							d.BaseMarketValue = ThingDefGenerator_Meat.GetMeatMarketValue(sourceDef);
+							d.BaseMarketValue = sourceDef.race.meatMarketValue;
 							if (d.thingCategories == null)
 							{
 								d.thingCategories = new List<ThingCategoryDef>();
@@ -129,20 +129,6 @@ namespace RimWorld
 				}
 			}
 			yield break;
-		}
-
-		private static float GetMeatMarketValue(ThingDef sourceDef)
-		{
-			float result;
-			if (sourceDef.race.Humanlike)
-			{
-				result = 0.8f;
-			}
-			else
-			{
-				result = 2f;
-			}
-			return result;
 		}
 
 		[CompilerGenerated]
@@ -250,7 +236,7 @@ namespace RimWorld
 									d.SetStatBaseValue(StatDefOf.Flammability, 0.5f);
 									d.SetStatBaseValue(StatDefOf.Nutrition, 0.05f);
 									d.SetStatBaseValue(StatDefOf.FoodPoisonChanceFixedHuman, 0.02f);
-									d.BaseMarketValue = ThingDefGenerator_Meat.GetMeatMarketValue(sourceDef);
+									d.BaseMarketValue = sourceDef.race.meatMarketValue;
 									if (d.thingCategories == null)
 									{
 										d.thingCategories = new List<ThingCategoryDef>();

@@ -158,8 +158,7 @@ namespace RimWorld
 				}
 			}
 			pawn.mindState.enemyTarget = thing;
-			Pawn pawn2 = thing as Pawn;
-			if (pawn2 != null && pawn2.Faction == Faction.OfPlayer && pawn.Position.InHorDistOf(pawn2.Position, 30f))
+			if (thing is Pawn && thing.Faction == Faction.OfPlayer && pawn.Position.InHorDistOf(thing.Position, 40f))
 			{
 				Find.TickManager.slower.SignalForceNormalSpeed();
 			}

@@ -509,6 +509,10 @@ namespace Verse.AI
 			{
 				result = null;
 			}
+			else if (this.pawn.story.WorkTagIsDisabled(WorkTags.ManualDumb | WorkTags.Hauling))
+			{
+				result = null;
+			}
 			else if (this.pawn.InMentalState)
 			{
 				result = null;

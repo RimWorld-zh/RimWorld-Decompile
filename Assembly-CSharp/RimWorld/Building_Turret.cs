@@ -125,6 +125,10 @@ namespace RimWorld
 
 		protected void OnAttackedTarget(LocalTargetInfo target)
 		{
+			if (base.Faction == Faction.OfPlayer || (target.HasThing && target.Thing.Faction == Faction.OfPlayer))
+			{
+				Find.TickManager.slower.SignalForceNormalSpeed();
+			}
 			this.lastAttackTargetTick = Find.TickManager.TicksGame;
 			this.lastAttackedTarget = target;
 		}

@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		public WeatherDef CurPerceivedWeather
+		public WeatherDef CurWeatherPerceived
 		{
 			get
 			{
@@ -111,14 +111,28 @@ namespace RimWorld
 					{
 						num = 0.5f;
 					}
-					if (this.TransitionLerpFactor < num)
-					{
-						result = this.lastWeather;
-					}
-					else
-					{
-						result = this.curWeather;
-					}
+					result = ((this.TransitionLerpFactor >= num) ? this.curWeather : this.lastWeather);
+				}
+				return result;
+			}
+		}
+
+		public WeatherDef CurWeatherLerped
+		{
+			get
+			{
+				WeatherDef result;
+				if (this.curWeather == null)
+				{
+					result = this.lastWeather;
+				}
+				else if (this.lastWeather == null)
+				{
+					result = this.curWeather;
+				}
+				else
+				{
+					result = ((this.TransitionLerpFactor >= 0.5f) ? this.curWeather : this.lastWeather);
 				}
 				return result;
 			}
@@ -148,15 +162,15 @@ namespace RimWorld
 
 		public void DoWeatherGUI(Rect rect)
 		{
-			WeatherDef curPerceivedWeather = this.CurPerceivedWeather;
+			WeatherDef curWeatherPerceived = this.CurWeatherPerceived;
 			Text.Anchor = TextAnchor.MiddleRight;
 			Rect rect2 = new Rect(rect);
 			rect2.width -= 15f;
 			Text.Font = GameFont.Small;
-			Widgets.Label(rect2, curPerceivedWeather.LabelCap);
-			if (!curPerceivedWeather.description.NullOrEmpty())
+			Widgets.Label(rect2, curWeatherPerceived.LabelCap);
+			if (!curWeatherPerceived.description.NullOrEmpty())
 			{
-				TooltipHandler.TipRegion(rect, curPerceivedWeather.description);
+				TooltipHandler.TipRegion(rect, curWeatherPerceived.description);
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 		}

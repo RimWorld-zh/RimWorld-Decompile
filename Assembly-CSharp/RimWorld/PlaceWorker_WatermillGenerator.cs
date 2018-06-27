@@ -12,6 +12,14 @@ namespace RimWorld
 {
 	public class PlaceWorker_WatermillGenerator : PlaceWorker
 	{
+		private static List<Thing> waterMills = new List<Thing>();
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache0;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cache1;
+
 		public PlaceWorker_WatermillGenerator()
 		{
 		}
@@ -25,11 +33,25 @@ namespace RimWorld
 					return new AcceptanceReport("TerrainCannotSupport".Translate());
 				}
 			}
-			foreach (IntVec3 c2 in CompPowerPlantWater.WaterCells(loc, rot))
+			AcceptanceReport result;
+			if (!this.WaterCellsPresent(loc, rot, map))
 			{
-				if (!map.terrainGrid.TerrainAt(c2).affordances.Contains(TerrainAffordanceDefOf.MovingFluid))
+				result = new AcceptanceReport("MustBeOnMovingWater".Translate());
+			}
+			else
+			{
+				result = true;
+			}
+			return result;
+		}
+
+		private bool WaterCellsPresent(IntVec3 loc, Rot4 rot, Map map)
+		{
+			foreach (IntVec3 c in CompPowerPlantWater.WaterCells(loc, rot))
+			{
+				if (!map.terrainGrid.TerrainAt(c).affordances.Contains(TerrainAffordanceDefOf.MovingFluid))
 				{
-					return new AcceptanceReport("MustBeOnMovingWater".Translate());
+					return false;
 				}
 			}
 			return true;
@@ -37,8 +59,32 @@ namespace RimWorld
 
 		public override void DrawGhost(ThingDef def, IntVec3 loc, Rot4 rot, Color ghostCol)
 		{
-			GenDraw.DrawFieldEdges(CompPowerPlantWater.GroundCells(loc, rot).ToList<IntVec3>(), new Color(0.7f, 0.65f, 0.6f));
-			GenDraw.DrawFieldEdges(CompPowerPlantWater.WaterCells(loc, rot).ToList<IntVec3>(), new Color(0.6f, 0.6f, 0.7f));
+			GenDraw.DrawFieldEdges(CompPowerPlantWater.GroundCells(loc, rot).ToList<IntVec3>(), Color.white);
+			Color color = (!this.WaterCellsPresent(loc, rot, Find.CurrentMap)) ? Designator_Place.CannotPlaceColor.ToOpaque() : Designator_Place.CanPlaceColor.ToOpaque();
+			GenDraw.DrawFieldEdges(CompPowerPlantWater.WaterCells(loc, rot).ToList<IntVec3>(), color);
+			bool flag = false;
+			CellRect cellRect = CompPowerPlantWater.WaterUseRect(loc, rot);
+			PlaceWorker_WatermillGenerator.waterMills.AddRange(Find.CurrentMap.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.WatermillGenerator).Cast<Thing>());
+			PlaceWorker_WatermillGenerator.waterMills.AddRange(from t in Find.CurrentMap.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint)
+			where t.def.entityDefToBuild == ThingDefOf.WatermillGenerator
+			select t);
+			PlaceWorker_WatermillGenerator.waterMills.AddRange(from t in Find.CurrentMap.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame)
+			where t.def.entityDefToBuild == ThingDefOf.WatermillGenerator
+			select t);
+			foreach (Thing thing in PlaceWorker_WatermillGenerator.waterMills)
+			{
+				GenDraw.DrawFieldEdges(CompPowerPlantWater.WaterUseCells(thing.Position, thing.Rotation).ToList<IntVec3>(), new Color(0.2f, 0.2f, 1f));
+				if (cellRect.Overlaps(CompPowerPlantWater.WaterUseRect(thing.Position, thing.Rotation)))
+				{
+					flag = true;
+				}
+			}
+			PlaceWorker_WatermillGenerator.waterMills.Clear();
+			Color color2 = (!flag) ? Designator_Place.CanPlaceColor.ToOpaque() : new Color(1f, 0.6f, 0f);
+			if (!flag || Time.realtimeSinceStartup % 0.4f < 0.2f)
+			{
+				GenDraw.DrawFieldEdges(CompPowerPlantWater.WaterUseCells(loc, rot).ToList<IntVec3>(), color2);
+			}
 		}
 
 		public override IEnumerable<TerrainAffordanceDef> DisplayAffordances()
@@ -46,6 +92,23 @@ namespace RimWorld
 			yield return TerrainAffordanceDefOf.Heavy;
 			yield return TerrainAffordanceDefOf.MovingFluid;
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static PlaceWorker_WatermillGenerator()
+		{
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawGhost>m__0(Thing t)
+		{
+			return t.def.entityDefToBuild == ThingDefOf.WatermillGenerator;
+		}
+
+		[CompilerGenerated]
+		private static bool <DrawGhost>m__1(Thing t)
+		{
+			return t.def.entityDefToBuild == ThingDefOf.WatermillGenerator;
 		}
 
 		[CompilerGenerated]

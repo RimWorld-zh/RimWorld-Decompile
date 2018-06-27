@@ -63,6 +63,9 @@ namespace RimWorld
 		[Unsaved]
 		private ThoughtWorker workerInt = null;
 
+		[Unsaved]
+		private BoolUnknown isMemoryCached = BoolUnknown.Unknown;
+
 		private Texture2D iconInt;
 
 		public ThoughtDef()
@@ -110,7 +113,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.durationDays > 0f || typeof(Thought_Memory).IsAssignableFrom(this.thoughtClass);
+				if (this.isMemoryCached == BoolUnknown.Unknown)
+				{
+					this.isMemoryCached = ((this.durationDays <= 0f && !typeof(Thought_Memory).IsAssignableFrom(this.thoughtClass)) ? BoolUnknown.False : BoolUnknown.True);
+				}
+				return this.isMemoryCached == BoolUnknown.True;
 			}
 		}
 

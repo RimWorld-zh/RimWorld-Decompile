@@ -332,19 +332,19 @@ namespace Verse.AI
 				this.wildManEverReachedOutside = true;
 				this.pawn.Map.reachability.ClearCache();
 			}
-			if (this.pawn.Spawned)
+			if (Find.TickManager.TicksGame % 123 == 0)
 			{
-				TerrainDef terrain = this.pawn.Position.GetTerrain(this.pawn.Map);
-				if (terrain.traversedThought != null && this.pawn.RaceProps.IsFlesh && this.pawn.needs.mood != null)
+				if (this.pawn.Spawned && this.pawn.RaceProps.IsFlesh && this.pawn.needs.mood != null)
 				{
-					Thought_Memory firstMemoryOfDef = this.pawn.needs.mood.thoughts.memories.GetFirstMemoryOfDef(terrain.traversedThought);
-					if (firstMemoryOfDef != null)
+					TerrainDef terrain = this.pawn.Position.GetTerrain(this.pawn.Map);
+					if (terrain.traversedThought != null)
 					{
-						firstMemoryOfDef.Renew();
+						this.pawn.needs.mood.thoughts.memories.TryGainMemoryFast(terrain.traversedThought);
 					}
-					else
+					WeatherDef curWeatherLerped = this.pawn.Map.weatherManager.CurWeatherLerped;
+					if (curWeatherLerped.exposedThought != null && !this.pawn.Position.Roofed(this.pawn.Map))
 					{
-						this.pawn.needs.mood.thoughts.memories.TryGainMemory(terrain.traversedThought, null);
+						this.pawn.needs.mood.thoughts.memories.TryGainMemoryFast(curWeatherLerped.exposedThought);
 					}
 				}
 			}
