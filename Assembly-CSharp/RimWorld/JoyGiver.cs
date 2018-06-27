@@ -9,8 +9,6 @@ namespace RimWorld
 	{
 		public JoyGiverDef def;
 
-		private static List<Thing> tmpCandidates = new List<Thing>();
-
 		protected JoyGiver()
 		{
 		}
@@ -20,28 +18,23 @@ namespace RimWorld
 			return this.def.baseChance;
 		}
 
-		protected virtual List<Thing> GetSearchSet(Pawn pawn)
+		protected virtual void GetSearchSet(Pawn pawn, List<Thing> outCandidates)
 		{
-			List<Thing> result;
-			if (this.def.thingDefs == null)
+			outCandidates.Clear();
+			if (this.def.thingDefs != null)
 			{
-				JoyGiver.tmpCandidates.Clear();
-				result = JoyGiver.tmpCandidates;
-			}
-			else if (this.def.thingDefs.Count == 1)
-			{
-				result = pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[0]);
-			}
-			else
-			{
-				JoyGiver.tmpCandidates.Clear();
-				for (int i = 0; i < this.def.thingDefs.Count; i++)
+				if (this.def.thingDefs.Count == 1)
 				{
-					JoyGiver.tmpCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[i]));
+					outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[0]));
 				}
-				result = JoyGiver.tmpCandidates;
+				else
+				{
+					for (int i = 0; i < this.def.thingDefs.Count; i++)
+					{
+						outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[i]));
+					}
+				}
 			}
-			return result;
 		}
 
 		public abstract Job TryGiveJob(Pawn pawn);
@@ -66,11 +59,6 @@ namespace RimWorld
 				}
 			}
 			return null;
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static JoyGiver()
-		{
 		}
 	}
 }

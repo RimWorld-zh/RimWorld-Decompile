@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{22769FDD-2CF4-46F6-B990-31B52F3EE46D}</ProjectGuid>
+    <ProjectGuid>{AE3CBF01-04E5-4987-904C-15BD1597B003}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -132,7 +132,7 @@
     <Compile Include="RimWorld\Alert_NeedColonistBeds.cs" />
     <Compile Include="RimWorld\Alert_NeedDefenses.cs" />
     <Compile Include="RimWorld\Alert_NeedDoctor.cs" />
-    <Compile Include="RimWorld\Alert_NeedJoySource.cs" />
+    <Compile Include="RimWorld\Alert_NeedJoySources.cs" />
     <Compile Include="RimWorld\Alert_NeedMealSource.cs" />
     <Compile Include="RimWorld\Alert_NeedMiner.cs" />
     <Compile Include="RimWorld\Alert_NeedResearchProject.cs" />
@@ -628,6 +628,9 @@
     <Compile Include="RimWorld\EffecterDefOf.cs" />
     <Compile Include="RimWorld\EventPack.cs" />
     <Compile Include="RimWorld\ExecutionUtility.cs" />
+    <Compile Include="RimWorld\ExpectationDef.cs" />
+    <Compile Include="RimWorld\ExpectationDefOf.cs" />
+    <Compile Include="RimWorld\ExpectationsUtility.cs" />
     <Compile Include="RimWorld\ExternalHistory.cs" />
     <Compile Include="RimWorld\ExternalHistoryUtility.cs" />
     <Compile Include="RimWorld\FacilitiesUtility.cs" />
@@ -1644,6 +1647,7 @@
     <Compile Include="RimWorld\Planet\TimedForcedExit.cs" />
     <Compile Include="RimWorld\Planet\TimeoutComp.cs" />
     <Compile Include="RimWorld\Planet\TradeRequestComp.cs" />
+    <Compile Include="RimWorld\Planet\TradeRequestUtility.cs" />
     <Compile Include="RimWorld\Planet\TransportPodsArrivalAction.cs" />
     <Compile Include="RimWorld\Planet\TransportPodsArrivalActionUtility.cs" />
     <Compile Include="RimWorld\Planet\TransportPodsArrivalAction_AttackSettlement.cs" />
@@ -3976,7 +3980,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{22769fdd-2cf4-46f6-b990-31b52f3ee46e}</Project>
+      <Project>{ae3cbf01-04e5-4987-904c-15bd1597b004}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

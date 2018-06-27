@@ -113,6 +113,8 @@ namespace RimWorld
 
 		public static ThoughtDef RescuedRelative;
 
+		public static ThoughtDef Rescued;
+
 		public static ThoughtDef ApparelDamaged;
 
 		public static ThoughtDef Naked;

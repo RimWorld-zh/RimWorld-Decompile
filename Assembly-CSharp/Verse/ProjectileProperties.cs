@@ -95,7 +95,7 @@ namespace Verse
 				else
 				{
 					float num;
-					if (this.damageAmountBase != -1)
+					if (this.damageAmountBase != -1 || this.armorPenetrationBase >= 0f)
 					{
 						num = this.armorPenetrationBase;
 					}
@@ -113,6 +113,27 @@ namespace Verse
 						num = (float)damageAmount * 0.015f;
 					}
 					result = num;
+				}
+				return result;
+			}
+		}
+
+		public float StoppingPower
+		{
+			get
+			{
+				float result;
+				if (this.stoppingPower != 0f)
+				{
+					result = this.stoppingPower;
+				}
+				else if (this.damageDef != null)
+				{
+					result = this.damageDef.defaultStoppingPower;
+				}
+				else
+				{
+					result = 0f;
 				}
 				return result;
 			}

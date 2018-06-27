@@ -73,6 +73,7 @@ namespace Verse
 					ThingOwner directlyHeldThings3 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
 					if (directlyHeldThings3 != null)
 					{
+						ThingOwnerUtility.tmpHolders.Clear();
 						return directlyHeldThings3;
 					}
 				}
@@ -91,6 +92,7 @@ namespace Verse
 							ThingOwner directlyHeldThings4 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
 							if (directlyHeldThings4 != null)
 							{
+								ThingOwnerUtility.tmpHolders.Clear();
 								return directlyHeldThings4;
 							}
 						}
@@ -340,6 +342,7 @@ namespace Verse
 					}
 				}
 			}
+			ThingOwnerUtility.tmpThings.Clear();
 			ThingOwnerUtility.tmpMapChildHolders.Clear();
 		}
 

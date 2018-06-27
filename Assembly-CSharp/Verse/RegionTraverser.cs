@@ -14,10 +14,7 @@ namespace Verse
 
 		static RegionTraverser()
 		{
-			for (int i = 0; i < RegionTraverser.NumWorkers; i++)
-			{
-				RegionTraverser.freeWorkers.Enqueue(new RegionTraverser.BFSWorker(i));
-			}
+			RegionTraverser.RecreateWorkers();
 		}
 
 		public static Room FloodAndSetRooms(Region root, Map map, Room existingRoom)
@@ -117,6 +114,15 @@ namespace Verse
 				r.mark = inRadiusMark;
 				return false;
 			}, maxRegions, traversableRegionTypes);
+		}
+
+		public static void RecreateWorkers()
+		{
+			RegionTraverser.freeWorkers.Clear();
+			for (int i = 0; i < RegionTraverser.NumWorkers; i++)
+			{
+				RegionTraverser.freeWorkers.Enqueue(new RegionTraverser.BFSWorker(i));
+			}
 		}
 
 		public static void BreadthFirstTraverse(IntVec3 start, Map map, RegionEntryPredicate entryCondition, RegionProcessor regionProcessor, int maxRegions = 999999, RegionType traversableRegionTypes = RegionType.Set_Passable)

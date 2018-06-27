@@ -74,30 +74,37 @@ namespace Verse.AI
 		private static IEnumerable<IntVec3> IngredientPlaceCellsInOrder(Thing destination)
 		{
 			Toils_JobTransforms.yieldedIngPlaceCells.Clear();
-			IntVec3 interactCell = destination.Position;
-			IBillGiver billGiver = destination as IBillGiver;
-			if (billGiver != null)
+			try
 			{
-				interactCell = ((Thing)billGiver).InteractionCell;
-				foreach (IntVec3 c3 in from c in billGiver.IngredientStackCells
-				orderby (c - interactCell).LengthHorizontalSquared
-				select c)
+				IntVec3 interactCell = destination.Position;
+				IBillGiver billGiver = destination as IBillGiver;
+				if (billGiver != null)
 				{
-					Toils_JobTransforms.yieldedIngPlaceCells.Add(c3);
-					yield return c3;
-				}
-			}
-			for (int i = 0; i < 200; i++)
-			{
-				IntVec3 c2 = interactCell + GenRadial.RadialPattern[i];
-				if (!Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
-				{
-					Building ed = c2.GetEdifice(destination.Map);
-					if (ed == null || ed.def.passability != Traversability.Impassable || ed.def.surfaceType != SurfaceType.None)
+					interactCell = ((Thing)billGiver).InteractionCell;
+					foreach (IntVec3 c3 in from c in billGiver.IngredientStackCells
+					orderby (c - interactCell).LengthHorizontalSquared
+					select c)
 					{
-						yield return c2;
+						Toils_JobTransforms.yieldedIngPlaceCells.Add(c3);
+						yield return c3;
 					}
 				}
+				for (int i = 0; i < 200; i++)
+				{
+					IntVec3 c2 = interactCell + GenRadial.RadialPattern[i];
+					if (!Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
+					{
+						Building ed = c2.GetEdifice(destination.Map);
+						if (ed == null || ed.def.passability != Traversability.Impassable || ed.def.surfaceType != SurfaceType.None)
+						{
+							yield return c2;
+						}
+					}
+				}
+			}
+			finally
+			{
+				Toils_JobTransforms.yieldedIngPlaceCells.Clear();
 			}
 			yield break;
 		}
@@ -278,17 +285,17 @@ namespace Verse.AI
 		{
 			internal Thing destination;
 
-			internal IBillGiver <billGiver>__1;
+			internal IBillGiver <billGiver>__2;
 
 			internal IEnumerator<IntVec3> $locvar0;
 
-			internal IntVec3 <c>__2;
+			internal IntVec3 <c>__3;
 
-			internal int <i>__3;
+			internal int <i>__4;
 
-			internal IntVec3 <c>__4;
+			internal IntVec3 <c>__5;
 
-			internal Building <ed>__4;
+			internal Building <ed>__5;
 
 			internal IntVec3 $current;
 
@@ -311,25 +318,12 @@ namespace Verse.AI
 				switch (num)
 				{
 				case 0u:
-				{
 					Toils_JobTransforms.yieldedIngPlaceCells.Clear();
-					IntVec3 interactCell = destination.Position;
-					billGiver = (destination as IBillGiver);
-					if (billGiver == null)
-					{
-						goto IL_14F;
-					}
-					interactCell = ((Thing)billGiver).InteractionCell;
-					enumerator = (from c in billGiver.IngredientStackCells
-					orderby (c - interactCell).LengthHorizontalSquared
-					select c).GetEnumerator();
 					num = 4294967293u;
 					break;
-				}
 				case 1u:
-					break;
 				case 2u:
-					goto IL_21A;
+					break;
 				default:
 					return false;
 				}
@@ -337,15 +331,76 @@ namespace Verse.AI
 				{
 					switch (num)
 					{
-					}
-					if (enumerator.MoveNext())
+					case 1u:
+						break;
+					case 2u:
+						goto IL_230;
+					default:
 					{
-						c = enumerator.Current;
-						Toils_JobTransforms.yieldedIngPlaceCells.Add(c);
-						this.$current = c;
+						IntVec3 interactCell = destination.Position;
+						billGiver = (destination as IBillGiver);
+						if (billGiver == null)
+						{
+							goto IL_163;
+						}
+						interactCell = ((Thing)billGiver).InteractionCell;
+						enumerator = (from c in billGiver.IngredientStackCells
+						orderby (c - interactCell).LengthHorizontalSquared
+						select c).GetEnumerator();
+						num = 4294967293u;
+						break;
+					}
+					}
+					try
+					{
+						switch (num)
+						{
+						}
+						if (enumerator.MoveNext())
+						{
+							c = enumerator.Current;
+							Toils_JobTransforms.yieldedIngPlaceCells.Add(c);
+							this.$current = c;
+							if (!this.$disposing)
+							{
+								this.$PC = 1;
+							}
+							flag = true;
+							return true;
+						}
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					IL_163:
+					i = 0;
+					goto IL_23E;
+					IL_230:
+					i++;
+					IL_23E:
+					if (i < 200)
+					{
+						c2 = <IngredientPlaceCellsInOrder>c__AnonStorey.interactCell + GenRadial.RadialPattern[i];
+						if (Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
+						{
+							goto IL_230;
+						}
+						ed = c2.GetEdifice(destination.Map);
+						if (ed != null && ed.def.passability == Traversability.Impassable && ed.def.surfaceType == SurfaceType.None)
+						{
+							goto IL_230;
+						}
+						this.$current = c2;
 						if (!this.$disposing)
 						{
-							this.$PC = 1;
+							this.$PC = 2;
 						}
 						flag = true;
 						return true;
@@ -355,41 +410,10 @@ namespace Verse.AI
 				{
 					if (!flag)
 					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
+						this.<>__Finally0();
 					}
 				}
-				IL_14F:
-				i = 0;
-				goto IL_228;
-				IL_21A:
-				i++;
-				IL_228:
-				if (i >= 200)
-				{
-					this.$PC = -1;
-				}
-				else
-				{
-					c2 = <IngredientPlaceCellsInOrder>c__AnonStorey.interactCell + GenRadial.RadialPattern[i];
-					if (Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
-					{
-						goto IL_21A;
-					}
-					ed = c2.GetEdifice(destination.Map);
-					if (ed != null && ed.def.passability == Traversability.Impassable && ed.def.surfaceType == SurfaceType.None)
-					{
-						goto IL_21A;
-					}
-					this.$current = c2;
-					if (!this.$disposing)
-					{
-						this.$PC = 2;
-					}
-					return true;
-				}
+				this.$PC = -1;
 				return false;
 			}
 
@@ -420,15 +444,28 @@ namespace Verse.AI
 				switch (num)
 				{
 				case 1u:
+				case 2u:
 					try
 					{
+						switch (num)
+						{
+						case 1u:
+							try
+							{
+							}
+							finally
+							{
+								if (enumerator != null)
+								{
+									enumerator.Dispose();
+								}
+							}
+							break;
+						}
 					}
 					finally
 					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
+						this.<>__Finally0();
 					}
 					break;
 				}
@@ -456,6 +493,11 @@ namespace Verse.AI
 				Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator0 <IngredientPlaceCellsInOrder>c__Iterator = new Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator0();
 				<IngredientPlaceCellsInOrder>c__Iterator.destination = destination;
 				return <IngredientPlaceCellsInOrder>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				Toils_JobTransforms.yieldedIngPlaceCells.Clear();
 			}
 
 			private sealed class <IngredientPlaceCellsInOrder>c__AnonStorey5

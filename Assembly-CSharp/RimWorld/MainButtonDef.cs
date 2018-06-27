@@ -132,5 +132,10 @@ namespace RimWorld
 				this.tabWindowInt = null;
 			}
 		}
+
+		public void Notify_ClearingAllMapsMemory()
+		{
+			this.tabWindowInt = null;
+		}
 	}
 }

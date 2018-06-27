@@ -97,7 +97,7 @@ namespace RimWorld
 						Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(new object[]
 						{
 							settlement.Label,
-							GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(),
+							TradeRequestUtility.RequestedThingLabel(component.requestThingDef, component.requestCount).CapitalizeFirst(),
 							(component.requestThingDef.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)component.requestCount).ToStringMoney("F0"),
 							GenThing.ThingsToCommaList(component.rewards, true, true, -1).CapitalizeFirst(),
 							GenThing.GetMarketValue(component.rewards).ToStringMoney("F0"),

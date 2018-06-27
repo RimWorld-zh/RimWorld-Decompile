@@ -7,6 +7,10 @@ namespace Verse
 {
 	public static class ArmorUtility
 	{
+		public const float MaxArmorRating = 2f;
+
+		public const float DeflectThresholdFactor = 0.5f;
+
 		public static float GetPostArmorDamage(Pawn pawn, float amount, float armorPenetration, BodyPartRecord part, ref DamageDef damageDef, out bool deflectedByMetalArmor, out bool diminishedByMetalArmor)
 		{
 			deflectedByMetalArmor = false;
@@ -79,7 +83,7 @@ namespace Verse
 			}
 			float num = Mathf.Max(armorRating - armorPenetration, 0f);
 			float value = Rand.Value;
-			float num2 = num / 2f;
+			float num2 = num * 0.5f;
 			float num3 = num;
 			if (value < num2)
 			{

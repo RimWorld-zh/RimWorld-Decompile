@@ -36,6 +36,8 @@ namespace Verse
 
 		public float defaultArmorPenetration = -1f;
 
+		public float defaultStoppingPower;
+
 		public bool isRanged;
 
 		public bool canUseDeflectMetalEffect = true;

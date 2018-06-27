@@ -43,7 +43,7 @@ namespace RimWorld.Planet
 			{
 				result = "CaravanRequestInfo".Translate(new object[]
 				{
-					GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(),
+					TradeRequestUtility.RequestedThingLabel(this.requestThingDef, this.requestCount).CapitalizeFirst(),
 					GenThing.ThingsToCommaList(this.rewards, true, true, -1).CapitalizeFirst(),
 					(this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1")
 				});
@@ -117,7 +117,7 @@ namespace RimWorld.Planet
 				{
 					Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
 					{
-						GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount)
+						TradeRequestUtility.RequestedThingLabel(this.requestThingDef, this.requestCount)
 					}), MessageTypeDefOf.RejectInput, false);
 				}
 				else
@@ -136,7 +136,7 @@ namespace RimWorld.Planet
 			{
 				command_Action.Disable("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
 				{
-					GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount)
+					TradeRequestUtility.RequestedThingLabel(this.requestThingDef, this.requestCount)
 				}));
 			}
 			return command_Action;
@@ -196,7 +196,15 @@ namespace RimWorld.Planet
 			else
 			{
 				Apparel apparel = thing as Apparel;
-				result = (apparel == null || !apparel.WornByCorpse);
+				if (apparel != null && apparel.WornByCorpse)
+				{
+					result = false;
+				}
+				else
+				{
+					CompQuality compQuality = thing.TryGetComp<CompQuality>();
+					result = (compQuality == null || compQuality.Quality >= QualityCategory.Normal);
+				}
 			}
 			return result;
 		}
@@ -322,7 +330,7 @@ namespace RimWorld.Planet
 				{
 					Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
 					{
-						GenLabel.ThingLabel(this.$this.requestThingDef, null, this.$this.requestCount)
+						TradeRequestUtility.RequestedThingLabel(this.$this.requestThingDef, this.$this.requestCount)
 					}), MessageTypeDefOf.RejectInput, false);
 				}
 				else

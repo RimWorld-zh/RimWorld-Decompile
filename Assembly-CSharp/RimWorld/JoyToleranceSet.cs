@@ -10,6 +10,8 @@ namespace RimWorld
 	{
 		private DefMap<JoyKindDef, float> tolerances = new DefMap<JoyKindDef, float>();
 
+		private DefMap<JoyKindDef, bool> bored = new DefMap<JoyKindDef, bool>();
+
 		public JoyToleranceSet()
 		{
 		}
@@ -25,11 +27,26 @@ namespace RimWorld
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<DefMap<JoyKindDef, float>>(ref this.tolerances, "tolerances", new object[0]);
+			Scribe_Deep.Look<DefMap<JoyKindDef, bool>>(ref this.bored, "bored", new object[0]);
+			if (this.bored == null)
+			{
+				this.bored = new DefMap<JoyKindDef, bool>();
+			}
+		}
+
+		public bool BoredOf(JoyKindDef def)
+		{
+			return this.bored[def];
 		}
 
 		public void Notify_JoyGained(float amount, JoyKindDef joyKind)
 		{
-			this.tolerances[joyKind] = Mathf.Min(this.tolerances[joyKind] + amount * 0.65f, 1f);
+			float num = Mathf.Min(this.tolerances[joyKind] + amount * 0.65f, 1f);
+			this.tolerances[joyKind] = num;
+			if (num > 0.5f)
+			{
+				this.bored[joyKind] = true;
+			}
 		}
 
 		public float JoyFactorFromTolerance(JoyKindDef joyKind)
@@ -37,17 +54,22 @@ namespace RimWorld
 			return 1f - this.tolerances[joyKind];
 		}
 
-		public void NeedInterval()
+		public void NeedInterval(Pawn pawn)
 		{
+			float num = ExpectationsUtility.CurrentExpectationFor(pawn).joyToleranceDropPerDay * 150f / 60000f;
 			for (int i = 0; i < this.tolerances.Count; i++)
 			{
-				float num = this.tolerances[i];
-				num -= 0.000208333338f;
-				if (num < 0f)
+				float num2 = this.tolerances[i];
+				num2 -= num;
+				if (num2 < 0f)
 				{
-					num = 0f;
+					num2 = 0f;
 				}
-				this.tolerances[i] = num;
+				this.tolerances[i] = num2;
+				if (this.bored[i] && num2 < 0.3f)
+				{
+					this.bored[i] = false;
+				}
 			}
 		}
 
@@ -65,7 +87,12 @@ namespace RimWorld
 					{
 						stringBuilder.AppendLine("JoyTolerances".Translate() + ":");
 					}
-					stringBuilder.AppendLine("   -" + joyKindDef.LabelCap + ": " + num.ToStringPercent());
+					string text = "   " + joyKindDef.LabelCap + ": " + num.ToStringPercent();
+					if (this.bored[joyKindDef])
+					{
+						text = text + " (" + "bored".Translate() + ")";
+					}
+					stringBuilder.AppendLine(text);
 				}
 			}
 			return stringBuilder.ToString().TrimEndNewlines();

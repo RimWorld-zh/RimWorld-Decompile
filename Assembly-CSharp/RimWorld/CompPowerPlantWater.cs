@@ -66,10 +66,12 @@ namespace RimWorld
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.spinPosition = Rand.Range(0f, 15f);
 			this.RebuildCache();
-			foreach (Building building in this.parent.Map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.WatermillGenerator))
-			{
-				building.GetComp<CompPowerPlantWater>().ClearCache();
-			}
+			this.ForceOthersToRebuildCache(this.parent.Map);
+		}
+
+		public override void PostDeSpawn(Map map)
+		{
+			this.ForceOthersToRebuildCache(map);
 		}
 
 		private void ClearCache()
@@ -128,6 +130,14 @@ namespace RimWorld
 					this.spinRate *= 0.5f;
 				}
 				this.cacheDirty = false;
+			}
+		}
+
+		private void ForceOthersToRebuildCache(Map map)
+		{
+			foreach (Building building in map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.WatermillGenerator))
+			{
+				building.GetComp<CompPowerPlantWater>().ClearCache();
 			}
 		}
 

@@ -26,6 +26,8 @@ namespace RimWorld
 
 		public bool everParticipatedInPrisonBreak;
 
+		public bool getRescuedThoughtOnUndownedBecauseOfPlayer;
+
 		private const int DefaultWaitInsteadOfEscapingTicks = 25000;
 
 		public int MinInteractionInterval = 7500;
@@ -191,6 +193,7 @@ namespace RimWorld
 			Scribe_Values.Look<IntVec3>(ref this.spotToWaitInsteadOfEscaping, "spotToWaitInsteadOfEscaping", default(IntVec3), false);
 			Scribe_Values.Look<int>(ref this.lastPrisonBreakTicks, "lastPrisonBreakTicks", 0, false);
 			Scribe_Values.Look<bool>(ref this.everParticipatedInPrisonBreak, "everParticipatedInPrisonBreak", false, false);
+			Scribe_Values.Look<bool>(ref this.getRescuedThoughtOnUndownedBecauseOfPlayer, "getRescuedThoughtOnUndownedBecauseOfPlayer", false, false);
 		}
 
 		public void SetGuestStatus(Faction newHost, bool prisoner = false)
@@ -299,27 +302,35 @@ namespace RimWorld
 
 		internal void Notify_PawnUndowned()
 		{
-			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && (this.pawn.Faction == null || this.pawn.Faction.def.rescueesCanJoin) && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
+			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
 			{
-				Map mapHeld = this.pawn.MapHeld;
-				float num;
-				if (!this.pawn.SafeTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp) || mapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
+				if (this.getRescuedThoughtOnUndownedBecauseOfPlayer && this.pawn.needs != null && this.pawn.needs.mood != null)
 				{
-					num = 1f;
+					this.pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Rescued, null);
 				}
-				else
+				if (this.pawn.Faction == null || this.pawn.Faction.def.rescueesCanJoin)
 				{
-					num = 0.5f;
-				}
-				if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 8976612) < num)
-				{
-					this.pawn.SetFaction(Faction.OfPlayer, null);
-					Messages.Message("MessageRescueeJoined".Translate(new object[]
+					Map mapHeld = this.pawn.MapHeld;
+					float num;
+					if (!this.pawn.SafeTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp) || mapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
 					{
-						this.pawn.LabelShort
-					}).AdjustedFor(this.pawn, "PAWN"), this.pawn, MessageTypeDefOf.PositiveEvent, true);
+						num = 1f;
+					}
+					else
+					{
+						num = 0.5f;
+					}
+					if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 8976612) < num)
+					{
+						this.pawn.SetFaction(Faction.OfPlayer, null);
+						Messages.Message("MessageRescueeJoined".Translate(new object[]
+						{
+							this.pawn.LabelShort
+						}).AdjustedFor(this.pawn, "PAWN"), this.pawn, MessageTypeDefOf.PositiveEvent, true);
+					}
 				}
 			}
+			this.getRescuedThoughtOnUndownedBecauseOfPlayer = false;
 		}
 	}
 }

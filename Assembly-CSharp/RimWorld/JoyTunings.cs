@@ -22,6 +22,8 @@ namespace RimWorld
 
 		public const float ToleranceGainPerJoy = 0.65f;
 
-		public const float ToleranceDropPerDay = 0.0833333358f;
+		public const float BoredStartToleranceThreshold = 0.5f;
+
+		public const float BoredEndToleranceThreshold = 0.3f;
 	}
 }

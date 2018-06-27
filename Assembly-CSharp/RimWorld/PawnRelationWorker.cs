@@ -46,6 +46,10 @@ namespace RimWorld
 			{
 				num *= 0.7f;
 			}
+			if (other.Faction != null && other.Faction.IsPlayer && (generated.Faction == null || !generated.Faction.IsPlayer))
+			{
+				num *= 0.5f;
+			}
 			if (other.Faction != null && other.Faction.IsPlayer)
 			{
 				num *= request.ColonistRelationChanceFactor;

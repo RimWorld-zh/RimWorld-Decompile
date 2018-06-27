@@ -27,55 +27,71 @@ namespace Verse.Profile
 		[CompilerGenerated]
 		private static Predicate<WeakReference<Map>> <>f__am$cache0;
 
+		private static bool Enabled
+		{
+			get
+			{
+				return UnityData.isDebugBuild;
+			}
+		}
+
 		public static void AddReference(Map element)
 		{
-			MapLeakTracker.references.Add(new WeakReference<Map>(element));
+			if (MapLeakTracker.Enabled)
+			{
+				MapLeakTracker.references.Add(new WeakReference<Map>(element));
+			}
 		}
 
 		public static void Update()
 		{
-			if (Current.Game != null && Find.TickManager.TicksGame < MapLeakTracker.lastUpdateTick)
+			if (MapLeakTracker.Enabled)
 			{
-				MapLeakTracker.lastUpdateTick = Find.TickManager.TicksGame;
-			}
-			long totalMemory = GC.GetTotalMemory(false);
-			if (totalMemory < MapLeakTracker.gcUsedLastFrame)
-			{
-				MapLeakTracker.gcSinceLastUpdate = true;
-			}
-			MapLeakTracker.gcUsedLastFrame = totalMemory;
-			if (MapLeakTracker.lastUpdateSecond + 60f <= Time.time)
-			{
-				if (Current.Game == null || (float)MapLeakTracker.lastUpdateTick + 60000f <= (float)Find.TickManager.TicksGame)
+				if (Current.Game != null && Find.TickManager.TicksGame < MapLeakTracker.lastUpdateTick)
 				{
-					if (MapLeakTracker.gcSinceLastUpdate)
+					MapLeakTracker.lastUpdateTick = Find.TickManager.TicksGame;
+				}
+				long totalMemory = GC.GetTotalMemory(false);
+				if (totalMemory < MapLeakTracker.gcUsedLastFrame)
+				{
+					MapLeakTracker.gcSinceLastUpdate = true;
+				}
+				MapLeakTracker.gcUsedLastFrame = totalMemory;
+				if (MapLeakTracker.lastUpdateSecond + 60f <= Time.time)
+				{
+					if (Current.Game == null || (float)MapLeakTracker.lastUpdateTick + 60000f <= (float)Find.TickManager.TicksGame)
 					{
-						MapLeakTracker.lastUpdateSecond = Time.time;
-						if (Current.Game != null)
+						if (MapLeakTracker.gcSinceLastUpdate)
 						{
-							MapLeakTracker.lastUpdateTick = Find.TickManager.TicksGame;
-						}
-						MapLeakTracker.gcSinceLastUpdate = false;
-						foreach (WeakReference<Map> weakReference in MapLeakTracker.referencesFlagged)
-						{
-							Map map = weakReference.Target;
-							if (map != null && (Find.Maps == null || !Find.Maps.Contains(map)))
+							MapLeakTracker.lastUpdateSecond = Time.time;
+							if (Current.Game != null)
 							{
-								Log.Error(string.Format("Memory leak detected: map {0} is still live when it shouldn't be; this map will not be mentioned again", map.ToStringSafe<Map>()), false);
-								MapLeakTracker.references.RemoveAll((WeakReference<Map> liveref) => liveref.Target == map);
+								MapLeakTracker.lastUpdateTick = Find.TickManager.TicksGame;
 							}
-						}
-						MapLeakTracker.referencesFlagged.Clear();
-						foreach (WeakReference<Map> weakReference2 in MapLeakTracker.references)
-						{
-							Map target = weakReference2.Target;
-							if (target != null && (Find.Maps == null || !Find.Maps.Contains(target)))
+							MapLeakTracker.gcSinceLastUpdate = false;
+							for (int i = 0; i < MapLeakTracker.referencesFlagged.Count; i++)
 							{
-								MapLeakTracker.referencesFlagged.Add(weakReference2);
+								WeakReference<Map> weakReference = MapLeakTracker.referencesFlagged[i];
+								Map map = weakReference.Target;
+								if (map != null && (Find.Maps == null || !Find.Maps.Contains(map)))
+								{
+									Log.Error(string.Format("Memory leak detected: map {0} is still live when it shouldn't be; this map will not be mentioned again. For more info set MemoryTrackerMarkup.enableMemoryTracker to true and use \"Object Hold Paths\"->Map debug option.", map.ToStringSafe<Map>()), false);
+									MapLeakTracker.references.RemoveAll((WeakReference<Map> liveref) => liveref.Target == map);
+								}
 							}
+							MapLeakTracker.referencesFlagged.Clear();
+							for (int j = 0; j < MapLeakTracker.references.Count; j++)
+							{
+								WeakReference<Map> weakReference2 = MapLeakTracker.references[j];
+								Map target = weakReference2.Target;
+								if (target != null && (Find.Maps == null || !Find.Maps.Contains(target)))
+								{
+									MapLeakTracker.referencesFlagged.Add(weakReference2);
+								}
+							}
+							MapLeakTracker.references.RemoveAll((WeakReference<Map> liveref) => !liveref.IsAlive);
+							MapLeakTracker.gcUsedLastFrame = GC.GetTotalMemory(false);
 						}
-						MapLeakTracker.references.RemoveAll((WeakReference<Map> liveref) => !liveref.IsAlive);
-						MapLeakTracker.gcUsedLastFrame = GC.GetTotalMemory(false);
 					}
 				}
 			}
@@ -86,12 +102,13 @@ namespace Verse.Profile
 		public static void ForceLeakCheck()
 		{
 			GC.Collect();
-			foreach (WeakReference<Map> weakReference in MapLeakTracker.references)
+			for (int i = 0; i < MapLeakTracker.references.Count; i++)
 			{
+				WeakReference<Map> weakReference = MapLeakTracker.references[i];
 				Map target = weakReference.Target;
 				if (target != null && (Find.Maps == null || !Find.Maps.Contains(target)))
 				{
-					Log.Error(string.Format("Memory leak detected: map {0} is still live when it shouldn't be", target.ToStringSafe<Map>()), false);
+					Log.Error(string.Format("Memory leak detected: map {0} is still live when it shouldn't be. For more info set MemoryTrackerMarkup.enableMemoryTracker to true and use \"Object Hold Paths\"->Map debug option.", target.ToStringSafe<Map>()), false);
 				}
 			}
 		}

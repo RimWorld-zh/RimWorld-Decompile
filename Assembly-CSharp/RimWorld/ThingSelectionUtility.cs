@@ -65,24 +65,31 @@ namespace RimWorld
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
 			ThingSelectionUtility.yieldedThings.Clear();
-			foreach (IntVec3 c in mapRect)
+			try
 			{
-				if (c.InBounds(Find.CurrentMap))
+				foreach (IntVec3 c in mapRect)
 				{
-					List<Thing> cellThings = Find.CurrentMap.thingGrid.ThingsListAt(c);
-					if (cellThings != null)
+					if (c.InBounds(Find.CurrentMap))
 					{
-						for (int i = 0; i < cellThings.Count; i++)
+						List<Thing> cellThings = Find.CurrentMap.thingGrid.ThingsListAt(c);
+						if (cellThings != null)
 						{
-							Thing t = cellThings[i];
-							if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
+							for (int i = 0; i < cellThings.Count; i++)
 							{
-								yield return t;
-								ThingSelectionUtility.yieldedThings.Add(t);
+								Thing t = cellThings[i];
+								if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
+								{
+									yield return t;
+									ThingSelectionUtility.yieldedThings.Add(t);
+								}
 							}
 						}
 					}
 				}
+			}
+			finally
+			{
+				ThingSelectionUtility.yieldedThings.Clear();
 			}
 			yield break;
 		}
@@ -91,23 +98,30 @@ namespace RimWorld
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
 			ThingSelectionUtility.yieldedZones.Clear();
-			foreach (IntVec3 c in mapRect)
+			try
 			{
-				if (c.InBounds(Find.CurrentMap))
+				foreach (IntVec3 c in mapRect)
 				{
-					Zone zone = c.GetZone(Find.CurrentMap);
-					if (zone != null)
+					if (c.InBounds(Find.CurrentMap))
 					{
-						if (zone.IsMultiselectable)
+						Zone zone = c.GetZone(Find.CurrentMap);
+						if (zone != null)
 						{
-							if (!ThingSelectionUtility.yieldedZones.Contains(zone))
+							if (zone.IsMultiselectable)
 							{
-								yield return zone;
-								ThingSelectionUtility.yieldedZones.Add(zone);
+								if (!ThingSelectionUtility.yieldedZones.Contains(zone))
+								{
+									yield return zone;
+									ThingSelectionUtility.yieldedZones.Add(zone);
+								}
 							}
 						}
 					}
 				}
+			}
+			finally
+			{
+				ThingSelectionUtility.yieldedZones.Clear();
 			}
 			yield break;
 		}
@@ -238,7 +252,6 @@ namespace RimWorld
 				case 0u:
 					mapRect = ThingSelectionUtility.GetMapRect(rect);
 					ThingSelectionUtility.yieldedThings.Clear();
-					enumerator = mapRect.GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -251,55 +264,74 @@ namespace RimWorld
 					switch (num)
 					{
 					case 1u:
-						ThingSelectionUtility.yieldedThings.Add(t);
-						goto IL_14B;
+						break;
+					default:
+						enumerator = mapRect.GetEnumerator();
+						num = 4294967293u;
+						break;
 					}
-					IL_172:
-					while (enumerator.MoveNext())
+					try
 					{
-						c = enumerator.Current;
-						if (c.InBounds(Find.CurrentMap))
+						switch (num)
 						{
-							cellThings = Find.CurrentMap.thingGrid.ThingsListAt(c);
-							if (cellThings != null)
+						case 1u:
+							ThingSelectionUtility.yieldedThings.Add(t);
+							goto IL_15B;
+						}
+						IL_182:
+						while (enumerator.MoveNext())
+						{
+							c = enumerator.Current;
+							if (c.InBounds(Find.CurrentMap))
 							{
-								i = 0;
-								goto IL_15A;
+								cellThings = Find.CurrentMap.thingGrid.ThingsListAt(c);
+								if (cellThings != null)
+								{
+									i = 0;
+									goto IL_16A;
+								}
+							}
+						}
+						goto IL_1B2;
+						IL_15B:
+						i++;
+						IL_16A:
+						if (i < cellThings.Count)
+						{
+							t = cellThings[i];
+							if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
+							{
+								this.$current = t;
+								if (!this.$disposing)
+								{
+									this.$PC = 1;
+								}
+								flag = true;
+								return true;
+							}
+							goto IL_15B;
+						}
+						goto IL_182;
+					}
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
 							}
 						}
 					}
-					goto IL_1A2;
-					IL_14B:
-					i++;
-					IL_15A:
-					if (i < cellThings.Count)
-					{
-						t = cellThings[i];
-						if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
-						{
-							this.$current = t;
-							if (!this.$disposing)
-							{
-								this.$PC = 1;
-							}
-							flag = true;
-							return true;
-						}
-						goto IL_14B;
-					}
-					goto IL_172;
+					IL_1B2:;
 				}
 				finally
 				{
 					if (!flag)
 					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
+						this.<>__Finally0();
 					}
 				}
-				IL_1A2:
 				this.$PC = -1;
 				return false;
 			}
@@ -333,13 +365,20 @@ namespace RimWorld
 				case 1u:
 					try
 					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
 					}
 					finally
 					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
+						this.<>__Finally0();
 					}
 					break;
 				}
@@ -367,6 +406,11 @@ namespace RimWorld
 				ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator0 <MultiSelectableThingsInScreenRectDistinct>c__Iterator = new ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator0();
 				<MultiSelectableThingsInScreenRectDistinct>c__Iterator.rect = rect;
 				return <MultiSelectableThingsInScreenRectDistinct>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				ThingSelectionUtility.yieldedThings.Clear();
 			}
 		}
 
@@ -404,7 +448,6 @@ namespace RimWorld
 				case 0u:
 					mapRect = ThingSelectionUtility.GetMapRect(rect);
 					ThingSelectionUtility.yieldedZones.Clear();
-					enumerator = mapRect.GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -417,48 +460,67 @@ namespace RimWorld
 					switch (num)
 					{
 					case 1u:
-						ThingSelectionUtility.yieldedZones.Add(zone);
+						break;
+					default:
+						enumerator = mapRect.GetEnumerator();
+						num = 4294967293u;
 						break;
 					}
-					IL_117:
-					while (enumerator.MoveNext())
+					try
 					{
-						c = enumerator.Current;
-						if (c.InBounds(Find.CurrentMap))
+						switch (num)
 						{
-							zone = c.GetZone(Find.CurrentMap);
-							if (zone != null)
+						case 1u:
+							ThingSelectionUtility.yieldedZones.Add(zone);
+							break;
+						}
+						IL_127:
+						while (enumerator.MoveNext())
+						{
+							c = enumerator.Current;
+							if (c.InBounds(Find.CurrentMap))
 							{
-								if (zone.IsMultiselectable)
+								zone = c.GetZone(Find.CurrentMap);
+								if (zone != null)
 								{
-									if (!ThingSelectionUtility.yieldedZones.Contains(zone))
+									if (zone.IsMultiselectable)
 									{
-										this.$current = zone;
-										if (!this.$disposing)
+										if (!ThingSelectionUtility.yieldedZones.Contains(zone))
 										{
-											this.$PC = 1;
+											this.$current = zone;
+											if (!this.$disposing)
+											{
+												this.$PC = 1;
+											}
+											flag = true;
+											return true;
 										}
-										flag = true;
-										return true;
 									}
 								}
 							}
 						}
+						goto IL_157;
+						goto IL_127;
 					}
-					goto IL_147;
-					goto IL_117;
+					finally
+					{
+						if (!flag)
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
+					}
+					IL_157:;
 				}
 				finally
 				{
 					if (!flag)
 					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
+						this.<>__Finally0();
 					}
 				}
-				IL_147:
 				this.$PC = -1;
 				return false;
 			}
@@ -492,13 +554,20 @@ namespace RimWorld
 				case 1u:
 					try
 					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator != null)
+							{
+								enumerator.Dispose();
+							}
+						}
 					}
 					finally
 					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
+						this.<>__Finally0();
 					}
 					break;
 				}
@@ -526,6 +595,11 @@ namespace RimWorld
 				ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator1 <MultiSelectableZonesInScreenRectDistinct>c__Iterator = new ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator1();
 				<MultiSelectableZonesInScreenRectDistinct>c__Iterator.rect = rect;
 				return <MultiSelectableZonesInScreenRectDistinct>c__Iterator;
+			}
+
+			private void <>__Finally0()
+			{
+				ThingSelectionUtility.yieldedZones.Clear();
 			}
 		}
 	}

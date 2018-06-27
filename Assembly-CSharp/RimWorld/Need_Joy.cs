@@ -132,7 +132,7 @@ namespace RimWorld
 		{
 			if (!base.IsFrozen)
 			{
-				this.tolerances.NeedInterval();
+				this.tolerances.NeedInterval(this.pawn);
 				if (!this.GainingJoy)
 				{
 					this.CurLevel -= this.FallPerInterval;
@@ -148,23 +148,38 @@ namespace RimWorld
 			{
 				text = text + "\n\n" + text2;
 			}
-			Caravan caravan = this.pawn.GetCaravan();
-			if (caravan != null)
+			Map mapHeld = this.pawn.MapHeld;
+			if (mapHeld != null)
 			{
-				float num = CaravanPawnsNeedsUtility.GetCaravanNotMovingJoyGainPerTick(this.pawn, caravan) * 2500f;
-				if (num > 0f)
+				ExpectationDef expectationDef = ExpectationsUtility.CurrentExpectationFor(this.pawn);
+				text = text + "\n\n" + "CurrentExpectationsAndRecreation".Translate(new object[]
 				{
-					string text3 = text;
-					text = string.Concat(new string[]
+					expectationDef.label,
+					expectationDef.joyToleranceDropPerDay.ToStringPercent(),
+					expectationDef.joyKindsNeeded
+				});
+				text = text + "\n\n" + Alert_NeedJoySources.JoyKindsOnMapString(this.pawn.MapHeld);
+			}
+			else
+			{
+				Caravan caravan = this.pawn.GetCaravan();
+				if (caravan != null)
+				{
+					float num = CaravanPawnsNeedsUtility.GetCaravanNotMovingJoyGainPerTick(this.pawn, caravan) * 2500f;
+					if (num > 0f)
 					{
-						text3,
-						"\n\n",
-						"GainingJoyBecauseCaravanNotMoving".Translate(),
-						": +",
-						num.ToStringPercent(),
-						"/",
-						"LetterHour".Translate()
-					});
+						string text3 = text;
+						text = string.Concat(new string[]
+						{
+							text3,
+							"\n\n",
+							"GainingJoyBecauseCaravanNotMoving".Translate(),
+							": +",
+							num.ToStringPercent(),
+							"/",
+							"LetterHour".Translate()
+						});
+					}
 				}
 			}
 			return text;

@@ -306,9 +306,10 @@ namespace Verse.Profile
 					Dictionary<string, int> dictionary2 = new Dictionary<string, int>();
 					foreach (WeakReference weakReference in elements)
 					{
-						if (weakReference.IsAlive)
+						object target = weakReference.Target;
+						if (target != null)
 						{
-							string path = dictionary[weakReference.Target].path;
+							string path = dictionary[target].path;
 							if (!dictionary2.ContainsKey(path))
 							{
 								dictionary2[path] = 0;
@@ -543,14 +544,14 @@ namespace Verse.Profile
 				if (MemoryTracker.updatesSinceLastCull++ >= 10)
 				{
 					MemoryTracker.updatesSinceLastCull = 0;
-					KeyValuePair<Type, HashSet<WeakReference>> keyValuePair = MemoryTracker.tracked.ElementAtOrDefault(MemoryTracker.cullTargetIndex++);
-					if (keyValuePair.Value == null)
+					HashSet<WeakReference> value = MemoryTracker.tracked.ElementAtOrDefault(MemoryTracker.cullTargetIndex++).Value;
+					if (value == null)
 					{
 						MemoryTracker.cullTargetIndex = 0;
 					}
 					else
 					{
-						MemoryTracker.CullNulls(keyValuePair.Value);
+						MemoryTracker.CullNulls(value);
 					}
 				}
 			}

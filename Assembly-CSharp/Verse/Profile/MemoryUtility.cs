@@ -53,6 +53,14 @@ namespace Verse.Profile
 				}
 			}
 			BillUtility.Clipboard = null;
+			RegionTraverser.RecreateWorkers();
+			SelectionDrawer.Clear();
+			WorldSelectionDrawer.Clear();
+			List<MainButtonDef> allDefsListForReading = DefDatabase<MainButtonDef>.AllDefsListForReading;
+			for (int l = 0; l < allDefsListForReading.Count; l++)
+			{
+				allDefsListForReading[l].Notify_ClearingAllMapsMemory();
+			}
 		}
 
 		[CompilerGenerated]

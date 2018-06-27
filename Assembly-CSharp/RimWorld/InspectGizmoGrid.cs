@@ -65,6 +65,7 @@ namespace RimWorld
 				}
 				InspectGizmoGrid.objList.Clear();
 				GizmoGridDrawer.DrawGizmoGrid(InspectGizmoGrid.gizmoList, InspectPaneUtility.PaneWidthFor(Find.WindowStack.WindowOfType<IInspectPane>()) + 20f, out mouseoverGizmo);
+				InspectGizmoGrid.gizmoList.Clear();
 			}
 			catch (Exception ex)
 			{

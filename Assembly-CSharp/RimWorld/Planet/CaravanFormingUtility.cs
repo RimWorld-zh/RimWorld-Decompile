@@ -20,10 +20,6 @@ namespace RimWorld.Planet
 
 		private static readonly Texture2D AddToCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/AddToCaravan", true);
 
-		private static List<Thing> tmpReachableItems = new List<Thing>();
-
-		private static List<Pawn> tmpSendablePawns = new List<Pawn>();
-
 		private static List<ThingCount> tmpCaravanPawns = new List<ThingCount>();
 
 		[CompilerGenerated]
@@ -134,7 +130,7 @@ namespace RimWorld.Planet
 
 		public static List<Thing> AllReachableColonyItems(Map map, bool allowEvenIfOutsideHomeArea = false, bool allowEvenIfReserved = false, bool canMinify = false)
 		{
-			CaravanFormingUtility.tmpReachableItems.Clear();
+			List<Thing> list = new List<Thing>();
 			List<Thing> allThings = map.listerThings.AllThings;
 			for (int i = 0; i < allThings.Count; i++)
 			{
@@ -142,15 +138,15 @@ namespace RimWorld.Planet
 				bool flag = canMinify && thing.def.Minifiable;
 				if ((flag || thing.def.category == ThingCategory.Item) && (allowEvenIfOutsideHomeArea || map.areaManager.Home[thing.Position] || thing.IsInAnyStorage()) && (!thing.Position.Fogged(thing.Map) && (allowEvenIfReserved || !map.reservationManager.IsReservedByAnyoneOf(thing, Faction.OfPlayer))) && (flag || thing.def.EverHaulable))
 				{
-					CaravanFormingUtility.tmpReachableItems.Add(thing);
+					list.Add(thing);
 				}
 			}
-			return CaravanFormingUtility.tmpReachableItems;
+			return list;
 		}
 
 		public static List<Pawn> AllSendablePawns(Map map, bool allowEvenIfDownedOrInMentalState = false, bool allowEvenIfPrisonerNotSecure = false, bool allowCapturableDownedPawns = false)
 		{
-			CaravanFormingUtility.tmpSendablePawns.Clear();
+			List<Pawn> list = new List<Pawn>();
 			List<Pawn> allPawnsSpawned = map.mapPawns.AllPawnsSpawned;
 			for (int i = 0; i < allPawnsSpawned.Count; i++)
 			{
@@ -161,12 +157,12 @@ namespace RimWorld.Planet
 					{
 						if ((allowEvenIfPrisonerNotSecure || !pawn.IsPrisoner || pawn.guest.PrisonerIsSecure) && (pawn.GetLord() == null || pawn.GetLord().LordJob is LordJob_VoluntarilyJoinable))
 						{
-							CaravanFormingUtility.tmpSendablePawns.Add(pawn);
+							list.Add(pawn);
 						}
 					}
 				}
 			}
-			return CaravanFormingUtility.tmpSendablePawns;
+			return list;
 		}
 
 		public static IEnumerable<Gizmo> GetGizmos(Pawn pawn)
@@ -198,7 +194,7 @@ namespace RimWorld.Planet
 					hotKey = KeyBindingDefOf.Misc6
 				};
 			}
-			else if (Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
+			else if (pawn.Spawned)
 			{
 				bool anyCaravanToJoin = false;
 				for (int i = 0; i < pawn.Map.lordManager.lords.Count; i++)
@@ -210,7 +206,7 @@ namespace RimWorld.Planet
 						break;
 					}
 				}
-				if (anyCaravanToJoin)
+				if (anyCaravanToJoin && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
 				{
 					yield return new Command_Action
 					{
@@ -377,7 +373,7 @@ namespace RimWorld.Planet
 						}
 						return true;
 					}
-					if (Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
+					if (pawn.Spawned)
 					{
 						anyCaravanToJoin = false;
 						for (int i = 0; i < pawn.Map.lordManager.lords.Count; i++)
@@ -389,7 +385,7 @@ namespace RimWorld.Planet
 								break;
 							}
 						}
-						if (anyCaravanToJoin)
+						if (anyCaravanToJoin && Dialog_FormCaravan.AllSendablePawns(pawn.Map, false).Contains(pawn))
 						{
 							Command_Action addToCaravan = new Command_Action();
 							addToCaravan.defaultLabel = "CommandAddToCaravan".Translate();

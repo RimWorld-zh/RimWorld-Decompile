@@ -22,7 +22,7 @@ namespace RimWorld
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			Thing thing = req.Thing;
-			Pawn_EquipmentTracker pawn_EquipmentTracker = thing.ParentHolder as Pawn_EquipmentTracker;
+			Pawn_EquipmentTracker pawn_EquipmentTracker = (thing == null) ? null : (thing.ParentHolder as Pawn_EquipmentTracker);
 			Pawn attacker = (pawn_EquipmentTracker == null) ? null : pawn_EquipmentTracker.pawn;
 			IEnumerable<Verb_MeleeAttack> enumerable = null;
 			if (req.HasThing && req.Thing.TryGetComp<CompEquippable>() != null)

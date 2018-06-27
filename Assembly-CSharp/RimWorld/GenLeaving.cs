@@ -270,6 +270,7 @@ namespace RimWorld
 					{
 						FilthMaker.MakeFilth(GenLeaving.tmpCellsCandidates.RandomElement<IntVec3>(), t.Map, t.def.filthLeaving, 1);
 					}
+					GenLeaving.tmpCellsCandidates.Clear();
 				}
 			}
 		}

@@ -30,7 +30,7 @@ namespace RimWorld
 				DamageInfo dinfo = new DamageInfo(damageDef, amount, armorPenetration2, y, launcher, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown, this.intendedTarget.Thing);
 				hitThing.TakeDamage(dinfo).AssociateWithLog(battleLogEntry_RangedImpact);
 				Pawn pawn = hitThing as Pawn;
-				if (pawn != null && pawn.stances != null && pawn.BodySize <= this.def.projectile.stoppingPower + 0.001f)
+				if (pawn != null && pawn.stances != null && pawn.BodySize <= this.def.projectile.StoppingPower + 0.001f)
 				{
 					pawn.stances.StaggerFor(95);
 				}

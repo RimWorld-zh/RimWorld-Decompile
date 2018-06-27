@@ -165,7 +165,7 @@ namespace RimWorld
 
 		public static QualityCategory GenerateQualityReward()
 		{
-			return QualityUtility.GenerateFromGaussian(1.1f, QualityCategory.Legendary, QualityCategory.Excellent, QualityCategory.Excellent);
+			return QualityUtility.GenerateFromGaussian(1f, QualityCategory.Legendary, QualityCategory.Excellent, QualityCategory.Good);
 		}
 
 		public static QualityCategory GenerateQualityGift()

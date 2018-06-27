@@ -173,7 +173,7 @@ namespace RimWorld
 										{
 											if (bill_ProductionWithUft.BoundWorker != pawn || !pawn.CanReserveAndReach(bill_ProductionWithUft.BoundUft, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false) || bill_ProductionWithUft.BoundUft.IsForbidden(pawn))
 											{
-												goto IL_1DC;
+												goto IL_1F6;
 											}
 											return WorkGiver_DoBill.FinishUftJob(pawn, bill_ProductionWithUft.BoundUft, bill_ProductionWithUft);
 										}
@@ -196,9 +196,12 @@ namespace RimWorld
 										{
 											JobFailReason.Is(WorkGiver_DoBill.MissingMaterialsTranslated, bill.Label);
 										}
-										goto IL_1DC;
+										this.chosenIngThings.Clear();
+										goto IL_1F6;
 									}
-									return this.TryStartNewDoBillJob(pawn, bill, giver);
+									Job result = this.TryStartNewDoBillJob(pawn, bill, giver);
+									this.chosenIngThings.Clear();
+									return result;
 								}
 								JobFailReason.Is("UnderRequiredSkill".Translate(new object[]
 								{
@@ -208,8 +211,9 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_1DC:;
+				IL_1F6:;
 			}
+			this.chosenIngThings.Clear();
 			return null;
 		}
 
@@ -319,6 +323,8 @@ namespace RimWorld
 						WorkGiver_DoBill.AddEveryMedicineToRelevantThings(pawn, billGiver, WorkGiver_DoBill.relevantThings, baseValidator, pawn.Map);
 						if (WorkGiver_DoBill.TryFindBestBillIngredientsInSet(WorkGiver_DoBill.relevantThings, bill, chosen))
 						{
+							WorkGiver_DoBill.relevantThings.Clear();
+							WorkGiver_DoBill.ingredientsOrdered.Clear();
 							return true;
 						}
 					}
@@ -368,6 +374,8 @@ namespace RimWorld
 					RegionTraverser.BreadthFirstTraverse(rootReg, entryCondition, regionProcessor, 99999, RegionType.Set_Passable);
 					WorkGiver_DoBill.relevantThings.Clear();
 					WorkGiver_DoBill.newRelevantThings.Clear();
+					WorkGiver_DoBill.processedThings.Clear();
+					WorkGiver_DoBill.ingredientsOrdered.Clear();
 					result = foundAll;
 				}
 			}

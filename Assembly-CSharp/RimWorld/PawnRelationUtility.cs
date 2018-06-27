@@ -202,24 +202,22 @@ namespace RimWorld
 					title = title + " " + "RelationshipAppendedLetterSuffix".Translate();
 				}
 				string genderSpecificLabel = mostImportantColonyRelative.GetMostImportantRelation(pawn).GetGenderSpecificLabel(pawn);
-				string text2 = "\n\n";
 				if (mostImportantColonyRelative.IsColonist)
 				{
-					text2 += "RelationshipAppendedLetterTextColonist".Translate(new object[]
+					text = text + "\n\n" + "RelationshipAppendedLetterTextColonist".Translate(new object[]
 					{
 						mostImportantColonyRelative.LabelShort,
 						genderSpecificLabel
-					});
+					}).AdjustedFor(pawn, "PAWN");
 				}
 				else
 				{
-					text2 += "RelationshipAppendedLetterTextPrisoner".Translate(new object[]
+					text = text + "\n\n" + "RelationshipAppendedLetterTextPrisoner".Translate(new object[]
 					{
 						mostImportantColonyRelative.LabelShort,
 						genderSpecificLabel
-					});
+					}).AdjustedFor(pawn, "PAWN");
 				}
-				text += text2.AdjustedFor(pawn, "PAWN");
 				result = true;
 			}
 			return result;

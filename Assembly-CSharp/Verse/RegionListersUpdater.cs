@@ -40,6 +40,7 @@ namespace Verse
 						listerThings.Add(thing);
 					}
 				}
+				RegionListersUpdater.tmpRegions.Clear();
 			}
 		}
 

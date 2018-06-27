@@ -229,7 +229,7 @@ namespace RimWorld
 		private void TryDrawOverallArmor(ref float curY, float width, StatDef stat, string label)
 		{
 			float num = 0f;
-			float num2 = Mathf.Clamp01(this.SelPawnForGear.GetStatValue(stat, true));
+			float num2 = Mathf.Clamp01(this.SelPawnForGear.GetStatValue(stat, true) / 2f);
 			List<BodyPartRecord> allParts = this.SelPawnForGear.RaceProps.body.AllParts;
 			List<Apparel> list = (this.SelPawnForGear.apparel == null) ? null : this.SelPawnForGear.apparel.WornApparel;
 			for (int i = 0; i < allParts.Count; i++)
@@ -241,14 +241,14 @@ namespace RimWorld
 					{
 						if (list[j].def.apparel.CoversBodyPart(allParts[i]))
 						{
-							float num4 = Mathf.Clamp01(list[j].GetStatValue(stat, true));
+							float num4 = Mathf.Clamp01(list[j].GetStatValue(stat, true) / 2f);
 							num3 *= 1f - num4;
 						}
 					}
 				}
 				num += allParts[i].coverageAbs * (1f - num3);
 			}
-			num = Mathf.Clamp01(num);
+			num = Mathf.Clamp(num * 2f, 0f, 2f);
 			Rect rect = new Rect(0f, curY, width, 100f);
 			Widgets.Label(rect, label.Truncate(120f, null));
 			rect.xMin += 120f;

@@ -806,7 +806,7 @@ namespace RimWorld.Planet
 				stringBuilder.AppendLine();
 				stringBuilder.Append("CaravanResting".Translate());
 			}
-			if (this.pather.Paused)
+			else if (this.pather.Paused)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.Append("CaravanPaused".Translate());

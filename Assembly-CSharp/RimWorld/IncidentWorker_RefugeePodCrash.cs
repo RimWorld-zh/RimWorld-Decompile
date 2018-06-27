@@ -16,6 +16,7 @@ namespace RimWorld
 			List<Thing> things = ThingSetMakerDefOf.RefugeePod.root.Generate();
 			IntVec3 intVec = DropCellFinder.RandomDropSpot(map);
 			Pawn pawn = this.FindPawn(things);
+			pawn.guest.getRescuedThoughtOnUndownedBecauseOfPlayer = true;
 			string label = "LetterLabelRefugeePodCrash".Translate();
 			string text = "RefugeePodCrash".Translate().AdjustedFor(pawn, "PAWN");
 			if (pawn.Faction != null)

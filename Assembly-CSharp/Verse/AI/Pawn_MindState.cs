@@ -354,6 +354,10 @@ namespace Verse.AI
 		{
 			this.willJoinColonyIfRescued = false;
 			InteractionWorker_RecruitAttempt.DoRecruit(by, this.pawn, 1f, false);
+			if (this.pawn.needs != null && this.pawn.needs.mood != null)
+			{
+				this.pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Rescued, null);
+			}
 			Find.LetterStack.ReceiveLetter("LetterLabelRescueQuestFinished".Translate(), "LetterRescueQuestFinished".Translate().AdjustedFor(this.pawn, "PAWN").CapitalizeFirst(), LetterDefOf.PositiveEvent, this.pawn, null, null);
 		}
 

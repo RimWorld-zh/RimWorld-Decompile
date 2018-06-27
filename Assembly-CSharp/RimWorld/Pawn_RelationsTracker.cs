@@ -796,14 +796,14 @@ namespace RimWorld
 
 		public void Notify_ExitedMap()
 		{
-			this.Rescued();
+			this.CheckRescued();
 		}
 
 		public void Notify_ChangedFaction()
 		{
 			if (this.pawn.Faction == Faction.OfPlayer)
 			{
-				this.Rescued();
+				this.CheckRescued();
 			}
 		}
 
@@ -851,7 +851,7 @@ namespace RimWorld
 			this.relativeInvolvedInRescueQuest = null;
 		}
 
-		private void Rescued()
+		private void CheckRescued()
 		{
 			if (this.relativeInvolvedInRescueQuest != null && !this.relativeInvolvedInRescueQuest.Dead && this.relativeInvolvedInRescueQuest.needs.mood != null)
 			{

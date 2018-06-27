@@ -137,6 +137,10 @@ namespace RimWorld
 			{
 				yield return "joy > 0 with no joy kind";
 			}
+			if (this.joy == 0f && this.joyKind != null)
+			{
+				yield return "joy is 0 but joyKind is " + this.joyKind;
+			}
 			yield break;
 		}
 
@@ -195,13 +199,15 @@ namespace RimWorld
 				case 1u:
 					break;
 				case 2u:
-					goto IL_90;
+					goto IL_94;
 				case 3u:
-					goto IL_112;
+					goto IL_116;
 				case 4u:
-					goto IL_181;
+					goto IL_185;
 				case 5u:
-					goto IL_1C5;
+					goto IL_1C9;
+				case 6u:
+					goto IL_21D;
 				default:
 					return false;
 				}
@@ -214,7 +220,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_90:
+				IL_94:
 				if (this.parent.GetStatValueAbstract(StatDefOf.Nutrition, null) == 0f && this.preferability != FoodPreferability.NeverForNutrition)
 				{
 					this.$current = string.Concat(new object[]
@@ -230,7 +236,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_112:
+				IL_116:
 				if (!this.parent.IsCorpse && this.preferability > FoodPreferability.DesperateOnlyForHumanlikes && !this.parent.socialPropernessMatters && this.parent.EverHaulable)
 				{
 					this.$current = "ingestible preferability > DesperateOnlyForHumanlikes but socialPropernessMatters=false. This will cause bugs wherein wardens will look in prison cells for food to give to prisoners and so will repeatedly pick up and drop food inside the cell.";
@@ -240,7 +246,7 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_181:
+				IL_185:
 				if (this.joy > 0f && this.joyKind == null)
 				{
 					this.$current = "joy > 0 with no joy kind";
@@ -250,7 +256,17 @@ namespace RimWorld
 					}
 					return true;
 				}
-				IL_1C5:
+				IL_1C9:
+				if (this.joy == 0f && this.joyKind != null)
+				{
+					this.$current = "joy is 0 but joyKind is " + this.joyKind;
+					if (!this.$disposing)
+					{
+						this.$PC = 6;
+					}
+					return true;
+				}
+				IL_21D:
 				this.$PC = -1;
 				return false;
 			}

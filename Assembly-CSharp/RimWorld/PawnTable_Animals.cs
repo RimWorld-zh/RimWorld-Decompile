@@ -30,7 +30,7 @@ namespace RimWorld
 		protected override IEnumerable<Pawn> LabelSortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input
-			orderby p.Name.Numerical, (!(p.Name is NameSingle)) ? 0 : ((NameSingle)p.Name).Number, p.def.label
+			orderby p.Name == null || p.Name.Numerical, (!(p.Name is NameSingle)) ? 0 : ((NameSingle)p.Name).Number, p.def.label
 			select p;
 		}
 
@@ -44,7 +44,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <LabelSortFunction>m__0(Pawn p)
 		{
-			return p.Name.Numerical;
+			return p.Name == null || p.Name.Numerical;
 		}
 
 		[CompilerGenerated]

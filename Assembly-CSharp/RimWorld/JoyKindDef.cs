@@ -5,6 +5,8 @@ namespace RimWorld
 {
 	public class JoyKindDef : Def
 	{
+		public bool needsThing = true;
+
 		public JoyKindDef()
 		{
 		}
