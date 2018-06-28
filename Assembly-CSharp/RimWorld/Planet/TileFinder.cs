@@ -45,7 +45,7 @@ namespace RimWorld.Planet
 					}
 					else
 					{
-						result = tile.biome.factionBaseSelectionWeight;
+						result = tile.biome.settlementSelectionWeight;
 					}
 					return result;
 				}, out num))
@@ -93,16 +93,16 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				Settlement settlement = Find.WorldObjects.SettlementAt(tile);
-				if (settlement != null)
+				SettlementBase settlementBase = Find.WorldObjects.SettlementBaseAt(tile);
+				if (settlementBase != null)
 				{
 					if (reason != null)
 					{
-						if (settlement.Faction == null)
+						if (settlementBase.Faction == null)
 						{
 							reason.Append("TileOccupied".Translate());
 						}
-						else if (settlement.Faction == Faction.OfPlayer)
+						else if (settlementBase.Faction == Faction.OfPlayer)
 						{
 							reason.Append("YourBaseAlreadyThere".Translate());
 						}
@@ -110,13 +110,13 @@ namespace RimWorld.Planet
 						{
 							reason.Append("BaseAlreadyThere".Translate(new object[]
 							{
-								settlement.Faction.Name
+								settlementBase.Faction.Name
 							}));
 						}
 					}
 					result = false;
 				}
-				else if (Find.WorldObjects.AnySettlementAtOrAdjacent(tile))
+				else if (Find.WorldObjects.AnySettlementBaseAtOrAdjacent(tile))
 				{
 					if (reason != null)
 					{
@@ -124,7 +124,7 @@ namespace RimWorld.Planet
 					}
 					result = false;
 				}
-				else if (Find.WorldObjects.AnyMapParentAt(tile) || Current.Game.FindMap(tile) != null || Find.WorldObjects.AnyWorldObjectOfDefAt(WorldObjectDefOf.AbandonedBase, tile))
+				else if (Find.WorldObjects.AnyMapParentAt(tile) || Current.Game.FindMap(tile) != null || Find.WorldObjects.AnyWorldObjectOfDefAt(WorldObjectDefOf.AbandonedSettlement, tile))
 				{
 					if (reason != null)
 					{
@@ -325,7 +325,7 @@ namespace RimWorld.Planet
 				}
 				else
 				{
-					result = tile.biome.factionBaseSelectionWeight;
+					result = tile.biome.settlementSelectionWeight;
 				}
 				return result;
 			}

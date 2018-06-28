@@ -236,7 +236,7 @@ namespace Verse
 				{
 					if (request.Inhabitant && request.Tile != -1)
 					{
-						Settlement settlement = Find.WorldObjects.WorldObjectAt<Settlement>(request.Tile);
+						SettlementBase settlement = Find.WorldObjects.WorldObjectAt<SettlementBase>(request.Tile);
 						if (settlement != null && settlement.previouslyGeneratedInhabitants.Any<Pawn>())
 						{
 							IEnumerable<Pawn> validCandidatesToRedress2 = PawnGenerator.GetValidCandidatesToRedress(request);
@@ -271,10 +271,10 @@ namespace Verse
 				}
 				if (request.Inhabitant && request.Tile != -1)
 				{
-					Settlement settlement2 = Find.WorldObjects.WorldObjectAt<Settlement>(request.Tile);
-					if (settlement2 != null)
+					SettlementBase settlementBase = Find.WorldObjects.WorldObjectAt<SettlementBase>(request.Tile);
+					if (settlementBase != null)
 					{
-						settlement2.previouslyGeneratedInhabitants.Add(pawn);
+						settlementBase.previouslyGeneratedInhabitants.Add(pawn);
 					}
 				}
 			}
@@ -1233,7 +1233,7 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <GenerateOrRedressPawnInternal>c__AnonStorey0
 		{
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <GenerateOrRedressPawnInternal>c__AnonStorey0()
 			{

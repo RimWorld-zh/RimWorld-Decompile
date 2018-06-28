@@ -292,7 +292,6 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 			}
 			stringBuilder.AppendLine("WorkAmount".Translate() + ": " + this.bill.recipe.WorkAmountTotal(null).ToStringWorkAmount());
-			stringBuilder.AppendLine();
 			for (int j = 0; j < this.bill.recipe.ingredients.Count; j++)
 			{
 				IngredientCount ingredientCount = this.bill.recipe.ingredients[j];

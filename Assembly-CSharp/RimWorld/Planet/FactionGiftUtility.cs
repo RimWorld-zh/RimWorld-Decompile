@@ -13,7 +13,7 @@ namespace RimWorld.Planet
 	{
 		private static readonly Texture2D OfferGiftsCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts", true);
 
-		public static Command OfferGiftsCommand(Caravan caravan, Settlement settlement)
+		public static Command OfferGiftsCommand(Caravan caravan, SettlementBase settlement)
 		{
 			return new Command_Action
 			{
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public static void GiveGift(List<ActiveDropPodInfo> pods, Settlement giveTo)
+		public static void GiveGift(List<ActiveDropPodInfo> pods, SettlementBase giveTo)
 		{
 			int goodwillChange = FactionGiftUtility.GetGoodwillChange(pods.Cast<IThingHolder>(), giveTo);
 			for (int i = 0; i < pods.Count; i++)
@@ -153,7 +153,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static int GetGoodwillChange(IEnumerable<IThingHolder> pods, Settlement giveTo)
+		public static int GetGoodwillChange(IEnumerable<IThingHolder> pods, SettlementBase giveTo)
 		{
 			float num = 0f;
 			foreach (IThingHolder thingHolder in pods)
@@ -222,7 +222,7 @@ namespace RimWorld.Planet
 		{
 			internal Caravan caravan;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <OfferGiftsCommand>c__AnonStorey0()
 			{

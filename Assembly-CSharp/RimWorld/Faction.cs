@@ -58,10 +58,10 @@ namespace RimWorld
 		private static Predicate<PredatorThreat> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Predicate<FactionBase> <>f__am$cache1;
+		private static Predicate<Settlement> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Predicate<FactionBase> <>f__am$cache2;
+		private static Predicate<Settlement> <>f__am$cache2;
 
 		[CompilerGenerated]
 		private static Func<Site, GlobalTargetInfo> <>f__am$cache3;
@@ -204,10 +204,10 @@ namespace RimWorld
 			{
 				if (NamePlayerFactionAndBaseUtility.CanNameFactionNow())
 				{
-					FactionBase factionBase = Find.WorldObjects.FactionBases.Find((FactionBase x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x));
-					if (factionBase != null)
+					Settlement settlement = Find.WorldObjects.Settlements.Find((Settlement x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x));
+					if (settlement != null)
 					{
-						Find.WindowStack.Add(new Dialog_NamePlayerFactionAndSettlement(factionBase));
+						Find.WindowStack.Add(new Dialog_NamePlayerFactionAndSettlement(settlement));
 					}
 					else
 					{
@@ -216,16 +216,16 @@ namespace RimWorld
 				}
 				else
 				{
-					FactionBase factionBase2 = Find.WorldObjects.FactionBases.Find((FactionBase x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x));
-					if (factionBase2 != null)
+					Settlement settlement2 = Find.WorldObjects.Settlements.Find((Settlement x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x));
+					if (settlement2 != null)
 					{
 						if (NamePlayerFactionAndBaseUtility.CanNameFactionSoon())
 						{
-							Find.WindowStack.Add(new Dialog_NamePlayerFactionAndSettlement(factionBase2));
+							Find.WindowStack.Add(new Dialog_NamePlayerFactionAndSettlement(settlement2));
 						}
 						else
 						{
-							Find.WindowStack.Add(new Dialog_NamePlayerFactionBase(factionBase2));
+							Find.WindowStack.Add(new Dialog_NamePlayerSettlement(settlement2));
 						}
 					}
 				}
@@ -1283,13 +1283,13 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static bool <FactionTick>m__1(FactionBase x)
+		private static bool <FactionTick>m__1(Settlement x)
 		{
 			return NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x);
 		}
 
 		[CompilerGenerated]
-		private static bool <FactionTick>m__2(FactionBase x)
+		private static bool <FactionTick>m__2(Settlement x)
 		{
 			return NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x);
 		}

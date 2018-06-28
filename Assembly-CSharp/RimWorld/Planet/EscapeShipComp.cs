@@ -57,19 +57,6 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		public override IEnumerable<Gizmo> GetGizmos()
-		{
-			MapParent mapParent = (MapParent)this.parent;
-			if (mapParent.HasMap)
-			{
-				if (mapParent.Map.listerThings.ThingsOfDef(ThingDefOf.Ship_Reactor).Any((Thing reactor) => reactor.TryGetComp<CompHibernatable>().Running))
-				{
-					yield return SettleInExistingMapUtility.SettleCommand(((MapParent)this.parent).Map, true);
-				}
-			}
-			yield break;
-		}
-
 		[CompilerGenerated]
 		private sealed class <GetFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
 		{
@@ -203,111 +190,6 @@ namespace RimWorld.Planet
 				<GetFloatMenuOptions>c__Iterator.$this = this;
 				<GetFloatMenuOptions>c__Iterator.caravan = caravan;
 				return <GetFloatMenuOptions>c__Iterator;
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <GetGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
-		{
-			internal MapParent <mapParent>__0;
-
-			internal EscapeShipComp $this;
-
-			internal Gizmo $current;
-
-			internal bool $disposing;
-
-			internal int $PC;
-
-			private static Predicate<Thing> <>f__am$cache0;
-
-			[DebuggerHidden]
-			public <GetGizmos>c__Iterator1()
-			{
-			}
-
-			public bool MoveNext()
-			{
-				uint num = (uint)this.$PC;
-				this.$PC = -1;
-				switch (num)
-				{
-				case 0u:
-					mapParent = (MapParent)this.parent;
-					if (mapParent.HasMap)
-					{
-						if (mapParent.Map.listerThings.ThingsOfDef(ThingDefOf.Ship_Reactor).Any((Thing reactor) => reactor.TryGetComp<CompHibernatable>().Running))
-						{
-							this.$current = SettleInExistingMapUtility.SettleCommand(((MapParent)this.parent).Map, true);
-							if (!this.$disposing)
-							{
-								this.$PC = 1;
-							}
-							return true;
-						}
-					}
-					break;
-				case 1u:
-					break;
-				default:
-					return false;
-				}
-				this.$PC = -1;
-				return false;
-			}
-
-			Gizmo IEnumerator<Gizmo>.Current
-			{
-				[DebuggerHidden]
-				get
-				{
-					return this.$current;
-				}
-			}
-
-			object IEnumerator.Current
-			{
-				[DebuggerHidden]
-				get
-				{
-					return this.$current;
-				}
-			}
-
-			[DebuggerHidden]
-			public void Dispose()
-			{
-				this.$disposing = true;
-				this.$PC = -1;
-			}
-
-			[DebuggerHidden]
-			public void Reset()
-			{
-				throw new NotSupportedException();
-			}
-
-			[DebuggerHidden]
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return this.System.Collections.Generic.IEnumerable<Verse.Gizmo>.GetEnumerator();
-			}
-
-			[DebuggerHidden]
-			IEnumerator<Gizmo> IEnumerable<Gizmo>.GetEnumerator()
-			{
-				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
-				{
-					return this;
-				}
-				EscapeShipComp.<GetGizmos>c__Iterator1 <GetGizmos>c__Iterator = new EscapeShipComp.<GetGizmos>c__Iterator1();
-				<GetGizmos>c__Iterator.$this = this;
-				return <GetGizmos>c__Iterator;
-			}
-
-			private static bool <>m__0(Thing reactor)
-			{
-				return reactor.TryGetComp<CompHibernatable>().Running;
 			}
 		}
 	}

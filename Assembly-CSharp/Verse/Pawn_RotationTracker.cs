@@ -110,65 +110,72 @@ namespace Verse
 
 		public void FaceTarget(LocalTargetInfo target)
 		{
-			if (target.HasThing)
+			if (target.IsValid)
 			{
-				bool flag = false;
-				IntVec3 c = default(IntVec3);
-				CellRect cellRect = target.Thing.OccupiedRect();
-				for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+				if (target.HasThing)
 				{
-					for (int j = cellRect.minX; j <= cellRect.maxX; j++)
+					Thing thing = (!target.Thing.Spawned) ? ThingOwnerUtility.GetFirstSpawnedParentThing(target.Thing) : target.Thing;
+					if (thing != null && thing.Spawned)
 					{
-						if (this.pawn.Position == new IntVec3(j, 0, i))
+						bool flag = false;
+						IntVec3 c = default(IntVec3);
+						CellRect cellRect = thing.OccupiedRect();
+						for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
 						{
-							this.Face(target.Thing.DrawPos);
-							return;
+							for (int j = cellRect.minX; j <= cellRect.maxX; j++)
+							{
+								if (this.pawn.Position == new IntVec3(j, 0, i))
+								{
+									this.Face(thing.DrawPos);
+									return;
+								}
+							}
+						}
+						for (int k = cellRect.minZ; k <= cellRect.maxZ; k++)
+						{
+							for (int l = cellRect.minX; l <= cellRect.maxX; l++)
+							{
+								IntVec3 intVec = new IntVec3(l, 0, k);
+								if (intVec.AdjacentToCardinal(this.pawn.Position))
+								{
+									this.FaceAdjacentCell(intVec);
+									return;
+								}
+								if (intVec.AdjacentTo8Way(this.pawn.Position))
+								{
+									flag = true;
+									c = intVec;
+								}
+							}
+						}
+						if (flag)
+						{
+							if (DebugViewSettings.drawPawnRotatorTarget)
+							{
+								this.pawn.Map.debugDrawer.FlashCell(this.pawn.Position, 0.6f, "jbthing", 50);
+								GenDraw.DrawLineBetween(this.pawn.Position.ToVector3Shifted(), c.ToVector3Shifted());
+							}
+							this.FaceAdjacentCell(c);
+						}
+						else
+						{
+							this.Face(thing.DrawPos);
 						}
 					}
 				}
-				for (int k = cellRect.minZ; k <= cellRect.maxZ; k++)
-				{
-					for (int l = cellRect.minX; l <= cellRect.maxX; l++)
-					{
-						IntVec3 intVec = new IntVec3(l, 0, k);
-						if (intVec.AdjacentToCardinal(this.pawn.Position))
-						{
-							this.FaceAdjacentCell(intVec);
-							return;
-						}
-						if (intVec.AdjacentTo8Way(this.pawn.Position))
-						{
-							flag = true;
-							c = intVec;
-						}
-					}
-				}
-				if (flag)
+				else if (this.pawn.Position.AdjacentTo8Way(target.Cell))
 				{
 					if (DebugViewSettings.drawPawnRotatorTarget)
 					{
-						this.pawn.Map.debugDrawer.FlashCell(this.pawn.Position, 0.6f, "jbthing", 50);
-						GenDraw.DrawLineBetween(this.pawn.Position.ToVector3Shifted(), c.ToVector3Shifted());
+						this.pawn.Map.debugDrawer.FlashCell(this.pawn.Position, 0.2f, "jbloc", 50);
+						GenDraw.DrawLineBetween(this.pawn.Position.ToVector3Shifted(), target.Cell.ToVector3Shifted());
 					}
-					this.FaceAdjacentCell(c);
+					this.FaceAdjacentCell(target.Cell);
 				}
-				else
+				else if (target.Cell.IsValid && target.Cell != this.pawn.Position)
 				{
-					this.Face(target.Thing.DrawPos);
+					this.Face(target.Cell.ToVector3());
 				}
-			}
-			else if (this.pawn.Position.AdjacentTo8Way(target.Cell))
-			{
-				if (DebugViewSettings.drawPawnRotatorTarget)
-				{
-					this.pawn.Map.debugDrawer.FlashCell(this.pawn.Position, 0.2f, "jbloc", 50);
-					GenDraw.DrawLineBetween(this.pawn.Position.ToVector3Shifted(), target.Cell.ToVector3Shifted());
-				}
-				this.FaceAdjacentCell(target.Cell);
-			}
-			else if (target.Cell.IsValid && target.Cell != this.pawn.Position)
-			{
-				this.Face(target.Cell.ToVector3());
 			}
 		}
 

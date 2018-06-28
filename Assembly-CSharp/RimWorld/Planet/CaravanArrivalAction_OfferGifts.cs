@@ -7,13 +7,13 @@ namespace RimWorld.Planet
 {
 	public class CaravanArrivalAction_OfferGifts : CaravanArrivalAction
 	{
-		private Settlement settlement;
+		private SettlementBase settlement;
 
 		public CaravanArrivalAction_OfferGifts()
 		{
 		}
 
-		public CaravanArrivalAction_OfferGifts(Settlement settlement)
+		public CaravanArrivalAction_OfferGifts(SettlementBase settlement)
 		{
 			this.settlement = settlement;
 		}
@@ -66,10 +66,10 @@ namespace RimWorld.Planet
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
+			Scribe_References.Look<SettlementBase>(ref this.settlement, "settlement", false);
 		}
 
-		public static FloatMenuAcceptanceReport CanOfferGiftsTo(Caravan caravan, Settlement settlement)
+		public static FloatMenuAcceptanceReport CanOfferGiftsTo(Caravan caravan, SettlementBase settlement)
 		{
 			return settlement != null && settlement.Spawned && !settlement.HasMap && settlement.Faction != null && settlement.Faction != Faction.OfPlayer && !settlement.Faction.def.permanentEnemy && settlement.Faction.HostileTo(Faction.OfPlayer) && settlement.CanTradeNow && CaravanArrivalAction_OfferGifts.HasNegotiator(caravan);
 		}
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			return pawn != null && !pawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled;
 		}
 
-		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Settlement settlement)
+		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, SettlementBase settlement)
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_OfferGifts>(() => CaravanArrivalAction_OfferGifts.CanOfferGiftsTo(caravan, settlement), () => new CaravanArrivalAction_OfferGifts(settlement), "OfferGifts".Translate(), caravan, settlement.Tile, settlement);
 		}
@@ -90,7 +90,7 @@ namespace RimWorld.Planet
 		{
 			internal Caravan caravan;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <GetFloatMenuOptions>c__AnonStorey0()
 			{

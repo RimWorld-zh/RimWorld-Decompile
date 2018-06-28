@@ -12,22 +12,22 @@ namespace RimWorld.Planet
 	{
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true);
 
-		public static Settlement SettlementVisitedNow(Caravan caravan)
+		public static SettlementBase SettlementVisitedNow(Caravan caravan)
 		{
-			Settlement result;
+			SettlementBase result;
 			if (!caravan.Spawned || caravan.pather.Moving)
 			{
 				result = null;
 			}
 			else
 			{
-				List<Settlement> settlements = Find.WorldObjects.Settlements;
-				for (int i = 0; i < settlements.Count; i++)
+				List<SettlementBase> settlementBases = Find.WorldObjects.SettlementBases;
+				for (int i = 0; i < settlementBases.Count; i++)
 				{
-					Settlement settlement = settlements[i];
-					if (settlement.Tile == caravan.Tile && settlement.Faction != caravan.Faction && settlement.Visitable)
+					SettlementBase settlementBase = settlementBases[i];
+					if (settlementBase.Tile == caravan.Tile && settlementBase.Faction != caravan.Faction && settlementBase.Visitable)
 					{
-						return settlement;
+						return settlementBase;
 					}
 				}
 				result = null;
@@ -44,11 +44,11 @@ namespace RimWorld.Planet
 			command_Action.icon = CaravanVisitUtility.TradeCommandTex;
 			command_Action.action = delegate()
 			{
-				Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(caravan);
-				if (settlement != null && settlement.CanTradeNow)
+				SettlementBase settlementBase = CaravanVisitUtility.SettlementVisitedNow(caravan);
+				if (settlementBase != null && settlementBase.CanTradeNow)
 				{
-					Find.WindowStack.Add(new Dialog_Trade(bestNegotiator, settlement, false));
-					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(settlement.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradingWithSettlement".Translate(new object[]
+					Find.WindowStack.Add(new Dialog_Trade(bestNegotiator, settlementBase, false));
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(settlementBase.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradingWithSettlement".Translate(new object[]
 					{
 						Faction.OfPlayer.def.pawnsPlural
 					}), LetterDefOf.NeutralEvent, false, true);
@@ -83,11 +83,11 @@ namespace RimWorld.Planet
 
 			internal void <>m__0()
 			{
-				Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(this.caravan);
-				if (settlement != null && settlement.CanTradeNow)
+				SettlementBase settlementBase = CaravanVisitUtility.SettlementVisitedNow(this.caravan);
+				if (settlementBase != null && settlementBase.CanTradeNow)
 				{
-					Find.WindowStack.Add(new Dialog_Trade(this.bestNegotiator, settlement, false));
-					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(settlement.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradingWithSettlement".Translate(new object[]
+					Find.WindowStack.Add(new Dialog_Trade(this.bestNegotiator, settlementBase, false));
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(settlementBase.Goods.OfType<Pawn>(), "LetterRelatedPawnsTradingWithSettlement".Translate(new object[]
 					{
 						Faction.OfPlayer.def.pawnsPlural
 					}), LetterDefOf.NeutralEvent, false, true);

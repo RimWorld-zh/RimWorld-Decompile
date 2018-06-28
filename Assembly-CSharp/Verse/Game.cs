@@ -336,22 +336,22 @@ namespace Verse
 				{
 					Current.ProgramState = ProgramState.MapInitializing;
 					IntVec3 intVec = new IntVec3(this.initData.mapSize, 1, this.initData.mapSize);
-					FactionBase factionBase = null;
-					List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
-					for (int i = 0; i < factionBases.Count; i++)
+					Settlement settlement = null;
+					List<Settlement> settlements = Find.WorldObjects.Settlements;
+					for (int i = 0; i < settlements.Count; i++)
 					{
-						if (factionBases[i].Faction == Faction.OfPlayer)
+						if (settlements[i].Faction == Faction.OfPlayer)
 						{
-							factionBase = factionBases[i];
+							settlement = settlements[i];
 							break;
 						}
 					}
-					if (factionBase == null)
+					if (settlement == null)
 					{
 						Log.Error("Could not generate starting map because there is no any player faction base.", false);
 					}
 					this.tickManager.gameStartAbsTick = GenTicks.ConfiguredTicksAbsAtGameStart;
-					Map currentMap = MapGenerator.GenerateMap(intVec, factionBase, factionBase.MapGeneratorDef, factionBase.ExtraGenStepDefs, null);
+					Map currentMap = MapGenerator.GenerateMap(intVec, settlement, settlement.MapGeneratorDef, settlement.ExtraGenStepDefs, null);
 					this.worldInt.info.initialMapSize = intVec;
 					if (this.initData.permadeath)
 					{

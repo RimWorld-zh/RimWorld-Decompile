@@ -276,15 +276,15 @@ namespace Verse
 			}
 		}
 
-		public static int MaxNumberOfPlayerHomes
+		public static int MaxNumberOfPlayerSettlements
 		{
 			get
 			{
-				return Prefs.data.maxNumberOfPlayerHomes;
+				return Prefs.data.maxNumberOfPlayerSettlements;
 			}
 			set
 			{
-				Prefs.data.maxNumberOfPlayerHomes = value;
+				Prefs.data.maxNumberOfPlayerSettlements = value;
 			}
 		}
 

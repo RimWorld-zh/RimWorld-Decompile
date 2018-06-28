@@ -40,7 +40,7 @@ namespace RimWorld
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_General.Wait(10);
+			yield return Toils_General.Wait(10, TargetIndex.None);
 			yield return new Toil
 			{
 				initAction = delegate()
@@ -118,7 +118,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					this.$current = Toils_General.Wait(10);
+					this.$current = Toils_General.Wait(10, TargetIndex.None);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;

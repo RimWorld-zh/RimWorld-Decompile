@@ -1020,9 +1020,17 @@ namespace Verse
 					{
 						return "AttackedNonPlayerCaravan";
 					}
-					if (defName == "AbandonedFactionBase")
+					if (defName == "FactionBase")
 					{
-						return "AbandonedBase";
+						return "Settlement";
+					}
+					if (defName == "DestroyedFactionBase")
+					{
+						return "DestroyedSettlement";
+					}
+					if (defName == "AbandonedFactionBase" || defName == "AbandonedBase")
+					{
+						return "AbandonedSettlement";
 					}
 				}
 				else if (defType == typeof(HistoryAutoRecorderDef))
@@ -1426,6 +1434,13 @@ namespace Verse
 					if (defName == "Centipede")
 					{
 						return "Mech_Centipede";
+					}
+				}
+				else if (defType == typeof(PawnGroupKindDef))
+				{
+					if (defName == "FactionBase")
+					{
+						return "Settlement";
 					}
 				}
 				else if (defType == typeof(IncidentDef))
@@ -2051,6 +2066,13 @@ namespace Verse
 						}
 					}
 				}
+				else if (defType == typeof(ConceptDef))
+				{
+					if (defName == "MaxNumberOfPlayerHomes")
+					{
+						return "MaxNumberOfPlayerSettlements";
+					}
+				}
 				result = defName;
 			}
 			return result;
@@ -2076,9 +2098,17 @@ namespace Verse
 		{
 			if (baseType == typeof(WorldObject))
 			{
-				if (providedClassName == "RimWorld.Planet.WorldObject" && node["def"] != null && node["def"].InnerText == "JourneyDestination")
+				if ((providedClassName == "RimWorld.Planet.WorldObject" || providedClassName == "WorldObject") && node["def"] != null && node["def"].InnerText == "JourneyDestination")
 				{
 					return WorldObjectDefOf.EscapeShip.worldObjectClass;
+				}
+				if (providedClassName == "RimWorld.Planet.FactionBase" || providedClassName == "FactionBase")
+				{
+					return typeof(Settlement);
+				}
+				if (providedClassName == "RimWorld.Planet.DestroyedFactionBase" || providedClassName == "DestroyedFactionBase")
+				{
+					return typeof(DestroyedSettlement);
 				}
 			}
 			else if (baseType == typeof(Thing))
@@ -2092,7 +2122,16 @@ namespace Verse
 					return ThingDefOf.CrashedPsychicEmanatorShipPart.thingClass;
 				}
 			}
-			return GenTypes.GetTypeInAnyAssembly(providedClassName);
+			Type result;
+			if (providedClassName == "RimWorld.Planet.FactionBase_TraderTracker" || providedClassName == "FactionBase_TraderTracker")
+			{
+				result = typeof(Settlement_TraderTracker);
+			}
+			else
+			{
+				result = GenTypes.GetTypeInAnyAssembly(providedClassName);
+			}
+			return result;
 		}
 
 		public static string BackCompatibleModifiedTranslationPath(Type defType, string path, List<string> syntaxSuggestions = null)

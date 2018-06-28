@@ -27,8 +27,8 @@ namespace RimWorld.Planet
 				List<Map> maps = Find.Maps;
 				for (int i = 0; i < maps.Count; i++)
 				{
-					Settlement settlement = maps[i].info.parent as Settlement;
-					if (settlement != null && settlement.Faction == faction)
+					SettlementBase settlementBase = maps[i].info.parent as SettlementBase;
+					if (settlementBase != null && settlementBase.Faction == faction)
 					{
 						return true;
 					}
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static void Attack(Caravan caravan, Settlement settlement)
+		public static void Attack(Caravan caravan, SettlementBase settlement)
 		{
 			if (!settlement.HasMap)
 			{
@@ -53,7 +53,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private static void AttackNow(Caravan caravan, Settlement settlement)
+		private static void AttackNow(Caravan caravan, SettlementBase settlement)
 		{
 			Pawn t = caravan.PawnsListForReading[0];
 			bool flag = !settlement.HasMap;
@@ -77,7 +77,7 @@ namespace RimWorld.Planet
 			CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, CaravanDropInventoryMode.DoNotDrop, true, null);
 		}
 
-		public static void AffectRelationsOnAttacked(Settlement settlement, ref string letterText)
+		public static void AffectRelationsOnAttacked(SettlementBase settlement, ref string letterText)
 		{
 			if (settlement.Faction != null && settlement.Faction != Faction.OfPlayer)
 			{
@@ -106,7 +106,7 @@ namespace RimWorld.Planet
 		{
 			internal Caravan caravan;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <Attack>c__AnonStorey0()
 			{

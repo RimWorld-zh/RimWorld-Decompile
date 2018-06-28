@@ -35,7 +35,7 @@ namespace RimWorld
 			gotoThing.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			gotoThing.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			yield return gotoThing;
-			yield return Toils_General.Wait(60).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return Toils_General.Wait(60, TargetIndex.None).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 			yield return new Toil
 			{
 				initAction = delegate()
@@ -112,7 +112,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					this.$current = Toils_General.Wait(60).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+					this.$current = Toils_General.Wait(60, TargetIndex.None).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;

@@ -50,12 +50,12 @@ namespace Verse
 			Dictionary<ThingDef, int> counts = new Dictionary<ThingDef, int>();
 			for (int i = 0; i < 100; i++)
 			{
-				Settlement settlement = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(currentMap.Tile);
-				if (settlement == null)
+				SettlementBase settlementBase = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(currentMap.Tile);
+				if (settlementBase == null)
 				{
 					break;
 				}
-				TradeRequestComp component = settlement.GetComponent<TradeRequestComp>();
+				TradeRequestComp component = settlementBase.GetComponent<TradeRequestComp>();
 				if (incidentWorker_QuestTradeRequest.TryGenerateTradeRequest(component, currentMap))
 				{
 					if (!counts.ContainsKey(component.requestThingDef))
@@ -66,7 +66,7 @@ namespace Verse
 					ThingDef requestThingDef;
 					(counts2 = counts)[requestThingDef = component.requestThingDef] = counts2[requestThingDef] + 1;
 				}
-				settlement.GetComponent<TradeRequestComp>().Disable();
+				settlementBase.GetComponent<TradeRequestComp>().Disable();
 			}
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
 			where counts.ContainsKey(d)
@@ -113,13 +113,13 @@ namespace Verse
 			stringBuilder.AppendLine();
 			for (int i = 0; i < 50; i++)
 			{
-				Settlement settlement = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(currentMap.Tile);
-				if (settlement == null)
+				SettlementBase settlementBase = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(currentMap.Tile);
+				if (settlementBase == null)
 				{
 					break;
 				}
-				stringBuilder.AppendLine("Settlement: " + settlement.LabelCap);
-				TradeRequestComp component = settlement.GetComponent<TradeRequestComp>();
+				stringBuilder.AppendLine("Settlement: " + settlementBase.LabelCap);
+				TradeRequestComp component = settlementBase.GetComponent<TradeRequestComp>();
 				if (incidentWorker_QuestTradeRequest.TryGenerateTradeRequest(component, currentMap))
 				{
 					stringBuilder.AppendLine("Duration: " + (component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"));
@@ -134,7 +134,7 @@ namespace Verse
 					stringBuilder.AppendLine("TryGenerateTradeRequest failed.");
 				}
 				stringBuilder.AppendLine();
-				settlement.GetComponent<TradeRequestComp>().Disable();
+				settlementBase.GetComponent<TradeRequestComp>().Disable();
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}

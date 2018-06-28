@@ -8,9 +8,9 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	public class DestroyedFactionBase : MapParent
+	public class DestroyedSettlement : MapParent
 	{
-		public DestroyedFactionBase()
+		public DestroyedSettlement()
 		{
 		}
 
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 
 			internal Gizmo <g>__1;
 
-			internal DestroyedFactionBase $this;
+			internal DestroyedSettlement $this;
 
 			internal Gizmo $current;
 
@@ -190,7 +190,7 @@ namespace RimWorld.Planet
 				{
 					return this;
 				}
-				DestroyedFactionBase.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new DestroyedFactionBase.<GetGizmos>c__Iterator0();
+				DestroyedSettlement.<GetGizmos>c__Iterator0 <GetGizmos>c__Iterator = new DestroyedSettlement.<GetGizmos>c__Iterator0();
 				<GetGizmos>c__Iterator.$this = this;
 				return <GetGizmos>c__Iterator;
 			}

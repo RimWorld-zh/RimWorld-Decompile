@@ -7,13 +7,13 @@ namespace RimWorld.Planet
 {
 	public class TransportPodsArrivalAction_GiveGift : TransportPodsArrivalAction
 	{
-		private Settlement settlement;
+		private SettlementBase settlement;
 
 		public TransportPodsArrivalAction_GiveGift()
 		{
 		}
 
-		public TransportPodsArrivalAction_GiveGift(Settlement settlement)
+		public TransportPodsArrivalAction_GiveGift(SettlementBase settlement)
 		{
 			this.settlement = settlement;
 		}
@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
+			Scribe_References.Look<SettlementBase>(ref this.settlement, "settlement", false);
 		}
 
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
@@ -48,12 +48,12 @@ namespace RimWorld.Planet
 			FactionGiftUtility.GiveGift(pods, this.settlement);
 		}
 
-		public static FloatMenuAcceptanceReport CanGiveGiftTo(IEnumerable<IThingHolder> pods, Settlement settlement)
+		public static FloatMenuAcceptanceReport CanGiveGiftTo(IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
 			return settlement != null && settlement.Spawned && settlement.Faction != null && settlement.Faction != Faction.OfPlayer && !settlement.Faction.def.permanentEnemy && !settlement.HasMap;
 		}
 
-		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Settlement settlement)
+		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
 			return TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_GiveGift>(() => TransportPodsArrivalAction_GiveGift.CanGiveGiftTo(pods, settlement), () => new TransportPodsArrivalAction_GiveGift(settlement), "GiveGiftViaTransportPods".Translate(new object[]
 			{
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 		{
 			internal IEnumerable<IThingHolder> pods;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <GetFloatMenuOptions>c__AnonStorey0()
 			{

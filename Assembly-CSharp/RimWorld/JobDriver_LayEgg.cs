@@ -27,7 +27,7 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-			yield return Toils_General.Wait(500);
+			yield return Toils_General.Wait(500, TargetIndex.None);
 			yield return Toils_General.Do(delegate
 			{
 				Thing forbiddenIfOutsideHomeArea = GenSpawn.Spawn(this.pawn.GetComp<CompEggLayer>().ProduceEgg(), this.pawn.Position, base.Map, WipeMode.Vanish);
@@ -66,7 +66,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					this.$current = Toils_General.Wait(500);
+					this.$current = Toils_General.Wait(500, TargetIndex.None);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;

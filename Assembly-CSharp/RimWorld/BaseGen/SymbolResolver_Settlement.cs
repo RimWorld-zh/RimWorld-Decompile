@@ -5,19 +5,19 @@ using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	public class SymbolResolver_FactionBase : SymbolResolver
+	public class SymbolResolver_Settlement : SymbolResolver
 	{
 		private static readonly FloatRange NeolithicPawnsPoints = new FloatRange(880f, 1250f);
 
 		private static readonly FloatRange MedievalPawnsPoints = new FloatRange(1150f, 1600f);
 
-		public SymbolResolver_FactionBase()
+		public SymbolResolver_Settlement()
 		{
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
-			SymbolResolver_FactionBase.<Resolve>c__AnonStorey0 <Resolve>c__AnonStorey = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey0();
+			SymbolResolver_Settlement.<Resolve>c__AnonStorey0 <Resolve>c__AnonStorey = new SymbolResolver_Settlement.<Resolve>c__AnonStorey0();
 			<Resolve>c__AnonStorey.map = BaseGen.globalSettings.map;
 			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined);
 			int num = 0;
@@ -38,11 +38,11 @@ namespace RimWorld.BaseGen
 			resolveParams.rect = rp.rect;
 			resolveParams.faction = faction;
 			resolveParams.singlePawnLord = singlePawnLord;
-			resolveParams.pawnGroupKindDef = (rp.pawnGroupKindDef ?? PawnGroupKindDefOf.FactionBase);
+			resolveParams.pawnGroupKindDef = (rp.pawnGroupKindDef ?? PawnGroupKindDefOf.Settlement);
 			resolveParams.singlePawnSpawnCellExtraPredicate = (rp.singlePawnSpawnCellExtraPredicate ?? ((IntVec3 x) => <Resolve>c__AnonStorey.map.reachability.CanReachMapEdge(x, traverseParms)));
 			if (resolveParams.pawnGroupMakerParams == null)
 			{
-				float num3 = (!faction.def.techLevel.IsNeolithicOrWorse()) ? SymbolResolver_FactionBase.MedievalPawnsPoints.RandomInRange : SymbolResolver_FactionBase.NeolithicPawnsPoints.RandomInRange;
+				float num3 = (!faction.def.techLevel.IsNeolithicOrWorse()) ? SymbolResolver_Settlement.MedievalPawnsPoints.RandomInRange : SymbolResolver_Settlement.NeolithicPawnsPoints.RandomInRange;
 				float? factionBasePawnGroupPointsFactor = rp.factionBasePawnGroupPointsFactor;
 				if (factionBasePawnGroupPointsFactor != null)
 				{
@@ -84,7 +84,7 @@ namespace RimWorld.BaseGen
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
-		static SymbolResolver_FactionBase()
+		static SymbolResolver_Settlement()
 		{
 		}
 
@@ -103,7 +103,7 @@ namespace RimWorld.BaseGen
 		{
 			internal TraverseParms traverseParms;
 
-			internal SymbolResolver_FactionBase.<Resolve>c__AnonStorey0 <>f__ref$0;
+			internal SymbolResolver_Settlement.<Resolve>c__AnonStorey0 <>f__ref$0;
 
 			public <Resolve>c__AnonStorey1()
 			{

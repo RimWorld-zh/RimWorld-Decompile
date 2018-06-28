@@ -65,9 +65,7 @@ namespace RimWorld.Planet
 			{
 				LongEventHandler.QueueLongEvent(delegate()
 				{
-					this.target.SetFaction(Faction.OfPlayer);
 					this.DoArrivalAction(caravan);
-					Find.LetterStack.ReceiveLetter("EscapeShipFoundLabel".Translate(), "EscapeShipFound".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(this.target.Map.Center, this.target.Map, false), null, null);
 				}, "GeneratingMapForNewEncounter", false, null);
 			}
 			else
@@ -84,9 +82,18 @@ namespace RimWorld.Planet
 
 		private void DoArrivalAction(Caravan caravan)
 		{
+			bool flag = !this.target.HasMap;
+			if (flag)
+			{
+				this.target.SetFaction(Faction.OfPlayer);
+			}
 			Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(this.target.Tile, null);
 			CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, CaravanDropInventoryMode.UnloadIndividually, false, null);
 			Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+			if (flag)
+			{
+				Find.LetterStack.ReceiveLetter("EscapeShipFoundLabel".Translate(), "EscapeShipFound".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(this.target.Map.Center, this.target.Map, false), null, null);
+			}
 		}
 
 		public static FloatMenuAcceptanceReport CanVisit(Caravan caravan, MapParent escapeShip)
@@ -131,9 +138,7 @@ namespace RimWorld.Planet
 
 			internal void <>m__0()
 			{
-				this.$this.target.SetFaction(Faction.OfPlayer);
 				this.$this.DoArrivalAction(this.caravan);
-				Find.LetterStack.ReceiveLetter("EscapeShipFoundLabel".Translate(), "EscapeShipFound".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(this.$this.target.Map.Center, this.$this.target.Map, false), null, null);
 			}
 		}
 

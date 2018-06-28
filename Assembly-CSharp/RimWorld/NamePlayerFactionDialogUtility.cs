@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		public static bool IsValidName(string s)
 		{
-			return s.Length != 0 && GenText.IsValidFilename(s);
+			return s.Length != 0 && s.Length <= 64 && GenText.IsValidFilename(s);
 		}
 
 		public static void Named(string s)

@@ -49,7 +49,7 @@ namespace RimWorld
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_General.Wait(200).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).FailOn(() => !this.Barrel.Fermented).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return Toils_General.Wait(200, TargetIndex.None).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).FailOn(() => !this.Barrel.Fermented).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 			yield return new Toil
 			{
 				initAction = delegate()
@@ -117,7 +117,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					this.$current = Toils_General.Wait(200).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).FailOn(() => !base.Barrel.Fermented).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+					this.$current = Toils_General.Wait(200, TargetIndex.None).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).FailOn(() => !base.Barrel.Fermented).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;

@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 {
 	public class TransportPodsArrivalAction_AttackSettlement : TransportPodsArrivalAction
 	{
-		private Settlement settlement;
+		private SettlementBase settlement;
 
 		private PawnsArrivalModeDef arrivalMode;
 
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		{
 		}
 
-		public TransportPodsArrivalAction_AttackSettlement(Settlement settlement, PawnsArrivalModeDef arrivalMode)
+		public TransportPodsArrivalAction_AttackSettlement(SettlementBase settlement, PawnsArrivalModeDef arrivalMode)
 		{
 			this.settlement = settlement;
 			this.arrivalMode = arrivalMode;
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
+			Scribe_References.Look<SettlementBase>(ref this.settlement, "settlement", false);
 			Scribe_Defs.Look<PawnsArrivalModeDef>(ref this.arrivalMode, "arrivalMode");
 		}
 
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 			this.arrivalMode.Worker.TravelingTransportPodsArrived(pods, orGenerateMap);
 		}
 
-		public static FloatMenuAcceptanceReport CanAttack(IEnumerable<IThingHolder> pods, Settlement settlement)
+		public static FloatMenuAcceptanceReport CanAttack(IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
 			FloatMenuAcceptanceReport result;
 			if (settlement == null || !settlement.Spawned || !settlement.Attackable)
@@ -103,7 +103,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Settlement settlement)
+		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
 			foreach (FloatMenuOption f in TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_AttackSettlement>(() => TransportPodsArrivalAction_AttackSettlement.CanAttack(pods, settlement), () => new TransportPodsArrivalAction_AttackSettlement(settlement, PawnsArrivalModeDefOf.EdgeDrop), "AttackAndDropAtEdge".Translate(new object[]
 			{
@@ -125,7 +125,7 @@ namespace RimWorld.Planet
 		[CompilerGenerated]
 		private sealed class <GetFloatMenuOptions>c__Iterator0 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
 		{
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			internal CompLaunchable representative;
 
@@ -320,7 +320,7 @@ namespace RimWorld.Planet
 			{
 				internal IEnumerable<IThingHolder> pods;
 
-				internal Settlement settlement;
+				internal SettlementBase settlement;
 
 				public <GetFloatMenuOptions>c__AnonStorey1()
 				{

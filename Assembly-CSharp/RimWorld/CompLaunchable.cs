@@ -534,7 +534,7 @@ namespace RimWorld
 		public IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptionsAt(int tile)
 		{
 			bool anything = false;
-			if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(this.TransportersInGroup.Cast<IThingHolder>(), tile) && !Find.WorldObjects.AnySettlementAt(tile) && !Find.WorldObjects.AnySiteAt(tile))
+			if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(this.TransportersInGroup.Cast<IThingHolder>(), tile) && !Find.WorldObjects.AnySettlementBaseAt(tile) && !Find.WorldObjects.AnySiteAt(tile))
 			{
 				anything = true;
 				yield return new FloatMenuOption("FormCaravanHere".Translate(), delegate()
@@ -883,7 +883,7 @@ namespace RimWorld
 				{
 				case 0u:
 					anything = false;
-					if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(base.TransportersInGroup.Cast<IThingHolder>(), tile) && !Find.WorldObjects.AnySettlementAt(tile) && !Find.WorldObjects.AnySiteAt(tile))
+					if (TransportPodsArrivalAction_FormCaravan.CanFormCaravanAt(base.TransportersInGroup.Cast<IThingHolder>(), tile) && !Find.WorldObjects.AnySettlementBaseAt(tile) && !Find.WorldObjects.AnySiteAt(tile))
 					{
 						anything = true;
 						this.$current = new FloatMenuOption("FormCaravanHere".Translate(), delegate()

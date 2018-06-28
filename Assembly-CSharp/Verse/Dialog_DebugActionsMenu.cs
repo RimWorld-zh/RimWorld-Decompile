@@ -456,82 +456,82 @@ namespace Verse
 		private static Action <>f__am$cache8F;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cache90;
+		private static Action <>f__am$cache90;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache91;
+		private static Func<Thing, bool> <>f__am$cache91;
 
 		[CompilerGenerated]
-		private static Predicate<int> <>f__am$cache92;
+		private static Func<PawnKindDef, bool> <>f__am$cache92;
 
 		[CompilerGenerated]
-		private static Func<StorytellerComp, bool> <>f__am$cache93;
+		private static Predicate<int> <>f__am$cache93;
 
 		[CompilerGenerated]
-		private static Func<SoundDef, bool> <>f__am$cache94;
+		private static Func<StorytellerComp, bool> <>f__am$cache94;
 
 		[CompilerGenerated]
-		private static Func<LordToil, bool> <>f__am$cache95;
+		private static Func<SoundDef, bool> <>f__am$cache95;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache96;
+		private static Func<LordToil, bool> <>f__am$cache96;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cache97;
+		private static Action <>f__am$cache97;
 
 		[CompilerGenerated]
-		private static Func<RuleDef, string> <>f__am$cache98;
+		private static Func<Faction, bool> <>f__am$cache98;
 
 		[CompilerGenerated]
-		private static Action<bool> <>f__am$cache99;
+		private static Func<RuleDef, string> <>f__am$cache99;
 
 		[CompilerGenerated]
-		private static Func<BodyPartRecord, bool> <>f__am$cache9A;
+		private static Action<bool> <>f__am$cache9A;
 
 		[CompilerGenerated]
 		private static Func<BodyPartRecord, bool> <>f__am$cache9B;
 
 		[CompilerGenerated]
-		private static Func<Hediff_Injury, bool> <>f__am$cache9C;
+		private static Func<BodyPartRecord, bool> <>f__am$cache9C;
 
 		[CompilerGenerated]
-		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9D;
+		private static Func<Hediff_Injury, bool> <>f__am$cache9D;
 
 		[CompilerGenerated]
-		private static Func<HediffStage, bool> <>f__am$cache9E;
+		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9E;
 
 		[CompilerGenerated]
-		private static Func<VerbEntry, string> <>f__am$cache9F;
+		private static Func<HediffStage, bool> <>f__am$cache9F;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA0;
+		private static Func<VerbEntry, string> <>f__am$cacheA0;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheA1;
+		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA1;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cacheA2;
+		private static Func<Thing, bool> <>f__am$cacheA2;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheA3;
+		private static Func<Pawn, bool> <>f__am$cacheA3;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA4;
+		private static Func<PawnKindDef, string> <>f__am$cacheA4;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA5;
+		private static Func<ThingDef, bool> <>f__am$cacheA5;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA6;
+		private static Func<ThingDef, string> <>f__am$cacheA6;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA7;
+		private static Func<ThingDef, bool> <>f__am$cacheA7;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cacheA8;
+		private static Func<ThingDef, string> <>f__am$cacheA8;
 
 		[CompilerGenerated]
-		private static Predicate<IntVec3> <>f__am$cacheA9;
+		private static Action<Pawn> <>f__am$cacheA9;
 
 		[CompilerGenerated]
 		private static Predicate<IntVec3> <>f__am$cacheAA;
@@ -543,31 +543,34 @@ namespace Verse
 		private static Predicate<IntVec3> <>f__am$cacheAC;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheAD;
+		private static Predicate<IntVec3> <>f__am$cacheAD;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheAE;
+		private static Func<PawnKindDef, string> <>f__am$cacheAE;
 
 		[CompilerGenerated]
-		private static Func<ToolCapacityDef, bool> <>f__am$cacheAF;
+		private static Func<PawnKindDef, bool> <>f__am$cacheAF;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB0;
+		private static Func<ToolCapacityDef, bool> <>f__am$cacheB0;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheB1;
+		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB1;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheB2;
+		private static Func<ThingDef, bool> <>f__am$cacheB2;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cacheB3;
+		private static Func<PawnKindDef, bool> <>f__am$cacheB3;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheB4;
+		private static Func<Faction, bool> <>f__am$cacheB4;
 
 		[CompilerGenerated]
 		private static Func<Thing, bool> <>f__am$cacheB5;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cacheB6;
 
 		public Dialog_DebugActionsMenu()
 		{
@@ -627,7 +630,7 @@ namespace Verse
 			base.DoLabel("Actions - Map management");
 			base.DebugAction("Generate map", delegate
 			{
-				MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+				MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 				mapParent.Tile = TileFinder.RandomStartingTile();
 				mapParent.SetFaction(Faction.OfPlayer);
 				Find.WorldObjects.Add(mapParent);
@@ -734,7 +737,7 @@ namespace Verse
 				{
 					Find.WorldObjects.Remove(Find.CurrentMap.Parent);
 				}
-				MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+				MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 				mapParent.Tile = tile;
 				mapParent.SetFaction(Faction.OfPlayer);
 				Find.WorldObjects.Add(mapParent);
@@ -752,7 +755,7 @@ namespace Verse
 						MapGeneratorDef mapgen = enumerator.Current;
 						list.Add(new DebugMenuOption(mapgen.defName, DebugMenuOptionMode.Action, delegate()
 						{
-							MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+							MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 							mapParent.Tile = (from tile in Enumerable.Range(0, Find.WorldGrid.TilesCount)
 							where Find.WorldGrid[tile].biome.canBuildBase
 							select tile).RandomElement<int>();
@@ -1004,12 +1007,12 @@ namespace Verse
 				{
 					Find.WindowStack.Add(new Dialog_NamePlayerFaction());
 				}));
-				if (Find.CurrentMap != null && Find.CurrentMap.IsPlayerHome)
+				if (Find.CurrentMap != null && Find.CurrentMap.IsPlayerHome && Find.CurrentMap.Parent is Settlement)
 				{
-					FactionBase factionBase = (FactionBase)Find.CurrentMap.Parent;
+					Settlement factionBase = (Settlement)Find.CurrentMap.Parent;
 					list.Add(new DebugMenuOption("Faction base", DebugMenuOptionMode.Action, delegate()
 					{
-						Find.WindowStack.Add(new Dialog_NamePlayerFactionBase(factionBase));
+						Find.WindowStack.Add(new Dialog_NamePlayerSettlement(factionBase));
 					}));
 					list.Add(new DebugMenuOption("Faction and faction base", DebugMenuOptionMode.Action, delegate()
 					{
@@ -2933,11 +2936,11 @@ namespace Verse
 					Tile tile = Find.WorldGrid[num];
 					if (!tile.biome.impassable)
 					{
-						FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
-						factionBase.SetFaction(faction);
-						factionBase.Tile = num;
-						factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase, null);
-						Find.WorldObjects.Add(factionBase);
+						Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+						settlement.SetFaction(faction);
+						settlement.Tile = num;
+						settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
+						Find.WorldObjects.Add(settlement);
 					}
 				}
 			});
@@ -2984,6 +2987,30 @@ namespace Verse
 							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
 						};
 						list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, addPart));
+					}
+					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+				}
+			});
+			base.DebugToolWorld("Spawn world object", delegate
+			{
+				int tile = GenWorld.MouseTile(false);
+				if (tile < 0 || Find.World.Impassable(tile))
+				{
+					Messages.Message("Impassable", MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					List<DebugMenuOption> list = new List<DebugMenuOption>();
+					foreach (WorldObjectDef localDef2 in DefDatabase<WorldObjectDef>.AllDefs)
+					{
+						WorldObjectDef localDef = localDef2;
+						Action method = delegate()
+						{
+							WorldObject worldObject = WorldObjectMaker.MakeWorldObject(localDef);
+							worldObject.Tile = tile;
+							Find.WorldObjects.Add(worldObject);
+						};
+						list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, method));
 					}
 					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 				}
@@ -3265,7 +3292,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_AllModePlayActions>m__2()
 		{
-			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 			mapParent.Tile = TileFinder.RandomStartingTile();
 			mapParent.SetFaction(Faction.OfPlayer);
 			Find.WorldObjects.Add(mapParent);
@@ -3386,7 +3413,7 @@ namespace Verse
 			{
 				Find.WorldObjects.Remove(Find.CurrentMap.Parent);
 			}
-			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 			mapParent.Tile = tile;
 			mapParent.SetFaction(Faction.OfPlayer);
 			Find.WorldObjects.Add(mapParent);
@@ -3406,7 +3433,7 @@ namespace Verse
 					MapGeneratorDef mapgen = enumerator.Current;
 					list.Add(new DebugMenuOption(mapgen.defName, DebugMenuOptionMode.Action, delegate()
 					{
-						MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+						MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 						mapParent.Tile = (from tile in Enumerable.Range(0, Find.WorldGrid.TilesCount)
 						where Find.WorldGrid[tile].biome.canBuildBase
 						select tile).RandomElement<int>();
@@ -3675,12 +3702,12 @@ namespace Verse
 			{
 				Find.WindowStack.Add(new Dialog_NamePlayerFaction());
 			}));
-			if (Find.CurrentMap != null && Find.CurrentMap.IsPlayerHome)
+			if (Find.CurrentMap != null && Find.CurrentMap.IsPlayerHome && Find.CurrentMap.Parent is Settlement)
 			{
-				FactionBase factionBase = (FactionBase)Find.CurrentMap.Parent;
+				Settlement factionBase = (Settlement)Find.CurrentMap.Parent;
 				list.Add(new DebugMenuOption("Faction base", DebugMenuOptionMode.Action, delegate()
 				{
-					Find.WindowStack.Add(new Dialog_NamePlayerFactionBase(factionBase));
+					Find.WindowStack.Add(new Dialog_NamePlayerSettlement(factionBase));
 				}));
 				list.Add(new DebugMenuOption("Faction and faction base", DebugMenuOptionMode.Action, delegate()
 				{
@@ -5853,11 +5880,11 @@ namespace Verse
 				Tile tile = Find.WorldGrid[num];
 				if (!tile.biome.impassable)
 				{
-					FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
-					factionBase.SetFaction(faction);
-					factionBase.Tile = num;
-					factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase, null);
-					Find.WorldObjects.Add(factionBase);
+					Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+					settlement.SetFaction(faction);
+					settlement.Tile = num;
+					settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
+					Find.WorldObjects.Add(settlement);
 				}
 			}
 		}
@@ -5914,6 +5941,32 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_World>m__AC()
 		{
+			int tile = GenWorld.MouseTile(false);
+			if (tile < 0 || Find.World.Impassable(tile))
+			{
+				Messages.Message("Impassable", MessageTypeDefOf.RejectInput, false);
+			}
+			else
+			{
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				foreach (WorldObjectDef localDef2 in DefDatabase<WorldObjectDef>.AllDefs)
+				{
+					WorldObjectDef localDef = localDef2;
+					Action method = delegate()
+					{
+						WorldObject worldObject = WorldObjectMaker.MakeWorldObject(localDef);
+						worldObject.Tile = tile;
+						Find.WorldObjects.Add(worldObject);
+					};
+					list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, method));
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_World>m__AD()
+		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (Type localType2 in typeof(WorldCameraConfig).AllSubclasses())
 			{
@@ -5932,61 +5985,61 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <OffsetNeed>m__AD(Thing t)
+		private static bool <OffsetNeed>m__AE(Thing t)
 		{
 			return t is Pawn;
 		}
 
 		[CompilerGenerated]
-		private static bool <AddGuest>m__AE(PawnKindDef pk)
+		private static bool <AddGuest>m__AF(PawnKindDef pk)
 		{
 			return pk.defaultFactionType != null && !pk.defaultFactionType.isPlayer && pk.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_AllModePlayActions>m__AF(int x)
+		private static bool <DoListingItems_AllModePlayActions>m__B0(int x)
 		{
 			return Find.World.HasCaves(x);
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B0(StorytellerComp x)
+		private static bool <DoListingItems_MapActions>m__B1(StorytellerComp x)
 		{
 			return x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B1(SoundDef s)
+		private static bool <DoListingItems_MapActions>m__B2(SoundDef s)
 		{
 			return !s.sustain;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B2(LordToil st)
+		private static bool <DoListingItems_MapActions>m__B3(LordToil st)
 		{
 			return st is LordToil_PanicFlee;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__B3()
+		private static void <DoListingItems_MapActions>m__B4()
 		{
 			Find.WindowStack.Add(new Dialog_NamePlayerFaction());
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B4(Faction x)
+		private static bool <DoListingItems_MapActions>m__B5(Faction x)
 		{
 			return x.leader != null;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__B5(RuleDef x)
+		private static string <DoListingItems_MapTools>m__B6(RuleDef x)
 		{
 			return x.symbol;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__B6(bool bestSideOnly)
+		private static void <DoListingItems_MapTools>m__B7(bool bestSideOnly)
 		{
 			DebugTool tool = null;
 			IntVec3 firstCorner;
@@ -6010,43 +6063,43 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__B7(BodyPartRecord x)
-		{
-			return !x.def.conceptual;
-		}
-
-		[CompilerGenerated]
 		private static bool <DoListingItems_MapTools>m__B8(BodyPartRecord x)
 		{
 			return !x.def.conceptual;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__B9(Hediff_Injury x)
+		private static bool <DoListingItems_MapTools>m__B9(BodyPartRecord x)
+		{
+			return !x.def.conceptual;
+		}
+
+		[CompilerGenerated]
+		private static bool <DoListingItems_MapTools>m__BA(Hediff_Injury x)
 		{
 			return x.CanHealNaturally() || x.CanHealFromTending();
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<HediffGiver> <DoListingItems_MapTools>m__BA(HediffGiverSetDef set)
+		private static IEnumerable<HediffGiver> <DoListingItems_MapTools>m__BB(HediffGiverSetDef set)
 		{
 			return set.hediffGivers;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__BB(HediffStage s)
+		private static bool <DoListingItems_MapTools>m__BC(HediffStage s)
 		{
 			return s.becomeVisible;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__BC(VerbEntry verb)
+		private static string <DoListingItems_MapTools>m__BD(VerbEntry verb)
 		{
 			return verb.ToString();
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__BD()
+		private void <DoListingItems_MapTools>m__BE()
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Pawn
@@ -6058,7 +6111,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__BE()
+		private void <DoListingItems_MapTools>m__BF()
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Pawn
@@ -6070,55 +6123,55 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static MentalBreakIntensity <DoListingItems_MapTools>m__BF(MentalBreakDef x)
+		private static MentalBreakIntensity <DoListingItems_MapTools>m__C0(MentalBreakDef x)
 		{
 			return x.intensity;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C0(Thing t)
+		private static bool <DoListingItems_MapTools>m__C1(Thing t)
 		{
 			return t is Building_WorkTable;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C1(Pawn x)
+		private static bool <DoListingItems_MapTools>m__C2(Pawn x)
 		{
 			return x.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C2(PawnKindDef kd)
+		private static string <DoListingItems_MapTools>m__C3(PawnKindDef kd)
 		{
 			return kd.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C3(ThingDef def)
+		private static bool <DoListingItems_MapTools>m__C4(ThingDef def)
 		{
 			return def.equipmentType == EquipmentType.Primary;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C4(ThingDef d)
+		private static string <DoListingItems_MapTools>m__C5(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C5(ThingDef def)
+		private static bool <DoListingItems_MapTools>m__C6(ThingDef def)
 		{
 			return def.IsApparel;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C6(ThingDef d)
+		private static string <DoListingItems_MapTools>m__C7(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__C7(Pawn p)
+		private static void <DoListingItems_MapTools>m__C8(Pawn p)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (PawnKindDef kLocal2 in from x in DefDatabase<PawnKindDef>.AllDefs
@@ -6135,12 +6188,6 @@ namespace Verse
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-		}
-
-		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C8(IntVec3 c)
-		{
-			return c.Standable(Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
@@ -6162,51 +6209,51 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__CC(PawnKindDef kd)
+		private static bool <DoListingItems_MapTools>m__CC(IntVec3 c)
+		{
+			return c.Standable(Find.CurrentMap);
+		}
+
+		[CompilerGenerated]
+		private static string <DoListingItems_MapTools>m__CD(PawnKindDef kd)
 		{
 			return kd.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CD(PawnKindDef k)
+		private static bool <DoListingItems_MapTools>m__CE(PawnKindDef k)
 		{
 			return k.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CE(ToolCapacityDef tc)
+		private static bool <DoListingItems_MapTools>m__CF(ToolCapacityDef tc)
 		{
 			return tc != ToolCapacityDefOf.KickMaterialInEyes;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__CF(PawnKindDef pkd, ToolCapacityDef dd)
+		private static string <DoListingItems_MapTools>m__D0(PawnKindDef pkd, ToolCapacityDef dd)
 		{
 			return string.Format("{0}_{1}", pkd.label, dd.defName);
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D0(ThingDef def)
+		private static bool <DoListingItems_World>m__D1(ThingDef def)
 		{
 			return def.IsWeapon && def.PlayerAcquirable;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D1(PawnKindDef d)
+		private static bool <DoListingItems_World>m__D2(PawnKindDef d)
 		{
 			return d.RaceProps.Animal && d.RaceProps.wildness < 1f;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D2(Faction x)
+		private static bool <DoListingItems_World>m__D3(Faction x)
 		{
 			return !x.IsPlayer && !x.def.hidden;
-		}
-
-		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__D3(Thing t)
-		{
-			return t is Pawn;
 		}
 
 		[CompilerGenerated]
@@ -6216,13 +6263,19 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoIncidentDebugAction>c__AnonStorey4A
+		private static bool <DoListingItems_MapTools>m__D5(Thing t)
+		{
+			return t is Pawn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoIncidentDebugAction>c__AnonStorey4C
 		{
 			internal IIncidentTarget target;
 
 			private static Func<IncidentDef, string> <>f__am$cache0;
 
-			public <DoIncidentDebugAction>c__AnonStorey4A()
+			public <DoIncidentDebugAction>c__AnonStorey4C()
 			{
 			}
 
@@ -6264,17 +6317,17 @@ namespace Verse
 				return d.defName;
 			}
 
-			private sealed class <DoIncidentDebugAction>c__AnonStorey4B
+			private sealed class <DoIncidentDebugAction>c__AnonStorey4D
 			{
 				internal IncidentDef localDef;
 
 				internal IncidentParms parms;
 
-				internal Dialog_DebugActionsMenu.<DoIncidentDebugAction>c__AnonStorey4A <>f__ref$74;
+				internal Dialog_DebugActionsMenu.<DoIncidentDebugAction>c__AnonStorey4C <>f__ref$76;
 
 				private static Func<StorytellerComp, bool> <>f__am$cache0;
 
-				public <DoIncidentDebugAction>c__AnonStorey4B()
+				public <DoIncidentDebugAction>c__AnonStorey4D()
 				{
 				}
 
@@ -6296,13 +6349,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoIncidentWithPointsAction>c__AnonStorey4C
+		private sealed class <DoIncidentWithPointsAction>c__AnonStorey4E
 		{
 			internal IIncidentTarget target;
 
 			private static Func<IncidentDef, string> <>f__am$cache0;
 
-			public <DoIncidentWithPointsAction>c__AnonStorey4C()
+			public <DoIncidentWithPointsAction>c__AnonStorey4E()
 			{
 			}
 
@@ -6349,15 +6402,15 @@ namespace Verse
 				return d.defName;
 			}
 
-			private sealed class <DoIncidentWithPointsAction>c__AnonStorey4E
+			private sealed class <DoIncidentWithPointsAction>c__AnonStorey50
 			{
 				internal IncidentParms parms;
 
 				internal IncidentDef localDef;
 
-				internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey4C <>f__ref$76;
+				internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey4E <>f__ref$78;
 
-				public <DoIncidentWithPointsAction>c__AnonStorey4E()
+				public <DoIncidentWithPointsAction>c__AnonStorey50()
 				{
 				}
 
@@ -6376,20 +6429,20 @@ namespace Verse
 					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 				}
 
-				private sealed class <DoIncidentWithPointsAction>c__AnonStorey4D
+				private sealed class <DoIncidentWithPointsAction>c__AnonStorey4F
 				{
 					internal float localPoints;
 
-					internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey4C.<DoIncidentWithPointsAction>c__AnonStorey4E <>f__ref$78;
+					internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey4E.<DoIncidentWithPointsAction>c__AnonStorey50 <>f__ref$80;
 
-					public <DoIncidentWithPointsAction>c__AnonStorey4D()
+					public <DoIncidentWithPointsAction>c__AnonStorey4F()
 					{
 					}
 
 					internal void <>m__0()
 					{
-						this.<>f__ref$78.parms.points = this.localPoints;
-						this.<>f__ref$78.localDef.Worker.TryExecute(this.<>f__ref$78.parms);
+						this.<>f__ref$80.parms.points = this.localPoints;
+						this.<>f__ref$80.localDef.Worker.TryExecute(this.<>f__ref$80.parms);
 					}
 				}
 			}
@@ -6737,7 +6790,7 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
+				MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 				mapParent.Tile = (from tile in Enumerable.Range(0, Find.WorldGrid.TilesCount)
 				where Find.WorldGrid[tile].biome.canBuildBase
 				select tile).RandomElement<int>();
@@ -7042,7 +7095,7 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <DoListingItems_MapActions>c__AnonStorey11
 		{
-			internal FactionBase factionBase;
+			internal Settlement factionBase;
 
 			public <DoListingItems_MapActions>c__AnonStorey11()
 			{
@@ -7050,7 +7103,7 @@ namespace Verse
 
 			internal void <>m__0()
 			{
-				Find.WindowStack.Add(new Dialog_NamePlayerFactionBase(this.factionBase));
+				Find.WindowStack.Add(new Dialog_NamePlayerSettlement(this.factionBase));
 			}
 
 			internal void <>m__1()
@@ -8468,11 +8521,40 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey4A
+		{
+			internal int tile;
+
+			public <DoListingItems_World>c__AnonStorey4A()
+			{
+			}
+		}
+
+		[CompilerGenerated]
 		private sealed class <DoListingItems_World>c__AnonStorey49
+		{
+			internal WorldObjectDef localDef;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74;
+
+			public <DoListingItems_World>c__AnonStorey49()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				WorldObject worldObject = WorldObjectMaker.MakeWorldObject(this.localDef);
+				worldObject.Tile = this.<>f__ref$74.tile;
+				Find.WorldObjects.Add(worldObject);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey4B
 		{
 			internal Type localType;
 
-			public <DoListingItems_World>c__AnonStorey49()
+			public <DoListingItems_World>c__AnonStorey4B()
 			{
 			}
 

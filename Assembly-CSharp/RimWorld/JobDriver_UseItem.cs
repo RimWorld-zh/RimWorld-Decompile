@@ -38,7 +38,7 @@ namespace RimWorld
 		{
 			this.FailOnIncapable(PawnCapacityDefOf.Manipulation);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			Toil prepare = Toils_General.Wait(this.useDuration);
+			Toil prepare = Toils_General.Wait(this.useDuration, TargetIndex.None);
 			prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 			prepare.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
@@ -90,7 +90,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					prepare = Toils_General.Wait(this.useDuration);
+					prepare = Toils_General.Wait(this.useDuration, TargetIndex.None);
 					prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 					prepare.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 					prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);

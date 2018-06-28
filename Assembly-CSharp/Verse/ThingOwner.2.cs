@@ -20,6 +20,8 @@ namespace Verse
 
 		private const int InfMaxStacks = 999999;
 
+		private static Dictionary<ThingDef, int> countedContents = new Dictionary<ThingDef, int>();
+
 		public ThingOwner()
 		{
 		}
@@ -88,14 +90,40 @@ namespace Verse
 				else
 				{
 					StringBuilder stringBuilder = new StringBuilder();
+					bool flag = false;
 					for (int i = 0; i < count; i++)
 					{
-						if (i != 0)
+						Thing at = this.GetAt(i);
+						if (at.def.category == ThingCategory.Pawn)
+						{
+							if (flag)
+							{
+								stringBuilder.Append(", ");
+							}
+							stringBuilder.Append(this.GetAt(i).LabelShort);
+							flag = true;
+						}
+						else if (!ThingOwner.countedContents.ContainsKey(at.def))
+						{
+							ThingOwner.countedContents.Add(at.def, at.stackCount);
+						}
+						else
+						{
+							Dictionary<ThingDef, int> dictionary;
+							ThingDef def;
+							(dictionary = ThingOwner.countedContents)[def = at.def] = dictionary[def] + at.stackCount;
+						}
+					}
+					foreach (KeyValuePair<ThingDef, int> keyValuePair in ThingOwner.countedContents)
+					{
+						if (flag)
 						{
 							stringBuilder.Append(", ");
 						}
-						stringBuilder.Append(this.GetAt(i).LabelShort);
+						stringBuilder.Append(GenLabel.ThingLabel(keyValuePair.Key, null, keyValuePair.Value));
+						flag = true;
 					}
+					ThingOwner.countedContents.Clear();
 					result = stringBuilder.ToString();
 				}
 				return result;
@@ -808,6 +836,11 @@ namespace Verse
 				yield return this.GetAt(i);
 			}
 			yield break;
+		}
+
+		// Note: this type is marked as 'beforefieldinit'.
+		static ThingOwner()
+		{
 		}
 
 		[CompilerGenerated]

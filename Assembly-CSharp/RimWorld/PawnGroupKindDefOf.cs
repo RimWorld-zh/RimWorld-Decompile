@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public static PawnGroupKindDef Peaceful;
 
-		public static PawnGroupKindDef FactionBase;
+		public static PawnGroupKindDef Settlement;
 
 		static PawnGroupKindDefOf()
 		{

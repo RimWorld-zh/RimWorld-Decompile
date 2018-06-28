@@ -2378,17 +2378,14 @@ namespace Verse
 			return new TipSignal(stringBuilder.ToString().TrimEndNewlines(), this.thingIDNumber * 152317, TooltipPriority.Pawn);
 		}
 
-		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			get
+			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy2())
 			{
-				foreach (StatDrawEntry s in this.<get_SpecialDisplayStats>__BaseCallProxy2())
-				{
-					yield return s;
-				}
-				yield return new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), this.BodySize.ToString("F2"), 0, "");
-				yield break;
+				yield return s;
 			}
+			yield return new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), this.BodySize.ToString("F2"), 0, "");
+			yield break;
 		}
 
 		public bool CurrentlyUsableForBills()
@@ -2743,9 +2740,9 @@ namespace Verse
 
 		[DebuggerHidden]
 		[CompilerGenerated]
-		private IEnumerable<StatDrawEntry> <get_SpecialDisplayStats>__BaseCallProxy2()
+		private IEnumerable<StatDrawEntry> <SpecialDisplayStats>__BaseCallProxy2()
 		{
-			return base.SpecialDisplayStats;
+			return base.SpecialDisplayStats();
 		}
 
 		[CompilerGenerated]
@@ -3611,7 +3608,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <>c__Iterator4 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		private sealed class <SpecialDisplayStats>c__Iterator4 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
 		{
 			internal IEnumerator<StatDrawEntry> $locvar0;
 
@@ -3626,7 +3623,7 @@ namespace Verse
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <>c__Iterator4()
+			public <SpecialDisplayStats>c__Iterator4()
 			{
 			}
 
@@ -3638,7 +3635,7 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					enumerator = base.<get_SpecialDisplayStats>__BaseCallProxy2().GetEnumerator();
+					enumerator = base.<SpecialDisplayStats>__BaseCallProxy2().GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -3744,9 +3741,9 @@ namespace Verse
 				{
 					return this;
 				}
-				Pawn.<>c__Iterator4 <>c__Iterator = new Pawn.<>c__Iterator4();
-				<>c__Iterator.$this = this;
-				return <>c__Iterator;
+				Pawn.<SpecialDisplayStats>c__Iterator4 <SpecialDisplayStats>c__Iterator = new Pawn.<SpecialDisplayStats>c__Iterator4();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
 			}
 		}
 	}

@@ -193,6 +193,10 @@ namespace RimWorld
 			if (this.steps[td] >= td.steps)
 			{
 				this.learned[td] = true;
+				if (td == TrainableDefOf.Obedience && trainer != null && this.pawn.playerSettings != null && this.pawn.playerSettings.Master == null)
+				{
+					this.pawn.playerSettings.Master = trainer;
+				}
 			}
 		}
 

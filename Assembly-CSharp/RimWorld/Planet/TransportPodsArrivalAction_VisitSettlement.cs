@@ -7,13 +7,13 @@ namespace RimWorld.Planet
 {
 	public class TransportPodsArrivalAction_VisitSettlement : TransportPodsArrivalAction_FormCaravan
 	{
-		private Settlement settlement;
+		private SettlementBase settlement;
 
 		public TransportPodsArrivalAction_VisitSettlement()
 		{
 		}
 
-		public TransportPodsArrivalAction_VisitSettlement(Settlement settlement)
+		public TransportPodsArrivalAction_VisitSettlement(SettlementBase settlement)
 		{
 			this.settlement = settlement;
 		}
@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
+			Scribe_References.Look<SettlementBase>(ref this.settlement, "settlement", false);
 		}
 
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
@@ -43,7 +43,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, Settlement settlement)
+		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
 			FloatMenuAcceptanceReport result;
 			if (settlement == null || !settlement.Spawned || !settlement.Visitable)
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Settlement settlement)
+		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, SettlementBase settlement)
 		{
 			return TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_VisitSettlement>(() => TransportPodsArrivalAction_VisitSettlement.CanVisit(pods, settlement), () => new TransportPodsArrivalAction_VisitSettlement(settlement), "VisitSettlement".Translate(new object[]
 			{
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 		{
 			internal IEnumerable<IThingHolder> pods;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <GetFloatMenuOptions>c__AnonStorey0()
 			{

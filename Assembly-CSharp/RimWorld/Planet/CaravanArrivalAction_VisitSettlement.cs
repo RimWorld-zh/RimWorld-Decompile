@@ -7,13 +7,13 @@ namespace RimWorld.Planet
 {
 	public class CaravanArrivalAction_VisitSettlement : CaravanArrivalAction
 	{
-		private Settlement settlement;
+		private SettlementBase settlement;
 
 		public CaravanArrivalAction_VisitSettlement()
 		{
 		}
 
-		public CaravanArrivalAction_VisitSettlement(Settlement settlement)
+		public CaravanArrivalAction_VisitSettlement(SettlementBase settlement)
 		{
 			this.settlement = settlement;
 		}
@@ -74,15 +74,15 @@ namespace RimWorld.Planet
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
+			Scribe_References.Look<SettlementBase>(ref this.settlement, "settlement", false);
 		}
 
-		public static FloatMenuAcceptanceReport CanVisit(Caravan caravan, Settlement settlement)
+		public static FloatMenuAcceptanceReport CanVisit(Caravan caravan, SettlementBase settlement)
 		{
 			return settlement != null && settlement.Spawned && settlement.Visitable;
 		}
 
-		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Settlement settlement)
+		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, SettlementBase settlement)
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_VisitSettlement>(() => CaravanArrivalAction_VisitSettlement.CanVisit(caravan, settlement), () => new CaravanArrivalAction_VisitSettlement(settlement), "VisitSettlement".Translate(new object[]
 			{
@@ -95,7 +95,7 @@ namespace RimWorld.Planet
 		{
 			internal Caravan caravan;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <GetFloatMenuOptions>c__AnonStorey0()
 			{

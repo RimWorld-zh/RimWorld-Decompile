@@ -262,16 +262,16 @@ namespace RimWorld
 			bool pauseOnUrgentLetter = Prefs.PauseOnUrgentLetter;
 			listing_Standard.CheckboxLabeled("PauseOnUrgentLetter".Translate(), ref pauseOnUrgentLetter, null);
 			Prefs.PauseOnUrgentLetter = pauseOnUrgentLetter;
-			int maxNumberOfPlayerHomes = Prefs.MaxNumberOfPlayerHomes;
-			listing_Standard.Label("MaxNumberOfPlayerHomes".Translate(new object[]
+			int maxNumberOfPlayerSettlements = Prefs.MaxNumberOfPlayerSettlements;
+			listing_Standard.Label("MaxNumberOfPlayerSettlements".Translate(new object[]
 			{
-				maxNumberOfPlayerHomes
+				maxNumberOfPlayerSettlements
 			}), -1f, null);
-			int num = Mathf.RoundToInt(listing_Standard.Slider((float)maxNumberOfPlayerHomes, 1f, 5f));
-			Prefs.MaxNumberOfPlayerHomes = num;
-			if (maxNumberOfPlayerHomes != num && num > 1)
+			int num = Mathf.RoundToInt(listing_Standard.Slider((float)maxNumberOfPlayerSettlements, 1f, 5f));
+			Prefs.MaxNumberOfPlayerSettlements = num;
+			if (maxNumberOfPlayerSettlements != num && num > 1)
 			{
-				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.MaxNumberOfPlayerHomes);
+				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.MaxNumberOfPlayerSettlements);
 			}
 			if (listing_Standard.ButtonTextLabeled("TemperatureMode".Translate(), Prefs.TemperatureMode.ToStringHuman()))
 			{

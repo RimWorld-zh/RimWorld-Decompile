@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	public class GenStep_FactionBase : GenStep_Scatterer
+	public class GenStep_Settlement : GenStep_Scatterer
 	{
-		private static readonly IntRange FactionBaseSizeRange = new IntRange(34, 38);
+		private static readonly IntRange SettlementSizeRange = new IntRange(34, 38);
 
-		public GenStep_FactionBase()
+		public GenStep_Settlement()
 		{
 		}
 
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 			else
 			{
-				int min = GenStep_FactionBase.FactionBaseSizeRange.min;
+				int min = GenStep_Settlement.SettlementSizeRange.min;
 				CellRect cellRect = new CellRect(c.x - min / 2, c.z - min / 2, min, min);
 				result = cellRect.FullyContainedWithin(new CellRect(0, 0, map.Size.x, map.Size.z));
 			}
@@ -50,8 +50,8 @@ namespace RimWorld
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
-			int randomInRange = GenStep_FactionBase.FactionBaseSizeRange.RandomInRange;
-			int randomInRange2 = GenStep_FactionBase.FactionBaseSizeRange.RandomInRange;
+			int randomInRange = GenStep_Settlement.SettlementSizeRange.RandomInRange;
+			int randomInRange2 = GenStep_Settlement.SettlementSizeRange.RandomInRange;
 			CellRect rect = new CellRect(c.x - randomInRange / 2, c.z - randomInRange2 / 2, randomInRange, randomInRange2);
 			Faction faction;
 			if (map.ParentFaction == null || map.ParentFaction == Faction.OfPlayer)
@@ -69,12 +69,12 @@ namespace RimWorld
 			BaseGen.globalSettings.map = map;
 			BaseGen.globalSettings.minBuildings = 1;
 			BaseGen.globalSettings.minBarracks = 1;
-			BaseGen.symbolStack.Push("factionBase", resolveParams);
+			BaseGen.symbolStack.Push("settlement", resolveParams);
 			BaseGen.Generate();
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
-		static GenStep_FactionBase()
+		static GenStep_Settlement()
 		{
 		}
 	}

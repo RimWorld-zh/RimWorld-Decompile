@@ -6,7 +6,7 @@ namespace Verse.AI
 {
 	public static class Toils_General
 	{
-		public static Toil Wait(int ticks)
+		public static Toil Wait(int ticks, TargetIndex face = TargetIndex.None)
 		{
 			Toil toil = new Toil();
 			toil.initAction = delegate()
@@ -15,6 +15,14 @@ namespace Verse.AI
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
 			toil.defaultDuration = ticks;
+			if (face != TargetIndex.None)
+			{
+				toil.handlingFacing = true;
+				toil.tickAction = delegate()
+				{
+					toil.actor.rotationTracker.FaceTarget(toil.actor.CurJob.GetTarget(face));
+				};
+			}
 			return toil;
 		}
 
@@ -143,6 +151,8 @@ namespace Verse.AI
 		{
 			internal Toil toil;
 
+			internal TargetIndex face;
+
 			public <Wait>c__AnonStorey0()
 			{
 			}
@@ -150,6 +160,11 @@ namespace Verse.AI
 			internal void <>m__0()
 			{
 				this.toil.actor.pather.StopDead();
+			}
+
+			internal void <>m__1()
+			{
+				this.toil.actor.rotationTracker.FaceTarget(this.toil.actor.CurJob.GetTarget(this.face));
 			}
 		}
 

@@ -25,7 +25,7 @@ namespace RimWorld
 		{
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			Toil wait = Toils_General.Wait(this.job.def.joyDuration);
+			Toil wait = Toils_General.Wait(this.job.def.joyDuration, TargetIndex.None);
 			wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 			wait.tickAction = delegate()
 			{
@@ -74,7 +74,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					wait = Toils_General.Wait(this.job.def.joyDuration);
+					wait = Toils_General.Wait(this.job.def.joyDuration, TargetIndex.None);
 					wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 					wait.tickAction = delegate()
 					{

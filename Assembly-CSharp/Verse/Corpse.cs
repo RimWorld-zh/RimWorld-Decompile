@@ -143,25 +143,6 @@ namespace Verse
 			}
 		}
 
-		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
-		{
-			get
-			{
-				foreach (StatDrawEntry s in this.<get_SpecialDisplayStats>__BaseCallProxy0())
-				{
-					yield return s;
-				}
-				if (this.GetRotStage() == RotStage.Fresh)
-				{
-					StatDef meatAmount = StatDefOf.MeatAmount;
-					yield return new StatDrawEntry(meatAmount.category, meatAmount, this.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
-					StatDef leatherAmount = StatDefOf.LeatherAmount;
-					yield return new StatDrawEntry(leatherAmount.category, leatherAmount, this.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
-				}
-				yield break;
-			}
-		}
-
 		public BillStack BillStack
 		{
 			get
@@ -439,6 +420,22 @@ namespace Verse
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		{
+			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy0())
+			{
+				yield return s;
+			}
+			if (this.GetRotStage() == RotStage.Fresh)
+			{
+				StatDef meatAmount = StatDefOf.MeatAmount;
+				yield return new StatDrawEntry(meatAmount.category, meatAmount, this.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
+				StatDef leatherAmount = StatDefOf.LeatherAmount;
+				yield return new StatDrawEntry(leatherAmount.category, leatherAmount, this.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
+			}
+			yield break;
+		}
+
 		public void RotStageChanged()
 		{
 			PortraitsCache.SetDirty(this.InnerPawn);
@@ -472,171 +469,13 @@ namespace Verse
 
 		[DebuggerHidden]
 		[CompilerGenerated]
-		private IEnumerable<StatDrawEntry> <get_SpecialDisplayStats>__BaseCallProxy0()
+		private IEnumerable<StatDrawEntry> <SpecialDisplayStats>__BaseCallProxy0()
 		{
-			return base.SpecialDisplayStats;
+			return base.SpecialDisplayStats();
 		}
 
 		[CompilerGenerated]
-		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
-		{
-			internal IEnumerator<StatDrawEntry> $locvar0;
-
-			internal StatDrawEntry <s>__1;
-
-			internal StatDef <meatAmount>__2;
-
-			internal StatDef <leatherAmount>__2;
-
-			internal Corpse $this;
-
-			internal StatDrawEntry $current;
-
-			internal bool $disposing;
-
-			internal int $PC;
-
-			[DebuggerHidden]
-			public <>c__Iterator0()
-			{
-			}
-
-			public bool MoveNext()
-			{
-				uint num = (uint)this.$PC;
-				this.$PC = -1;
-				bool flag = false;
-				switch (num)
-				{
-				case 0u:
-					enumerator = base.<get_SpecialDisplayStats>__BaseCallProxy0().GetEnumerator();
-					num = 4294967293u;
-					break;
-				case 1u:
-					break;
-				case 2u:
-					leatherAmount = StatDefOf.LeatherAmount;
-					this.$current = new StatDrawEntry(leatherAmount.category, leatherAmount, base.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(base.InnerPawn), ToStringNumberSense.Undefined);
-					if (!this.$disposing)
-					{
-						this.$PC = 3;
-					}
-					return true;
-				case 3u:
-					goto IL_194;
-				default:
-					return false;
-				}
-				try
-				{
-					switch (num)
-					{
-					}
-					if (enumerator.MoveNext())
-					{
-						s = enumerator.Current;
-						this.$current = s;
-						if (!this.$disposing)
-						{
-							this.$PC = 1;
-						}
-						flag = true;
-						return true;
-					}
-				}
-				finally
-				{
-					if (!flag)
-					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
-					}
-				}
-				if (this.GetRotStage() == RotStage.Fresh)
-				{
-					meatAmount = StatDefOf.MeatAmount;
-					this.$current = new StatDrawEntry(meatAmount.category, meatAmount, base.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(base.InnerPawn), ToStringNumberSense.Undefined);
-					if (!this.$disposing)
-					{
-						this.$PC = 2;
-					}
-					return true;
-				}
-				IL_194:
-				this.$PC = -1;
-				return false;
-			}
-
-			StatDrawEntry IEnumerator<StatDrawEntry>.Current
-			{
-				[DebuggerHidden]
-				get
-				{
-					return this.$current;
-				}
-			}
-
-			object IEnumerator.Current
-			{
-				[DebuggerHidden]
-				get
-				{
-					return this.$current;
-				}
-			}
-
-			[DebuggerHidden]
-			public void Dispose()
-			{
-				uint num = (uint)this.$PC;
-				this.$disposing = true;
-				this.$PC = -1;
-				switch (num)
-				{
-				case 1u:
-					try
-					{
-					}
-					finally
-					{
-						if (enumerator != null)
-						{
-							enumerator.Dispose();
-						}
-					}
-					break;
-				}
-			}
-
-			[DebuggerHidden]
-			public void Reset()
-			{
-				throw new NotSupportedException();
-			}
-
-			[DebuggerHidden]
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
-			}
-
-			[DebuggerHidden]
-			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
-			{
-				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
-				{
-					return this;
-				}
-				Corpse.<>c__Iterator0 <>c__Iterator = new Corpse.<>c__Iterator0();
-				<>c__Iterator.$this = this;
-				return <>c__Iterator;
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <>c__Iterator1 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<IntVec3>, IEnumerator, IDisposable, IEnumerator<IntVec3>
 		{
 			internal Corpse $this;
 
@@ -647,7 +486,7 @@ namespace Verse
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <>c__Iterator1()
+			public <>c__Iterator0()
 			{
 			}
 
@@ -715,14 +554,14 @@ namespace Verse
 				{
 					return this;
 				}
-				Corpse.<>c__Iterator1 <>c__Iterator = new Corpse.<>c__Iterator1();
+				Corpse.<>c__Iterator0 <>c__Iterator = new Corpse.<>c__Iterator0();
 				<>c__Iterator.$this = this;
 				return <>c__Iterator;
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <ButcherProducts>c__Iterator2 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
+		private sealed class <ButcherProducts>c__Iterator1 : IEnumerable, IEnumerable<Thing>, IEnumerator, IDisposable, IEnumerator<Thing>
 		{
 			internal Pawn butcher;
 
@@ -741,7 +580,7 @@ namespace Verse
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <ButcherProducts>c__Iterator2()
+			public <ButcherProducts>c__Iterator1()
 			{
 			}
 
@@ -871,11 +710,169 @@ namespace Verse
 				{
 					return this;
 				}
-				Corpse.<ButcherProducts>c__Iterator2 <ButcherProducts>c__Iterator = new Corpse.<ButcherProducts>c__Iterator2();
+				Corpse.<ButcherProducts>c__Iterator1 <ButcherProducts>c__Iterator = new Corpse.<ButcherProducts>c__Iterator1();
 				<ButcherProducts>c__Iterator.$this = this;
 				<ButcherProducts>c__Iterator.butcher = butcher;
 				<ButcherProducts>c__Iterator.efficiency = efficiency;
 				return <ButcherProducts>c__Iterator;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator2 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal IEnumerator<StatDrawEntry> $locvar0;
+
+			internal StatDrawEntry <s>__1;
+
+			internal StatDef <meatAmount>__2;
+
+			internal StatDef <leatherAmount>__2;
+
+			internal Corpse $this;
+
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = base.<SpecialDisplayStats>__BaseCallProxy0().GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				case 2u:
+					leatherAmount = StatDefOf.LeatherAmount;
+					this.$current = new StatDrawEntry(leatherAmount.category, leatherAmount, base.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(base.InnerPawn), ToStringNumberSense.Undefined);
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				case 3u:
+					goto IL_194;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						s = enumerator.Current;
+						this.$current = s;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				if (this.GetRotStage() == RotStage.Fresh)
+				{
+					meatAmount = StatDefOf.MeatAmount;
+					this.$current = new StatDrawEntry(meatAmount.category, meatAmount, base.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(base.InnerPawn), ToStringNumberSense.Undefined);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_194:
+				this.$PC = -1;
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Corpse.<SpecialDisplayStats>c__Iterator2 <SpecialDisplayStats>c__Iterator = new Corpse.<SpecialDisplayStats>c__Iterator2();
+				<SpecialDisplayStats>c__Iterator.$this = this;
+				return <SpecialDisplayStats>c__Iterator;
 			}
 		}
 

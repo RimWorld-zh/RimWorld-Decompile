@@ -50,7 +50,7 @@ namespace RimWorld
 			BaseGen.globalSettings.map = map;
 			BaseGen.globalSettings.minBuildings = 1;
 			BaseGen.globalSettings.minBarracks = 1;
-			BaseGen.symbolStack.Push("factionBase", resolveParams);
+			BaseGen.symbolStack.Push("settlement", resolveParams);
 			BaseGen.Generate();
 		}
 

@@ -58,7 +58,7 @@ namespace RimWorld.BaseGen
 				},
 				new SymbolResolver_Ship_Pregen.SpawnDescriptor
 				{
-					offset = new IntVec3(3, 0, -7),
+					offset = new IntVec3(2, 0, -7),
 					def = ThingDefOf.Ship_ComputerCore,
 					rot = Rot4.North
 				},

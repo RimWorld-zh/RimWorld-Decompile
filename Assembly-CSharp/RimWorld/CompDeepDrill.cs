@@ -8,23 +8,23 @@ namespace RimWorld
 	{
 		private CompPowerTrader powerComp;
 
-		private float lumpProgress = 0f;
+		private float portionProgress = 0f;
 
-		private float lumpYieldPct = 0f;
+		private float portionYieldPct = 0f;
 
 		private int lastUsedTick = -99999;
 
-		private const float ResourceLumpWork = 16000f;
+		private const float WorkPerPortion = 13000f;
 
 		public CompDeepDrill()
 		{
 		}
 
-		public float ProgressToNextLumpPercent
+		public float ProgressToNextPortionPercent
 		{
 			get
 			{
-				return this.lumpProgress / 16000f;
+				return this.portionProgress / 13000f;
 			}
 		}
 
@@ -35,26 +35,33 @@ namespace RimWorld
 
 		public override void PostExposeData()
 		{
-			Scribe_Values.Look<float>(ref this.lumpProgress, "lumpProgress", 0f, false);
-			Scribe_Values.Look<float>(ref this.lumpYieldPct, "lumpYieldPct", 0f, false);
+			Scribe_Values.Look<float>(ref this.portionProgress, "portionProgress", 0f, false);
+			Scribe_Values.Look<float>(ref this.portionYieldPct, "portionYieldPct", 0f, false);
 			Scribe_Values.Look<int>(ref this.lastUsedTick, "lastUsedTick", 0, false);
 		}
 
 		public void DrillWorkDone(Pawn driller)
 		{
 			float statValue = driller.GetStatValue(StatDefOf.MiningSpeed, true);
-			this.lumpProgress += statValue;
-			this.lumpYieldPct += statValue * driller.GetStatValue(StatDefOf.MiningYield, true) / 16000f;
+			this.portionProgress += statValue;
+			this.portionYieldPct += statValue * driller.GetStatValue(StatDefOf.MiningYield, true) / 13000f;
 			this.lastUsedTick = Find.TickManager.TicksGame;
-			if (this.lumpProgress > 16000f)
+			if (this.portionProgress > 13000f)
 			{
-				this.TryProduceLump(this.lumpYieldPct);
-				this.lumpProgress = 0f;
-				this.lumpYieldPct = 0f;
+				this.TryProducePortion(this.portionYieldPct);
+				this.portionProgress = 0f;
+				this.portionYieldPct = 0f;
 			}
 		}
 
-		private void TryProduceLump(float yieldPct)
+		public override void PostDeSpawn(Map map)
+		{
+			this.portionProgress = 0f;
+			this.portionYieldPct = 0f;
+			this.lastUsedTick = -99999;
+		}
+
+		private void TryProducePortion(float yieldPct)
 		{
 			ThingDef thingDef;
 			int num;
@@ -62,7 +69,7 @@ namespace RimWorld
 			bool nextResource = this.GetNextResource(out thingDef, out num, out c);
 			if (thingDef != null)
 			{
-				int num2 = Mathf.Min(num, Mathf.CeilToInt((float)thingDef.stackLimit / 2f));
+				int num2 = Mathf.Min(num, thingDef.deepCountPerPortion);
 				if (nextResource)
 				{
 					this.parent.Map.deepResourceGrid.SetAt(c, thingDef, num - num2);
@@ -107,34 +114,41 @@ namespace RimWorld
 			return this.GetNextResource(out thingDef, out num, out intVec);
 		}
 
-		public bool UsedRecently()
+		public bool UsedLastTick()
 		{
 			return this.lastUsedTick >= Find.TickManager.TicksGame - 1;
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			ThingDef thingDef;
-			int num;
-			IntVec3 intVec;
-			this.GetNextResource(out thingDef, out num, out intVec);
 			string result;
-			if (thingDef == null)
+			if (this.parent.Spawned)
 			{
-				result = "DeepDrillNoResources".Translate();
+				ThingDef thingDef;
+				int num;
+				IntVec3 intVec;
+				this.GetNextResource(out thingDef, out num, out intVec);
+				if (thingDef == null)
+				{
+					result = "DeepDrillNoResources".Translate();
+				}
+				else
+				{
+					result = string.Concat(new string[]
+					{
+						"ResourceBelow".Translate(),
+						": ",
+						thingDef.LabelCap,
+						"\n",
+						"ProgressToNextPortion".Translate(),
+						": ",
+						this.ProgressToNextPortionPercent.ToStringPercent("F0")
+					});
+				}
 			}
 			else
 			{
-				result = string.Concat(new string[]
-				{
-					"ResourceBelow".Translate(),
-					": ",
-					thingDef.LabelCap,
-					"\n",
-					"ProgressToNextLump".Translate(),
-					": ",
-					this.ProgressToNextLumpPercent.ToStringPercent("F0")
-				});
+				result = null;
 			}
 			return result;
 		}

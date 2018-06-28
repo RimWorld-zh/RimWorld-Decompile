@@ -36,7 +36,7 @@ namespace RimWorld
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_General.Wait(10);
+			yield return Toils_General.Wait(10, TargetIndex.None);
 			yield return new Toil
 			{
 				initAction = delegate()
@@ -127,7 +127,7 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					this.$current = Toils_General.Wait(10);
+					this.$current = Toils_General.Wait(10, TargetIndex.None);
 					if (!this.$disposing)
 					{
 						this.$PC = 1;

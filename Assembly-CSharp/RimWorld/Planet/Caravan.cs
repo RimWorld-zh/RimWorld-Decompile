@@ -752,12 +752,12 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(this);
-				if (settlement != null)
+				SettlementBase settlementBase = CaravanVisitUtility.SettlementVisitedNow(this);
+				if (settlementBase != null)
 				{
 					stringBuilder.Append("CaravanVisiting".Translate(new object[]
 					{
-						settlement.Label
+						settlementBase.Label
 					}));
 				}
 				else

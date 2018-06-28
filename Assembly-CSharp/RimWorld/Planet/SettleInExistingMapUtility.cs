@@ -29,9 +29,9 @@ namespace RimWorld.Planet
 					SettleInExistingMapUtility.Settle(map);
 				});
 			};
-			if (SettleUtility.PlayerHomesCountLimitReached)
+			if (SettleUtility.PlayerSettlementsCountLimitReached)
 			{
-				if (Prefs.MaxNumberOfPlayerHomes > 1)
+				if (Prefs.MaxNumberOfPlayerSettlements > 1)
 				{
 					command_Settle.Disable("CommandSettleFailReachedMaximumNumberOfBases".Translate());
 				}
@@ -64,13 +64,13 @@ namespace RimWorld.Planet
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.Parent;
-			FactionBase factionBase = SettleUtility.AddNewHome(map.Tile, Faction.OfPlayer);
-			map.info.parent = factionBase;
+			Settlement settlement = SettleUtility.AddNewHome(map.Tile, Faction.OfPlayer);
+			map.info.parent = settlement;
 			if (parent != null)
 			{
 				Find.WorldObjects.Remove(parent);
 			}
-			Messages.Message("MessageSettledInExistingMap".Translate(), factionBase, MessageTypeDefOf.PositiveEvent, false);
+			Messages.Message("MessageSettledInExistingMap".Translate(), settlement, MessageTypeDefOf.PositiveEvent, false);
 			SettleInExistingMapUtility.tmpPlayerPawns.Clear();
 			SettleInExistingMapUtility.tmpPlayerPawns.AddRange(from x in map.mapPawns.AllPawnsSpawned
 			where x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer

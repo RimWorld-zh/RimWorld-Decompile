@@ -18,6 +18,8 @@ namespace RimWorld
 
 		public bool saved = true;
 
+		public bool canBePlayerHome;
+
 		public List<WorldObjectCompProperties> comps = new List<WorldObjectCompProperties>();
 
 		public bool allowCaravanIncidentsWhichGenerateMap;

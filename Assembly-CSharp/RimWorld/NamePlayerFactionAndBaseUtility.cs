@@ -24,7 +24,7 @@ namespace RimWorld
 			return NamePlayerFactionAndBaseUtility.CanNameFaction(Find.TickManager.TicksGame);
 		}
 
-		public static bool CanNameFactionBaseNow(FactionBase factionBase)
+		public static bool CanNameFactionBaseNow(Settlement factionBase)
 		{
 			return NamePlayerFactionAndBaseUtility.CanNameFactionBase(factionBase, Find.TickManager.TicksGame - factionBase.creationGameTicks);
 		}
@@ -34,7 +34,7 @@ namespace RimWorld
 			return NamePlayerFactionAndBaseUtility.CanNameFaction(Find.TickManager.TicksGame + 30000);
 		}
 
-		public static bool CanNameFactionBaseSoon(FactionBase factionBase)
+		public static bool CanNameFactionBaseSoon(Settlement factionBase)
 		{
 			return NamePlayerFactionAndBaseUtility.CanNameFactionBase(factionBase, Find.TickManager.TicksGame - factionBase.creationGameTicks + 30000);
 		}
@@ -44,7 +44,7 @@ namespace RimWorld
 			return !Faction.OfPlayer.HasName && (float)ticksPassed / 60000f >= 3f && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
 		}
 
-		private static bool CanNameFactionBase(FactionBase factionBase, int ticksPassed)
+		private static bool CanNameFactionBase(Settlement factionBase, int ticksPassed)
 		{
 			return factionBase.Faction == Faction.OfPlayer && !factionBase.namedByPlayer && (float)ticksPassed / 60000f >= 3f && factionBase.HasMap && factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
 		}

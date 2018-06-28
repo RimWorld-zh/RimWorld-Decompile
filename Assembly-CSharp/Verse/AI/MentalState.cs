@@ -109,6 +109,7 @@ namespace Verse.AI
 				{
 					this.pawn.needs.mood.thoughts.memories.TryGainMemory(this.def.moodRecoveryThought, null);
 				}
+				this.pawn.mindState.mentalBreaker.Notify_RecoveredFromMentalState();
 			}
 			if (this.pawn.Spawned)
 			{

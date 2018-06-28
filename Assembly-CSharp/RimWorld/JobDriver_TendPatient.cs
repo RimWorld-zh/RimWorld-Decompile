@@ -128,7 +128,7 @@ namespace RimWorld
 			Toil gotoToil = Toils_Goto.GotoThing(TargetIndex.A, interactionCell);
 			yield return gotoToil;
 			int duration = (int)(1f / this.pawn.GetStatValue(StatDefOf.MedicalTendSpeed, true) * 600f);
-			yield return Toils_General.Wait(duration).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
+			yield return Toils_General.Wait(duration, TargetIndex.None).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
 			yield return Toils_Tend.FinalizeTend(this.Deliveree);
 			if (this.usesMedicine)
 			{
@@ -276,7 +276,7 @@ namespace RimWorld
 					break;
 				case 5u:
 					duration = (int)(1f / this.pawn.GetStatValue(StatDefOf.MedicalTendSpeed, true) * 600f);
-					this.$current = Toils_General.Wait(duration).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
+					this.$current = Toils_General.Wait(duration, TargetIndex.None).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
 					if (!this.$disposing)
 					{
 						this.$PC = 6;
@@ -312,9 +312,9 @@ namespace RimWorld
 						}
 						return true;
 					}
-					goto IL_2E4;
+					goto IL_2E5;
 				case 8u:
-					goto IL_2E4;
+					goto IL_2E5;
 				case 9u:
 					this.$PC = -1;
 					return false;
@@ -329,7 +329,7 @@ namespace RimWorld
 					this.$PC = 5;
 				}
 				return true;
-				IL_2E4:
+				IL_2E5:
 				this.$current = Toils_Jump.Jump(gotoToil);
 				if (!this.$disposing)
 				{

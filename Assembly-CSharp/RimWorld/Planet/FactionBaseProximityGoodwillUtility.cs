@@ -10,13 +10,13 @@ namespace RimWorld.Planet
 {
 	public static class FactionBaseProximityGoodwillUtility
 	{
-		private static List<Pair<FactionBase, int>> tmpGoodwillOffsets = new List<Pair<FactionBase, int>>();
+		private static List<Pair<Settlement, int>> tmpGoodwillOffsets = new List<Pair<Settlement, int>>();
 
 		[CompilerGenerated]
-		private static Func<Pair<FactionBase, int>, int> <>f__am$cache0;
+		private static Func<Pair<Settlement, int>, int> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<Pair<FactionBase, int>, int> <>f__am$cache1;
+		private static Func<Pair<Settlement, int>, int> <>f__am$cache1;
 
 		public static int MaxDist
 		{
@@ -30,17 +30,17 @@ namespace RimWorld.Planet
 		{
 			if (Find.TickManager.TicksGame != 0 && Find.TickManager.TicksGame % 900000 == 0)
 			{
-				List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
+				List<Settlement> settlements = Find.WorldObjects.Settlements;
 				FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
-				for (int i = 0; i < factionBases.Count; i++)
+				for (int i = 0; i < settlements.Count; i++)
 				{
-					FactionBase factionBase = factionBases[i];
-					if (factionBase.Faction == Faction.OfPlayer)
+					Settlement settlement = settlements[i];
+					if (settlement.Faction == Faction.OfPlayer)
 					{
-						FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(factionBase.Tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
+						FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(settlement.Tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
 					}
 				}
-				if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<FactionBase, int>>())
+				if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
 				{
 					FactionBaseProximityGoodwillUtility.SortProximityGoodwillOffsets(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets);
 					List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -75,28 +75,28 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<FactionBase, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill, bool ignorePermanentlyHostile)
+		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<Settlement, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill, bool ignorePermanentlyHostile)
 		{
 			int maxDist = FactionBaseProximityGoodwillUtility.MaxDist;
-			List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
-			for (int i = 0; i < factionBases.Count; i++)
+			List<Settlement> settlements = Find.WorldObjects.Settlements;
+			for (int i = 0; i < settlements.Count; i++)
 			{
-				FactionBase factionBase = factionBases[i];
-				if (factionBase.Faction != null)
+				Settlement settlement = settlements[i];
+				if (settlement.Faction != null)
 				{
-					if (factionBase.Faction != Faction.OfPlayer)
+					if (settlement.Faction != Faction.OfPlayer)
 					{
-						if (!ignorePermanentlyHostile || !factionBase.Faction.def.permanentEnemy)
+						if (!ignorePermanentlyHostile || !settlement.Faction.def.permanentEnemy)
 						{
-							if (!ignoreIfAlreadyMinGoodwill || factionBase.Faction.PlayerGoodwill != -100)
+							if (!ignoreIfAlreadyMinGoodwill || settlement.Faction.PlayerGoodwill != -100)
 							{
-								int num = Find.WorldGrid.TraversalDistanceBetween(tile, factionBase.Tile, false, maxDist);
+								int num = Find.WorldGrid.TraversalDistanceBetween(tile, settlement.Tile, false, maxDist);
 								if (num != 2147483647)
 								{
 									int num2 = Mathf.RoundToInt(DiplomacyTuning.Goodwill_PerQuadrumFromSettlementProximity.Evaluate((float)num));
 									if (num2 != 0)
 									{
-										outOffsets.Add(new Pair<FactionBase, int>(factionBase, num2));
+										outOffsets.Add(new Pair<Settlement, int>(settlement, num2));
 									}
 								}
 							}
@@ -106,12 +106,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public static void SortProximityGoodwillOffsets(List<Pair<FactionBase, int>> offsets)
+		public static void SortProximityGoodwillOffsets(List<Pair<Settlement, int>> offsets)
 		{
-			offsets.SortBy((Pair<FactionBase, int> x) => x.First.Faction.loadID, (Pair<FactionBase, int> x) => -Mathf.Abs(x.Second));
+			offsets.SortBy((Pair<Settlement, int> x) => x.First.Faction.loadID, (Pair<Settlement, int> x) => -Mathf.Abs(x.Second));
 		}
 
-		public static string ProximityGoodwillOffsetsToString(List<Pair<FactionBase, int>> offsets)
+		public static string ProximityGoodwillOffsetsToString(List<Pair<Settlement, int>> offsets)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			for (int i = 0; i < offsets.Count; i++)
@@ -133,7 +133,7 @@ namespace RimWorld.Planet
 		{
 			FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
 			FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, false, true);
-			if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<FactionBase, int>>())
+			if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
 			{
 				FactionBaseProximityGoodwillUtility.SortProximityGoodwillOffsets(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets);
 				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSettleNearFactionBase".Translate(new object[]
@@ -154,13 +154,13 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private static int <SortProximityGoodwillOffsets>m__0(Pair<FactionBase, int> x)
+		private static int <SortProximityGoodwillOffsets>m__0(Pair<Settlement, int> x)
 		{
 			return x.First.Faction.loadID;
 		}
 
 		[CompilerGenerated]
-		private static int <SortProximityGoodwillOffsets>m__1(Pair<FactionBase, int> x)
+		private static int <SortProximityGoodwillOffsets>m__1(Pair<Settlement, int> x)
 		{
 			return -Mathf.Abs(x.Second);
 		}

@@ -29,7 +29,7 @@ namespace Verse.AI
 
 		private const float MinorBreakMTBDays = 10f;
 
-		private const int MinTicksBelowToBreak = 1500;
+		private const int MinTicksBelowToBreak = 3000;
 
 		private const float MajorBreakMoodSpan = 0.15f;
 
@@ -160,15 +160,15 @@ namespace Verse.AI
 			get
 			{
 				MentalBreakIntensity result;
-				if (this.ticksBelowExtreme >= 1500)
+				if (this.ticksBelowExtreme >= 3000)
 				{
 					result = MentalBreakIntensity.Extreme;
 				}
-				else if (this.ticksBelowMajor >= 1500)
+				else if (this.ticksBelowMajor >= 3000)
 				{
 					result = MentalBreakIntensity.Major;
 				}
-				else if (this.ticksBelowMinor >= 1500)
+				else if (this.ticksBelowMinor >= 3000)
 				{
 					result = MentalBreakIntensity.Minor;
 				}
@@ -184,6 +184,7 @@ namespace Verse.AI
 		{
 			this.ticksBelowExtreme = 0;
 			this.ticksBelowMajor = 0;
+			this.ticksBelowMinor = 0;
 		}
 
 		public void ExposeData()
@@ -259,17 +260,17 @@ namespace Verse.AI
 		private bool TestMoodMentalBreak()
 		{
 			bool result;
-			if (this.ticksBelowExtreme > 1500)
+			if (this.ticksBelowExtreme > 3000)
 			{
 				result = Rand.MTBEventOccurs(0.7f, 60000f, 150f);
 			}
-			else if (this.ticksBelowMajor > 1500)
+			else if (this.ticksBelowMajor > 3000)
 			{
 				result = Rand.MTBEventOccurs(3f, 60000f, 150f);
 			}
 			else
 			{
-				result = (this.ticksBelowMinor > 1500 && Rand.MTBEventOccurs(10f, 60000f, 150f));
+				result = (this.ticksBelowMinor > 3000 && Rand.MTBEventOccurs(10f, 60000f, 150f));
 			}
 			return result;
 		}
@@ -319,6 +320,11 @@ namespace Verse.AI
 			return result;
 		}
 
+		public void Notify_RecoveredFromMentalState()
+		{
+			this.Reset();
+		}
+
 		public float MentalBreakThresholdFor(MentalBreakIntensity intensity)
 		{
 			float result;
@@ -353,21 +359,21 @@ namespace Verse.AI
 				"   ticksBelowExtreme=",
 				this.ticksBelowExtreme,
 				"/",
-				1500
+				3000
 			}));
 			stringBuilder.AppendLine(string.Concat(new object[]
 			{
 				"   ticksBelowSerious=",
 				this.ticksBelowMajor,
 				"/",
-				1500
+				3000
 			}));
 			stringBuilder.AppendLine(string.Concat(new object[]
 			{
 				"   ticksBelowMinor=",
 				this.ticksBelowMinor,
 				"/",
-				1500
+				3000
 			}));
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("Current desired mood break intensity: " + this.CurrentDesiredMoodBreakIntensity.ToString());

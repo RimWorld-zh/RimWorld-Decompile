@@ -51,17 +51,17 @@ namespace RimWorld
 				i++;
 			}
 			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * FactionGenerator.FactionBasesPer100kTiles.RandomInRange);
-			num -= Find.WorldObjects.FactionBases.Count;
+			num -= Find.WorldObjects.Settlements.Count;
 			for (int k = 0; k < num; k++)
 			{
 				Faction faction3 = (from x in Find.World.factionManager.AllFactionsListForReading
 				where !x.def.isPlayer && !x.def.hidden
 				select x).RandomElementByWeight((Faction x) => x.def.settlementGenerationWeight);
-				FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
-				factionBase.SetFaction(faction3);
-				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction3, false, null);
-				factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase, null);
-				Find.WorldObjects.Add(factionBase);
+				Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+				settlement.SetFaction(faction3);
+				settlement.Tile = TileFinder.RandomFactionBaseTileFor(faction3, false, null);
+				settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
+				Find.WorldObjects.Add(settlement);
 			}
 		}
 
@@ -117,11 +117,11 @@ namespace RimWorld
 			}
 			if (!facDef.hidden && !facDef.isPlayer)
 			{
-				FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
-				factionBase.SetFaction(faction);
-				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction, false, null);
-				factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase, null);
-				Find.WorldObjects.Add(factionBase);
+				Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+				settlement.SetFaction(faction);
+				settlement.Tile = TileFinder.RandomFactionBaseTileFor(faction, false, null);
+				settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
+				Find.WorldObjects.Add(settlement);
 			}
 			faction.GenerateNewLeader();
 			return faction;

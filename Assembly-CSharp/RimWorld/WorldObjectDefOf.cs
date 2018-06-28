@@ -7,15 +7,15 @@ namespace RimWorld
 	{
 		public static WorldObjectDef Caravan;
 
-		public static WorldObjectDef FactionBase;
+		public static WorldObjectDef Settlement;
 
-		public static WorldObjectDef AbandonedBase;
+		public static WorldObjectDef AbandonedSettlement;
 
 		public static WorldObjectDef EscapeShip;
 
 		public static WorldObjectDef Ambush;
 
-		public static WorldObjectDef DestroyedFactionBase;
+		public static WorldObjectDef DestroyedSettlement;
 
 		public static WorldObjectDef AttackedNonPlayerCaravan;
 

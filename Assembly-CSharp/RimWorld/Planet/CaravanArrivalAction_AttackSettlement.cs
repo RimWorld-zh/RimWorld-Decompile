@@ -7,13 +7,13 @@ namespace RimWorld.Planet
 {
 	public class CaravanArrivalAction_AttackSettlement : CaravanArrivalAction
 	{
-		private Settlement settlement;
+		private SettlementBase settlement;
 
 		public CaravanArrivalAction_AttackSettlement()
 		{
 		}
 
-		public CaravanArrivalAction_AttackSettlement(Settlement settlement)
+		public CaravanArrivalAction_AttackSettlement(SettlementBase settlement)
 		{
 			this.settlement = settlement;
 		}
@@ -67,10 +67,10 @@ namespace RimWorld.Planet
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
+			Scribe_References.Look<SettlementBase>(ref this.settlement, "settlement", false);
 		}
 
-		public static FloatMenuAcceptanceReport CanAttack(Caravan caravan, Settlement settlement)
+		public static FloatMenuAcceptanceReport CanAttack(Caravan caravan, SettlementBase settlement)
 		{
 			FloatMenuAcceptanceReport result;
 			if (settlement == null || !settlement.Spawned || !settlement.Attackable)
@@ -91,7 +91,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Settlement settlement)
+		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, SettlementBase settlement)
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_AttackSettlement>(() => CaravanArrivalAction_AttackSettlement.CanAttack(caravan, settlement), () => new CaravanArrivalAction_AttackSettlement(settlement), "AttackSettlement".Translate(new object[]
 			{
@@ -104,7 +104,7 @@ namespace RimWorld.Planet
 		{
 			internal Caravan caravan;
 
-			internal Settlement settlement;
+			internal SettlementBase settlement;
 
 			public <GetFloatMenuOptions>c__AnonStorey0()
 			{

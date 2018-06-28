@@ -16,7 +16,7 @@ namespace Verse
 {
 	public static class GenText
 	{
-		private const int SaveNameMaxLength = 30;
+		private const int SaveNameMaxLength = 40;
 
 		private const char DegreeSymbol = '°';
 
@@ -33,13 +33,13 @@ namespace Verse
 		public static string Possessive(this Pawn p)
 		{
 			string result;
-			if (p.gender == Gender.Male)
+			if (p.gender == Gender.Female)
 			{
-				result = "Prohis".Translate();
+				result = "Proher".Translate();
 			}
 			else
 			{
-				result = "Proher".Translate();
+				result = "Prohis".Translate();
 			}
 			return result;
 		}
@@ -47,13 +47,13 @@ namespace Verse
 		public static string PossessiveCap(this Pawn p)
 		{
 			string result;
-			if (p.gender == Gender.Male)
+			if (p.gender == Gender.Female)
 			{
-				result = "ProhisCap".Translate();
+				result = "ProherCap".Translate();
 			}
 			else
 			{
-				result = "ProherCap".Translate();
+				result = "ProhisCap".Translate();
 			}
 			return result;
 		}
@@ -61,13 +61,13 @@ namespace Verse
 		public static string ProObj(this Pawn p)
 		{
 			string result;
-			if (p.gender == Gender.Male)
+			if (p.gender == Gender.Female)
 			{
-				result = "ProhimObj".Translate();
+				result = "ProherObj".Translate();
 			}
 			else
 			{
-				result = "ProherObj".Translate();
+				result = "ProhimObj".Translate();
 			}
 			return result;
 		}
@@ -75,13 +75,13 @@ namespace Verse
 		public static string ProObjCap(this Pawn p)
 		{
 			string result;
-			if (p.gender == Gender.Male)
+			if (p.gender == Gender.Female)
 			{
-				result = "ProhimObjCap".Translate();
+				result = "ProherObjCap".Translate();
 			}
 			else
 			{
-				result = "ProherObjCap".Translate();
+				result = "ProhimObjCap".Translate();
 			}
 			return result;
 		}
@@ -89,13 +89,13 @@ namespace Verse
 		public static string ProSubj(this Pawn p)
 		{
 			string result;
-			if (p.gender == Gender.Male)
+			if (p.gender == Gender.Female)
 			{
-				result = "Prohe".Translate();
+				result = "Proshe".Translate();
 			}
 			else
 			{
-				result = "Proshe".Translate();
+				result = "Prohe".Translate();
 			}
 			return result;
 		}
@@ -103,13 +103,13 @@ namespace Verse
 		public static string ProSubjCap(this Pawn p)
 		{
 			string result;
-			if (p.gender == Gender.Male)
+			if (p.gender == Gender.Female)
 			{
-				result = "ProheCap".Translate();
+				result = "ProsheCap".Translate();
 			}
 			else
 			{
-				result = "ProsheCap".Translate();
+				result = "ProheCap".Translate();
 			}
 			return result;
 		}
@@ -446,7 +446,7 @@ namespace Verse
 		public static bool IsValidFilename(string str)
 		{
 			bool result;
-			if (str.Length > 30)
+			if (str.Length > 40)
 			{
 				result = false;
 			}

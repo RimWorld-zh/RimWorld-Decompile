@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		private int lastCreatedInfestationTick = -999999;
 
-		private const float MinRefireDays = 8f;
+		private const float MinRefireDays = 7f;
 
 		private const float PreventInfestationsDist = 10f;
 
@@ -21,7 +21,7 @@ namespace RimWorld
 			get
 			{
 				CompDeepDrill comp = this.parent.GetComp<CompDeepDrill>();
-				return (comp == null || comp.UsedRecently()) && !this.CantFireBecauseCreatedInfestationRecently && !this.CantFireBecauseSomethingElseCreatedInfestationRecently;
+				return (comp == null || comp.UsedLastTick()) && !this.CantFireBecauseCreatedInfestationRecently && !this.CantFireBecauseSomethingElseCreatedInfestationRecently;
 			}
 		}
 
@@ -29,7 +29,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Find.TickManager.TicksGame <= this.lastCreatedInfestationTick + 480000;
+				return Find.TickManager.TicksGame <= this.lastCreatedInfestationTick + 420000;
 			}
 		}
 

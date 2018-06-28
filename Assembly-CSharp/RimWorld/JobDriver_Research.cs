@@ -76,7 +76,7 @@ namespace RimWorld
 			research.defaultDuration = 4000;
 			research.activeSkill = (() => SkillDefOf.Intellectual);
 			yield return research;
-			yield return Toils_General.Wait(2);
+			yield return Toils_General.Wait(2, TargetIndex.None);
 			yield break;
 		}
 
@@ -153,7 +153,7 @@ namespace RimWorld
 					}
 					return true;
 				case 2u:
-					this.$current = Toils_General.Wait(2);
+					this.$current = Toils_General.Wait(2, TargetIndex.None);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;

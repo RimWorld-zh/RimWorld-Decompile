@@ -89,17 +89,17 @@ namespace RimWorld.Planet
 		private static void Abandon(MapParent settlement)
 		{
 			Find.WorldObjects.Remove(settlement);
-			FactionBase factionBase = settlement as FactionBase;
-			if (factionBase != null)
+			Settlement settlement2 = settlement as Settlement;
+			if (settlement2 != null)
 			{
-				SettlementAbandonUtility.AddAbandonedBase(factionBase);
+				SettlementAbandonUtility.AddAbandonedSettlement(settlement2);
 			}
 			Find.GameEnder.CheckOrUpdateGameOver();
 		}
 
-		private static void AddAbandonedBase(FactionBase factionBase)
+		private static void AddAbandonedSettlement(Settlement factionBase)
 		{
-			WorldObject worldObject = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.AbandonedBase);
+			WorldObject worldObject = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.AbandonedSettlement);
 			worldObject.Tile = factionBase.Tile;
 			worldObject.SetFaction(factionBase.Faction);
 			Find.WorldObjects.Add(worldObject);

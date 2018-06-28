@@ -105,7 +105,7 @@ namespace RimWorld
 
 		public static ConceptDef SwitchFlickingDesignation;
 
-		public static ConceptDef MaxNumberOfPlayerHomes;
+		public static ConceptDef MaxNumberOfPlayerSettlements;
 
 		static ConceptDefOf()
 		{

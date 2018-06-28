@@ -178,7 +178,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.canChooseRoute && (!this.reform || this.map.Parent is FactionBase);
+				return this.canChooseRoute && (!this.reform || this.map.Parent is Settlement);
 			}
 		}
 

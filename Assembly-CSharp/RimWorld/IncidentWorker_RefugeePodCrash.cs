@@ -19,9 +19,23 @@ namespace RimWorld
 			pawn.guest.getRescuedThoughtOnUndownedBecauseOfPlayer = true;
 			string label = "LetterLabelRefugeePodCrash".Translate();
 			string text = "RefugeePodCrash".Translate().AdjustedFor(pawn, "PAWN");
-			if (pawn.Faction != null)
+			if (pawn.Faction == null || !pawn.Faction.HostileTo(Faction.OfPlayer))
 			{
-				text = text + "\n\n" + "RefugeePodCrashFactionWarning".Translate(new object[]
+				text = text + "\n\n" + "RefugeePodCrash_NonHostileOrFactionless".Translate(new object[]
+				{
+					pawn
+				}).AdjustedFor(pawn, "PAWN");
+			}
+			if (pawn.Faction != null && pawn.Faction.HostileTo(Faction.OfPlayer))
+			{
+				text = text + "\n\n" + "RefugeePodCrash_Hostile".Translate(new object[]
+				{
+					pawn
+				}).AdjustedFor(pawn, "PAWN");
+			}
+			if (pawn.Faction != null && !pawn.Faction.HostileTo(Faction.OfPlayer))
+			{
+				text = text + "\n\n" + "RefugeePodCrash_NonHostile".Translate(new object[]
 				{
 					pawn
 				}).AdjustedFor(pawn, "PAWN");

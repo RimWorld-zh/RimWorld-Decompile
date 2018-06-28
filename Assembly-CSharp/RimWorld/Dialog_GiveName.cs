@@ -121,7 +121,7 @@ namespace RimWorld
 			}
 			if (Widgets.ButtonText(rect2, "OK".Translate(), true, false, true) || flag)
 			{
-				if (this.IsValidName(this.curName) && (!this.useSecondName || this.IsValidName(this.curSecondName)))
+				if (this.IsValidName(this.curName) && (!this.useSecondName || this.IsValidSecondName(this.curSecondName)))
 				{
 					if (this.useSecondName)
 					{

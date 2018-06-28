@@ -274,7 +274,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.info != null && this.info.parent is FactionBase && this.info.parent.Faction == Faction.OfPlayer;
+				return this.info != null && this.info.parent.def.canBePlayerHome && this.info.parent.Faction == Faction.OfPlayer;
 			}
 		}
 

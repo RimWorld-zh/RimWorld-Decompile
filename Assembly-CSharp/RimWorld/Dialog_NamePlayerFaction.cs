@@ -5,12 +5,9 @@ namespace RimWorld
 {
 	public class Dialog_NamePlayerFaction : Dialog_GiveName
 	{
-		[CompilerGenerated]
-		private static Func<string> <>f__am$cache0;
-
 		public Dialog_NamePlayerFaction()
 		{
-			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null));
+			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, new Predicate<string>(this.IsValidName), false, null, null));
 			this.curName = this.nameGenerator();
 			this.nameMessageKey = "NamePlayerFactionMessage";
 			this.gainedNameMessageKey = "PlayerFactionGainsName";
@@ -28,9 +25,9 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static string <Dialog_NamePlayerFaction>m__0()
+		private string <Dialog_NamePlayerFaction>m__0()
 		{
-			return NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null);
+			return NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, new Predicate<string>(this.IsValidName), false, null, null);
 		}
 	}
 }

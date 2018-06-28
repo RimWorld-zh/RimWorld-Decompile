@@ -106,7 +106,7 @@ namespace Verse.AI
 			Toil carryToContainer = Toils_Haul.CarryHauledThingToContainer();
 			yield return carryToContainer;
 			yield return Toils_Goto.MoveOffTargetBlueprint(TargetIndex.B);
-			Toil prepare = Toils_General.Wait(this.Duration);
+			Toil prepare = Toils_General.Wait(this.Duration, TargetIndex.B);
 			prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
 			yield return prepare;
 			yield return Toils_Construct.MakeSolidThingFromBlueprintIfNecessary(TargetIndex.B, TargetIndex.C);
@@ -206,7 +206,7 @@ namespace Verse.AI
 					}
 					return true;
 				case 6u:
-					prepare = Toils_General.Wait(base.Duration);
+					prepare = Toils_General.Wait(base.Duration, TargetIndex.B);
 					prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
 					this.$current = prepare;
 					if (!this.$disposing)

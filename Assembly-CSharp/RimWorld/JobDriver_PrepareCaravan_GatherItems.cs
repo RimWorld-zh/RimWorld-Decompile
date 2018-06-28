@@ -80,7 +80,7 @@ namespace RimWorld
 			Toil findCarrier = this.FindCarrier();
 			yield return findCarrier;
 			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).JumpIf(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(this.Carrier, this.pawn, true), findCarrier);
-			yield return Toils_General.Wait(25).JumpIf(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(this.Carrier, this.pawn, true), findCarrier).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
+			yield return Toils_General.Wait(25, TargetIndex.None).JumpIf(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(this.Carrier, this.pawn, true), findCarrier).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
 			yield return this.PlaceTargetInCarrierInventory();
 			yield break;
 		}
@@ -394,7 +394,7 @@ namespace RimWorld
 					}
 					return true;
 				case 8u:
-					this.$current = Toils_General.Wait(25).JumpIf(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(base.Carrier, this.pawn, true), findCarrier).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
+					this.$current = Toils_General.Wait(25, TargetIndex.None).JumpIf(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(base.Carrier, this.pawn, true), findCarrier).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
 					if (!this.$disposing)
 					{
 						this.$PC = 9;

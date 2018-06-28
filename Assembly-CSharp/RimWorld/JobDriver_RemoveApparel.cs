@@ -47,7 +47,7 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
-			yield return Toils_General.Wait(this.duration).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return Toils_General.Wait(this.duration, TargetIndex.None).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 			yield return Toils_General.Do(delegate
 			{
 				if (this.pawn.apparel.WornApparel.Contains(this.Apparel))
@@ -124,7 +124,7 @@ namespace RimWorld
 				{
 				case 0u:
 					this.FailOnDestroyedOrNull(TargetIndex.A);
-					this.$current = Toils_General.Wait(this.duration).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+					this.$current = Toils_General.Wait(this.duration, TargetIndex.None).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 					if (!this.$disposing)
 					{
 						this.$PC = 1;

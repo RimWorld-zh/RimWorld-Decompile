@@ -7,27 +7,21 @@ namespace RimWorld
 {
 	public class Dialog_NamePlayerFactionAndSettlement : Dialog_GiveName
 	{
-		private FactionBase factionBase;
+		private Settlement settlement;
 
-		[CompilerGenerated]
-		private static Func<string> <>f__am$cache0;
-
-		[CompilerGenerated]
-		private static Func<string> <>f__am$cache1;
-
-		public Dialog_NamePlayerFactionAndSettlement(FactionBase factionBase)
+		public Dialog_NamePlayerFactionAndSettlement(Settlement settlement)
 		{
-			this.factionBase = factionBase;
-			if (factionBase.HasMap && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0)
+			this.settlement = settlement;
+			if (settlement.HasMap && settlement.Map.mapPawns.FreeColonistsSpawnedCount != 0)
 			{
-				this.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
+				this.suggestingPawn = settlement.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
 			}
-			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null));
+			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, new Predicate<string>(this.IsValidName), false, null, null));
 			this.curName = this.nameGenerator();
 			this.nameMessageKey = "NamePlayerFactionMessage";
 			this.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
 			this.useSecondName = true;
-			this.secondNameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, null, false, null, null));
+			this.secondNameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, new Predicate<string>(this.IsValidSecondName), false, null, null));
 			this.curSecondName = this.secondNameGenerator();
 			this.secondNameMessageKey = "NamePlayerFactionBaseMessage_NameFactionContinuation";
 			this.invalidSecondNameMessageKey = "PlayerFactionBaseNameIsInvalid";
@@ -37,9 +31,9 @@ namespace RimWorld
 		public override void PostOpen()
 		{
 			base.PostOpen();
-			if (this.factionBase.Map != null)
+			if (this.settlement.Map != null)
 			{
-				Current.Game.CurrentMap = this.factionBase.Map;
+				Current.Game.CurrentMap = this.settlement.Map;
 			}
 		}
 
@@ -60,19 +54,19 @@ namespace RimWorld
 
 		protected override void NamedSecond(string s)
 		{
-			NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);
+			NamePlayerFactionBaseDialogUtility.Named(this.settlement, s);
 		}
 
 		[CompilerGenerated]
-		private static string <Dialog_NamePlayerFactionAndSettlement>m__0()
+		private string <Dialog_NamePlayerFactionAndSettlement>m__0()
 		{
-			return NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null);
+			return NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, new Predicate<string>(this.IsValidName), false, null, null);
 		}
 
 		[CompilerGenerated]
-		private static string <Dialog_NamePlayerFactionAndSettlement>m__1()
+		private string <Dialog_NamePlayerFactionAndSettlement>m__1()
 		{
-			return NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, null, false, null, null);
+			return NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, new Predicate<string>(this.IsValidSecondName), false, null, null);
 		}
 	}
 }

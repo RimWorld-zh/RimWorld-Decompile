@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	public static class FactionBaseDefeatUtility
+	public static class SettlementDefeatUtility
 	{
-		public static void CheckDefeated(FactionBase factionBase)
+		public static void CheckDefeated(Settlement factionBase)
 		{
 			if (factionBase.Faction != Faction.OfPlayer)
 			{
 				Map map = factionBase.Map;
-				if (map != null && FactionBaseDefeatUtility.IsDefeated(map, factionBase.Faction))
+				if (map != null && SettlementDefeatUtility.IsDefeated(map, factionBase.Faction))
 				{
 					StringBuilder stringBuilder = new StringBuilder();
 					stringBuilder.Append("LetterFactionBaseDefeated".Translate(new object[]
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 						factionBase.Label,
 						TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)
 					}));
-					if (!FactionBaseDefeatUtility.HasAnyOtherBase(factionBase))
+					if (!SettlementDefeatUtility.HasAnyOtherBase(factionBase))
 					{
 						factionBase.Faction.defeated = true;
 						stringBuilder.AppendLine();
@@ -48,12 +48,12 @@ namespace RimWorld.Planet
 						}
 					}
 					Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(factionBase.Tile), factionBase.Faction, null);
-					DestroyedFactionBase destroyedFactionBase = (DestroyedFactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedFactionBase);
-					destroyedFactionBase.Tile = factionBase.Tile;
-					Find.WorldObjects.Add(destroyedFactionBase);
-					map.info.parent = destroyedFactionBase;
+					DestroyedSettlement destroyedSettlement = (DestroyedSettlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedSettlement);
+					destroyedSettlement.Tile = factionBase.Tile;
+					Find.WorldObjects.Add(destroyedSettlement);
+					map.info.parent = destroyedSettlement;
 					Find.WorldObjects.Remove(factionBase);
-					destroyedFactionBase.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown();
+					destroyedSettlement.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown();
 					TaleRecorder.RecordTale(TaleDefOf.CaravanAssaultSuccessful, new object[]
 					{
 						map.mapPawns.FreeColonists.RandomElement<Pawn>()
@@ -76,13 +76,13 @@ namespace RimWorld.Planet
 			return true;
 		}
 
-		private static bool HasAnyOtherBase(FactionBase defeatedFactionBase)
+		private static bool HasAnyOtherBase(Settlement defeatedFactionBase)
 		{
-			List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
-			for (int i = 0; i < factionBases.Count; i++)
+			List<Settlement> settlements = Find.WorldObjects.Settlements;
+			for (int i = 0; i < settlements.Count; i++)
 			{
-				FactionBase factionBase = factionBases[i];
-				if (factionBase.Faction == defeatedFactionBase.Faction && factionBase != defeatedFactionBase)
+				Settlement settlement = settlements[i];
+				if (settlement.Faction == defeatedFactionBase.Faction && settlement != defeatedFactionBase)
 				{
 					return true;
 				}

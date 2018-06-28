@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				FactionBase newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
+				Settlement newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
 				Action action = delegate()
 				{
 					GetOrGenerateMapUtility.GetOrGenerateMap(caravan.Tile, Find.World.info.initialMapSize, null);
@@ -75,9 +75,9 @@ namespace RimWorld.Planet
 			{
 				command_Settle.Disable(SettleInEmptyTileUtility.tmpSettleFailReason.ToString());
 			}
-			else if (SettleUtility.PlayerHomesCountLimitReached)
+			else if (SettleUtility.PlayerSettlementsCountLimitReached)
 			{
-				if (Prefs.MaxNumberOfPlayerHomes > 1)
+				if (Prefs.MaxNumberOfPlayerSettlements > 1)
 				{
 					command_Settle.Disable("CommandSettleFailReachedMaximumNumberOfBases".Translate());
 				}
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 		{
 			internal Caravan caravan;
 
-			internal FactionBase newHome;
+			internal Settlement newHome;
 
 			public <Settle>c__AnonStorey0()
 			{

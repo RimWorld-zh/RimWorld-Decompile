@@ -40,7 +40,8 @@ namespace Verse
 
 		public bool testMapSizes = false;
 
-		public int maxNumberOfPlayerHomes = 1;
+		[LoadAlias("maxNumberOfPlayerHomes")]
+		public int maxNumberOfPlayerSettlements = 1;
 
 		public bool pauseOnLoad = false;
 

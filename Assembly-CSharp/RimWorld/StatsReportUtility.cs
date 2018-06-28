@@ -151,7 +151,7 @@ namespace RimWorld
 					})
 				};
 			}
-			foreach (StatDrawEntry stat2 in thing.SpecialDisplayStats)
+			foreach (StatDrawEntry stat2 in thing.SpecialDisplayStats())
 			{
 				yield return stat2;
 			}
@@ -717,7 +717,7 @@ namespace RimWorld
 					return true;
 				}
 				IL_33B:
-				enumerator2 = <StatsToDraw>c__AnonStorey.thing.SpecialDisplayStats.GetEnumerator();
+				enumerator2 = <StatsToDraw>c__AnonStorey.thing.SpecialDisplayStats().GetEnumerator();
 				num = 4294967293u;
 				goto Block_8;
 				IL_480:

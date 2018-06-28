@@ -199,7 +199,7 @@ namespace Verse
 
 		public static bool IsEnclosingContainer(this IThingHolder holder)
 		{
-			return holder != null && !(holder is Pawn_CarryTracker) && !(holder is Corpse) && !(holder is Map) && !(holder is Caravan) && !(holder is Settlement_TraderTracker) && !(holder is TradeShip);
+			return holder != null && !(holder is Pawn_CarryTracker) && !(holder is Corpse) && !(holder is Map) && !(holder is Caravan) && !(holder is SettlementBase_TraderTracker) && !(holder is TradeShip);
 		}
 
 		public static bool ShouldAutoRemoveDestroyedThings(IThingHolder holder)
@@ -272,6 +272,33 @@ namespace Verse
 					}
 				}
 				result = (T)((object)null);
+			}
+			return result;
+		}
+
+		public static Thing GetFirstSpawnedParentThing(Thing thing)
+		{
+			Thing result;
+			if (thing.Spawned)
+			{
+				result = thing;
+			}
+			else
+			{
+				for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
+				{
+					Thing thing2 = parentHolder as Thing;
+					if (thing2 != null && thing2.Spawned)
+					{
+						return thing2;
+					}
+					ThingComp thingComp = parentHolder as ThingComp;
+					if (thingComp != null && thingComp.parent.Spawned)
+					{
+						return thingComp.parent;
+					}
+				}
+				result = null;
 			}
 			return result;
 		}
@@ -374,7 +401,7 @@ namespace Verse
 				temperature = 14f;
 				result = true;
 			}
-			else if (holder is Settlement_TraderTracker || holder is TradeShip)
+			else if (holder is SettlementBase_TraderTracker || holder is TradeShip)
 			{
 				temperature = 14f;
 				result = true;

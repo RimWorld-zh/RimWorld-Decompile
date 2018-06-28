@@ -14,13 +14,13 @@ namespace RimWorld.Planet
 
 		private List<Caravan> caravans = new List<Caravan>();
 
-		private List<FactionBase> factionBases = new List<FactionBase>();
+		private List<Settlement> settlements = new List<Settlement>();
 
 		private List<TravelingTransportPods> travelingTransportPods = new List<TravelingTransportPods>();
 
-		private List<Settlement> settlements = new List<Settlement>();
+		private List<SettlementBase> settlementBases = new List<SettlementBase>();
 
-		private List<DestroyedFactionBase> destroyedFactionBases = new List<DestroyedFactionBase>();
+		private List<DestroyedSettlement> destroyedSettlements = new List<DestroyedSettlement>();
 
 		private List<RoutePlannerWaypoint> routePlannerWaypoints = new List<RoutePlannerWaypoint>();
 
@@ -57,11 +57,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public List<FactionBase> FactionBases
+		public List<Settlement> Settlements
 		{
 			get
 			{
-				return this.factionBases;
+				return this.settlements;
 			}
 		}
 
@@ -73,19 +73,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public List<Settlement> Settlements
+		public List<SettlementBase> SettlementBases
 		{
 			get
 			{
-				return this.settlements;
+				return this.settlementBases;
 			}
 		}
 
-		public List<DestroyedFactionBase> DestroyedFactionBases
+		public List<DestroyedSettlement> DestroyedSettlements
 		{
 			get
 			{
-				return this.destroyedFactionBases;
+				return this.destroyedSettlements;
 			}
 		}
 
@@ -242,21 +242,21 @@ namespace RimWorld.Planet
 			{
 				this.caravans.Add((Caravan)o);
 			}
-			if (o is FactionBase)
+			if (o is Settlement)
 			{
-				this.factionBases.Add((FactionBase)o);
+				this.settlements.Add((Settlement)o);
 			}
 			if (o is TravelingTransportPods)
 			{
 				this.travelingTransportPods.Add((TravelingTransportPods)o);
 			}
-			if (o is Settlement)
+			if (o is SettlementBase)
 			{
-				this.settlements.Add((Settlement)o);
+				this.settlementBases.Add((SettlementBase)o);
 			}
-			if (o is DestroyedFactionBase)
+			if (o is DestroyedSettlement)
 			{
-				this.destroyedFactionBases.Add((DestroyedFactionBase)o);
+				this.destroyedSettlements.Add((DestroyedSettlement)o);
 			}
 			if (o is RoutePlannerWaypoint)
 			{
@@ -282,21 +282,21 @@ namespace RimWorld.Planet
 			{
 				this.caravans.Remove((Caravan)o);
 			}
-			if (o is FactionBase)
+			if (o is Settlement)
 			{
-				this.factionBases.Remove((FactionBase)o);
+				this.settlements.Remove((Settlement)o);
 			}
 			if (o is TravelingTransportPods)
 			{
 				this.travelingTransportPods.Remove((TravelingTransportPods)o);
 			}
-			if (o is Settlement)
+			if (o is SettlementBase)
 			{
-				this.settlements.Remove((Settlement)o);
+				this.settlementBases.Remove((SettlementBase)o);
 			}
-			if (o is DestroyedFactionBase)
+			if (o is DestroyedSettlement)
 			{
-				this.destroyedFactionBases.Remove((DestroyedFactionBase)o);
+				this.destroyedSettlements.Remove((DestroyedSettlement)o);
 			}
 			if (o is RoutePlannerWaypoint)
 			{
@@ -319,10 +319,10 @@ namespace RimWorld.Planet
 		private void Recache()
 		{
 			this.caravans.Clear();
-			this.factionBases.Clear();
-			this.travelingTransportPods.Clear();
 			this.settlements.Clear();
-			this.destroyedFactionBases.Clear();
+			this.travelingTransportPods.Clear();
+			this.settlementBases.Clear();
+			this.destroyedSettlements.Clear();
 			this.routePlannerWaypoints.Clear();
 			this.mapParents.Clear();
 			this.sites.Clear();
@@ -417,23 +417,6 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		public bool AnyFactionBaseAt(int tile)
-		{
-			return this.FactionBaseAt(tile) != null;
-		}
-
-		public FactionBase FactionBaseAt(int tile)
-		{
-			for (int i = 0; i < this.factionBases.Count; i++)
-			{
-				if (this.factionBases[i].Tile == tile)
-				{
-					return this.factionBases[i];
-				}
-			}
-			return null;
-		}
-
 		public bool AnySettlementAt(int tile)
 		{
 			return this.SettlementAt(tile) != null;
@@ -446,6 +429,23 @@ namespace RimWorld.Planet
 				if (this.settlements[i].Tile == tile)
 				{
 					return this.settlements[i];
+				}
+			}
+			return null;
+		}
+
+		public bool AnySettlementBaseAt(int tile)
+		{
+			return this.SettlementBaseAt(tile) != null;
+		}
+
+		public SettlementBase SettlementBaseAt(int tile)
+		{
+			for (int i = 0; i < this.settlementBases.Count; i++)
+			{
+				if (this.settlementBases[i].Tile == tile)
+				{
+					return this.settlementBases[i];
 				}
 			}
 			return null;
@@ -468,18 +468,18 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		public bool AnyDestroyedFactionBaseAt(int tile)
+		public bool AnyDestroyedSettlementAt(int tile)
 		{
-			return this.DestroyedFactionBaseAt(tile) != null;
+			return this.DestroyedSettlementAt(tile) != null;
 		}
 
-		public DestroyedFactionBase DestroyedFactionBaseAt(int tile)
+		public DestroyedSettlement DestroyedSettlementAt(int tile)
 		{
-			for (int i = 0; i < this.destroyedFactionBases.Count; i++)
+			for (int i = 0; i < this.destroyedSettlements.Count; i++)
 			{
-				if (this.destroyedFactionBases[i].Tile == tile)
+				if (this.destroyedSettlements[i].Tile == tile)
 				{
-					return this.destroyedFactionBases[i];
+					return this.destroyedSettlements[i];
 				}
 			}
 			return null;
@@ -531,12 +531,12 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		public bool AnySettlementAtOrAdjacent(int tile)
+		public bool AnySettlementBaseAtOrAdjacent(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
-			for (int i = 0; i < this.settlements.Count; i++)
+			for (int i = 0; i < this.settlementBases.Count; i++)
 			{
-				if (worldGrid.IsNeighborOrSame(this.settlements[i].Tile, tile))
+				if (worldGrid.IsNeighborOrSame(this.settlementBases[i].Tile, tile))
 				{
 					return true;
 				}

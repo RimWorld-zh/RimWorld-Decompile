@@ -360,34 +360,66 @@ namespace Verse
 		protected bool CanHit(Thing thing)
 		{
 			bool result;
-			if (thing == this.launcher)
+			if (!thing.Spawned)
+			{
+				result = false;
+			}
+			else if (thing == this.launcher)
 			{
 				result = false;
 			}
 			else
 			{
-				ProjectileHitFlags hitFlags = this.HitFlags;
-				if (thing == this.intendedTarget && (hitFlags & ProjectileHitFlags.IntendedTarget) != ProjectileHitFlags.None)
+				bool flag = false;
+				CellRect.CellRectIterator iterator = thing.OccupiedRect().GetIterator();
+				while (!iterator.Done())
 				{
-					result = true;
+					List<Thing> thingList = iterator.Current.GetThingList(base.Map);
+					bool flag2 = false;
+					for (int i = 0; i < thingList.Count; i++)
+					{
+						if (thingList[i] != thing && thingList[i].def.Fillage == FillCategory.Full && thingList[i].def.Altitude >= thing.def.Altitude)
+						{
+							flag2 = true;
+							break;
+						}
+					}
+					if (!flag2)
+					{
+						flag = true;
+						break;
+					}
+					iterator.MoveNext();
+				}
+				if (!flag)
+				{
+					result = false;
 				}
 				else
 				{
-					if (thing != this.intendedTarget)
+					ProjectileHitFlags hitFlags = this.HitFlags;
+					if (thing == this.intendedTarget && (hitFlags & ProjectileHitFlags.IntendedTarget) != ProjectileHitFlags.None)
 					{
-						if (thing is Pawn)
+						result = true;
+					}
+					else
+					{
+						if (thing != this.intendedTarget)
 						{
-							if ((hitFlags & ProjectileHitFlags.NonTargetPawns) != ProjectileHitFlags.None)
+							if (thing is Pawn)
+							{
+								if ((hitFlags & ProjectileHitFlags.NonTargetPawns) != ProjectileHitFlags.None)
+								{
+									return true;
+								}
+							}
+							else if ((hitFlags & ProjectileHitFlags.NonTargetWorld) != ProjectileHitFlags.None)
 							{
 								return true;
 							}
 						}
-						else if ((hitFlags & ProjectileHitFlags.NonTargetWorld) != ProjectileHitFlags.None)
-						{
-							return true;
-						}
+						result = (thing == this.intendedTarget && thing.def.Fillage == FillCategory.Full);
 					}
-					result = (thing == this.intendedTarget && thing.def.Fillage == FillCategory.Full);
 				}
 			}
 			return result;

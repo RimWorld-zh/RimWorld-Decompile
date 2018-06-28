@@ -492,14 +492,11 @@ namespace Verse
 					overrideReportText = TrainableUtility.GetWildnessExplanation(parentDef)
 				};
 			}
-			if (PawnUtility.GetManhunterOnDamageChance(parentDef.race) > 0f || parentDef.race.manhunterOnTameFailChance > 0f)
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "")
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "")
-				{
-					overrideReportText = "HarmedRevengeChanceExplanation".Translate()
-				};
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, "");
-			}
+				overrideReportText = "HarmedRevengeChanceExplanation".Translate()
+			};
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TameFailedRevengeChance".Translate(), parentDef.race.manhunterOnTameFailChance.ToStringPercent(), 0, "");
 			if (this.intelligence < Intelligence.Humanlike && this.trainability != null)
 			{
 				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, "");
@@ -920,15 +917,18 @@ namespace Verse
 					}
 					return true;
 				case 6u:
-					goto IL_2B1;
-				case 7u:
-					IL_316:
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, "");
-					if (!this.$disposing)
+					if (this.intelligence < Intelligence.Humanlike && this.trainability != null)
 					{
-						this.$PC = 8;
+						this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, "");
+						if (!this.$disposing)
+						{
+							this.$PC = 7;
+						}
+						return true;
 					}
-					return true;
+					goto IL_2E2;
+				case 7u:
+					goto IL_2E2;
 				case 8u:
 					if (this.intelligence < Intelligence.Humanlike)
 					{
@@ -944,13 +944,13 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_40F;
+					goto IL_3DB;
 				case 9u:
-					goto IL_40F;
+					goto IL_3DB;
 				case 10u:
-					goto IL_481;
+					goto IL_44D;
 				case 11u:
-					goto IL_513;
+					goto IL_4DF;
 				default:
 					return false;
 				}
@@ -966,29 +966,22 @@ namespace Verse
 					return true;
 				}
 				IL_1C8:
-				if (PawnUtility.GetManhunterOnDamageChance(parentDef.race) > 0f || parentDef.race.manhunterOnTameFailChance > 0f)
+				StatDrawEntry hrc = new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "");
+				hrc.overrideReportText = "HarmedRevengeChanceExplanation".Translate();
+				this.$current = hrc;
+				if (!this.$disposing)
 				{
-					StatDrawEntry hrc = new StatDrawEntry(StatCategoryDefOf.Basics, "HarmedRevengeChance".Translate(), PawnUtility.GetManhunterOnDamageChance(parentDef.race).ToStringPercent(), 0, "");
-					hrc.overrideReportText = "HarmedRevengeChanceExplanation".Translate();
-					this.$current = hrc;
-					if (!this.$disposing)
-					{
-						this.$PC = 5;
-					}
-					return true;
+					this.$PC = 5;
 				}
-				IL_2B1:
-				if (this.intelligence < Intelligence.Humanlike && this.trainability != null)
+				return true;
+				IL_2E2:
+				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0, "");
+				if (!this.$disposing)
 				{
-					this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "Trainability".Translate(), this.trainability.LabelCap, 0, "");
-					if (!this.$disposing)
-					{
-						this.$PC = 7;
-					}
-					return true;
+					this.$PC = 8;
 				}
-				goto IL_316;
-				IL_40F:
+				return true;
+				IL_3DB:
 				if (this.packAnimal)
 				{
 					StatDrawEntry pa = new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), "Yes".Translate(), 0, "");
@@ -1000,7 +993,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_481:
+				IL_44D:
 				if (parentDef.race.nuzzleMtbHours > 0f)
 				{
 					StatDrawEntry nuzzle = new StatDrawEntry(StatCategoryDefOf.PawnSocial, "NuzzleInterval".Translate(), Mathf.RoundToInt(parentDef.race.nuzzleMtbHours * 2500f).ToStringTicksToPeriod(), 0, "");
@@ -1012,7 +1005,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_513:
+				IL_4DF:
 				this.$PC = -1;
 				return false;
 			}

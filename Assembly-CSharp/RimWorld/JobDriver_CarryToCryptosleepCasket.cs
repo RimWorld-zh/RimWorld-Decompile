@@ -49,7 +49,7 @@ namespace RimWorld
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOn(() => this.DropPod.GetDirectlyHeldThings().Count > 0).FailOn(() => !this.Takee.Downed).FailOn(() => !this.pawn.CanReach(this.Takee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn)).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false);
 			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.InteractionCell);
-			Toil prepare = Toils_General.Wait(500);
+			Toil prepare = Toils_General.Wait(500, TargetIndex.None);
 			prepare.FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
 			prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
 			yield return prepare;
@@ -125,7 +125,7 @@ namespace RimWorld
 					}
 					return true;
 				case 3u:
-					prepare = Toils_General.Wait(500);
+					prepare = Toils_General.Wait(500, TargetIndex.None);
 					prepare.FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
 					prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
 					this.$current = prepare;

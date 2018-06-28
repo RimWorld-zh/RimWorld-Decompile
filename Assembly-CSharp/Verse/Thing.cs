@@ -473,14 +473,6 @@ namespace Verse
 			}
 		}
 
-		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats
-		{
-			get
-			{
-				yield break;
-			}
-		}
-
 		public Graphic DefaultGraphic
 		{
 			get
@@ -1298,6 +1290,11 @@ namespace Verse
 			return result;
 		}
 
+		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		{
+			yield break;
+		}
+
 		public virtual void Notify_ColorChanged()
 		{
 			this.graphicInt = null;
@@ -1568,76 +1565,6 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
-		{
-			internal StatDrawEntry $current;
-
-			internal bool $disposing;
-
-			internal int $PC;
-
-			[DebuggerHidden]
-			public <>c__Iterator0()
-			{
-			}
-
-			public bool MoveNext()
-			{
-				bool flag = this.$PC != 0;
-				this.$PC = -1;
-				if (!flag)
-				{
-				}
-				return false;
-			}
-
-			StatDrawEntry IEnumerator<StatDrawEntry>.Current
-			{
-				[DebuggerHidden]
-				get
-				{
-					return this.$current;
-				}
-			}
-
-			object IEnumerator.Current
-			{
-				[DebuggerHidden]
-				get
-				{
-					return this.$current;
-				}
-			}
-
-			[DebuggerHidden]
-			public void Dispose()
-			{
-			}
-
-			[DebuggerHidden]
-			public void Reset()
-			{
-				throw new NotSupportedException();
-			}
-
-			[DebuggerHidden]
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
-			}
-
-			[DebuggerHidden]
-			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
-			{
-				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
-				{
-					return this;
-				}
-				return new Thing.<>c__Iterator0();
-			}
-		}
-
-		[CompilerGenerated]
 		private sealed class <ExposeData>c__AnonStorey5
 		{
 			internal string facID;
@@ -1653,7 +1580,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <GetGizmos>c__Iterator1 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
+		private sealed class <GetGizmos>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
 		{
 			internal Gizmo $current;
 
@@ -1662,7 +1589,7 @@ namespace Verse
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <GetGizmos>c__Iterator1()
+			public <GetGizmos>c__Iterator0()
 			{
 			}
 
@@ -1718,12 +1645,12 @@ namespace Verse
 				{
 					return this;
 				}
-				return new Thing.<GetGizmos>c__Iterator1();
+				return new Thing.<GetGizmos>c__Iterator0();
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <GetFloatMenuOptions>c__Iterator2 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
+		private sealed class <GetFloatMenuOptions>c__Iterator1 : IEnumerable, IEnumerable<FloatMenuOption>, IEnumerator, IDisposable, IEnumerator<FloatMenuOption>
 		{
 			internal FloatMenuOption $current;
 
@@ -1732,7 +1659,7 @@ namespace Verse
 			internal int $PC;
 
 			[DebuggerHidden]
-			public <GetFloatMenuOptions>c__Iterator2()
+			public <GetFloatMenuOptions>c__Iterator1()
 			{
 			}
 
@@ -1788,7 +1715,77 @@ namespace Verse
 				{
 					return this;
 				}
-				return new Thing.<GetFloatMenuOptions>c__Iterator2();
+				return new Thing.<GetFloatMenuOptions>c__Iterator1();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <SpecialDisplayStats>c__Iterator2 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
+		{
+			internal StatDrawEntry $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <SpecialDisplayStats>c__Iterator2()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				bool flag = this.$PC != 0;
+				this.$PC = -1;
+				if (!flag)
+				{
+				}
+				return false;
+			}
+
+			StatDrawEntry IEnumerator<StatDrawEntry>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<RimWorld.StatDrawEntry>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<StatDrawEntry> IEnumerable<StatDrawEntry>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				return new Thing.<SpecialDisplayStats>c__Iterator2();
 			}
 		}
 

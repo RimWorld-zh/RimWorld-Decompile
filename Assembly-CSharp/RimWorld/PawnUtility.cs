@@ -85,7 +85,7 @@ namespace RimWorld
 
 		public static bool ForSaleBySettlement(Pawn pawn)
 		{
-			return pawn.ParentHolder is Settlement_TraderTracker;
+			return pawn.ParentHolder is SettlementBase_TraderTracker;
 		}
 
 		public static void TryDestroyStartingColonistFamily(Pawn pawn)

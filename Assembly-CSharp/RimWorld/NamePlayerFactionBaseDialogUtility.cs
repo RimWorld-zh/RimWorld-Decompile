@@ -7,10 +7,10 @@ namespace RimWorld
 	{
 		public static bool IsValidName(string s)
 		{
-			return s.Length != 0;
+			return s.Length != 0 && s.Length <= 64;
 		}
 
-		public static void Named(FactionBase factionBase, string s)
+		public static void Named(Settlement factionBase, string s)
 		{
 			factionBase.Name = s;
 			factionBase.namedByPlayer = true;

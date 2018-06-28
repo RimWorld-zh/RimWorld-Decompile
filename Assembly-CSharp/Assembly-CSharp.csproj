@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AE3CBF01-04E5-4987-904C-15BD1597B003}</ProjectGuid>
+    <ProjectGuid>{3D8DA3CD-6E68-4F12-9304-3AC3ACCBEDBB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -217,7 +217,6 @@
     <Compile Include="RimWorld\BaseGen\SymbolResolver_EnsureCanHoldRoof.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_EnsureCanReachMapEdge.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_ExtraDoor.cs" />
-    <Compile Include="RimWorld\BaseGen\SymbolResolver_FactionBase.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_Farm.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_FillWithBeds.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_FillWithThings.cs" />
@@ -244,6 +243,7 @@
     <Compile Include="RimWorld\BaseGen\SymbolResolver_RandomMechanoidGroup.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_Refuel.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_Roof.cs" />
+    <Compile Include="RimWorld\BaseGen\SymbolResolver_Settlement.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_Ship_Core.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_Ship_Populate.cs" />
     <Compile Include="RimWorld\BaseGen\SymbolResolver_Ship_Pregen.cs" />
@@ -589,7 +589,7 @@
     <Compile Include="RimWorld\Dialog_ModSettings.cs" />
     <Compile Include="RimWorld\Dialog_NamePlayerFaction.cs" />
     <Compile Include="RimWorld\Dialog_NamePlayerFactionAndSettlement.cs" />
-    <Compile Include="RimWorld\Dialog_NamePlayerFactionBase.cs" />
+    <Compile Include="RimWorld\Dialog_NamePlayerSettlement.cs" />
     <Compile Include="RimWorld\Dialog_Negotiation.cs" />
     <Compile Include="RimWorld\Dialog_NodeTreeWithFactionInfo.cs" />
     <Compile Include="RimWorld\Dialog_Options.cs" />
@@ -716,7 +716,6 @@
     <Compile Include="RimWorld\GenStep_DownedRefugee.cs" />
     <Compile Include="RimWorld\GenStep_ElevationFertility.cs" />
     <Compile Include="RimWorld\GenStep_EscapeShip.cs" />
-    <Compile Include="RimWorld\GenStep_FactionBase.cs" />
     <Compile Include="RimWorld\GenStep_FindPlayerStartSpot.cs" />
     <Compile Include="RimWorld\GenStep_Fog.cs" />
     <Compile Include="RimWorld\GenStep_ItemStash.cs" />
@@ -734,6 +733,7 @@
     <Compile Include="RimWorld\GenStep_ScatterRuinsSimple.cs" />
     <Compile Include="RimWorld\GenStep_ScatterShrines.cs" />
     <Compile Include="RimWorld\GenStep_ScenParts.cs" />
+    <Compile Include="RimWorld\GenStep_Settlement.cs" />
     <Compile Include="RimWorld\GenStep_SleepingMechanoids.cs" />
     <Compile Include="RimWorld\GenStep_Snow.cs" />
     <Compile Include="RimWorld\GenStep_Terrain.cs" />
@@ -1581,18 +1581,14 @@
     <Compile Include="RimWorld\Planet\DebugTile.cs" />
     <Compile Include="RimWorld\Planet\DebugWorldLine.cs" />
     <Compile Include="RimWorld\Planet\DefeatAllEnemiesQuestComp.cs" />
-    <Compile Include="RimWorld\Planet\DestroyedFactionBase.cs" />
+    <Compile Include="RimWorld\Planet\DestroyedSettlement.cs" />
     <Compile Include="RimWorld\Planet\Dialog_SplitCaravan.cs" />
     <Compile Include="RimWorld\Planet\DownedRefugeeComp.cs" />
     <Compile Include="RimWorld\Planet\EnterCooldownComp.cs" />
     <Compile Include="RimWorld\Planet\EnterCooldownCompUtility.cs" />
     <Compile Include="RimWorld\Planet\EscapeShipComp.cs" />
     <Compile Include="RimWorld\Planet\ExpandableWorldObjectsUtility.cs" />
-    <Compile Include="RimWorld\Planet\FactionBase.cs" />
-    <Compile Include="RimWorld\Planet\FactionBaseDefeatUtility.cs" />
-    <Compile Include="RimWorld\Planet\FactionBaseNameGenerator.cs" />
     <Compile Include="RimWorld\Planet\FactionBaseProximityGoodwillUtility.cs" />
-    <Compile Include="RimWorld\Planet\FactionBase_TraderTracker.cs" />
     <Compile Include="RimWorld\Planet\FactionGiftUtility.cs" />
     <Compile Include="RimWorld\Planet\FeatureWorker_Archipelago.cs" />
     <Compile Include="RimWorld\Planet\FeatureWorker_Bay.cs" />
@@ -1633,6 +1629,10 @@
     <Compile Include="RimWorld\Planet\SettleInExistingMapUtility.cs" />
     <Compile Include="RimWorld\Planet\Settlement.cs" />
     <Compile Include="RimWorld\Planet\SettlementAbandonUtility.cs" />
+    <Compile Include="RimWorld\Planet\SettlementBase.cs" />
+    <Compile Include="RimWorld\Planet\SettlementBase_TraderTracker.cs" />
+    <Compile Include="RimWorld\Planet\SettlementDefeatUtility.cs" />
+    <Compile Include="RimWorld\Planet\SettlementNameGenerator.cs" />
     <Compile Include="RimWorld\Planet\SettlementUtility.cs" />
     <Compile Include="RimWorld\Planet\Settlement_TraderTracker.cs" />
     <Compile Include="RimWorld\Planet\SettleUtility.cs" />
@@ -3980,7 +3980,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{ae3cbf01-04e5-4987-904c-15bd1597b004}</Project>
+      <Project>{3d8da3cd-6e68-4f12-9304-3ac3accbedbc}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

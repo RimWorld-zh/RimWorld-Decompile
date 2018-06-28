@@ -29,7 +29,7 @@ namespace RimWorld
 				return designation == null;
 			});
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_General.Wait(15).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_General.Wait(15, TargetIndex.None).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 			Toil finalize = new Toil();
 			finalize.initAction = delegate()
 			{
@@ -93,7 +93,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					this.$current = Toils_General.Wait(15).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+					this.$current = Toils_General.Wait(15, TargetIndex.None).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 					if (!this.$disposing)
 					{
 						this.$PC = 2;

@@ -24,7 +24,7 @@ namespace RimWorld
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
-			Toil prepare = Toils_General.Wait(500);
+			Toil prepare = Toils_General.Wait(500, TargetIndex.None);
 			prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
 			prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 			yield return prepare;
@@ -95,7 +95,7 @@ namespace RimWorld
 					}
 					return true;
 				case 1u:
-					prepare = Toils_General.Wait(500);
+					prepare = Toils_General.Wait(500, TargetIndex.None);
 					prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
 					prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
 					this.$current = prepare;

@@ -80,14 +80,14 @@ namespace RimWorld
 			}
 			else
 			{
-				Settlement settlement = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile);
-				if (settlement == null)
+				SettlementBase settlementBase = IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile);
+				if (settlementBase == null)
 				{
 					result = false;
 				}
 				else
 				{
-					TradeRequestComp component = settlement.GetComponent<TradeRequestComp>();
+					TradeRequestComp component = settlementBase.GetComponent<TradeRequestComp>();
 					if (!this.TryGenerateTradeRequest(component, map))
 					{
 						result = false;
@@ -96,14 +96,14 @@ namespace RimWorld
 					{
 						Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(new object[]
 						{
-							settlement.Label,
+							settlementBase.Label,
 							TradeRequestUtility.RequestedThingLabel(component.requestThingDef, component.requestCount).CapitalizeFirst(),
 							(component.requestThingDef.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)component.requestCount).ToStringMoney("F0"),
 							GenThing.ThingsToCommaList(component.rewards, true, true, -1).CapitalizeFirst(),
 							GenThing.GetMarketValue(component.rewards).ToStringMoney("F0"),
 							(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0"),
-							CaravanArrivalTimeEstimator.EstimatedTicksToArrive(map.Tile, settlement.Tile, null).ToStringTicksToDays("0.#")
-						}), LetterDefOf.PositiveEvent, settlement, settlement.Faction, null);
+							CaravanArrivalTimeEstimator.EstimatedTicksToArrive(map.Tile, settlementBase.Tile, null).ToStringTicksToDays("0.#")
+						}), LetterDefOf.PositiveEvent, settlementBase, settlementBase.Faction, null);
 						result = true;
 					}
 				}
@@ -133,9 +133,9 @@ namespace RimWorld
 			return result;
 		}
 
-		public static Settlement RandomNearbyTradeableSettlement(int originTile)
+		public static SettlementBase RandomNearbyTradeableSettlement(int originTile)
 		{
-			return (from settlement in Find.WorldObjects.Settlements
+			return (from settlement in Find.WorldObjects.SettlementBases
 			where settlement.Visitable && settlement.GetComponent<TradeRequestComp>() != null && !settlement.GetComponent<TradeRequestComp>().ActiveRequest && Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36f && Find.WorldReachability.CanReach(originTile, settlement.Tile)
 			select settlement).RandomElementWithFallback(null);
 		}
@@ -304,7 +304,7 @@ namespace RimWorld
 			{
 			}
 
-			internal bool <>m__0(Settlement settlement)
+			internal bool <>m__0(SettlementBase settlement)
 			{
 				return settlement.Visitable && settlement.GetComponent<TradeRequestComp>() != null && !settlement.GetComponent<TradeRequestComp>().ActiveRequest && Find.WorldGrid.ApproxDistanceInTiles(this.originTile, settlement.Tile) < 36f && Find.WorldReachability.CanReach(this.originTile, settlement.Tile);
 			}

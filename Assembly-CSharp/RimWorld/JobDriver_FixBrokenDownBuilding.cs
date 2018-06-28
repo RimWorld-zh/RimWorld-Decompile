@@ -49,7 +49,7 @@ namespace RimWorld
 			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
 			yield return Toils_Haul.StartCarryThing(TargetIndex.B, false, false, false);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A);
-			Toil repair = Toils_General.Wait(1000);
+			Toil repair = Toils_General.Wait(1000, TargetIndex.None);
 			repair.FailOnDespawnedOrNull(TargetIndex.A);
 			repair.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 			repair.WithEffect(this.Building.def.repairEffect, TargetIndex.A);
@@ -123,7 +123,7 @@ namespace RimWorld
 					}
 					return true;
 				case 3u:
-					repair = Toils_General.Wait(1000);
+					repair = Toils_General.Wait(1000, TargetIndex.None);
 					repair.FailOnDespawnedOrNull(TargetIndex.A);
 					repair.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 					repair.WithEffect(base.Building.def.repairEffect, TargetIndex.A);

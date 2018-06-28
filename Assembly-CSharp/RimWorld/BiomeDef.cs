@@ -31,7 +31,7 @@ namespace RimWorld
 
 		public float diseaseMtbDays = 60f;
 
-		public float factionBaseSelectionWeight = 1f;
+		public float settlementSelectionWeight = 1f;
 
 		public bool impassable;
 

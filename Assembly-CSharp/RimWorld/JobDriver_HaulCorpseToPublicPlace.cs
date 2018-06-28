@@ -80,7 +80,7 @@ namespace RimWorld
 			Toil gotoCorpse = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Jump.JumpIfTargetInvalid(TargetIndex.B, gotoCorpse);
 			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.InteractionCell).FailOnDespawnedOrNull(TargetIndex.B);
-			yield return Toils_General.Wait(300).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f).FailOnDespawnedOrNull(TargetIndex.B).FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
+			yield return Toils_General.Wait(300, TargetIndex.None).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f).FailOnDespawnedOrNull(TargetIndex.B).FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
 			yield return Toils_General.Open(TargetIndex.B);
 			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return gotoCorpse;
@@ -268,7 +268,7 @@ namespace RimWorld
 					}
 					return true;
 				case 2u:
-					this.$current = Toils_General.Wait(300).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f).FailOnDespawnedOrNull(TargetIndex.B).FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
+					this.$current = Toils_General.Wait(300, TargetIndex.None).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f).FailOnDespawnedOrNull(TargetIndex.B).FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
