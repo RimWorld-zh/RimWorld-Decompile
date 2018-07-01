@@ -22,7 +22,7 @@ namespace RimWorld
 
 		public static RoomStatDef GraveVisitingJoyGainFactor;
 
-		public static RoomStatDef FoodPoisonChanceFactor;
+		public static RoomStatDef FoodPoisonChance;
 
 		static RoomStatDefOf()
 		{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Verse;
@@ -44,10 +45,12 @@ namespace RimWorld.BaseGen
 				pawnGroupMakerParms.points = 250f;
 			}
 			pawnGroupMakerParms.groupKind = (rp.pawnGroupKindDef ?? PawnGroupKindDefOf.Combat);
-			foreach (Pawn singlePawnToSpawn in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, true))
+			List<PawnKindDef> list = new List<PawnKindDef>();
+			foreach (Pawn pawn in PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, true))
 			{
+				list.Add(pawn.kindDef);
 				ResolveParams resolveParams = rp;
-				resolveParams.singlePawnToSpawn = singlePawnToSpawn;
+				resolveParams.singlePawnToSpawn = pawn;
 				BaseGen.symbolStack.Push("pawn", resolveParams);
 			}
 		}

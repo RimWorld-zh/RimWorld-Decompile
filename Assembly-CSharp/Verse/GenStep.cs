@@ -12,6 +12,6 @@ namespace Verse
 
 		public abstract int SeedPart { get; }
 
-		public abstract void Generate(Map map);
+		public abstract void Generate(Map map, GenStepParams parms);
 	}
 }

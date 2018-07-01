@@ -25,7 +25,7 @@ namespace RimWorld
 
 		private float priceGain_PlayerNegotiator;
 
-		private float priceGain_FactionBase;
+		private float priceGain_Settlement;
 
 		[CompilerGenerated]
 		private static Action<Thing, int> <>f__am$cache0;
@@ -349,10 +349,10 @@ namespace RimWorld
 					this.priceFactorBuy_TraderPriceType = this.PriceTypeFor(TradeAction.PlayerBuys).PriceMultiplier();
 					this.priceFactorSell_TraderPriceType = this.PriceTypeFor(TradeAction.PlayerSells).PriceMultiplier();
 					this.priceGain_PlayerNegotiator = TradeSession.playerNegotiator.GetStatValue(StatDefOf.TradePriceImprovement, true);
-					this.priceGain_FactionBase = TradeSession.trader.TradePriceImprovementOffsetForPlayer;
+					this.priceGain_Settlement = TradeSession.trader.TradePriceImprovementOffsetForPlayer;
 					this.priceFactorSell_ItemSellPriceFactor = this.AnyThing.GetStatValue(StatDefOf.SellPriceFactor, true);
-					this.pricePlayerBuy = TradeUtility.GetPricePlayerBuy(this.AnyThing, this.priceFactorBuy_TraderPriceType, this.priceGain_PlayerNegotiator, this.priceGain_FactionBase);
-					this.pricePlayerSell = TradeUtility.GetPricePlayerSell(this.AnyThing, this.priceFactorSell_TraderPriceType, this.priceGain_PlayerNegotiator, this.priceGain_FactionBase);
+					this.pricePlayerBuy = TradeUtility.GetPricePlayerBuy(this.AnyThing, this.priceFactorBuy_TraderPriceType, this.priceGain_PlayerNegotiator, this.priceGain_Settlement);
+					this.pricePlayerSell = TradeUtility.GetPricePlayerSell(this.AnyThing, this.priceFactorSell_TraderPriceType, this.priceGain_PlayerNegotiator, this.priceGain_Settlement);
 					if (this.pricePlayerSell >= this.pricePlayerBuy)
 					{
 						Log.ErrorOnce("Trying to put player-sells price above player-buys price for " + this.AnyThing, 65387, false);
@@ -423,7 +423,7 @@ namespace RimWorld
 						": -",
 						this.priceGain_PlayerNegotiator.ToStringPercent()
 					});
-					if (this.priceGain_FactionBase != 0f)
+					if (this.priceGain_Settlement != 0f)
 					{
 						text2 = text;
 						text = string.Concat(new string[]
@@ -432,7 +432,7 @@ namespace RimWorld
 							"\n",
 							"TradeWithFactionBaseBonus".Translate(),
 							": -",
-							this.priceGain_FactionBase.ToStringPercent()
+							this.priceGain_Settlement.ToStringPercent()
 						});
 					}
 				}
@@ -497,7 +497,7 @@ namespace RimWorld
 						": ",
 						this.priceGain_PlayerNegotiator.ToStringPercent()
 					});
-					if (this.priceGain_FactionBase != 0f)
+					if (this.priceGain_Settlement != 0f)
 					{
 						text2 = text;
 						text = string.Concat(new string[]
@@ -506,7 +506,7 @@ namespace RimWorld
 							"\n",
 							"TradeWithFactionBaseBonus".Translate(),
 							": ",
-							this.priceGain_FactionBase.ToStringPercent()
+							this.priceGain_Settlement.ToStringPercent()
 						});
 					}
 				}

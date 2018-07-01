@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class GenStepDef : Def
 	{
-		public SiteDefBase linkWithSite;
+		public SiteCoreOrPartDefBase linkWithSite;
 
 		public float order;
 

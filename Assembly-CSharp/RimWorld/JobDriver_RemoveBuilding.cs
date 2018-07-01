@@ -37,7 +37,7 @@ namespace RimWorld
 
 		protected abstract DesignationDef Designation { get; }
 
-		protected abstract int TotalNeededWork { get; }
+		protected abstract float TotalNeededWork { get; }
 
 		public override void ExposeData()
 		{
@@ -59,7 +59,7 @@ namespace RimWorld
 			Toil doWork = new Toil().FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 			doWork.initAction = delegate()
 			{
-				this.totalNeededWork = (float)this.TotalNeededWork;
+				this.totalNeededWork = this.TotalNeededWork;
 				this.workLeft = this.totalNeededWork;
 			};
 			doWork.tickAction = delegate()
@@ -137,7 +137,7 @@ namespace RimWorld
 					Toil doWork = new Toil().FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 					doWork.initAction = delegate()
 					{
-						this.totalNeededWork = (float)this.TotalNeededWork;
+						this.totalNeededWork = this.TotalNeededWork;
 						this.workLeft = this.totalNeededWork;
 					};
 					doWork.tickAction = delegate()
@@ -254,7 +254,7 @@ namespace RimWorld
 
 				internal void <>m__0()
 				{
-					this.<>f__ref$0.$this.totalNeededWork = (float)this.<>f__ref$0.$this.TotalNeededWork;
+					this.<>f__ref$0.$this.totalNeededWork = this.<>f__ref$0.$this.TotalNeededWork;
 					this.<>f__ref$0.$this.workLeft = this.<>f__ref$0.$this.totalNeededWork;
 				}
 

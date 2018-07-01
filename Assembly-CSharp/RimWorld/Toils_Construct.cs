@@ -50,7 +50,7 @@ namespace RimWorld
 				Thing thing = actor.CurJob.GetTarget(thingInd).Thing;
 				if (thing.def.Minifiable)
 				{
-					curDriver.uninstallWorkLeft = 90f;
+					curDriver.uninstallWorkLeft = thing.def.building.uninstallWork;
 				}
 				else
 				{
@@ -73,7 +73,7 @@ namespace RimWorld
 				}
 			};
 			uninstallIfMinifiable.defaultCompleteMode = ToilCompleteMode.Never;
-			uninstallIfMinifiable.WithProgressBar(thingInd, () => 1f - uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / 90f, false, -0.5f);
+			uninstallIfMinifiable.WithProgressBar(thingInd, () => 1f - uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / uninstallIfMinifiable.actor.CurJob.targetA.Thing.def.building.uninstallWork, false, -0.5f);
 			return uninstallIfMinifiable;
 		}
 
@@ -137,7 +137,7 @@ namespace RimWorld
 				Thing thing = actor.CurJob.GetTarget(this.thingInd).Thing;
 				if (thing.def.Minifiable)
 				{
-					curDriver.uninstallWorkLeft = 90f;
+					curDriver.uninstallWorkLeft = thing.def.building.uninstallWork;
 				}
 				else
 				{
@@ -163,7 +163,7 @@ namespace RimWorld
 
 			internal float <>m__2()
 			{
-				return 1f - this.uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / 90f;
+				return 1f - this.uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / this.uninstallIfMinifiable.actor.CurJob.targetA.Thing.def.building.uninstallWork;
 			}
 		}
 	}

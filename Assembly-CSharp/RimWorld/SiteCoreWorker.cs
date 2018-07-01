@@ -9,7 +9,7 @@ using Verse;
 
 namespace RimWorld
 {
-	public class SiteCoreWorker : SiteWorkerBase
+	public class SiteCoreWorker : SiteCoreOrPartWorkerBase
 	{
 		public static readonly IntVec3 MapSize = new IntVec3(120, 1, 120);
 

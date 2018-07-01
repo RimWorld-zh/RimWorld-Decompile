@@ -40,14 +40,21 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
-			this.forcedDefToScatter = this.mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
+			if (parms.siteCoreOrPart != null && parms.siteCoreOrPart.parms.preciousLumpResources != null)
+			{
+				this.forcedDefToScatter = parms.siteCoreOrPart.parms.preciousLumpResources;
+			}
+			else
+			{
+				this.forcedDefToScatter = this.mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
+			}
 			this.count = 1;
 			float randomInRange = this.totalValueRange.RandomInRange;
 			float baseMarketValue = this.forcedDefToScatter.building.mineableThing.BaseMarketValue;
 			this.forcedLumpSize = Mathf.Max(Mathf.RoundToInt(randomInRange / ((float)this.forcedDefToScatter.building.mineableYield * baseMarketValue)), 1);
-			base.Generate(map);
+			base.Generate(map, parms);
 		}
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)

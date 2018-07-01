@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			if (!map.TileInfo.WaterCovered)
 			{

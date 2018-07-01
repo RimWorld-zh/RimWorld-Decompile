@@ -5,9 +5,9 @@ using Verse;
 
 namespace RimWorld
 {
-	public abstract class SiteDefBase : Def
+	public abstract class SiteCoreOrPartDefBase : Def
 	{
-		public Type workerClass = typeof(SitePartWorker);
+		public Type workerClass = typeof(SiteCoreOrPartWorkerBase);
 
 		[NoTranslate]
 		public string siteTexture;
@@ -40,8 +40,11 @@ namespace RimWorld
 
 		public LetterDef arrivedLetterDef;
 
+		[MustTranslate]
+		public string descriptionDialogue;
+
 		[Unsaved]
-		private SiteWorkerBase workerInt;
+		private SiteCoreOrPartWorkerBase workerInt;
 
 		[Unsaved]
 		private Texture2D expandingIconTextureInt;
@@ -49,11 +52,11 @@ namespace RimWorld
 		[Unsaved]
 		private List<GenStepDef> extraGenSteps;
 
-		protected SiteDefBase()
+		protected SiteCoreOrPartDefBase()
 		{
 		}
 
-		public SiteWorkerBase Worker
+		public SiteCoreOrPartWorkerBase Worker
 		{
 			get
 			{
@@ -130,6 +133,6 @@ namespace RimWorld
 			return result;
 		}
 
-		protected abstract SiteWorkerBase CreateWorker();
+		protected abstract SiteCoreOrPartWorkerBase CreateWorker();
 	}
 }

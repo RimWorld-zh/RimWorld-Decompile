@@ -339,6 +339,14 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public IEnumerable<Thing> AllThings
+		{
+			get
+			{
+				return CaravanInventoryUtility.AllInventoryItems(this).Concat(this.pawns);
+			}
+		}
+
 		public StoryState StoryState
 		{
 			get
@@ -406,14 +414,6 @@ namespace RimWorld.Planet
 			get
 			{
 				return StorytellerUtility.CaravanPointsRandomFactorRange;
-			}
-		}
-
-		public IEnumerable<Thing> AllThings
-		{
-			get
-			{
-				return CaravanInventoryUtility.AllInventoryItems(this).Concat(this.pawns);
 			}
 		}
 
@@ -957,6 +957,23 @@ namespace RimWorld.Planet
 				};
 				yield return new Command_Action
 				{
+					defaultLabel = "Dev: Plague on random pawn",
+					action = delegate()
+					{
+						Pawn pawn;
+						if ((from x in this.PawnsListForReading
+						where !x.Downed
+						select x).TryRandomElement(out pawn))
+						{
+							Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.Plague, pawn, null);
+							hediff.Severity = HediffDefOf.Plague.stages[1].minSeverity - 0.001f;
+							pawn.health.AddHediff(hediff, null, null, null);
+							Messages.Message("Dev: Gave advanced plague to " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+						}
+					}
+				};
+				yield return new Command_Action
+				{
 					defaultLabel = "Dev: Teleport to destination",
 					action = delegate()
 					{
@@ -1138,7 +1155,9 @@ namespace RimWorld.Planet
 
 			internal Command_Action <down>__11;
 
-			internal Command_Action <action>__12;
+			internal Command_Action <down>__12;
+
+			internal Command_Action <action>__13;
 
 			internal Caravan $this;
 
@@ -1155,6 +1174,8 @@ namespace RimWorld.Planet
 			private static Func<Pawn, bool> <>f__am$cache2;
 
 			private static Func<Pawn, bool> <>f__am$cache3;
+
+			private static Func<Pawn, bool> <>f__am$cache4;
 
 			[DebuggerHidden]
 			public <GetGizmos>c__Iterator0()
@@ -1182,22 +1203,22 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_AC;
+					goto IL_B0;
 				case 3u:
-					goto IL_16D;
+					goto IL_171;
 				case 4u:
-					goto IL_233;
+					goto IL_237;
 				case 5u:
-					goto IL_315;
+					goto IL_319;
 				case 6u:
-					IL_344:
+					IL_348:
 					enumerator2 = this.forage.GetGizmos().GetEnumerator();
 					num = 4294967293u;
 					goto Block_16;
 				case 7u:
-					goto IL_363;
+					goto IL_367;
 				case 8u:
-					goto IL_3FD;
+					goto IL_401;
 				case 9u:
 				{
 					Command_Action makeHungry = new Command_Action();
@@ -1283,6 +1304,30 @@ namespace RimWorld.Planet
 				}
 				case 13u:
 				{
+					Command_Action down2 = new Command_Action();
+					down2.defaultLabel = "Dev: Plague on random pawn";
+					down2.action = delegate()
+					{
+						Pawn pawn;
+						if ((from x in base.PawnsListForReading
+						where !x.Downed
+						select x).TryRandomElement(out pawn))
+						{
+							Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.Plague, pawn, null);
+							hediff.Severity = HediffDefOf.Plague.stages[1].minSeverity - 0.001f;
+							pawn.health.AddHediff(hediff, null, null, null);
+							Messages.Message("Dev: Gave advanced plague to " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+						}
+					};
+					this.$current = down2;
+					if (!this.$disposing)
+					{
+						this.$PC = 14;
+					}
+					return true;
+				}
+				case 14u:
+				{
 					Command_Action action = new Command_Action();
 					action.defaultLabel = "Dev: Teleport to destination";
 					action.action = delegate()
@@ -1293,12 +1338,12 @@ namespace RimWorld.Planet
 					this.$current = action;
 					if (!this.$disposing)
 					{
-						this.$PC = 14;
+						this.$PC = 15;
 					}
 					return true;
 				}
-				case 14u:
-					goto IL_6F2;
+				case 15u:
+					goto IL_74B;
 				default:
 					return false;
 				}
@@ -1306,7 +1351,7 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_AC:
+					IL_B0:
 					switch (num)
 					{
 					}
@@ -1334,7 +1379,7 @@ namespace RimWorld.Planet
 				}
 				if (!base.IsPlayerControlled)
 				{
-					goto IL_4E8;
+					goto IL_4EC;
 				}
 				if (Find.WorldSelector.SingleSelectedObject == this)
 				{
@@ -1345,7 +1390,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_16D:
+				IL_171:
 				if (Find.WorldSelector.SingleSelectedObject == this)
 				{
 					if (base.PawnsListForReading.Count((Pawn x) => x.IsColonist) >= 2)
@@ -1366,7 +1411,7 @@ namespace RimWorld.Planet
 						return true;
 					}
 				}
-				IL_233:
+				IL_237:
 				if (this.pather.Moving)
 				{
 					Command_Toggle pause = new Command_Toggle();
@@ -1393,7 +1438,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_315:
+				IL_319:
 				if (CaravanMergeUtility.ShouldShowMergeCommand)
 				{
 					this.$current = CaravanMergeUtility.MergeCommand(this);
@@ -1403,11 +1448,11 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				goto IL_344;
+				goto IL_348;
 				Block_16:
 				try
 				{
-					IL_363:
+					IL_367:
 					switch (num)
 					{
 					}
@@ -1437,11 +1482,11 @@ namespace RimWorld.Planet
 				num = 4294967293u;
 				try
 				{
-					IL_3FD:
+					IL_401:
 					switch (num)
 					{
 					case 8u:
-						Block_38:
+						Block_39:
 						try
 						{
 							switch (num)
@@ -1476,7 +1521,7 @@ namespace RimWorld.Planet
 						wo = enumerator3.Current;
 						enumerator4 = wo.GetCaravanGizmos(this).GetEnumerator();
 						num = 4294967293u;
-						goto Block_38;
+						goto Block_39;
 					}
 				}
 				finally
@@ -1489,7 +1534,7 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				IL_4E8:
+				IL_4EC:
 				if (Prefs.DevMode)
 				{
 					Command_Action mentalBreak = new Command_Action();
@@ -1511,7 +1556,7 @@ namespace RimWorld.Planet
 					}
 					return true;
 				}
-				IL_6F2:
+				IL_74B:
 				this.$PC = -1;
 				return false;
 			}
@@ -1694,21 +1739,40 @@ namespace RimWorld.Planet
 
 			internal void <>m__9()
 			{
+				Pawn pawn;
+				if ((from x in base.PawnsListForReading
+				where !x.Downed
+				select x).TryRandomElement(out pawn))
+				{
+					Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.Plague, pawn, null);
+					hediff.Severity = HediffDefOf.Plague.stages[1].minSeverity - 0.001f;
+					pawn.health.AddHediff(hediff, null, null, null);
+					Messages.Message("Dev: Gave advanced plague to " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
+				}
+			}
+
+			internal void <>m__A()
+			{
 				base.Tile = this.pather.Destination;
 				this.pather.StopDead();
 			}
 
-			private static bool <>m__A(Pawn x)
+			private static bool <>m__B(Pawn x)
 			{
 				return x.RaceProps.Humanlike && !x.InMentalState;
 			}
 
-			private static bool <>m__B(Pawn x)
+			private static bool <>m__C(Pawn x)
 			{
 				return x.needs.food != null;
 			}
 
-			private static bool <>m__C(Pawn x)
+			private static bool <>m__D(Pawn x)
+			{
+				return !x.Downed;
+			}
+
+			private static bool <>m__E(Pawn x)
 			{
 				return !x.Downed;
 			}

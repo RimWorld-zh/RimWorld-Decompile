@@ -24,6 +24,8 @@ namespace RimWorld
 
 		public bool forceOneIncap;
 
+		public int? seed;
+
 		public PawnGroupMakerParms()
 		{
 		}
@@ -51,7 +53,9 @@ namespace RimWorld
 				", raidStrategy=",
 				this.raidStrategy,
 				", forceOneIncap=",
-				this.forceOneIncap
+				this.forceOneIncap,
+				", seed=",
+				this.seed
 			});
 		}
 	}

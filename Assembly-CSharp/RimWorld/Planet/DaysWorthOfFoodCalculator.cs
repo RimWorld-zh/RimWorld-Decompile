@@ -424,7 +424,7 @@ namespace RimWorld.Planet
 				if (food[i].Count > 0)
 				{
 					ThingDef thingDef = food[i].ThingDef;
-					if (CaravanPawnsNeedsUtility.CanEverEatForNutrition(thingDef, pawn))
+					if (CaravanPawnsNeedsUtility.CanEatForNutritionEver(thingDef, pawn))
 					{
 						float foodScore = CaravanPawnsNeedsUtility.GetFoodScore(thingDef, pawn, thingDef.ingestible.CachedNutrition);
 						if (num < 0 || foodScore > num2)

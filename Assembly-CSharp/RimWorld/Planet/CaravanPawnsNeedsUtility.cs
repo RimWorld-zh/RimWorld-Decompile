@@ -7,12 +7,6 @@ namespace RimWorld.Planet
 {
 	public static class CaravanPawnsNeedsUtility
 	{
-		private const float AutoRefillMiscNeedsIfBelowLevel = 0.3f;
-
-		private const float ExtraJoyFromEatingFoodPerNutritionPct = 0.2f;
-
-		private const float BaseJoyGainPerHour = 0.035f;
-
 		private static List<Thing> tmpInvFood = new List<Thing>();
 
 		public static void TrySatisfyPawnsNeeds(Caravan caravan)
@@ -22,56 +16,6 @@ namespace RimWorld.Planet
 			{
 				CaravanPawnsNeedsUtility.TrySatisfyPawnNeeds(pawnsListForReading[i], caravan);
 			}
-		}
-
-		public static bool AnyPawnOutOfFood(Caravan c, out string malnutritionHediff)
-		{
-			CaravanPawnsNeedsUtility.tmpInvFood.Clear();
-			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(c);
-			for (int i = 0; i < list.Count; i++)
-			{
-				if (list[i].def.IsNutritionGivingIngestible)
-				{
-					CaravanPawnsNeedsUtility.tmpInvFood.Add(list[i]);
-				}
-			}
-			List<Pawn> pawnsListForReading = c.PawnsListForReading;
-			for (int j = 0; j < pawnsListForReading.Count; j++)
-			{
-				Pawn pawn = pawnsListForReading[j];
-				if (pawn.RaceProps.EatsFood && !VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
-				{
-					bool flag = false;
-					for (int k = 0; k < CaravanPawnsNeedsUtility.tmpInvFood.Count; k++)
-					{
-						if (CaravanPawnsNeedsUtility.CanEverEatForNutrition(CaravanPawnsNeedsUtility.tmpInvFood[k].def, pawn))
-						{
-							flag = true;
-							break;
-						}
-					}
-					if (!flag)
-					{
-						int num = -1;
-						string text = null;
-						for (int l = 0; l < pawnsListForReading.Count; l++)
-						{
-							Hediff firstHediffOfDef = pawnsListForReading[l].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
-							if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num))
-							{
-								num = firstHediffOfDef.CurStageIndex;
-								text = firstHediffOfDef.LabelCap;
-							}
-						}
-						malnutritionHediff = text;
-						CaravanPawnsNeedsUtility.tmpInvFood.Clear();
-						return true;
-					}
-				}
-			}
-			malnutritionHediff = null;
-			CaravanPawnsNeedsUtility.tmpInvFood.Clear();
-			return false;
 		}
 
 		private static void TrySatisfyPawnNeeds(Pawn pawn, Caravan caravan)
@@ -155,23 +99,39 @@ namespace RimWorld.Planet
 			{
 				Thing drug;
 				Pawn drugOwner;
-				if (CaravanInventoryUtility.TryGetBestDrug(caravan, pawn, chemical, out drug, out drugOwner))
+				if (CaravanInventoryUtility.TryGetDrugToSatisfyChemicalNeed(caravan, pawn, chemical, out drug, out drugOwner))
 				{
 					CaravanPawnsNeedsUtility.IngestDrug(pawn, drug, drugOwner, caravan);
 				}
 			}
 		}
 
-		private static void TrySatisfyJoyNeed(Pawn pawn, Need_Joy joy, Caravan caravan)
+		public static void IngestDrug(Pawn pawn, Thing drug, Pawn drugOwner, Caravan caravan)
 		{
-			float caravanNotMovingJoyGainPerTick = CaravanPawnsNeedsUtility.GetCaravanNotMovingJoyGainPerTick(pawn, caravan);
-			if (caravanNotMovingJoyGainPerTick > 0f)
+			float num = drug.Ingested(pawn, 0f);
+			Need_Food food = pawn.needs.food;
+			if (food != null)
 			{
-				joy.GainJoy(caravanNotMovingJoyGainPerTick, JoyKindDefOf.Social);
+				food.CurLevel += num;
+			}
+			if (drug.Destroyed && drugOwner != null)
+			{
+				drugOwner.inventory.innerContainer.Remove(drug);
+				caravan.RecacheImmobilizedNow();
+				caravan.RecacheDaysWorthOfFood();
 			}
 		}
 
-		public static float GetCaravanNotMovingJoyGainPerTick(Pawn pawn, Caravan caravan)
+		private static void TrySatisfyJoyNeed(Pawn pawn, Need_Joy joy, Caravan caravan)
+		{
+			float currentJoyGainPerTick = CaravanPawnsNeedsUtility.GetCurrentJoyGainPerTick(pawn, caravan);
+			if (currentJoyGainPerTick > 0f)
+			{
+				joy.GainJoy(currentJoyGainPerTick, JoyKindDefOf.Social);
+			}
+		}
+
+		public static float GetCurrentJoyGainPerTick(Pawn pawn, Caravan caravan)
 		{
 			float result;
 			if (caravan.pather.MovingNow)
@@ -194,35 +154,19 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static void IngestDrug(Pawn pawn, Thing drug, Pawn drugOwner, Caravan caravan)
-		{
-			float num = drug.Ingested(pawn, 0f);
-			Need_Food food = pawn.needs.food;
-			if (food != null)
-			{
-				food.CurLevel += num;
-			}
-			if (drug.Destroyed && drugOwner != null)
-			{
-				drugOwner.inventory.innerContainer.Remove(drug);
-				caravan.RecacheImmobilizedNow();
-				caravan.RecacheDaysWorthOfFood();
-			}
-		}
-
-		public static bool CanEverEatForNutrition(ThingDef food, Pawn pawn)
+		public static bool CanEatForNutritionEver(ThingDef food, Pawn pawn)
 		{
 			return food.IsNutritionGivingIngestible && pawn.RaceProps.CanEverEat(food) && food.ingestible.preferability > FoodPreferability.NeverForNutrition && (!food.IsDrug || !pawn.IsTeetotaler());
 		}
 
-		public static bool CanNowEatForNutrition(ThingDef food, Pawn pawn)
+		public static bool CanEatForNutritionNow(ThingDef food, Pawn pawn)
 		{
-			return CaravanPawnsNeedsUtility.CanEverEatForNutrition(food, pawn) && (!pawn.RaceProps.Humanlike || pawn.needs.food.CurCategory >= HungerCategory.Starving || food.ingestible.preferability > FoodPreferability.DesperateOnlyForHumanlikes);
+			return CaravanPawnsNeedsUtility.CanEatForNutritionEver(food, pawn) && (!pawn.RaceProps.Humanlike || pawn.needs.food.CurCategory >= HungerCategory.Starving || food.ingestible.preferability > FoodPreferability.DesperateOnlyForHumanlikes);
 		}
 
-		public static bool CanNowEatForNutrition(Thing food, Pawn pawn)
+		public static bool CanEatForNutritionNow(Thing food, Pawn pawn)
 		{
-			return food.IngestibleNow && CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn);
+			return food.IngestibleNow && CaravanPawnsNeedsUtility.CanEatForNutritionNow(food.def, pawn);
 		}
 
 		public static float GetFoodScore(Thing food, Pawn pawn)
@@ -285,6 +229,56 @@ namespace RimWorld.Planet
 					p.needs.joy.GainJoy(amount, joyKind);
 				}
 			}
+		}
+
+		public static bool AnyPawnOutOfFood(Caravan c, out string malnutritionHediff)
+		{
+			CaravanPawnsNeedsUtility.tmpInvFood.Clear();
+			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(c);
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].def.IsNutritionGivingIngestible)
+				{
+					CaravanPawnsNeedsUtility.tmpInvFood.Add(list[i]);
+				}
+			}
+			List<Pawn> pawnsListForReading = c.PawnsListForReading;
+			for (int j = 0; j < pawnsListForReading.Count; j++)
+			{
+				Pawn pawn = pawnsListForReading[j];
+				if (pawn.RaceProps.EatsFood && !VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
+				{
+					bool flag = false;
+					for (int k = 0; k < CaravanPawnsNeedsUtility.tmpInvFood.Count; k++)
+					{
+						if (CaravanPawnsNeedsUtility.CanEatForNutritionEver(CaravanPawnsNeedsUtility.tmpInvFood[k].def, pawn))
+						{
+							flag = true;
+							break;
+						}
+					}
+					if (!flag)
+					{
+						int num = -1;
+						string text = null;
+						for (int l = 0; l < pawnsListForReading.Count; l++)
+						{
+							Hediff firstHediffOfDef = pawnsListForReading[l].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
+							if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num))
+							{
+								num = firstHediffOfDef.CurStageIndex;
+								text = firstHediffOfDef.LabelCap;
+							}
+						}
+						malnutritionHediff = text;
+						CaravanPawnsNeedsUtility.tmpInvFood.Clear();
+						return true;
+					}
+				}
+			}
+			malnutritionHediff = null;
+			CaravanPawnsNeedsUtility.tmpInvFood.Clear();
+			return false;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

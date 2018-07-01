@@ -75,7 +75,7 @@ namespace RimWorld.Planet
 		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, Site site)
 		{
 			FloatMenuAcceptanceReport result;
-			if (site == null || !site.Spawned || !site.core.transportPodsCanLandAndGenerateMap)
+			if (site == null || !site.Spawned || !site.core.def.transportPodsCanLandAndGenerateMap)
 			{
 				result = false;
 			}

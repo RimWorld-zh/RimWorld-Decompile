@@ -8,11 +8,11 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	public static class NamePlayerFactionAndBaseUtility
+	public static class NamePlayerFactionAndSettlementUtility
 	{
 		private const float MinDaysPassedToNameFaction = 3f;
 
-		private const float MinDaysPassedToNameFactionBase = 3f;
+		private const float MinDaysPassedToNameSettlement = 3f;
 
 		private const int SoonTicks = 30000;
 
@@ -21,32 +21,32 @@ namespace RimWorld
 
 		public static bool CanNameFactionNow()
 		{
-			return NamePlayerFactionAndBaseUtility.CanNameFaction(Find.TickManager.TicksGame);
+			return NamePlayerFactionAndSettlementUtility.CanNameFaction(Find.TickManager.TicksGame);
 		}
 
-		public static bool CanNameFactionBaseNow(Settlement factionBase)
+		public static bool CanNameSettlementNow(Settlement factionBase)
 		{
-			return NamePlayerFactionAndBaseUtility.CanNameFactionBase(factionBase, Find.TickManager.TicksGame - factionBase.creationGameTicks);
+			return NamePlayerFactionAndSettlementUtility.CanNameSettlement(factionBase, Find.TickManager.TicksGame - factionBase.creationGameTicks);
 		}
 
 		public static bool CanNameFactionSoon()
 		{
-			return NamePlayerFactionAndBaseUtility.CanNameFaction(Find.TickManager.TicksGame + 30000);
+			return NamePlayerFactionAndSettlementUtility.CanNameFaction(Find.TickManager.TicksGame + 30000);
 		}
 
-		public static bool CanNameFactionBaseSoon(Settlement factionBase)
+		public static bool CanNameSettlementSoon(Settlement factionBase)
 		{
-			return NamePlayerFactionAndBaseUtility.CanNameFactionBase(factionBase, Find.TickManager.TicksGame - factionBase.creationGameTicks + 30000);
+			return NamePlayerFactionAndSettlementUtility.CanNameSettlement(factionBase, Find.TickManager.TicksGame - factionBase.creationGameTicks + 30000);
 		}
 
 		private static bool CanNameFaction(int ticksPassed)
 		{
-			return !Faction.OfPlayer.HasName && (float)ticksPassed / 60000f >= 3f && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
+			return !Faction.OfPlayer.HasName && (float)ticksPassed / 60000f >= 3f && NamePlayerFactionAndSettlementUtility.CanNameAnythingNow();
 		}
 
-		private static bool CanNameFactionBase(Settlement factionBase, int ticksPassed)
+		private static bool CanNameSettlement(Settlement factionBase, int ticksPassed)
 		{
-			return factionBase.Faction == Faction.OfPlayer && !factionBase.namedByPlayer && (float)ticksPassed / 60000f >= 3f && factionBase.HasMap && factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
+			return factionBase.Faction == Faction.OfPlayer && !factionBase.namedByPlayer && (float)ticksPassed / 60000f >= 3f && factionBase.HasMap && factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0 && NamePlayerFactionAndSettlementUtility.CanNameAnythingNow();
 		}
 
 		private static bool CanNameAnythingNow()

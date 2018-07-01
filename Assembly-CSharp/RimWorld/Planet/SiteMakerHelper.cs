@@ -118,7 +118,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		private static bool FactionCanOwn(SiteDefBase siteDefBase, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
+		private static bool FactionCanOwn(SiteCoreOrPartDefBase siteDefBase, Faction faction, bool disallowNonHostileFactions, Predicate<Faction> extraFactionValidator)
 		{
 			bool result;
 			if (siteDefBase == null)

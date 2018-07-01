@@ -59,7 +59,7 @@ namespace RimWorld.Planet
 			for (int i = 0; i < list.Count; i++)
 			{
 				Thing thing2 = list[i];
-				if (CaravanPawnsNeedsUtility.CanNowEatForNutrition(thing2, forPawn))
+				if (CaravanPawnsNeedsUtility.CanEatForNutritionNow(thing2, forPawn))
 				{
 					float foodScore = CaravanPawnsNeedsUtility.GetFoodScore(thing2, forPawn);
 					if (thing == null || foodScore > num)
@@ -85,7 +85,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		public static bool TryGetBestDrug(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
+		public static bool TryGetDrugToSatisfyChemicalNeed(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
 		{
 			Hediff_Addiction addictionHediff = chemical.AddictionHediff;
 			bool result;

@@ -732,7 +732,7 @@ namespace Verse
 			});
 			base.DebugAction("Generate map with caves", delegate
 			{
-				int tile = TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, false, (int x) => Find.World.HasCaves(x));
+				int tile = TileFinder.RandomSettlementTileFor(Faction.OfPlayer, false, (int x) => Find.World.HasCaves(x));
 				if (Find.CurrentMap != null)
 				{
 					Find.WorldObjects.Remove(Find.CurrentMap.Parent);
@@ -1086,7 +1086,7 @@ namespace Verse
 					list.Add(new DebugMenuOption(localGenStep.Name, DebugMenuOptionMode.Action, delegate()
 					{
 						GenStep genStep = (GenStep)Activator.CreateInstance(localGenStep);
-						genStep.Generate(Find.CurrentMap);
+						genStep.Generate(Find.CurrentMap, default(GenStepParams));
 					}));
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -3408,7 +3408,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_AllModePlayActions>m__9()
 		{
-			int tile = TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, false, (int x) => Find.World.HasCaves(x));
+			int tile = TileFinder.RandomSettlementTileFor(Faction.OfPlayer, false, (int x) => Find.World.HasCaves(x));
 			if (Find.CurrentMap != null)
 			{
 				Find.WorldObjects.Remove(Find.CurrentMap.Parent);
@@ -3797,7 +3797,7 @@ namespace Verse
 				list.Add(new DebugMenuOption(localGenStep.Name, DebugMenuOptionMode.Action, delegate()
 				{
 					GenStep genStep = (GenStep)Activator.CreateInstance(localGenStep);
-					genStep.Generate(Find.CurrentMap);
+					genStep.Generate(Find.CurrentMap, default(GenStepParams));
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
@@ -7139,7 +7139,7 @@ namespace Verse
 			internal void <>m__0()
 			{
 				GenStep genStep = (GenStep)Activator.CreateInstance(this.localGenStep);
-				genStep.Generate(Find.CurrentMap);
+				genStep.Generate(Find.CurrentMap, default(GenStepParams));
 			}
 		}
 

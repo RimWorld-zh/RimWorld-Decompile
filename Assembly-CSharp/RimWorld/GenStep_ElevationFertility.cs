@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			NoiseRenderer.renderSize = new IntVec2(map.Size.x, map.Size.z);
 			ModuleBase moduleBase = new Perlin(0.020999999716877937, 2.0, 0.5, 6, Rand.Range(0, int.MaxValue), QualityMode.High);

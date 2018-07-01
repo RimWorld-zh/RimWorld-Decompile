@@ -116,7 +116,7 @@ namespace Verse
 			{
 				if (this.concreteExampleInt == null)
 				{
-					this.concreteExampleInt = HediffMaker.MakeConcreteExampleHediff(this);
+					this.concreteExampleInt = HediffMaker.Debug_MakeConcreteExampleHediff(this);
 				}
 				return this.concreteExampleInt;
 			}

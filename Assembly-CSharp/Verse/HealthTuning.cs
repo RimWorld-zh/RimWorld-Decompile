@@ -78,7 +78,7 @@ namespace Verse
 
 		public const float BaseBecomePermanentChance = 0.1f;
 
-		public const float DeathOnDownedChance_NonColonyHumanlike = 0.67f;
+		public const float DeathOnDownedChance_NonColonyHumanlike = 0.77f;
 
 		public const float DeathOnDownedChance_NonColonyAnimal = 0.47f;
 

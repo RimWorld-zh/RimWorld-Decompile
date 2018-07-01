@@ -38,6 +38,8 @@ namespace RimWorld
 
 		public GraphicData blueprintGraphicData;
 
+		public float uninstallWork = 200f;
+
 		public bool wantsHopperAdjacent = false;
 
 		public bool allowWireConnection = true;
@@ -338,6 +340,10 @@ namespace RimWorld
 			{
 				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, "");
 			}
+			if (parentDef.Minifiable)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_WorkToUninstall".Translate(), this.uninstallWork.ToStringWorkAmount(), 0, "");
+			}
 			yield break;
 		}
 
@@ -469,6 +475,8 @@ namespace RimWorld
 		[CompilerGenerated]
 		private sealed class <SpecialDisplayStats>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
 		{
+			internal ThingDef parentDef;
+
 			internal BuildingProperties $this;
 
 			internal StatDrawEntry $current;
@@ -501,9 +509,21 @@ namespace RimWorld
 					break;
 				case 1u:
 					break;
+				case 2u:
+					goto IL_CE;
 				default:
 					return false;
 				}
+				if (parentDef.Minifiable)
+				{
+					this.$current = new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_WorkToUninstall".Translate(), this.uninstallWork.ToStringWorkAmount(), 0, "");
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_CE:
 				this.$PC = -1;
 				return false;
 			}
@@ -554,6 +574,7 @@ namespace RimWorld
 				}
 				BuildingProperties.<SpecialDisplayStats>c__Iterator1 <SpecialDisplayStats>c__Iterator = new BuildingProperties.<SpecialDisplayStats>c__Iterator1();
 				<SpecialDisplayStats>c__Iterator.$this = this;
+				<SpecialDisplayStats>c__Iterator.parentDef = parentDef;
 				return <SpecialDisplayStats>c__Iterator;
 			}
 		}

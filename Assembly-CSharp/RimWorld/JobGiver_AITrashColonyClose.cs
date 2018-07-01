@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 			else
 			{
-				bool flag = pawn.natives.IgniteVerb != null && pawn.HostileTo(Faction.OfPlayer);
+				bool flag = pawn.natives.IgniteVerb != null && pawn.natives.IgniteVerb.IsStillUsableBy(pawn) && pawn.HostileTo(Faction.OfPlayer);
 				CellRect cellRect = CellRect.CenteredOn(pawn.Position, 5);
 				for (int i = 0; i < 35; i++)
 				{

@@ -87,6 +87,10 @@ namespace RimWorld
 					}
 					else
 					{
+						if (parms.seed != null)
+						{
+							Log.Warning("Deterministic seed not implemented for this pawn group kind worker. The result will be random anyway.", false);
+						}
 						TraderKindDef traderKindDef;
 						if (parms.traderKind != null)
 						{
@@ -195,6 +199,11 @@ namespace RimWorld
 					outPawns.Add(item);
 				}
 			}
+		}
+
+		public override IEnumerable<PawnKindDef> GeneratePawnKindsExample(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
+		{
+			throw new NotImplementedException();
 		}
 
 		[CompilerGenerated]

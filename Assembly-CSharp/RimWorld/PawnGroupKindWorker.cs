@@ -47,6 +47,8 @@ namespace RimWorld
 			return true;
 		}
 
+		public abstract IEnumerable<PawnKindDef> GeneratePawnKindsExample(PawnGroupMakerParms parms, PawnGroupMaker groupMaker);
+
 		// Note: this type is marked as 'beforefieldinit'.
 		static PawnGroupKindWorker()
 		{

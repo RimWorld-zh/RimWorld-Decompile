@@ -24,7 +24,7 @@ namespace RimWorld.Planet
 			command_Settle.action = delegate()
 			{
 				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-				FactionBaseProximityGoodwillUtility.CheckConfirmSettle(map.Tile, delegate
+				SettlementProximityGoodwillUtility.CheckConfirmSettle(map.Tile, delegate
 				{
 					SettleInExistingMapUtility.Settle(map);
 				});
@@ -107,7 +107,7 @@ namespace RimWorld.Planet
 			internal void <>m__0()
 			{
 				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-				FactionBaseProximityGoodwillUtility.CheckConfirmSettle(this.map.Tile, delegate
+				SettlementProximityGoodwillUtility.CheckConfirmSettle(this.map.Tile, delegate
 				{
 					SettleInExistingMapUtility.Settle(this.map);
 				});

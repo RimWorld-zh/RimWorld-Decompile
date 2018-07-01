@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			CellRect around;
 			IntVec3 near;

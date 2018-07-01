@@ -31,13 +31,16 @@ namespace RimWorld
 		};
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cache0;
+		private static Func<PawnGroupMaker, float> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<Faction, string> <>f__am$cache1;
+		private static Func<Faction, bool> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Action<Faction> <>f__am$cache2;
+		private static Func<Faction, string> <>f__am$cache2;
+
+		[CompilerGenerated]
+		private static Action<Faction> <>f__am$cache3;
 
 		public PawnGroupMakerUtility()
 		{
@@ -48,6 +51,11 @@ namespace RimWorld
 			if (parms.groupKind == null)
 			{
 				Log.Error("Tried to generate pawns with null pawn group kind def. parms=" + parms, false);
+				yield break;
+			}
+			if (parms.faction == null)
+			{
+				Log.Error("Tried to generate pawn kinds with null faction. parms=" + parms, false);
 				yield break;
 			}
 			if (parms.faction.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>())
@@ -62,11 +70,8 @@ namespace RimWorld
 				}), false);
 				yield break;
 			}
-			IEnumerable<PawnGroupMaker> usableGroupMakers = from gm in parms.faction.def.pawnGroupMakers
-			where gm.kindDef == parms.groupKind && gm.CanGenerateFrom(parms)
-			select gm;
 			PawnGroupMaker chosenGroupMaker;
-			if (!usableGroupMakers.TryRandomElementByWeight((PawnGroupMaker gm) => gm.commonality, out chosenGroupMaker))
+			if (!PawnGroupMakerUtility.TryGetRandomPawnGroupMaker(parms, out chosenGroupMaker))
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -86,8 +91,74 @@ namespace RimWorld
 			yield break;
 		}
 
+		public static IEnumerable<PawnKindDef> GeneratePawnKindsExample(PawnGroupMakerParms parms)
+		{
+			if (parms.groupKind == null)
+			{
+				Log.Error("Tried to generate pawn kinds with null pawn group kind def. parms=" + parms, false);
+				yield break;
+			}
+			if (parms.faction == null)
+			{
+				Log.Error("Tried to generate pawn kinds with null faction. parms=" + parms, false);
+				yield break;
+			}
+			if (parms.faction.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>())
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Faction ",
+					parms.faction,
+					" of def ",
+					parms.faction.def,
+					" has no any PawnGroupMakers."
+				}), false);
+				yield break;
+			}
+			PawnGroupMaker chosenGroupMaker;
+			if (!PawnGroupMakerUtility.TryGetRandomPawnGroupMaker(parms, out chosenGroupMaker))
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Faction ",
+					parms.faction,
+					" of def ",
+					parms.faction.def,
+					" has no usable PawnGroupMakers for parms ",
+					parms
+				}), false);
+				yield break;
+			}
+			foreach (PawnKindDef p in chosenGroupMaker.GeneratePawnKindsExample(parms))
+			{
+				yield return p;
+			}
+			yield break;
+		}
+
+		private static bool TryGetRandomPawnGroupMaker(PawnGroupMakerParms parms, out PawnGroupMaker pawnGroupMaker)
+		{
+			if (parms.seed != null)
+			{
+				Rand.PushState(parms.seed.Value);
+			}
+			IEnumerable<PawnGroupMaker> source = from gm in parms.faction.def.pawnGroupMakers
+			where gm.kindDef == parms.groupKind && gm.CanGenerateFrom(parms)
+			select gm;
+			bool result = source.TryRandomElementByWeight((PawnGroupMaker gm) => gm.commonality, out pawnGroupMaker);
+			if (parms.seed != null)
+			{
+				Rand.PopState();
+			}
+			return result;
+		}
+
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float pointsTotal, List<PawnGenOption> options, PawnGroupMakerParms groupParms)
 		{
+			if (groupParms.seed != null)
+			{
+				Rand.PushState(groupParms.seed.Value);
+			}
 			float num = PawnGroupMakerUtility.MaxPawnCost(groupParms.faction, pointsTotal, groupParms.raidStrategy, groupParms.groupKind);
 			List<PawnGenOption> list = new List<PawnGenOption>();
 			List<PawnGenOption> list2 = new List<PawnGenOption>();
@@ -152,6 +223,10 @@ namespace RimWorld
 					" points generating for ",
 					groupParms.faction
 				}), false);
+			}
+			if (groupParms.seed != null)
+			{
+				Rand.PopState();
 			}
 			return list2;
 		}
@@ -302,19 +377,25 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static bool <PawnGroupsMade>m__0(Faction fac)
+		private static float <TryGetRandomPawnGroupMaker>m__0(PawnGroupMaker gm)
+		{
+			return gm.commonality;
+		}
+
+		[CompilerGenerated]
+		private static bool <PawnGroupsMade>m__1(Faction fac)
 		{
 			return !fac.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>();
 		}
 
 		[CompilerGenerated]
-		private static string <PawnGroupsMade>m__1(Faction fac)
+		private static string <PawnGroupsMade>m__2(Faction fac)
 		{
 			return fac.Name + " (" + fac.def.defName + ")";
 		}
 
 		[CompilerGenerated]
-		private static void <PawnGroupsMade>m__2(Faction fac)
+		private static void <PawnGroupsMade>m__3(Faction fac)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine(string.Concat(new object[]
@@ -396,8 +477,6 @@ namespace RimWorld
 		{
 			internal PawnGroupMakerParms parms;
 
-			internal IEnumerable<PawnGroupMaker> <usableGroupMakers>__0;
-
 			internal PawnGroupMaker <chosenGroupMaker>__0;
 
 			internal bool warnOnZeroResults;
@@ -411,10 +490,6 @@ namespace RimWorld
 			internal bool $disposing;
 
 			internal int $PC;
-
-			private PawnGroupMakerUtility.<GeneratePawns>c__Iterator0.<GeneratePawns>c__AnonStorey1 $locvar1;
-
-			private static Func<PawnGroupMaker, float> <>f__am$cache0;
 
 			[DebuggerHidden]
 			public <GeneratePawns>c__Iterator0()
@@ -434,6 +509,11 @@ namespace RimWorld
 						Log.Error("Tried to generate pawns with null pawn group kind def. parms=" + parms, false);
 						return false;
 					}
+					if (parms.faction == null)
+					{
+						Log.Error("Tried to generate pawn kinds with null faction. parms=" + parms, false);
+						return false;
+					}
 					if (parms.faction.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>())
 					{
 						Log.Error(string.Concat(new object[]
@@ -446,10 +526,7 @@ namespace RimWorld
 						}), false);
 						return false;
 					}
-					usableGroupMakers = from gm in parms.faction.def.pawnGroupMakers
-					where gm.kindDef == parms.groupKind && gm.CanGenerateFrom(parms)
-					select gm;
-					if (!usableGroupMakers.TryRandomElementByWeight((PawnGroupMaker gm) => gm.commonality, out chosenGroupMaker))
+					if (!PawnGroupMakerUtility.TryGetRandomPawnGroupMaker(parms, out chosenGroupMaker))
 					{
 						Log.Error(string.Concat(new object[]
 						{
@@ -566,35 +643,199 @@ namespace RimWorld
 				<GeneratePawns>c__Iterator.warnOnZeroResults = warnOnZeroResults;
 				return <GeneratePawns>c__Iterator;
 			}
+		}
 
-			private static float <>m__0(PawnGroupMaker gm)
+		[CompilerGenerated]
+		private sealed class <GeneratePawnKindsExample>c__Iterator1 : IEnumerable, IEnumerable<PawnKindDef>, IEnumerator, IDisposable, IEnumerator<PawnKindDef>
+		{
+			internal PawnGroupMakerParms parms;
+
+			internal PawnGroupMaker <chosenGroupMaker>__0;
+
+			internal IEnumerator<PawnKindDef> $locvar0;
+
+			internal PawnKindDef <p>__1;
+
+			internal PawnKindDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GeneratePawnKindsExample>c__Iterator1()
 			{
-				return gm.commonality;
 			}
 
-			private sealed class <GeneratePawns>c__AnonStorey1
+			public bool MoveNext()
 			{
-				internal PawnGroupMakerParms parms;
-
-				internal PawnGroupMakerUtility.<GeneratePawns>c__Iterator0 <>f__ref$0;
-
-				public <GeneratePawns>c__AnonStorey1()
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
 				{
+				case 0u:
+					if (parms.groupKind == null)
+					{
+						Log.Error("Tried to generate pawn kinds with null pawn group kind def. parms=" + parms, false);
+						return false;
+					}
+					if (parms.faction == null)
+					{
+						Log.Error("Tried to generate pawn kinds with null faction. parms=" + parms, false);
+						return false;
+					}
+					if (parms.faction.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>())
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Faction ",
+							parms.faction,
+							" of def ",
+							parms.faction.def,
+							" has no any PawnGroupMakers."
+						}), false);
+						return false;
+					}
+					if (!PawnGroupMakerUtility.TryGetRandomPawnGroupMaker(parms, out chosenGroupMaker))
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Faction ",
+							parms.faction,
+							" of def ",
+							parms.faction.def,
+							" has no usable PawnGroupMakers for parms ",
+							parms
+						}), false);
+						return false;
+					}
+					enumerator = chosenGroupMaker.GeneratePawnKindsExample(parms).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
 				}
-
-				internal bool <>m__0(PawnGroupMaker gm)
+				try
 				{
-					return gm.kindDef == this.parms.groupKind && gm.CanGenerateFrom(this.parms);
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
 				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			PawnKindDef IEnumerator<PawnKindDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.PawnKindDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<PawnKindDef> IEnumerable<PawnKindDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnGroupMakerUtility.<GeneratePawnKindsExample>c__Iterator1 <GeneratePawnKindsExample>c__Iterator = new PawnGroupMakerUtility.<GeneratePawnKindsExample>c__Iterator1();
+				<GeneratePawnKindsExample>c__Iterator.parms = parms;
+				return <GeneratePawnKindsExample>c__Iterator;
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <ChoosePawnGenOptionsByPoints>c__AnonStorey2
+		private sealed class <TryGetRandomPawnGroupMaker>c__AnonStorey2
+		{
+			internal PawnGroupMakerParms parms;
+
+			public <TryGetRandomPawnGroupMaker>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(PawnGroupMaker gm)
+			{
+				return gm.kindDef == this.parms.groupKind && gm.CanGenerateFrom(this.parms);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <ChoosePawnGenOptionsByPoints>c__AnonStorey3
 		{
 			internal float highestCost;
 
-			public <ChoosePawnGenOptionsByPoints>c__AnonStorey2()
+			public <ChoosePawnGenOptionsByPoints>c__AnonStorey3()
 			{
 			}
 
@@ -606,7 +847,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private sealed class <TryGetRandomFactionForCombatPawnGroup>c__AnonStorey4
+		private sealed class <TryGetRandomFactionForCombatPawnGroup>c__AnonStorey5
 		{
 			internal bool allowHidden;
 
@@ -622,7 +863,7 @@ namespace RimWorld
 
 			private static Predicate<PawnGroupMaker> <>f__am$cache0;
 
-			public <TryGetRandomFactionForCombatPawnGroup>c__AnonStorey4()
+			public <TryGetRandomFactionForCombatPawnGroup>c__AnonStorey5()
 			{
 			}
 
@@ -650,7 +891,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private sealed class <PawnGroupsMade>c__AnonStorey3
+		private sealed class <PawnGroupsMade>c__AnonStorey4
 		{
 			internal Faction fac;
 
@@ -658,7 +899,7 @@ namespace RimWorld
 
 			private static Func<Pawn, float> <>f__am$cache0;
 
-			public <PawnGroupsMade>c__AnonStorey3()
+			public <PawnGroupsMade>c__AnonStorey4()
 			{
 			}
 

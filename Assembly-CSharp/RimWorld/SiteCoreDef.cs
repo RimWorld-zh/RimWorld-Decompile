@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	public class SiteCoreDef : SiteDefBase
+	public class SiteCoreDef : SiteCoreOrPartDefBase
 	{
 		public bool transportPodsCanLandAndGenerateMap = true;
 
@@ -26,7 +26,7 @@ namespace RimWorld
 			return base.FactionCanOwn(faction) && this.Worker.FactionCanOwn(faction);
 		}
 
-		protected override SiteWorkerBase CreateWorker()
+		protected override SiteCoreOrPartWorkerBase CreateWorker()
 		{
 			return (SiteCoreWorker)Activator.CreateInstance(this.workerClass);
 		}

@@ -93,6 +93,8 @@ namespace Verse.AI
 
 		public int lastSelfTendTick = -99999;
 
+		public bool spawnedByInfestationThingComp;
+
 		public float maxDistToSquadFlag = -1f;
 
 		private int lastJobGiverKey = -1;
@@ -197,6 +199,7 @@ namespace Verse.AI
 			this.wildManEverReachedOutside = false;
 			this.timesGuestTendedToByPlayer = 0;
 			this.lastSelfTendTick = -99999;
+			this.spawnedByInfestationThingComp = false;
 		}
 
 		public void ExposeData()
@@ -266,6 +269,7 @@ namespace Verse.AI
 			Scribe_Values.Look<bool>(ref this.wildManEverReachedOutside, "wildManEverReachedOutside", false, false);
 			Scribe_Values.Look<int>(ref this.timesGuestTendedToByPlayer, "timesGuestTendedToByPlayer", 0, false);
 			Scribe_Values.Look<int>(ref this.lastSelfTendTick, "lastSelfTendTick", 0, false);
+			Scribe_Values.Look<bool>(ref this.spawnedByInfestationThingComp, "spawnedByInfestationThingComp", false, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				BackCompatibility.MindStatePostLoadInit(this);

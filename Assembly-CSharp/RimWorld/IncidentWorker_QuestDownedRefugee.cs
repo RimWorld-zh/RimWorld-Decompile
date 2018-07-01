@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using RimWorld.Planet;
 using Verse;
 
@@ -45,13 +46,20 @@ namespace RimWorld
 				else
 				{
 					site.Tile = tile;
+					site.sitePartsKnown = true;
 					Pawn pawn = DownedRefugeeQuestUtility.GenerateRefugee(tile);
 					site.GetComponent<DownedRefugeeComp>().pawn.TryAdd(pawn, true);
 					int randomInRange = IncidentWorker_QuestDownedRefugee.TimeoutDaysRange.RandomInRange;
 					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 					Find.WorldObjects.Add(site);
 					string text = this.def.letterLabel;
-					string text2 = string.Format(this.def.letterText.AdjustedFor(pawn, "PAWN"), randomInRange, pawn.ageTracker.AgeBiologicalYears, pawn.story.Title).CapitalizeFirst();
+					string text2 = string.Format(this.def.letterText.AdjustedFor(pawn, "PAWN"), new object[]
+					{
+						randomInRange,
+						pawn.ageTracker.AgeBiologicalYears,
+						pawn.story.Title,
+						SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>())
+					}).CapitalizeFirst();
 					Pawn mostImportantColonyRelative = PawnRelationUtility.GetMostImportantColonyRelative(pawn);
 					if (mostImportantColonyRelative != null)
 					{

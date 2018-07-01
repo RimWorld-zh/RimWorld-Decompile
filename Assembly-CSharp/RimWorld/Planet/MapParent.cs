@@ -54,7 +54,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public virtual IEnumerable<GenStepDef> ExtraGenStepDefs
+		public virtual IEnumerable<GenStepWithParams> ExtraGenStepDefs
 		{
 			get
 			{
@@ -315,9 +315,9 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<GenStepDef>, IEnumerator, IDisposable, IEnumerator<GenStepDef>
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<GenStepWithParams>, IEnumerator, IDisposable, IEnumerator<GenStepWithParams>
 		{
-			internal GenStepDef $current;
+			internal GenStepWithParams $current;
 
 			internal bool $disposing;
 
@@ -338,7 +338,7 @@ namespace RimWorld.Planet
 				return false;
 			}
 
-			GenStepDef IEnumerator<GenStepDef>.Current
+			GenStepWithParams IEnumerator<GenStepWithParams>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -370,11 +370,11 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<Verse.GenStepDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<Verse.GenStepWithParams>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<GenStepDef> IEnumerable<GenStepDef>.GetEnumerator()
+			IEnumerator<GenStepWithParams> IEnumerable<GenStepWithParams>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{

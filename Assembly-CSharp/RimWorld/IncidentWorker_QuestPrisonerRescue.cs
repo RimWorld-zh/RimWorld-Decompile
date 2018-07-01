@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using RimWorld.Planet;
 using Verse;
 
@@ -44,6 +45,7 @@ namespace RimWorld
 				else
 				{
 					site.Tile = tile;
+					site.sitePartsKnown = true;
 					Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
 					site.GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);
 					int randomInRange = IncidentWorker_QuestPrisonerRescue.TimeoutDaysRange.RandomInRange;
@@ -51,7 +53,7 @@ namespace RimWorld
 					Find.WorldObjects.Add(site);
 					string text;
 					string label;
-					this.GetLetterText(pawn, site.Faction, randomInRange, out text, out label);
+					this.GetLetterText(pawn, site, site.parts.FirstOrDefault<SitePart>(), randomInRange, out text, out label);
 					Find.LetterStack.ReceiveLetter(label, text, this.def.letterDef, site, site.Faction, null);
 					result = true;
 				}
@@ -64,9 +66,15 @@ namespace RimWorld
 			return TileFinder.TryFindNewSiteTile(out tile, 2, 18, false, false, -1);
 		}
 
-		private void GetLetterText(Pawn prisoner, Faction siteFaction, int days, out string letter, out string label)
+		private void GetLetterText(Pawn prisoner, Site site, SitePart sitePart, int days, out string letter, out string label)
 		{
-			letter = string.Format(this.def.letterText.AdjustedFor(prisoner, "PAWN"), siteFaction.Name, prisoner.ageTracker.AgeBiologicalYears, prisoner.story.Title).CapitalizeFirst();
+			letter = string.Format(this.def.letterText.AdjustedFor(prisoner, "PAWN"), new object[]
+			{
+				site.Faction.Name,
+				prisoner.ageTracker.AgeBiologicalYears,
+				prisoner.story.Title,
+				SitePartUtility.GetDescriptionDialogue(site, sitePart)
+			}).CapitalizeFirst();
 			if (PawnUtility.EverBeenColonistOrTameAnimal(prisoner))
 			{
 				letter = letter + "\n\n" + "PawnWasFormerlyColonist".Translate(new object[]

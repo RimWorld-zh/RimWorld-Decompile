@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
@@ -21,6 +22,37 @@ namespace RimWorld
 			where x.RaceProps.Humanlike && x.HostileTo(Faction.OfPlayer)
 			select x).FirstOrDefault<Pawn>();
 			return arrivedLetterPart;
+		}
+
+		public override string GetPostProcessedDescriptionDialogue(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			return string.Format(base.GetPostProcessedDescriptionDialogue(site, siteCoreOrPart), this.GetEnemiesCount(site, siteCoreOrPart.parms));
+		}
+
+		public override string GetPostProcessedThreatLabel(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			return base.GetPostProcessedThreatLabel(site, siteCoreOrPart) + " (" + "EnemiesCount".Translate(new object[]
+			{
+				this.GetEnemiesCount(site, siteCoreOrPart.parms)
+			}) + ")";
+		}
+
+		private int GetEnemiesCount(Site site, SiteCoreOrPartParams parms)
+		{
+			return PawnGroupMakerUtility.GeneratePawnKindsExample(new PawnGroupMakerParms
+			{
+				tile = site.Tile,
+				faction = site.Faction,
+				groupKind = PawnGroupKindDefOf.Settlement,
+				points = parms.threatPoints,
+				inhabitants = true,
+				seed = new int?(SitePartWorker_Outpost.GetPawnGroupMakerSeed(parms))
+			}).Count<PawnKindDef>();
+		}
+
+		public static int GetPawnGroupMakerSeed(SiteCoreOrPartParams parms)
+		{
+			return parms.randomValue;
 		}
 
 		[CompilerGenerated]

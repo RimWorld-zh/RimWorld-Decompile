@@ -45,7 +45,7 @@ namespace RimWorld
 			return thingDef;
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			if (!map.TileInfo.WaterCovered)
 			{
@@ -130,7 +130,7 @@ namespace RimWorld
 					break;
 				}
 				genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(num3, num3);
-				genStep_ScatterLumpsMineable.Generate(map);
+				genStep_ScatterLumpsMineable.Generate(map, parms);
 				map.regionAndRoomUpdater.Enabled = true;
 			}
 		}

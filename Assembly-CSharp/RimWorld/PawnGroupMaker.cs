@@ -39,6 +39,11 @@ namespace RimWorld
 			return this.kindDef.Worker.GeneratePawns(parms, this, errorOnZeroResults);
 		}
 
+		public IEnumerable<PawnKindDef> GeneratePawnKindsExample(PawnGroupMakerParms parms)
+		{
+			return this.kindDef.Worker.GeneratePawnKindsExample(parms, this);
+		}
+
 		public bool CanGenerateFrom(PawnGroupMakerParms parms)
 		{
 			return parms.points <= this.maxTotalPoints && (this.disallowedStrategies == null || !this.disallowedStrategies.Contains(parms.raidStrategy)) && this.kindDef.Worker.CanGenerateFrom(parms, this);

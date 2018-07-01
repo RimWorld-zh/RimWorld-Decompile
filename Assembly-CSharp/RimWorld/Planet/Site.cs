@@ -15,11 +15,11 @@ namespace RimWorld.Planet
 	{
 		public string customLabel;
 
-		public SiteCoreDef core;
+		public SiteCore core;
 
-		public List<SitePartDef> parts = new List<SitePartDef>();
+		public List<SitePart> parts = new List<SitePart>();
 
-		public bool writeSiteParts;
+		public bool sitePartsKnown;
 
 		public bool factionMustRemainHostile;
 
@@ -29,12 +29,11 @@ namespace RimWorld.Planet
 
 		private Material cachedMat;
 
-		private static List<SiteDefBase> tmpDefs = new List<SiteDefBase>();
+		private static List<SiteCoreOrPartDefBase> tmpDefs = new List<SiteCoreOrPartDefBase>();
 
-		private static List<SiteDefBase> tmpUsedDefs = new List<SiteDefBase>();
+		private static List<SiteCoreOrPartDefBase> tmpUsedDefs = new List<SiteCoreOrPartDefBase>();
 
-		[CompilerGenerated]
-		private static Func<SitePartDef, string> <>f__am$cache0;
+		private static List<string> tmpSitePartsLabels = new List<string>();
 
 		public Site()
 		{
@@ -44,20 +43,23 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				string label;
+				string result;
 				if (!this.customLabel.NullOrEmpty())
 				{
-					label = this.customLabel;
+					result = this.customLabel;
 				}
-				else if (this.core == SiteCoreDefOf.Nothing && this.parts.Any<SitePartDef>())
+				else if (this.MainSiteDef == SiteCoreDefOf.PreciousLump && this.core.parms.preciousLumpResources != null)
 				{
-					label = this.parts[0].label;
+					result = "PreciousLumpLabel".Translate(new object[]
+					{
+						this.core.parms.preciousLumpResources.label
+					});
 				}
 				else
 				{
-					label = this.core.label;
+					result = this.MainSiteDef.label;
 				}
-				return label;
+				return result;
 			}
 		}
 
@@ -98,12 +100,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private SiteDefBase MainSiteDef
+		private SiteCoreOrPartBase MainSiteCoreOrPart
 		{
 			get
 			{
-				SiteDefBase result;
-				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any<SitePartDef>())
+				SiteCoreOrPartBase result;
+				if (this.core.def == SiteCoreDefOf.Nothing && this.parts.Any<SitePart>())
 				{
 					result = this.parts[0];
 				}
@@ -115,25 +117,37 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public override IEnumerable<GenStepDef> ExtraGenStepDefs
+		private SiteCoreOrPartDefBase MainSiteDef
 		{
 			get
 			{
-				foreach (GenStepDef g in this.<get_ExtraGenStepDefs>__BaseCallProxy0())
+				return this.MainSiteCoreOrPart.Def;
+			}
+		}
+
+		public override IEnumerable<GenStepWithParams> ExtraGenStepDefs
+		{
+			get
+			{
+				foreach (GenStepWithParams g in this.<get_ExtraGenStepDefs>__BaseCallProxy0())
 				{
 					yield return g;
 				}
-				List<GenStepDef> coreGenStepDefs = this.core.ExtraGenSteps;
+				GenStepParams coreGenStepParms = default(GenStepParams);
+				coreGenStepParms.siteCoreOrPart = this.core;
+				List<GenStepDef> coreGenStepDefs = this.core.def.ExtraGenSteps;
 				for (int i = 0; i < coreGenStepDefs.Count; i++)
 				{
-					yield return coreGenStepDefs[i];
+					yield return new GenStepWithParams(coreGenStepDefs[i], coreGenStepParms);
 				}
 				for (int j = 0; j < this.parts.Count; j++)
 				{
-					List<GenStepDef> partGenStepDefs = this.parts[j].ExtraGenSteps;
+					GenStepParams partGenStepParams = default(GenStepParams);
+					partGenStepParams.siteCoreOrPart = this.parts[j];
+					List<GenStepDef> partGenStepDefs = this.parts[j].def.ExtraGenSteps;
 					for (int k = 0; k < partGenStepDefs.Count; k++)
 					{
-						yield return partGenStepDefs[k];
+						yield return new GenStepWithParams(partGenStepDefs[k], partGenStepParams);
 					}
 				}
 				yield break;
@@ -166,21 +180,25 @@ namespace RimWorld.Planet
 		{
 			base.ExposeData();
 			Scribe_Values.Look<string>(ref this.customLabel, "customLabel", null, false);
-			Scribe_Defs.Look<SiteCoreDef>(ref this.core, "core");
-			Scribe_Collections.Look<SitePartDef>(ref this.parts, "parts", LookMode.Def, new object[0]);
+			Scribe_Deep.Look<SiteCore>(ref this.core, "core", new object[0]);
+			Scribe_Collections.Look<SitePart>(ref this.parts, "parts", LookMode.Deep, new object[0]);
 			Scribe_Values.Look<bool>(ref this.startedCountdown, "startedCountdown", false, false);
 			Scribe_Values.Look<bool>(ref this.anyEnemiesInitially, "anyEnemiesInitially", false, false);
-			Scribe_Values.Look<bool>(ref this.writeSiteParts, "writeSiteParts", false, false);
+			Scribe_Values.Look<bool>(ref this.sitePartsKnown, "sitePartsKnown", false, false);
 			Scribe_Values.Look<bool>(ref this.factionMustRemainHostile, "factionMustRemainHostile", false, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.SitePostLoadInit(this);
+			}
 		}
 
 		public override void Tick()
 		{
 			base.Tick();
-			this.core.Worker.SiteCoreWorkerTick(this);
+			this.core.def.Worker.SiteCoreWorkerTick(this);
 			for (int i = 0; i < this.parts.Count; i++)
 			{
-				this.parts[i].Worker.SitePartWorkerTick(this);
+				this.parts[i].def.Worker.SitePartWorkerTick(this);
 			}
 			if (base.HasMap)
 			{
@@ -192,20 +210,20 @@ namespace RimWorld.Planet
 		{
 			base.PostMapGenerate();
 			Map map = base.Map;
-			this.core.Worker.PostMapGenerate(map);
+			this.core.def.Worker.PostMapGenerate(map);
 			for (int i = 0; i < this.parts.Count; i++)
 			{
-				this.parts[i].Worker.PostMapGenerate(map);
+				this.parts[i].def.Worker.PostMapGenerate(map);
 			}
 			this.anyEnemiesInitially = GenHostility.AnyHostileActiveThreatToPlayer(base.Map);
 			LookTargets lookTargets = new LookTargets();
 			StringBuilder stringBuilder = new StringBuilder();
 			Site.tmpUsedDefs.Clear();
 			Site.tmpDefs.Clear();
-			Site.tmpDefs.Add(this.core);
+			Site.tmpDefs.Add(this.core.def);
 			for (int j = 0; j < this.parts.Count; j++)
 			{
-				Site.tmpDefs.Add(this.parts[j]);
+				Site.tmpDefs.Add(this.parts[j].def);
 			}
 			LetterDef letterDef = null;
 			string text = null;
@@ -259,7 +277,7 @@ namespace RimWorld.Planet
 			{
 				yield return f;
 			}
-			foreach (FloatMenuOption f2 in this.core.Worker.GetFloatMenuOptions(caravan, this))
+			foreach (FloatMenuOption f2 in this.core.def.Worker.GetFloatMenuOptions(caravan, this))
 			{
 				yield return f2;
 			}
@@ -272,7 +290,7 @@ namespace RimWorld.Planet
 			{
 				yield return o;
 			}
-			foreach (FloatMenuOption o2 in this.core.Worker.GetTransportPodsFloatMenuOptions(pods, representative, this))
+			foreach (FloatMenuOption o2 in this.core.def.Worker.GetTransportPodsFloatMenuOptions(pods, representative, this))
 			{
 				yield return o2;
 			}
@@ -299,7 +317,7 @@ namespace RimWorld.Planet
 				if (!GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
 				{
 					this.startedCountdown = true;
-					int num = Mathf.RoundToInt(this.core.forceExitAndRemoveMapCountdownDurationDays * 60000f);
+					int num = Mathf.RoundToInt(this.core.def.forceExitAndRemoveMapCountdownDurationDays * 60000f);
 					string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(new object[]
 					{
 						TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
@@ -327,31 +345,37 @@ namespace RimWorld.Planet
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.GetInspectString());
-			if (this.writeSiteParts)
+			if (this.sitePartsKnown)
 			{
 				if (stringBuilder.Length != 0)
 				{
 					stringBuilder.AppendLine();
 				}
-				if (this.parts.Count == 0)
+				Site.tmpSitePartsLabels.Clear();
+				for (int i = 0; i < this.parts.Count; i++)
+				{
+					if (!this.parts[i].def.alwaysHidden)
+					{
+						Site.tmpSitePartsLabels.Add(this.parts[i].def.Worker.GetPostProcessedThreatLabel(this, this.parts[i]));
+					}
+				}
+				if (Site.tmpSitePartsLabels.Count == 0)
 				{
 					stringBuilder.Append("KnownSiteThreatsNone".Translate());
 				}
-				else if (this.parts.Count == 1)
+				else if (Site.tmpSitePartsLabels.Count == 1)
 				{
 					stringBuilder.Append("KnownSiteThreat".Translate(new object[]
 					{
-						this.parts[0].LabelCap
+						Site.tmpSitePartsLabels[0].CapitalizeFirst()
 					}));
 				}
 				else
 				{
-					StringBuilder stringBuilder2 = stringBuilder;
-					string key = "KnownSiteThreats";
-					object[] array = new object[1];
-					array[0] = (from x in this.parts
-					select x.LabelCap).ToCommaList(true);
-					stringBuilder2.Append(key.Translate(array));
+					stringBuilder.Append("KnownSiteThreats".Translate(new object[]
+					{
+						Site.tmpSitePartsLabels.ToCommaList(true).CapitalizeFirst()
+					}));
 				}
 			}
 			return stringBuilder.ToString();
@@ -379,7 +403,7 @@ namespace RimWorld.Planet
 
 		[DebuggerHidden]
 		[CompilerGenerated]
-		private IEnumerable<GenStepDef> <get_ExtraGenStepDefs>__BaseCallProxy0()
+		private IEnumerable<GenStepWithParams> <get_ExtraGenStepDefs>__BaseCallProxy0()
 		{
 			return base.ExtraGenStepDefs;
 		}
@@ -406,17 +430,13 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private static string <GetInspectString>m__0(SitePartDef x)
+		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<GenStepWithParams>, IEnumerator, IDisposable, IEnumerator<GenStepWithParams>
 		{
-			return x.LabelCap;
-		}
+			internal IEnumerator<GenStepWithParams> $locvar0;
 
-		[CompilerGenerated]
-		private sealed class <>c__Iterator0 : IEnumerable, IEnumerable<GenStepDef>, IEnumerator, IDisposable, IEnumerator<GenStepDef>
-		{
-			internal IEnumerator<GenStepDef> $locvar0;
+			internal GenStepWithParams <g>__1;
 
-			internal GenStepDef <g>__1;
+			internal GenStepParams <coreGenStepParms>__0;
 
 			internal List<GenStepDef> <coreGenStepDefs>__0;
 
@@ -424,13 +444,15 @@ namespace RimWorld.Planet
 
 			internal int <i>__3;
 
+			internal GenStepParams <partGenStepParams>__4;
+
 			internal List<GenStepDef> <partGenStepDefs>__4;
 
 			internal int <j>__5;
 
 			internal Site $this;
 
-			internal GenStepDef $current;
+			internal GenStepWithParams $current;
 
 			internal bool $disposing;
 
@@ -456,10 +478,10 @@ namespace RimWorld.Planet
 					break;
 				case 2u:
 					i++;
-					goto IL_119;
+					goto IL_14E;
 				case 3u:
 					k++;
-					goto IL_1A4;
+					goto IL_219;
 				default:
 					return false;
 				}
@@ -490,24 +512,26 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				coreGenStepDefs = this.core.ExtraGenSteps;
+				coreGenStepParms = default(GenStepParams);
+				coreGenStepParms.siteCoreOrPart = this.core;
+				coreGenStepDefs = this.core.def.ExtraGenSteps;
 				i = 0;
-				IL_119:
+				IL_14E:
 				if (i >= coreGenStepDefs.Count)
 				{
 					j = 0;
-					goto IL_1C9;
+					goto IL_23E;
 				}
-				this.$current = coreGenStepDefs[i];
+				this.$current = new GenStepWithParams(coreGenStepDefs[i], coreGenStepParms);
 				if (!this.$disposing)
 				{
 					this.$PC = 2;
 				}
 				return true;
-				IL_1A4:
+				IL_219:
 				if (k < partGenStepDefs.Count)
 				{
-					this.$current = partGenStepDefs[k];
+					this.$current = new GenStepWithParams(partGenStepDefs[k], partGenStepParams);
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
@@ -515,18 +539,20 @@ namespace RimWorld.Planet
 					return true;
 				}
 				j++;
-				IL_1C9:
+				IL_23E:
 				if (j < this.parts.Count)
 				{
-					partGenStepDefs = this.parts[j].ExtraGenSteps;
+					partGenStepParams = default(GenStepParams);
+					partGenStepParams.siteCoreOrPart = this.parts[j];
+					partGenStepDefs = this.parts[j].def.ExtraGenSteps;
 					k = 0;
-					goto IL_1A4;
+					goto IL_219;
 				}
 				this.$PC = -1;
 				return false;
 			}
 
-			GenStepDef IEnumerator<GenStepDef>.Current
+			GenStepWithParams IEnumerator<GenStepWithParams>.Current
 			{
 				[DebuggerHidden]
 				get
@@ -576,11 +602,11 @@ namespace RimWorld.Planet
 			[DebuggerHidden]
 			IEnumerator IEnumerable.GetEnumerator()
 			{
-				return this.System.Collections.Generic.IEnumerable<Verse.GenStepDef>.GetEnumerator();
+				return this.System.Collections.Generic.IEnumerable<Verse.GenStepWithParams>.GetEnumerator();
 			}
 
 			[DebuggerHidden]
-			IEnumerator<GenStepDef> IEnumerable<GenStepDef>.GetEnumerator()
+			IEnumerator<GenStepWithParams> IEnumerable<GenStepWithParams>.GetEnumerator()
 			{
 				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
 				{
@@ -632,7 +658,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_EE;
+					goto IL_F3;
 				default:
 					return false;
 				}
@@ -663,11 +689,11 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				enumerator2 = this.core.Worker.GetFloatMenuOptions(caravan, this).GetEnumerator();
+				enumerator2 = this.core.def.Worker.GetFloatMenuOptions(caravan, this).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_EE:
+					IL_F3:
 					switch (num)
 					{
 					}
@@ -818,7 +844,7 @@ namespace RimWorld.Planet
 				case 1u:
 					break;
 				case 2u:
-					goto IL_FA;
+					goto IL_FF;
 				default:
 					return false;
 				}
@@ -849,11 +875,11 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				enumerator2 = this.core.Worker.GetTransportPodsFloatMenuOptions(pods, representative, this).GetEnumerator();
+				enumerator2 = this.core.def.Worker.GetTransportPodsFloatMenuOptions(pods, representative, this).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_FA:
+					IL_FF:
 					switch (num)
 					{
 					}

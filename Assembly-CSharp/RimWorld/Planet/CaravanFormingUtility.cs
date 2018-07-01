@@ -153,7 +153,7 @@ namespace RimWorld.Planet
 				Pawn pawn = allPawnsSpawned[i];
 				if (allowEvenIfDownedOrInMentalState || (!pawn.Downed && !pawn.InMentalState))
 				{
-					if (pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony || (allowCapturableDownedPawns && pawn.Downed && CaravanUtility.ShouldAutoCapture(pawn, Faction.OfPlayer)))
+					if (pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony || (allowCapturableDownedPawns && CaravanFormingUtility.CanListAsAutoCapturable(pawn)))
 					{
 						if ((allowEvenIfPrisonerNotSecure || !pawn.IsPrisoner || pawn.guest.PrisonerIsSecure) && (pawn.GetLord() == null || pawn.GetLord().LordJob is LordJob_VoluntarilyJoinable))
 						{
@@ -163,6 +163,11 @@ namespace RimWorld.Planet
 				}
 			}
 			return list;
+		}
+
+		private static bool CanListAsAutoCapturable(Pawn p)
+		{
+			return p.Downed && !p.mindState.willJoinColonyIfRescued && CaravanUtility.ShouldAutoCapture(p, Faction.OfPlayer);
 		}
 
 		public static IEnumerable<Gizmo> GetGizmos(Pawn pawn)

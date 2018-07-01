@@ -848,16 +848,18 @@ namespace RimWorld
 			return FeedPatientUtility.ShouldBeFed(pawn) || WardenFeedUtility.ShouldBeFed(pawn);
 		}
 
-		public static void AddFoodPoisoningHediff(Pawn pawn, Thing ingestible)
+		public static void AddFoodPoisoningHediff(Pawn pawn, Thing ingestible, FoodPoisonCause cause)
 		{
 			pawn.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.FoodPoisoning, pawn, null), null, null, null);
 			if (PawnUtility.ShouldSendNotificationAbout(pawn) && MessagesRepeatAvoider.MessageShowAllowed("MessageFoodPoisoning-" + pawn.thingIDNumber, 0.1f))
 			{
-				Messages.Message("MessageFoodPoisoning".Translate(new object[]
+				string text = "MessageFoodPoisoning".Translate(new object[]
 				{
 					pawn.LabelShort,
-					ingestible.LabelCapNoCount
-				}).CapitalizeFirst(), pawn, MessageTypeDefOf.NegativeEvent, true);
+					ingestible.LabelCapNoCount,
+					cause.ToStringHuman().CapitalizeFirst()
+				}).CapitalizeFirst();
+				Messages.Message(text, pawn, MessageTypeDefOf.NegativeEvent, true);
 			}
 		}
 

@@ -169,7 +169,7 @@ namespace RimWorld
 		{
 			if (this.Stage != RotStage.Fresh)
 			{
-				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
+				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent, FoodPoisonCause.Rotten);
 			}
 		}
 

@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			int num = 0;
 			while (!map.wildAnimalSpawner.AnimalEcosystemFull)

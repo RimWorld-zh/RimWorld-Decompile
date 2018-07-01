@@ -1,12 +1,10 @@
 ﻿using System;
-using Verse;
 
 namespace RimWorld
 {
-	public class SitePartDef : SiteDefBase
+	public class SitePartDef : SiteCoreOrPartDefBase
 	{
-		[MustTranslate]
-		public string descriptionDialogue;
+		public bool alwaysHidden;
 
 		public SitePartDef()
 		{
@@ -26,7 +24,7 @@ namespace RimWorld
 			return base.FactionCanOwn(faction) && this.Worker.FactionCanOwn(faction);
 		}
 
-		protected override SiteWorkerBase CreateWorker()
+		protected override SiteCoreOrPartWorkerBase CreateWorker()
 		{
 			return (SitePartWorker)Activator.CreateInstance(this.workerClass);
 		}

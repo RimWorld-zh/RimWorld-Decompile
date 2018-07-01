@@ -202,9 +202,9 @@ namespace RimWorld
 			}
 			if (Find.TickManager.TicksGame % 1000 == 200 && this.IsPlayer)
 			{
-				if (NamePlayerFactionAndBaseUtility.CanNameFactionNow())
+				if (NamePlayerFactionAndSettlementUtility.CanNameFactionNow())
 				{
-					Settlement settlement = Find.WorldObjects.Settlements.Find((Settlement x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x));
+					Settlement settlement = Find.WorldObjects.Settlements.Find((Settlement x) => NamePlayerFactionAndSettlementUtility.CanNameSettlementSoon(x));
 					if (settlement != null)
 					{
 						Find.WindowStack.Add(new Dialog_NamePlayerFactionAndSettlement(settlement));
@@ -216,10 +216,10 @@ namespace RimWorld
 				}
 				else
 				{
-					Settlement settlement2 = Find.WorldObjects.Settlements.Find((Settlement x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x));
+					Settlement settlement2 = Find.WorldObjects.Settlements.Find((Settlement x) => NamePlayerFactionAndSettlementUtility.CanNameSettlementNow(x));
 					if (settlement2 != null)
 					{
-						if (NamePlayerFactionAndBaseUtility.CanNameFactionSoon())
+						if (NamePlayerFactionAndSettlementUtility.CanNameFactionSoon())
 						{
 							Find.WindowStack.Add(new Dialog_NamePlayerFactionAndSettlement(settlement2));
 						}
@@ -1285,13 +1285,13 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <FactionTick>m__1(Settlement x)
 		{
-			return NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x);
+			return NamePlayerFactionAndSettlementUtility.CanNameSettlementSoon(x);
 		}
 
 		[CompilerGenerated]
 		private static bool <FactionTick>m__2(Settlement x)
 		{
-			return NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x);
+			return NamePlayerFactionAndSettlementUtility.CanNameSettlementNow(x);
 		}
 
 		[CompilerGenerated]

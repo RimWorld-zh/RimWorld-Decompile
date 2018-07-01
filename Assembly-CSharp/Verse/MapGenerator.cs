@@ -17,7 +17,7 @@ namespace Verse
 
 		public static List<IntVec3> rootsToUnfog = new List<IntVec3>();
 
-		private static List<GenStepDef> tmpGenSteps = new List<GenStepDef>();
+		private static List<GenStepWithParams> tmpGenSteps = new List<GenStepWithParams>();
 
 		public const string ElevationName = "Elevation";
 
@@ -28,10 +28,13 @@ namespace Verse
 		public const string RectOfInterestName = "RectOfInterest";
 
 		[CompilerGenerated]
-		private static Func<GenStepDef, float> <>f__am$cache0;
+		private static Func<GenStepDef, GenStepWithParams> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<GenStepDef, ushort> <>f__am$cache1;
+		private static Func<GenStepWithParams, float> <>f__am$cache1;
+
+		[CompilerGenerated]
+		private static Func<GenStepWithParams, ushort> <>f__am$cache2;
 
 		public static MapGenFloatGrid Elevation
 		{
@@ -79,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		public static Map GenerateMap(IntVec3 mapSize, MapParent parent, MapGeneratorDef mapGenerator, IEnumerable<GenStepDef> extraGenStepDefs = null, Action<Map> extraInitBeforeContentGen = null)
+		public static Map GenerateMap(IntVec3 mapSize, MapParent parent, MapGeneratorDef mapGenerator, IEnumerable<GenStepWithParams> extraGenStepDefs = null, Action<Map> extraInitBeforeContentGen = null)
 		{
 			ProgramState programState = Current.ProgramState;
 			Current.ProgramState = ProgramState.MapInitializing;
@@ -117,7 +120,8 @@ namespace Verse
 					Log.Error("Attempted to generate map without generator; falling back on encounter map", false);
 					mapGenerator = MapGeneratorDefOf.Encounter;
 				}
-				IEnumerable<GenStepDef> enumerable = mapGenerator.genSteps;
+				IEnumerable<GenStepWithParams> enumerable = from x in mapGenerator.genSteps
+				select new GenStepWithParams(x, default(GenStepParams));
 				if (extraGenStepDefs != null)
 				{
 					enumerable = enumerable.Concat(extraGenStepDefs);
@@ -150,7 +154,7 @@ namespace Verse
 			return result;
 		}
 
-		public static void GenerateContentsIntoMap(IEnumerable<GenStepDef> genStepDefs, Map map, int seed)
+		public static void GenerateContentsIntoMap(IEnumerable<GenStepWithParams> genStepDefs, Map map, int seed)
 		{
 			MapGenerator.data.Clear();
 			Rand.PushState();
@@ -160,15 +164,15 @@ namespace Verse
 				RockNoises.Init(map);
 				MapGenerator.tmpGenSteps.Clear();
 				MapGenerator.tmpGenSteps.AddRange(from x in genStepDefs
-				orderby x.order, x.index
+				orderby x.def.order, x.def.index
 				select x);
 				for (int i = 0; i < MapGenerator.tmpGenSteps.Count; i++)
 				{
-					DeepProfiler.Start("GenStep - " + MapGenerator.tmpGenSteps[i]);
+					DeepProfiler.Start("GenStep - " + MapGenerator.tmpGenSteps[i].def);
 					try
 					{
 						Rand.Seed = Gen.HashCombineInt(seed, MapGenerator.GetSeedPart(MapGenerator.tmpGenSteps, i));
-						MapGenerator.tmpGenSteps[i].genStep.Generate(map);
+						MapGenerator.tmpGenSteps[i].def.genStep.Generate(map, MapGenerator.tmpGenSteps[i].parms);
 					}
 					catch (Exception arg)
 					{
@@ -242,13 +246,13 @@ namespace Verse
 			return result;
 		}
 
-		private static int GetSeedPart(List<GenStepDef> genSteps, int index)
+		private static int GetSeedPart(List<GenStepWithParams> genSteps, int index)
 		{
-			int seedPart = genSteps[index].genStep.SeedPart;
+			int seedPart = genSteps[index].def.genStep.SeedPart;
 			int num = 0;
 			for (int i = 0; i < index; i++)
 			{
-				if (MapGenerator.tmpGenSteps[i].genStep.SeedPart == seedPart)
+				if (MapGenerator.tmpGenSteps[i].def.genStep.SeedPart == seedPart)
 				{
 					num++;
 				}
@@ -262,15 +266,21 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static float <GenerateContentsIntoMap>m__0(GenStepDef x)
+		private static GenStepWithParams <GenerateMap>m__0(GenStepDef x)
 		{
-			return x.order;
+			return new GenStepWithParams(x, default(GenStepParams));
 		}
 
 		[CompilerGenerated]
-		private static ushort <GenerateContentsIntoMap>m__1(GenStepDef x)
+		private static float <GenerateContentsIntoMap>m__1(GenStepWithParams x)
 		{
-			return x.index;
+			return x.def.order;
+		}
+
+		[CompilerGenerated]
+		private static ushort <GenerateContentsIntoMap>m__2(GenStepWithParams x)
+		{
+			return x.def.index;
 		}
 	}
 }

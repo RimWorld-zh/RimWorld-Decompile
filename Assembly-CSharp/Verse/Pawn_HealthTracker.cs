@@ -346,7 +346,7 @@ namespace Verse
 						}
 						else
 						{
-							chance = 0.67f;
+							chance = 0.77f;
 						}
 						if (!this.forceIncap && dinfo != null && dinfo.Value.Def.externalViolence && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer) && !this.pawn.IsPrisonerOfColony && Rand.Chance(chance))
 						{

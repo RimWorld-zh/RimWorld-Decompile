@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using RimWorld.Planet;
@@ -20,7 +21,12 @@ namespace RimWorld
 
 		private const float NoSitePartChance = 0.6f;
 
+		private const float SiteTimeoutDays = 30f;
+
 		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
+
+		[CompilerGenerated]
+		private static Func<ThingOption, float> <>f__am$cache0;
 
 		public CompLongRangeMineralScanner()
 		{
@@ -164,8 +170,17 @@ namespace RimWorld
 				if (site != null)
 				{
 					site.Tile = tile2;
+					site.sitePartsKnown = true;
+					ThingDef thingDef = ((GenStep_PreciousLump)GenStepDefOf.PreciousLump.genStep).mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
+					site.core.parms.preciousLumpResources = thingDef;
+					site.GetComponent<TimeoutComp>().StartTimeout(1800000);
 					Find.WorldObjects.Add(site);
-					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.PositiveEvent, site, null, null);
+					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(new object[]
+					{
+						thingDef.label,
+						30f.ToString("F0"),
+						SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>()).CapitalizeFirst()
+					}), LetterDefOf.PositiveEvent, site, null, null);
 				}
 			}
 		}
@@ -250,6 +265,12 @@ namespace RimWorld
 		// Note: this type is marked as 'beforefieldinit'.
 		static CompLongRangeMineralScanner()
 		{
+		}
+
+		[CompilerGenerated]
+		private static float <FoundMinerals>m__0(ThingOption x)
+		{
+			return x.weight;
 		}
 
 		[CompilerGenerated]

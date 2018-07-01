@@ -41,6 +41,10 @@ namespace RimWorld
 			{
 				result = false;
 			}
+			else if (pawn.mindState.spawnedByInfestationThingComp && b.GetComp<CompCreatesInfestations>() != null)
+			{
+				result = false;
+			}
 			else
 			{
 				if ((b.def.building.isInert && !attackAllInert) || b.def.building.isTrap)
@@ -89,7 +93,7 @@ namespace RimWorld
 				}
 				float value = Rand.Value;
 				Job job3;
-				if (value < 0.35f && pawn.natives.IgniteVerb != null && t.FlammableNow && !t.IsBurning() && !(t is Building_Door))
+				if (value < 0.35f && pawn.natives.IgniteVerb != null && pawn.natives.IgniteVerb.IsStillUsableBy(pawn) && t.FlammableNow && !t.IsBurning() && !(t is Building_Door))
 				{
 					job3 = new Job(JobDefOf.Ignite, t);
 				}

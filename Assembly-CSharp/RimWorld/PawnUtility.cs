@@ -497,9 +497,8 @@ namespace RimWorld
 					{
 						flag = true;
 					}
-					else if (forPawn.Drafted && forPawn.pather.Moving)
+					else if (!forPawn.Drafted || forPawn.pather.Moving)
 					{
-						flag = true;
 					}
 				}
 				for (int i = 0; i < thingList.Count; i++)
@@ -511,11 +510,11 @@ namespace RimWorld
 						{
 							if (pawn.pather.MovingNow)
 							{
-								goto IL_1BC;
+								goto IL_1BA;
 							}
 							if (pawn.pather.Moving && pawn.pather.MovedRecently(60))
 							{
-								goto IL_1BC;
+								goto IL_1BA;
 							}
 						}
 						if (!PawnUtility.PawnsCanShareCellBecauseOfBodySize(pawn, forPawn))
@@ -537,7 +536,7 @@ namespace RimWorld
 							}
 						}
 					}
-					IL_1BC:;
+					IL_1BA:;
 				}
 				result = null;
 			}

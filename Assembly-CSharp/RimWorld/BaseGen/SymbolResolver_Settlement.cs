@@ -7,9 +7,7 @@ namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_Settlement : SymbolResolver
 	{
-		private static readonly FloatRange NeolithicPawnsPoints = new FloatRange(880f, 1250f);
-
-		private static readonly FloatRange MedievalPawnsPoints = new FloatRange(1150f, 1600f);
+		private static readonly FloatRange DefaultPawnsPoints = new FloatRange(1150f, 1600f);
 
 		public SymbolResolver_Settlement()
 		{
@@ -42,24 +40,21 @@ namespace RimWorld.BaseGen
 			resolveParams.singlePawnSpawnCellExtraPredicate = (rp.singlePawnSpawnCellExtraPredicate ?? ((IntVec3 x) => <Resolve>c__AnonStorey.map.reachability.CanReachMapEdge(x, traverseParms)));
 			if (resolveParams.pawnGroupMakerParams == null)
 			{
-				float num3 = (!faction.def.techLevel.IsNeolithicOrWorse()) ? SymbolResolver_Settlement.MedievalPawnsPoints.RandomInRange : SymbolResolver_Settlement.NeolithicPawnsPoints.RandomInRange;
-				float? factionBasePawnGroupPointsFactor = rp.factionBasePawnGroupPointsFactor;
-				if (factionBasePawnGroupPointsFactor != null)
-				{
-					num3 *= rp.factionBasePawnGroupPointsFactor.Value;
-				}
 				resolveParams.pawnGroupMakerParams = new PawnGroupMakerParms();
 				resolveParams.pawnGroupMakerParams.tile = <Resolve>c__AnonStorey.map.Tile;
 				resolveParams.pawnGroupMakerParams.faction = faction;
-				resolveParams.pawnGroupMakerParams.points = num3;
+				PawnGroupMakerParms pawnGroupMakerParams = resolveParams.pawnGroupMakerParams;
+				float? settlementPawnGroupPoints = rp.settlementPawnGroupPoints;
+				pawnGroupMakerParams.points = ((settlementPawnGroupPoints == null) ? SymbolResolver_Settlement.DefaultPawnsPoints.RandomInRange : settlementPawnGroupPoints.Value);
 				resolveParams.pawnGroupMakerParams.inhabitants = true;
+				resolveParams.pawnGroupMakerParams.seed = rp.settlementPawnGroupSeed;
 			}
 			BaseGen.symbolStack.Push("pawnGroup", resolveParams);
 			BaseGen.symbolStack.Push("outdoorLighting", rp);
 			if (faction.def.techLevel >= TechLevel.Industrial)
 			{
-				int num4 = (!Rand.Chance(0.75f)) ? 0 : GenMath.RoundRandom((float)rp.rect.Area / 400f);
-				for (int i = 0; i < num4; i++)
+				int num3 = (!Rand.Chance(0.75f)) ? 0 : GenMath.RoundRandom((float)rp.rect.Area / 400f);
+				for (int i = 0; i < num3; i++)
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.faction = faction;

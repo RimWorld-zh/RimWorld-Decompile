@@ -97,5 +97,21 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
+
+		public bool BoredOfAllAvailableJoyKinds(Pawn pawn)
+		{
+			List<JoyKindDef> list = JoyUtility.JoyKindsOnMapTempList(pawn.MapHeld);
+			bool result = true;
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (!this.bored[list[i]])
+				{
+					result = false;
+					break;
+				}
+			}
+			list.Clear();
+			return result;
+		}
 	}
 }

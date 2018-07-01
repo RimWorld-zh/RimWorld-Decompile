@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			CellRect rectToDefend;
 			if (!MapGenerator.TryGetVar<CellRect>("RectOfInterest", out rectToDefend))
@@ -46,7 +46,11 @@ namespace RimWorld
 			resolveParams.edgeDefenseWidth = new int?(2);
 			resolveParams.edgeDefenseTurretsCount = new int?(Rand.RangeInclusive(0, 1));
 			resolveParams.edgeDefenseMortarsCount = new int?(0);
-			resolveParams.factionBasePawnGroupPointsFactor = new float?(0.4f);
+			if (parms.siteCoreOrPart != null)
+			{
+				resolveParams.settlementPawnGroupPoints = new float?(parms.siteCoreOrPart.parms.threatPoints);
+				resolveParams.settlementPawnGroupSeed = new int?(SitePartWorker_Outpost.GetPawnGroupMakerSeed(parms.siteCoreOrPart.parms));
+			}
 			BaseGen.globalSettings.map = map;
 			BaseGen.globalSettings.minBuildings = 1;
 			BaseGen.globalSettings.minBarracks = 1;

@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 
 		public override void Arrived(Caravan caravan)
 		{
-			this.site.core.Worker.VisitAction(caravan, this.site);
+			this.site.core.def.Worker.VisitAction(caravan, this.site);
 		}
 
 		public override void ExposeData()

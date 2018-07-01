@@ -12,7 +12,9 @@ namespace RimWorld
 {
 	public class JobDriver_Deconstruct : JobDriver_RemoveBuilding
 	{
-		private const int MaxDeconstructWork = 3000;
+		private const float MaxDeconstructWork = 3000f;
+
+		private const float MinDeconstructWork = 20f;
 
 		public JobDriver_Deconstruct()
 		{
@@ -26,13 +28,13 @@ namespace RimWorld
 			}
 		}
 
-		protected override int TotalNeededWork
+		protected override float TotalNeededWork
 		{
 			get
 			{
 				Building building = base.Building;
-				int value = Mathf.RoundToInt(building.GetStatValue(StatDefOf.WorkToBuild, true));
-				return Mathf.Clamp(value, 20, 3000);
+				float statValue = building.GetStatValue(StatDefOf.WorkToBuild, true);
+				return Mathf.Clamp(statValue, 20f, 3000f);
 			}
 		}
 

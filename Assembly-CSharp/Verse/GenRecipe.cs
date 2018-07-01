@@ -61,15 +61,19 @@ namespace Verse
 					CompFoodPoisonable foodPoisonable = product.TryGetComp<CompFoodPoisonable>();
 					if (foodPoisonable != null)
 					{
-						float num = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
 						Room room = worker.GetRoom(RegionType.Set_Passable);
-						if (room != null)
+						float chance = (room == null) ? RoomStatDefOf.FoodPoisonChance.roomlessScore : room.GetStat(RoomStatDefOf.FoodPoisonChance);
+						if (Rand.Chance(chance))
 						{
-							num *= room.GetStat(RoomStatDefOf.FoodPoisonChanceFactor);
+							foodPoisonable.SetPoisoned(FoodPoisonCause.FilthyKitchen);
 						}
-						if (Rand.Value < num)
+						else
 						{
-							foodPoisonable.PoisonPercent = 1f;
+							float statValue = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
+							if (Rand.Chance(statValue))
+							{
+								foodPoisonable.SetPoisoned(FoodPoisonCause.IncompetentCook);
+							}
 						}
 					}
 					yield return GenRecipe.PostProcessProduct(product, recipeDef, worker);
@@ -219,7 +223,7 @@ namespace Verse
 					}
 					if (recipeDef.products == null)
 					{
-						goto IL_2A0;
+						goto IL_2C7;
 					}
 					i = 0;
 					break;
@@ -227,7 +231,7 @@ namespace Verse
 					i++;
 					break;
 				case 2u:
-					Block_16:
+					Block_17:
 					try
 					{
 						switch (num)
@@ -255,9 +259,9 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_478;
+					goto IL_49F;
 				case 3u:
-					Block_17:
+					Block_18:
 					try
 					{
 						switch (num)
@@ -285,7 +289,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_478;
+					goto IL_49F;
 				default:
 					return false;
 				}
@@ -317,15 +321,19 @@ namespace Verse
 					foodPoisonable = product.TryGetComp<CompFoodPoisonable>();
 					if (foodPoisonable != null)
 					{
-						float num2 = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
 						Room room = worker.GetRoom(RegionType.Set_Passable);
-						if (room != null)
+						float chance = (room == null) ? RoomStatDefOf.FoodPoisonChance.roomlessScore : room.GetStat(RoomStatDefOf.FoodPoisonChance);
+						if (Rand.Chance(chance))
 						{
-							num2 *= room.GetStat(RoomStatDefOf.FoodPoisonChanceFactor);
+							foodPoisonable.SetPoisoned(FoodPoisonCause.FilthyKitchen);
 						}
-						if (Rand.Value < num2)
+						else
 						{
-							foodPoisonable.PoisonPercent = 1f;
+							float statValue = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
+							if (Rand.Chance(statValue))
+							{
+								foodPoisonable.SetPoisoned(FoodPoisonCause.IncompetentCook);
+							}
 						}
 					}
 					this.$current = GenRecipe.PostProcessProduct(product, recipeDef, worker);
@@ -335,16 +343,16 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_2A0:
+				IL_2C7:
 				if (recipeDef.specialProducts != null)
 				{
 					j = 0;
-					goto IL_4AC;
+					goto IL_4D3;
 				}
-				goto IL_4C8;
-				IL_478:
+				goto IL_4EF;
+				IL_49F:
 				k++;
-				IL_487:
+				IL_4AE:
 				if (k >= ingredients.Count)
 				{
 					j++;
@@ -357,23 +365,23 @@ namespace Verse
 					{
 						enumerator2 = ing.ButcherProducts(worker, efficiency).GetEnumerator();
 						num = 4294967293u;
-						goto Block_16;
+						goto Block_17;
 					}
 					if (specialProductType != SpecialProductType.Smelted)
 					{
-						goto IL_478;
+						goto IL_49F;
 					}
 					enumerator = ing.SmeltProducts(efficiency).GetEnumerator();
 					num = 4294967293u;
-					goto Block_17;
+					goto Block_18;
 				}
-				IL_4AC:
+				IL_4D3:
 				if (j < recipeDef.specialProducts.Count)
 				{
 					k = 0;
-					goto IL_487;
+					goto IL_4AE;
 				}
-				IL_4C8:
+				IL_4EF:
 				this.$PC = -1;
 				return false;
 			}

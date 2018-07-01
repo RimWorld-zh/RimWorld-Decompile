@@ -3,7 +3,7 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	public class SitePartWorker : SiteWorkerBase
+	public class SitePartWorker : SiteCoreOrPartWorkerBase
 	{
 		public SitePartWorker()
 		{

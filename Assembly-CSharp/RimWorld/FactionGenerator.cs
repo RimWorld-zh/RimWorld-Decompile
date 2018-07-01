@@ -12,7 +12,7 @@ namespace RimWorld
 	{
 		private const int MinStartVisibleFactions = 5;
 
-		private static readonly FloatRange FactionBasesPer100kTiles = new FloatRange(75f, 85f);
+		private static readonly FloatRange SettlementsPer100kTiles = new FloatRange(75f, 85f);
 
 		[CompilerGenerated]
 		private static Func<FactionDef, bool> <>f__am$cache0;
@@ -50,7 +50,7 @@ namespace RimWorld
 				Find.World.factionManager.Add(faction2);
 				i++;
 			}
-			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * FactionGenerator.FactionBasesPer100kTiles.RandomInRange);
+			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * FactionGenerator.SettlementsPer100kTiles.RandomInRange);
 			num -= Find.WorldObjects.Settlements.Count;
 			for (int k = 0; k < num; k++)
 			{
@@ -59,7 +59,7 @@ namespace RimWorld
 				select x).RandomElementByWeight((Faction x) => x.def.settlementGenerationWeight);
 				Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 				settlement.SetFaction(faction3);
-				settlement.Tile = TileFinder.RandomFactionBaseTileFor(faction3, false, null);
+				settlement.Tile = TileFinder.RandomSettlementTileFor(faction3, false, null);
 				settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
 				Find.WorldObjects.Add(settlement);
 			}
@@ -119,7 +119,7 @@ namespace RimWorld
 			{
 				Settlement settlement = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
 				settlement.SetFaction(faction);
-				settlement.Tile = TileFinder.RandomFactionBaseTileFor(faction, false, null);
+				settlement.Tile = TileFinder.RandomSettlementTileFor(faction, false, null);
 				settlement.Name = SettlementNameGenerator.GenerateSettlementName(settlement, null);
 				Find.WorldObjects.Add(settlement);
 			}

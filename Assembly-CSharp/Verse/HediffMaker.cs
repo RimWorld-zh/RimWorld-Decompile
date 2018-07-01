@@ -25,7 +25,7 @@ namespace Verse
 			return result;
 		}
 
-		public static Hediff MakeConcreteExampleHediff(HediffDef def)
+		public static Hediff Debug_MakeConcreteExampleHediff(HediffDef def)
 		{
 			Hediff hediff = (Hediff)Activator.CreateInstance(def.hediffClass);
 			hediff.def = def;

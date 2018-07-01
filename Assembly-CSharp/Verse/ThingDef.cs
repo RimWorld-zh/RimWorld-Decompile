@@ -1695,7 +1695,7 @@ namespace Verse
 							{
 								Tool tool = vg.tools[0];
 								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, "");
-								if (ThingUtility.PrimaryMeleeWeaponDamageType(this).armorCategory != null)
+								if (ThingUtility.PrimaryMeleeWeaponDamageType(vg.tools).armorCategory != null)
 								{
 									float armorPenetration2 = tool.armorPenetration;
 									if (armorPenetration2 < 0f)
@@ -3563,7 +3563,7 @@ namespace Verse
 						switch (num)
 						{
 						case 20u:
-							IL_BF6:
+							IL_BEA:
 							enumerator7 = <SpecialDisplayStats>c__AnonStorey.diff.SpecialDisplayStats().GetEnumerator();
 							num = 4294967293u;
 							break;
@@ -3585,9 +3585,9 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_DF0;
+							goto IL_DE4;
 						case 23u:
-							goto IL_DF0;
+							goto IL_DE4;
 						case 24u:
 							if (verb2.meleeDamageDef.armorCategory != null)
 							{
@@ -3608,11 +3608,11 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_EEF;
+							goto IL_EE3;
 						case 25u:
-							goto IL_EEF;
+							goto IL_EE3;
 						case 26u:
-							if (ThingUtility.PrimaryMeleeWeaponDamageType(this).armorCategory != null)
+							if (ThingUtility.PrimaryMeleeWeaponDamageType(vg.tools).armorCategory != null)
 							{
 								armorPenetration2 = tool.armorPenetration;
 								if (armorPenetration2 < 0f)
@@ -3631,13 +3631,13 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_1012;
+							goto IL_100B;
 						case 27u:
-							goto IL_1012;
+							goto IL_100B;
 						case 28u:
-							goto IL_10B9;
+							goto IL_10B2;
 						default:
-							goto IL_10BA;
+							goto IL_10B3;
 						}
 						try
 						{
@@ -3707,9 +3707,9 @@ namespace Verse
 								return true;
 							}
 						}
-						IL_DF0:
-						IL_EEF:
-						IL_1012:
+						IL_DE4:
+						IL_EE3:
+						IL_100B:
 						thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((ThoughtDef x) => x.hediff == <SpecialDisplayStats>c__AnonStorey.diff);
 						if (thought != null && thought.stages != null && thought.stages.Any<ThoughtStage>())
 						{
@@ -3721,15 +3721,15 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						IL_10B9:
-						IL_10BA:
+						IL_10B2:
+						IL_10B3:
 						if (enumerator6.MoveNext())
 						{
 							def = enumerator6.Current;
 							HediffDef diff = def.addsHediff;
 							if (diff == null)
 							{
-								goto IL_10B9;
+								goto IL_10B2;
 							}
 							if (diff.addedPartProps != null)
 							{
@@ -3741,7 +3741,7 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_BF6;
+							goto IL_BEA;
 						}
 					}
 					finally
@@ -3754,7 +3754,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_10EB;
+					goto IL_10E4;
 				case 29u:
 					Block_48:
 					try
@@ -3785,7 +3785,7 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_11A9;
+					goto IL_11A2;
 				default:
 					return false;
 				}
@@ -3936,9 +3936,9 @@ namespace Verse
 					num = 4294967293u;
 					goto Block_47;
 				}
-				IL_10EB:
+				IL_10E4:
 				i = 0;
-				IL_11A9:
+				IL_11A2:
 				if (i < this.comps.Count)
 				{
 					enumerator8 = this.comps[i].SpecialDisplayStats().GetEnumerator();
@@ -4122,8 +4122,6 @@ namespace Verse
 			private sealed class <SpecialDisplayStats>c__AnonStorey7
 			{
 				internal HediffDef diff;
-
-				internal ThingDef.<SpecialDisplayStats>c__Iterator1 <>f__ref$1;
 
 				public <SpecialDisplayStats>c__AnonStorey7()
 				{

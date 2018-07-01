@@ -3,7 +3,7 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	public static class NamePlayerFactionBaseDialogUtility
+	public static class NamePlayerSettlementDialogUtility
 	{
 		public static bool IsValidName(string s)
 		{

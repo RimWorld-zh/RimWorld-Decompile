@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * WorldGenStep_Roads.ExtraRoadNodesPer100kTiles.RandomInRange);
 			for (int i = 0; i < num; i++)
 			{
-				list.Add(TileFinder.RandomFactionBaseTileFor(null, false, null));
+				list.Add(TileFinder.RandomSettlementTileFor(null, false, null));
 			}
 			List<int> list2 = new List<int>();
 			for (int j = 0; j < list.Count; j++)

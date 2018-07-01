@@ -15,11 +15,14 @@ namespace RimWorld.Planet
 		public static Site MakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, Faction faction, bool ifHostileThenMustRemainHostile = true)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
-			site.core = core;
+			site.core = new SiteCore(core, core.Worker.GenerateDefaultParams());
 			site.SetFaction(faction);
 			if (siteParts != null)
 			{
-				site.parts.AddRange(siteParts);
+				foreach (SitePartDef sitePartDef in siteParts)
+				{
+					site.parts.Add(new SitePart(sitePartDef, sitePartDef.Worker.GenerateDefaultParams()));
+				}
 			}
 			if (ifHostileThenMustRemainHostile && faction != null && faction.HostileTo(Faction.OfPlayer))
 			{

@@ -107,7 +107,9 @@ namespace RimWorld.BaseGen
 
 		public int? fillWithThingsPadding;
 
-		public float? factionBasePawnGroupPointsFactor;
+		public float? settlementPawnGroupPoints;
+
+		public int? settlementPawnGroupSeed;
 
 		public bool? streetHorizontal;
 
@@ -182,7 +184,7 @@ namespace RimWorld.BaseGen
 
 		public override string ToString()
 		{
-			object[] array = new object[110];
+			object[] array = new object[112];
 			array[0] = "rect=";
 			array[1] = this.rect;
 			array[2] = ", faction=";
@@ -337,26 +339,30 @@ namespace RimWorld.BaseGen
 			int num40 = 99;
 			int? num41 = this.fillWithThingsPadding;
 			array[num40] = ((num41 == null) ? "null" : this.fillWithThingsPadding.ToString());
-			array[100] = ", factionBasePawnGroupPointsFactor=";
+			array[100] = ", settlementPawnGroupPoints=";
 			int num42 = 101;
-			float? num43 = this.factionBasePawnGroupPointsFactor;
-			array[num42] = ((num43 == null) ? "null" : this.factionBasePawnGroupPointsFactor.ToString());
-			array[102] = ", streetHorizontal=";
+			float? num43 = this.settlementPawnGroupPoints;
+			array[num42] = ((num43 == null) ? "null" : this.settlementPawnGroupPoints.ToString());
+			array[102] = ", settlementPawnGroupSeed=";
 			int num44 = 103;
+			int? num45 = this.settlementPawnGroupSeed;
+			array[num44] = ((num45 == null) ? "null" : this.settlementPawnGroupSeed.ToString());
+			array[104] = ", streetHorizontal=";
+			int num46 = 105;
 			bool? flag9 = this.streetHorizontal;
-			array[num44] = ((flag9 == null) ? "null" : this.streetHorizontal.ToString());
-			array[104] = ", edgeThingAvoidOtherEdgeThings=";
-			int num45 = 105;
+			array[num46] = ((flag9 == null) ? "null" : this.streetHorizontal.ToString());
+			array[106] = ", edgeThingAvoidOtherEdgeThings=";
+			int num47 = 107;
 			bool? flag10 = this.edgeThingAvoidOtherEdgeThings;
-			array[num45] = ((flag10 == null) ? "null" : this.edgeThingAvoidOtherEdgeThings.ToString());
-			array[106] = ", allowPlacementOffEdge=";
-			int num46 = 107;
+			array[num47] = ((flag10 == null) ? "null" : this.edgeThingAvoidOtherEdgeThings.ToString());
+			array[108] = ", allowPlacementOffEdge=";
+			int num48 = 109;
 			bool? flag11 = this.allowPlacementOffEdge;
-			array[num46] = ((flag11 == null) ? "null" : this.allowPlacementOffEdge.ToString());
-			array[108] = ", thrustAxis=";
-			int num47 = 109;
+			array[num48] = ((flag11 == null) ? "null" : this.allowPlacementOffEdge.ToString());
+			array[110] = ", thrustAxis=";
+			int num49 = 111;
 			Rot4? rot2 = this.thrustAxis;
-			array[num47] = ((rot2 == null) ? "null" : this.thrustAxis.ToString());
+			array[num49] = ((rot2 == null) ? "null" : this.thrustAxis.ToString());
 			return string.Concat(array);
 		}
 	}

@@ -39,6 +39,7 @@ namespace RimWorld
 			{
 				Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, faction2, true);
 				site.Tile = tile;
+				site.sitePartsKnown = true;
 				List<Thing> list = this.GenerateRewards(faction);
 				site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 10, list);
 				Find.WorldObjects.Add(site);

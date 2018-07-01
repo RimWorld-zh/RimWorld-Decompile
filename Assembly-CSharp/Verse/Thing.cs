@@ -1512,7 +1512,7 @@ namespace Verse
 				}
 				if (ingester.RaceProps.Humanlike && Rand.Chance(this.GetStatValue(StatDefOf.FoodPoisonChanceFixedHuman, true) * Find.Storyteller.difficulty.foodPoisonChanceFactor))
 				{
-					FoodUtility.AddFoodPoisoningHediff(ingester, this);
+					FoodUtility.AddFoodPoisoningHediff(ingester, this, FoodPoisonCause.DangerousFoodType);
 				}
 				if (num > 0)
 				{

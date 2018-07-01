@@ -125,7 +125,7 @@ namespace RimWorld
 		protected override void DoNext()
 		{
 			int selTile = Find.WorldInterface.SelectedTile;
-			FactionBaseProximityGoodwillUtility.CheckConfirmSettle(selTile, delegate
+			SettlementProximityGoodwillUtility.CheckConfirmSettle(selTile, delegate
 			{
 				Find.GameInitData.startingTile = selTile;
 				this.<DoNext>__BaseCallProxy0();

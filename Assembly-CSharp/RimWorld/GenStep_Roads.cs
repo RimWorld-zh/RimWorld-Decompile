@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			List<GenStep_Roads.NeededRoad> neededRoads = this.CalculateNeededRoads(map);
 			if (neededRoads.Count != 0)

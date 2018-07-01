@@ -8,7 +8,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	public static class FactionBaseProximityGoodwillUtility
+	public static class SettlementProximityGoodwillUtility
 	{
 		private static List<Pair<Settlement, int>> tmpGoodwillOffsets = new List<Pair<Settlement, int>>();
 
@@ -26,37 +26,37 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public static void CheckFactionBaseProximityGoodwillChange()
+		public static void CheckSettlementProximityGoodwillChange()
 		{
 			if (Find.TickManager.TicksGame != 0 && Find.TickManager.TicksGame % 900000 == 0)
 			{
 				List<Settlement> settlements = Find.WorldObjects.Settlements;
-				FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
+				SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
 				for (int i = 0; i < settlements.Count; i++)
 				{
 					Settlement settlement = settlements[i];
 					if (settlement.Faction == Faction.OfPlayer)
 					{
-						FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(settlement.Tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
+						SettlementProximityGoodwillUtility.AppendProximityGoodwillOffsets(settlement.Tile, SettlementProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
 					}
 				}
-				if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
+				if (SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
 				{
-					FactionBaseProximityGoodwillUtility.SortProximityGoodwillOffsets(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets);
+					SettlementProximityGoodwillUtility.SortProximityGoodwillOffsets(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
 					List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
 					bool flag = false;
-					string text = "LetterFactionBaseProximity".Translate() + "\n\n" + FactionBaseProximityGoodwillUtility.ProximityGoodwillOffsetsToString(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets);
+					string text = "LetterFactionBaseProximity".Translate() + "\n\n" + SettlementProximityGoodwillUtility.ProximityGoodwillOffsetsToString(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
 					for (int j = 0; j < allFactionsListForReading.Count; j++)
 					{
 						Faction faction = allFactionsListForReading[j];
 						if (faction != Faction.OfPlayer)
 						{
 							int num = 0;
-							for (int k = 0; k < FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Count; k++)
+							for (int k = 0; k < SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Count; k++)
 							{
-								if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets[k].First.Faction == faction)
+								if (SettlementProximityGoodwillUtility.tmpGoodwillOffsets[k].First.Faction == faction)
 								{
-									num += FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets[k].Second;
+									num += SettlementProximityGoodwillUtility.tmpGoodwillOffsets[k].Second;
 								}
 							}
 							FactionRelationKind playerRelationKind = faction.PlayerRelationKind;
@@ -77,7 +77,7 @@ namespace RimWorld.Planet
 
 		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<Settlement, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill, bool ignorePermanentlyHostile)
 		{
-			int maxDist = FactionBaseProximityGoodwillUtility.MaxDist;
+			int maxDist = SettlementProximityGoodwillUtility.MaxDist;
 			List<Settlement> settlements = Find.WorldObjects.Settlements;
 			for (int i = 0; i < settlements.Count; i++)
 			{
@@ -131,16 +131,16 @@ namespace RimWorld.Planet
 
 		public static void CheckConfirmSettle(int tile, Action settleAction)
 		{
-			FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
-			FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, false, true);
-			if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
+			SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
+			SettlementProximityGoodwillUtility.AppendProximityGoodwillOffsets(tile, SettlementProximityGoodwillUtility.tmpGoodwillOffsets, false, true);
+			if (SettlementProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<Settlement, int>>())
 			{
-				FactionBaseProximityGoodwillUtility.SortProximityGoodwillOffsets(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets);
+				SettlementProximityGoodwillUtility.SortProximityGoodwillOffsets(SettlementProximityGoodwillUtility.tmpGoodwillOffsets);
 				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSettleNearFactionBase".Translate(new object[]
 				{
-					FactionBaseProximityGoodwillUtility.MaxDist - 1,
+					SettlementProximityGoodwillUtility.MaxDist - 1,
 					15
-				}) + "\n\n" + FactionBaseProximityGoodwillUtility.ProximityGoodwillOffsetsToString(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets), settleAction, false, null));
+				}) + "\n\n" + SettlementProximityGoodwillUtility.ProximityGoodwillOffsetsToString(SettlementProximityGoodwillUtility.tmpGoodwillOffsets), settleAction, false, null));
 			}
 			else
 			{
@@ -149,7 +149,7 @@ namespace RimWorld.Planet
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.
-		static FactionBaseProximityGoodwillUtility()
+		static SettlementProximityGoodwillUtility()
 		{
 		}
 

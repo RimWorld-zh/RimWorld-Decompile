@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Verse;
 
 namespace RimWorld
@@ -72,6 +75,15 @@ namespace RimWorld
 			}
 		}
 
+		public override IEnumerable<PawnKindDef> GeneratePawnKindsExample(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
+		{
+			foreach (PawnGenOption p in PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms))
+			{
+				yield return p.kind;
+			}
+			yield break;
+		}
+
 		[CompilerGenerated]
 		private static bool <MinPointsToGenerateAnything>m__0(PawnGenOption x)
 		{
@@ -85,19 +97,155 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private sealed class <GeneratePawns>c__AnonStorey0
+		private sealed class <GeneratePawns>c__AnonStorey1
 		{
 			internal PawnGroupMakerParms parms;
 
 			internal List<Pawn> outPawns;
 
-			public <GeneratePawns>c__AnonStorey0()
+			public <GeneratePawns>c__AnonStorey1()
 			{
 			}
 
 			internal bool <>m__0(Pawn p)
 			{
 				return this.parms.raidStrategy.Worker.CanUsePawn(p, this.outPawns);
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <GeneratePawnKindsExample>c__Iterator0 : IEnumerable, IEnumerable<PawnKindDef>, IEnumerator, IDisposable, IEnumerator<PawnKindDef>
+		{
+			internal PawnGroupMakerParms parms;
+
+			internal PawnGroupMaker groupMaker;
+
+			internal IEnumerator<PawnGenOption> $locvar0;
+
+			internal PawnGenOption <p>__1;
+
+			internal PawnKindDef $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <GeneratePawnKindsExample>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				bool flag = false;
+				switch (num)
+				{
+				case 0u:
+					enumerator = PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms).GetEnumerator();
+					num = 4294967293u;
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				try
+				{
+					switch (num)
+					{
+					}
+					if (enumerator.MoveNext())
+					{
+						p = enumerator.Current;
+						this.$current = p.kind;
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						flag = true;
+						return true;
+					}
+				}
+				finally
+				{
+					if (!flag)
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			PawnKindDef IEnumerator<PawnKindDef>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				uint num = (uint)this.$PC;
+				this.$disposing = true;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 1u:
+					try
+					{
+					}
+					finally
+					{
+						if (enumerator != null)
+						{
+							enumerator.Dispose();
+						}
+					}
+					break;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<Verse.PawnKindDef>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<PawnKindDef> IEnumerable<PawnKindDef>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				PawnGroupKindWorker_Normal.<GeneratePawnKindsExample>c__Iterator0 <GeneratePawnKindsExample>c__Iterator = new PawnGroupKindWorker_Normal.<GeneratePawnKindsExample>c__Iterator0();
+				<GeneratePawnKindsExample>c__Iterator.parms = parms;
+				<GeneratePawnKindsExample>c__Iterator.groupMaker = groupMaker;
+				return <GeneratePawnKindsExample>c__Iterator;
 			}
 		}
 	}

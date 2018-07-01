@@ -65,7 +65,7 @@ namespace RimWorld.Planet
 			command_Settle.action = delegate()
 			{
 				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-				FactionBaseProximityGoodwillUtility.CheckConfirmSettle(caravan.Tile, delegate
+				SettlementProximityGoodwillUtility.CheckConfirmSettle(caravan.Tile, delegate
 				{
 					SettleInEmptyTileUtility.Settle(caravan);
 				});
@@ -147,7 +147,7 @@ namespace RimWorld.Planet
 			internal void <>m__0()
 			{
 				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-				FactionBaseProximityGoodwillUtility.CheckConfirmSettle(this.caravan.Tile, delegate
+				SettlementProximityGoodwillUtility.CheckConfirmSettle(this.caravan.Tile, delegate
 				{
 					SettleInEmptyTileUtility.Settle(this.caravan);
 				});

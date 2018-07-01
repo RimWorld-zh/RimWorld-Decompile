@@ -62,6 +62,7 @@ namespace RimWorld
 					TunnelHiveSpawner tunnelHiveSpawner = (TunnelHiveSpawner)ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null);
 					tunnelHiveSpawner.spawnHive = false;
 					tunnelHiveSpawner.insectsPoints = Mathf.Clamp(parms.points * Rand.Range(0.24f, 0.48f), 115f, 800f);
+					tunnelHiveSpawner.spawnedByInfestationThingComp = true;
 					GenSpawn.Spawn(tunnelHiveSpawner, intVec, map, WipeMode.FullRefund);
 					deepDrill.TryGetComp<CompCreatesInfestations>().Notify_CreatedInfestation();
 					base.SendStandardLetter(new TargetInfo(tunnelHiveSpawner.Position, map, false), null, new string[0]);

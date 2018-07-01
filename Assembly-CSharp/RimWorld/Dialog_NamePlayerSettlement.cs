@@ -34,12 +34,12 @@ namespace RimWorld
 
 		protected override bool IsValidName(string s)
 		{
-			return NamePlayerFactionBaseDialogUtility.IsValidName(s);
+			return NamePlayerSettlementDialogUtility.IsValidName(s);
 		}
 
 		protected override void Named(string s)
 		{
-			NamePlayerFactionBaseDialogUtility.Named(this.settlement, s);
+			NamePlayerSettlementDialogUtility.Named(this.settlement, s);
 		}
 
 		[CompilerGenerated]

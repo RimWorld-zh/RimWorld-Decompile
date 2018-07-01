@@ -18,6 +18,8 @@ namespace RimWorld
 
 		public float insectsPoints;
 
+		public bool spawnedByInfestationThingComp;
+
 		private Sustainer sustainer;
 
 		private static MaterialPropertyBlock matPropertyBlock = new MaterialPropertyBlock();
@@ -59,6 +61,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.secondarySpawnTick, "secondarySpawnTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.spawnHive, "spawnHive", true, false);
 			Scribe_Values.Look<float>(ref this.insectsPoints, "insectsPoints", 0f, false);
+			Scribe_Values.Look<bool>(ref this.spawnedByInfestationThingComp, "spawnedByInfestationThingComp", false, false);
 		}
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -135,6 +138,7 @@ namespace RimWorld
 							}
 							Pawn pawn = PawnGenerator.GeneratePawn(pawnKindDef, Faction.OfInsects);
 							GenSpawn.Spawn(pawn, CellFinder.RandomClosewalkCellNear(position, map, 2, null), map, WipeMode.Vanish);
+							pawn.mindState.spawnedByInfestationThingComp = this.spawnedByInfestationThingComp;
 							list.Add(pawn);
 							pointsLeft -= pawnKindDef.combatPower;
 						}

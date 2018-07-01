@@ -41,7 +41,7 @@ namespace RimWorld
 
 		public const int Goodwill_BodyPartRemovalViolation = -15;
 
-		public const int Goodwill_AttackedFactionBase = -50;
+		public const int Goodwill_AttackedSettlement = -50;
 
 		public const int Goodwill_MilitaryAidRequested = -20;
 

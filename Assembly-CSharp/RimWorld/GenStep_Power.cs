@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			map.skyManager.ForceSetCurSkyGlow(1f);
 			map.powerNetManager.UpdatePowerNetsAndConnections_First();

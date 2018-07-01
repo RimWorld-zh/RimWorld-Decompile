@@ -41,7 +41,7 @@ namespace Verse
 		{
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
 			{

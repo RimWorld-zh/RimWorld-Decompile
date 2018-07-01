@@ -145,7 +145,7 @@ namespace RimWorld
 
 		public void FactionManagerTick()
 		{
-			FactionBaseProximityGoodwillUtility.CheckFactionBaseProximityGoodwillChange();
+			SettlementProximityGoodwillUtility.CheckSettlementProximityGoodwillChange();
 			for (int i = 0; i < this.allFactions.Count; i++)
 			{
 				this.allFactions[i].FactionTick();

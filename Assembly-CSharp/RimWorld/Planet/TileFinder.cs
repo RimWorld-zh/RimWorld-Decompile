@@ -18,10 +18,10 @@ namespace RimWorld.Planet
 
 		public static int RandomStartingTile()
 		{
-			return TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, true, null);
+			return TileFinder.RandomSettlementTileFor(Faction.OfPlayer, true, null);
 		}
 
-		public static int RandomFactionBaseTileFor(Faction faction, bool mustBeAutoChoosable = false, Predicate<int> extraValidator = null)
+		public static int RandomSettlementTileFor(Faction faction, bool mustBeAutoChoosable = false, Predicate<int> extraValidator = null)
 		{
 			for (int i = 0; i < 500; i++)
 			{
@@ -291,19 +291,19 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private static int <RandomFactionBaseTileFor>m__0(int _)
+		private static int <RandomSettlementTileFor>m__0(int _)
 		{
 			return Rand.Range(0, Find.WorldGrid.TilesCount);
 		}
 
 		[CompilerGenerated]
-		private sealed class <RandomFactionBaseTileFor>c__AnonStorey0
+		private sealed class <RandomSettlementTileFor>c__AnonStorey0
 		{
 			internal bool mustBeAutoChoosable;
 
 			internal Predicate<int> extraValidator;
 
-			public <RandomFactionBaseTileFor>c__AnonStorey0()
+			public <RandomSettlementTileFor>c__AnonStorey0()
 			{
 			}
 

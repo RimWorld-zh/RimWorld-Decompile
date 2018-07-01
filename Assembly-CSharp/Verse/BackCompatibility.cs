@@ -28,6 +28,9 @@ namespace Verse
 
 		private static readonly Regex FrameSuffixExtract = new Regex("^(.+)_Frame$");
 
+		[CompilerGenerated]
+		private static Predicate<SitePart> <>f__am$cache0;
+
 		public static bool IsSaveCompatibleWith(string version)
 		{
 			bool result;
@@ -2484,9 +2487,30 @@ namespace Verse
 			}
 		}
 
+		public static void SitePostLoadInit(Site site)
+		{
+			if (site.core == null || site.core.def == null || site.parts.Contains(null) || (VersionControl.MajorFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) == 0 && VersionControl.MinorFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) <= 18))
+			{
+				if (site.parts != null)
+				{
+					site.parts.RemoveAll((SitePart x) => x == null);
+				}
+				if (site.core == null || site.core.def == null || (site.core.def == SiteCoreDefOf.Nothing && site.parts.NullOrEmpty<SitePart>()))
+				{
+					Find.WorldObjects.Remove(site);
+				}
+			}
+		}
+
 		// Note: this type is marked as 'beforefieldinit'.
 		static BackCompatibility()
 		{
+		}
+
+		[CompilerGenerated]
+		private static bool <SitePostLoadInit>m__0(SitePart x)
+		{
+			return x == null;
 		}
 
 		[CompilerGenerated]

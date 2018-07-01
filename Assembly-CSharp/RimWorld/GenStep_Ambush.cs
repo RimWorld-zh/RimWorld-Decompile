@@ -11,7 +11,7 @@ namespace RimWorld
 		{
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			CellRect rectToDefend;
 			IntVec3 root;

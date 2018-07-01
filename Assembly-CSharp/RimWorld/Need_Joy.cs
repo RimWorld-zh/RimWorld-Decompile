@@ -158,14 +158,14 @@ namespace RimWorld
 					expectationDef.joyToleranceDropPerDay.ToStringPercent(),
 					expectationDef.joyKindsNeeded
 				});
-				text = text + "\n\n" + Alert_NeedJoySources.JoyKindsOnMapString(this.pawn.MapHeld);
+				text = text + "\n\n" + JoyUtility.JoyKindsOnMapString(this.pawn.MapHeld);
 			}
 			else
 			{
 				Caravan caravan = this.pawn.GetCaravan();
 				if (caravan != null)
 				{
-					float num = CaravanPawnsNeedsUtility.GetCaravanNotMovingJoyGainPerTick(this.pawn, caravan) * 2500f;
+					float num = CaravanPawnsNeedsUtility.GetCurrentJoyGainPerTick(this.pawn, caravan) * 2500f;
 					if (num > 0f)
 					{
 						string text3 = text;

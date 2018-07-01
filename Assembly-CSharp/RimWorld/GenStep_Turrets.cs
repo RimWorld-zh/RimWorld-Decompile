@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		public override void Generate(Map map)
+		public override void Generate(Map map, GenStepParams parms)
 		{
 			CellRect cellRect;
 			if (!MapGenerator.TryGetVar<CellRect>("RectOfInterest", out cellRect))

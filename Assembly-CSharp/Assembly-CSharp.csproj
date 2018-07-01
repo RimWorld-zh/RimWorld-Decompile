@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3D8DA3CD-6E68-4F12-9304-3AC3ACCBEDBB}</ProjectGuid>
+    <ProjectGuid>{78C8AE3C-A8F3-4732-BFE9-271B0E47DCD7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -111,6 +111,7 @@
     <Compile Include="RimWorld\AlertsReadout.cs" />
     <Compile Include="RimWorld\Alert_AwaitingMedicalOperation.cs" />
     <Compile Include="RimWorld\Alert_BilliardsTableOnWall.cs" />
+    <Compile Include="RimWorld\Alert_Boredom.cs" />
     <Compile Include="RimWorld\Alert_BrawlerHasRangedWeapon.cs" />
     <Compile Include="RimWorld\Alert_ColonistNeedsRescuing.cs" />
     <Compile Include="RimWorld\Alert_ColonistNeedsTend.cs" />
@@ -346,6 +347,7 @@
     <Compile Include="RimWorld\Building_WorkTable_HeatPush.cs" />
     <Compile Include="RimWorld\Bullet.cs" />
     <Compile Include="RimWorld\BuySellMode.cs" />
+    <Compile Include="RimWorld\CaravanTuning.cs" />
     <Compile Include="RimWorld\CharacterCardUtility.cs" />
     <Compile Include="RimWorld\ChemicalDef.cs" />
     <Compile Include="RimWorld\ChemicalDefOf.cs" />
@@ -664,6 +666,8 @@
     <Compile Include="RimWorld\FloatMenuAcceptanceReport.cs" />
     <Compile Include="RimWorld\FloatMenuMakerMap.cs" />
     <Compile Include="RimWorld\FloatMenuUtility.cs" />
+    <Compile Include="RimWorld\FoodPoisonCause.cs" />
+    <Compile Include="RimWorld\FoodPoisonCauseExtension.cs" />
     <Compile Include="RimWorld\FoodPreferability.cs" />
     <Compile Include="RimWorld\FoodTypeFlags.cs" />
     <Compile Include="RimWorld\FoodTypeFlagsExtension.cs" />
@@ -706,6 +710,7 @@
     <Compile Include="RimWorld\GenLeaving.cs" />
     <Compile Include="RimWorld\GenLocalDate.cs" />
     <Compile Include="RimWorld\GenPlant.cs" />
+    <Compile Include="RimWorld\GenStepDefOf.cs" />
     <Compile Include="RimWorld\GenStep_Ambush.cs" />
     <Compile Include="RimWorld\GenStep_Ambush_Edge.cs" />
     <Compile Include="RimWorld\GenStep_Ambush_Hidden.cs" />
@@ -1304,9 +1309,9 @@
     <Compile Include="RimWorld\MusicManagerPlay.cs" />
     <Compile Include="RimWorld\NameBank.cs" />
     <Compile Include="RimWorld\NameGenerator.cs" />
-    <Compile Include="RimWorld\NamePlayerFactionAndBaseUtility.cs" />
-    <Compile Include="RimWorld\NamePlayerFactionBaseDialogUtility.cs" />
+    <Compile Include="RimWorld\NamePlayerFactionAndSettlementUtility.cs" />
     <Compile Include="RimWorld\NamePlayerFactionDialogUtility.cs" />
+    <Compile Include="RimWorld\NamePlayerSettlementDialogUtility.cs" />
     <Compile Include="RimWorld\NameStyle.cs" />
     <Compile Include="RimWorld\NativeVerbPropertiesDatabase.cs" />
     <Compile Include="RimWorld\Need.cs" />
@@ -1588,7 +1593,6 @@
     <Compile Include="RimWorld\Planet\EnterCooldownCompUtility.cs" />
     <Compile Include="RimWorld\Planet\EscapeShipComp.cs" />
     <Compile Include="RimWorld\Planet\ExpandableWorldObjectsUtility.cs" />
-    <Compile Include="RimWorld\Planet\FactionBaseProximityGoodwillUtility.cs" />
     <Compile Include="RimWorld\Planet\FactionGiftUtility.cs" />
     <Compile Include="RimWorld\Planet\FeatureWorker_Archipelago.cs" />
     <Compile Include="RimWorld\Planet\FeatureWorker_Bay.cs" />
@@ -1633,12 +1637,17 @@
     <Compile Include="RimWorld\Planet\SettlementBase_TraderTracker.cs" />
     <Compile Include="RimWorld\Planet\SettlementDefeatUtility.cs" />
     <Compile Include="RimWorld\Planet\SettlementNameGenerator.cs" />
+    <Compile Include="RimWorld\Planet\SettlementProximityGoodwillUtility.cs" />
     <Compile Include="RimWorld\Planet\SettlementUtility.cs" />
     <Compile Include="RimWorld\Planet\Settlement_TraderTracker.cs" />
     <Compile Include="RimWorld\Planet\SettleUtility.cs" />
     <Compile Include="RimWorld\Planet\Site.cs" />
+    <Compile Include="RimWorld\Planet\SiteCore.cs" />
+    <Compile Include="RimWorld\Planet\SiteCoreOrPartBase.cs" />
+    <Compile Include="RimWorld\Planet\SiteCoreOrPartParams.cs" />
     <Compile Include="RimWorld\Planet\SiteMaker.cs" />
     <Compile Include="RimWorld\Planet\SiteMakerHelper.cs" />
+    <Compile Include="RimWorld\Planet\SitePart.cs" />
     <Compile Include="RimWorld\Planet\SphereGenerator.cs" />
     <Compile Include="RimWorld\Planet\Tile.cs" />
     <Compile Include="RimWorld\Planet\TileFinder.cs" />
@@ -1955,17 +1964,18 @@
     <Compile Include="RimWorld\SignalManager.cs" />
     <Compile Include="RimWorld\SiteCoreDef.cs" />
     <Compile Include="RimWorld\SiteCoreDefOf.cs" />
+    <Compile Include="RimWorld\SiteCoreOrPartDefBase.cs" />
+    <Compile Include="RimWorld\SiteCoreOrPartWorkerBase.cs" />
     <Compile Include="RimWorld\SiteCoreWorker.cs" />
-    <Compile Include="RimWorld\SiteDefBase.cs" />
     <Compile Include="RimWorld\SiteGenStepUtility.cs" />
     <Compile Include="RimWorld\SitePartDef.cs" />
     <Compile Include="RimWorld\SitePartDefOf.cs" />
+    <Compile Include="RimWorld\SitePartUtility.cs" />
     <Compile Include="RimWorld\SitePartWorker.cs" />
     <Compile Include="RimWorld\SitePartWorker_Manhunters.cs" />
     <Compile Include="RimWorld\SitePartWorker_Outpost.cs" />
     <Compile Include="RimWorld\SitePartWorker_SleepingMechanoids.cs" />
     <Compile Include="RimWorld\SitePartWorker_Turrets.cs" />
-    <Compile Include="RimWorld\SiteWorkerBase.cs" />
     <Compile Include="RimWorld\SituationalThoughtHandler.cs" />
     <Compile Include="RimWorld\SkillDef.cs" />
     <Compile Include="RimWorld\SkillDefOf.cs" />
@@ -3161,6 +3171,8 @@
     <Compile Include="Verse\GenSpawn.cs" />
     <Compile Include="Verse\GenStep.cs" />
     <Compile Include="Verse\GenStepDef.cs" />
+    <Compile Include="Verse\GenStepParams.cs" />
+    <Compile Include="Verse\GenStepWithParams.cs" />
     <Compile Include="Verse\GenStep_RandomSelector.cs" />
     <Compile Include="Verse\GenStep_Scatterer.cs" />
     <Compile Include="Verse\GenStep_ScatterThings.cs" />
@@ -3980,7 +3992,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{3d8da3cd-6e68-4f12-9304-3ac3accbedbc}</Project>
+      <Project>{78c8ae3c-a8f3-4732-bfe9-271b0e47dcd8}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>
