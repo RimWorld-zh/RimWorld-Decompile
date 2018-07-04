@@ -31,7 +31,7 @@ namespace Verse
 			else
 			{
 				float num = capacity.Worker.CalculateCapacityLevel(diffSet, impactors);
-				if (num > 0f && capacity.minValue <= 0f)
+				if (num > 0f)
 				{
 					float num2 = 99999f;
 					float num3 = 1f;

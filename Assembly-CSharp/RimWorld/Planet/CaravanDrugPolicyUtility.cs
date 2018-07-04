@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 						Pawn drugOwner;
 						if (CaravanInventoryUtility.TryGetThingOfDef(caravan, currentPolicy[i].drug, out drug, out drugOwner))
 						{
-							CaravanPawnsNeedsUtility.IngestDrug(pawn, drug, drugOwner, caravan);
+							caravan.needs.IngestDrug(pawn, drug, drugOwner);
 						}
 					}
 				}

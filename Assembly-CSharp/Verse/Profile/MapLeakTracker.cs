@@ -75,8 +75,11 @@ namespace Verse.Profile
 								Map map = weakReference.Target;
 								if (map != null && (Find.Maps == null || !Find.Maps.Contains(map)))
 								{
-									Log.Error(string.Format("Memory leak detected: map {0} is still live when it shouldn't be; this map will not be mentioned again. For more info set MemoryTrackerMarkup.enableMemoryTracker to true and use \"Object Hold Paths\"->Map debug option.", map.ToStringSafe<Map>()), false);
-									MapLeakTracker.references.RemoveAll((WeakReference<Map> liveref) => liveref.Target == map);
+									if (Current.ProgramState == ProgramState.Entry)
+									{
+										Log.Error(string.Format("Memory leak detected: map {0} is still live when it shouldn't be; this map will not be mentioned again. For more info set MemoryTrackerMarkup.enableMemoryTracker to true and use \"Object Hold Paths\"->Map debug option.", map.ToStringSafe<Map>()), false);
+										MapLeakTracker.references.RemoveAll((WeakReference<Map> liveref) => liveref.Target == map);
+									}
 								}
 							}
 							MapLeakTracker.referencesFlagged.Clear();

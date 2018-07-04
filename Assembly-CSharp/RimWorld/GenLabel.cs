@@ -208,6 +208,10 @@ namespace RimWorld
 
 		public static string BestKindLabel(Pawn pawn, bool mustNoteGender = false, bool mustNoteLifeStage = false, bool plural = false, int pluralCount = -1)
 		{
+			if (plural && pluralCount == 1)
+			{
+				plural = false;
+			}
 			bool flag = false;
 			bool flag2 = false;
 			string text = null;
@@ -248,31 +252,9 @@ namespace RimWorld
 								text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 							}
 						}
-						else if (plural && pawn.kindDef.labelFemalePlural != null)
-						{
-							text = pawn.kindDef.labelFemalePlural;
-							flag = true;
-						}
-						else if (pawn.kindDef.labelFemale != null)
-						{
-							text = pawn.kindDef.labelFemale;
-							flag = true;
-							if (plural)
-							{
-								text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
-							}
-						}
-						else if (plural && pawn.kindDef.labelPlural != null)
-						{
-							text = pawn.kindDef.labelPlural;
-						}
 						else
 						{
-							text = pawn.kindDef.label;
-							if (plural)
-							{
-								text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
-							}
+							text = GenLabel.BestKindLabel(pawn.kindDef, Gender.Female, out flag, plural, pluralCount);
 						}
 					}
 				}
@@ -306,31 +288,9 @@ namespace RimWorld
 						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
-				else if (plural && pawn.kindDef.labelMalePlural != null)
-				{
-					text = pawn.kindDef.labelMalePlural;
-					flag = true;
-				}
-				else if (pawn.kindDef.labelMale != null)
-				{
-					text = pawn.kindDef.labelMale;
-					flag = true;
-					if (plural)
-					{
-						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
-					}
-				}
-				else if (plural && pawn.kindDef.labelPlural != null)
-				{
-					text = pawn.kindDef.labelPlural;
-				}
 				else
 				{
-					text = pawn.kindDef.label;
-					if (plural)
-					{
-						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
-					}
+					text = GenLabel.BestKindLabel(pawn.kindDef, Gender.Male, out flag, plural, pluralCount);
 				}
 			}
 			else if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelPlural != null)
@@ -347,17 +307,9 @@ namespace RimWorld
 					text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 				}
 			}
-			else if (plural && pawn.kindDef.labelPlural != null)
-			{
-				text = pawn.kindDef.labelPlural;
-			}
 			else
 			{
-				text = pawn.kindDef.label;
-				if (plural)
-				{
-					text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
-				}
+				text = GenLabel.BestKindLabel(pawn.kindDef, Gender.None, out flag, plural, pluralCount);
 			}
 			if (mustNoteGender && !flag)
 			{
@@ -379,6 +331,96 @@ namespace RimWorld
 						text,
 						pawn.ageTracker.CurLifeStage.Adjective
 					});
+				}
+			}
+			return text;
+		}
+
+		public static string BestKindLabel(PawnKindDef kindDef, Gender gender, bool plural = false, int pluralCount = -1)
+		{
+			bool flag;
+			return GenLabel.BestKindLabel(kindDef, gender, out flag, plural, pluralCount);
+		}
+
+		public static string BestKindLabel(PawnKindDef kindDef, Gender gender, out bool genderNoted, bool plural = false, int pluralCount = -1)
+		{
+			if (plural && pluralCount == 1)
+			{
+				plural = false;
+			}
+			string text = null;
+			genderNoted = false;
+			if (gender != Gender.None)
+			{
+				if (gender != Gender.Male)
+				{
+					if (gender == Gender.Female)
+					{
+						if (plural && kindDef.labelFemalePlural != null)
+						{
+							text = kindDef.labelFemalePlural;
+							genderNoted = true;
+						}
+						else if (kindDef.labelFemale != null)
+						{
+							text = kindDef.labelFemale;
+							genderNoted = true;
+							if (plural)
+							{
+								text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
+							}
+						}
+						else if (plural && kindDef.labelPlural != null)
+						{
+							text = kindDef.labelPlural;
+						}
+						else
+						{
+							text = kindDef.label;
+							if (plural)
+							{
+								text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
+							}
+						}
+					}
+				}
+				else if (plural && kindDef.labelMalePlural != null)
+				{
+					text = kindDef.labelMalePlural;
+					genderNoted = true;
+				}
+				else if (kindDef.labelMale != null)
+				{
+					text = kindDef.labelMale;
+					genderNoted = true;
+					if (plural)
+					{
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
+					}
+				}
+				else if (plural && kindDef.labelPlural != null)
+				{
+					text = kindDef.labelPlural;
+				}
+				else
+				{
+					text = kindDef.label;
+					if (plural)
+					{
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
+					}
+				}
+			}
+			else if (plural && kindDef.labelPlural != null)
+			{
+				text = kindDef.labelPlural;
+			}
+			else
+			{
+				text = kindDef.label;
+				if (plural)
+				{
+					text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 				}
 			}
 			return text;

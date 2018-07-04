@@ -45,11 +45,16 @@ namespace RimWorld
 			select k).TryRandomElementByWeight((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points), out animalKind);
 		}
 
+		public static int GetAnimalsCount(PawnKindDef animalKind, float points)
+		{
+			return Mathf.Max(Mathf.RoundToInt(points / animalKind.combatPower), 1);
+		}
+
 		public static List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile, float points)
 		{
-			int num = Mathf.Max(Mathf.RoundToInt(points / animalKind.combatPower), 1);
+			int animalsCount = ManhunterPackIncidentUtility.GetAnimalsCount(animalKind, points);
 			List<Pawn> list = new List<Pawn>();
-			for (int i = 0; i < num; i++)
+			for (int i = 0; i < animalsCount; i++)
 			{
 				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
 				Pawn item = PawnGenerator.GeneratePawn(request);

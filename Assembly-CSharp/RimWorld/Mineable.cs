@@ -59,7 +59,7 @@ namespace RimWorld
 			{
 				if (Rand.Value <= this.def.building.mineableDropChance)
 				{
-					int num = this.def.building.mineableYield;
+					int num = Mathf.Max(1, Mathf.RoundToInt((float)this.def.building.mineableYield * Find.Storyteller.difficulty.mineYieldFactor));
 					if (this.def.building.mineableYieldWasteable)
 					{
 						num = Mathf.Max(1, GenMath.RoundRandom((float)num * this.yieldPct));

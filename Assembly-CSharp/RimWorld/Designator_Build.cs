@@ -34,7 +34,7 @@ namespace RimWorld
 			ThingDef thingDef = entDef as ThingDef;
 			if (thingDef != null)
 			{
-				this.iconProportions = thingDef.graphicData.drawSize;
+				this.iconProportions = thingDef.graphicData.drawSize.RotatedBy(thingDef.defaultPlacingRot);
 				this.iconDrawScale = GenUI.IconDrawScale(thingDef);
 			}
 			else

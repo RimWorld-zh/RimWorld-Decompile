@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using RimWorld;
-using RimWorld.Planet;
 using UnityEngine;
 using Verse.AI;
 
@@ -1505,10 +1504,6 @@ namespace Verse
 				{
 					JoyKindDef joyKind = (this.def.ingestible.joyKind == null) ? JoyKindDefOf.Gluttonous : this.def.ingestible.joyKind;
 					ingester.needs.joy.GainJoy((float)num * this.def.ingestible.joy, joyKind);
-				}
-				if (ingester.IsCaravanMember())
-				{
-					CaravanPawnsNeedsUtility.Notify_CaravanMemberIngestedFood(ingester, num2);
 				}
 				if (ingester.RaceProps.Humanlike && Rand.Chance(this.GetStatValue(StatDefOf.FoodPoisonChanceFixedHuman, true) * Find.Storyteller.difficulty.foodPoisonChanceFactor))
 				{

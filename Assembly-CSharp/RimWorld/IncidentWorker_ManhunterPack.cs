@@ -7,11 +7,11 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class IncidentWorker_ManhunterPack : IncidentWorker
 	{
-		private const float PointsFactor = 1.4f;
+		private const float PointsFactor = 1f;
 
 		private const int AnimalsStayDurationMin = 60000;
 
-		private const int AnimalsStayDurationMax = 135000;
+		private const int AnimalsStayDurationMax = 120000;
 
 		public IncidentWorker_ManhunterPack()
 		{
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 			else
 			{
-				List<Pawn> list = ManhunterPackIncidentUtility.GenerateAnimals(pawnKindDef, map.Tile, parms.points * 1.4f);
+				List<Pawn> list = ManhunterPackIncidentUtility.GenerateAnimals(pawnKindDef, map.Tile, parms.points * 1f);
 				Rot4 rot = Rot4.FromAngleFlat((map.Center - intVec).AngleFlat);
 				for (int i = 0; i < list.Count; i++)
 				{
@@ -58,7 +58,7 @@ namespace RimWorld
 					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
 					GenSpawn.Spawn(pawn, loc, map, rot, WipeMode.Vanish, false);
 					pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null, false);
-					pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(60000, 135000);
+					pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(60000, 120000);
 				}
 				Find.LetterStack.ReceiveLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(new object[]
 				{

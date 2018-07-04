@@ -37,14 +37,13 @@ namespace RimWorld
 			}
 			else
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, null, true, null, true);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, tile, null, true, null, true);
 				if (site == null)
 				{
 					result = false;
 				}
 				else
 				{
-					site.Tile = tile;
 					site.sitePartsKnown = true;
 					Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
 					site.GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);

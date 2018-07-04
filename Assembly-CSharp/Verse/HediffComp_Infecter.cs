@@ -20,11 +20,11 @@ namespace Verse
 		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 0.85f),
+				new CurvePoint(0f, 0.7f),
 				true
 			},
 			{
-				new CurvePoint(1f, 0.05f),
+				new CurvePoint(1f, 0.4f),
 				true
 			}
 		};

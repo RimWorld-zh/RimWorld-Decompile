@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
@@ -21,6 +22,38 @@ namespace RimWorld
 			where x.MentalStateDef == MentalStateDefOf.Manhunter || x.MentalStateDef == MentalStateDefOf.ManhunterPermanent
 			select x).FirstOrDefault<Pawn>();
 			return arrivedLetterPart;
+		}
+
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		{
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			ManhunterPackGenStepUtility.TryGetAnimalsKind(siteCoreOrPartParams.threatPoints, site.Tile, out siteCoreOrPartParams.animalKind);
+			return siteCoreOrPartParams;
+		}
+
+		public override string GetPostProcessedDescriptionDialogue(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			int animalsCount = this.GetAnimalsCount(siteCoreOrPart.parms);
+			return string.Format(base.GetPostProcessedDescriptionDialogue(site, siteCoreOrPart), animalsCount, GenLabel.BestKindLabel(siteCoreOrPart.parms.animalKind, Gender.None, true, animalsCount));
+		}
+
+		public override string GetPostProcessedThreatLabel(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			int animalsCount = this.GetAnimalsCount(siteCoreOrPart.parms);
+			return string.Concat(new object[]
+			{
+				base.GetPostProcessedThreatLabel(site, siteCoreOrPart),
+				" (",
+				animalsCount,
+				" ",
+				GenLabel.BestKindLabel(siteCoreOrPart.parms.animalKind, Gender.None, true, animalsCount),
+				")"
+			});
+		}
+
+		private int GetAnimalsCount(SiteCoreOrPartParams parms)
+		{
+			return ManhunterPackIncidentUtility.GetAnimalsCount(parms.animalKind, parms.threatPoints);
 		}
 
 		[CompilerGenerated]

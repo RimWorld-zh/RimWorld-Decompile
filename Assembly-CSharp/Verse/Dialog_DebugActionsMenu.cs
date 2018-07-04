@@ -2014,11 +2014,6 @@ namespace Verse
 									select t).FirstOrDefault<Thing>();
 									if (pawn != null)
 									{
-										if (!InteractionUtility.HasAnySocialFightProvokingThought(locP, pawn))
-										{
-											locP.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Insulted, pawn);
-											Messages.Message("Dev: Auto added negative thought.", locP, MessageTypeDefOf.TaskCompletion, false);
-										}
 										locP.interactions.StartSocialFight(pawn);
 										DebugTools.curTool = null;
 									}
@@ -2964,14 +2959,13 @@ namespace Verse
 							List<DebugMenuOption> list2 = new List<DebugMenuOption>();
 							list2.Add(new DebugMenuOption("-Done (" + parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 							{
-								Site site = SiteMaker.TryMakeSite(localDef, parts, true, null, true);
+								Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true);
 								if (site == null)
 								{
 									Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
 								}
 								else
 								{
-									site.Tile = tile;
 									Find.WorldObjects.Add(site);
 								}
 							}));
@@ -4869,11 +4863,6 @@ namespace Verse
 								select t).FirstOrDefault<Thing>();
 								if (pawn != null)
 								{
-									if (!InteractionUtility.HasAnySocialFightProvokingThought(locP, pawn))
-									{
-										locP.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Insulted, pawn);
-										Messages.Message("Dev: Auto added negative thought.", locP, MessageTypeDefOf.TaskCompletion, false);
-									}
 									locP.interactions.StartSocialFight(pawn);
 									DebugTools.curTool = null;
 								}
@@ -5910,14 +5899,13 @@ namespace Verse
 						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
 						list2.Add(new DebugMenuOption("-Done (" + parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 						{
-							Site site = SiteMaker.TryMakeSite(localDef, parts, true, null, true);
+							Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true);
 							if (site == null)
 							{
 								Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
 							}
 							else
 							{
-								site.Tile = tile;
 								Find.WorldObjects.Add(site);
 							}
 						}));
@@ -7774,11 +7762,6 @@ namespace Verse
 							select t).FirstOrDefault<Thing>();
 							if (pawn != null)
 							{
-								if (!InteractionUtility.HasAnySocialFightProvokingThought(locP, pawn))
-								{
-									locP.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Insulted, pawn);
-									Messages.Message("Dev: Auto added negative thought.", locP, MessageTypeDefOf.TaskCompletion, false);
-								}
 								locP.interactions.StartSocialFight(pawn);
 								DebugTools.curTool = null;
 							}
@@ -7811,11 +7794,6 @@ namespace Verse
 					select t).FirstOrDefault<Thing>();
 					if (pawn != null)
 					{
-						if (!InteractionUtility.HasAnySocialFightProvokingThought(this.locP, pawn))
-						{
-							this.locP.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Insulted, pawn);
-							Messages.Message("Dev: Auto added negative thought.", this.locP, MessageTypeDefOf.TaskCompletion, false);
-						}
 						this.locP.interactions.StartSocialFight(pawn);
 						DebugTools.curTool = null;
 					}
@@ -8461,14 +8439,13 @@ namespace Verse
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$69.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 				{
-					Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, true, null, true);
+					Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true);
 					if (site == null)
 					{
 						Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
 					}
 					else
 					{
-						site.Tile = this.<>f__ref$71.tile;
 						Find.WorldObjects.Add(site);
 					}
 				}));
@@ -8488,14 +8465,13 @@ namespace Verse
 
 			internal void <>m__1()
 			{
-				Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, true, null, true);
+				Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true);
 				if (site == null)
 				{
 					Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
 				}
 				else
 				{
-					site.Tile = this.<>f__ref$71.tile;
 					Find.WorldObjects.Add(site);
 				}
 			}

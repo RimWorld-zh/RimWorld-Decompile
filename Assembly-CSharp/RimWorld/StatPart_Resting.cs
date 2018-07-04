@@ -1,4 +1,5 @@
 ﻿using System;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
@@ -39,7 +40,7 @@ namespace RimWorld
 		private float RestingMultiplier(Pawn pawn)
 		{
 			float result;
-			if (pawn.InBed() || (pawn.GetPosture() != PawnPosture.Standing && !pawn.Downed))
+			if (pawn.InBed() || (pawn.GetPosture() != PawnPosture.Standing && !pawn.Downed) || (pawn.IsCaravanMember() && pawn.GetCaravan().Resting))
 			{
 				result = this.factor;
 			}

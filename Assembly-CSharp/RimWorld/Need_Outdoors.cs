@@ -7,19 +7,19 @@ namespace RimWorld
 {
 	public class Need_Outdoors : Need
 	{
-		private const float Delta_IndoorsThickRoof = -0.4f;
+		private const float Delta_IndoorsThickRoof = -0.45f;
 
 		private const float Delta_OutdoorsThickRoof = -0.4f;
 
-		private const float Delta_IndoorsThinRoof = -0.3f;
+		private const float Delta_IndoorsThinRoof = -0.32f;
 
 		private const float Minimum_IndoorsThinRoof = 0.2f;
 
-		private const float Delta_OutdoorsThinRoof = 0.7f;
+		private const float Delta_OutdoorsThinRoof = 0.6f;
 
-		private const float Delta_IndoorsNoRoof = 2.5f;
+		private const float Delta_IndoorsNoRoof = 2f;
 
-		private const float Delta_OutdoorsNoRoof = 5f;
+		private const float Delta_OutdoorsNoRoof = 4f;
 
 		private const float DeltaFactor_InBed = 0.25f;
 
@@ -39,7 +39,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return Math.Sign(this.lastEffectiveDelta);
+				int result;
+				if (base.IsFrozen)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = Math.Sign(this.lastEffectiveDelta);
+				}
+				return result;
 			}
 		}
 
@@ -88,7 +97,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.story.traits.HasTrait(TraitDefOf.Tunneler);
+				return this.pawn.story.traits.HasTrait(TraitDefOf.Indoorsman);
 			}
 		}
 
@@ -113,21 +122,21 @@ namespace RimWorld
 				{
 					if (roofDef == null)
 					{
-						num = 2.5f;
+						num = 2f;
 					}
 					else if (!roofDef.isThickRoof)
 					{
-						num = -0.3f;
+						num = -0.32f;
 					}
 					else
 					{
-						num = -0.4f;
+						num = -0.45f;
 						b = 0f;
 					}
 				}
 				else if (roofDef == null)
 				{
-					num = 5f;
+					num = 4f;
 				}
 				else if (roofDef.isThickRoof)
 				{
@@ -135,7 +144,7 @@ namespace RimWorld
 				}
 				else
 				{
-					num = 0.7f;
+					num = 0.6f;
 				}
 				if (this.pawn.InBed() && num < 0f)
 				{

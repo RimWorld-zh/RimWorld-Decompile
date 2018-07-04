@@ -8,22 +8,6 @@ namespace RimWorld
 	{
 		public SiteCoreOrPartDefBase def;
 
-		private static readonly SimpleCurve CurrentThreatPointsToSiteThreatPoints = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 200f),
-				true
-			},
-			{
-				new CurvePoint(1000f, 800f),
-				true
-			},
-			{
-				new CurvePoint(4000f, 3000f),
-				true
-			}
-		};
-
 		protected SiteCoreOrPartWorkerBase()
 		{
 		}
@@ -55,18 +39,13 @@ namespace RimWorld
 			return this.def.label;
 		}
 
-		public virtual SiteCoreOrPartParams GenerateDefaultParams()
+		public virtual SiteCoreOrPartParams GenerateDefaultParams(Site site)
 		{
 			return new SiteCoreOrPartParams
 			{
 				randomValue = Rand.Int,
-				threatPoints = SiteCoreOrPartWorkerBase.CurrentThreatPointsToSiteThreatPoints.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World))
+				threatPoints = StorytellerUtility.ThreatPointsToSiteThreatPointsCurve.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World))
 			};
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static SiteCoreOrPartWorkerBase()
-		{
 		}
 	}
 }

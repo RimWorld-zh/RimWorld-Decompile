@@ -38,14 +38,13 @@ namespace RimWorld
 			}
 			else
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.DownedRefugee, (!Rand.Chance(0.3f)) ? IncidentWorker_QuestDownedRefugee.DownedRefugeeQuestThreatTag : null, null, true, null, true);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.DownedRefugee, (!Rand.Chance(0.3f)) ? IncidentWorker_QuestDownedRefugee.DownedRefugeeQuestThreatTag : null, tile, null, true, null, true);
 				if (site == null)
 				{
 					result = false;
 				}
 				else
 				{
-					site.Tile = tile;
 					site.sitePartsKnown = true;
 					Pawn pawn = DownedRefugeeQuestUtility.GenerateRefugee(tile);
 					site.GetComponent<DownedRefugeeComp>().pawn.TryAdd(pawn, true);

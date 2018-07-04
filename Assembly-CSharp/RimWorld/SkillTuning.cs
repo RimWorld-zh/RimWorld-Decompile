@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	public static class LearnRates
+	public static class SkillTuning
 	{
 		public const float XpPerTickDefault = 0.11f;
 
@@ -34,7 +34,7 @@ namespace RimWorld
 
 		public const float XpPerTendAnimal = 175f;
 
-		public const float NoMedicineTendXpFactor = 0.5f;
+		public const float XpPerTendFactor_NoMedicine = 0.5f;
 
 		public const float XpPerPeaceTalks = 6000f;
 	}

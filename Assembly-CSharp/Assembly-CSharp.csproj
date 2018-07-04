@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{78C8AE3C-A8F3-4732-BFE9-271B0E47DCD7}</ProjectGuid>
+    <ProjectGuid>{BC6EC42C-B036-4F1E-9B2E-293C894F1951}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -1182,7 +1182,6 @@
     <Compile Include="RimWorld\LatitudeSection.cs" />
     <Compile Include="RimWorld\LatitudeSectionUtility.cs" />
     <Compile Include="RimWorld\LearningReadout.cs" />
-    <Compile Include="RimWorld\LearnRates.cs" />
     <Compile Include="RimWorld\Lesson.cs" />
     <Compile Include="RimWorld\LessonAutoActivator.cs" />
     <Compile Include="RimWorld\Lesson_Instruction.cs" />
@@ -1280,6 +1279,7 @@
     <Compile Include="RimWorld\MainTabWindow_Wildlife.cs" />
     <Compile Include="RimWorld\MainTabWindow_Work.cs" />
     <Compile Include="RimWorld\MaintainableStage.cs" />
+    <Compile Include="RimWorld\ManhunterPackGenStepUtility.cs" />
     <Compile Include="RimWorld\ManhunterPackIncidentUtility.cs" />
     <Compile Include="RimWorld\MannableUtility.cs" />
     <Compile Include="RimWorld\MapGeneratorDefOf.cs" />
@@ -1337,6 +1337,7 @@
     <Compile Include="RimWorld\Outfit.cs" />
     <Compile Include="RimWorld\OutfitDatabase.cs" />
     <Compile Include="RimWorld\OutfitForcedHandler.cs" />
+    <Compile Include="RimWorld\OutpostSitePartUtility.cs" />
     <Compile Include="RimWorld\OverlayDrawer.cs" />
     <Compile Include="RimWorld\OverlayDrawHandler.cs" />
     <Compile Include="RimWorld\OverlayTypes.cs" />
@@ -1576,6 +1577,7 @@
     <Compile Include="RimWorld\Planet\CaravanVisitUtility.cs" />
     <Compile Include="RimWorld\Planet\Caravan_ForageTracker.cs" />
     <Compile Include="RimWorld\Planet\Caravan_GotoMoteRenderer.cs" />
+    <Compile Include="RimWorld\Planet\Caravan_NeedsTracker.cs" />
     <Compile Include="RimWorld\Planet\Caravan_PathFollower.cs" />
     <Compile Include="RimWorld\Planet\Caravan_TraderTracker.cs" />
     <Compile Include="RimWorld\Planet\Caravan_Tweener.cs" />
@@ -1983,12 +1985,14 @@
     <Compile Include="RimWorld\SkillNeed_BaseBonus.cs" />
     <Compile Include="RimWorld\SkillNeed_Direct.cs" />
     <Compile Include="RimWorld\SkillRecord.cs" />
+    <Compile Include="RimWorld\SkillTuning.cs" />
     <Compile Include="RimWorld\SkillUI.cs" />
     <Compile Include="RimWorld\Skyfaller.cs" />
     <Compile Include="RimWorld\SkyfallerDrawPosUtility.cs" />
     <Compile Include="RimWorld\SkyfallerMaker.cs" />
     <Compile Include="RimWorld\SkyfallerShrapnelUtility.cs" />
     <Compile Include="RimWorld\SlaughterDesignatorUtility.cs" />
+    <Compile Include="RimWorld\SleepingMechanoidsSitePartUtility.cs" />
     <Compile Include="RimWorld\SlotGroup.cs" />
     <Compile Include="RimWorld\SmokepopBelt.cs" />
     <Compile Include="RimWorld\SmoothableWallUtility.cs" />
@@ -2345,6 +2349,7 @@
     <Compile Include="RimWorld\Thought_Tale.cs" />
     <Compile Include="RimWorld\Thought_TeetotalerVsChemicalInterest.cs" />
     <Compile Include="RimWorld\Thought_WantToSleepWithSpouseOrLover.cs" />
+    <Compile Include="RimWorld\ThreatCycleMode.cs" />
     <Compile Include="RimWorld\TimeAssignmentDef.cs" />
     <Compile Include="RimWorld\TimeAssignmentDefOf.cs" />
     <Compile Include="RimWorld\TimeAssignmentSelector.cs" />
@@ -3992,7 +3997,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{78c8ae3c-a8f3-4732-bfe9-271b0e47dcd8}</Project>
+      <Project>{bc6ec42c-b036-4f1e-9b2e-293c894f1952}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

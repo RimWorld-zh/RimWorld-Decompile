@@ -1,12 +1,15 @@
 ﻿using System;
+using Verse;
 
 namespace RimWorld
 {
 	public class StorytellerCompProperties_ThreatCycle : StorytellerCompProperties
 	{
-		public float mtbDaysThreatSmall;
+		public ThreatCycleMode mode = ThreatCycleMode.Normal;
 
-		public float mtbDaysThreatBig;
+		private float mtbDaysThreatBig = 0f;
+
+		public float mtbDaysThreatSmall;
 
 		public float threatOffDays;
 
@@ -30,6 +33,28 @@ namespace RimWorld
 			get
 			{
 				return this.threatOffDays + this.threatOnDays;
+			}
+		}
+
+		public float MTBDaysThreatBigCurrentDifficulty
+		{
+			get
+			{
+				ThreatCycleMode threatCycleMode = this.mode;
+				float result;
+				if (threatCycleMode != ThreatCycleMode.Normal)
+				{
+					if (threatCycleMode != ThreatCycleMode.RaidBeacon)
+					{
+						throw new Exception();
+					}
+					result = this.mtbDaysThreatBig * Find.Storyteller.difficulty.raidBeaconThreatMtbFactor;
+				}
+				else
+				{
+					result = this.mtbDaysThreatBig;
+				}
+				return result;
 			}
 		}
 

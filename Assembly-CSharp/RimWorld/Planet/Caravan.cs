@@ -30,6 +30,8 @@ namespace RimWorld.Planet
 
 		public Caravan_ForageTracker forage;
 
+		public Caravan_NeedsTracker needs;
+
 		public StoryState storyState;
 
 		private Material cachedMat;
@@ -70,6 +72,7 @@ namespace RimWorld.Planet
 			this.tweener = new Caravan_Tweener(this);
 			this.trader = new Caravan_TraderTracker(this);
 			this.forage = new Caravan_ForageTracker(this);
+			this.needs = new Caravan_NeedsTracker(this);
 			this.storyState = new StoryState(this);
 		}
 
@@ -505,6 +508,10 @@ namespace RimWorld.Planet
 			{
 				this
 			});
+			Scribe_Deep.Look<Caravan_NeedsTracker>(ref this.needs, "needs", new object[]
+			{
+				this
+			});
 			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[]
 			{
 				this
@@ -535,7 +542,7 @@ namespace RimWorld.Planet
 			this.pather.PatherTick();
 			this.tweener.TweenerTick();
 			this.forage.ForageTrackerTick();
-			CaravanPawnsNeedsUtility.TrySatisfyPawnsNeeds(this);
+			this.needs.NeedsTrackerTick();
 			if (this.IsHashIntervalTick(120))
 			{
 				CaravanDrugPolicyUtility.TryTakeScheduledDrugs(this);
@@ -790,7 +797,7 @@ namespace RimWorld.Planet
 				stringBuilder.Append("CaravanImmobilizedByMass".Translate());
 			}
 			string text;
-			if (CaravanPawnsNeedsUtility.AnyPawnOutOfFood(this, out text))
+			if (this.needs.AnyPawnOutOfFood(out text))
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.Append("CaravanOutOfFood".Translate());
@@ -803,8 +810,13 @@ namespace RimWorld.Planet
 			}
 			if (this.Resting)
 			{
+				int bedCountUsedLastTick = this.needs.GetBedCountUsedLastTick();
+				string str = (bedCountUsedLastTick != 1) ? "UsingBedrolls".Translate(new object[]
+				{
+					bedCountUsedLastTick
+				}) : "UsingBedroll".Translate();
 				stringBuilder.AppendLine();
-				stringBuilder.Append("CaravanResting".Translate());
+				stringBuilder.Append("CaravanResting".Translate() + " (" + str + ")");
 			}
 			else if (this.pather.Paused)
 			{

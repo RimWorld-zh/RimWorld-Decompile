@@ -41,7 +41,9 @@ namespace RimWorld
 
 		public bool atomicFueling = false;
 
-		public float fuelMultiplier = 1f;
+		private float fuelMultiplier = 1f;
+
+		public bool factorByDifficulty = false;
 
 		public string fuelLabel;
 
@@ -99,6 +101,23 @@ namespace RimWorld
 					}
 				}
 				return this.fuelIcon;
+			}
+		}
+
+		public float FuelMultiplierCurrentDifficulty
+		{
+			get
+			{
+				float result;
+				if (this.factorByDifficulty)
+				{
+					result = this.fuelMultiplier / Find.Storyteller.difficulty.maintenanceCostFactor;
+				}
+				else
+				{
+					result = this.fuelMultiplier;
+				}
+				return result;
 			}
 		}
 

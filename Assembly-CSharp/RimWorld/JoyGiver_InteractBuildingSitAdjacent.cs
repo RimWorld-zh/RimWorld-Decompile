@@ -18,30 +18,31 @@ namespace RimWorld
 			JoyGiver_InteractBuildingSitAdjacent.tmpCells.Clear();
 			JoyGiver_InteractBuildingSitAdjacent.tmpCells.AddRange(GenAdjFast.AdjacentCellsCardinal(t));
 			JoyGiver_InteractBuildingSitAdjacent.tmpCells.Shuffle<IntVec3>();
-			Thing thing = null;
-			for (int i = 0; i < JoyGiver_InteractBuildingSitAdjacent.tmpCells.Count; i++)
+			for (int i = 0; i < 2; i++)
 			{
-				IntVec3 c = JoyGiver_InteractBuildingSitAdjacent.tmpCells[i];
-				if (!c.IsForbidden(pawn))
+				for (int j = 0; j < JoyGiver_InteractBuildingSitAdjacent.tmpCells.Count; j++)
 				{
-					Building edifice = c.GetEdifice(pawn.Map);
-					if (edifice != null && edifice.def.building.isSittable && pawn.CanReserve(edifice, 1, -1, null, false))
+					IntVec3 c = JoyGiver_InteractBuildingSitAdjacent.tmpCells[j];
+					if (!c.IsForbidden(pawn) && pawn.CanReserve(c, 1, -1, null, false))
 					{
-						thing = edifice;
-						break;
+						if (i == 0)
+						{
+							Building edifice = c.GetEdifice(pawn.Map);
+							if (edifice == null || !edifice.def.building.isSittable || !pawn.CanReserve(edifice, 1, -1, null, false))
+							{
+								goto IL_D9;
+							}
+						}
+						return new Job(this.def.jobDef, t, c);
 					}
+					IL_D9:;
+				}
+				if (this.def.requireChair)
+				{
+					break;
 				}
 			}
-			Job result;
-			if (thing == null)
-			{
-				result = null;
-			}
-			else
-			{
-				result = new Job(this.def.jobDef, t, thing);
-			}
-			return result;
+			return null;
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

@@ -10,14 +10,6 @@ namespace RimWorld
 	{
 		public const float MaxInteractRange = 6f;
 
-		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
-
-		[CompilerGenerated]
-		private static Func<ISocialThought, bool> <>f__am$cache0;
-
-		[CompilerGenerated]
-		private static Func<ISocialThought, float> <>f__am$cache1;
-
 		public static bool CanInitiateInteraction(Pawn pawn)
 		{
 			return pawn.interactions != null && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) && pawn.Awake() && !pawn.IsBurning();
@@ -86,54 +78,6 @@ namespace RimWorld
 				select x).TryRandomElementByWeight((Verb x) => x.verbProps.AdjustedMeleeDamageAmount(x, p, null), out verb);
 			}
 			return result;
-		}
-
-		public static bool HasAnySocialFightProvokingThought(Pawn pawn, Pawn otherPawn)
-		{
-			Thought thought;
-			return InteractionUtility.TryGetRandomSocialFightProvokingThought(pawn, otherPawn, out thought);
-		}
-
-		public static bool TryGetRandomSocialFightProvokingThought(Pawn pawn, Pawn otherPawn, out Thought thought)
-		{
-			bool result;
-			if (pawn.needs.mood == null)
-			{
-				thought = null;
-				result = false;
-			}
-			else
-			{
-				pawn.needs.mood.thoughts.GetSocialThoughts(otherPawn, InteractionUtility.tmpSocialThoughts);
-				ISocialThought socialThought;
-				bool flag = InteractionUtility.tmpSocialThoughts.Where(delegate(ISocialThought x)
-				{
-					ThoughtDef def = ((Thought)x).def;
-					return def != ThoughtDefOf.HadAngeringFight && def != ThoughtDefOf.HadCatharticFight && x.OpinionOffset() < 0f;
-				}).TryRandomElementByWeight((ISocialThought x) => -x.OpinionOffset(), out socialThought);
-				InteractionUtility.tmpSocialThoughts.Clear();
-				thought = (Thought)socialThought;
-				result = flag;
-			}
-			return result;
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static InteractionUtility()
-		{
-		}
-
-		[CompilerGenerated]
-		private static bool <TryGetRandomSocialFightProvokingThought>m__0(ISocialThought x)
-		{
-			ThoughtDef def = ((Thought)x).def;
-			return def != ThoughtDefOf.HadAngeringFight && def != ThoughtDefOf.HadCatharticFight && x.OpinionOffset() < 0f;
-		}
-
-		[CompilerGenerated]
-		private static float <TryGetRandomSocialFightProvokingThought>m__1(ISocialThought x)
-		{
-			return -x.OpinionOffset();
 		}
 
 		[CompilerGenerated]

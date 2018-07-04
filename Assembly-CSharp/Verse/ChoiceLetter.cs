@@ -20,11 +20,11 @@ namespace Verse
 
 		public abstract IEnumerable<DiaOption> Choices { get; }
 
-		protected DiaOption Option_Dismiss
+		protected DiaOption Option_Close
 		{
 			get
 			{
-				return new DiaOption("Dismiss".Translate())
+				return new DiaOption("Close".Translate())
 				{
 					action = delegate()
 					{
@@ -109,7 +109,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <get_Option_Dismiss>m__0()
+		private void <get_Option_Close>m__0()
 		{
 			Find.LetterStack.RemoveLetter(this);
 		}

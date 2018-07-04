@@ -23,8 +23,7 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
-			this.EndOnDespawnedOrNull(TargetIndex.B, JobCondition.Incompletable);
-			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.OnCell);
+			yield return Toils_Goto.Goto(TargetIndex.B, PathEndMode.OnCell);
 			Toil play = new Toil();
 			play.tickAction = delegate()
 			{
@@ -85,8 +84,7 @@ namespace RimWorld
 				{
 				case 0u:
 					this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
-					this.EndOnDespawnedOrNull(TargetIndex.B, JobCondition.Incompletable);
-					this.$current = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.OnCell);
+					this.$current = Toils_Goto.Goto(TargetIndex.B, PathEndMode.OnCell);
 					if (!this.$disposing)
 					{
 						this.$PC = 1;

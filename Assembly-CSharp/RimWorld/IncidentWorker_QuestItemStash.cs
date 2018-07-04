@@ -68,8 +68,7 @@ namespace RimWorld
 
 		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items)
 		{
-			Site site = SiteMaker.MakeSite(SiteCoreDefOf.ItemStash, sitePart, siteFaction, true);
-			site.Tile = tile;
+			Site site = SiteMaker.MakeSite(SiteCoreDefOf.ItemStash, sitePart, tile, siteFaction, true);
 			site.sitePartsKnown = true;
 			site.GetComponent<TimeoutComp>().StartTimeout(days * 60000);
 			site.GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(items, false, false);

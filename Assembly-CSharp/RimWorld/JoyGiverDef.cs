@@ -14,6 +14,8 @@ namespace RimWorld
 
 		public float baseChance = 0f;
 
+		public bool requireChair = true;
+
 		public List<ThingDef> thingDefs = null;
 
 		public JobDef jobDef;

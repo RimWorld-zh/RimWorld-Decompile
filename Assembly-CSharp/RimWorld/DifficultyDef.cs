@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public int difficulty = -1;
 
-		public float threatScale;
+		public float threatScale = 1f;
 
 		public bool allowBigThreats = true;
 
@@ -17,11 +17,13 @@ namespace RimWorld
 
 		public bool peacefulTemples = false;
 
-		public float colonistMoodOffset;
+		public float colonistMoodOffset = 0f;
 
-		public float tradePriceFactorLoss;
+		public float tradePriceFactorLoss = 0f;
 
 		public float cropYieldFactor = 1f;
+
+		public float mineYieldFactor = 1f;
 
 		public float diseaseIntervalFactor = 1f;
 
@@ -34,6 +36,12 @@ namespace RimWorld
 		public float deepDrillInfestationChanceFactor = 1f;
 
 		public float foodPoisonChanceFactor = 1f;
+
+		public float raidBeaconThreatMtbFactor = 1f;
+
+		public float maintenanceCostFactor = 1f;
+
+		public float enemyDeathOnDownedChanceFactor = 1f;
 
 		public DifficultyDef()
 		{

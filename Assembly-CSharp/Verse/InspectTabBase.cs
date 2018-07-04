@@ -118,6 +118,10 @@ namespace Verse
 		{
 		}
 
+		public virtual void Notify_ClearingAllMapsMemory()
+		{
+		}
+
 		[CompilerGenerated]
 		private sealed class <DoTabGUI>c__AnonStorey0
 		{

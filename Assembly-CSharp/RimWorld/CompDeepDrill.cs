@@ -14,17 +14,25 @@ namespace RimWorld
 
 		private int lastUsedTick = -99999;
 
-		private const float WorkPerPortion = 13000f;
+		private const float WorkPerPortionBase = 13000f;
 
 		public CompDeepDrill()
 		{
+		}
+
+		public static float WorkPerPortionCurrentDifficulty
+		{
+			get
+			{
+				return 13000f / Find.Storyteller.difficulty.mineYieldFactor;
+			}
 		}
 
 		public float ProgressToNextPortionPercent
 		{
 			get
 			{
-				return this.portionProgress / 13000f;
+				return this.portionProgress / CompDeepDrill.WorkPerPortionCurrentDifficulty;
 			}
 		}
 
@@ -44,9 +52,9 @@ namespace RimWorld
 		{
 			float statValue = driller.GetStatValue(StatDefOf.MiningSpeed, true);
 			this.portionProgress += statValue;
-			this.portionYieldPct += statValue * driller.GetStatValue(StatDefOf.MiningYield, true) / 13000f;
+			this.portionYieldPct += statValue * driller.GetStatValue(StatDefOf.MiningYield, true) / CompDeepDrill.WorkPerPortionCurrentDifficulty;
 			this.lastUsedTick = Find.TickManager.TicksGame;
-			if (this.portionProgress > 13000f)
+			if (this.portionProgress > CompDeepDrill.WorkPerPortionCurrentDifficulty)
 			{
 				this.TryProducePortion(this.portionYieldPct);
 				this.portionProgress = 0f;

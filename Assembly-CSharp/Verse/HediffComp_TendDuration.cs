@@ -8,7 +8,7 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class HediffComp_TendDuration : HediffComp_SeverityPerDay
 	{
-		public int tendTick = -999999;
+		public int tendTicksLeft = -1;
 
 		public float tendQuality = 0f;
 
@@ -36,22 +36,6 @@ namespace Verse
 			}
 		}
 
-		private int FullTendDurationTicks
-		{
-			get
-			{
-				return Mathf.RoundToInt((this.TProps.baseTendDurationHours + this.TProps.tendOverlapHours) * 2500f);
-			}
-		}
-
-		private int BaseTendDurationTicks
-		{
-			get
-			{
-				return Mathf.RoundToInt(this.TProps.baseTendDurationHours * 2500f);
-			}
-		}
-
 		public override bool CompShouldRemove
 		{
 			get
@@ -64,20 +48,7 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
-				if (Current.ProgramState != ProgramState.Playing)
-				{
-					result = false;
-				}
-				else if (this.TProps.baseTendDurationHours > 0f)
-				{
-					result = (Find.TickManager.TicksGame <= this.tendTick + this.FullTendDurationTicks);
-				}
-				else
-				{
-					result = (this.tendTick > 0);
-				}
-				return result;
+				return Current.ProgramState == ProgramState.Playing && this.tendTicksLeft > 0;
 			}
 		}
 
@@ -86,13 +57,13 @@ namespace Verse
 			get
 			{
 				bool result;
-				if (this.TProps.baseTendDurationHours > 0f)
+				if (this.TProps.TendIsPermanent)
 				{
-					result = (Find.TickManager.TicksGame > this.tendTick + this.BaseTendDurationTicks);
+					result = !this.IsTended;
 				}
 				else
 				{
-					result = !this.IsTended;
+					result = (this.TProps.TendTicksOverlap > this.tendTicksLeft);
 				}
 				return result;
 			}
@@ -151,10 +122,9 @@ namespace Verse
 								stringBuilder.AppendLine(string.Format("{0}: {1}", "TendQuality".Translate(), this.tendQuality.ToStringPercent()));
 							}
 						}
-						if (!base.Pawn.Dead && this.TProps.baseTendDurationHours > 0f && this.parent.TendableNow(true))
+						if (!base.Pawn.Dead && !this.TProps.TendIsPermanent && this.parent.TendableNow(true))
 						{
-							int num = this.tendTick + this.BaseTendDurationTicks - Find.TickManager.TicksGame;
-							int numTicks = this.tendTick + this.FullTendDurationTicks - Find.TickManager.TicksGame;
+							int num = this.tendTicksLeft - this.TProps.TendTicksOverlap;
 							if (num < 0)
 							{
 								stringBuilder.AppendLine("CanTendNow".Translate());
@@ -175,7 +145,7 @@ namespace Verse
 							}
 							stringBuilder.AppendLine("TreatmentExpiresIn".Translate(new object[]
 							{
-								numTicks.ToStringTicksToPeriod()
+								this.tendTicksLeft.ToStringTicksToPeriod()
 							}));
 						}
 					}
@@ -215,7 +185,7 @@ namespace Verse
 
 		public override void CompExposeData()
 		{
-			Scribe_Values.Look<int>(ref this.tendTick, "tendTick", -999999, false);
+			Scribe_Values.Look<int>(ref this.tendTicksLeft, "tendTicksLeft", -1, false);
 			Scribe_Values.Look<float>(ref this.tendQuality, "tendQuality", 0f, false);
 			Scribe_Values.Look<float>(ref this.totalTendQuality, "totalTendQuality", 0f, false);
 		}
@@ -234,11 +204,27 @@ namespace Verse
 			return result;
 		}
 
+		public override void CompPostTick(ref float severityAdjustment)
+		{
+			base.CompPostTick(ref severityAdjustment);
+			if (this.tendTicksLeft > 0 && !this.TProps.TendIsPermanent)
+			{
+				this.tendTicksLeft--;
+			}
+		}
+
 		public override void CompTended(float quality, int batchPosition = 0)
 		{
 			this.tendQuality = Mathf.Clamp01(quality + Rand.Range(-0.25f, 0.25f));
-			this.tendTick = Find.TickManager.TicksGame;
 			this.totalTendQuality += this.tendQuality;
+			if (this.TProps.TendIsPermanent)
+			{
+				this.tendTicksLeft = 1;
+			}
+			else
+			{
+				this.tendTicksLeft = Mathf.Max(0, this.tendTicksLeft) + this.TProps.TendTicksFull;
+			}
 			if (batchPosition == 0 && base.Pawn.Spawned)
 			{
 				string text = string.Concat(new string[]
@@ -263,23 +249,21 @@ namespace Verse
 			if (this.IsTended)
 			{
 				stringBuilder.AppendLine("tendQuality: " + this.tendQuality.ToStringPercent());
-				if (this.TProps.baseTendDurationHours > 0f)
+				if (!this.TProps.TendIsPermanent)
 				{
-					int num = Find.TickManager.TicksGame - this.tendTick;
-					stringBuilder.AppendLine("ticks since tend: " + num);
-					stringBuilder.AppendLine("full tend duration passed: " + ((float)num / (float)this.FullTendDurationTicks).ToStringPercent());
-					stringBuilder.AppendLine("severity change per day: " + (this.TProps.severityPerDayTended * this.tendQuality).ToString());
+					stringBuilder.AppendLine("tendTicksLeft: " + this.tendTicksLeft);
 				}
 			}
 			else
 			{
 				stringBuilder.AppendLine("untended");
 			}
+			stringBuilder.AppendLine("severity/day: " + this.SeverityChangePerDay().ToString());
 			if (this.TProps.disappearsAtTotalTendQuality >= 0)
 			{
 				stringBuilder.AppendLine(string.Concat(new object[]
 				{
-					"total tend quality: ",
+					"totalTendQuality: ",
 					this.totalTendQuality.ToString("F2"),
 					" / ",
 					this.TProps.disappearsAtTotalTendQuality

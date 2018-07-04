@@ -39,7 +39,7 @@ namespace RimWorld
 				float daysSinceThreatBig = (float)(Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick) / 60000f;
 				if (daysSinceThreatBig > this.Props.minDaysBetweenThreatBigs)
 				{
-					if ((daysSinceThreatBig > this.Props.ThreatCycleTotalDays * 0.9f && curCycleDays > this.Props.ThreatCycleTotalDays * 0.95f) || Rand.MTBEventOccurs(this.Props.mtbDaysThreatBig, 60000f, 1000f))
+					if ((daysSinceThreatBig > this.Props.ThreatCycleTotalDays * 0.9f && curCycleDays > this.Props.ThreatCycleTotalDays * 0.95f) || Rand.MTBEventOccurs(this.Props.MTBDaysThreatBigCurrentDifficulty, 60000f, 1000f))
 					{
 						FiringIncident bt = this.GenerateQueuedThreatBig(target);
 						if (bt != null)
@@ -146,7 +146,7 @@ namespace RimWorld
 					if (daysSinceThreatBig > base.Props.minDaysBetweenThreatBigs)
 					{
 						bool mustThreat = daysSinceThreatBig > base.Props.ThreatCycleTotalDays * 0.9f && curCycleDays > base.Props.ThreatCycleTotalDays * 0.95f;
-						if (mustThreat || Rand.MTBEventOccurs(base.Props.mtbDaysThreatBig, 60000f, 1000f))
+						if (mustThreat || Rand.MTBEventOccurs(base.Props.MTBDaysThreatBigCurrentDifficulty, 60000f, 1000f))
 						{
 							bt = base.GenerateQueuedThreatBig(target);
 							if (bt != null)

@@ -40,8 +40,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
+				this.EnsureSpecificSocialTabForPawnValid();
 				float result;
-				if (this.specificSocialTabForPawn == null)
+				if (this.specificSocialTabForPawn.DestroyedOrNull())
 				{
 					result = 0f;
 				}
@@ -55,6 +56,7 @@ namespace RimWorld.Planet
 
 		protected override void FillTab()
 		{
+			this.EnsureSpecificSocialTabForPawnValid();
 			Text.Font = GameFont.Small;
 			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(10f);
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.scrollViewHeight);
@@ -70,6 +72,7 @@ namespace RimWorld.Planet
 
 		protected override void UpdateSize()
 		{
+			this.EnsureSpecificSocialTabForPawnValid();
 			base.UpdateSize();
 			this.size.x = 243f;
 			this.size.y = Mathf.Min(550f, this.PaneTopY - 30f);
@@ -77,6 +80,7 @@ namespace RimWorld.Planet
 
 		protected override void ExtraOnGUI()
 		{
+			this.EnsureSpecificSocialTabForPawnValid();
 			base.ExtraOnGUI();
 			Pawn localSpecificSocialTabForPawn = this.specificSocialTabForPawn;
 			if (localSpecificSocialTabForPawn != null)
@@ -191,6 +195,20 @@ namespace RimWorld.Planet
 				GUI.color = Color.white;
 			}
 			GUI.EndGroup();
+		}
+
+		public override void Notify_ClearingAllMapsMemory()
+		{
+			base.Notify_ClearingAllMapsMemory();
+			this.specificSocialTabForPawn = null;
+		}
+
+		private void EnsureSpecificSocialTabForPawnValid()
+		{
+			if (this.specificSocialTabForPawn != null && (this.specificSocialTabForPawn.Destroyed || !base.SelCaravan.ContainsPawn(this.specificSocialTabForPawn)))
+			{
+				this.specificSocialTabForPawn = null;
+			}
 		}
 
 		[CompilerGenerated]

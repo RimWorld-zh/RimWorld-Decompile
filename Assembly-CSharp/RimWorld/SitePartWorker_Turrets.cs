@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class SitePartWorker_Turrets : SitePartWorker
 	{
+		private const float TurretPoints = 250f;
+
+		private const int MinTurrets = 2;
+
+		private const int MaxTurrets = 11;
+
 		[CompilerGenerated]
 		private static Func<Thing, bool> <>f__am$cache0;
 
@@ -27,6 +35,35 @@ namespace RimWorld
 			}
 			lookTargets = t;
 			return arrivedLetterPart;
+		}
+
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		{
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			siteCoreOrPartParams.mortarsCount = Rand.RangeInclusive(0, 1);
+			siteCoreOrPartParams.turretsCount = Mathf.Clamp(Mathf.RoundToInt(siteCoreOrPartParams.threatPoints / 250f), 2, 11);
+			return siteCoreOrPartParams;
+		}
+
+		public override string GetPostProcessedDescriptionDialogue(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			return string.Format(base.GetPostProcessedDescriptionDialogue(site, siteCoreOrPart), this.GetTurretsCount(siteCoreOrPart.parms));
+		}
+
+		public override string GetPostProcessedThreatLabel(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			return string.Concat(new object[]
+			{
+				base.GetPostProcessedThreatLabel(site, siteCoreOrPart),
+				" (",
+				this.GetTurretsCount(siteCoreOrPart.parms),
+				")"
+			});
+		}
+
+		private int GetTurretsCount(SiteCoreOrPartParams parms)
+		{
+			return parms.turretsCount + parms.mortarsCount;
 		}
 
 		[CompilerGenerated]

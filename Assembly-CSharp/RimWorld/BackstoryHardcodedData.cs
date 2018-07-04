@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 			if (a == "Cave child")
 			{
-				bs.AddForcedTrait(TraitDefOf.Tunneler, 0);
+				bs.AddForcedTrait(TraitDefOf.Indoorsman, 0);
 			}
 			if (a == "Space marine medic")
 			{

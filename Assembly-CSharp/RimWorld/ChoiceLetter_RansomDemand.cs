@@ -28,7 +28,7 @@ namespace RimWorld
 			{
 				if (base.ArchivedOnly)
 				{
-					yield return base.Option_Dismiss;
+					yield return base.Option_Close;
 					yield break;
 				}
 				DiaOption accept = new DiaOption("RansomDemand_Accept".Translate());
@@ -114,7 +114,7 @@ namespace RimWorld
 				case 0u:
 					if (base.ArchivedOnly)
 					{
-						this.$current = base.Option_Dismiss;
+						this.$current = base.Option_Close;
 						if (!this.$disposing)
 						{
 							this.$PC = 1;

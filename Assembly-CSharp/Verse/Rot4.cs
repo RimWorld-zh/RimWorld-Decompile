@@ -108,6 +108,32 @@ namespace Verse
 			}
 		}
 
+		public Vector2 AsVector2
+		{
+			get
+			{
+				Vector2 result;
+				switch (this.rotInt)
+				{
+				case 0:
+					result = Vector2.up;
+					break;
+				case 1:
+					result = Vector2.right;
+					break;
+				case 2:
+					result = Vector2.down;
+					break;
+				case 3:
+					result = Vector2.left;
+					break;
+				default:
+					throw new Exception("rotInt's value cannot be >3 but it is:" + this.rotInt);
+				}
+				return result;
+			}
+		}
+
 		public bool IsHorizontal
 		{
 			get

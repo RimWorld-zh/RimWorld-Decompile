@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_Settlement : SymbolResolver
 	{
-		private static readonly FloatRange DefaultPawnsPoints = new FloatRange(1150f, 1600f);
+		public static readonly FloatRange DefaultPawnsPoints = new FloatRange(1150f, 1600f);
 
 		public SymbolResolver_Settlement()
 		{

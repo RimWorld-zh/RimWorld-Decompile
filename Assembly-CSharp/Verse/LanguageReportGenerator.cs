@@ -299,27 +299,37 @@ namespace Verse
 			int num = 0;
 			foreach (DefInjectionPackage defInjectionPackage in activeLanguage.defInjections)
 			{
-				foreach (Pair<string, string> pair in defInjectionPackage.autoFixedBackCompatKeys)
+				foreach (KeyValuePair<string, DefInjectionPackage.DefInjection> keyValuePair in defInjectionPackage.injections)
 				{
-					string text = pair.First.Split(new char[]
+					if (!(keyValuePair.Value.path == keyValuePair.Value.nonBackCompatiblePath))
 					{
-						'.'
-					})[0];
-					string text2 = pair.Second.Split(new char[]
-					{
-						'.'
-					})[0];
-					num++;
-					stringBuilder.AppendLine(string.Concat(new string[]
-					{
-						"Def has been renamed: ",
-						text,
-						" -> ",
-						text2,
-						", translation ",
-						pair.First,
-						" should be renamed as well."
-					}));
+						string text = keyValuePair.Value.nonBackCompatiblePath.Split(new char[]
+						{
+							'.'
+						})[0];
+						string text2 = keyValuePair.Value.path.Split(new char[]
+						{
+							'.'
+						})[0];
+						if (text != text2)
+						{
+							stringBuilder.AppendLine(string.Concat(new string[]
+							{
+								"Def has been renamed: ",
+								text,
+								" -> ",
+								text2,
+								", translation ",
+								keyValuePair.Value.nonBackCompatiblePath,
+								" should be renamed as well."
+							}));
+						}
+						else
+						{
+							stringBuilder.AppendLine("Translation " + keyValuePair.Value.nonBackCompatiblePath + " should be renamed to " + keyValuePair.Value.path);
+						}
+						num++;
+					}
 				}
 			}
 			sb.AppendLine();

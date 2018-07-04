@@ -15,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return string.Format(base.Props.useLabel, this.skill.LabelCap);
+				return string.Format(base.Props.useLabel, this.skill.skillLabel);
 			}
 		}
 

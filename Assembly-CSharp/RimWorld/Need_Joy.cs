@@ -90,7 +90,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.GainingJoy) ? -1 : 1;
+				int result;
+				if (base.IsFrozen)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = ((!this.GainingJoy) ? -1 : 1);
+				}
+				return result;
 			}
 		}
 
@@ -165,7 +174,7 @@ namespace RimWorld
 				Caravan caravan = this.pawn.GetCaravan();
 				if (caravan != null)
 				{
-					float num = CaravanPawnsNeedsUtility.GetCurrentJoyGainPerTick(this.pawn, caravan) * 2500f;
+					float num = caravan.needs.GetCurrentJoyGainPerTick(this.pawn) * 2500f;
 					if (num > 0f)
 					{
 						string text3 = text;

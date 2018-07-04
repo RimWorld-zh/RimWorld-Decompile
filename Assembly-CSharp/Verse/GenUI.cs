@@ -117,12 +117,10 @@ namespace Verse
 		public static float IconDrawScale(ThingDef tDef)
 		{
 			float num = tDef.uiIconScale;
-			if (tDef.uiIconPath.NullOrEmpty())
+			if (tDef.uiIconPath.NullOrEmpty() && tDef.graphicData != null)
 			{
-				if (tDef.graphicData != null && tDef.graphicData.drawSize.x > (float)tDef.Size.x && tDef.graphicData.drawSize.y > (float)tDef.Size.z)
-				{
-					num *= Mathf.Min(tDef.graphicData.drawSize.x / (float)tDef.Size.x, tDef.graphicData.drawSize.y / (float)tDef.Size.z);
-				}
+				IntVec2 intVec = tDef.defaultPlacingRot.IsHorizontal ? tDef.Size.Rotated() : tDef.Size;
+				num *= Mathf.Min(tDef.graphicData.drawSize.x / (float)intVec.x, tDef.graphicData.drawSize.y / (float)intVec.z);
 			}
 			return num;
 		}

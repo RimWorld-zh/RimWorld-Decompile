@@ -46,8 +46,17 @@ namespace RimWorld
 		{
 			base.PreAbsorbStack(otherStack, count);
 			CompFoodPoisonable compFoodPoisonable = otherStack.TryGetComp<CompFoodPoisonable>();
+			if (this.cause == FoodPoisonCause.Unknown && compFoodPoisonable.cause != FoodPoisonCause.Unknown)
+			{
+				this.cause = compFoodPoisonable.cause;
+			}
+			else if (compFoodPoisonable.cause != FoodPoisonCause.Unknown || this.cause != FoodPoisonCause.Unknown)
+			{
+				float num = this.poisonPct * (float)this.parent.stackCount;
+				float num2 = compFoodPoisonable.poisonPct * (float)count;
+				this.cause = ((num <= num2) ? compFoodPoisonable.cause : this.cause);
+			}
 			this.poisonPct = GenMath.WeightedAverage(this.poisonPct, (float)this.parent.stackCount, compFoodPoisonable.poisonPct, (float)count);
-			this.cause = ((count <= this.parent.stackCount) ? this.cause : compFoodPoisonable.cause);
 		}
 
 		public override void PostIngested(Pawn ingester)

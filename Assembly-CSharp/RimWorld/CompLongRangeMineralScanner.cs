@@ -166,10 +166,9 @@ namespace RimWorld
 			int tile3 = this.parent.Tile;
 			if (TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, tile3))
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? CompLongRangeMineralScanner.MineralScannerPreciousLumpThreatTag : null, null, true, null, true);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? CompLongRangeMineralScanner.MineralScannerPreciousLumpThreatTag : null, tile2, null, true, null, true);
 				if (site != null)
 				{
-					site.Tile = tile2;
 					site.sitePartsKnown = true;
 					ThingDef thingDef = ((GenStep_PreciousLump)GenStepDefOf.PreciousLump.genStep).mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
 					site.core.parms.preciousLumpResources = thingDef;

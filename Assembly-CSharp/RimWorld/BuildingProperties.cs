@@ -95,6 +95,8 @@ namespace RimWorld
 
 		public float bed_maxBodySize = 9999f;
 
+		public bool bed_caravansCanUse;
+
 		public float nutritionCostPerDispense;
 
 		public SoundDef soundDispense;

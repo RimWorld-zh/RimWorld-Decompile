@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		private const int TicksBetweenSleepZs = 100;
 
-		private const float GroundRestEffectiveness = 0.8f;
+		public const float GroundRestEffectiveness = 0.8f;
 
 		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
 

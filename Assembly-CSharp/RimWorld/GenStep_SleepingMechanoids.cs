@@ -9,7 +9,7 @@ namespace RimWorld
 {
 	public class GenStep_SleepingMechanoids : GenStep
 	{
-		public FloatRange pointsRange;
+		public FloatRange defaultPointsRange = new FloatRange(340f, 1000f);
 
 		public GenStep_SleepingMechanoids()
 		{
@@ -30,7 +30,7 @@ namespace RimWorld
 			if (SiteGenStepUtility.TryFindRootToSpawnAroundRectOfInterest(out around, out near, map))
 			{
 				List<Pawn> list = new List<Pawn>();
-				foreach (Pawn pawn in this.GeneratePawns(map))
+				foreach (Pawn pawn in this.GeneratePawns(parms, map))
 				{
 					IntVec3 loc;
 					if (!SiteGenStepUtility.TryFindSpawnCellAroundOrNear(around, near, map, out loc))
@@ -52,15 +52,19 @@ namespace RimWorld
 			}
 		}
 
-		private IEnumerable<Pawn> GeneratePawns(Map map)
+		private IEnumerable<Pawn> GeneratePawns(GenStepParams parms, Map map)
 		{
-			return PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms
+			float points = (parms.siteCoreOrPart == null) ? this.defaultPointsRange.RandomInRange : parms.siteCoreOrPart.parms.threatPoints;
+			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+			pawnGroupMakerParms.groupKind = PawnGroupKindDefOf.Combat;
+			pawnGroupMakerParms.tile = map.Tile;
+			pawnGroupMakerParms.faction = Faction.OfMechanoids;
+			pawnGroupMakerParms.points = points;
+			if (parms.siteCoreOrPart != null)
 			{
-				groupKind = PawnGroupKindDefOf.Combat,
-				tile = map.Tile,
-				faction = Faction.OfMechanoids,
-				points = this.pointsRange.RandomInRange
-			}, true);
+				pawnGroupMakerParms.seed = new int?(SleepingMechanoidsSitePartUtility.GetPawnGroupMakerSeed(parms.siteCoreOrPart.parms));
+			}
+			return PawnGroupMakerUtility.GeneratePawns(pawnGroupMakerParms, true);
 		}
 	}
 }

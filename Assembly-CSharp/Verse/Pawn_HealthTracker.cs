@@ -338,7 +338,7 @@ namespace Verse
 						float chance;
 						if (this.pawn.RaceProps.Animal)
 						{
-							chance = 0.47f;
+							chance = 0.5f;
 						}
 						else if (this.pawn.RaceProps.IsMechanoid)
 						{
@@ -346,7 +346,7 @@ namespace Verse
 						}
 						else
 						{
-							chance = 0.77f;
+							chance = HealthTuning.DeathOnDownedChance_NonColonyHumanlikeFromPopulationIntentCurve.Evaluate(Find.Storyteller.intenderPopulation.PopulationIntent) * Find.Storyteller.difficulty.enemyDeathOnDownedChanceFactor;
 						}
 						if (!this.forceIncap && dinfo != null && dinfo.Value.Def.externalViolence && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer) && !this.pawn.IsPrisonerOfColony && Rand.Chance(chance))
 						{

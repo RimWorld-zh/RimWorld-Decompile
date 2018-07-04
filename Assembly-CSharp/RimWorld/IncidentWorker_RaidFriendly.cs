@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -98,7 +97,7 @@ namespace RimWorld
 		{
 			if (parms.points <= 0f)
 			{
-				parms.points = Mathf.Min(StorytellerUtility.DefaultThreatPointsNow(parms.target), 500f);
+				parms.points = StorytellerUtility.DefaultThreatPointsNow(parms.target);
 			}
 		}
 

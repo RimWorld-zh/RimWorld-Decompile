@@ -300,10 +300,6 @@ namespace RimWorld
 			{
 				result = false;
 			}
-			else if (!InteractionUtility.HasAnySocialFightProvokingThought(this.pawn, initiator))
-			{
-				result = false;
-			}
 			else if (DebugSettings.alwaysSocialFight || Rand.Value < this.SocialFightChance(interaction, initiator))
 			{
 				this.StartSocialFight(initiator);
@@ -320,29 +316,11 @@ namespace RimWorld
 		{
 			if (PawnUtility.ShouldSendNotificationAbout(this.pawn) || PawnUtility.ShouldSendNotificationAbout(otherPawn))
 			{
-				Thought thought;
-				if (!InteractionUtility.TryGetRandomSocialFightProvokingThought(this.pawn, otherPawn, out thought))
+				Messages.Message("MessageSocialFight".Translate(new object[]
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Pawn ",
-						this.pawn,
-						" started a social fight with ",
-						otherPawn,
-						", but he has no negative opinion thoughts towards ",
-						otherPawn,
-						"."
-					}), false);
-				}
-				else
-				{
-					Messages.Message("MessageSocialFight".Translate(new object[]
-					{
-						this.pawn.LabelShort,
-						otherPawn.LabelShort,
-						thought.LabelCapSocial
-					}), this.pawn, MessageTypeDefOf.ThreatSmall, true);
-				}
+					this.pawn.LabelShort,
+					otherPawn.LabelShort
+				}), this.pawn, MessageTypeDefOf.ThreatSmall, true);
 			}
 			MentalStateHandler mentalStateHandler = this.pawn.mindState.mentalStateHandler;
 			MentalStateDef socialFighting = MentalStateDefOf.SocialFighting;

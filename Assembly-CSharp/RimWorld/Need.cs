@@ -104,7 +104,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.Suspended || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
+				return this.pawn.Suspended || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || (this.def.freezeInMentalState && this.pawn.InMentalState) || !this.IsPawnInteractableOrVisible;
 			}
 		}
 

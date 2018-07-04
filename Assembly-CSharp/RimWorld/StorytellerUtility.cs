@@ -58,6 +58,26 @@ namespace RimWorld
 
 		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
 
+		public static readonly SimpleCurve ThreatPointsToSiteThreatPointsCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 150f),
+				true
+			},
+			{
+				new CurvePoint(300f, 240f),
+				true
+			},
+			{
+				new CurvePoint(5000f, 2000f),
+				true
+			},
+			{
+				new CurvePoint(10000f, 4000f),
+				true
+			}
+		};
+
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 
 		[CompilerGenerated]

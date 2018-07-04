@@ -6,32 +6,33 @@ namespace RimWorld.Planet
 {
 	public static class SiteMaker
 	{
-		public static Site MakeSite(SiteCoreDef core, SitePartDef sitePart, Faction faction, bool ifHostileThenMustRemainHostile = true)
+		public static Site MakeSite(SiteCoreDef core, SitePartDef sitePart, int tile, Faction faction, bool ifHostileThenMustRemainHostile = true)
 		{
 			IEnumerable<SitePartDef> siteParts = (sitePart == null) ? null : Gen.YieldSingle<SitePartDef>(sitePart);
-			return SiteMaker.MakeSite(core, siteParts, faction, ifHostileThenMustRemainHostile);
+			return SiteMaker.MakeSite(core, siteParts, tile, faction, ifHostileThenMustRemainHostile);
 		}
 
-		public static Site MakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, Faction faction, bool ifHostileThenMustRemainHostile = true)
+		public static Site MakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, int tile, Faction faction, bool ifHostileThenMustRemainHostile = true)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
-			site.core = new SiteCore(core, core.Worker.GenerateDefaultParams());
+			site.Tile = tile;
 			site.SetFaction(faction);
-			if (siteParts != null)
-			{
-				foreach (SitePartDef sitePartDef in siteParts)
-				{
-					site.parts.Add(new SitePart(sitePartDef, sitePartDef.Worker.GenerateDefaultParams()));
-				}
-			}
 			if (ifHostileThenMustRemainHostile && faction != null && faction.HostileTo(Faction.OfPlayer))
 			{
 				site.factionMustRemainHostile = true;
 			}
+			site.core = new SiteCore(core, core.Worker.GenerateDefaultParams(site));
+			if (siteParts != null)
+			{
+				foreach (SitePartDef sitePartDef in siteParts)
+				{
+					site.parts.Add(new SitePart(sitePartDef, sitePartDef.Worker.GenerateDefaultParams(site)));
+				}
+			}
 			return site;
 		}
 
-		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
+		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, int tile, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
 		{
 			SitePartDef sitePart;
 			Site result;
@@ -41,12 +42,12 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				result = SiteMaker.MakeSite(core, sitePart, faction, ifHostileThenMustRemainHostile);
+				result = SiteMaker.MakeSite(core, sitePart, tile, faction, ifHostileThenMustRemainHostile);
 			}
 			return result;
 		}
 
-		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, string singleSitePartTag, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
+		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, string singleSitePartTag, int tile, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
 		{
 			SitePartDef sitePart;
 			Site result;
@@ -56,12 +57,12 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				result = SiteMaker.MakeSite(core, sitePart, faction, ifHostileThenMustRemainHostile);
+				result = SiteMaker.MakeSite(core, sitePart, tile, faction, ifHostileThenMustRemainHostile);
 			}
 			return result;
 		}
 
-		public static Site TryMakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
+		public static Site TryMakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, int tile, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
 		{
 			Faction faction;
 			Site result;
@@ -71,7 +72,7 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				result = SiteMaker.MakeSite(core, siteParts, faction, ifHostileThenMustRemainHostile);
+				result = SiteMaker.MakeSite(core, siteParts, tile, faction, ifHostileThenMustRemainHostile);
 			}
 			return result;
 		}

@@ -31,10 +31,15 @@ namespace RimWorld
 
 		public override string GetPostProcessedThreatLabel(Site site, SiteCoreOrPartBase siteCoreOrPart)
 		{
-			return base.GetPostProcessedThreatLabel(site, siteCoreOrPart) + " (" + "EnemiesCount".Translate(new object[]
+			return string.Concat(new object[]
 			{
-				this.GetEnemiesCount(site, siteCoreOrPart.parms)
-			}) + ")";
+				base.GetPostProcessedThreatLabel(site, siteCoreOrPart),
+				" (",
+				this.GetEnemiesCount(site, siteCoreOrPart.parms),
+				" ",
+				"Enemies".Translate(),
+				")"
+			});
 		}
 
 		private int GetEnemiesCount(Site site, SiteCoreOrPartParams parms)
@@ -46,13 +51,8 @@ namespace RimWorld
 				groupKind = PawnGroupKindDefOf.Settlement,
 				points = parms.threatPoints,
 				inhabitants = true,
-				seed = new int?(SitePartWorker_Outpost.GetPawnGroupMakerSeed(parms))
+				seed = new int?(OutpostSitePartUtility.GetPawnGroupMakerSeed(parms))
 			}).Count<PawnKindDef>();
-		}
-
-		public static int GetPawnGroupMakerSeed(SiteCoreOrPartParams parms)
-		{
-			return parms.randomValue;
 		}
 
 		[CompilerGenerated]

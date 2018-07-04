@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 			get
 			{
 				float result;
-				if (this.specificNeedsTabForPawn == null || this.specificNeedsTabForPawn.Destroyed)
+				if (this.specificNeedsTabForPawn.DestroyedOrNull())
 				{
 					result = 0f;
 				}
@@ -42,11 +42,13 @@ namespace RimWorld.Planet
 
 		protected override void FillTab()
 		{
+			this.EnsureSpecificNeedsTabForPawnValid();
 			CaravanNeedsTabUtility.DoRows(this.size, base.SelCaravan.PawnsListForReading, base.SelCaravan, ref this.scrollPosition, ref this.scrollViewHeight, ref this.specificNeedsTabForPawn, this.doNeeds);
 		}
 
 		protected override void UpdateSize()
 		{
+			this.EnsureSpecificNeedsTabForPawnValid();
 			base.UpdateSize();
 			this.size = CaravanNeedsTabUtility.GetSize(base.SelCaravan.PawnsListForReading, this.PaneTopY, true);
 			if (this.size.x + this.SpecificNeedsTabWidth > (float)UI.screenWidth)
@@ -63,6 +65,7 @@ namespace RimWorld.Planet
 
 		protected override void ExtraOnGUI()
 		{
+			this.EnsureSpecificNeedsTabForPawnValid();
 			base.ExtraOnGUI();
 			Pawn localSpecificNeedsTabForPawn = this.specificNeedsTabForPawn;
 			if (localSpecificNeedsTabForPawn != null)
@@ -82,6 +85,20 @@ namespace RimWorld.Planet
 						}
 					}
 				}, true, false, 1f);
+			}
+		}
+
+		public override void Notify_ClearingAllMapsMemory()
+		{
+			base.Notify_ClearingAllMapsMemory();
+			this.specificNeedsTabForPawn = null;
+		}
+
+		private void EnsureSpecificNeedsTabForPawnValid()
+		{
+			if (this.specificNeedsTabForPawn != null && (this.specificNeedsTabForPawn.Destroyed || !base.SelCaravan.ContainsPawn(this.specificNeedsTabForPawn)))
+			{
+				this.specificNeedsTabForPawn = null;
 			}
 		}
 

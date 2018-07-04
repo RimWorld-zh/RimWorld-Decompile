@@ -78,11 +78,29 @@ namespace Verse
 
 		public const float BaseBecomePermanentChance = 0.1f;
 
-		public const float DeathOnDownedChance_NonColonyHumanlike = 0.77f;
-
-		public const float DeathOnDownedChance_NonColonyAnimal = 0.47f;
+		public const float DeathOnDownedChance_NonColonyAnimal = 0.5f;
 
 		public const float DeathOnDownedChance_NonColonyMechanoid = 1f;
+
+		public static readonly SimpleCurve DeathOnDownedChance_NonColonyHumanlikeFromPopulationIntentCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(-1f, 0.87f),
+				true
+			},
+			{
+				new CurvePoint(0f, 0.77f),
+				true
+			},
+			{
+				new CurvePoint(1f, 0.67f),
+				true
+			},
+			{
+				new CurvePoint(2f, 0.61f),
+				true
+			}
+		};
 
 		public const float TendPriority_LifeThreateningDisease = 1f;
 

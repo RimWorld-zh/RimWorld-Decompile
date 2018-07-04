@@ -272,7 +272,7 @@ namespace RimWorld
 
 		public void Refuel(float amount)
 		{
-			this.fuel += amount * this.Props.fuelMultiplier;
+			this.fuel += amount * this.Props.FuelMultiplierCurrentDifficulty;
 			if (this.fuel > this.Props.fuelCapacity)
 			{
 				this.fuel = this.Props.fuelCapacity;
@@ -290,11 +290,11 @@ namespace RimWorld
 			int result;
 			if (this.Props.atomicFueling)
 			{
-				result = Mathf.CeilToInt(this.Props.fuelCapacity / this.Props.fuelMultiplier);
+				result = Mathf.CeilToInt(this.Props.fuelCapacity / this.Props.FuelMultiplierCurrentDifficulty);
 			}
 			else
 			{
-				float f = (this.TargetFuelLevel - this.fuel) / this.Props.fuelMultiplier;
+				float f = (this.TargetFuelLevel - this.fuel) / this.Props.FuelMultiplierCurrentDifficulty;
 				result = Mathf.Max(Mathf.CeilToInt(f), 1);
 			}
 			return result;

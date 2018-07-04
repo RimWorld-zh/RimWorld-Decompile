@@ -751,7 +751,7 @@ namespace Verse
 					}
 					if (defName == "PlantRaspberry")
 					{
-						return "Plant_Raspberry";
+						return "Plant_Berry";
 					}
 					if (defName == "PlantTreeOak")
 					{
@@ -2137,22 +2137,6 @@ namespace Verse
 			return result;
 		}
 
-		public static string BackCompatibleModifiedTranslationPath(Type defType, string path, List<string> syntaxSuggestions = null)
-		{
-			if (defType == typeof(ConceptDef))
-			{
-				if (path.Contains("helpTexts.0"))
-				{
-					if (syntaxSuggestions != null)
-					{
-						syntaxSuggestions.Add("Use helpText instead of helpTexts.0 at " + path + " (it's deprecated)");
-					}
-					return path.Replace("helpTexts.0", "helpText");
-				}
-			}
-			return path;
-		}
-
 		public static void MapPostLoadInit(Map map)
 		{
 			if (map.pawnDestinationReservationManager == null)
@@ -2178,6 +2162,10 @@ namespace Verse
 			if (caravan.forage == null)
 			{
 				caravan.forage = new Caravan_ForageTracker(caravan);
+			}
+			if (caravan.needs == null)
+			{
+				caravan.needs = new Caravan_NeedsTracker(caravan);
 			}
 		}
 

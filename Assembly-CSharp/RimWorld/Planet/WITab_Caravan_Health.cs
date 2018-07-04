@@ -67,8 +67,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
+				this.EnsureSpecificHealthTabForPawnValid();
 				float result;
-				if (this.specificHealthTabForPawn == null)
+				if (this.specificHealthTabForPawn.DestroyedOrNull())
 				{
 					result = 0f;
 				}
@@ -82,6 +83,7 @@ namespace RimWorld.Planet
 
 		protected override void FillTab()
 		{
+			this.EnsureSpecificHealthTabForPawnValid();
 			Text.Font = GameFont.Small;
 			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(10f);
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.scrollViewHeight);
@@ -98,6 +100,7 @@ namespace RimWorld.Planet
 
 		protected override void UpdateSize()
 		{
+			this.EnsureSpecificHealthTabForPawnValid();
 			base.UpdateSize();
 			this.size = this.GetRawSize(false);
 			if (this.size.x + this.SpecificHealthTabWidth > (float)UI.screenWidth)
@@ -113,6 +116,7 @@ namespace RimWorld.Planet
 
 		protected override void ExtraOnGUI()
 		{
+			this.EnsureSpecificHealthTabForPawnValid();
 			base.ExtraOnGUI();
 			Pawn localSpecificHealthTabForPawn = this.specificHealthTabForPawn;
 			if (localSpecificHealthTabForPawn != null)
@@ -302,6 +306,20 @@ namespace RimWorld.Planet
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 			TooltipHandler.TipRegion(rect, pawnCapacityTip);
+		}
+
+		public override void Notify_ClearingAllMapsMemory()
+		{
+			base.Notify_ClearingAllMapsMemory();
+			this.specificHealthTabForPawn = null;
+		}
+
+		private void EnsureSpecificHealthTabForPawnValid()
+		{
+			if (this.specificHealthTabForPawn != null && (this.specificHealthTabForPawn.Destroyed || !base.SelCaravan.ContainsPawn(this.specificHealthTabForPawn)))
+			{
+				this.specificHealthTabForPawn = null;
+			}
 		}
 
 		// Note: this type is marked as 'beforefieldinit'.

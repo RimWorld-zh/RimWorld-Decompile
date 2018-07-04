@@ -11,7 +11,7 @@ namespace RimWorld
 			switch (cause)
 			{
 			case FoodPoisonCause.Unknown:
-				result = "Unknown".Translate();
+				result = "UnknownLower".Translate().CapitalizeFirst();
 				break;
 			case FoodPoisonCause.IncompetentCook:
 				result = "FoodPoisonCause_IncompetentCook".Translate();

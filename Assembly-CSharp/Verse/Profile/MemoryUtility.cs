@@ -61,6 +61,28 @@ namespace Verse.Profile
 			{
 				allDefsListForReading[l].Notify_ClearingAllMapsMemory();
 			}
+			List<ThingDef> allDefsListForReading2 = DefDatabase<ThingDef>.AllDefsListForReading;
+			for (int m = 0; m < allDefsListForReading2.Count; m++)
+			{
+				if (allDefsListForReading2[m].inspectorTabsResolved != null)
+				{
+					for (int n = 0; n < allDefsListForReading2[m].inspectorTabsResolved.Count; n++)
+					{
+						allDefsListForReading2[m].inspectorTabsResolved[n].Notify_ClearingAllMapsMemory();
+					}
+				}
+			}
+			List<WorldObjectDef> allDefsListForReading3 = DefDatabase<WorldObjectDef>.AllDefsListForReading;
+			for (int num = 0; num < allDefsListForReading3.Count; num++)
+			{
+				if (allDefsListForReading3[num].inspectorTabsResolved != null)
+				{
+					for (int num2 = 0; num2 < allDefsListForReading3[num].inspectorTabsResolved.Count; num2++)
+					{
+						allDefsListForReading3[num].inspectorTabsResolved[num2].Notify_ClearingAllMapsMemory();
+					}
+				}
+			}
 		}
 
 		[CompilerGenerated]

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Xml.Linq;
+using RimWorld;
 
 namespace Verse
 {
@@ -15,15 +16,7 @@ namespace Verse
 	{
 		public Type defType;
 
-		private Dictionary<string, string> injections = new Dictionary<string, string>();
-
-		private Dictionary<string, List<string>> fullListInjections = new Dictionary<string, List<string>>();
-
-		private Dictionary<string, string> injectionsFileSource = new Dictionary<string, string>();
-
-		private Dictionary<string, string> fullListInjectionsFileSource = new Dictionary<string, string>();
-
-		public List<Pair<string, string>> autoFixedBackCompatKeys = new List<Pair<string, string>>();
+		public Dictionary<string, DefInjectionPackage.DefInjection> injections = new Dictionary<string, DefInjectionPackage.DefInjection>();
 
 		public List<string> loadErrors = new List<string>();
 
@@ -45,6 +38,10 @@ namespace Verse
 
 		private string ProcessedPath(string path)
 		{
+			if (path == null)
+			{
+				path = "";
+			}
 			string result;
 			if (!path.Contains('[') && !path.Contains(']'))
 			{
@@ -118,12 +115,12 @@ namespace Verse
 			key = this.BackCompatibleKey(key);
 			if (!this.CheckErrors(file, key, text, false))
 			{
-				this.injections.Add(key, translation);
-				this.injectionsFileSource.Add(key, file.Name);
-				if (key != text)
-				{
-					this.autoFixedBackCompatKeys.Add(new Pair<string, string>(text, key));
-				}
+				DefInjectionPackage.DefInjection defInjection = new DefInjectionPackage.DefInjection();
+				defInjection.path = key;
+				defInjection.injection = translation;
+				defInjection.fileSource = file.Name;
+				defInjection.nonBackCompatiblePath = text;
+				this.injections.Add(key, defInjection);
 			}
 		}
 
@@ -137,12 +134,12 @@ namespace Verse
 				{
 					translation = new List<string>();
 				}
-				this.fullListInjections.Add(key, translation);
-				this.fullListInjectionsFileSource.Add(key, file.Name);
-				if (key != text)
-				{
-					this.autoFixedBackCompatKeys.Add(new Pair<string, string>(text, key));
-				}
+				DefInjectionPackage.DefInjection defInjection = new DefInjectionPackage.DefInjection();
+				defInjection.path = key;
+				defInjection.fullListInjection = translation;
+				defInjection.fileSource = file.Name;
+				defInjection.nonBackCompatiblePath = text;
+				this.injections.Add(key, defInjection);
 			}
 		}
 
@@ -152,13 +149,25 @@ namespace Verse
 			{
 				'.'
 			});
-			array[0] = BackCompatibility.BackCompatibleDefName(this.defType, array[0], true);
-			return string.Join(".", array);
+			if (array.Any<string>())
+			{
+				array[0] = BackCompatibility.BackCompatibleDefName(this.defType, array[0], true);
+			}
+			key = string.Join(".", array);
+			if (this.defType == typeof(ConceptDef))
+			{
+				if (key.Contains(".helpTexts.0"))
+				{
+					key = key.Replace(".helpTexts.0", ".helpText");
+				}
+			}
+			return key;
 		}
 
 		private bool CheckErrors(FileInfo file, string key, string nonBackCompatibleKey, bool replacingFullList)
 		{
 			bool result;
+			DefInjectionPackage.DefInjection defInjection;
 			if (!key.Contains('.'))
 			{
 				this.loadErrors.Add(string.Concat(new string[]
@@ -174,22 +183,21 @@ namespace Verse
 				}));
 				result = true;
 			}
-			else if (this.injections.ContainsKey(key) || this.fullListInjections.ContainsKey(key))
+			else if (this.injections.TryGetValue(key, out defInjection))
 			{
 				string text;
 				if (key != nonBackCompatibleKey)
 				{
 					text = " (auto-renamed from " + nonBackCompatibleKey + ")";
 				}
-				else if (this.autoFixedBackCompatKeys.Any((Pair<string, string> x) => x.Second == key))
+				else if (defInjection.path != defInjection.nonBackCompatiblePath)
 				{
-					Pair<string, string> pair = this.autoFixedBackCompatKeys.Find((Pair<string, string> x) => x.Second == key);
 					text = string.Concat(new string[]
 					{
 						" (",
-						pair.First,
+						defInjection.nonBackCompatiblePath,
 						" was auto-renamed to ",
-						pair.Second,
+						defInjection.path,
 						")"
 					});
 				}
@@ -213,7 +221,7 @@ namespace Verse
 				bool flag = false;
 				if (replacingFullList)
 				{
-					if (this.injections.Any((KeyValuePair<string, string> x) => x.Key.StartsWith(key + ".")))
+					if (this.injections.Any((KeyValuePair<string, DefInjectionPackage.DefInjection> x) => !x.Value.IsFullListInjection && x.Key.StartsWith(key + ".")))
 					{
 						flag = true;
 					}
@@ -221,7 +229,7 @@ namespace Verse
 				else if (key.Contains('.') && char.IsNumber(key[key.Length - 1]))
 				{
 					string key2 = key.Substring(0, key.LastIndexOf('.'));
-					if (this.fullListInjections.ContainsKey(key2))
+					if (this.injections.ContainsKey(key2) && this.injections[key2].IsFullListInjection)
 					{
 						flag = true;
 					}
@@ -249,20 +257,65 @@ namespace Verse
 
 		public void InjectIntoDefs(bool errorOnDefNotFound)
 		{
-			foreach (KeyValuePair<string, string> keyValuePair in this.injections)
+			foreach (KeyValuePair<string, DefInjectionPackage.DefInjection> keyValuePair in this.injections)
 			{
-				this.SetDefFieldAtPath(this.defType, keyValuePair.Key, keyValuePair.Value, typeof(string), errorOnDefNotFound, this.injectionsFileSource[keyValuePair.Key]);
+				string normalizedPath;
+				string suggestedPath;
+				if (keyValuePair.Value.IsFullListInjection)
+				{
+					this.SetDefFieldAtPath(this.defType, keyValuePair.Key, keyValuePair.Value.fullListInjection, typeof(List<string>), errorOnDefNotFound, keyValuePair.Value.fileSource, out normalizedPath, out suggestedPath);
+				}
+				else
+				{
+					this.SetDefFieldAtPath(this.defType, keyValuePair.Key, keyValuePair.Value.injection, typeof(string), errorOnDefNotFound, keyValuePair.Value.fileSource, out normalizedPath, out suggestedPath);
+				}
+				keyValuePair.Value.normalizedPath = normalizedPath;
+				keyValuePair.Value.suggestedPath = suggestedPath;
 			}
-			foreach (KeyValuePair<string, List<string>> keyValuePair2 in this.fullListInjections)
+			foreach (KeyValuePair<string, DefInjectionPackage.DefInjection> keyValuePair2 in this.injections)
 			{
-				this.SetDefFieldAtPath(this.defType, keyValuePair2.Key, keyValuePair2.Value, typeof(List<string>), errorOnDefNotFound, this.fullListInjectionsFileSource[keyValuePair2.Key]);
+				foreach (KeyValuePair<string, DefInjectionPackage.DefInjection> keyValuePair3 in this.injections)
+				{
+					if (!(keyValuePair2.Key == keyValuePair3.Key))
+					{
+						if (keyValuePair2.Value.normalizedPath == keyValuePair3.Value.normalizedPath)
+						{
+							string text = string.Concat(new string[]
+							{
+								"Duplicate def-injected translation key. Both ",
+								keyValuePair2.Value.path,
+								" and ",
+								keyValuePair3.Value.path,
+								" refer to the same field (",
+								keyValuePair2.Value.suggestedPath,
+								")"
+							});
+							if (keyValuePair2.Value.path != keyValuePair2.Value.nonBackCompatiblePath)
+							{
+								string text2 = text;
+								text = string.Concat(new string[]
+								{
+									text2,
+									" (",
+									keyValuePair2.Value.nonBackCompatiblePath,
+									" was auto-renamed to ",
+									keyValuePair2.Value.path,
+									")"
+								});
+							}
+							text = text + " (" + keyValuePair2.Value.fileSource + ")";
+							this.loadErrors.Add(text);
+						}
+					}
+				}
 			}
 			GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "ClearCachedData");
 		}
 
-		private void SetDefFieldAtPath(Type defType, string path, object value, Type ensureFieldType, bool errorOnDefNotFound, string fileSource)
+		private void SetDefFieldAtPath(Type defType, string path, object value, Type ensureFieldType, bool errorOnDefNotFound, string fileSource, out string normalizedPath, out string suggestedPath)
 		{
-			int num = 0;
+			normalizedPath = path;
+			suggestedPath = path;
 			string text = path.Split(new char[]
 			{
 				'.'
@@ -288,9 +341,8 @@ namespace Verse
 			}
 			else
 			{
-				path = BackCompatibility.BackCompatibleModifiedTranslationPath(defType, path, this.loadSyntaxSuggestions);
 				bool flag = false;
-				string text2 = path;
+				int num = 0;
 				try
 				{
 					List<string> list = path.Split(new char[]
@@ -307,7 +359,7 @@ namespace Verse
 					}
 					list.RemoveAt(0);
 					num++;
-					string text3;
+					string text2;
 					int num2;
 					DefInjectionPathPartKind defInjectionPathPartKind;
 					FieldInfo field;
@@ -315,26 +367,26 @@ namespace Verse
 					int num4;
 					for (;;)
 					{
-						text3 = list[0];
+						text2 = list[0];
 						num2 = -1;
-						if (int.TryParse(text3, out num2))
+						if (int.TryParse(text2, out num2))
 						{
 							defInjectionPathPartKind = DefInjectionPathPartKind.ListIndex;
 						}
-						else if (this.GetFieldNamed(obj.GetType(), text3) != null)
+						else if (this.GetFieldNamed(obj.GetType(), text2) != null)
 						{
 							defInjectionPathPartKind = DefInjectionPathPartKind.Field;
 						}
 						else if (obj.GetType().GetProperty("Count") != null)
 						{
-							if (text3.Contains('-'))
+							if (text2.Contains('-'))
 							{
 								defInjectionPathPartKind = DefInjectionPathPartKind.ListHandleWithIndex;
-								string[] array = text3.Split(new char[]
+								string[] array = text2.Split(new char[]
 								{
 									'-'
 								});
-								text3 = array[0];
+								text2 = array[0];
 								num2 = (int)ParseHelper.FromString(array[1], typeof(int));
 							}
 							else
@@ -352,18 +404,18 @@ namespace Verse
 						}
 						if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
 						{
-							field = obj.GetType().GetField(text3, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+							field = obj.GetType().GetField(text2, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 							if (field == null)
-							{
-								goto Block_31;
-							}
-							if (field.HasAttribute<NoTranslateAttribute>())
 							{
 								goto Block_32;
 							}
-							if (field.HasAttribute<UnsavedAttribute>())
+							if (field.HasAttribute<NoTranslateAttribute>())
 							{
 								goto Block_33;
+							}
+							if (field.HasAttribute<UnsavedAttribute>())
+							{
+								goto Block_34;
 							}
 							if (field.HasAttribute<TranslationCanChangeCountAttribute>())
 							{
@@ -379,12 +431,12 @@ namespace Verse
 								PropertyInfo property = value2.GetType().GetProperty("Item");
 								if (property == null)
 								{
-									goto Block_36;
+									goto Block_37;
 								}
 								num3 = (int)value2.GetType().GetProperty("Count").GetValue(value2, null);
 								if (num2 < 0 || num2 >= num3)
 								{
-									goto IL_8C6;
+									goto IL_8F3;
 								}
 								obj = property.GetValue(value2, new object[]
 								{
@@ -398,12 +450,12 @@ namespace Verse
 							PropertyInfo property2 = obj2.GetType().GetProperty("Item");
 							if (property2 == null)
 							{
-								goto Block_40;
+								goto Block_41;
 							}
 							bool flag2;
 							if (defInjectionPathPartKind == DefInjectionPathPartKind.ListHandle || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandleWithIndex)
 							{
-								num2 = TranslationHandleUtility.GetElementIndexByHandle(obj2, text3, num2);
+								num2 = TranslationHandleUtility.GetElementIndexByHandle(obj2, text2, num2);
 								flag2 = true;
 							}
 							else
@@ -413,23 +465,32 @@ namespace Verse
 							num4 = (int)obj2.GetType().GetProperty("Count").GetValue(obj2, null);
 							if (num2 < 0 || num2 >= num4)
 							{
-								goto IL_9A6;
+								goto IL_9D3;
 							}
 							obj = property2.GetValue(obj2, new object[]
 							{
 								num2
 							});
-							if (!flag2)
+							if (flag2)
+							{
+								string[] array2 = normalizedPath.Split(new char[]
+								{
+									'.'
+								});
+								array2[num] = num2.ToString();
+								normalizedPath = string.Join(".", array2);
+							}
+							else
 							{
 								string bestHandleWithIndexForListElement = TranslationHandleUtility.GetBestHandleWithIndexForListElement(obj2, obj);
 								if (!bestHandleWithIndexForListElement.NullOrEmpty())
 								{
-									string[] array2 = text2.Split(new char[]
+									string[] array3 = suggestedPath.Split(new char[]
 									{
 										'.'
 									});
-									array2[num] = bestHandleWithIndexForListElement;
-									text2 = string.Join(".", array2);
+									array3[num] = bestHandleWithIndexForListElement;
+									suggestedPath = string.Join(".", array3);
 								}
 							}
 						}
@@ -438,7 +499,7 @@ namespace Verse
 							this.loadErrors.Add(string.Concat(new object[]
 							{
 								"Can't enter node ",
-								text3,
+								text2,
 								" at path ",
 								path,
 								", element kind is ",
@@ -453,13 +514,13 @@ namespace Verse
 					}
 					if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
 					{
-						FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text3);
+						FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text2);
 						if (fieldNamed == null)
 						{
 							throw new InvalidOperationException(string.Concat(new object[]
 							{
 								"Field ",
-								text3,
+								text2,
 								" does not exist in type ",
 								obj.GetType(),
 								"."
@@ -549,7 +610,7 @@ namespace Verse
 						}
 						if (defInjectionPathPartKind == DefInjectionPathPartKind.ListHandle || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandleWithIndex)
 						{
-							num2 = TranslationHandleUtility.GetElementIndexByHandle(obj3, text3, num2);
+							num2 = TranslationHandleUtility.GetElementIndexByHandle(obj3, text2, num2);
 						}
 						int num5 = (int)property3.GetValue(obj3, null);
 						if (num2 >= num5)
@@ -622,7 +683,7 @@ namespace Verse
 						this.loadErrors.Add(string.Concat(new object[]
 						{
 							"Translated ",
-							text3,
+							text2,
 							" at path ",
 							path,
 							" but it's not a field, it's ",
@@ -632,23 +693,35 @@ namespace Verse
 							")"
 						}));
 					}
-					if (path != text2)
+					if (path != suggestedPath)
 					{
+						IList<string> list2 = value as IList<string>;
+						string text3;
+						if (list2 != null)
+						{
+							text3 = list2.ToStringSafeEnumerable();
+						}
+						else
+						{
+							text3 = value.ToString();
+						}
 						this.loadSyntaxSuggestions.Add(string.Concat(new string[]
 						{
 							"Consider using ",
-							text2,
+							suggestedPath,
 							" instead of ",
 							path,
-							" (",
+							" for translation '",
+							text3,
+							"' (",
 							fileSource,
 							")"
 						}));
 					}
 					return;
-					Block_31:
-					throw new InvalidOperationException("Field " + text3 + " does not exist.");
 					Block_32:
+					throw new InvalidOperationException("Field " + text2 + " does not exist.");
+					Block_33:
 					throw new InvalidOperationException(string.Concat(new object[]
 					{
 						"Translated untranslatable field ",
@@ -659,7 +732,7 @@ namespace Verse
 						path,
 						". Translating this field will break the game."
 					}));
-					Block_33:
+					Block_34:
 					throw new InvalidOperationException(string.Concat(new object[]
 					{
 						"Translated untranslatable field ([Unsaved] attribute) ",
@@ -670,13 +743,13 @@ namespace Verse
 						path,
 						". Translating this field will break the game."
 					}));
-					Block_36:
+					Block_37:
 					throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-					IL_8C6:
+					IL_8F3:
 					throw new InvalidOperationException("Index out of bounds (max index is " + (num3 - 1) + ")");
-					Block_40:
+					Block_41:
 					throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-					IL_9A6:
+					IL_9D3:
 					throw new InvalidOperationException("Index out of bounds (max index is " + (num4 - 1) + ")");
 				}
 				catch (Exception ex)
@@ -734,14 +807,22 @@ namespace Verse
 			PropertyInfo allDefsProperty = databaseType.GetProperty("AllDefs");
 			MethodInfo allDefsMethod = allDefsProperty.GetGetMethod();
 			IEnumerable allDefsEnum = (IEnumerable)allDefsMethod.Invoke(null, null);
-			IEnumerator enumerator = allDefsEnum.GetEnumerator();
+			Dictionary<string, DefInjectionPackage.DefInjection> injectionsByNormalizedPath = new Dictionary<string, DefInjectionPackage.DefInjection>();
+			foreach (KeyValuePair<string, DefInjectionPackage.DefInjection> keyValuePair in this.injections)
+			{
+				if (!injectionsByNormalizedPath.ContainsKey(keyValuePair.Value.normalizedPath))
+				{
+					injectionsByNormalizedPath.Add(keyValuePair.Value.normalizedPath, keyValuePair.Value);
+				}
+			}
+			IEnumerator enumerator2 = allDefsEnum.GetEnumerator();
 			try
 			{
-				while (enumerator.MoveNext())
+				while (enumerator2.MoveNext())
 				{
-					object obj = enumerator.Current;
+					object obj = enumerator2.Current;
 					Def def = (Def)obj;
-					foreach (string mi in this.MissingInjectionsFromDef(def, outUnnecessaryDefInjections))
+					foreach (string mi in this.MissingInjectionsFromDef(def, injectionsByNormalizedPath, outUnnecessaryDefInjections))
 					{
 						yield return mi;
 					}
@@ -750,7 +831,7 @@ namespace Verse
 			finally
 			{
 				IDisposable disposable;
-				if ((disposable = (enumerator as IDisposable)) != null)
+				if ((disposable = (enumerator2 as IDisposable)) != null)
 				{
 					disposable.Dispose();
 				}
@@ -758,17 +839,17 @@ namespace Verse
 			yield break;
 		}
 
-		private IEnumerable<string> MissingInjectionsFromDef(Def def, List<string> outUnnecessaryDefInjections)
+		private IEnumerable<string> MissingInjectionsFromDef(Def def, Dictionary<string, DefInjectionPackage.DefInjection> injectionsByNormalizedPath, List<string> outUnnecessaryDefInjections)
 		{
 			HashSet<object> visited = new HashSet<object>();
-			foreach (string missing in this.MissingInjectionsFromDefRecursive(def, def.defName, visited, outUnnecessaryDefInjections, true, def.generated))
+			foreach (string missing in this.MissingInjectionsFromDefRecursive(def, def.defName, def.defName, visited, injectionsByNormalizedPath, outUnnecessaryDefInjections, true, def.generated))
 			{
 				yield return missing;
 			}
 			yield break;
 		}
 
-		private IEnumerable<string> MissingInjectionsFromDefRecursive(object obj, string curPath, HashSet<object> visited, List<string> outUnnecessaryDefInjections, bool translationAllowed, bool defGenerated)
+		private IEnumerable<string> MissingInjectionsFromDefRecursive(object obj, string curNormalizedPath, string curSuggestedPath, HashSet<object> visited, Dictionary<string, DefInjectionPackage.DefInjection> injectionsByNormalizedPath, List<string> outUnnecessaryDefInjections, bool translationAllowed, bool defGenerated)
 		{
 			if (obj == null)
 			{
@@ -788,29 +869,32 @@ namespace Verse
 					if (typeof(string).IsAssignableFrom(fi.FieldType))
 					{
 						string str = (string)val;
-						string path = curPath + "." + fi.Name;
-						if (this.injections.ContainsKey(path))
+						string normalizedPath = curNormalizedPath + "." + fi.Name;
+						string suggestedPath = curSuggestedPath + "." + fi.Name;
+						DefInjectionPackage.DefInjection existingNonListInjection;
+						if (injectionsByNormalizedPath.TryGetValue(normalizedPath, out existingNonListInjection) && !existingNonListInjection.IsFullListInjection)
 						{
 							if (!thisFieldTranslationAllowed)
 							{
-								outUnnecessaryDefInjections.Add(path + " '" + this.injections[path].Replace("\n", "\\n") + "'");
+								outUnnecessaryDefInjections.Add(existingNonListInjection.path + " '" + existingNonListInjection.injection.Replace("\n", "\\n") + "'");
 							}
 						}
 						else if (thisFieldTranslationAllowed && !defGenerated && DefInjectionPackage.ShouldCheckMissingInjection(str, fi))
 						{
-							yield return path + " '" + str.Replace("\n", "\\n") + "'";
+							yield return suggestedPath + " '" + str.Replace("\n", "\\n") + "'";
 						}
 					}
 					else if (val is IEnumerable<string>)
 					{
 						IEnumerable<string> collection = (IEnumerable<string>)val;
 						bool allowFullListTranslation = fi.HasAttribute<TranslationCanChangeCountAttribute>();
-						if (this.fullListInjections.ContainsKey(curPath + "." + fi.Name))
+						string fullListNormalizedPath = curNormalizedPath + "." + fi.Name;
+						DefInjectionPackage.DefInjection existingListInjection;
+						if (injectionsByNormalizedPath.TryGetValue(fullListNormalizedPath, out existingListInjection) && existingListInjection.IsFullListInjection)
 						{
-							string text = curPath + "." + fi.Name;
 							if (!thisFieldTranslationAllowed)
 							{
-								outUnnecessaryDefInjections.Add(text + " '" + this.fullListInjections[text].ToStringSafeEnumerable().Replace("\n", "\\n") + "'");
+								outUnnecessaryDefInjections.Add(existingListInjection.path + " '" + existingListInjection.fullListInjection.ToStringSafeEnumerable().Replace("\n", "\\n") + "'");
 							}
 						}
 						else
@@ -818,26 +902,35 @@ namespace Verse
 							int i = 0;
 							foreach (string elem in collection)
 							{
-								string path2 = string.Concat(new object[]
+								string normalizedPath2 = string.Concat(new object[]
 								{
-									curPath,
+									curNormalizedPath,
 									".",
 									fi.Name,
 									".",
 									i
 								});
-								if (this.injections.ContainsKey(path2))
+								string suggestedPath2 = string.Concat(new object[]
+								{
+									curSuggestedPath,
+									".",
+									fi.Name,
+									".",
+									i
+								});
+								DefInjectionPackage.DefInjection existingNonListInjection2;
+								if (injectionsByNormalizedPath.TryGetValue(normalizedPath2, out existingNonListInjection2) && !existingNonListInjection2.IsFullListInjection)
 								{
 									if (!thisFieldTranslationAllowed)
 									{
-										outUnnecessaryDefInjections.Add(path2 + " '" + this.injections[path2].Replace("\n", "\\n") + "'");
+										outUnnecessaryDefInjections.Add(existingNonListInjection2.path + " '" + existingNonListInjection2.injection.Replace("\n", "\\n") + "'");
 									}
 								}
 								else if (thisFieldTranslationAllowed && !defGenerated && DefInjectionPackage.ShouldCheckMissingInjection(elem, fi))
 								{
 									yield return string.Concat(new string[]
 									{
-										path2,
+										suggestedPath2,
 										" '",
 										elem.Replace("\n", "\\n"),
 										"'",
@@ -865,14 +958,23 @@ namespace Verse
 									{
 										handleOrIndex = j.ToString();
 									}
-									foreach (string missing in this.MissingInjectionsFromDefRecursive(elem2, string.Concat(new string[]
+									string nextNormalizedPath = string.Concat(new object[]
 									{
-										curPath,
+										curNormalizedPath,
+										".",
+										fi.Name,
+										".",
+										j
+									});
+									string nextSuggestedPath = string.Concat(new string[]
+									{
+										curSuggestedPath,
 										".",
 										fi.Name,
 										".",
 										handleOrIndex
-									}), visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated))
+									});
+									foreach (string missing in this.MissingInjectionsFromDefRecursive(elem2, nextNormalizedPath, nextSuggestedPath, visited, injectionsByNormalizedPath, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated))
 									{
 										yield return missing;
 									}
@@ -891,7 +993,9 @@ namespace Verse
 					}
 					else if (val != null && GenTypes.IsCustomType(val.GetType()))
 					{
-						foreach (string missing2 in this.MissingInjectionsFromDefRecursive(val, curPath + "." + fi.Name, visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated))
+						string nextNormalizedPath2 = curNormalizedPath + "." + fi.Name;
+						string nextSuggestedPath2 = curSuggestedPath + "." + fi.Name;
+						foreach (string missing2 in this.MissingInjectionsFromDefRecursive(val, nextNormalizedPath2, nextSuggestedPath2, visited, injectionsByNormalizedPath, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated))
 						{
 							yield return missing2;
 						}
@@ -912,6 +1016,35 @@ namespace Verse
 			return x.Name != "li";
 		}
 
+		public class DefInjection
+		{
+			public string path;
+
+			public string normalizedPath;
+
+			public string nonBackCompatiblePath;
+
+			public string suggestedPath;
+
+			public string injection;
+
+			public List<string> fullListInjection;
+
+			public string fileSource;
+
+			public DefInjection()
+			{
+			}
+
+			public bool IsFullListInjection
+			{
+				get
+				{
+					return this.fullListInjection != null;
+				}
+			}
+		}
+
 		[CompilerGenerated]
 		private sealed class <CheckErrors>c__AnonStorey3
 		{
@@ -921,19 +1054,9 @@ namespace Verse
 			{
 			}
 
-			internal bool <>m__0(Pair<string, string> x)
+			internal bool <>m__0(KeyValuePair<string, DefInjectionPackage.DefInjection> x)
 			{
-				return x.Second == this.key;
-			}
-
-			internal bool <>m__1(Pair<string, string> x)
-			{
-				return x.Second == this.key;
-			}
-
-			internal bool <>m__2(KeyValuePair<string, string> x)
-			{
-				return x.Key.StartsWith(this.key + ".");
+				return !x.Value.IsFullListInjection && x.Key.StartsWith(this.key + ".");
 			}
 		}
 
@@ -948,15 +1071,19 @@ namespace Verse
 
 			internal IEnumerable <allDefsEnum>__0;
 
-			internal IEnumerator $locvar0;
+			internal Dictionary<string, DefInjectionPackage.DefInjection> <injectionsByNormalizedPath>__0;
+
+			internal Dictionary<string, DefInjectionPackage.DefInjection>.Enumerator $locvar0;
+
+			internal IEnumerator $locvar1;
 
 			internal Def <def>__1;
 
-			internal IDisposable $locvar1;
+			internal IDisposable $locvar2;
 
 			internal List<string> outUnnecessaryDefInjections;
 
-			internal IEnumerator<string> $locvar2;
+			internal IEnumerator<string> $locvar3;
 
 			internal string <mi>__2;
 
@@ -988,7 +1115,24 @@ namespace Verse
 					allDefsProperty = databaseType.GetProperty("AllDefs");
 					allDefsMethod = allDefsProperty.GetGetMethod();
 					allDefsEnum = (IEnumerable)allDefsMethod.Invoke(null, null);
-					enumerator = allDefsEnum.GetEnumerator();
+					injectionsByNormalizedPath = new Dictionary<string, DefInjectionPackage.DefInjection>();
+					enumerator = this.injections.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							KeyValuePair<string, DefInjectionPackage.DefInjection> keyValuePair = enumerator.Current;
+							if (!injectionsByNormalizedPath.ContainsKey(keyValuePair.Value.normalizedPath))
+							{
+								injectionsByNormalizedPath.Add(keyValuePair.Value.normalizedPath, keyValuePair.Value);
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)enumerator).Dispose();
+					}
+					enumerator2 = allDefsEnum.GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -1001,15 +1145,15 @@ namespace Verse
 					switch (num)
 					{
 					case 1u:
-						Block_4:
+						Block_9:
 						try
 						{
 							switch (num)
 							{
 							}
-							if (enumerator2.MoveNext())
+							if (enumerator3.MoveNext())
 							{
-								mi = enumerator2.Current;
+								mi = enumerator3.Current;
 								this.$current = mi;
 								if (!this.$disposing)
 								{
@@ -1023,27 +1167,27 @@ namespace Verse
 						{
 							if (!flag)
 							{
-								if (enumerator2 != null)
+								if (enumerator3 != null)
 								{
-									enumerator2.Dispose();
+									enumerator3.Dispose();
 								}
 							}
 						}
 						break;
 					}
-					if (enumerator.MoveNext())
+					if (enumerator2.MoveNext())
 					{
-						def = (Def)enumerator.Current;
-						enumerator2 = base.MissingInjectionsFromDef(def, outUnnecessaryDefInjections).GetEnumerator();
+						def = (Def)enumerator2.Current;
+						enumerator3 = base.MissingInjectionsFromDef(def, injectionsByNormalizedPath, outUnnecessaryDefInjections).GetEnumerator();
 						num = 4294967293u;
-						goto Block_4;
+						goto Block_9;
 					}
 				}
 				finally
 				{
 					if (!flag)
 					{
-						if ((disposable = (enumerator as IDisposable)) != null)
+						if ((disposable = (enumerator2 as IDisposable)) != null)
 						{
 							disposable.Dispose();
 						}
@@ -1087,15 +1231,15 @@ namespace Verse
 						}
 						finally
 						{
-							if (enumerator2 != null)
+							if (enumerator3 != null)
 							{
-								enumerator2.Dispose();
+								enumerator3.Dispose();
 							}
 						}
 					}
 					finally
 					{
-						if ((disposable = (enumerator as IDisposable)) != null)
+						if ((disposable = (enumerator2 as IDisposable)) != null)
 						{
 							disposable.Dispose();
 						}
@@ -1137,6 +1281,8 @@ namespace Verse
 
 			internal Def def;
 
+			internal Dictionary<string, DefInjectionPackage.DefInjection> injectionsByNormalizedPath;
+
 			internal List<string> outUnnecessaryDefInjections;
 
 			internal IEnumerator<string> $locvar0;
@@ -1165,7 +1311,7 @@ namespace Verse
 				{
 				case 0u:
 					visited = new HashSet<object>();
-					enumerator = base.MissingInjectionsFromDefRecursive(def, def.defName, visited, outUnnecessaryDefInjections, true, def.generated).GetEnumerator();
+					enumerator = base.MissingInjectionsFromDefRecursive(def, def.defName, def.defName, visited, injectionsByNormalizedPath, outUnnecessaryDefInjections, true, def.generated).GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -1267,6 +1413,7 @@ namespace Verse
 				DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1 <MissingInjectionsFromDef>c__Iterator = new DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1();
 				<MissingInjectionsFromDef>c__Iterator.$this = this;
 				<MissingInjectionsFromDef>c__Iterator.def = def;
+				<MissingInjectionsFromDef>c__Iterator.injectionsByNormalizedPath = injectionsByNormalizedPath;
 				<MissingInjectionsFromDef>c__Iterator.outUnnecessaryDefInjections = outUnnecessaryDefInjections;
 				return <MissingInjectionsFromDef>c__Iterator;
 			}
@@ -1293,9 +1440,17 @@ namespace Verse
 
 			internal string <str>__3;
 
-			internal string curPath;
+			internal string curNormalizedPath;
 
-			internal string <path>__3;
+			internal string <normalizedPath>__3;
+
+			internal string curSuggestedPath;
+
+			internal string <suggestedPath>__3;
+
+			internal Dictionary<string, DefInjectionPackage.DefInjection> injectionsByNormalizedPath;
+
+			internal DefInjectionPackage.DefInjection <existingNonListInjection>__3;
 
 			internal List<string> outUnnecessaryDefInjections;
 
@@ -1305,13 +1460,21 @@ namespace Verse
 
 			internal bool <allowFullListTranslation>__4;
 
+			internal string <fullListNormalizedPath>__4;
+
+			internal DefInjectionPackage.DefInjection <existingListInjection>__4;
+
 			internal int <i>__5;
 
 			internal IEnumerator<string> $locvar2;
 
 			internal string <elem>__6;
 
-			internal string <path>__7;
+			internal string <normalizedPath>__7;
+
+			internal string <suggestedPath>__7;
+
+			internal DefInjectionPackage.DefInjection <existingNonListInjection>__7;
 
 			internal IEnumerable <collection>__8;
 
@@ -1325,13 +1488,21 @@ namespace Verse
 
 			internal string <handleOrIndex>__10;
 
+			internal string <nextNormalizedPath>__10;
+
+			internal string <nextSuggestedPath>__10;
+
 			internal IEnumerator<string> $locvar5;
 
 			internal string <missing>__11;
 
+			internal string <nextNormalizedPath>__12;
+
+			internal string <nextSuggestedPath>__12;
+
 			internal IEnumerator<string> $locvar6;
 
-			internal string <missing>__12;
+			internal string <missing>__13;
 
 			internal DefInjectionPackage $this;
 
@@ -1365,45 +1536,53 @@ namespace Verse
 					visited.Add(obj);
 					fields = obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 					k = 0;
-					goto IL_7F5;
+					goto IL_90E;
 				case 1u:
-					IL_238:
+					IL_264:
 					break;
 				case 2u:
-					Block_17:
+					Block_19:
 					try
 					{
 						switch (num)
 						{
 						case 2u:
-							IL_4A8:
+							IL_52A:
 							i++;
 							break;
 						}
 						if (enumerator.MoveNext())
 						{
 							elem = enumerator.Current;
-							path2 = string.Concat(new object[]
+							normalizedPath2 = string.Concat(new object[]
 							{
-								curPath,
+								curNormalizedPath,
 								".",
 								fi.Name,
 								".",
 								i
 							});
-							if (this.injections.ContainsKey(path2))
+							suggestedPath2 = string.Concat(new object[]
+							{
+								curSuggestedPath,
+								".",
+								fi.Name,
+								".",
+								i
+							});
+							if (injectionsByNormalizedPath.TryGetValue(normalizedPath2, out existingNonListInjection2) && !existingNonListInjection2.IsFullListInjection)
 							{
 								if (!thisFieldTranslationAllowed)
 								{
-									outUnnecessaryDefInjections.Add(path2 + " '" + this.injections[path2].Replace("\n", "\\n") + "'");
+									outUnnecessaryDefInjections.Add(existingNonListInjection2.path + " '" + existingNonListInjection2.injection.Replace("\n", "\\n") + "'");
 								}
-								goto IL_4A8;
+								goto IL_52A;
 							}
 							if (thisFieldTranslationAllowed && !defGenerated && DefInjectionPackage.ShouldCheckMissingInjection(elem, fi))
 							{
 								this.$current = string.Concat(new string[]
 								{
-									path2,
+									suggestedPath2,
 									" '",
 									elem.Replace("\n", "\\n"),
 									"'",
@@ -1416,7 +1595,7 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_4A8;
+							goto IL_52A;
 						}
 					}
 					finally
@@ -1431,13 +1610,13 @@ namespace Verse
 					}
 					break;
 				case 3u:
-					Block_19:
+					Block_21:
 					try
 					{
 						switch (num)
 						{
 						case 3u:
-							Block_41:
+							Block_44:
 							try
 							{
 								switch (num)
@@ -1467,11 +1646,11 @@ namespace Verse
 							}
 							break;
 						default:
-							goto IL_6B7;
+							goto IL_797;
 						}
-						IL_6A8:
+						IL_788:
 						j++;
-						IL_6B7:
+						IL_797:
 						if (enumerator2.MoveNext())
 						{
 							elem2 = enumerator2.Current;
@@ -1482,18 +1661,27 @@ namespace Verse
 								{
 									handleOrIndex = j.ToString();
 								}
-								enumerator3 = base.MissingInjectionsFromDefRecursive(elem2, string.Concat(new string[]
+								nextNormalizedPath = string.Concat(new object[]
 								{
-									curPath,
+									curNormalizedPath,
+									".",
+									fi.Name,
+									".",
+									j
+								});
+								nextSuggestedPath = string.Concat(new string[]
+								{
+									curSuggestedPath,
 									".",
 									fi.Name,
 									".",
 									handleOrIndex
-								}), visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated).GetEnumerator();
+								});
+								enumerator3 = base.MissingInjectionsFromDefRecursive(elem2, nextNormalizedPath, nextSuggestedPath, visited, injectionsByNormalizedPath, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated).GetEnumerator();
 								num = 4294967293u;
-								goto Block_41;
+								goto Block_44;
 							}
-							goto IL_6A8;
+							goto IL_788;
 						}
 					}
 					finally
@@ -1508,7 +1696,7 @@ namespace Verse
 					}
 					break;
 				case 4u:
-					Block_22:
+					Block_24:
 					try
 					{
 						switch (num)
@@ -1540,11 +1728,11 @@ namespace Verse
 				default:
 					return false;
 				}
-				IL_4E8:
-				IL_7E6:
-				IL_7E7:
+				IL_56A:
+				IL_8FF:
+				IL_900:
 				k++;
-				IL_7F5:
+				IL_90E:
 				if (k >= fields.Length)
 				{
 					this.$PC = -1;
@@ -1556,48 +1744,49 @@ namespace Verse
 					thisFieldTranslationAllowed = (translationAllowed && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>());
 					if (val is Def)
 					{
-						goto IL_7E7;
+						goto IL_900;
 					}
 					if (typeof(string).IsAssignableFrom(fi.FieldType))
 					{
 						str = (string)val;
-						path = curPath + "." + fi.Name;
-						if (this.injections.ContainsKey(path))
+						normalizedPath = curNormalizedPath + "." + fi.Name;
+						suggestedPath = curSuggestedPath + "." + fi.Name;
+						if (injectionsByNormalizedPath.TryGetValue(normalizedPath, out existingNonListInjection) && !existingNonListInjection.IsFullListInjection)
 						{
 							if (!thisFieldTranslationAllowed)
 							{
-								outUnnecessaryDefInjections.Add(path + " '" + this.injections[path].Replace("\n", "\\n") + "'");
+								outUnnecessaryDefInjections.Add(existingNonListInjection.path + " '" + existingNonListInjection.injection.Replace("\n", "\\n") + "'");
 							}
-							goto IL_238;
+							goto IL_264;
 						}
 						if (thisFieldTranslationAllowed && !defGenerated && DefInjectionPackage.ShouldCheckMissingInjection(str, fi))
 						{
-							this.$current = path + " '" + str.Replace("\n", "\\n") + "'";
+							this.$current = suggestedPath + " '" + str.Replace("\n", "\\n") + "'";
 							if (!this.$disposing)
 							{
 								this.$PC = 1;
 							}
 							return true;
 						}
-						goto IL_238;
+						goto IL_264;
 					}
 					else if (val is IEnumerable<string>)
 					{
 						collection = (IEnumerable<string>)val;
 						allowFullListTranslation = fi.HasAttribute<TranslationCanChangeCountAttribute>();
-						if (this.fullListInjections.ContainsKey(curPath + "." + fi.Name))
+						fullListNormalizedPath = curNormalizedPath + "." + fi.Name;
+						if (injectionsByNormalizedPath.TryGetValue(fullListNormalizedPath, out existingListInjection) && existingListInjection.IsFullListInjection)
 						{
-							string text = curPath + "." + fi.Name;
 							if (!thisFieldTranslationAllowed)
 							{
-								outUnnecessaryDefInjections.Add(text + " '" + this.fullListInjections[text].ToStringSafeEnumerable().Replace("\n", "\\n") + "'");
+								outUnnecessaryDefInjections.Add(existingListInjection.path + " '" + existingListInjection.fullListInjection.ToStringSafeEnumerable().Replace("\n", "\\n") + "'");
 							}
-							goto IL_4E8;
+							goto IL_56A;
 						}
 						i = 0;
 						enumerator = collection.GetEnumerator();
 						num = 4294967293u;
-						goto Block_17;
+						goto Block_19;
 					}
 					else
 					{
@@ -1607,15 +1796,17 @@ namespace Verse
 							j = 0;
 							enumerator2 = collection2.GetEnumerator();
 							num = 4294967293u;
-							goto Block_19;
+							goto Block_21;
 						}
 						if (val != null && GenTypes.IsCustomType(val.GetType()))
 						{
-							enumerator4 = base.MissingInjectionsFromDefRecursive(val, curPath + "." + fi.Name, visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated).GetEnumerator();
+							nextNormalizedPath2 = curNormalizedPath + "." + fi.Name;
+							nextSuggestedPath2 = curSuggestedPath + "." + fi.Name;
+							enumerator4 = base.MissingInjectionsFromDefRecursive(val, nextNormalizedPath2, nextSuggestedPath2, visited, injectionsByNormalizedPath, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated).GetEnumerator();
 							num = 4294967293u;
-							goto Block_22;
+							goto Block_24;
 						}
-						goto IL_7E6;
+						goto IL_8FF;
 					}
 				}
 				return false;
@@ -1720,7 +1911,9 @@ namespace Verse
 				<MissingInjectionsFromDefRecursive>c__Iterator.obj = obj;
 				<MissingInjectionsFromDefRecursive>c__Iterator.visited = visited;
 				<MissingInjectionsFromDefRecursive>c__Iterator.translationAllowed = translationAllowed;
-				<MissingInjectionsFromDefRecursive>c__Iterator.curPath = curPath;
+				<MissingInjectionsFromDefRecursive>c__Iterator.curNormalizedPath = curNormalizedPath;
+				<MissingInjectionsFromDefRecursive>c__Iterator.curSuggestedPath = curSuggestedPath;
+				<MissingInjectionsFromDefRecursive>c__Iterator.injectionsByNormalizedPath = injectionsByNormalizedPath;
 				<MissingInjectionsFromDefRecursive>c__Iterator.outUnnecessaryDefInjections = outUnnecessaryDefInjections;
 				<MissingInjectionsFromDefRecursive>c__Iterator.defGenerated = defGenerated;
 				return <MissingInjectionsFromDefRecursive>c__Iterator;

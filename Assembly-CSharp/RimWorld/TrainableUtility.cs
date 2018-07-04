@@ -18,11 +18,11 @@ namespace RimWorld
 		private static readonly SimpleCurve DecayIntervalDaysFromWildnessCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 15f),
+				new CurvePoint(0f, 12f),
 				true
 			},
 			{
-				new CurvePoint(1f, 5f),
+				new CurvePoint(1f, 6f),
 				true
 			}
 		};

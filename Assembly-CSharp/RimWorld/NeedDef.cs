@@ -45,6 +45,8 @@ namespace RimWorld
 
 		public bool freezeWhileSleeping = false;
 
+		public bool freezeInMentalState = false;
+
 		public NeedDef()
 		{
 		}

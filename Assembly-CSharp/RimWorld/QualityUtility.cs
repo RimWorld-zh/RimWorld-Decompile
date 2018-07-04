@@ -15,19 +15,34 @@ namespace RimWorld
 		public static List<QualityCategory> AllQualityCategories = new List<QualityCategory>();
 
 		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache0;
+		private static Func<QualityCategory, string> <>f__am$cache0;
 
 		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache1;
+		private static Func<QualityCategory, string> <>f__am$cache1;
 
 		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache2;
+		private static Func<QualityCategory, string> <>f__am$cache2;
 
 		[CompilerGenerated]
-		private static Func<QualityCategory> <>f__am$cache3;
+		private static Func<QualityCategory, string> <>f__am$cache3;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, float> <>f__am$cache4;
+		private static Func<QualityCategory, string> <>f__am$cache4;
+
+		[CompilerGenerated]
+		private static Func<PawnKindDef, float> <>f__am$cache5;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__am$cache6;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__am$cache7;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__am$cache8;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> <>f__am$cache9;
 
 		static QualityUtility()
 		{
@@ -230,81 +245,81 @@ namespace RimWorld
 
 		public static QualityCategory GenerateQualityCreatedByPawn(int relevantSkillLevel, bool inspired)
 		{
-			float centerX = -1f;
+			float num = 0f;
 			switch (relevantSkillLevel)
 			{
 			case 0:
-				centerX = 0.5f;
+				num += 0.7f;
 				break;
 			case 1:
-				centerX = 0.833f;
+				num += 1.1f;
 				break;
 			case 2:
-				centerX = 1.166f;
+				num += 1.5f;
 				break;
 			case 3:
-				centerX = 1.5f;
+				num += 1.8f;
 				break;
 			case 4:
-				centerX = 1.7f;
+				num += 2f;
 				break;
 			case 5:
-				centerX = 1.9f;
+				num += 2.2f;
 				break;
 			case 6:
-				centerX = 2.1f;
+				num += 2.4f;
 				break;
 			case 7:
-				centerX = 2.3f;
+				num += 2.6f;
 				break;
 			case 8:
-				centerX = 2.5f;
+				num += 2.8f;
 				break;
 			case 9:
-				centerX = 2.65f;
+				num += 2.95f;
 				break;
 			case 10:
-				centerX = 2.8f;
+				num += 3.1f;
 				break;
 			case 11:
-				centerX = 2.95f;
+				num += 3.25f;
 				break;
 			case 12:
-				centerX = 3.1f;
+				num += 3.4f;
 				break;
 			case 13:
-				centerX = 3.25f;
+				num += 3.5f;
 				break;
 			case 14:
-				centerX = 3.4f;
+				num += 3.6f;
 				break;
 			case 15:
-				centerX = 3.5f;
+				num += 3.7f;
 				break;
 			case 16:
-				centerX = 3.6f;
+				num += 3.8f;
 				break;
 			case 17:
-				centerX = 3.7f;
+				num += 3.9f;
 				break;
 			case 18:
-				centerX = 3.8f;
+				num += 4f;
 				break;
 			case 19:
-				centerX = 3.9f;
+				num += 4.1f;
 				break;
 			case 20:
-				centerX = 4f;
+				num += 4.2f;
 				break;
 			}
-			int num = (int)Rand.GaussianAsymmetric(centerX, 0.7f, 0.96f);
-			num = Mathf.Clamp(num, 0, 5);
-			if (num == 5 && Rand.Value < 0.5f)
+			int num2 = (int)Rand.GaussianAsymmetric(num, 0.6f, 0.8f);
+			num2 = Mathf.Clamp(num2, 0, 5);
+			if (num2 == 5 && Rand.Value < 0.5f)
 			{
-				num = (int)Rand.GaussianAsymmetric(centerX, 0.6f, 0.95f);
-				num = Mathf.Clamp(num, 0, 5);
+				num2 = (int)Rand.GaussianAsymmetric(num, 0.6f, 0.95f);
+				num2 = Mathf.Clamp(num2, 0, 5);
 			}
-			QualityCategory qualityCategory = (QualityCategory)num;
+			QualityCategory qualityCategory = (QualityCategory)num2;
 			if (inspired)
 			{
 				qualityCategory = QualityUtility.AddLevels(qualityCategory, 2);
@@ -373,49 +388,49 @@ namespace RimWorld
 		[DebugOutput]
 		internal static void QualityGenerationData()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("Qualities of items/buildings generated from various sources");
-			stringBuilder.AppendLine("---------------------------------------------------------------------");
-			stringBuilder.AppendLine("Rewards (quests, etc...? )");
-			stringBuilder.AppendLine(QualityUtility.DebugQualitiesString(() => QualityUtility.GenerateQualityReward()));
-			stringBuilder.AppendLine("Trader items");
-			stringBuilder.AppendLine(QualityUtility.DebugQualitiesString(() => QualityUtility.GenerateQualityTraderItem()));
-			stringBuilder.AppendLine("Map generation items and buildings (usually NPC bases)");
-			stringBuilder.AppendLine(QualityUtility.DebugQualitiesString(() => QualityUtility.GenerateQualityBaseGen()));
-			stringBuilder.AppendLine("Gifts");
-			stringBuilder.AppendLine(QualityUtility.DebugQualitiesString(() => QualityUtility.GenerateQualityGift()));
-			using (IEnumerator<PawnKindDef> enumerator = (from k in DefDatabase<PawnKindDef>.AllDefs
-			orderby k.combatPower
-			select k).GetEnumerator())
+			List<TableDataGetter<QualityCategory>> list = new List<TableDataGetter<QualityCategory>>();
+			list.Add(new TableDataGetter<QualityCategory>("quality", (QualityCategory q) => q.ToString()));
+			list.Add(new TableDataGetter<QualityCategory>("Rewards\n(quests,\netc...? )", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityReward())));
+			list.Add(new TableDataGetter<QualityCategory>("Trader\nitems", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityTraderItem())));
+			list.Add(new TableDataGetter<QualityCategory>("Map generation\nitems and\nbuildings\n(e.g. NPC bases)", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityBaseGen())));
+			list.Add(new TableDataGetter<QualityCategory>("Gifts", (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityGift())));
+			for (int i = 0; i <= 20; i++)
 			{
-				while (enumerator.MoveNext())
+				int localLevel = i;
+				list.Add(new TableDataGetter<QualityCategory>("Made\nat skill\n" + i, (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityCreatedByPawn(localLevel, false))));
+			}
+			foreach (PawnKindDef localPk2 in from k in DefDatabase<PawnKindDef>.AllDefs
+			orderby k.combatPower
+			select k)
+			{
+				PawnKindDef localPk = localPk2;
+				if (localPk.RaceProps.Humanlike)
 				{
-					PawnKindDef pk = enumerator.Current;
-					if (pk.RaceProps.Humanlike)
+					list.Add(new TableDataGetter<QualityCategory>(string.Concat(new object[]
 					{
-						stringBuilder.AppendLine(string.Concat(new object[]
-						{
-							"Items generated to equip pawn kind: ",
-							pk.defName,
-							" (",
-							pk.combatPower.ToString("F0"),
-							" points, itemQuality ",
-							pk.itemQuality,
-							")"
-						}));
-						stringBuilder.Append(QualityUtility.DebugQualitiesString(() => QualityUtility.GenerateQualityGeneratingPawn(pk)));
-						stringBuilder.AppendLine();
-					}
+						"Gear for\n",
+						localPk.defName,
+						"\nPower ",
+						localPk.combatPower.ToString("F0"),
+						"\nitemQuality:\n",
+						localPk.itemQuality
+					}), (QualityCategory q) => QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityGeneratingPawn(localPk))));
 				}
 			}
-			int level;
-			for (level = 0; level <= 20; level++)
+			DebugTables.MakeTablesDialog<QualityCategory>(QualityUtility.AllQualityCategories, list.ToArray());
+		}
+
+		private static string DebugQualitiesStringSingle(QualityCategory quality, Func<QualityCategory> qualityGenerator)
+		{
+			int num = 10000;
+			List<QualityCategory> list = new List<QualityCategory>();
+			for (int i = 0; i < num; i++)
 			{
-				stringBuilder.AppendLine();
-				stringBuilder.AppendLine("Items/buildings made by crafter/builder at skill level " + level);
-				stringBuilder.Append(QualityUtility.DebugQualitiesString(() => QualityUtility.GenerateQualityCreatedByPawn(level, false)));
+				list.Add(qualityGenerator());
 			}
-			Log.Message(stringBuilder.ToString(), false);
+			return ((float)(from q in list
+			where q == quality
+			select q).Count<QualityCategory>() / (float)num).ToStringPercent();
 		}
 
 		private static string DebugQualitiesString(Func<QualityCategory> qualityGenerator)
@@ -441,71 +456,126 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__0()
+		private static string <QualityGenerationData>m__0(QualityCategory q)
 		{
-			return QualityUtility.GenerateQualityReward();
+			return q.ToString();
 		}
 
 		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__1()
+		private static string <QualityGenerationData>m__1(QualityCategory q)
 		{
-			return QualityUtility.GenerateQualityTraderItem();
+			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityReward());
 		}
 
 		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__2()
+		private static string <QualityGenerationData>m__2(QualityCategory q)
 		{
-			return QualityUtility.GenerateQualityBaseGen();
+			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityTraderItem());
 		}
 
 		[CompilerGenerated]
-		private static QualityCategory <QualityGenerationData>m__3()
+		private static string <QualityGenerationData>m__3(QualityCategory q)
 		{
-			return QualityUtility.GenerateQualityGift();
+			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityBaseGen());
 		}
 
 		[CompilerGenerated]
-		private static float <QualityGenerationData>m__4(PawnKindDef k)
+		private static string <QualityGenerationData>m__4(QualityCategory q)
+		{
+			return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityGift());
+		}
+
+		[CompilerGenerated]
+		private static float <QualityGenerationData>m__5(PawnKindDef k)
 		{
 			return k.combatPower;
 		}
 
 		[CompilerGenerated]
+		private static QualityCategory <QualityGenerationData>m__6()
+		{
+			return QualityUtility.GenerateQualityReward();
+		}
+
+		[CompilerGenerated]
+		private static QualityCategory <QualityGenerationData>m__7()
+		{
+			return QualityUtility.GenerateQualityTraderItem();
+		}
+
+		[CompilerGenerated]
+		private static QualityCategory <QualityGenerationData>m__8()
+		{
+			return QualityUtility.GenerateQualityBaseGen();
+		}
+
+		[CompilerGenerated]
+		private static QualityCategory <QualityGenerationData>m__9()
+		{
+			return QualityUtility.GenerateQualityGift();
+		}
+
+		[CompilerGenerated]
 		private sealed class <QualityGenerationData>c__AnonStorey0
 		{
-			internal PawnKindDef pk;
+			internal int localLevel;
 
 			public <QualityGenerationData>c__AnonStorey0()
 			{
 			}
 
-			internal QualityCategory <>m__0()
+			internal string <>m__0(QualityCategory q)
 			{
-				return QualityUtility.GenerateQualityGeneratingPawn(this.pk);
+				return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityCreatedByPawn(this.localLevel, false));
+			}
+
+			internal QualityCategory <>m__1()
+			{
+				return QualityUtility.GenerateQualityCreatedByPawn(this.localLevel, false);
 			}
 		}
 
 		[CompilerGenerated]
 		private sealed class <QualityGenerationData>c__AnonStorey1
 		{
-			internal int level;
+			internal PawnKindDef localPk;
 
 			public <QualityGenerationData>c__AnonStorey1()
 			{
 			}
 
-			internal QualityCategory <>m__0()
+			internal string <>m__0(QualityCategory q)
 			{
-				return QualityUtility.GenerateQualityCreatedByPawn(this.level, false);
+				return QualityUtility.DebugQualitiesStringSingle(q, () => QualityUtility.GenerateQualityGeneratingPawn(this.localPk));
+			}
+
+			internal QualityCategory <>m__1()
+			{
+				return QualityUtility.GenerateQualityGeneratingPawn(this.localPk);
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DebugQualitiesString>c__AnonStorey2
+		private sealed class <DebugQualitiesStringSingle>c__AnonStorey2
+		{
+			internal QualityCategory quality;
+
+			public <DebugQualitiesStringSingle>c__AnonStorey2()
+			{
+			}
+
+			internal bool <>m__0(QualityCategory q)
+			{
+				return q == this.quality;
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DebugQualitiesString>c__AnonStorey3
 		{
 			internal QualityCategory qu;
 
-			public <DebugQualitiesString>c__AnonStorey2()
+			public <DebugQualitiesString>c__AnonStorey3()
 			{
 			}
 

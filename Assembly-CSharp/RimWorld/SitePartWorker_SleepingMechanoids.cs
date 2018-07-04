@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using RimWorld.Planet;
 using Verse;
 using Verse.AI.Group;
 
@@ -34,6 +35,34 @@ namespace RimWorld
 			}
 			lookTargets = pawn;
 			return arrivedLetterPart;
+		}
+
+		public override string GetPostProcessedDescriptionDialogue(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			return string.Format(base.GetPostProcessedDescriptionDialogue(site, siteCoreOrPart), this.GetMechanoidsCount(site, siteCoreOrPart.parms));
+		}
+
+		public override string GetPostProcessedThreatLabel(Site site, SiteCoreOrPartBase siteCoreOrPart)
+		{
+			return string.Concat(new object[]
+			{
+				base.GetPostProcessedThreatLabel(site, siteCoreOrPart),
+				" (",
+				this.GetMechanoidsCount(site, siteCoreOrPart.parms),
+				")"
+			});
+		}
+
+		private int GetMechanoidsCount(Site site, SiteCoreOrPartParams parms)
+		{
+			return PawnGroupMakerUtility.GeneratePawnKindsExample(new PawnGroupMakerParms
+			{
+				tile = site.Tile,
+				faction = Faction.OfMechanoids,
+				groupKind = PawnGroupKindDefOf.Combat,
+				points = parms.threatPoints,
+				seed = new int?(SleepingMechanoidsSitePartUtility.GetPawnGroupMakerSeed(parms))
+			}).Count<PawnKindDef>();
 		}
 
 		[CompilerGenerated]

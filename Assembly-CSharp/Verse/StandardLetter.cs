@@ -17,7 +17,7 @@ namespace Verse
 		{
 			get
 			{
-				yield return base.Option_Dismiss;
+				yield return base.Option_Close;
 				if (this.lookTargets.IsValid())
 				{
 					yield return base.Option_JumpToLocation;
@@ -49,7 +49,7 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					this.$current = base.Option_Dismiss;
+					this.$current = base.Option_Close;
 					if (!this.$disposing)
 					{
 						this.$PC = 1;
