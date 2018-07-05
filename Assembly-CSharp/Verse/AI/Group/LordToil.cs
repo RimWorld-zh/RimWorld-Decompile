@@ -13,7 +13,7 @@ namespace Verse.AI.Group
 
 		private List<Func<bool>> failConditions = new List<Func<bool>>();
 
-		public AvoidGridMode avoidGridMode = AvoidGridMode.Basic;
+		public AvoidGridMode avoidGridMode = AvoidGridMode.Ignore;
 
 		protected LordToil()
 		{

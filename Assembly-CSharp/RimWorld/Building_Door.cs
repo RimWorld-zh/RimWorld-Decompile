@@ -28,13 +28,17 @@ namespace RimWorld
 
 		private bool freePassageWhenClearedReachabilityCache;
 
-		private const float BaseDoorOpenTicks = 45f;
+		private const float OpenTicks = 45f;
 
-		private const int AutomaticCloseDelayTicks = 60;
+		private const int CloseDelayTicks = 90;
+
+		private const int WillCloseSoonThreshold = 91;
 
 		private const int ApproachCloseDelayTicks = 300;
 
 		private const int MaxTicksSinceFriendlyTouchToAutoClose = 301;
+
+		private const float PowerOffDoorOpenSpeedFactor = 0.25f;
 
 		private const float VisualDoorOffsetStart = 0f;
 
@@ -85,7 +89,7 @@ namespace RimWorld
 				{
 					result = false;
 				}
-				else if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 60 && this.CanCloseAutomatically)
+				else if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 91 && this.CanCloseAutomatically)
 				{
 					result = true;
 				}
@@ -166,7 +170,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.DoorPowerOn && this.FriendlyTouchedRecently;
+				return this.FriendlyTouchedRecently;
 			}
 		}
 
@@ -207,7 +211,7 @@ namespace RimWorld
 			this.ClearReachabilityCache(map);
 			if (this.BlockedOpenMomentary)
 			{
-				this.DoorOpen(60);
+				this.DoorOpen(90);
 			}
 		}
 
@@ -270,7 +274,7 @@ namespace RimWorld
 				{
 					if (base.Map.thingGrid.CellContains(base.Position, ThingCategory.Pawn))
 					{
-						this.ticksUntilClose = 60;
+						this.ticksUntilClose = 90;
 					}
 					else
 					{
@@ -281,7 +285,7 @@ namespace RimWorld
 						}
 					}
 				}
-				if ((Find.TickManager.TicksGame + this.thingIDNumber.HashOffset()) % 22 == 0)
+				if ((Find.TickManager.TicksGame + this.thingIDNumber.HashOffset()) % 30 == 0)
 				{
 					GenTemperature.EqualizeTemperaturesThroughBuilding(this, 1f, false);
 				}
@@ -325,7 +329,7 @@ namespace RimWorld
 			return !this.openInt && !this.PawnCanOpen(p);
 		}
 
-		protected void DoorOpen(int ticksToClose = 60)
+		protected void DoorOpen(int ticksToClose = 90)
 		{
 			this.ticksUntilClose = ticksToClose;
 			if (!this.openInt)
@@ -360,12 +364,12 @@ namespace RimWorld
 
 		public void StartManualOpenBy(Pawn opener)
 		{
-			this.DoorOpen(60);
+			this.DoorOpen(90);
 		}
 
 		public void StartManualCloseBy(Pawn closer)
 		{
-			this.DoorTryClose();
+			this.ticksUntilClose = 90;
 		}
 
 		public override void Draw()

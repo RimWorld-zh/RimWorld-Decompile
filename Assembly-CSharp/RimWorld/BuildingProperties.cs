@@ -156,6 +156,8 @@ namespace RimWorld
 
 		public bool isTrap = false;
 
+		public bool trapWildAnimalsAvoid = false;
+
 		public DamageArmorCategoryDef trapDamageCategory;
 
 		public GraphicData trapUnarmedGraphicData;

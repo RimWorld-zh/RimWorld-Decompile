@@ -8,7 +8,7 @@ using UnityEngine.Profiling;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsSystem
+	public static class DebugOutputsSystem
 	{
 		[CompilerGenerated]
 		private static Func<int, float> <>f__am$cache0;

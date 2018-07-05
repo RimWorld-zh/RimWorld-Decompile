@@ -1191,7 +1191,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		internal static IntVec3 FindSiegePositionFrom(IntVec3 entrySpot, Map map)
+		public static IntVec3 FindSiegePositionFrom(IntVec3 entrySpot, Map map)
 		{
 			IntVec3 result;
 			if (!entrySpot.IsValid)

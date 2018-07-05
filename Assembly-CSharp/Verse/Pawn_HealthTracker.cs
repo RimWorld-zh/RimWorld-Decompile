@@ -21,6 +21,8 @@ namespace Verse
 
 		public bool forceIncap = false;
 
+		public bool beCarriedByCaravanIfSick = true;
+
 		public HediffSet hediffSet = null;
 
 		public PawnCapacitiesHandler capacities = null;
@@ -116,6 +118,7 @@ namespace Verse
 		{
 			Scribe_Values.Look<PawnHealthState>(ref this.healthState, "healthState", PawnHealthState.Mobile, false);
 			Scribe_Values.Look<bool>(ref this.forceIncap, "forceIncap", false, false);
+			Scribe_Values.Look<bool>(ref this.beCarriedByCaravanIfSick, "beCarriedByCaravanIfSick", true, false);
 			Scribe_Deep.Look<HediffSet>(ref this.hediffSet, "hediffSet", new object[]
 			{
 				this.pawn

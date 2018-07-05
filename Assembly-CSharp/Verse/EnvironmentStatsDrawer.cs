@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	internal static class EnvironmentStatsDrawer
+	public static class EnvironmentStatsDrawer
 	{
 		private const float StatLabelColumnWidth = 100f;
 

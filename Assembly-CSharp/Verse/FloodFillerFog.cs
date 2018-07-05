@@ -94,7 +94,7 @@ namespace Verse
 			return result;
 		}
 
-		internal static void DebugFloodUnfog(IntVec3 root, Map map)
+		public static void DebugFloodUnfog(IntVec3 root, Map map)
 		{
 			map.fogGrid.SetAllFogged();
 			foreach (IntVec3 loc in map.AllCells)
@@ -106,7 +106,7 @@ namespace Verse
 			FloodFillerFog.testMode = false;
 		}
 
-		internal static void DebugRefogMap(Map map)
+		public static void DebugRefogMap(Map map)
 		{
 			map.fogGrid.SetAllFogged();
 			foreach (IntVec3 loc in map.AllCells)

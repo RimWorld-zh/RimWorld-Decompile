@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Verse
 {
-	internal class ReachabilityCache
+	public class ReachabilityCache
 	{
 		private Dictionary<ReachabilityCache.CachedEntry, bool> cacheDict = new Dictionary<ReachabilityCache.CachedEntry, bool>();
 

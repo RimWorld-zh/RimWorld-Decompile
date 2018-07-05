@@ -32,6 +32,10 @@ namespace RimWorld.Planet
 
 		public Caravan_NeedsTracker needs;
 
+		public Caravan_CarryTracker carryTracker;
+
+		public Caravan_BedsTracker beds;
+
 		public StoryState storyState;
 
 		private Material cachedMat;
@@ -49,10 +53,6 @@ namespace RimWorld.Planet
 		private const int ImmobilizedCacheDuration = 60;
 
 		private const int DaysWorthOfFoodCacheDuration = 3000;
-
-		private const int TendIntervalTicks = 2000;
-
-		private const int TryTakeScheduledDrugsIntervalTicks = 120;
 
 		private static readonly Texture2D SplitCommand = ContentFinder<Texture2D>.Get("UI/Commands/SplitCaravan", true);
 
@@ -73,6 +73,8 @@ namespace RimWorld.Planet
 			this.trader = new Caravan_TraderTracker(this);
 			this.forage = new Caravan_ForageTracker(this);
 			this.needs = new Caravan_NeedsTracker(this);
+			this.carryTracker = new Caravan_CarryTracker(this);
+			this.beds = new Caravan_BedsTracker(this);
 			this.storyState = new StoryState(this);
 		}
 
@@ -179,7 +181,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.Resting || this.AllOwnersHaveMentalBreak || this.AllOwnersDowned || this.ImmobilizedByMass;
+				return this.NightResting || this.AllOwnersHaveMentalBreak || this.AllOwnersDowned || this.ImmobilizedByMass;
 			}
 		}
 
@@ -239,11 +241,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public bool Resting
+		public bool NightResting
 		{
 			get
 			{
-				return (!this.pather.Moving || this.pather.nextTile != this.pather.Destination || !Caravan_PathFollower.IsValidFinalPushDestination(this.pather.Destination) || Mathf.CeilToInt(this.pather.nextTileCostLeft / 1f) > 10000) && CaravanRestUtility.RestingNowAt(base.Tile);
+				return base.Spawned && (!this.pather.Moving || this.pather.nextTile != this.pather.Destination || !Caravan_PathFollower.IsValidFinalPushDestination(this.pather.Destination) || Mathf.CeilToInt(this.pather.nextTileCostLeft / 1f) > 10000) && CaravanRestUtility.RestingNowAt(base.Tile);
 			}
 		}
 
@@ -252,7 +254,7 @@ namespace RimWorld.Planet
 			get
 			{
 				int result;
-				if (!this.Resting)
+				if (!this.NightResting)
 				{
 					result = 0;
 				}
@@ -269,7 +271,7 @@ namespace RimWorld.Planet
 			get
 			{
 				int result;
-				if (this.Resting)
+				if (this.NightResting)
 				{
 					result = 0;
 				}
@@ -512,6 +514,14 @@ namespace RimWorld.Planet
 			{
 				this
 			});
+			Scribe_Deep.Look<Caravan_CarryTracker>(ref this.carryTracker, "carryTracker", new object[]
+			{
+				this
+			});
+			Scribe_Deep.Look<Caravan_BedsTracker>(ref this.beds, "beds", new object[]
+			{
+				this
+			});
 			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[]
 			{
 				this
@@ -525,6 +535,8 @@ namespace RimWorld.Planet
 		public override void PostAdd()
 		{
 			base.PostAdd();
+			this.carryTracker.Notify_CaravanSpawned();
+			this.beds.Notify_CaravanSpawned();
 			Find.ColonistBar.MarkColonistsDirty();
 		}
 
@@ -542,15 +554,11 @@ namespace RimWorld.Planet
 			this.pather.PatherTick();
 			this.tweener.TweenerTick();
 			this.forage.ForageTrackerTick();
+			this.carryTracker.CarryTrackerTick();
+			this.beds.BedsTrackerTick();
 			this.needs.NeedsTrackerTick();
-			if (this.IsHashIntervalTick(120))
-			{
-				CaravanDrugPolicyUtility.TryTakeScheduledDrugs(this);
-			}
-			if (this.IsHashIntervalTick(2000))
-			{
-				CaravanTendUtility.TryTendToRandomPawn(this);
-			}
+			CaravanDrugPolicyUtility.CheckTakeScheduledDrugs(this);
+			CaravanTendUtility.CheckTend(this);
 		}
 
 		public override void SpawnSetup()
@@ -808,20 +816,31 @@ namespace RimWorld.Planet
 					stringBuilder.Append(".");
 				}
 			}
-			if (this.Resting)
+			if (this.NightResting)
 			{
-				int bedCountUsedLastTick = this.needs.GetBedCountUsedLastTick();
-				string str = (bedCountUsedLastTick != 1) ? "UsingBedrolls".Translate(new object[]
-				{
-					bedCountUsedLastTick
-				}) : "UsingBedroll".Translate();
+				int usedBedCount = this.beds.GetUsedBedCount();
 				stringBuilder.AppendLine();
-				stringBuilder.Append("CaravanResting".Translate() + " (" + str + ")");
+				stringBuilder.Append(CaravanBedUtility.AppendUsingBedsLabel("CaravanResting".Translate(), usedBedCount));
 			}
-			else if (this.pather.Paused)
+			else
 			{
-				stringBuilder.AppendLine();
-				stringBuilder.Append("CaravanPaused".Translate());
+				if (this.pather.Paused)
+				{
+					stringBuilder.AppendLine();
+					stringBuilder.Append("CaravanPaused".Translate());
+				}
+				string inspectStringLine = this.carryTracker.GetInspectStringLine();
+				if (!inspectStringLine.NullOrEmpty())
+				{
+					stringBuilder.AppendLine();
+					stringBuilder.Append(inspectStringLine);
+				}
+				string inBedForMedicalReasonsInspectStringLine = this.beds.GetInBedForMedicalReasonsInspectStringLine();
+				if (!inBedForMedicalReasonsInspectStringLine.NullOrEmpty())
+				{
+					stringBuilder.AppendLine();
+					stringBuilder.Append(inBedForMedicalReasonsInspectStringLine);
+				}
 			}
 			return stringBuilder.ToString();
 		}
@@ -962,7 +981,7 @@ namespace RimWorld.Planet
 						where !x.Downed
 						select x).TryRandomElement(out pawn))
 						{
-							HealthUtility.DamageUntilDowned(pawn);
+							HealthUtility.DamageUntilDowned(pawn, true);
 							Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
 						}
 					}
@@ -1073,6 +1092,8 @@ namespace RimWorld.Planet
 			Find.ColonistBar.MarkColonistsDirty();
 			this.RecacheImmobilizedNow();
 			this.RecacheDaysWorthOfFood();
+			this.carryTracker.Notify_PawnRemoved();
+			this.beds.Notify_PawnRemoved();
 		}
 
 		public void Notify_PawnAdded(Pawn p)
@@ -1303,7 +1324,7 @@ namespace RimWorld.Planet
 						where !x.Downed
 						select x).TryRandomElement(out pawn))
 						{
-							HealthUtility.DamageUntilDowned(pawn);
+							HealthUtility.DamageUntilDowned(pawn, true);
 							Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
 						}
 					};
@@ -1744,7 +1765,7 @@ namespace RimWorld.Planet
 				where !x.Downed
 				select x).TryRandomElement(out pawn))
 				{
-					HealthUtility.DamageUntilDowned(pawn);
+					HealthUtility.DamageUntilDowned(pawn, true);
 					Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
 				}
 			}

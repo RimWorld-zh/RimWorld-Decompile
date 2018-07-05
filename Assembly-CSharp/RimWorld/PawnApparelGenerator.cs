@@ -361,7 +361,7 @@ namespace RimWorld
 		}
 
 		[DebugOutput]
-		internal static void ApparelPairs()
+		private static void ApparelPairs()
 		{
 			IEnumerable<ThingStuffPair> dataSources = from p in PawnApparelGenerator.allApparelPairs
 			orderby p.thing.defName descending
@@ -378,7 +378,7 @@ namespace RimWorld
 		}
 
 		[DebugOutput]
-		public static void ApparelPairsByThing()
+		private static void ApparelPairsByThing()
 		{
 			DebugOutputsGeneral.MakeTablePairsByThing(PawnApparelGenerator.allApparelPairs);
 		}

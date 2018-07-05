@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsEconomy
+	public static class DebugOutputsEconomy
 	{
 		[CompilerGenerated]
 		private static Func<RecipeDef, string> <>f__am$cache0;

@@ -68,25 +68,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		public static bool InCaravanBed(this Pawn p)
-		{
-			return p.CurrentCaravanBed() != null;
-		}
-
-		public static Building_Bed CurrentCaravanBed(this Pawn p)
-		{
-			Caravan caravan = p.GetCaravan();
-			Building_Bed result;
-			if (caravan == null || !caravan.Resting)
-			{
-				result = null;
-			}
-			else
-			{
-				result = caravan.needs.GetBedUsedLastTickBy(p);
-			}
-			return result;
-		}
 	}
 }

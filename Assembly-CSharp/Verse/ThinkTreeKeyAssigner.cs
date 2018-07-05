@@ -8,7 +8,7 @@ namespace Verse
 	{
 		private static HashSet<int> assignedKeys = new HashSet<int>();
 
-		internal static void Reset()
+		public static void Reset()
 		{
 			ThinkTreeKeyAssigner.assignedKeys.Clear();
 		}

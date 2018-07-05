@@ -9,7 +9,7 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	internal class RiverMaker
+	public class RiverMaker
 	{
 		private ModuleBase generator;
 

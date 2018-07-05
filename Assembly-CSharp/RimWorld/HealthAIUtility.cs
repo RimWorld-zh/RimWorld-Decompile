@@ -18,7 +18,7 @@ namespace RimWorld
 
 		public static bool ShouldSeekMedicalRest(Pawn pawn)
 		{
-			return HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) || pawn.health.hediffSet.HasTendedAndHealingInjury() || pawn.health.hediffSet.HasTendedImmunizableNotImmuneHediff();
+			return HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) || pawn.health.hediffSet.HasTendedAndHealingInjury() || pawn.health.hediffSet.HasImmunizableNotImmuneHediff();
 		}
 
 		public static bool ShouldBeTendedNowByPlayerUrgent(Pawn pawn)

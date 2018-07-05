@@ -4,7 +4,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	internal static class TrashUtility
+	public static class TrashUtility
 	{
 		private const float ChanceHateInertBuilding = 0.008f;
 

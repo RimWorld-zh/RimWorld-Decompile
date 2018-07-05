@@ -28,13 +28,9 @@ namespace RimWorld
 
 		public Pawn leader = null;
 
-		private FactionTacticalMemory tacticalMemoryInt = new FactionTacticalMemory();
-
 		public KidnappedPawnsTracker kidnapped;
 
 		private List<PredatorThreat> predatorThreats = new List<PredatorThreat>();
-
-		public Dictionary<Map, ByteGrid> avoidGridsBasic = new Dictionary<Map, ByteGrid>();
 
 		public Dictionary<Map, ByteGrid> avoidGridsSmart = new Dictionary<Map, ByteGrid>();
 
@@ -128,18 +124,6 @@ namespace RimWorld
 			}
 		}
 
-		public FactionTacticalMemory TacticalMemory
-		{
-			get
-			{
-				if (this.tacticalMemoryInt == null)
-				{
-					this.tacticalMemoryInt = new FactionTacticalMemory();
-				}
-				return this.tacticalMemoryInt;
-			}
-		}
-
 		public Color Color
 		{
 			get
@@ -160,7 +144,6 @@ namespace RimWorld
 		public void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.leader, "leader", false);
-			Scribe_Collections.Look<Map, ByteGrid>(ref this.avoidGridsBasic, "avoidGridsBasic", LookMode.Reference, LookMode.Deep, ref this.avoidGridsBasicKeysWorkingList, ref this.avoidGridsBasicValuesWorkingList);
 			Scribe_Collections.Look<Map, ByteGrid>(ref this.avoidGridsSmart, "avoidGridsSmart", LookMode.Reference, LookMode.Deep, ref this.avoidGridsSmartKeysWorkingList, ref this.avoidGridsSmartValuesWorkingList);
 			Scribe_Defs.Look<FactionDef>(ref this.def, "def");
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
@@ -169,7 +152,6 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.colorFromSpectrum, "colorFromSpectrum", 0f, false);
 			Scribe_Values.Look<float>(ref this.centralMelanin, "centralMelanin", 0f, false);
 			Scribe_Collections.Look<FactionRelation>(ref this.relations, "relations", LookMode.Deep, new object[0]);
-			Scribe_Deep.Look<FactionTacticalMemory>(ref this.tacticalMemoryInt, "tacticalMemory", new object[0]);
 			Scribe_Deep.Look<KidnappedPawnsTracker>(ref this.kidnapped, "kidnapped", new object[]
 			{
 				this
@@ -284,21 +266,6 @@ namespace RimWorld
 			}
 		}
 
-		public ByteGrid GetAvoidGridBasic(Map map)
-		{
-			ByteGrid byteGrid;
-			ByteGrid result;
-			if (this.avoidGridsBasic.TryGetValue(map, out byteGrid))
-			{
-				result = byteGrid;
-			}
-			else
-			{
-				result = null;
-			}
-			return result;
-		}
-
 		public ByteGrid GetAvoidGridSmart(Map map)
 		{
 			ByteGrid byteGrid;
@@ -316,9 +283,7 @@ namespace RimWorld
 
 		public void Notify_MapRemoved(Map map)
 		{
-			this.avoidGridsBasic.Remove(map);
 			this.avoidGridsSmart.Remove(map);
-			this.tacticalMemoryInt.Notify_MapRemoved(map);
 		}
 
 		public void TryMakeInitialRelationsWith(Faction other)

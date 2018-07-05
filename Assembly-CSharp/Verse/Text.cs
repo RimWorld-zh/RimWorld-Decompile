@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		internal static GUIStyle CurFontStyle
+		public static GUIStyle CurFontStyle
 		{
 			get
 			{
@@ -274,7 +274,7 @@ namespace Verse
 			return Text.CurFontStyle.CalcSize(Text.tmpTextGUIContent);
 		}
 
-		internal static void StartOfOnGUI()
+		public static void StartOfOnGUI()
 		{
 			if (!Text.WordWrap)
 			{

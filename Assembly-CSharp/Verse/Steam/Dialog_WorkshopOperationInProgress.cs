@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse.Steam
 {
-	internal class Dialog_WorkshopOperationInProgress : Window
+	public class Dialog_WorkshopOperationInProgress : Window
 	{
 		public Dialog_WorkshopOperationInProgress()
 		{

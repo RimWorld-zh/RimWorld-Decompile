@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -22,14 +23,15 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			Thing t = null;
+			List<Thing> list = new List<Thing>();
 			int num;
 			for (int i = Mathf.Max(GenMath.RoundRandom(parms.points / 250f), 1); i > 0; i -= num)
 			{
 				num = Mathf.Min(3, i);
-				t = this.SpawnTunnel(num, map);
+				Thing item = this.SpawnTunnel(num, map);
+				list.Add(item);
 			}
-			base.SendStandardLetter(t, null, new string[0]);
+			base.SendStandardLetter(list, null, new string[0]);
 			Find.TickManager.slower.SignalForceNormalSpeedShort();
 			return true;
 		}

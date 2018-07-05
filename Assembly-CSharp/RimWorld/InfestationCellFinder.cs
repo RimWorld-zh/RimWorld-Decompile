@@ -100,7 +100,7 @@ namespace RimWorld
 				{
 					result = 0f;
 				}
-				else if (InfestationCellFinder.closedAreaSize[cell] < 16)
+				else if (InfestationCellFinder.closedAreaSize[cell] < 2)
 				{
 					result = 0f;
 				}

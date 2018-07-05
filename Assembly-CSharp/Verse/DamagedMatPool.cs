@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	internal static class DamagedMatPool
+	public static class DamagedMatPool
 	{
 		private static Dictionary<Material, Material> damagedMats = new Dictionary<Material, Material>();
 

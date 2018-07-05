@@ -6,7 +6,7 @@ using Verse;
 namespace RimWorld
 {
 	[StaticConstructorOnStartup]
-	internal class Gizmo_RefuelableFuelStatus : Gizmo
+	public class Gizmo_RefuelableFuelStatus : Gizmo
 	{
 		public CompRefuelable refuelable;
 

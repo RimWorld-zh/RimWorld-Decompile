@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -27,7 +28,10 @@ namespace RimWorld
 		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
 		{
 			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
-			ManhunterPackGenStepUtility.TryGetAnimalsKind(siteCoreOrPartParams.threatPoints, site.Tile, out siteCoreOrPartParams.animalKind);
+			if (ManhunterPackGenStepUtility.TryGetAnimalsKind(siteCoreOrPartParams.threatPoints, site.Tile, out siteCoreOrPartParams.animalKind))
+			{
+				siteCoreOrPartParams.threatPoints = Mathf.Max(siteCoreOrPartParams.threatPoints, siteCoreOrPartParams.animalKind.combatPower);
+			}
 			return siteCoreOrPartParams;
 		}
 

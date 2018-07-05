@@ -8,7 +8,7 @@ using RimWorld;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsTextGen
+	public static class DebugOutputsTextGen
 	{
 		[CompilerGenerated]
 		private static Func<ManeuverDef, RulePackDef> <>f__am$cache0;

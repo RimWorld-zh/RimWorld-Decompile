@@ -13,7 +13,7 @@ using Verse;
 namespace RimWorld
 {
 	[HasDebugOutput]
-	internal static class AgeInjuryUtility
+	public static class AgeInjuryUtility
 	{
 		private const int MaxPermanentInjuryAge = 100;
 

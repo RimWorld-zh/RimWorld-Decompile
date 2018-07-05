@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsMisc
+	public static class DebugOutputsMisc
 	{
 		[CompilerGenerated]
 		private static Func<ThingDef, ThingDef> <>f__am$cache0;
@@ -1096,7 +1096,7 @@ namespace Verse
 		[ModeRestrictionPlay]
 		public static void FallColor()
 		{
-			GenPlant.LogFallColorForYear();
+			PlantUtility.LogFallColorForYear();
 		}
 
 		[DebugOutput]

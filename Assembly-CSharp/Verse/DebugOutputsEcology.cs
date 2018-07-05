@@ -7,7 +7,7 @@ using RimWorld;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsEcology
+	public static class DebugOutputsEcology
 	{
 		[CompilerGenerated]
 		private static Func<ThingDef, bool> <>f__am$cache0;
@@ -138,7 +138,7 @@ namespace Verse
 		[ModeRestrictionPlay]
 		public static void PlantCurrentProportions()
 		{
-			GenPlant.LogPlantProportions();
+			PlantUtility.LogPlantProportions();
 		}
 
 		[DebugOutput]

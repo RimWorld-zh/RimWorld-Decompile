@@ -629,6 +629,10 @@ namespace Verse
 					{
 						return "BiofuelRefinery";
 					}
+					if (defName == "PsychoidPekoe")
+					{
+						return "PsychiteTea";
+					}
 					if (defName == "PlantRose")
 					{
 						return "Plant_Rose";
@@ -867,6 +871,10 @@ namespace Verse
 					if (defName == "ScytherBlade")
 					{
 						return "PowerClaw";
+					}
+					if (defName == "PekoeHigh")
+					{
+						return "PsychiteTeaHigh";
 					}
 				}
 				else if (defType == typeof(ResearchProjectDef))
@@ -2166,6 +2174,14 @@ namespace Verse
 			if (caravan.needs == null)
 			{
 				caravan.needs = new Caravan_NeedsTracker(caravan);
+			}
+			if (caravan.carryTracker == null)
+			{
+				caravan.carryTracker = new Caravan_CarryTracker(caravan);
+			}
+			if (caravan.beds == null)
+			{
+				caravan.beds = new Caravan_BedsTracker(caravan);
 			}
 		}
 

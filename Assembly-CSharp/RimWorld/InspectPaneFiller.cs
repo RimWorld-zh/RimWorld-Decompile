@@ -6,7 +6,7 @@ using Verse;
 namespace RimWorld
 {
 	[StaticConstructorOnStartup]
-	internal class InspectPaneFiller
+	public class InspectPaneFiller
 	{
 		private const float BarHeight = 16f;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	internal static class SectionLayerGeometryMaker_Solid
+	public static class SectionLayerGeometryMaker_Solid
 	{
 		public static void MakeBaseGeometry(Section section, LayerSubMesh sm, AltitudeLayer altitudeLayer)
 		{

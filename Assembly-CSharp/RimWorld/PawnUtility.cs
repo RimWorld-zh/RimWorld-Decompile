@@ -290,11 +290,19 @@ namespace RimWorld
 				Building edifice = p.Position.GetEdifice(p.Map);
 				if (edifice != null)
 				{
-					float statValue = edifice.GetStatValue(StatDefOf.Comfort, true);
-					if (statValue >= 0f && p.needs != null && p.needs.comfort != null)
-					{
-						p.needs.comfort.ComfortUsed(statValue);
-					}
+					PawnUtility.GainComfortFromThingIfPossible(p, edifice);
+				}
+			}
+		}
+
+		public static void GainComfortFromThingIfPossible(Pawn p, Thing from)
+		{
+			if (Find.TickManager.TicksGame % 10 == 0)
+			{
+				float statValue = from.GetStatValue(StatDefOf.Comfort, true);
+				if (statValue >= 0f && p.needs != null && p.needs.comfort != null)
+				{
+					p.needs.comfort.ComfortUsed(statValue);
 				}
 			}
 		}
@@ -451,16 +459,12 @@ namespace RimWorld
 					{
 						return null;
 					}
-					if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Basic)
-					{
-						return p.Faction.GetAvoidGridBasic(p.Map);
-					}
 					if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Smart)
 					{
 						return p.Faction.GetAvoidGridSmart(p.Map);
 					}
 				}
-				result = p.Faction.GetAvoidGridBasic(p.Map);
+				result = null;
 			}
 			return result;
 		}

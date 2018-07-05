@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	internal class Reservation : IExposable
+	public class Reservation : IExposable
 	{
 		private Pawn claimant;
 

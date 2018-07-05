@@ -11,14 +11,14 @@ namespace Verse
 {
 	public class ResearchProjectDef : Def
 	{
+		public float baseCost = 100f;
+
+		public List<ResearchProjectDef> prerequisites = null;
+
 		public TechLevel techLevel = TechLevel.Undefined;
 
 		[MustTranslate]
 		private string descriptionDiscovered = null;
-
-		public float baseCost = 100f;
-
-		public List<ResearchProjectDef> prerequisites = null;
 
 		public List<ResearchProjectDef> requiredByThis = null;
 
@@ -44,6 +44,8 @@ namespace Verse
 
 		[Unsaved]
 		private bool positionModified = false;
+
+		public const TechLevel MaxEffectiveTechLevel = TechLevel.Industrial;
 
 		public ResearchProjectDef()
 		{
@@ -215,14 +217,15 @@ namespace Verse
 
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
+			TechLevel techLevel = (TechLevel)Mathf.Min((int)this.techLevel, 4);
 			float result;
-			if (researcherTechLevel >= this.techLevel)
+			if (researcherTechLevel >= techLevel)
 			{
 				result = 1f;
 			}
 			else
 			{
-				int num = (int)(this.techLevel - researcherTechLevel);
+				int num = (int)(techLevel - researcherTechLevel);
 				result = 1f + (float)num;
 			}
 			return result;

@@ -53,7 +53,7 @@ namespace RimWorld.Planet
 				float num = 0f;
 				for (int i = 0; i < pawns.Count; i++)
 				{
-					float num2 = (float)((!pawns[i].Downed) ? pawns[i].TicksPerMoveCardinal : 450);
+					float num2 = (float)((!pawns[i].Downed && !pawns[i].CarriedByCaravan()) ? pawns[i].TicksPerMoveCardinal : 450);
 					num2 = Mathf.Min(num2, 150f) * 380f;
 					float num3 = 60000f / num2;
 					if (explanation != null)
@@ -71,6 +71,10 @@ namespace RimWorld.Planet
 						if (pawns[i].Downed)
 						{
 							explanation.Append(" (" + "DownedLower".Translate() + ")");
+						}
+						else if (pawns[i].CarriedByCaravan())
+						{
+							explanation.Append(" (" + "Carried".Translate() + ")");
 						}
 					}
 					num += num2 / (float)pawns.Count;

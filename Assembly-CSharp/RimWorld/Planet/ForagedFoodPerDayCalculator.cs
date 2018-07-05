@@ -152,7 +152,7 @@ namespace RimWorld.Planet
 		public static float GetBaseForagedNutritionPerDay(Pawn p, out bool skip)
 		{
 			float result;
-			if (!p.IsFreeColonist || p.InMentalState || p.Downed)
+			if (!p.IsFreeColonist || p.InMentalState || p.Downed || p.CarriedByCaravan())
 			{
 				skip = true;
 				result = 0f;
@@ -167,12 +167,12 @@ namespace RimWorld.Planet
 
 		public static Pair<ThingDef, float> ForagedFoodPerDay(Caravan caravan, StringBuilder explanation = null)
 		{
-			return ForagedFoodPerDayCalculator.ForagedFoodPerDay(caravan.PawnsListForReading, caravan.Biome, caravan.Faction, caravan.pather.MovingNow, caravan.Resting, explanation);
+			return ForagedFoodPerDayCalculator.ForagedFoodPerDay(caravan.PawnsListForReading, caravan.Biome, caravan.Faction, caravan.pather.MovingNow, caravan.NightResting, explanation);
 		}
 
 		public static float GetProgressPerTick(Caravan caravan, StringBuilder explanation = null)
 		{
-			return ForagedFoodPerDayCalculator.GetProgressPerTick(caravan.pather.MovingNow, caravan.Resting, explanation);
+			return ForagedFoodPerDayCalculator.GetProgressPerTick(caravan.pather.MovingNow, caravan.NightResting, explanation);
 		}
 
 		public static float GetForagedFoodCountPerInterval(Caravan caravan, StringBuilder explanation = null)

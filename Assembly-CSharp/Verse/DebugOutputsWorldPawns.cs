@@ -8,7 +8,7 @@ using RimWorld.Planet;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal class DebugOutputsWorldPawns
+	public class DebugOutputsWorldPawns
 	{
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__am$cache0;

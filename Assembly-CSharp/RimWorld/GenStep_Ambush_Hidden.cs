@@ -24,9 +24,9 @@ namespace RimWorld
 			return rectTrigger;
 		}
 
-		protected override SignalAction_Ambush MakeAmbushSignalAction(CellRect rectToDefend, IntVec3 root)
+		protected override SignalAction_Ambush MakeAmbushSignalAction(CellRect rectToDefend, IntVec3 root, GenStepParams parms)
 		{
-			SignalAction_Ambush signalAction_Ambush = base.MakeAmbushSignalAction(rectToDefend, root);
+			SignalAction_Ambush signalAction_Ambush = base.MakeAmbushSignalAction(rectToDefend, root, parms);
 			if (root.IsValid)
 			{
 				signalAction_Ambush.spawnNear = root;

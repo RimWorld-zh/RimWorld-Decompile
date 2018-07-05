@@ -82,7 +82,7 @@ namespace Verse
 			ModsConfig.Save();
 		}
 
-		internal static void Reorder(int modIndex, int newIndex)
+		public static void Reorder(int modIndex, int newIndex)
 		{
 			if (modIndex != newIndex)
 			{

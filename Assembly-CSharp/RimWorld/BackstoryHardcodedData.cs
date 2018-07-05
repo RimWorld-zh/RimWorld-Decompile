@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal static class BackstoryHardcodedData
+	public static class BackstoryHardcodedData
 	{
 		public static void InjectHardcodedData(Backstory bs)
 		{

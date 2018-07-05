@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal static class InspectGizmoGrid
+	public static class InspectGizmoGrid
 	{
 		private static List<object> objList = new List<object>();
 

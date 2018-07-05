@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
@@ -9,24 +10,9 @@ namespace RimWorld.Planet
 	{
 		public Caravan caravan;
 
-		private Dictionary<Pawn, Building_Bed> bedsUsedLastTick = new Dictionary<Pawn, Building_Bed>();
-
-		private List<Pawn> tmpPawnsSaving;
-
-		private List<Building_Bed> tmpBedsSaving;
-
-		private static List<Building_Bed> tmpUsableBeds = new List<Building_Bed>();
+		private static List<JoyKindDef> tmpAvailableJoyKinds = new List<JoyKindDef>();
 
 		private static List<Thing> tmpInvFood = new List<Thing>();
-
-		[CompilerGenerated]
-		private static Predicate<KeyValuePair<Pawn, Building_Bed>> <>f__am$cache0;
-
-		[CompilerGenerated]
-		private static Predicate<KeyValuePair<Pawn, Building_Bed>> <>f__am$cache1;
-
-		[CompilerGenerated]
-		private static Func<Building_Bed, float> <>f__am$cache2;
 
 		public Caravan_NeedsTracker()
 		{
@@ -39,15 +25,6 @@ namespace RimWorld.Planet
 
 		public void ExposeData()
 		{
-			if (Scribe.mode == LoadSaveMode.Saving)
-			{
-				this.bedsUsedLastTick.RemoveAll((KeyValuePair<Pawn, Building_Bed> x) => x.Key.Destroyed || x.Value.DestroyedOrNull());
-			}
-			Scribe_Collections.Look<Pawn, Building_Bed>(ref this.bedsUsedLastTick, "bedsUsedLastTick", LookMode.Reference, LookMode.Reference, ref this.tmpPawnsSaving, ref this.tmpBedsSaving);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
-			{
-				this.bedsUsedLastTick.RemoveAll((KeyValuePair<Pawn, Building_Bed> x) => x.Value.DestroyedOrNull());
-			}
 		}
 
 		public void NeedsTrackerTick()
@@ -57,16 +34,14 @@ namespace RimWorld.Planet
 
 		public void TrySatisfyPawnsNeeds()
 		{
-			this.bedsUsedLastTick.Clear();
-			this.GetUsableBeds(Caravan_NeedsTracker.tmpUsableBeds, true);
 			List<Pawn> pawnsListForReading = this.caravan.PawnsListForReading;
 			for (int i = pawnsListForReading.Count - 1; i >= 0; i--)
 			{
-				this.TrySatisfyPawnNeeds(pawnsListForReading[i], Caravan_NeedsTracker.tmpUsableBeds);
+				this.TrySatisfyPawnNeeds(pawnsListForReading[i]);
 			}
 		}
 
-		private void TrySatisfyPawnNeeds(Pawn pawn, List<Building_Bed> usableBeds)
+		private void TrySatisfyPawnNeeds(Pawn pawn)
 		{
 			if (!pawn.Dead)
 			{
@@ -80,7 +55,7 @@ namespace RimWorld.Planet
 					Need_Joy need_Joy = need as Need_Joy;
 					if (need_Rest != null)
 					{
-						this.TrySatisfyRestNeed(pawn, need_Rest, usableBeds);
+						this.TrySatisfyRestNeed(pawn, need_Rest);
 					}
 					else if (need_Food != null)
 					{
@@ -98,22 +73,12 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private void TrySatisfyRestNeed(Pawn pawn, Need_Rest rest, List<Building_Bed> usableBeds)
+		private void TrySatisfyRestNeed(Pawn pawn, Need_Rest rest)
 		{
-			if (this.caravan.Resting)
+			if (this.caravan.NightResting)
 			{
-				Building_Bed building_Bed = null;
-				for (int i = 0; i < usableBeds.Count; i++)
-				{
-					if (RestUtility.CanUseBedEver(pawn, usableBeds[i].def))
-					{
-						building_Bed = usableBeds[i];
-						this.bedsUsedLastTick.Add(pawn, building_Bed);
-						usableBeds.RemoveAt(i);
-						break;
-					}
-				}
-				float restEffectiveness = (building_Bed == null) ? 0.8f : building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
+				Building_Bed bedUsedBy = this.caravan.beds.GetBedUsedBy(pawn);
+				float restEffectiveness = (bedUsedBy == null) ? 0.8f : bedUsedBy.GetStatValue(StatDefOf.BedRestEffectiveness, true);
 				rest.TickResting(restEffectiveness);
 			}
 		}
@@ -190,16 +155,14 @@ namespace RimWorld.Planet
 				if (num > 0f)
 				{
 					num *= 1250f;
-					int num2 = 0;
-					for (int i = 0; i < this.caravan.pawns.Count; i++)
+					Caravan_NeedsTracker.tmpAvailableJoyKinds.Clear();
+					this.GetAvailableJoyKindsFor(pawn, Caravan_NeedsTracker.tmpAvailableJoyKinds);
+					JoyKindDef joyKind;
+					if (Caravan_NeedsTracker.tmpAvailableJoyKinds.TryRandomElementByWeight((JoyKindDef x) => 1f - Mathf.Clamp01(pawn.needs.joy.tolerances[x]), out joyKind))
 					{
-						if (this.caravan.pawns[i].RaceProps.Humanlike && !this.caravan.pawns[i].Downed && !this.caravan.pawns[i].InMentalState)
-						{
-							num2++;
-						}
+						joy.GainJoy(num, joyKind);
+						Caravan_NeedsTracker.tmpAvailableJoyKinds.Clear();
 					}
-					JoyKindDef joyKind = (num2 < 2) ? JoyKindDefOf.Meditative : Rand.Element<JoyKindDef>(JoyKindDefOf.Social, JoyKindDefOf.Meditative);
-					joy.GainJoy(num, joyKind);
 				}
 			}
 		}
@@ -216,30 +179,6 @@ namespace RimWorld.Planet
 				result = 3.2E-05f;
 			}
 			return result;
-		}
-
-		public Building_Bed GetBedUsedLastTickBy(Pawn p)
-		{
-			Building_Bed result;
-			Building_Bed building_Bed;
-			if (!this.caravan.pawns.Contains(p))
-			{
-				result = null;
-			}
-			else if (this.bedsUsedLastTick.TryGetValue(p, out building_Bed) && !building_Bed.DestroyedOrNull())
-			{
-				result = building_Bed;
-			}
-			else
-			{
-				result = null;
-			}
-			return result;
-		}
-
-		public int GetBedCountUsedLastTick()
-		{
-			return this.bedsUsedLastTick.Count;
 		}
 
 		public bool AnyPawnOutOfFood(out string malnutritionHediff)
@@ -292,27 +231,27 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		private void GetUsableBeds(List<Building_Bed> outBeds, bool sort)
+		private void GetAvailableJoyKindsFor(Pawn p, List<JoyKindDef> outJoyKinds)
 		{
-			outBeds.Clear();
-			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(this.caravan);
-			for (int i = 0; i < list.Count; i++)
+			outJoyKinds.Clear();
+			if (!p.needs.joy.tolerances.BoredOf(JoyKindDefOf.Meditative))
 			{
-				Building_Bed building_Bed = list[i].GetInnerIfMinified() as Building_Bed;
-				if (building_Bed != null && building_Bed.def.building.bed_caravansCanUse)
+				outJoyKinds.Add(JoyKindDefOf.Meditative);
+			}
+			if (!p.needs.joy.tolerances.BoredOf(JoyKindDefOf.Social))
+			{
+				int num = 0;
+				for (int i = 0; i < this.caravan.pawns.Count; i++)
 				{
-					for (int j = 0; j < list[i].stackCount; j++)
+					if (this.caravan.pawns[i].RaceProps.Humanlike && !this.caravan.pawns[i].Downed && !this.caravan.pawns[i].InMentalState)
 					{
-						for (int k = 0; k < building_Bed.SleepingSlotsCount; k++)
-						{
-							outBeds.Add(building_Bed);
-						}
+						num++;
 					}
 				}
-			}
-			if (sort)
-			{
-				outBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.BedRestEffectiveness, true));
+				if (num >= 2)
+				{
+					outJoyKinds.Add(JoyKindDefOf.Social);
+				}
 			}
 		}
 
@@ -322,21 +261,18 @@ namespace RimWorld.Planet
 		}
 
 		[CompilerGenerated]
-		private static bool <ExposeData>m__0(KeyValuePair<Pawn, Building_Bed> x)
+		private sealed class <TrySatisfyJoyNeed>c__AnonStorey0
 		{
-			return x.Key.Destroyed || x.Value.DestroyedOrNull();
-		}
+			internal Pawn pawn;
 
-		[CompilerGenerated]
-		private static bool <ExposeData>m__1(KeyValuePair<Pawn, Building_Bed> x)
-		{
-			return x.Value.DestroyedOrNull();
-		}
+			public <TrySatisfyJoyNeed>c__AnonStorey0()
+			{
+			}
 
-		[CompilerGenerated]
-		private static float <GetUsableBeds>m__2(Building_Bed x)
-		{
-			return x.GetStatValue(StatDefOf.BedRestEffectiveness, true);
+			internal float <>m__0(JoyKindDef x)
+			{
+				return 1f - Mathf.Clamp01(this.pawn.needs.joy.tolerances[x]);
+			}
 		}
 	}
 }

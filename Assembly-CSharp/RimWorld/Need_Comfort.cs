@@ -38,11 +38,7 @@ namespace RimWorld
 			get
 			{
 				float result;
-				if (!this.pawn.Spawned)
-				{
-					result = 0.5f;
-				}
-				else if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
+				if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
 				{
 					result = Mathf.Clamp01(this.lastComfortUsed);
 				}

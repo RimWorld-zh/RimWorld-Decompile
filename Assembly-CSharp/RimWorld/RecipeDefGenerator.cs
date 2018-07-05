@@ -9,7 +9,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal static class RecipeDefGenerator
+	public static class RecipeDefGenerator
 	{
 		public static IEnumerable<RecipeDef> ImpliedRecipeDefs()
 		{

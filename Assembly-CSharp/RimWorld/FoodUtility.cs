@@ -642,6 +642,10 @@ namespace RimWorld
 			{
 				result = false;
 			}
+			else if (predator.RaceProps.Animal && prey.RaceProps.Humanlike)
+			{
+				result = false;
+			}
 			else if (!prey.RaceProps.IsFlesh)
 			{
 				result = false;

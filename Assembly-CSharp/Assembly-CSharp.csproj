@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC6EC42C-B036-4F1E-9B2E-293C894F1951}</ProjectGuid>
+    <ProjectGuid>{396890E6-CA68-42CC-A319-402F27DBE5A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -169,6 +169,7 @@
     <Compile Include="RimWorld\Autotests_ColonyMaker.cs" />
     <Compile Include="RimWorld\Autotests_RandomNumbers.cs" />
     <Compile Include="RimWorld\AutoUndrafter.cs" />
+    <Compile Include="RimWorld\AvoidGridTuning.cs" />
     <Compile Include="RimWorld\Backstory.cs" />
     <Compile Include="RimWorld\BackstoryDatabase.cs" />
     <Compile Include="RimWorld\BackstoryHardcodedData.cs" />
@@ -645,7 +646,6 @@
     <Compile Include="RimWorld\FactionRelation.cs" />
     <Compile Include="RimWorld\FactionRelationKind.cs" />
     <Compile Include="RimWorld\FactionRelationKindUtility.cs" />
-    <Compile Include="RimWorld\FactionTacticalMemory.cs" />
     <Compile Include="RimWorld\FactionUIUtility.cs" />
     <Compile Include="RimWorld\FactionUtility.cs" />
     <Compile Include="RimWorld\FeatureDef.cs" />
@@ -709,7 +709,6 @@
     <Compile Include="RimWorld\GenLabel.cs" />
     <Compile Include="RimWorld\GenLeaving.cs" />
     <Compile Include="RimWorld\GenLocalDate.cs" />
-    <Compile Include="RimWorld\GenPlant.cs" />
     <Compile Include="RimWorld\GenStepDefOf.cs" />
     <Compile Include="RimWorld\GenStep_Ambush.cs" />
     <Compile Include="RimWorld\GenStep_Ambush_Edge.cs" />
@@ -1551,6 +1550,8 @@
     <Compile Include="RimWorld\Planet\CaravanArrivalAction_VisitSettlement.cs" />
     <Compile Include="RimWorld\Planet\CaravanArrivalAction_VisitSite.cs" />
     <Compile Include="RimWorld\Planet\CaravanArrivalTimeEstimator.cs" />
+    <Compile Include="RimWorld\Planet\CaravanBedUtility.cs" />
+    <Compile Include="RimWorld\Planet\CaravanCarryUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravanDropInventoryMode.cs" />
     <Compile Include="RimWorld\Planet\CaravanDrugPolicyUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravanEnterMapUtility.cs" />
@@ -1575,6 +1576,8 @@
     <Compile Include="RimWorld\Planet\CaravanUtility.cs" />
     <Compile Include="RimWorld\Planet\CaravanVisibilityCalculator.cs" />
     <Compile Include="RimWorld\Planet\CaravanVisitUtility.cs" />
+    <Compile Include="RimWorld\Planet\Caravan_BedsTracker.cs" />
+    <Compile Include="RimWorld\Planet\Caravan_CarryTracker.cs" />
     <Compile Include="RimWorld\Planet\Caravan_ForageTracker.cs" />
     <Compile Include="RimWorld\Planet\Caravan_GotoMoteRenderer.cs" />
     <Compile Include="RimWorld\Planet\Caravan_NeedsTracker.cs" />
@@ -1650,6 +1653,7 @@
     <Compile Include="RimWorld\Planet\SiteMaker.cs" />
     <Compile Include="RimWorld\Planet\SiteMakerHelper.cs" />
     <Compile Include="RimWorld\Planet\SitePart.cs" />
+    <Compile Include="RimWorld\Planet\SitePartWorker_Ambush.cs" />
     <Compile Include="RimWorld\Planet\SphereGenerator.cs" />
     <Compile Include="RimWorld\Planet\Tile.cs" />
     <Compile Include="RimWorld\Planet\TileFinder.cs" />
@@ -1762,11 +1766,13 @@
     <Compile Include="RimWorld\Planet\WorldTerrainColliderManager.cs" />
     <Compile Include="RimWorld\Plant.cs" />
     <Compile Include="RimWorld\PlantBiomeRecord.cs" />
+    <Compile Include="RimWorld\PlantFallColors.cs" />
     <Compile Include="RimWorld\PlantLifeStage.cs" />
     <Compile Include="RimWorld\PlantPosIndices.cs" />
     <Compile Include="RimWorld\PlantProperties.cs" />
     <Compile Include="RimWorld\PlantPurpose.cs" />
     <Compile Include="RimWorld\PlantToGrowSettableUtility.cs" />
+    <Compile Include="RimWorld\PlantUtility.cs" />
     <Compile Include="RimWorld\PlayerItemAccessibilityUtility.cs" />
     <Compile Include="RimWorld\PlayerKnowledgeDatabase.cs" />
     <Compile Include="RimWorld\PlayerPawnsArriveMethod.cs" />
@@ -1961,6 +1967,7 @@
     <Compile Include="RimWorld\SiegeBlueprintPlacer.cs" />
     <Compile Include="RimWorld\Signal.cs" />
     <Compile Include="RimWorld\SignalAction.cs" />
+    <Compile Include="RimWorld\SignalActionAmbushType.cs" />
     <Compile Include="RimWorld\SignalAction_Ambush.cs" />
     <Compile Include="RimWorld\SignalAction_Letter.cs" />
     <Compile Include="RimWorld\SignalManager.cs" />
@@ -2410,7 +2417,6 @@
     <Compile Include="RimWorld\TransferableUtility.cs" />
     <Compile Include="RimWorld\TransferAsOneMode.cs" />
     <Compile Include="RimWorld\TransporterUtility.cs" />
-    <Compile Include="RimWorld\TrapMemory.cs" />
     <Compile Include="RimWorld\TrashUtility.cs" />
     <Compile Include="RimWorld\TriggerData_FractionColonyDamageTaken.cs" />
     <Compile Include="RimWorld\TriggerData_PawnCycleInd.cs" />
@@ -2574,7 +2580,6 @@
     <Compile Include="Verse\AI\AttackTargetReservationManager.cs" />
     <Compile Include="Verse\AI\AttackTargetsCache.cs" />
     <Compile Include="Verse\AI\AvoidGridMaker.cs" />
-    <Compile Include="Verse\AI\AvoidGridTunings.cs" />
     <Compile Include="Verse\AI\CastPositionFinder.cs" />
     <Compile Include="Verse\AI\CastPositionRequest.cs" />
     <Compile Include="Verse\AI\CorpseObsessionMentalStateUtility.cs" />
@@ -2781,6 +2786,7 @@
     <Compile Include="Verse\AI\ThinkNodePriority.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Constant.cs" />
+    <Compile Include="Verse\AI\ThinkNode_ChancePerHour_InsectDigChance.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Lovin.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Mate.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Nuzzle.cs" />
@@ -3997,7 +4003,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{bc6ec42c-b036-4f1e-9b2e-293c894f1952}</Project>
+      <Project>{396890e6-ca68-42cc-a319-402f27dbe5a8}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

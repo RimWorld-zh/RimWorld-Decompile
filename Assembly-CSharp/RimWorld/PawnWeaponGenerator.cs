@@ -173,7 +173,7 @@ namespace RimWorld
 		}
 
 		[DebugOutput]
-		internal static void WeaponPairs()
+		private static void WeaponPairs()
 		{
 			IEnumerable<ThingStuffPair> dataSources = from p in PawnWeaponGenerator.allWeaponPairs
 			orderby p.thing.defName descending
@@ -190,7 +190,7 @@ namespace RimWorld
 		}
 
 		[DebugOutput]
-		internal static void WeaponPairsByThing()
+		private static void WeaponPairsByThing()
 		{
 			DebugOutputsGeneral.MakeTablePairsByThing(PawnWeaponGenerator.allWeaponPairs);
 		}

@@ -9,7 +9,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal static class TerrainDefGenerator_Stone
+	public static class TerrainDefGenerator_Stone
 	{
 		public static IEnumerable<TerrainDef> ImpliedTerrainDefs()
 		{

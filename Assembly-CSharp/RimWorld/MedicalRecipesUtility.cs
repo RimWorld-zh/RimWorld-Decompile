@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal class MedicalRecipesUtility
+	public class MedicalRecipesUtility
 	{
 		public MedicalRecipesUtility()
 		{

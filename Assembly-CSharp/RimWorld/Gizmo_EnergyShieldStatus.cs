@@ -6,7 +6,7 @@ using Verse;
 namespace RimWorld
 {
 	[StaticConstructorOnStartup]
-	internal class Gizmo_EnergyShieldStatus : Gizmo
+	public class Gizmo_EnergyShieldStatus : Gizmo
 	{
 		public ShieldBelt shield;
 

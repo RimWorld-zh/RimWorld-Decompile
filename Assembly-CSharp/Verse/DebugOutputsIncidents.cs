@@ -9,7 +9,7 @@ using RimWorld.Planet;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsIncidents
+	public static class DebugOutputsIncidents
 	{
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache0;

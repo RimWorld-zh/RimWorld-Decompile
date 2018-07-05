@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsGeneral
+	public static class DebugOutputsGeneral
 	{
 		[CompilerGenerated]
 		private static Func<ThingDef, int> <>f__am$cache0;

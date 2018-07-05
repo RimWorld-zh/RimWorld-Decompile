@@ -258,16 +258,16 @@ namespace Verse
 		private static Action <>f__am$cache4D;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache4E;
+		private static Action<Pawn> <>f__am$cache4E;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache4F;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache50;
+		private static Action <>f__am$cache50;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache51;
+		private static Action<Pawn> <>f__am$cache51;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache52;
@@ -276,10 +276,10 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache53;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache54;
+		private static Action <>f__am$cache54;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache55;
+		private static Action<Pawn> <>f__am$cache55;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache56;
@@ -291,13 +291,13 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache58;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache59;
+		private static Action <>f__am$cache59;
 
 		[CompilerGenerated]
 		private static Action <>f__am$cache5A;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache5B;
+		private static Action<Pawn> <>f__am$cache5B;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache5C;
@@ -327,10 +327,10 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache64;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache65;
+		private static Action <>f__am$cache65;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache66;
+		private static Action<Pawn> <>f__am$cache66;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache67;
@@ -342,10 +342,10 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache69;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache6A;
+		private static Action <>f__am$cache6A;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache6B;
+		private static Action<Pawn> <>f__am$cache6B;
 
 		[CompilerGenerated]
 		private static Action<Pawn> <>f__am$cache6C;
@@ -360,7 +360,7 @@ namespace Verse
 		private static Action<Pawn> <>f__am$cache6F;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cache70;
+		private static Action <>f__am$cache70;
 
 		[CompilerGenerated]
 		private static Action <>f__am$cache71;
@@ -456,82 +456,82 @@ namespace Verse
 		private static Action <>f__am$cache8F;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache90;
+		private static Func<Thing, bool> <>f__am$cache90;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cache91;
+		private static Func<PawnKindDef, bool> <>f__am$cache91;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache92;
+		private static Predicate<int> <>f__am$cache92;
 
 		[CompilerGenerated]
-		private static Predicate<int> <>f__am$cache93;
+		private static Func<StorytellerComp, bool> <>f__am$cache93;
 
 		[CompilerGenerated]
-		private static Func<StorytellerComp, bool> <>f__am$cache94;
+		private static Func<SoundDef, bool> <>f__am$cache94;
 
 		[CompilerGenerated]
-		private static Func<SoundDef, bool> <>f__am$cache95;
+		private static Func<LordToil, bool> <>f__am$cache95;
 
 		[CompilerGenerated]
-		private static Func<LordToil, bool> <>f__am$cache96;
+		private static Action <>f__am$cache96;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache97;
+		private static Func<Faction, bool> <>f__am$cache97;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cache98;
+		private static Func<RuleDef, string> <>f__am$cache98;
 
 		[CompilerGenerated]
-		private static Func<RuleDef, string> <>f__am$cache99;
+		private static Action<bool> <>f__am$cache99;
 
 		[CompilerGenerated]
-		private static Action<bool> <>f__am$cache9A;
+		private static Func<BodyPartRecord, bool> <>f__am$cache9A;
 
 		[CompilerGenerated]
 		private static Func<BodyPartRecord, bool> <>f__am$cache9B;
 
 		[CompilerGenerated]
-		private static Func<BodyPartRecord, bool> <>f__am$cache9C;
+		private static Func<Hediff_Injury, bool> <>f__am$cache9C;
 
 		[CompilerGenerated]
-		private static Func<Hediff_Injury, bool> <>f__am$cache9D;
+		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9D;
 
 		[CompilerGenerated]
-		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9E;
+		private static Func<HediffStage, bool> <>f__am$cache9E;
 
 		[CompilerGenerated]
-		private static Func<HediffStage, bool> <>f__am$cache9F;
+		private static Func<VerbEntry, string> <>f__am$cache9F;
 
 		[CompilerGenerated]
-		private static Func<VerbEntry, string> <>f__am$cacheA0;
+		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA0;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA1;
+		private static Func<Thing, bool> <>f__am$cacheA1;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheA2;
+		private static Func<Pawn, bool> <>f__am$cacheA2;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cacheA3;
+		private static Func<PawnKindDef, string> <>f__am$cacheA3;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheA4;
+		private static Func<ThingDef, bool> <>f__am$cacheA4;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA5;
+		private static Func<ThingDef, string> <>f__am$cacheA5;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA6;
+		private static Func<ThingDef, bool> <>f__am$cacheA6;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA7;
+		private static Func<ThingDef, string> <>f__am$cacheA7;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA8;
+		private static Action<Pawn> <>f__am$cacheA8;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cacheA9;
+		private static Predicate<IntVec3> <>f__am$cacheA9;
 
 		[CompilerGenerated]
 		private static Predicate<IntVec3> <>f__am$cacheAA;
@@ -543,34 +543,31 @@ namespace Verse
 		private static Predicate<IntVec3> <>f__am$cacheAC;
 
 		[CompilerGenerated]
-		private static Predicate<IntVec3> <>f__am$cacheAD;
+		private static Func<PawnKindDef, string> <>f__am$cacheAD;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheAE;
+		private static Func<PawnKindDef, bool> <>f__am$cacheAE;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheAF;
+		private static Func<ToolCapacityDef, bool> <>f__am$cacheAF;
 
 		[CompilerGenerated]
-		private static Func<ToolCapacityDef, bool> <>f__am$cacheB0;
+		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB0;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB1;
+		private static Func<ThingDef, bool> <>f__am$cacheB1;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheB2;
+		private static Func<PawnKindDef, bool> <>f__am$cacheB2;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheB3;
+		private static Func<Faction, bool> <>f__am$cacheB3;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cacheB4;
+		private static Func<Thing, bool> <>f__am$cacheB4;
 
 		[CompilerGenerated]
 		private static Func<Thing, bool> <>f__am$cacheB5;
-
-		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheB6;
 
 		public Dialog_DebugActionsMenu()
 		{
@@ -1452,14 +1449,6 @@ namespace Verse
 					}
 				}
 			});
-			base.DebugToolMap("T: Add trap memory", delegate
-			{
-				foreach (Faction faction in Find.World.factionManager.AllFactions)
-				{
-					faction.TacticalMemory.TrapRevealed(UI.MouseCell(), Find.CurrentMap);
-				}
-				Find.CurrentMap.debugDrawer.FlashCell(UI.MouseCell(), 0f, "added", 50);
-			});
 			base.DebugToolMap("T: Test flood unfog", delegate
 			{
 				FloodFillerFog.DebugFloodUnfog(UI.MouseCell(), Find.CurrentMap);
@@ -1629,11 +1618,11 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Damage to down", delegate(Pawn p)
 			{
-				HealthUtility.DamageUntilDowned(p);
+				HealthUtility.DamageUntilDowned(p, true);
 			});
 			base.DebugToolMapForPawns("T: Damage legs", delegate(Pawn p)
 			{
-				HealthUtility.DamageLegsUntilIncapableOfMoving(p);
+				HealthUtility.DamageLegsUntilIncapableOfMoving(p, true);
 			});
 			base.DebugToolMapForPawns("T: Damage to death", delegate(Pawn p)
 			{
@@ -2641,7 +2630,7 @@ namespace Verse
 					PawnKindDef random = DefDatabase<PawnKindDef>.GetRandom();
 					Pawn pawn = PawnGenerator.GeneratePawn(random, FactionUtility.DefaultFactionFrom(random.defaultFactionType));
 					GenSpawn.Spawn(pawn, CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(Find.CurrentMap), Find.CurrentMap, 1000), Find.CurrentMap, WipeMode.Vanish);
-					HealthUtility.DamageUntilDowned(pawn);
+					HealthUtility.DamageUntilDowned(pawn, true);
 					if (pawn.Dead)
 					{
 						Log.Error(string.Concat(new object[]
@@ -4229,34 +4218,24 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__4B()
 		{
-			foreach (Faction faction in Find.World.factionManager.AllFactions)
-			{
-				faction.TacticalMemory.TrapRevealed(UI.MouseCell(), Find.CurrentMap);
-			}
-			Find.CurrentMap.debugDrawer.FlashCell(UI.MouseCell(), 0f, "added", 50);
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4C()
-		{
 			FloodFillerFog.DebugFloodUnfog(UI.MouseCell(), Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4D()
+		private static void <DoListingItems_MapTools>m__4C()
 		{
 			IntVec3 c = CellFinder.RandomClosewalkCellNear(UI.MouseCell(), Find.CurrentMap, 30, null);
 			Find.CurrentMap.debugDrawer.FlashCell(c, 0f, null, 50);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4E()
+		private static void <DoListingItems_MapTools>m__4D()
 		{
 			WalkPathFinder.DebugFlashWalkPath(UI.MouseCell(), 8);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__4F()
+		private static void <DoListingItems_MapTools>m__4E()
 		{
 			Pawn pawn = Find.CurrentMap.mapPawns.FreeColonists.First<Pawn>();
 			IntVec3 c;
@@ -4266,7 +4245,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__50()
+		private static void <DoListingItems_MapTools>m__4F()
 		{
 			Pawn pawn = Find.Selector.SingleSelectedThing as Pawn;
 			IntVec3 c;
@@ -4285,7 +4264,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__51()
+		private static void <DoListingItems_MapTools>m__50()
 		{
 			Action<bool> act = delegate(bool bestSideOnly)
 			{
@@ -4322,7 +4301,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__52()
+		private static void <DoListingItems_MapTools>m__51()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			TraverseMode[] array = (TraverseMode[])Enum.GetValues(typeof(TraverseMode));
@@ -4379,7 +4358,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__53(Pawn p)
+		private static void <DoListingItems_MapTools>m__52(Pawn p)
 		{
 			IntVec3 intVec;
 			if (CellFinder.TryFindRandomPawnExitCell(p, out intVec))
@@ -4394,7 +4373,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__54(Pawn p)
+		private static void <DoListingItems_MapTools>m__53(Pawn p)
 		{
 			IntVec3 intVec;
 			if (RCellFinder.TryFindRandomSpotJustOutsideColony(p, out intVec))
@@ -4409,7 +4388,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__55()
+		private static void <DoListingItems_MapTools>m__54()
 		{
 			foreach (Thing thing in UI.MouseCell().GetThingList(Find.CurrentMap).ToList<Thing>())
 			{
@@ -4422,25 +4401,25 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
+		private static void <DoListingItems_MapTools>m__55(Pawn p)
+		{
+			HealthUtility.DamageUntilDowned(p, true);
+		}
+
+		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__56(Pawn p)
 		{
-			HealthUtility.DamageUntilDowned(p);
+			HealthUtility.DamageLegsUntilIncapableOfMoving(p, true);
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__57(Pawn p)
 		{
-			HealthUtility.DamageLegsUntilIncapableOfMoving(p);
-		}
-
-		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__58(Pawn p)
-		{
 			HealthUtility.DamageUntilDead(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__59()
+		private static void <DoListingItems_MapTools>m__58()
 		{
 			foreach (Thing thing in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell()).ToList<Thing>())
 			{
@@ -4453,7 +4432,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5A(Pawn p)
+		private static void <DoListingItems_MapTools>m__59(Pawn p)
 		{
 			BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
 			where !x.def.conceptual
@@ -4463,7 +4442,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5B(Pawn p)
+		private static void <DoListingItems_MapTools>m__5A(Pawn p)
 		{
 			BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
 			where !x.def.conceptual
@@ -4473,37 +4452,37 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5C(Pawn p)
+		private static void <DoListingItems_MapTools>m__5B(Pawn p)
 		{
 			HealthUtility.GiveInjuriesOperationFailureRidiculous(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5D(Pawn p)
+		private static void <DoListingItems_MapTools>m__5C(Pawn p)
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_RestorePart(p)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5E()
+		private static void <DoListingItems_MapTools>m__5D()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_ApplyDamage()));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__5F()
+		private static void <DoListingItems_MapTools>m__5E()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_AddHediff()));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__60(Pawn p)
+		private static void <DoListingItems_MapTools>m__5F(Pawn p)
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_RemoveHediff(p)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__61(Pawn p)
+		private static void <DoListingItems_MapTools>m__60(Pawn p)
 		{
 			Hediff_Injury hediff_Injury;
 			if ((from x in p.health.hediffSet.GetHediffs<Hediff_Injury>()
@@ -4515,7 +4494,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__62(Pawn p)
+		private void <DoListingItems_MapTools>m__61(Pawn p)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
 			if (p.RaceProps.hediffGiverSets != null)
@@ -4537,7 +4516,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__63(Pawn p)
+		private static void <DoListingItems_MapTools>m__62(Pawn p)
 		{
 			foreach (Hediff hediff in p.health.hediffSet.hediffs)
 			{
@@ -4549,7 +4528,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__64(Pawn p)
+		private static void <DoListingItems_MapTools>m__63(Pawn p)
 		{
 			foreach (Hediff hediff in p.health.hediffSet.hediffs)
 			{
@@ -4562,21 +4541,21 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__65(Pawn p)
+		private void <DoListingItems_MapTools>m__64(Pawn p)
 		{
 			Hediff_Pregnant.DoBirthSpawn(p, null);
 			this.DustPuffFrom(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__66(Pawn p)
+		private static void <DoListingItems_MapTools>m__65(Pawn p)
 		{
 			Log.Message(string.Format("Verb list:\n  {0}", GenText.ToTextList(from verb in p.meleeVerbs.GetUpdatedAvailableVerbsList()
 			select verb.ToString(), "\n  ")), false);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__67(Pawn p)
+		private static void <DoListingItems_MapTools>m__66(Pawn p)
 		{
 			if (p.RaceProps.IsFlesh)
 			{
@@ -4649,7 +4628,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__68(Pawn p)
+		private static void <DoListingItems_MapTools>m__67(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
 			{
@@ -4688,31 +4667,31 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__69(Pawn p)
+		private static void <DoListingItems_MapTools>m__68(Pawn p)
 		{
 			p.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, null, false);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6A()
+		private void <DoListingItems_MapTools>m__69()
 		{
 			this.OffsetNeed(NeedDefOf.Food, -0.2f);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6B()
+		private void <DoListingItems_MapTools>m__6A()
 		{
 			this.OffsetNeed(NeedDefOf.Rest, -0.2f);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6C()
+		private void <DoListingItems_MapTools>m__6B()
 		{
 			this.OffsetNeed(NeedDefOf.Joy, -0.2f);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6D()
+		private void <DoListingItems_MapTools>m__6C()
 		{
 			List<NeedDef> allDefsListForReading = DefDatabase<NeedDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
@@ -4725,7 +4704,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6E()
+		private void <DoListingItems_MapTools>m__6D()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (SkillDef localDef in DefDatabase<SkillDef>.AllDefs)
@@ -4760,7 +4739,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__6F(Pawn p)
+		private void <DoListingItems_MapTools>m__6E(Pawn p)
 		{
 			if (p.skills != null)
 			{
@@ -4785,7 +4764,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__70()
+		private void <DoListingItems_MapTools>m__6F()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			list.Add(new DebugMenuOption("(log possibles)", DebugMenuOptionMode.Tool, delegate()
@@ -4831,7 +4810,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__71()
+		private void <DoListingItems_MapTools>m__70()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (MentalStateDef locBrDef2 in DefDatabase<MentalStateDef>.AllDefs)
@@ -4875,7 +4854,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__72()
+		private void <DoListingItems_MapTools>m__71()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (InspirationDef localDef2 in DefDatabase<InspirationDef>.AllDefs)
@@ -4899,7 +4878,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__73()
+		private void <DoListingItems_MapTools>m__72()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (TraitDef traitDef in DefDatabase<TraitDef>.AllDefs)
@@ -4934,7 +4913,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__74(Pawn p)
+		private static void <DoListingItems_MapTools>m__73(Pawn p)
 		{
 			if (p.needs.mood != null)
 			{
@@ -4943,7 +4922,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__75(Pawn p)
+		private static void <DoListingItems_MapTools>m__74(Pawn p)
 		{
 			if (p.needs.mood != null)
 			{
@@ -4952,7 +4931,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__76(Pawn p)
+		private void <DoListingItems_MapTools>m__75(Pawn p)
 		{
 			if (p.Faction != null)
 			{
@@ -4962,7 +4941,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__77(Pawn p)
+		private void <DoListingItems_MapTools>m__76(Pawn p)
 		{
 			if (p.Faction != null)
 			{
@@ -4972,7 +4951,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__78(Pawn p)
+		private void <DoListingItems_MapTools>m__77(Pawn p)
 		{
 			if (p.Faction != null)
 			{
@@ -4982,7 +4961,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__79()
+		private static void <DoListingItems_MapTools>m__78()
 		{
 			foreach (Building_WorkTable building_WorkTable in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Building_WorkTable
@@ -5000,14 +4979,14 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__7A(Pawn p)
+		private static void <DoListingItems_MapTools>m__79(Pawn p)
 		{
 			p.ageTracker.AgeBiologicalTicks = (long)((p.ageTracker.AgeBiologicalYears + 1) * 3600000 + 1);
 			p.ageTracker.DebugForceBirthdayBiological();
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__7B(Pawn p)
+		private void <DoListingItems_MapTools>m__7A(Pawn p)
 		{
 			if (p.Faction != Faction.OfPlayer && p.RaceProps.Humanlike)
 			{
@@ -5017,7 +4996,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__7C(Pawn p)
+		private void <DoListingItems_MapTools>m__7B(Pawn p)
 		{
 			if (p.apparel != null && p.apparel.WornApparelCount > 0)
 			{
@@ -5027,7 +5006,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__7D(Pawn p)
+		private void <DoListingItems_MapTools>m__7C(Pawn p)
 		{
 			if (p.AnimalOrWildMan() && p.Faction != Faction.OfPlayer)
 			{
@@ -5037,7 +5016,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__7E(Pawn p)
+		private void <DoListingItems_MapTools>m__7D(Pawn p)
 		{
 			if (p.RaceProps.Animal && p.Faction == Faction.OfPlayer && p.training != null)
 			{
@@ -5065,7 +5044,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__7F(Pawn p)
+		private void <DoListingItems_MapTools>m__7E(Pawn p)
 		{
 			if ((p.Name == null || p.Name.Numerical) && p.RaceProps.Animal)
 			{
@@ -5075,7 +5054,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__80(Pawn p)
+		private static void <DoListingItems_MapTools>m__7F(Pawn p)
 		{
 			if (p.Faction != null)
 			{
@@ -5103,7 +5082,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__81(Pawn p)
+		private void <DoListingItems_MapTools>m__80(Pawn p)
 		{
 			if (p.RaceProps.Animal && p.Faction == Faction.OfPlayer && p.training != null)
 			{
@@ -5113,7 +5092,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__82(Pawn p)
+		private static void <DoListingItems_MapTools>m__81(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
 			{
@@ -5146,7 +5125,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__83(Pawn p)
+		private static void <DoListingItems_MapTools>m__82(Pawn p)
 		{
 			if (p.Faction != null)
 			{
@@ -5176,7 +5155,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__84()
+		private static void <DoListingItems_MapTools>m__83()
 		{
 			if (!Find.CurrentMap.lordsStarter.TryStartParty())
 			{
@@ -5185,7 +5164,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__85(Pawn p)
+		private static void <DoListingItems_MapTools>m__84(Pawn p)
 		{
 			if (p.IsPrisoner)
 			{
@@ -5194,20 +5173,20 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__86(Pawn p)
+		private static void <DoListingItems_MapTools>m__85(Pawn p)
 		{
 			p.DeSpawn(DestroyMode.Vanish);
 			Find.WorldPawns.PassToWorld(p, PawnDiscardDecideMode.KeepForever);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__87(Pawn p)
+		private static void <DoListingItems_MapTools>m__86(Pawn p)
 		{
 			p.ageTracker.DebugMake1YearOlder();
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__88(Pawn p)
+		private static void <DoListingItems_MapTools>m__87(Pawn p)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (Type localType2 in typeof(ThinkNode_JobGiver).AllSubclasses())
@@ -5232,7 +5211,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__89(Pawn p)
+		private static void <DoListingItems_MapTools>m__88(Pawn p)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			using (List<JoyGiverDef>.Enumerator enumerator = DefDatabase<JoyGiverDef>.AllDefsListForReading.GetEnumerator())
@@ -5258,21 +5237,21 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__8A(Pawn p)
+		private void <DoListingItems_MapTools>m__89(Pawn p)
 		{
 			p.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 			this.DustPuffFrom(p);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__8B(Pawn p)
+		private void <DoListingItems_MapTools>m__8A(Pawn p)
 		{
 			p.jobs.CheckForJobOverride();
 			this.DustPuffFrom(p);
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__8C(Pawn p)
+		private void <DoListingItems_MapTools>m__8B(Pawn p)
 		{
 			p.jobs.debugLog = !p.jobs.debugLog;
 			this.DustPuffFrom(p);
@@ -5280,14 +5259,14 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__8D(Pawn p)
+		private void <DoListingItems_MapTools>m__8C(Pawn p)
 		{
 			p.stances.debugLog = !p.stances.debugLog;
 			this.DustPuffFrom(p);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__8E()
+		private static void <DoListingItems_MapTools>m__8D()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (PawnKindDef localKindDef2 in from kd in DefDatabase<PawnKindDef>.AllDefs
@@ -5321,7 +5300,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__8F()
+		private static void <DoListingItems_MapTools>m__8E()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (ThingDef localDef2 in from def in DefDatabase<ThingDef>.AllDefs
@@ -5340,7 +5319,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__90()
+		private static void <DoListingItems_MapTools>m__8F()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (ThingDef localDef2 in from def in DefDatabase<ThingDef>.AllDefs
@@ -5359,37 +5338,37 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__91()
+		private static void <DoListingItems_MapTools>m__90()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugThingPlaceHelper.TryPlaceOptionsForStackCount(1, false)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__92()
+		private static void <DoListingItems_MapTools>m__91()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugThingPlaceHelper.TryPlaceOptionsForStackCount(25, false)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__93()
+		private static void <DoListingItems_MapTools>m__92()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugThingPlaceHelper.TryPlaceOptionsForStackCount(75, false)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__94()
+		private static void <DoListingItems_MapTools>m__93()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugThingPlaceHelper.TryPlaceOptionsForStackCount(1, true)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__95()
+		private static void <DoListingItems_MapTools>m__94()
 		{
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugThingPlaceHelper.TryPlaceOptionsForStackCount(25, true)));
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__96()
+		private static void <DoListingItems_MapTools>m__95()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			WipeMode[] array = (WipeMode[])Enum.GetValues(typeof(WipeMode));
@@ -5406,7 +5385,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__97()
+		private static void <DoListingItems_MapTools>m__96()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (TerrainDef localDef2 in DefDatabase<TerrainDef>.AllDefs)
@@ -5424,7 +5403,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__98()
+		private static void <DoListingItems_MapTools>m__97()
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -5438,7 +5417,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__99()
+		private static void <DoListingItems_MapTools>m__98()
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
 			foreach (Faction localFac2 in Find.FactionManager.AllFactions)
@@ -5456,7 +5435,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__9A()
+		private static void <DoListingItems_MapTools>m__99()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			Action<Pawn> act = delegate(Pawn p)
@@ -5489,7 +5468,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__9B()
+		private static void <DoListingItems_MapTools>m__9A()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			List<ThingSetMakerDef> allDefsListForReading = DefDatabase<ThingSetMakerDef>.AllDefsListForReading;
@@ -5540,7 +5519,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__9C()
+		private static void <DoListingItems_MapTools>m__9B()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			List<EffecterDef> allDefsListForReading = DefDatabase<EffecterDef>.AllDefsListForReading;
@@ -5558,26 +5537,26 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__9D()
+		private static void <DoListingItems_MapTools>m__9C()
 		{
 			Autotests_ColonyMaker.MakeColony_Full();
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__9E()
+		private static void <DoListingItems_MapTools>m__9D()
 		{
 			Autotests_ColonyMaker.MakeColony_Animals();
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__9F()
+		private static void <DoListingItems_MapTools>m__9E()
 		{
 			for (int i = 0; i < 100; i++)
 			{
 				PawnKindDef random = DefDatabase<PawnKindDef>.GetRandom();
 				Pawn pawn = PawnGenerator.GeneratePawn(random, FactionUtility.DefaultFactionFrom(random.defaultFactionType));
 				GenSpawn.Spawn(pawn, CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(Find.CurrentMap), Find.CurrentMap, 1000), Find.CurrentMap, WipeMode.Vanish);
-				HealthUtility.DamageUntilDowned(pawn);
+				HealthUtility.DamageUntilDowned(pawn, true);
 				if (pawn.Dead)
 				{
 					Log.Error(string.Concat(new object[]
@@ -5593,7 +5572,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A0()
+		private static void <DoListingItems_MapTools>m__9F()
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -5616,7 +5595,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A1()
+		private static void <DoListingItems_MapTools>m__A0()
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -5641,7 +5620,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A2()
+		private static void <DoListingItems_MapTools>m__A1()
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -5665,7 +5644,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A3()
+		private static void <DoListingItems_MapTools>m__A2()
 		{
 			float[] array = new float[]
 			{
@@ -5704,13 +5683,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A4()
+		private static void <DoListingItems_MapTools>m__A3()
 		{
 			Autotests_RegionListers.CheckBugs(Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A5()
+		private static void <DoListingItems_MapTools>m__A4()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			using (IEnumerator<PawnKindDef> enumerator = (from kd in DefDatabase<PawnKindDef>.AllDefs
@@ -5755,13 +5734,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A6()
+		private static void <DoListingItems_MapTools>m__A5()
 		{
 			ArenaUtility.PerformBattleRoyale(DefDatabase<PawnKindDef>.AllDefs);
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A7()
+		private static void <DoListingItems_MapTools>m__A6()
 		{
 			ArenaUtility.PerformBattleRoyale(from k in DefDatabase<PawnKindDef>.AllDefs
 			where k.RaceProps.Humanlike
@@ -5769,7 +5748,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__A8()
+		private static void <DoListingItems_MapTools>m__A7()
 		{
 			PawnKindDef[] array = new PawnKindDef[]
 			{
@@ -5814,7 +5793,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_World>m__A9()
+		private static void <DoListingItems_World>m__A8()
 		{
 			int num = GenWorld.MouseTile(false);
 			Tile tile = Find.WorldGrid[num];
@@ -5858,7 +5837,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_World>m__AA()
+		private static void <DoListingItems_World>m__A9()
 		{
 			Faction faction;
 			if ((from x in Find.FactionManager.AllFactions
@@ -5879,7 +5858,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_World>m__AB()
+		private static void <DoListingItems_World>m__AA()
 		{
 			int tile = GenWorld.MouseTile(false);
 			if (tile < 0 || Find.World.Impassable(tile))
@@ -5927,7 +5906,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_World>m__AC()
+		private static void <DoListingItems_World>m__AB()
 		{
 			int tile = GenWorld.MouseTile(false);
 			if (tile < 0 || Find.World.Impassable(tile))
@@ -5953,7 +5932,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_World>m__AD()
+		private static void <DoListingItems_World>m__AC()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (Type localType2 in typeof(WorldCameraConfig).AllSubclasses())
@@ -5973,61 +5952,61 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <OffsetNeed>m__AE(Thing t)
+		private static bool <OffsetNeed>m__AD(Thing t)
 		{
 			return t is Pawn;
 		}
 
 		[CompilerGenerated]
-		private static bool <AddGuest>m__AF(PawnKindDef pk)
+		private static bool <AddGuest>m__AE(PawnKindDef pk)
 		{
 			return pk.defaultFactionType != null && !pk.defaultFactionType.isPlayer && pk.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_AllModePlayActions>m__B0(int x)
+		private static bool <DoListingItems_AllModePlayActions>m__AF(int x)
 		{
 			return Find.World.HasCaves(x);
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B1(StorytellerComp x)
+		private static bool <DoListingItems_MapActions>m__B0(StorytellerComp x)
 		{
 			return x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B2(SoundDef s)
+		private static bool <DoListingItems_MapActions>m__B1(SoundDef s)
 		{
 			return !s.sustain;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B3(LordToil st)
+		private static bool <DoListingItems_MapActions>m__B2(LordToil st)
 		{
 			return st is LordToil_PanicFlee;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__B4()
+		private static void <DoListingItems_MapActions>m__B3()
 		{
 			Find.WindowStack.Add(new Dialog_NamePlayerFaction());
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B5(Faction x)
+		private static bool <DoListingItems_MapActions>m__B4(Faction x)
 		{
 			return x.leader != null;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__B6(RuleDef x)
+		private static string <DoListingItems_MapTools>m__B5(RuleDef x)
 		{
 			return x.symbol;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__B7(bool bestSideOnly)
+		private static void <DoListingItems_MapTools>m__B6(bool bestSideOnly)
 		{
 			DebugTool tool = null;
 			IntVec3 firstCorner;
@@ -6051,43 +6030,43 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
+		private static bool <DoListingItems_MapTools>m__B7(BodyPartRecord x)
+		{
+			return !x.def.conceptual;
+		}
+
+		[CompilerGenerated]
 		private static bool <DoListingItems_MapTools>m__B8(BodyPartRecord x)
 		{
 			return !x.def.conceptual;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__B9(BodyPartRecord x)
-		{
-			return !x.def.conceptual;
-		}
-
-		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__BA(Hediff_Injury x)
+		private static bool <DoListingItems_MapTools>m__B9(Hediff_Injury x)
 		{
 			return x.CanHealNaturally() || x.CanHealFromTending();
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<HediffGiver> <DoListingItems_MapTools>m__BB(HediffGiverSetDef set)
+		private static IEnumerable<HediffGiver> <DoListingItems_MapTools>m__BA(HediffGiverSetDef set)
 		{
 			return set.hediffGivers;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__BC(HediffStage s)
+		private static bool <DoListingItems_MapTools>m__BB(HediffStage s)
 		{
 			return s.becomeVisible;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__BD(VerbEntry verb)
+		private static string <DoListingItems_MapTools>m__BC(VerbEntry verb)
 		{
 			return verb.ToString();
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__BE()
+		private void <DoListingItems_MapTools>m__BD()
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Pawn
@@ -6099,7 +6078,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__BF()
+		private void <DoListingItems_MapTools>m__BE()
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Pawn
@@ -6111,55 +6090,55 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static MentalBreakIntensity <DoListingItems_MapTools>m__C0(MentalBreakDef x)
+		private static MentalBreakIntensity <DoListingItems_MapTools>m__BF(MentalBreakDef x)
 		{
 			return x.intensity;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C1(Thing t)
+		private static bool <DoListingItems_MapTools>m__C0(Thing t)
 		{
 			return t is Building_WorkTable;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C2(Pawn x)
+		private static bool <DoListingItems_MapTools>m__C1(Pawn x)
 		{
 			return x.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C3(PawnKindDef kd)
+		private static string <DoListingItems_MapTools>m__C2(PawnKindDef kd)
 		{
 			return kd.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C4(ThingDef def)
+		private static bool <DoListingItems_MapTools>m__C3(ThingDef def)
 		{
 			return def.equipmentType == EquipmentType.Primary;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C5(ThingDef d)
+		private static string <DoListingItems_MapTools>m__C4(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C6(ThingDef def)
+		private static bool <DoListingItems_MapTools>m__C5(ThingDef def)
 		{
 			return def.IsApparel;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C7(ThingDef d)
+		private static string <DoListingItems_MapTools>m__C6(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__C8(Pawn p)
+		private static void <DoListingItems_MapTools>m__C7(Pawn p)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (PawnKindDef kLocal2 in from x in DefDatabase<PawnKindDef>.AllDefs
@@ -6176,6 +6155,12 @@ namespace Verse
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+		}
+
+		[CompilerGenerated]
+		private static bool <DoListingItems_MapTools>m__C8(IntVec3 c)
+		{
+			return c.Standable(Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
@@ -6197,61 +6182,55 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CC(IntVec3 c)
-		{
-			return c.Standable(Find.CurrentMap);
-		}
-
-		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__CD(PawnKindDef kd)
+		private static string <DoListingItems_MapTools>m__CC(PawnKindDef kd)
 		{
 			return kd.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CE(PawnKindDef k)
+		private static bool <DoListingItems_MapTools>m__CD(PawnKindDef k)
 		{
 			return k.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CF(ToolCapacityDef tc)
+		private static bool <DoListingItems_MapTools>m__CE(ToolCapacityDef tc)
 		{
 			return tc != ToolCapacityDefOf.KickMaterialInEyes;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__D0(PawnKindDef pkd, ToolCapacityDef dd)
+		private static string <DoListingItems_MapTools>m__CF(PawnKindDef pkd, ToolCapacityDef dd)
 		{
 			return string.Format("{0}_{1}", pkd.label, dd.defName);
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D1(ThingDef def)
+		private static bool <DoListingItems_World>m__D0(ThingDef def)
 		{
 			return def.IsWeapon && def.PlayerAcquirable;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D2(PawnKindDef d)
+		private static bool <DoListingItems_World>m__D1(PawnKindDef d)
 		{
 			return d.RaceProps.Animal && d.RaceProps.wildness < 1f;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D3(Faction x)
+		private static bool <DoListingItems_World>m__D2(Faction x)
 		{
 			return !x.IsPlayer && !x.def.hidden;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__D4(Thing t)
+		private static bool <DoListingItems_MapTools>m__D3(Thing t)
 		{
 			return t is Pawn;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__D5(Thing t)
+		private static bool <DoListingItems_MapTools>m__D4(Thing t)
 		{
 			return t is Pawn;
 		}

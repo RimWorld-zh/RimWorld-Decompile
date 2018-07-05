@@ -8,7 +8,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal class Building_ShipReactor : Building
+	public class Building_ShipReactor : Building
 	{
 		public Building_ShipReactor()
 		{

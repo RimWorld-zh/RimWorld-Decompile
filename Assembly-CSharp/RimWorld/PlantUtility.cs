@@ -12,50 +12,8 @@ using Verse;
 namespace RimWorld
 {
 	[HasDebugOutput]
-	public static class GenPlant
+	public static class PlantUtility
 	{
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallColorBegin = 0.55f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallColorEnd = 0.45f;
-
-		[TweakValue("Graphics", 0f, 30f)]
-		private static float FallSlopeComponent = 15f;
-
-		[TweakValue("Graphics", 0f, 100f)]
-		private static bool FallIntensityOverride = false;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallIntensity = 0f;
-
-		[TweakValue("Graphics", 0f, 100f)]
-		private static bool FallGlobalControls = false;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallSrcR = 0.3803f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallSrcG = 0.4352f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallSrcB = 0.1451f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallDstR = 0.4392f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallDstG = 0.3254f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallDstB = 0.1765f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallRangeBegin = 0.02f;
-
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallRangeEnd = 0.1f;
-
 		public static bool GrowthSeasonNow(IntVec3 c, Map map, bool forSowing = false)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_All);
@@ -166,7 +124,7 @@ namespace RimWorld
 				ThingDef key2;
 				(dictionary2 = dictionary)[key2 = thingDef] = dictionary2[key2] / num;
 			}
-			Dictionary<ThingDef, float> dictionary3 = GenPlant.CalculateDesiredPlantProportions(Find.CurrentMap.Biome);
+			Dictionary<ThingDef, float> dictionary3 = PlantUtility.CalculateDesiredPlantProportions(Find.CurrentMap.Biome);
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("PLANT           EXPECTED             FOUND");
 			foreach (ThingDef thingDef2 in Find.CurrentMap.Biome.AllWildPlants)
@@ -214,7 +172,7 @@ namespace RimWorld
 				while (enumerator.MoveNext())
 				{
 					ThingDef plantDef = enumerator.Current;
-					if (sel.TrueForAll((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(plantDef, x)))
+					if (sel.TrueForAll((IPlantToGrowSettable x) => PlantUtility.CanSowOnGrower(plantDef, x)))
 					{
 						yield return plantDef;
 					}
@@ -262,36 +220,8 @@ namespace RimWorld
 
 		public static void SetWindExposureColors(Color32[] colors, Plant plant)
 		{
-			colors[1].a = (colors[2].a = GenPlant.GetWindExposure(plant));
+			colors[1].a = (colors[2].a = PlantUtility.GetWindExposure(plant));
 			colors[0].a = (colors[3].a = 0);
-		}
-
-		public static float GetFallColorFactor(float latitude, int dayOfYear)
-		{
-			float a = GenCelestial.AverageGlow(latitude, dayOfYear);
-			float b = GenCelestial.AverageGlow(latitude, dayOfYear + 1);
-			float x = Mathf.LerpUnclamped(a, b, GenPlant.FallSlopeComponent);
-			return GenMath.LerpDoubleClamped(GenPlant.FallColorBegin, GenPlant.FallColorEnd, 0f, 1f, x);
-		}
-
-		public static void SetFallShaderGlobals(Map map)
-		{
-			if (GenPlant.FallIntensityOverride)
-			{
-				Shader.SetGlobalFloat(ShaderPropertyIDs.FallIntensity, GenPlant.FallIntensity);
-			}
-			else
-			{
-				Vector2 vector = Find.WorldGrid.LongLatOf(map.Tile);
-				Shader.SetGlobalFloat(ShaderPropertyIDs.FallIntensity, GenPlant.GetFallColorFactor(vector.y, GenLocalDate.DayOfYear(map)));
-			}
-			Shader.SetGlobalInt("_FallGlobalControls", (!GenPlant.FallGlobalControls) ? 0 : 1);
-			if (GenPlant.FallGlobalControls)
-			{
-				Shader.SetGlobalVector("_FallSrc", new Vector3(GenPlant.FallSrcR, GenPlant.FallSrcG, GenPlant.FallSrcB));
-				Shader.SetGlobalVector("_FallDst", new Vector3(GenPlant.FallDstR, GenPlant.FallDstG, GenPlant.FallDstB));
-				Shader.SetGlobalVector("_FallRange", new Vector3(GenPlant.FallRangeBegin, GenPlant.FallRangeEnd));
-			}
 		}
 
 		public static void LogFallColorForYear()
@@ -310,16 +240,11 @@ namespace RimWorld
 				stringBuilder.Append(j.ToString().PadRight(6));
 				for (int k = -90; k <= 90; k += 10)
 				{
-					stringBuilder.Append(GenPlant.GetFallColorFactor((float)k, j).ToString("F3").PadRight(6));
+					stringBuilder.Append(PlantFallColors.GetFallColorFactor((float)k, j).ToString("F3").PadRight(6));
 				}
 				stringBuilder.AppendLine();
 			}
 			Log.Message(stringBuilder.ToString(), false);
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static GenPlant()
-		{
 		}
 
 		[CompilerGenerated]
@@ -337,7 +262,7 @@ namespace RimWorld
 
 			private static Func<ThingDef, bool> <>f__am$cache0;
 
-			private GenPlant.<ValidPlantTypesForGrowers>c__Iterator0.<ValidPlantTypesForGrowers>c__AnonStorey1 $locvar1;
+			private PlantUtility.<ValidPlantTypesForGrowers>c__Iterator0.<ValidPlantTypesForGrowers>c__AnonStorey1 $locvar1;
 
 			[DebuggerHidden]
 			public <ValidPlantTypesForGrowers>c__Iterator0()
@@ -373,7 +298,7 @@ namespace RimWorld
 					if (enumerator.MoveNext())
 					{
 						ThingDef plantDef = enumerator.Current;
-						if (sel.TrueForAll((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(plantDef, x)))
+						if (sel.TrueForAll((IPlantToGrowSettable x) => PlantUtility.CanSowOnGrower(plantDef, x)))
 						{
 							this.$current = plantDef;
 							if (!this.$disposing)
@@ -460,7 +385,7 @@ namespace RimWorld
 				{
 					return this;
 				}
-				GenPlant.<ValidPlantTypesForGrowers>c__Iterator0 <ValidPlantTypesForGrowers>c__Iterator = new GenPlant.<ValidPlantTypesForGrowers>c__Iterator0();
+				PlantUtility.<ValidPlantTypesForGrowers>c__Iterator0 <ValidPlantTypesForGrowers>c__Iterator = new PlantUtility.<ValidPlantTypesForGrowers>c__Iterator0();
 				<ValidPlantTypesForGrowers>c__Iterator.sel = sel;
 				return <ValidPlantTypesForGrowers>c__Iterator;
 			}
@@ -474,7 +399,7 @@ namespace RimWorld
 			{
 				internal ThingDef plantDef;
 
-				internal GenPlant.<ValidPlantTypesForGrowers>c__Iterator0 <>f__ref$0;
+				internal PlantUtility.<ValidPlantTypesForGrowers>c__Iterator0 <>f__ref$0;
 
 				public <ValidPlantTypesForGrowers>c__AnonStorey1()
 				{
@@ -482,7 +407,7 @@ namespace RimWorld
 
 				internal bool <>m__0(IPlantToGrowSettable x)
 				{
-					return GenPlant.CanSowOnGrower(this.plantDef, x);
+					return PlantUtility.CanSowOnGrower(this.plantDef, x);
 				}
 			}
 		}

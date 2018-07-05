@@ -10,7 +10,7 @@ using Verse;
 
 namespace RimWorld
 {
-	internal class Building_ShipComputerCore : Building
+	public class Building_ShipComputerCore : Building
 	{
 		public Building_ShipComputerCore()
 		{

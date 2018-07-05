@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	internal static class BeautyDrawer
+	public static class BeautyDrawer
 	{
 		private static List<Thing> beautyCountedThings = new List<Thing>();
 

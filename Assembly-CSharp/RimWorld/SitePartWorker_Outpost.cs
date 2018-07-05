@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -40,6 +41,13 @@ namespace RimWorld
 				"Enemies".Translate(),
 				")"
 			});
+		}
+
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		{
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			siteCoreOrPartParams.threatPoints = Mathf.Max(siteCoreOrPartParams.threatPoints, site.Faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Settlement));
+			return siteCoreOrPartParams;
 		}
 
 		private int GetEnemiesCount(Site site, SiteCoreOrPartParams parms)

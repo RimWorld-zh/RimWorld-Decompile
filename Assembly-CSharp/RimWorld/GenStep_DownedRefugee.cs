@@ -35,6 +35,8 @@ namespace RimWorld
 			{
 				pawn = DownedRefugeeQuestUtility.GenerateRefugee(map.Tile);
 			}
+			HealthUtility.DamageUntilDowned(pawn, false);
+			HealthUtility.DamageLegsUntilIncapableOfMoving(pawn, false);
 			GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
 			pawn.mindState.willJoinColonyIfRescued = true;
 			MapGenerator.rootsToUnfog.Add(loc);

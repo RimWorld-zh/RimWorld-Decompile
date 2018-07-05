@@ -38,7 +38,7 @@ namespace Verse
 
 		public const int RoomTempEqualizeInterval = 120;
 
-		public const int Door_TempEqualizeIntervalOpen = 22;
+		public const int Door_TempEqualizeIntervalOpen = 30;
 
 		public const int Door_TempEqualizeIntervalClosed = 375;
 

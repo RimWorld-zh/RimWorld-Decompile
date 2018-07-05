@@ -386,7 +386,7 @@ namespace RimWorld
 		}
 
 		[DebugOutput]
-		internal static void QualityGenerationData()
+		private static void QualityGenerationData()
 		{
 			List<TableDataGetter<QualityCategory>> list = new List<TableDataGetter<QualityCategory>>();
 			list.Add(new TableDataGetter<QualityCategory>("quality", (QualityCategory q) => q.ToString()));

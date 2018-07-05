@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
@@ -51,6 +52,13 @@ namespace RimWorld
 				this.GetMechanoidsCount(site, siteCoreOrPart.parms),
 				")"
 			});
+		}
+
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		{
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			siteCoreOrPartParams.threatPoints = Mathf.Max(siteCoreOrPartParams.threatPoints, FactionDefOf.Mechanoid.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat));
+			return siteCoreOrPartParams;
 		}
 
 		private int GetMechanoidsCount(Site site, SiteCoreOrPartParams parms)

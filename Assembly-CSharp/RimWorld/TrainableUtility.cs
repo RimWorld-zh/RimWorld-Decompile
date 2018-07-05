@@ -195,13 +195,13 @@ namespace RimWorld
 				text += string.Format("{0}: {1}\n", "BondedTo".Translate(), (from bond in allColonistBondsFor
 				select bond.LabelShort).ToCommaList(true));
 			}
-			return text;
+			return text.TrimEndNewlines();
 		}
 
 		public static IEnumerable<Pawn> GetAllColonistBondsFor(Pawn pet)
 		{
 			return from bond in pet.relations.DirectRelations
-			where bond.def == PawnRelationDefOf.Bond && bond.otherPawn != null && bond.otherPawn.IsColonistPlayerControlled
+			where bond.def == PawnRelationDefOf.Bond && bond.otherPawn != null && bond.otherPawn.IsColonist
 			select bond.otherPawn;
 		}
 
@@ -248,7 +248,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static bool <GetAllColonistBondsFor>m__2(DirectPawnRelation bond)
 		{
-			return bond.def == PawnRelationDefOf.Bond && bond.otherPawn != null && bond.otherPawn.IsColonistPlayerControlled;
+			return bond.def == PawnRelationDefOf.Bond && bond.otherPawn != null && bond.otherPawn.IsColonist;
 		}
 
 		[CompilerGenerated]

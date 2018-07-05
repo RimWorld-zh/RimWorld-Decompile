@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	internal static class GUIEventFilterForOSX
+	public static class GUIEventFilterForOSX
 	{
 		private static List<Event> eventsThisFrame = new List<Event>();
 

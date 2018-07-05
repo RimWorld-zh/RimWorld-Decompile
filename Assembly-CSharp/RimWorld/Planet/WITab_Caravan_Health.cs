@@ -7,6 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
+	[StaticConstructorOnStartup]
 	public class WITab_Caravan_Health : WITab
 	{
 		private Vector2 scrollPosition;
@@ -28,6 +29,12 @@ namespace RimWorld.Planet
 		private const float SpaceAroundIcon = 4f;
 
 		private const float PawnCapacityColumnWidth = 100f;
+
+		private const float BeCarriedIfSickColumnWidth = 40f;
+
+		private const float BeCarriedIfSickIconSize = 24f;
+
+		private static readonly Texture2D BeCarriedIfSickIcon = ContentFinder<Texture2D>.Get("UI/Icons/CarrySick", true);
 
 		[CompilerGenerated]
 		private static Func<PawnCapacityDef, int> <>f__am$cache0;
@@ -148,12 +155,17 @@ namespace RimWorld.Planet
 				Text.Anchor = TextAnchor.UpperCenter;
 				GUI.color = Widgets.SeparatorLabelColor;
 				Widgets.Label(new Rect(num, 3f, 100f, 100f), "Pain".Translate());
+				num += 100f;
 				List<PawnCapacityDef> list = this.CapacitiesToDisplay;
 				for (int i = 0; i < list.Count; i++)
 				{
-					num += 100f;
 					Widgets.Label(new Rect(num, 3f, 100f, 100f), list[i].LabelCap);
+					num += 100f;
 				}
+				Rect rect = new Rect(num + 8f, 0f, 24f, 24f);
+				GUI.DrawTexture(rect, WITab_Caravan_Health.BeCarriedIfSickIcon);
+				TooltipHandler.TipRegion(rect, "BeCarriedIfSickTip".Translate());
+				num += 40f;
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;
 			}
@@ -203,6 +215,7 @@ namespace RimWorld.Planet
 			{
 				num += 100f;
 				num += (float)this.CapacitiesToDisplay.Count * 100f;
+				num += 40f;
 			}
 			Vector2 result;
 			result.x = 127f + num + 16f;
@@ -239,33 +252,36 @@ namespace RimWorld.Planet
 			Widgets.ThingIcon(rect3, p, 1f);
 			Rect bgRect = new Rect(rect3.xMax + 4f, 16f, 100f, 18f);
 			GenMapUI.DrawPawnLabel(p, bgRect, 1f, 100f, null, GameFont.Small, false, false);
+			float num = bgRect.xMax;
 			if (!this.compactMode)
 			{
-				float num = bgRect.xMax;
 				if (p.RaceProps.IsFlesh)
 				{
 					Rect rect4 = new Rect(num, 0f, 100f, 50f);
 					this.DoPain(rect4, p);
 				}
+				num += 100f;
 				List<PawnCapacityDef> list = this.CapacitiesToDisplay;
 				for (int i = 0; i < list.Count; i++)
 				{
-					num += 100f;
 					Rect rect5 = new Rect(num, 0f, 100f, 50f);
-					if (!p.RaceProps.Humanlike || list[i].showOnHumanlikes)
+					if ((p.RaceProps.Humanlike && !list[i].showOnHumanlikes) || (p.RaceProps.Animal && !list[i].showOnAnimals) || (p.RaceProps.IsMechanoid && !list[i].showOnMechanoids) || !PawnCapacityUtility.BodyCanEverDoCapacity(p.RaceProps.body, list[i]))
 					{
-						if (!p.RaceProps.Animal || list[i].showOnAnimals)
-						{
-							if (!p.RaceProps.IsMechanoid || list[i].showOnMechanoids)
-							{
-								if (PawnCapacityUtility.BodyCanEverDoCapacity(p.RaceProps.body, list[i]))
-								{
-									this.DoCapacity(rect5, p, list[i]);
-								}
-							}
-						}
+						num += 100f;
+					}
+					else
+					{
+						this.DoCapacity(rect5, p, list[i]);
+						num += 100f;
 					}
 				}
+			}
+			if (!this.compactMode)
+			{
+				Vector2 vector = new Vector2(num + 8f, 13f);
+				Widgets.Checkbox(vector, ref p.health.beCarriedByCaravanIfSick, 24f, false, true, null, null);
+				TooltipHandler.TipRegion(new Rect(vector, new Vector2(24f, 24f)), "BeCarriedIfSickTip".Translate());
+				num += 40f;
 			}
 			if (p.Downed)
 			{

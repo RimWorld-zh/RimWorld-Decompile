@@ -12,6 +12,8 @@ namespace RimWorld.Planet
 	{
 		private List<WorldObject> worldObjects = new List<WorldObject>();
 
+		private HashSet<WorldObject> worldObjectsHashSet = new HashSet<WorldObject>();
+
 		private List<Caravan> caravans = new List<Caravan>();
 
 		private List<Settlement> settlements = new List<Settlement>();
@@ -238,6 +240,7 @@ namespace RimWorld.Planet
 
 		private void AddToCache(WorldObject o)
 		{
+			this.worldObjectsHashSet.Add(o);
 			if (o is Caravan)
 			{
 				this.caravans.Add((Caravan)o);
@@ -278,6 +281,7 @@ namespace RimWorld.Planet
 
 		private void RemoveFromCache(WorldObject o)
 		{
+			this.worldObjectsHashSet.Remove(o);
 			if (o is Caravan)
 			{
 				this.caravans.Remove((Caravan)o);
@@ -318,6 +322,7 @@ namespace RimWorld.Planet
 
 		private void Recache()
 		{
+			this.worldObjectsHashSet.Clear();
 			this.caravans.Clear();
 			this.settlements.Clear();
 			this.travelingTransportPods.Clear();
@@ -335,24 +340,7 @@ namespace RimWorld.Planet
 
 		public bool Contains(WorldObject o)
 		{
-			bool result;
-			if (o == null)
-			{
-				result = false;
-			}
-			else if (o is Caravan)
-			{
-				result = this.caravans.Contains((Caravan)o);
-			}
-			else if (o is Settlement)
-			{
-				result = this.settlements.Contains((Settlement)o);
-			}
-			else
-			{
-				result = this.worldObjects.Contains(o);
-			}
-			return result;
+			return o != null && this.worldObjectsHashSet.Contains(o);
 		}
 
 		public IEnumerable<WorldObject> ObjectsAt(int tileID)

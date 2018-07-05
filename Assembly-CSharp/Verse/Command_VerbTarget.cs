@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	internal class Command_VerbTarget : Command
+	public class Command_VerbTarget : Command
 	{
 		public Verb verb;
 

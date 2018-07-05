@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	internal class TemperatureSaveLoad
+	public class TemperatureSaveLoad
 	{
 		private Map map;
 

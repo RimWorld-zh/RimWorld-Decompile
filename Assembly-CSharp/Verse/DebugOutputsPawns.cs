@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsPawns
+	public static class DebugOutputsPawns
 	{
 		[CompilerGenerated]
 		private static Func<PawnKindDef, bool> <>f__am$cache0;

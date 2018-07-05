@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Verse
 {
 	[HasDebugOutput]
-	internal static class DebugOutputsInfection
+	public static class DebugOutputsInfection
 	{
 		[CompilerGenerated]
 		private static Predicate<Pawn> <>f__am$cache0;

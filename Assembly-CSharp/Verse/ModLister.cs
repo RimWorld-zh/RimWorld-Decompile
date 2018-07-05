@@ -52,11 +52,11 @@ namespace Verse
 			}
 		}
 
-		internal static void EnsureInit()
+		public static void EnsureInit()
 		{
 		}
 
-		internal static void RebuildModList()
+		public static void RebuildModList()
 		{
 			string s = "Rebuilding mods list";
 			ModLister.mods.Clear();
@@ -108,7 +108,7 @@ namespace Verse
 			return num;
 		}
 
-		internal static ModMetaData GetModWithIdentifier(string identifier)
+		public static ModMetaData GetModWithIdentifier(string identifier)
 		{
 			for (int i = 0; i < ModLister.mods.Count; i++)
 			{

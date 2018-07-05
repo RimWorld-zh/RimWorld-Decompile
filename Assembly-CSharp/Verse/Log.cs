@@ -109,7 +109,7 @@ namespace Verse
 			}
 		}
 
-		internal static void Clear()
+		public static void Clear()
 		{
 			EditWindow_Log.ClearSelectedMessage();
 			Log.messageQueue.Clear();

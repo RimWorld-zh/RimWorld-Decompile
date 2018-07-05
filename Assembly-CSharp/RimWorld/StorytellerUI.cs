@@ -16,7 +16,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<StorytellerDef, int> <>f__am$cache0;
 
-		internal static void DrawStorytellerSelectionInterface(Rect rect, ref StorytellerDef chosenStoryteller, ref DifficultyDef difficulty, Listing_Standard selectedStorytellerInfoListing)
+		public static void DrawStorytellerSelectionInterface(Rect rect, ref StorytellerDef chosenStoryteller, ref DifficultyDef difficulty, Listing_Standard selectedStorytellerInfoListing)
 		{
 			GUI.BeginGroup(rect);
 			if (chosenStoryteller != null && chosenStoryteller.listVisible)
@@ -49,11 +49,11 @@ namespace RimWorld
 			}
 			Widgets.EndScrollView();
 			Text.Font = GameFont.Small;
-			Rect rect3 = new Rect(outRect.xMax + 8f, 0f, 240f, 999f);
+			Rect rect3 = new Rect(outRect.xMax + 8f, 0f, 300f, 999f);
 			Widgets.Label(rect3, "HowStorytellersWork".Translate());
 			if (chosenStoryteller != null && chosenStoryteller.listVisible)
 			{
-				Rect rect4 = new Rect(outRect.xMax + 8f, outRect.yMin + 200f, 290f, 0f);
+				Rect rect4 = new Rect(outRect.xMax + 8f, outRect.yMin + 160f, 290f, 0f);
 				rect4.height = rect.height - rect4.y;
 				Text.Font = GameFont.Medium;
 				Rect rect5 = new Rect(rect4.x + 15f, rect4.y - 40f, 9999f, 40f);
@@ -61,7 +61,7 @@ namespace RimWorld
 				Text.Anchor = TextAnchor.UpperLeft;
 				Text.Font = GameFont.Small;
 				selectedStorytellerInfoListing.Begin(rect4);
-				selectedStorytellerInfoListing.Label(chosenStoryteller.description, 120f, null);
+				selectedStorytellerInfoListing.Label(chosenStoryteller.description, 160f, null);
 				selectedStorytellerInfoListing.Gap(6f);
 				foreach (DifficultyDef difficultyDef in DefDatabase<DifficultyDef>.AllDefs)
 				{
