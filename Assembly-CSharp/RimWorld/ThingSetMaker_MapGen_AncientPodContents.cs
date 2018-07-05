@@ -56,7 +56,7 @@ namespace RimWorld
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
-			HealthUtility.DamageUntilDowned(pawn, true);
+			HealthUtility.DamageUntilDowned(pawn);
 			this.GiveRandomLootInventoryForTombPawn(pawn);
 			return pawn;
 		}
@@ -65,7 +65,7 @@ namespace RimWorld
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Slave, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
-			HealthUtility.DamageUntilDowned(pawn, true);
+			HealthUtility.DamageUntilDowned(pawn);
 			this.GiveRandomLootInventoryForTombPawn(pawn);
 			if (Rand.Value < 0.5f)
 			{

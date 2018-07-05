@@ -17,9 +17,9 @@ namespace RimWorld
 			}
 		}
 
-		protected override SignalAction_Ambush MakeAmbushSignalAction(CellRect rectToDefend, IntVec3 root, GenStepParams parms)
+		protected override SignalAction_Ambush MakeAmbushSignalAction(CellRect rectToDefend, IntVec3 root)
 		{
-			SignalAction_Ambush signalAction_Ambush = base.MakeAmbushSignalAction(rectToDefend, root, parms);
+			SignalAction_Ambush signalAction_Ambush = base.MakeAmbushSignalAction(rectToDefend, root);
 			signalAction_Ambush.spawnPawnsOnEdge = true;
 			return signalAction_Ambush;
 		}

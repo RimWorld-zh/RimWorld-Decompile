@@ -168,7 +168,7 @@ namespace RimWorld
 						}
 						foreach (Pawn p in list)
 						{
-							HealthUtility.DamageUntilDowned(p, true);
+							HealthUtility.DamageUntilDowned(p);
 						}
 					}
 					this.EjectContents();

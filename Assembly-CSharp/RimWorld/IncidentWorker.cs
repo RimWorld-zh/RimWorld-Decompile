@@ -143,14 +143,14 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterDef, null);
 		}
 
-		protected void SendStandardLetter(LookTargets lookTargets, Faction relatedFaction = null, params string[] textArgs)
+		protected void SendStandardLetter(GlobalTargetInfo target, Faction relatedFaction = null, params string[] textArgs)
 		{
 			if (this.def.letterLabel.NullOrEmpty() || this.def.letterText.NullOrEmpty())
 			{
 				Log.Error("Sending standard incident letter with no label or text.", false);
 			}
 			string text = string.Format(this.def.letterText, textArgs).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, lookTargets, relatedFaction, null);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, relatedFaction, null);
 		}
 	}
 }

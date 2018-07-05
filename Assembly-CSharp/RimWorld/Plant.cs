@@ -234,7 +234,7 @@ namespace RimWorld
 				{
 					result = 0f;
 				}
-				else if (base.Spawned && !PlantUtility.GrowthSeasonNow(base.Position, base.Map, false))
+				else if (base.Spawned && !GenPlant.GrowthSeasonNow(base.Position, base.Map, false))
 				{
 					result = 0f;
 				}
@@ -603,7 +603,7 @@ namespace RimWorld
 			this.CheckTemperatureMakeLeafless();
 			if (!base.Destroyed)
 			{
-				if (PlantUtility.GrowthSeasonNow(base.Position, base.Map, false))
+				if (GenPlant.GrowthSeasonNow(base.Position, base.Map, false))
 				{
 					float num = this.growthInt;
 					bool flag = this.LifeStage == PlantLifeStage.Mature;
@@ -808,7 +808,7 @@ namespace RimWorld
 				}
 				bool @bool = Rand.Bool;
 				Material matSingle = this.Graphic.MatSingle;
-				PlantUtility.SetWindExposureColors(Plant.workingColors, this);
+				GenPlant.SetWindExposureColors(Plant.workingColors, this);
 				Vector2 vector2 = new Vector2(num3, num3);
 				Vector3 center = vector;
 				Vector2 size = vector2;

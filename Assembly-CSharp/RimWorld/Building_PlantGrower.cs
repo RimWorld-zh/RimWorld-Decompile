@@ -108,7 +108,7 @@ namespace RimWorld
 			string text = base.GetInspectString();
 			if (base.Spawned)
 			{
-				if (PlantUtility.GrowthSeasonNow(base.Position, base.Map, true))
+				if (GenPlant.GrowthSeasonNow(base.Position, base.Map, true))
 				{
 					text = text + "\n" + "GrowSeasonHereNow".Translate();
 				}

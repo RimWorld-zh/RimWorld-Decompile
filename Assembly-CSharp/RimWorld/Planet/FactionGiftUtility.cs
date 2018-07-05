@@ -164,10 +164,10 @@ namespace RimWorld.Planet
 					float priceFactorSell_TraderPriceType = (giveTo.TraderKind == null) ? 1f : giveTo.TraderKind.PriceTypeFor(directlyHeldThings[i].def, TradeAction.PlayerSells).PriceMultiplier();
 					float tradePriceImprovementOffsetForPlayer = giveTo.TradePriceImprovementOffsetForPlayer;
 					float pricePlayerSell = TradeUtility.GetPricePlayerSell(directlyHeldThings[i], priceFactorSell_TraderPriceType, 1f, tradePriceImprovementOffsetForPlayer);
-					num += FactionGiftUtility.GetBaseGoodwillChange(directlyHeldThings[i], directlyHeldThings[i].stackCount, pricePlayerSell, giveTo.Faction);
+					num += FactionGiftUtility.GetGoodwillChange(directlyHeldThings[i], directlyHeldThings[i].stackCount, pricePlayerSell, giveTo.Faction);
 				}
 			}
-			return FactionGiftUtility.PostProcessedGoodwillChange(num, giveTo.Faction);
+			return (int)num;
 		}
 
 		public static int GetGoodwillChange(List<Tradeable> tradeables, Faction theirFaction)
@@ -178,13 +178,13 @@ namespace RimWorld.Planet
 				if (tradeables[i].ActionToDo == TradeAction.PlayerSells)
 				{
 					int count = Mathf.Min(tradeables[i].CountToTransferToDestination, tradeables[i].CountHeldBy(Transactor.Colony));
-					num += FactionGiftUtility.GetBaseGoodwillChange(tradeables[i].AnyThing, count, tradeables[i].GetPriceFor(TradeAction.PlayerSells), theirFaction);
+					num += FactionGiftUtility.GetGoodwillChange(tradeables[i].AnyThing, count, tradeables[i].GetPriceFor(TradeAction.PlayerSells), theirFaction);
 				}
 			}
-			return FactionGiftUtility.PostProcessedGoodwillChange(num, theirFaction);
+			return (int)num;
 		}
 
-		private static float GetBaseGoodwillChange(Thing anyThing, int count, float singlePrice, Faction theirFaction)
+		private static float GetGoodwillChange(Thing anyThing, int count, float singlePrice, Faction theirFaction)
 		{
 			float result;
 			if (count <= 0)
@@ -202,27 +202,6 @@ namespace RimWorld.Planet
 				result = num / 25f;
 			}
 			return result;
-		}
-
-		private static int PostProcessedGoodwillChange(float goodwillChange, Faction theirFaction)
-		{
-			float num = (float)theirFaction.PlayerGoodwill;
-			float num2 = 0f;
-			SimpleCurve giftGoodwillFactorRelationsCurve = DiplomacyTuning.GiftGoodwillFactorRelationsCurve;
-			while (goodwillChange >= 0.25f)
-			{
-				num2 += 0.25f * giftGoodwillFactorRelationsCurve.Evaluate(Mathf.Min(num + num2, 100f));
-				goodwillChange -= 0.25f;
-				if (num2 >= 200f)
-				{
-					break;
-				}
-			}
-			if (num2 < 200f)
-			{
-				num2 += goodwillChange * giftGoodwillFactorRelationsCurve.Evaluate(Mathf.Min(num + num2, 100f));
-			}
-			return (int)Mathf.Min(num2, 200f);
 		}
 
 		private static void SendGiftNotAppreciatedMessage(Faction giveTo, GlobalTargetInfo lookTarget)

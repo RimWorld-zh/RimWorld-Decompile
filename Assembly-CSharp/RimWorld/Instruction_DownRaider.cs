@@ -87,7 +87,7 @@ namespace RimWorld
 				{
 					if (pawn.HostileTo(Faction.OfPlayer))
 					{
-						HealthUtility.DamageUntilDowned(pawn, true);
+						HealthUtility.DamageUntilDowned(pawn);
 					}
 				}
 			}

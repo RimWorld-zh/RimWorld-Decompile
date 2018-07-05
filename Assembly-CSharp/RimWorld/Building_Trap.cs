@@ -11,11 +11,13 @@ namespace RimWorld
 	{
 		private List<Pawn> touchingPawns = new List<Pawn>();
 
-		private const float KnowerSpringChance = 0f;
+		private const float KnowerSpringChance = 0.004f;
 
-		private const ushort KnowerPathFindCost = 60;
+		private const ushort KnowerPathFindCost = 800;
 
-		private const ushort KnowerPathWalkCost = 60;
+		private const ushort KnowerPathWalkCost = 30;
+
+		private const float AnimalSpringChanceFactor = 0.1f;
 
 		protected Building_Trap()
 		{
@@ -61,6 +63,25 @@ namespace RimWorld
 			base.Tick();
 		}
 
+		protected virtual float SpringChance(Pawn p)
+		{
+			float num;
+			if (this.KnowsOfTrap(p))
+			{
+				num = 0.004f;
+			}
+			else
+			{
+				num = this.GetStatValue(StatDefOf.TrapSpringChance, true);
+			}
+			num *= GenMath.LerpDouble(0.4f, 0.8f, 0f, 1f, p.BodySize);
+			if (p.RaceProps.Animal)
+			{
+				num *= 0.1f;
+			}
+			return Mathf.Clamp01(num);
+		}
+
 		private void CheckSpring(Pawn p)
 		{
 			if (Rand.Value < this.SpringChance(p))
@@ -79,35 +100,25 @@ namespace RimWorld
 			}
 		}
 
-		protected virtual float SpringChance(Pawn p)
-		{
-			float value;
-			if (this.KnowsOfTrap(p))
-			{
-				value = 0f;
-			}
-			else
-			{
-				value = this.GetStatValue(StatDefOf.TrapSpringChance, true);
-			}
-			return Mathf.Clamp01(value);
-		}
-
 		public bool KnowsOfTrap(Pawn p)
 		{
-			return (p.Faction != null && !p.Faction.HostileTo(base.Faction)) || (p.Faction == null && this.def.building.trapWildAnimalsAvoid && p.RaceProps.Animal && !p.InAggroMentalState) || (p.guest != null && p.guest.Released) || (p.RaceProps.Humanlike && p.IsFormingCaravan());
+			return (p.Faction != null && !p.Faction.HostileTo(base.Faction)) || (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState) || (p.guest != null && p.guest.Released) || (p.RaceProps.Humanlike && p.IsFormingCaravan());
 		}
 
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			ushort result;
-			if (!this.Armed || !this.KnowsOfTrap(p))
+			if (!this.Armed)
 			{
 				result = 0;
 			}
+			else if (this.KnowsOfTrap(p))
+			{
+				result = 800;
+			}
 			else
 			{
-				result = 60;
+				result = 0;
 			}
 			return result;
 		}
@@ -115,13 +126,17 @@ namespace RimWorld
 		public override ushort PathWalkCostFor(Pawn p)
 		{
 			ushort result;
-			if (!this.Armed || !this.KnowsOfTrap(p))
+			if (!this.Armed)
 			{
 				result = 0;
 			}
+			else if (this.KnowsOfTrap(p))
+			{
+				result = 30;
+			}
 			else
 			{
-				result = 60;
+				result = 0;
 			}
 			return result;
 		}

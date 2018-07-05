@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld.Planet;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -14,7 +13,9 @@ namespace RimWorld
 	{
 		public float points;
 
-		public SignalActionAmbushType ambushType;
+		public bool manhunters;
+
+		public bool mechanoids;
 
 		public IntVec3 spawnNear = IntVec3.Invalid;
 
@@ -32,7 +33,8 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.points, "points", 0f, false);
-			Scribe_Values.Look<SignalActionAmbushType>(ref this.ambushType, "ambushType", SignalActionAmbushType.Normal, false);
+			Scribe_Values.Look<bool>(ref this.manhunters, "manhunters", false, false);
+			Scribe_Values.Look<bool>(ref this.mechanoids, "mechanoids", false, false);
 			Scribe_Values.Look<IntVec3>(ref this.spawnNear, "spawnNear", default(IntVec3), false);
 			Scribe_Values.Look<CellRect>(ref this.spawnAround, "spawnAround", default(CellRect), false);
 			Scribe_Values.Look<bool>(ref this.spawnPawnsOnEdge, "spawnPawnsOnEdge", false, false);
@@ -71,7 +73,7 @@ namespace RimWorld
 				}
 				if (list.Any<Pawn>())
 				{
-					if (this.ambushType == SignalActionAmbushType.Manhunters)
+					if (this.manhunters)
 					{
 						for (int j = 0; j < list.Count; j++)
 						{
@@ -102,7 +104,7 @@ namespace RimWorld
 		private IEnumerable<Pawn> GenerateAmbushPawns()
 		{
 			IEnumerable<Pawn> result;
-			if (this.ambushType == SignalActionAmbushType.Manhunters)
+			if (this.manhunters)
 			{
 				PawnKindDef animalKind;
 				if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, base.Map.Tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, -1, out animalKind))
@@ -117,7 +119,7 @@ namespace RimWorld
 			else
 			{
 				Faction faction;
-				if (this.ambushType == SignalActionAmbushType.Mechanoids)
+				if (this.mechanoids)
 				{
 					faction = Faction.OfMechanoids;
 				}
@@ -136,7 +138,7 @@ namespace RimWorld
 						groupKind = PawnGroupKindDefOf.Combat,
 						tile = base.Map.Tile,
 						faction = faction,
-						points = Mathf.Max(this.points, faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat))
+						points = this.points
 					}, true);
 				}
 			}

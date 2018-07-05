@@ -66,7 +66,7 @@ namespace RimWorld
 			{
 				result = null;
 			}
-			else if (!PlantUtility.GrowthSeasonNow(c, map, true))
+			else if (!GenPlant.GrowthSeasonNow(c, map, true))
 			{
 				result = null;
 			}
@@ -134,7 +134,7 @@ namespace RimWorld
 							return new Job(JobDefOf.CutPlant, plant);
 						}
 					}
-					Thing thing2 = PlantUtility.AdjacentSowBlocker(WorkGiver_Grower.wantedPlantDef, c, map);
+					Thing thing2 = GenPlant.AdjacentSowBlocker(WorkGiver_Grower.wantedPlantDef, c, map);
 					if (thing2 != null)
 					{
 						Plant plant2 = thing2 as Plant;
@@ -194,7 +194,7 @@ namespace RimWorld
 								j++;
 							}
 						}
-						if (WorkGiver_Grower.wantedPlantDef.CanEverPlantAt(c, map) && PlantUtility.GrowthSeasonNow(c, map, true))
+						if (WorkGiver_Grower.wantedPlantDef.CanEverPlantAt(c, map) && GenPlant.GrowthSeasonNow(c, map, true))
 						{
 							LocalTargetInfo target = c;
 							if (pawn.CanReserve(target, 1, -1, null, forced))

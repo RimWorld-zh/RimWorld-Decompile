@@ -371,7 +371,7 @@ namespace RimWorld
 				Zone_Growing dummyZone = new Zone_Growing(Autotests_ColonyMaker.Map.zoneManager);
 				Autotests_ColonyMaker.Map.zoneManager.RegisterZone(dummyZone);
 				foreach (ThingDef plantDefToGrow in from d in DefDatabase<ThingDef>.AllDefs
-				where d.plant != null && PlantUtility.CanSowOnGrower(d, dummyZone)
+				where d.plant != null && GenPlant.CanSowOnGrower(d, dummyZone)
 				select d)
 				{
 					CellRect cellRect6;
@@ -623,7 +623,7 @@ namespace RimWorld
 
 			internal bool <>m__0(ThingDef d)
 			{
-				return d.plant != null && PlantUtility.CanSowOnGrower(d, this.dummyZone);
+				return d.plant != null && GenPlant.CanSowOnGrower(d, this.dummyZone);
 			}
 		}
 	}

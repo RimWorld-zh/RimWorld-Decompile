@@ -104,10 +104,10 @@ namespace RimWorld
 		private static readonly Texture2D BondIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Bond", true);
 
 		[TweakValue("Interface", 0f, 50f)]
-		private static float PregnancyIconWidth = 24f;
+		private static float PregnancyIconWidth = 30f;
 
 		[TweakValue("Interface", 0f, 50f)]
-		private static float BondIconWidth = 24f;
+		private static float BondIconWidth = 30f;
 
 		[CompilerGenerated]
 		private static Func<TransferableOneWay, Transferable> <>f__am$cache0;

@@ -972,7 +972,7 @@ namespace Verse
 					this.mapDrawer.WholeMapChanged(MapMeshFlag.Things);
 				}
 				Profiler.BeginSample("FallIntensityUpdate");
-				PlantFallColors.SetFallShaderGlobals(this);
+				GenPlant.SetFallShaderGlobals(this);
 				Profiler.EndSample();
 				Profiler.BeginSample("waterInfo.SetTextures()");
 				this.waterInfo.SetTextures();

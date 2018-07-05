@@ -68,7 +68,7 @@ namespace Verse
 				this.settables.Add(this.settable);
 			}
 			Command_SetPlantToGrow.tmpAvailablePlants.Clear();
-			foreach (ThingDef thingDef in PlantUtility.ValidPlantTypesForGrowers(this.settables))
+			foreach (ThingDef thingDef in GenPlant.ValidPlantTypesForGrowers(this.settables))
 			{
 				if (this.IsPlantAvailable(thingDef, this.settable.Map))
 				{
