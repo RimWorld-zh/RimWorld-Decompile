@@ -73,7 +73,7 @@ namespace RimWorld
 						"\n"
 					});
 				}
-				if (GenPlant.GrowthSeasonNow(c, base.Map, true))
+				if (PlantUtility.GrowthSeasonNow(c, base.Map, true))
 				{
 					text += "GrowSeasonHereNow".Translate();
 				}

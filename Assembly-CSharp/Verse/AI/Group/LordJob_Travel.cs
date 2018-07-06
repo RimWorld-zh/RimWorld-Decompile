@@ -26,11 +26,11 @@ namespace Verse.AI.Group
 			transition.AddTrigger(new Trigger_PawnHarmed(1f, false, null));
 			transition.AddPreAction(new TransitionAction_SetDefendLocalGroup());
 			transition.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_DefendPoint, lordToil_Travel, false, true);
 			transition2.AddTrigger(new Trigger_TicksPassedWithoutHarm(1200));
 			transition2.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			return stateGraph;
 		}
 

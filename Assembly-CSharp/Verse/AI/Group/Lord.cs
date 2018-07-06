@@ -284,7 +284,7 @@ namespace Verse.AI.Group
 						this.faction.Name
 					}), null, 1f));
 					transition.AddTrigger(new Trigger_FractionPawnsLost(0.5f));
-					this.graph.AddTransition(transition);
+					this.graph.AddTransition(transition, true);
 				}
 				this.graph.AddToil(lordToil_PanicFlee);
 			}

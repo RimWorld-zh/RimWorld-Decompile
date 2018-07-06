@@ -47,25 +47,25 @@ namespace RimWorld
 				Transition transition = new Transition(lordToil_DefendPoint, lordToil_AssaultColony2, false, true);
 				transition.AddSource(lordToil_AssaultColony);
 				transition.AddTrigger(new Trigger_PawnCannotReachMapEdge());
-				stateGraph.AddTransition(transition);
+				stateGraph.AddTransition(transition, false);
 				Transition transition2 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony, false, true);
 				transition2.AddTrigger(new Trigger_PawnHarmed(0.5f, true, null));
 				transition2.AddTrigger(new Trigger_PawnLostViolently());
 				transition2.AddTrigger(new Trigger_Memo(CompSpawnerMechanoidsOnDamaged.MemoDamaged));
 				transition2.AddPostAction(new TransitionAction_EndAllJobs());
-				stateGraph.AddTransition(transition2);
+				stateGraph.AddTransition(transition2, false);
 				Transition transition3 = new Transition(lordToil_AssaultColony, lordToil_DefendPoint, false, true);
 				transition3.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1380, new string[]
 				{
 					CompSpawnerMechanoidsOnDamaged.MemoDamaged
 				}));
 				transition3.AddPostAction(new TransitionAction_EndAttackBuildingJobs());
-				stateGraph.AddTransition(transition3);
+				stateGraph.AddTransition(transition3, false);
 				Transition transition4 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony2, false, true);
 				transition4.AddSource(lordToil_AssaultColony);
 				transition4.AddTrigger(new Trigger_ThingDamageTaken(this.shipPart, 0.5f));
 				transition4.AddTrigger(new Trigger_Memo(HediffGiver_Heat.MemoPawnBurnedByAir));
-				stateGraph.AddTransition(transition4);
+				stateGraph.AddTransition(transition4, false);
 				result = stateGraph;
 			}
 			return result;

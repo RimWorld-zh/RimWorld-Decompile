@@ -52,7 +52,7 @@ namespace RimWorld
 			}), null, 1f));
 			transition.AddPostAction(new TransitionAction_EndAllJobs());
 			transition.AddTrigger(new Trigger_PawnExperiencingDangerousTemperatures());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_Travel, lordToil_ExitMap2, false, true);
 			transition2.AddSources(new LordToil[]
 			{
@@ -70,11 +70,11 @@ namespace RimWorld
 			}), null, 1f));
 			transition2.AddPostAction(new TransitionAction_WakeAll());
 			transition2.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			Transition transition3 = new Transition(lordToil_ExitMap2, lordToil_ExitMapTraderFighting, false, true);
 			transition3.AddTrigger(new Trigger_PawnCanReachMapEdge());
 			transition3.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition3);
+			stateGraph.AddTransition(transition3, false);
 			Transition transition4 = new Transition(lordToil_Travel, lordToil_ExitMapTraderFighting, false, true);
 			transition4.AddSources(new LordToil[]
 			{
@@ -85,19 +85,19 @@ namespace RimWorld
 			});
 			transition4.AddTrigger(new Trigger_FractionPawnsLost(0.2f));
 			transition4.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition4);
+			stateGraph.AddTransition(transition4, false);
 			Transition transition5 = new Transition(lordToil_Travel, lordToil_DefendTraderCaravan, false, true);
 			transition5.AddTrigger(new Trigger_PawnHarmed(1f, false, null));
 			transition5.AddPreAction(new TransitionAction_SetDefendTrader());
 			transition5.AddPostAction(new TransitionAction_WakeAll());
 			transition5.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition5);
+			stateGraph.AddTransition(transition5, false);
 			Transition transition6 = new Transition(lordToil_DefendTraderCaravan, lordToil_Travel, false, true);
 			transition6.AddTrigger(new Trigger_TicksPassedWithoutHarm(1200));
-			stateGraph.AddTransition(transition6);
+			stateGraph.AddTransition(transition6, false);
 			Transition transition7 = new Transition(lordToil_Travel, lordToil_DefendTraderCaravan2, false, true);
 			transition7.AddTrigger(new Trigger_Memo("TravelArrived"));
-			stateGraph.AddTransition(transition7);
+			stateGraph.AddTransition(transition7, false);
 			Transition transition8 = new Transition(lordToil_DefendTraderCaravan2, lordToil_ExitMapAndEscortCarriers, false, true);
 			transition8.AddTrigger(new Trigger_TicksPassed((!DebugSettings.instantVisitorsGift) ? Rand.Range(27000, 45000) : 0));
 			transition8.AddPreAction(new TransitionAction_CheckGiveGift());
@@ -106,16 +106,16 @@ namespace RimWorld
 				this.faction.Name
 			}), null, 1f));
 			transition8.AddPostAction(new TransitionAction_WakeAll());
-			stateGraph.AddTransition(transition8);
+			stateGraph.AddTransition(transition8, false);
 			Transition transition9 = new Transition(lordToil_ExitMapAndEscortCarriers, lordToil_ExitMapAndEscortCarriers, true, true);
 			transition9.canMoveToSameState = true;
 			transition9.AddTrigger(new Trigger_PawnLost());
 			transition9.AddTrigger(new Trigger_TickCondition(() => LordToil_ExitMapAndEscortCarriers.IsAnyDefendingPosition(this.lord.ownedPawns) && !GenHostility.AnyHostileActiveThreatTo(base.Map, this.faction), 60));
-			stateGraph.AddTransition(transition9);
+			stateGraph.AddTransition(transition9, false);
 			Transition transition10 = new Transition(lordToil_ExitMapAndEscortCarriers, lordToil_ExitMap, false, true);
 			transition10.AddTrigger(new Trigger_TicksPassed(60000));
 			transition10.AddPostAction(new TransitionAction_WakeAll());
-			stateGraph.AddTransition(transition10);
+			stateGraph.AddTransition(transition10, false);
 			Transition transition11 = new Transition(lordToil_DefendTraderCaravan2, lordToil_ExitMapAndEscortCarriers, false, true);
 			transition11.AddSources(new LordToil[]
 			{
@@ -126,7 +126,7 @@ namespace RimWorld
 			transition11.AddTrigger(new Trigger_BecamePlayerEnemy());
 			transition11.AddPostAction(new TransitionAction_WakeAll());
 			transition11.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition11);
+			stateGraph.AddTransition(transition11, false);
 			return stateGraph;
 		}
 

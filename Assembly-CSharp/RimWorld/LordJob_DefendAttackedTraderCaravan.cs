@@ -28,7 +28,7 @@ namespace RimWorld
 			Transition transition = new Transition(lordToil_DefendTraderCaravan, lordToil_ExitMap, false, true);
 			transition.AddTrigger(new Trigger_BecameNonHostileToPlayer());
 			transition.AddTrigger(new Trigger_TraderAndAllTraderCaravanGuardsLost());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			return stateGraph;
 		}
 

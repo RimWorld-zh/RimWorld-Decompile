@@ -67,7 +67,7 @@ namespace RimWorld
 			}
 		};
 
-		public const float Goodwill_GiftSilverForOneGoodwill = 25f;
+		public const float Goodwill_BaseGiftSilverForOneGoodwill = 25f;
 
 		public const float Goodwill_GiftPrisonerOfTheirFactionValueFactor = 2f;
 
@@ -94,6 +94,18 @@ namespace RimWorld
 		public static readonly IntRange Goodwill_PeaceTalksSuccessRange = new IntRange(60, 70);
 
 		public static readonly IntRange Goodwill_PeaceTalksTriumphRange = new IntRange(100, 110);
+
+		public static readonly SimpleCurve GiftGoodwillFactorRelationsCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(30f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 0.25f),
+				true
+			}
+		};
 
 		// Note: this type is marked as 'beforefieldinit'.
 		static DiplomacyTuning()

@@ -1618,11 +1618,11 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("T: Damage to down", delegate(Pawn p)
 			{
-				HealthUtility.DamageUntilDowned(p);
+				HealthUtility.DamageUntilDowned(p, true);
 			});
 			base.DebugToolMapForPawns("T: Damage legs", delegate(Pawn p)
 			{
-				HealthUtility.DamageLegsUntilIncapableOfMoving(p);
+				HealthUtility.DamageLegsUntilIncapableOfMoving(p, true);
 			});
 			base.DebugToolMapForPawns("T: Damage to death", delegate(Pawn p)
 			{
@@ -2630,7 +2630,7 @@ namespace Verse
 					PawnKindDef random = DefDatabase<PawnKindDef>.GetRandom();
 					Pawn pawn = PawnGenerator.GeneratePawn(random, FactionUtility.DefaultFactionFrom(random.defaultFactionType));
 					GenSpawn.Spawn(pawn, CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(Find.CurrentMap), Find.CurrentMap, 1000), Find.CurrentMap, WipeMode.Vanish);
-					HealthUtility.DamageUntilDowned(pawn);
+					HealthUtility.DamageUntilDowned(pawn, true);
 					if (pawn.Dead)
 					{
 						Log.Error(string.Concat(new object[]
@@ -4403,13 +4403,13 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__55(Pawn p)
 		{
-			HealthUtility.DamageUntilDowned(p);
+			HealthUtility.DamageUntilDowned(p, true);
 		}
 
 		[CompilerGenerated]
 		private static void <DoListingItems_MapTools>m__56(Pawn p)
 		{
-			HealthUtility.DamageLegsUntilIncapableOfMoving(p);
+			HealthUtility.DamageLegsUntilIncapableOfMoving(p, true);
 		}
 
 		[CompilerGenerated]
@@ -5556,7 +5556,7 @@ namespace Verse
 				PawnKindDef random = DefDatabase<PawnKindDef>.GetRandom();
 				Pawn pawn = PawnGenerator.GeneratePawn(random, FactionUtility.DefaultFactionFrom(random.defaultFactionType));
 				GenSpawn.Spawn(pawn, CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(Find.CurrentMap), Find.CurrentMap, 1000), Find.CurrentMap, WipeMode.Vanish);
-				HealthUtility.DamageUntilDowned(pawn);
+				HealthUtility.DamageUntilDowned(pawn, true);
 				if (pawn.Dead)
 				{
 					Log.Error(string.Concat(new object[]

@@ -41,7 +41,7 @@ namespace RimWorld
 			transition.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
 			transition.AddTrigger(new Trigger_PawnExperiencingDangerousTemperatures());
 			transition.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_HuntEnemies, lordToil_ExitMap2, false, true);
 			transition2.AddSource(lordToil_ExitMap);
 			transition2.AddSources(stateGraph2.lordToils);
@@ -51,11 +51,11 @@ namespace RimWorld
 				this.faction.Name
 			}), null, 1f));
 			transition2.AddTrigger(new Trigger_PawnCannotReachMapEdge());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			Transition transition3 = new Transition(lordToil_ExitMap2, startingToil, false, true);
 			transition3.AddTrigger(new Trigger_PawnCanReachMapEdge());
 			transition3.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
-			stateGraph.AddTransition(transition3);
+			stateGraph.AddTransition(transition3, false);
 			Transition transition4 = new Transition(lordToil_HuntEnemies, startingToil, false, true);
 			transition4.AddPreAction(new TransitionAction_Message("MessageFriendlyFightersLeaving".Translate(new object[]
 			{
@@ -64,10 +64,10 @@ namespace RimWorld
 			}), null, 1f));
 			transition4.AddTrigger(new Trigger_TicksPassed(25000));
 			transition4.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
-			stateGraph.AddTransition(transition4);
+			stateGraph.AddTransition(transition4, false);
 			Transition transition5 = new Transition(startingToil, lordToil_ExitMap, false, true);
 			transition5.AddTrigger(new Trigger_Memo("TravelArrived"));
-			stateGraph.AddTransition(transition5);
+			stateGraph.AddTransition(transition5, false);
 			return stateGraph;
 		}
 

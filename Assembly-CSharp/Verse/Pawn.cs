@@ -993,7 +993,10 @@ namespace Verse
 				{
 					this.Drawer.Notify_Spawned();
 					this.rotationTracker.Notify_Spawned();
-					this.pather.ResetToCurrentPosition();
+					if (!respawningAfterLoad)
+					{
+						this.pather.ResetToCurrentPosition();
+					}
 					base.Map.mapPawns.RegisterPawn(this);
 					if (this.RaceProps.IsFlesh)
 					{

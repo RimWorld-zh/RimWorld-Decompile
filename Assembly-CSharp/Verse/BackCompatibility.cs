@@ -629,6 +629,10 @@ namespace Verse
 					{
 						return "BiofuelRefinery";
 					}
+					if (defName == "PsychoidPekoe")
+					{
+						return "PsychiteTea";
+					}
 					if (defName == "PlantRose")
 					{
 						return "Plant_Rose";
@@ -867,6 +871,10 @@ namespace Verse
 					if (defName == "ScytherBlade")
 					{
 						return "PowerClaw";
+					}
+					if (defName == "PekoeHigh")
+					{
+						return "PsychiteTeaHigh";
 					}
 				}
 				else if (defType == typeof(ResearchProjectDef))

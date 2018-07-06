@@ -245,7 +245,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (!this.pather.Moving || this.pather.nextTile != this.pather.Destination || !Caravan_PathFollower.IsValidFinalPushDestination(this.pather.Destination) || Mathf.CeilToInt(this.pather.nextTileCostLeft / 1f) > 10000) && CaravanRestUtility.RestingNowAt(base.Tile);
+				return base.Spawned && (!this.pather.Moving || this.pather.nextTile != this.pather.Destination || !Caravan_PathFollower.IsValidFinalPushDestination(this.pather.Destination) || Mathf.CeilToInt(this.pather.nextTileCostLeft / 1f) > 10000) && CaravanRestUtility.RestingNowAt(base.Tile);
 			}
 		}
 
@@ -981,7 +981,7 @@ namespace RimWorld.Planet
 						where !x.Downed
 						select x).TryRandomElement(out pawn))
 						{
-							HealthUtility.DamageUntilDowned(pawn);
+							HealthUtility.DamageUntilDowned(pawn, true);
 							Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
 						}
 					}
@@ -1324,7 +1324,7 @@ namespace RimWorld.Planet
 						where !x.Downed
 						select x).TryRandomElement(out pawn))
 						{
-							HealthUtility.DamageUntilDowned(pawn);
+							HealthUtility.DamageUntilDowned(pawn, true);
 							Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
 						}
 					};
@@ -1765,7 +1765,7 @@ namespace RimWorld.Planet
 				where !x.Downed
 				select x).TryRandomElement(out pawn))
 				{
-					HealthUtility.DamageUntilDowned(pawn);
+					HealthUtility.DamageUntilDowned(pawn, true);
 					Messages.Message("Dev: Downed " + pawn.LabelShort, this, MessageTypeDefOf.TaskCompletion, false);
 				}
 			}

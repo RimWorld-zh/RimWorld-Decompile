@@ -38,9 +38,16 @@ namespace Verse.AI.Group
 			this.lordToils.Add(toil);
 		}
 
-		public void AddTransition(Transition transition)
+		public void AddTransition(Transition transition, bool highPriority = false)
 		{
-			this.transitions.Add(transition);
+			if (highPriority)
+			{
+				this.transitions.Insert(0, transition);
+			}
+			else
+			{
+				this.transitions.Add(transition);
+			}
 		}
 
 		public StateGraph AttachSubgraph(StateGraph subGraph)

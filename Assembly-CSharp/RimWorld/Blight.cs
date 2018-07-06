@@ -202,7 +202,7 @@ namespace RimWorld
 			Plant plant = this.Plant;
 			if (plant != null)
 			{
-				GenPlant.SetWindExposureColors(Blight.workingColors, plant);
+				PlantUtility.SetWindExposureColors(Blight.workingColors, plant);
 			}
 			else
 			{

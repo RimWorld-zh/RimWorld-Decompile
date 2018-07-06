@@ -36,26 +36,26 @@ namespace RimWorld
 			transition.AddTrigger(new Trigger_Memo(Hive.MemoDestroyed));
 			transition.AddTrigger(new Trigger_Memo(HediffGiver_Heat.MemoPawnBurnedByAir));
 			transition.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_DefendAndExpandHive, lordToil_AssaultColony, false, true);
 			Transition transition3 = transition2;
 			float chance = 0.5f;
 			Faction parentFaction = base.Map.ParentFaction;
 			transition3.AddTrigger(new Trigger_PawnHarmed(chance, false, parentFaction));
 			transition2.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			Transition transition4 = new Transition(lordToil_DefendHiveAggressively, lordToil_AssaultColony, false, true);
 			Transition transition5 = transition4;
 			chance = 0.5f;
 			parentFaction = base.Map.ParentFaction;
 			transition5.AddTrigger(new Trigger_PawnHarmed(chance, false, parentFaction));
 			transition4.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition4);
+			stateGraph.AddTransition(transition4, false);
 			Transition transition6 = new Transition(lordToil_DefendAndExpandHive, (!this.aggressive) ? lordToil_DefendHiveAggressively : lordToil_AssaultColony, false, true);
 			transition6.canMoveToSameState = true;
 			transition6.AddSource(lordToil_AssaultColony);
 			transition6.AddTrigger(new Trigger_Memo(Hive.MemoDestroyed));
-			stateGraph.AddTransition(transition6);
+			stateGraph.AddTransition(transition6, false);
 			Transition transition7 = new Transition(lordToil_AssaultColony, lordToil_DefendAndExpandHive, false, true);
 			transition7.AddSource(lordToil_DefendHiveAggressively);
 			transition7.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1200, new string[]
@@ -66,7 +66,7 @@ namespace RimWorld
 				HediffGiver_Heat.MemoPawnBurnedByAir
 			}));
 			transition7.AddPostAction(new TransitionAction_EndAttackBuildingJobs());
-			stateGraph.AddTransition(transition7);
+			stateGraph.AddTransition(transition7, false);
 			return stateGraph;
 		}
 

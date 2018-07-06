@@ -47,7 +47,7 @@ namespace RimWorld
 				this.faction.def.pawnsPlural
 			}).CapitalizeFirst(), MessageTypeDefOf.ThreatBig, null, 1f));
 			transition.AddPostAction(new TransitionAction_WakeAll());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			if (this.wakeUpIfColonistClose)
 			{
 				transition.AddTrigger(new Trigger_Custom((TriggerSignal x) => Find.TickManager.TicksGame % 30 == 0 && this.AnyColonistClose()));

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5555405E-CE43-467D-BA6D-2F2F5A26F146}</ProjectGuid>
+    <ProjectGuid>{2CFE46BB-691A-40C6-B58F-BE07AFB60326}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -709,7 +709,6 @@
     <Compile Include="RimWorld\GenLabel.cs" />
     <Compile Include="RimWorld\GenLeaving.cs" />
     <Compile Include="RimWorld\GenLocalDate.cs" />
-    <Compile Include="RimWorld\GenPlant.cs" />
     <Compile Include="RimWorld\GenStepDefOf.cs" />
     <Compile Include="RimWorld\GenStep_Ambush.cs" />
     <Compile Include="RimWorld\GenStep_Ambush_Edge.cs" />
@@ -1654,6 +1653,7 @@
     <Compile Include="RimWorld\Planet\SiteMaker.cs" />
     <Compile Include="RimWorld\Planet\SiteMakerHelper.cs" />
     <Compile Include="RimWorld\Planet\SitePart.cs" />
+    <Compile Include="RimWorld\Planet\SitePartWorker_Ambush.cs" />
     <Compile Include="RimWorld\Planet\SphereGenerator.cs" />
     <Compile Include="RimWorld\Planet\Tile.cs" />
     <Compile Include="RimWorld\Planet\TileFinder.cs" />
@@ -1766,11 +1766,13 @@
     <Compile Include="RimWorld\Planet\WorldTerrainColliderManager.cs" />
     <Compile Include="RimWorld\Plant.cs" />
     <Compile Include="RimWorld\PlantBiomeRecord.cs" />
+    <Compile Include="RimWorld\PlantFallColors.cs" />
     <Compile Include="RimWorld\PlantLifeStage.cs" />
     <Compile Include="RimWorld\PlantPosIndices.cs" />
     <Compile Include="RimWorld\PlantProperties.cs" />
     <Compile Include="RimWorld\PlantPurpose.cs" />
     <Compile Include="RimWorld\PlantToGrowSettableUtility.cs" />
+    <Compile Include="RimWorld\PlantUtility.cs" />
     <Compile Include="RimWorld\PlayerItemAccessibilityUtility.cs" />
     <Compile Include="RimWorld\PlayerKnowledgeDatabase.cs" />
     <Compile Include="RimWorld\PlayerPawnsArriveMethod.cs" />
@@ -1965,6 +1967,7 @@
     <Compile Include="RimWorld\SiegeBlueprintPlacer.cs" />
     <Compile Include="RimWorld\Signal.cs" />
     <Compile Include="RimWorld\SignalAction.cs" />
+    <Compile Include="RimWorld\SignalActionAmbushType.cs" />
     <Compile Include="RimWorld\SignalAction_Ambush.cs" />
     <Compile Include="RimWorld\SignalAction_Letter.cs" />
     <Compile Include="RimWorld\SignalManager.cs" />
@@ -2783,6 +2786,7 @@
     <Compile Include="Verse\AI\ThinkNodePriority.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Constant.cs" />
+    <Compile Include="Verse\AI\ThinkNode_ChancePerHour_InsectDigChance.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Lovin.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Mate.cs" />
     <Compile Include="Verse\AI\ThinkNode_ChancePerHour_Nuzzle.cs" />
@@ -3999,7 +4003,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{5555405e-ce43-467d-ba6d-2f2f5a26f147}</Project>
+      <Project>{2cfe46bb-691a-40c6-b58f-be07afb60327}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

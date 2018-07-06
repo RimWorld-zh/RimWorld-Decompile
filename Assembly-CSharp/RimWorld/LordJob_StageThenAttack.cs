@@ -47,7 +47,7 @@ namespace RimWorld
 				this.faction.Name
 			}), MessageTypeDefOf.ThreatBig, "MessageRaidersBeginningAssault-" + this.raidSeed, 1f));
 			transition.AddPostAction(new TransitionAction_WakeAll());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			return stateGraph;
 		}
 

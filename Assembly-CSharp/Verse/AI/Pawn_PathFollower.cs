@@ -162,9 +162,9 @@ namespace Verse.AI
 					{
 						this.peMode = peMode;
 						this.destination = dest;
-						if (!this.IsNextCellWalkable())
+						if (!this.IsNextCellWalkable() || this.NextCellDoorToManuallyOpen() != null || this.nextCellCostLeft == this.nextCellCostTotal)
 						{
-							this.nextCell = this.pawn.Position;
+							this.ResetToCurrentPosition();
 						}
 						if (!this.destination.HasThing && this.pawn.Map.pawnDestinationReservationManager.MostRecentReservationFor(this.pawn) != this.destination.Cell)
 						{
@@ -285,6 +285,8 @@ namespace Verse.AI
 		public void ResetToCurrentPosition()
 		{
 			this.nextCell = this.pawn.Position;
+			this.nextCellCostLeft = 0f;
+			this.nextCellCostTotal = 1f;
 		}
 
 		private bool PawnCanOccupy(IntVec3 c)
@@ -536,14 +538,14 @@ namespace Verse.AI
 						" which is unwalkable."
 					}), false);
 				}
-				Building_Door building_Door = this.pawn.Map.thingGrid.ThingAt<Building_Door>(this.nextCell);
-				if (building_Door != null)
-				{
-					building_Door.Notify_PawnApproaching(this.pawn);
-				}
 				int num = this.CostToMoveIntoCell(this.nextCell);
 				this.nextCellCostTotal = (float)num;
 				this.nextCellCostLeft = (float)num;
+				Building_Door building_Door = this.pawn.Map.thingGrid.ThingAt<Building_Door>(this.nextCell);
+				if (building_Door != null)
+				{
+					building_Door.Notify_PawnApproaching(this.pawn, num);
+				}
 			}
 		}
 

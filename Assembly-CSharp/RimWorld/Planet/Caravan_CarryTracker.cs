@@ -53,27 +53,30 @@ namespace RimWorld.Planet
 		private void RecalculateCarriedPawns()
 		{
 			this.carriedPawns.Clear();
-			if (this.caravan.pather.MovingNow)
+			if (this.caravan.Spawned)
 			{
-				Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
-				this.CalculatePawnsWhoCanCarry(Caravan_CarryTracker.tmpPawnsWhoCanCarry);
-				for (int i = 0; i < this.caravan.pawns.Count; i++)
+				if (this.caravan.pather.MovingNow)
 				{
-					if (!Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
+					Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
+					this.CalculatePawnsWhoCanCarry(Caravan_CarryTracker.tmpPawnsWhoCanCarry);
+					for (int i = 0; i < this.caravan.pawns.Count; i++)
 					{
-						break;
-					}
-					Pawn pawn = this.caravan.pawns[i];
-					if (this.WantsToBeCarried(pawn))
-					{
-						if (Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
+						if (!Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
 						{
-							this.carriedPawns.Add(pawn);
-							Caravan_CarryTracker.tmpPawnsWhoCanCarry.RemoveLast<Pawn>();
+							break;
+						}
+						Pawn pawn = this.caravan.pawns[i];
+						if (this.WantsToBeCarried(pawn))
+						{
+							if (Caravan_CarryTracker.tmpPawnsWhoCanCarry.Any<Pawn>())
+							{
+								this.carriedPawns.Add(pawn);
+								Caravan_CarryTracker.tmpPawnsWhoCanCarry.RemoveLast<Pawn>();
+							}
 						}
 					}
+					Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
 				}
-				Caravan_CarryTracker.tmpPawnsWhoCanCarry.Clear();
 			}
 		}
 

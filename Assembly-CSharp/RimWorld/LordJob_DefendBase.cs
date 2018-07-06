@@ -33,10 +33,10 @@ namespace RimWorld
 			Transition transition = new Transition(lordToil_DefendBase, lordToil_DefendBase2, false, true);
 			transition.AddSource(lordToil_AssaultColony);
 			transition.AddTrigger(new Trigger_BecameNonHostileToPlayer());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_DefendBase2, lordToil_DefendBase, false, true);
 			transition2.AddTrigger(new Trigger_BecamePlayerEnemy());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			Transition transition3 = new Transition(lordToil_DefendBase, lordToil_AssaultColony, false, true);
 			transition3.AddTrigger(new Trigger_FractionPawnsLost(0.2f));
 			transition3.AddTrigger(new Trigger_PawnHarmed(0.4f, false, null));
@@ -52,7 +52,7 @@ namespace RimWorld
 				Faction.OfPlayer.def.pawnsPlural
 			}).CapitalizeFirst();
 			transition3.AddPreAction(new TransitionAction_Message(message, MessageTypeDefOf.ThreatBig, null, 1f));
-			stateGraph.AddTransition(transition3);
+			stateGraph.AddTransition(transition3, false);
 			return stateGraph;
 		}
 

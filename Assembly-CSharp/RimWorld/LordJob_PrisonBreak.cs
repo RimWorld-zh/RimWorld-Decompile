@@ -54,24 +54,24 @@ namespace RimWorld
 				lordToil_ExitMap
 			});
 			transition.AddTrigger(new Trigger_PawnCannotReachMapEdge());
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_ExitMap2, lordToil_ExitMap, false, true);
 			transition2.AddTrigger(new Trigger_PawnCanReachMapEdge());
 			transition2.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			Transition transition3 = new Transition(lordToil_Travel, lordToil_PrisonerEscape, false, true);
 			transition3.AddTrigger(new Trigger_Memo("TravelArrived"));
-			stateGraph.AddTransition(transition3);
+			stateGraph.AddTransition(transition3, false);
 			Transition transition4 = new Transition(lordToil_Travel, lordToil_PrisonerEscape, false, true);
 			transition4.AddTrigger(new Trigger_PawnLost());
-			stateGraph.AddTransition(transition4);
+			stateGraph.AddTransition(transition4, false);
 			Transition transition5 = new Transition(lordToil_PrisonerEscape, lordToil_PrisonerEscape, true, true);
 			transition5.AddTrigger(new Trigger_PawnLost());
 			transition5.AddTrigger(new Trigger_PawnHarmed(1f, false, null));
-			stateGraph.AddTransition(transition5);
+			stateGraph.AddTransition(transition5, false);
 			Transition transition6 = new Transition(lordToil_PrisonerEscape, lordToil_ExitMap, false, true);
 			transition6.AddTrigger(new Trigger_Memo("TravelArrived"));
-			stateGraph.AddTransition(transition6);
+			stateGraph.AddTransition(transition6, false);
 			return stateGraph;
 		}
 

@@ -28,7 +28,7 @@ namespace Verse.AI.Group
 				{
 					new Trigger_Memo("TravelArrived")
 				}
-			});
+			}, false);
 			return stateGraph;
 		}
 

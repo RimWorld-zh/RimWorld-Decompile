@@ -34,6 +34,10 @@ namespace RimWorld.Planet
 		public void BedsTrackerTick()
 		{
 			this.RecalculateUsedBeds();
+			foreach (KeyValuePair<Pawn, Building_Bed> keyValuePair in this.usedBeds)
+			{
+				PawnUtility.GainComfortFromThingIfPossible(keyValuePair.Key, keyValuePair.Value);
+			}
 		}
 
 		public void ExposeData()
@@ -47,47 +51,50 @@ namespace RimWorld.Planet
 		private void RecalculateUsedBeds()
 		{
 			this.usedBeds.Clear();
-			Caravan_BedsTracker.tmpUsableBeds.Clear();
-			this.GetUsableBeds(Caravan_BedsTracker.tmpUsableBeds);
-			if (this.caravan.NightResting)
+			if (this.caravan.Spawned)
 			{
-				Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.BedRestEffectiveness, true));
-				for (int i = 0; i < this.caravan.pawns.Count; i++)
+				Caravan_BedsTracker.tmpUsableBeds.Clear();
+				this.GetUsableBeds(Caravan_BedsTracker.tmpUsableBeds);
+				if (this.caravan.NightResting)
 				{
-					Pawn pawn = this.caravan.pawns[i];
-					if (pawn.needs != null && pawn.needs.rest != null)
+					Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.BedRestEffectiveness, true));
+					for (int i = 0; i < this.caravan.pawns.Count; i++)
 					{
-						Building_Bed andRemoveFirstAvailableBedFor = this.GetAndRemoveFirstAvailableBedFor(pawn, Caravan_BedsTracker.tmpUsableBeds);
-						if (andRemoveFirstAvailableBedFor != null)
+						Pawn pawn = this.caravan.pawns[i];
+						if (pawn.needs != null && pawn.needs.rest != null)
 						{
-							this.usedBeds.Add(pawn, andRemoveFirstAvailableBedFor);
+							Building_Bed andRemoveFirstAvailableBedFor = this.GetAndRemoveFirstAvailableBedFor(pawn, Caravan_BedsTracker.tmpUsableBeds);
+							if (andRemoveFirstAvailableBedFor != null)
+							{
+								this.usedBeds.Add(pawn, andRemoveFirstAvailableBedFor);
+							}
 						}
 					}
 				}
-			}
-			else
-			{
-				Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.ImmunityGainSpeedFactor, true));
-				for (int j = 0; j < this.caravan.pawns.Count; j++)
+				else
 				{
-					Pawn pawn2 = this.caravan.pawns[j];
-					if (pawn2.needs != null && pawn2.needs.rest != null)
+					Caravan_BedsTracker.tmpUsableBeds.SortByDescending((Building_Bed x) => x.GetStatValue(StatDefOf.ImmunityGainSpeedFactor, true));
+					for (int j = 0; j < this.caravan.pawns.Count; j++)
 					{
-						if (CaravanBedUtility.WouldBenefitFromRestingInBed(pawn2))
+						Pawn pawn2 = this.caravan.pawns[j];
+						if (pawn2.needs != null && pawn2.needs.rest != null)
 						{
-							if (!this.caravan.pather.MovingNow || pawn2.CarriedByCaravan())
+							if (CaravanBedUtility.WouldBenefitFromRestingInBed(pawn2))
 							{
-								Building_Bed andRemoveFirstAvailableBedFor2 = this.GetAndRemoveFirstAvailableBedFor(pawn2, Caravan_BedsTracker.tmpUsableBeds);
-								if (andRemoveFirstAvailableBedFor2 != null)
+								if (!this.caravan.pather.MovingNow || pawn2.CarriedByCaravan())
 								{
-									this.usedBeds.Add(pawn2, andRemoveFirstAvailableBedFor2);
+									Building_Bed andRemoveFirstAvailableBedFor2 = this.GetAndRemoveFirstAvailableBedFor(pawn2, Caravan_BedsTracker.tmpUsableBeds);
+									if (andRemoveFirstAvailableBedFor2 != null)
+									{
+										this.usedBeds.Add(pawn2, andRemoveFirstAvailableBedFor2);
+									}
 								}
 							}
 						}
 					}
 				}
+				Caravan_BedsTracker.tmpUsableBeds.Clear();
 			}
-			Caravan_BedsTracker.tmpUsableBeds.Clear();
 		}
 
 		public void Notify_CaravanSpawned()

@@ -38,7 +38,7 @@ namespace RimWorld
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn(() => GenPlant.AdjacentSowBlocker(this.job.plantDefToSow, this.TargetA.Cell, this.Map) != null).FailOn(() => !this.job.plantDefToSow.CanEverPlantAt(this.TargetLocA, this.Map));
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn(() => PlantUtility.AdjacentSowBlocker(this.job.plantDefToSow, this.TargetA.Cell, this.Map) != null).FailOn(() => !this.job.plantDefToSow.CanEverPlantAt(this.TargetLocA, this.Map));
 			Toil sowToil = new Toil();
 			sowToil.initAction = delegate()
 			{
@@ -122,7 +122,7 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					this.$current = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn(() => GenPlant.AdjacentSowBlocker(this.job.plantDefToSow, this.TargetA.Cell, this.Map) != null).FailOn(() => !this.job.plantDefToSow.CanEverPlantAt(this.TargetLocA, this.Map));
+					this.$current = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn(() => PlantUtility.AdjacentSowBlocker(this.job.plantDefToSow, this.TargetA.Cell, this.Map) != null).FailOn(() => !this.job.plantDefToSow.CanEverPlantAt(this.TargetLocA, this.Map));
 					if (!this.$disposing)
 					{
 						this.$PC = 1;
@@ -263,7 +263,7 @@ namespace RimWorld
 
 				internal bool <>m__0()
 				{
-					return GenPlant.AdjacentSowBlocker(this.<>f__ref$0.$this.job.plantDefToSow, this.<>f__ref$0.$this.TargetA.Cell, this.<>f__ref$0.$this.Map) != null;
+					return PlantUtility.AdjacentSowBlocker(this.<>f__ref$0.$this.job.plantDefToSow, this.<>f__ref$0.$this.TargetA.Cell, this.<>f__ref$0.$this.Map) != null;
 				}
 
 				internal bool <>m__1()

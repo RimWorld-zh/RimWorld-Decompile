@@ -314,7 +314,7 @@ namespace Verse
 			return result;
 		}
 
-		public static void DamageUntilDowned(Pawn p)
+		public static void DamageUntilDowned(Pawn p, bool allowBleedingWounds = true)
 		{
 			if (!p.health.Downed)
 			{
@@ -334,7 +334,14 @@ namespace Verse
 						DamageDef damageDef;
 						if (bodyPartRecord.depth == BodyPartDepth.Outside)
 						{
-							damageDef = HealthUtility.RandomViolenceDamageType();
+							if (!allowBleedingWounds && bodyPartRecord.def.bleedRate > 0f)
+							{
+								damageDef = DamageDefOf.Blunt;
+							}
+							else
+							{
+								damageDef = HealthUtility.RandomViolenceDamageType();
+							}
 						}
 						else
 						{
@@ -399,10 +406,10 @@ namespace Verse
 			}
 		}
 
-		public static void DamageLegsUntilIncapableOfMoving(Pawn p)
+		public static void DamageLegsUntilIncapableOfMoving(Pawn p, bool allowBleedingWounds = true)
 		{
-			HediffDef def = Rand.Element<HediffDef>(HediffDefOf.Scratch, HediffDefOf.Bruise, HediffDefOf.Bite, HediffDefOf.Cut);
 			int num = 0;
+			p.health.forceIncap = true;
 			while (p.health.capacities.CapableOf(PawnCapacityDefOf.Moving) && num < 300)
 			{
 				num++;
@@ -419,14 +426,29 @@ namespace Verse
 				int min = Mathf.Clamp(Mathf.RoundToInt(maxHealth * 0.12f), 1, (int)partHealth - 1);
 				int max = Mathf.Clamp(Mathf.RoundToInt(maxHealth * 0.27f), 1, (int)partHealth - 1);
 				int num2 = Rand.RangeInclusive(min, max);
-				if (p.health.WouldDieAfterAddingHediff(def, bodyPartRecord, (float)num2))
+				DamageDef damageDef;
+				if (!allowBleedingWounds && bodyPartRecord.def.bleedRate > 0f)
+				{
+					damageDef = DamageDefOf.Blunt;
+				}
+				else
+				{
+					damageDef = HealthUtility.RandomViolenceDamageType();
+				}
+				HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(damageDef, p, bodyPartRecord);
+				if (p.health.WouldDieAfterAddingHediff(hediffDefFromDamage, bodyPartRecord, (float)num2))
 				{
 					break;
 				}
-				Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(def, p, bodyPartRecord);
-				hediff_Injury.Severity = (float)num2;
-				p.health.AddHediff(hediff_Injury, null, null, null);
+				DamageDef def = damageDef;
+				float amount = (float)num2;
+				float armorPenetration = 999f;
+				BodyPartRecord hitPart = bodyPartRecord;
+				DamageInfo dinfo = new DamageInfo(def, amount, armorPenetration, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+				dinfo.SetAllowDamagePropagation(false);
+				p.TakeDamage(dinfo);
 			}
+			p.health.forceIncap = false;
 		}
 
 		public static DamageDef RandomViolenceDamageType()

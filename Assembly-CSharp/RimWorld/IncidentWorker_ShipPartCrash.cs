@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -33,7 +34,7 @@ namespace RimWorld
 			Map map = (Map)parms.target;
 			int num = 0;
 			int countToSpawn = this.CountToSpawn;
-			IntVec3 cell = IntVec3.Invalid;
+			List<TargetInfo> list = new List<TargetInfo>();
 			float shrapnelDirection = Rand.Range(0f, 360f);
 			for (int i = 0; i < countToSpawn; i++)
 			{
@@ -49,11 +50,11 @@ namespace RimWorld
 				skyfaller.shrapnelDirection = shrapnelDirection;
 				GenSpawn.Spawn(skyfaller, intVec, map, WipeMode.Vanish);
 				num++;
-				cell = intVec;
+				list.Add(new TargetInfo(intVec, map, false));
 			}
 			if (num > 0)
 			{
-				base.SendStandardLetter(new TargetInfo(cell, map, false), null, new string[0]);
+				base.SendStandardLetter(list, null, new string[0]);
 			}
 			return num > 0;
 		}

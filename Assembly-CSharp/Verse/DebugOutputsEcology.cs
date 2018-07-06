@@ -138,7 +138,7 @@ namespace Verse
 		[ModeRestrictionPlay]
 		public static void PlantCurrentProportions()
 		{
-			GenPlant.LogPlantProportions();
+			PlantUtility.LogPlantProportions();
 		}
 
 		[DebugOutput]

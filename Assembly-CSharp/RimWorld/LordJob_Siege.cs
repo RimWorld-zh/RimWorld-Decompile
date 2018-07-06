@@ -41,7 +41,7 @@ namespace RimWorld
 			Transition transition = new Transition(startingToil, lordToil_Siege, false, true);
 			transition.AddTrigger(new Trigger_Memo("TravelArrived"));
 			transition.AddTrigger(new Trigger_TicksPassed(5000));
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			Transition transition2 = new Transition(lordToil_Siege, startingToil2, false, true);
 			transition2.AddTrigger(new Trigger_Memo("NoBuilders"));
 			transition2.AddTrigger(new Trigger_Memo("NoArtillery"));
@@ -54,7 +54,7 @@ namespace RimWorld
 				this.faction
 			}), MessageTypeDefOf.ThreatBig, null, 1f));
 			transition2.AddPostAction(new TransitionAction_WakeAll());
-			stateGraph.AddTransition(transition2);
+			stateGraph.AddTransition(transition2, false);
 			return stateGraph;
 		}
 

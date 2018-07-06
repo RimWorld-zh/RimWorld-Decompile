@@ -42,7 +42,7 @@ namespace RimWorld
 			transition.AddTrigger(new Trigger_PawnLost());
 			transition.AddPreAction(new TransitionAction_Message("MessageFailedToLoadTransportersBecauseColonistLost".Translate(), MessageTypeDefOf.NegativeEvent, null, 1f));
 			transition.AddPreAction(new TransitionAction_Custom(new Action(this.CancelLoadingProcess)));
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			return stateGraph;
 		}
 

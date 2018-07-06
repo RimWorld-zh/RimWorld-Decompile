@@ -1096,7 +1096,7 @@ namespace Verse
 		[ModeRestrictionPlay]
 		public static void FallColor()
 		{
-			GenPlant.LogFallColorForYear();
+			PlantUtility.LogFallColorForYear();
 		}
 
 		[DebugOutput]

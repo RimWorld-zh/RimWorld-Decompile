@@ -29,7 +29,7 @@ namespace RimWorld
 			stateGraph.AddToil(lordToil_StealCover2);
 			Transition transition = new Transition(lordToil_StealCover, lordToil_StealCover2, false, true);
 			transition.AddTrigger(new Trigger_TicksPassedAndNoRecentHarm(1200));
-			stateGraph.AddTransition(transition);
+			stateGraph.AddTransition(transition, false);
 			return stateGraph;
 		}
 	}

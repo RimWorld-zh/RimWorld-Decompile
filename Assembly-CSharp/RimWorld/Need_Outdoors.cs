@@ -7,11 +7,11 @@ namespace RimWorld
 {
 	public class Need_Outdoors : Need
 	{
-		private const float Delta_IndoorsThickRoof = -0.45f;
+		private const float Delta_IndoorsThickRoof = -0.6f;
 
-		private const float Delta_OutdoorsThickRoof = -0.4f;
+		private const float Delta_OutdoorsThickRoof = -0.5f;
 
-		private const float Delta_IndoorsThinRoof = -0.32f;
+		private const float Delta_IndoorsThinRoof = -0.38f;
 
 		private const float Minimum_IndoorsThinRoof = 0.2f;
 
@@ -126,11 +126,11 @@ namespace RimWorld
 					}
 					else if (!roofDef.isThickRoof)
 					{
-						num = -0.32f;
+						num = -0.38f;
 					}
 					else
 					{
-						num = -0.45f;
+						num = -0.6f;
 						b = 0f;
 					}
 				}
@@ -140,7 +140,7 @@ namespace RimWorld
 				}
 				else if (roofDef.isThickRoof)
 				{
-					num = -0.4f;
+					num = -0.5f;
 				}
 				else
 				{

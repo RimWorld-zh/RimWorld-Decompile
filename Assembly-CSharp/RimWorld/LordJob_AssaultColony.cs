@@ -59,11 +59,11 @@ namespace RimWorld
 				stateGraph.AddToil(lordToil);
 				Transition transition = new Transition(lordToil, lordToil, true, true);
 				transition.AddTrigger(new Trigger_PawnLost());
-				stateGraph.AddTransition(transition);
+				stateGraph.AddTransition(transition, false);
 				Transition transition2 = new Transition(lordToil, lordToil, true, false);
 				transition2.AddTrigger(new Trigger_PawnHarmed(1f, false, null));
 				transition2.AddPostAction(new TransitionAction_CheckForJobOverride());
-				stateGraph.AddTransition(transition2);
+				stateGraph.AddTransition(transition2, false);
 			}
 			LordToil lordToil2 = new LordToil_AssaultColony(false);
 			if (this.useAvoidGridSmart)
@@ -78,7 +78,7 @@ namespace RimWorld
 			{
 				Transition transition3 = new Transition(lordToil, lordToil2, false, true);
 				transition3.AddTrigger(new Trigger_NoFightingSappers());
-				stateGraph.AddTransition(transition3);
+				stateGraph.AddTransition(transition3, false);
 			}
 			if (this.assaulterFaction.def.humanlikeFaction)
 			{
@@ -95,7 +95,7 @@ namespace RimWorld
 						this.assaulterFaction.def.pawnsPlural.CapitalizeFirst(),
 						this.assaulterFaction.Name
 					}), null, 1f));
-					stateGraph.AddTransition(transition4);
+					stateGraph.AddTransition(transition4, false);
 					Transition transition5 = new Transition(lordToil2, lordToil_ExitMap, false, true);
 					if (lordToil != null)
 					{
@@ -109,7 +109,7 @@ namespace RimWorld
 						this.assaulterFaction.def.pawnsPlural.CapitalizeFirst(),
 						this.assaulterFaction.Name
 					}), null, 1f));
-					stateGraph.AddTransition(transition5);
+					stateGraph.AddTransition(transition5, false);
 				}
 				if (this.canKidnap)
 				{
@@ -125,7 +125,7 @@ namespace RimWorld
 						this.assaulterFaction.Name
 					}), null, 1f));
 					transition6.AddTrigger(new Trigger_KidnapVictimPresent());
-					stateGraph.AddTransition(transition6);
+					stateGraph.AddTransition(transition6, false);
 				}
 				if (this.canSteal)
 				{
@@ -141,7 +141,7 @@ namespace RimWorld
 						this.assaulterFaction.Name
 					}), null, 1f));
 					transition7.AddTrigger(new Trigger_HighValueThingsAround());
-					stateGraph.AddTransition(transition7);
+					stateGraph.AddTransition(transition7, false);
 				}
 			}
 			Transition transition8 = new Transition(lordToil2, lordToil_ExitMap, false, true);
@@ -155,7 +155,7 @@ namespace RimWorld
 				this.assaulterFaction.def.pawnsPlural.CapitalizeFirst(),
 				this.assaulterFaction.Name
 			}), null, 1f));
-			stateGraph.AddTransition(transition8);
+			stateGraph.AddTransition(transition8, false);
 			return stateGraph;
 		}
 
