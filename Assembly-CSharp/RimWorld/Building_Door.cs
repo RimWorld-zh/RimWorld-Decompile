@@ -30,9 +30,9 @@ namespace RimWorld
 
 		private const float OpenTicks = 45f;
 
-		private const int CloseDelayTicks = 90;
+		private const int CloseDelayTicks = 110;
 
-		private const int WillCloseSoonThreshold = 91;
+		private const int WillCloseSoonThreshold = 111;
 
 		private const int ApproachCloseDelayTicks = 300;
 
@@ -89,7 +89,7 @@ namespace RimWorld
 				{
 					result = false;
 				}
-				else if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 91 && !this.BlockedOpenMomentary)
+				else if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 111 && !this.BlockedOpenMomentary)
 				{
 					result = true;
 				}
@@ -215,7 +215,7 @@ namespace RimWorld
 			this.ClearReachabilityCache(map);
 			if (this.BlockedOpenMomentary)
 			{
-				this.DoorOpen(90);
+				this.DoorOpen(110);
 			}
 		}
 
@@ -287,7 +287,7 @@ namespace RimWorld
 				{
 					if (base.Map.thingGrid.CellContains(base.Position, ThingCategory.Pawn))
 					{
-						this.ticksUntilClose = 90;
+						this.ticksUntilClose = 110;
 					}
 					this.ticksUntilClose--;
 					if (this.ticksUntilClose <= 0 && !this.holdOpenInt)
@@ -300,9 +300,9 @@ namespace RimWorld
 				}
 				else if (this.CanTryCloseAutomatically)
 				{
-					this.ticksUntilClose = 90;
+					this.ticksUntilClose = 110;
 				}
-				if ((Find.TickManager.TicksGame + this.thingIDNumber.HashOffset()) % 30 == 0)
+				if ((Find.TickManager.TicksGame + this.thingIDNumber.HashOffset()) % 34 == 0)
 				{
 					GenTemperature.EqualizeTemperaturesThroughBuilding(this, 1f, false);
 				}
@@ -347,7 +347,7 @@ namespace RimWorld
 			return !this.openInt && !this.PawnCanOpen(p);
 		}
 
-		protected void DoorOpen(int ticksToClose = 90)
+		protected void DoorOpen(int ticksToClose = 110)
 		{
 			if (this.openInt)
 			{
@@ -396,12 +396,12 @@ namespace RimWorld
 
 		public void StartManualOpenBy(Pawn opener)
 		{
-			this.DoorOpen(90);
+			this.DoorOpen(110);
 		}
 
 		public void StartManualCloseBy(Pawn closer)
 		{
-			this.ticksUntilClose = 90;
+			this.ticksUntilClose = 110;
 		}
 
 		public override void Draw()

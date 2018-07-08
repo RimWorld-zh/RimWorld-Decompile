@@ -267,14 +267,6 @@ namespace Verse
 		{
 		}
 
-		public void Notify_MapRemoved(Map map)
-		{
-			if (this.lookTargets != null)
-			{
-				this.lookTargets.Notify_MapRemoved(map);
-			}
-		}
-
 		protected virtual string PostProcessedLabel()
 		{
 			return this.label;

@@ -24,6 +24,21 @@ namespace RimWorld
 			return base.FactionCanBeGroupSource(f, map, desperate) && f.def.caravanTraderKinds.Any<TraderKindDef>();
 		}
 
+		protected override bool CanFireNowSub(IncidentParms parms)
+		{
+			bool result;
+			if (!base.CanFireNowSub(parms))
+			{
+				result = false;
+			}
+			else
+			{
+				Map map = (Map)parms.target;
+				result = (parms.faction == null || !base.AnyBlockingHostileLord(map, parms.faction));
+			}
+			return result;
+		}
+
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

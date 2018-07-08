@@ -17,6 +17,14 @@ namespace RimWorld
 			this.aggressive = aggressive;
 		}
 
+		public override bool CanBlockHostileVisitors
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();

@@ -642,11 +642,11 @@ namespace RimWorld
 			{
 				result = false;
 			}
-			else if (predator.RaceProps.Animal && prey.RaceProps.Humanlike)
+			else if (!prey.RaceProps.IsFlesh)
 			{
 				result = false;
 			}
-			else if (!prey.RaceProps.IsFlesh)
+			else if (!Find.Storyteller.difficulty.predatorsHuntHumanlikes && prey.RaceProps.Humanlike)
 			{
 				result = false;
 			}

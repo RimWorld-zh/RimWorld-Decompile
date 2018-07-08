@@ -44,7 +44,7 @@ namespace RimWorld
 			return new SiteCoreOrPartParams
 			{
 				randomValue = Rand.Int,
-				threatPoints = StorytellerUtility.ThreatPointsToSiteThreatPointsCurve.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World))
+				threatPoints = StorytellerUtility.ThreatPointsToSiteThreatPointsCurve.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World)) * StorytellerUtility.SitePointRandomFactorRange.RandomInRange
 			};
 		}
 	}

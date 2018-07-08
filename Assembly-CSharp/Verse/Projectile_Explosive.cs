@@ -58,8 +58,8 @@ namespace Verse
 			float explosionRadius = this.def.projectile.explosionRadius;
 			DamageDef damageDef = this.def.projectile.damageDef;
 			Thing launcher = this.launcher;
-			int damageAmount = this.def.projectile.DamageAmount;
-			float armorPenetration = this.def.projectile.ArmorPenetration;
+			int damageAmount = base.DamageAmount;
+			float armorPenetration = base.ArmorPenetration;
 			SoundDef soundExplode = this.def.projectile.soundExplode;
 			ThingDef equipmentDef = this.equipmentDef;
 			ThingDef def = this.def;

@@ -3046,7 +3046,7 @@ namespace Verse
 					IncidentDef localDef = localDef2;
 					string text = localDef.defName;
 					IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, target);
-					if (!localDef.Worker.CanFireNow(parms))
+					if (!localDef.Worker.CanFireNow(parms, false))
 					{
 						text += " [NO]";
 					}
@@ -3077,7 +3077,7 @@ namespace Verse
 					IncidentDef localDef = localDef2;
 					string text = localDef.defName;
 					IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, target);
-					if (!localDef.Worker.CanFireNow(parms))
+					if (!localDef.Worker.CanFireNow(parms, false))
 					{
 						text += " [NO]";
 					}
@@ -6257,7 +6257,7 @@ namespace Verse
 					IncidentDef localDef = localDef2;
 					string text = localDef.defName;
 					IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, this.target);
-					if (!localDef.Worker.CanFireNow(parms))
+					if (!localDef.Worker.CanFireNow(parms, false))
 					{
 						text += " [NO]";
 					}
@@ -6337,7 +6337,7 @@ namespace Verse
 					IncidentDef localDef = localDef2;
 					string text = localDef.defName;
 					IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, this.target);
-					if (!localDef.Worker.CanFireNow(parms))
+					if (!localDef.Worker.CanFireNow(parms, false))
 					{
 						text += " [NO]";
 					}

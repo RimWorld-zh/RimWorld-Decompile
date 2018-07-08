@@ -94,7 +94,7 @@ namespace RimWorld
 				Need need = p.needs.TryGetNeed(this.need);
 				if (need != null)
 				{
-					need.ForceSetLevel(this.levelRange.RandomInRange);
+					need.CurLevelPercentage = this.levelRange.RandomInRange;
 				}
 			}
 		}

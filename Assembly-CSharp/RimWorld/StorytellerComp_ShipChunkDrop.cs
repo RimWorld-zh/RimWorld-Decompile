@@ -49,7 +49,7 @@ namespace RimWorld
 			{
 				IncidentDef def = IncidentDefOf.ShipChunkDrop;
 				IncidentParms parms = this.GenerateParms(def.category, target);
-				if (def.Worker.CanFireNow(parms))
+				if (def.Worker.CanFireNow(parms, false))
 				{
 					yield return new FiringIncident(def, this, parms);
 				}
@@ -95,7 +95,7 @@ namespace RimWorld
 					{
 						def = IncidentDefOf.ShipChunkDrop;
 						parms = this.GenerateParms(def.category, target);
-						if (def.Worker.CanFireNow(parms))
+						if (def.Worker.CanFireNow(parms, false))
 						{
 							this.$current = new FiringIncident(def, this, parms);
 							if (!this.$disposing)

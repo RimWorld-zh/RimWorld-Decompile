@@ -22,23 +22,22 @@ namespace RimWorld
 			}
 		}
 
-		public bool CanFireNow(IncidentParms parms)
+		public bool CanFireNow(IncidentParms parms, bool forced = false)
 		{
-			bool result;
-			if (!this.def.TargetAllowed(parms.target))
+			if (!parms.forced)
 			{
-				result = false;
-			}
-			else if (GenDate.DaysPassed < this.def.earliestDay)
-			{
-				result = false;
-			}
-			else if (Find.Storyteller.difficulty.difficulty < this.def.minDifficulty)
-			{
-				result = false;
-			}
-			else
-			{
+				if (!this.def.TargetAllowed(parms.target))
+				{
+					return false;
+				}
+				if (GenDate.DaysPassed < this.def.earliestDay)
+				{
+					return false;
+				}
+				if (Find.Storyteller.difficulty.difficulty < this.def.minDifficulty)
+				{
+					return false;
+				}
 				if (this.def.allowedBiomes != null)
 				{
 					BiomeDef biome = Find.WorldGrid[parms.target.Tile].biome;
@@ -58,40 +57,36 @@ namespace RimWorld
 				}
 				if (this.def.minPopulation > 0 && PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists.Count<Pawn>() < this.def.minPopulation)
 				{
-					result = false;
+					return false;
 				}
-				else
+				Dictionary<IncidentDef, int> lastFireTicks = parms.target.StoryState.lastFireTicks;
+				int ticksGame = Find.TickManager.TicksGame;
+				int num;
+				if (lastFireTicks.TryGetValue(this.def, out num))
 				{
-					Dictionary<IncidentDef, int> lastFireTicks = parms.target.StoryState.lastFireTicks;
-					int ticksGame = Find.TickManager.TicksGame;
-					int num;
-					if (lastFireTicks.TryGetValue(this.def, out num))
+					float num2 = (float)(ticksGame - num) / 60000f;
+					if (num2 < this.def.minRefireDays)
 					{
-						float num2 = (float)(ticksGame - num) / 60000f;
-						if (num2 < this.def.minRefireDays)
-						{
-							return false;
-						}
+						return false;
 					}
-					List<IncidentDef> refireCheckIncidents = this.def.RefireCheckIncidents;
-					if (refireCheckIncidents != null)
+				}
+				List<IncidentDef> refireCheckIncidents = this.def.RefireCheckIncidents;
+				if (refireCheckIncidents != null)
+				{
+					for (int j = 0; j < refireCheckIncidents.Count; j++)
 					{
-						for (int j = 0; j < refireCheckIncidents.Count; j++)
+						if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
 						{
-							if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
+							float num3 = (float)(ticksGame - num) / 60000f;
+							if (num3 < this.def.minRefireDays)
 							{
-								float num3 = (float)(ticksGame - num) / 60000f;
-								if (num3 < this.def.minRefireDays)
-								{
-									return false;
-								}
+								return false;
 							}
 						}
 					}
-					result = this.CanFireNowSub(parms);
 				}
 			}
-			return result;
+			return this.CanFireNowSub(parms);
 		}
 
 		protected virtual bool CanFireNowSub(IncidentParms parms)

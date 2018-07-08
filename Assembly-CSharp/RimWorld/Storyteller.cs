@@ -128,15 +128,17 @@ namespace RimWorld
 			}
 		}
 
-		public void TryFire(FiringIncident fi)
+		public bool TryFire(FiringIncident fi)
 		{
-			if (fi.parms.forced || fi.def.Worker.CanFireNow(fi.parms))
+			if (fi.def.Worker.CanFireNow(fi.parms, false))
 			{
 				if (fi.def.Worker.TryExecute(fi.parms))
 				{
 					fi.parms.target.StoryState.Notify_IncidentFired(fi);
+					return true;
 				}
 			}
+			return false;
 		}
 
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval()

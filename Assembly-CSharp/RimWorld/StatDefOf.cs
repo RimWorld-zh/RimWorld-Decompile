@@ -143,6 +143,8 @@ namespace RimWorld
 
 		public static StatDef RangedWeapon_Cooldown;
 
+		public static StatDef RangedWeapon_DamageMultiplier;
+
 		public static StatDef AccuracyTouch;
 
 		public static StatDef AccuracyShort;

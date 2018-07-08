@@ -109,13 +109,13 @@ namespace Verse
 
 		public RulePackDef rangedFireRulepack = null;
 
-		public const float DistTouch = 4f;
+		public const float DistTouch = 3f;
 
-		public const float DistShort = 15f;
+		public const float DistShort = 12f;
 
-		public const float DistMedium = 30f;
+		public const float DistMedium = 25f;
 
-		public const float DistLong = 50f;
+		public const float DistLong = 40f;
 
 		public const float MeleeRange = 1.42f;
 
@@ -236,7 +236,7 @@ namespace Verse
 			}
 			else if (this.LaunchesProjectile && this.defaultProjectile != null)
 			{
-				result = (float)this.defaultProjectile.projectile.DamageAmount;
+				result = (float)this.defaultProjectile.projectile.GetDamageAmount(equipment, null);
 			}
 			else
 			{
@@ -356,21 +356,21 @@ namespace Verse
 		public float GetHitChanceFactor(Thing equipment, float dist)
 		{
 			float num;
-			if (dist <= 4f)
+			if (dist <= 3f)
 			{
 				num = this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment);
 			}
-			else if (dist <= 15f)
+			else if (dist <= 12f)
 			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), (dist - 4f) / 11f);
+				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), (dist - 3f) / 9f);
 			}
-			else if (dist <= 30f)
+			else if (dist <= 25f)
 			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), (dist - 15f) / 15f);
+				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), (dist - 12f) / 13f);
 			}
-			else if (dist <= 50f)
+			else if (dist <= 40f)
 			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment), (dist - 30f) / 20f);
+				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment), (dist - 25f) / 15f);
 			}
 			else
 			{

@@ -17,9 +17,6 @@ namespace Verse
 
 		public TechLevel techLevel = TechLevel.Undefined;
 
-		[MustTranslate]
-		private string descriptionDiscovered = null;
-
 		public List<ResearchProjectDef> requiredByThis = null;
 
 		private List<ResearchMod> researchMods = null;
@@ -35,6 +32,12 @@ namespace Verse
 		public float researchViewX = 1f;
 
 		public float researchViewY = 1f;
+
+		[MustTranslate]
+		public string discoveredLetterTitle;
+
+		[MustTranslate]
+		public string discoveredLetterText;
 
 		[Unsaved]
 		private float x = 1f;
@@ -130,23 +133,6 @@ namespace Verse
 					}
 				}
 				return true;
-			}
-		}
-
-		public string DescriptionDiscovered
-		{
-			get
-			{
-				string description;
-				if (this.descriptionDiscovered != null)
-				{
-					description = this.descriptionDiscovered;
-				}
-				else
-				{
-					description = this.description;
-				}
-				return description;
 			}
 		}
 

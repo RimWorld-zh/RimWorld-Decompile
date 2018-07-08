@@ -167,7 +167,7 @@ namespace Verse
 			}
 			else
 			{
-				result = min + Mathf.Abs(Rand.random.GetInt(Rand.iterations++) % (max - min));
+				result = min + Mathf.Abs(Rand.Int % (max - min));
 			}
 			return result;
 		}

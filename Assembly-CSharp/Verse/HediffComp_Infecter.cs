@@ -29,6 +29,18 @@ namespace Verse
 			}
 		};
 
+		private static readonly SimpleCurve InfectionChanceFactorFromSeverityCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(1f, 0.1f),
+				true
+			},
+			{
+				new CurvePoint(12f, 1f),
+				true
+			}
+		};
+
 		public HediffComp_Infecter()
 		{
 		}
@@ -118,6 +130,7 @@ namespace Verse
 					num *= this.infectionChanceFactorFromTendRoom;
 					num *= HediffComp_Infecter.InfectionChanceFactorFromTendQualityCurve.Evaluate(hediffComp_TendDuration.tendQuality);
 				}
+				num *= HediffComp_Infecter.InfectionChanceFactorFromSeverityCurve.Evaluate(this.parent.Severity);
 				if (base.Pawn.Faction == Faction.OfPlayer)
 				{
 					num *= Find.Storyteller.difficulty.playerPawnInfectionChanceFactor;

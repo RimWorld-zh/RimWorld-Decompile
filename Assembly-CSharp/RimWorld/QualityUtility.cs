@@ -228,16 +228,24 @@ namespace RimWorld
 			{
 				result = QualityCategory.Normal;
 			}
-			else if (Rand.Value < 0.25f)
-			{
-				result = pawnKind.itemQuality;
-			}
 			else
 			{
-				float centerX = (float)pawnKind.itemQuality + 0.5f;
-				int num = (int)Rand.GaussianAsymmetric(centerX, 1.08f, 1.03f);
+				int itemQuality = (int)pawnKind.itemQuality;
+				float value = Rand.Value;
+				int num;
+				if (value < 0.1f)
+				{
+					num = itemQuality - 1;
+				}
+				else if (value < 0.2f)
+				{
+					num = itemQuality + 1;
+				}
+				else
+				{
+					num = itemQuality;
+				}
 				num = Mathf.Clamp(num, 0, 4);
-				num = Mathf.Clamp(num, (int)(pawnKind.itemQuality - QualityCategory.Normal), (int)(pawnKind.itemQuality + 2));
 				result = (QualityCategory)num;
 			}
 			return result;

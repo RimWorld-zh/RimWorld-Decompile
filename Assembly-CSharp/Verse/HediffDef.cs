@@ -250,7 +250,7 @@ namespace Verse
 			yield break;
 		}
 
-		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
 			if (this.stages != null && this.stages.Count == 1)
 			{

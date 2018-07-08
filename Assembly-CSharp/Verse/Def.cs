@@ -81,7 +81,7 @@ namespace Verse
 			}
 		}
 
-		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
 			yield break;
 		}

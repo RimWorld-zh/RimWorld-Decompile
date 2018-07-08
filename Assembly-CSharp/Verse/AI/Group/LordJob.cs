@@ -42,6 +42,14 @@ namespace Verse.AI.Group
 			}
 		}
 
+		public virtual bool CanBlockHostileVisitors
+		{
+			get
+			{
+				return true;
+			}
+		}
+
 		protected Map Map
 		{
 			get

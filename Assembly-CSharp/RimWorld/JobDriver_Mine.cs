@@ -15,7 +15,7 @@ namespace RimWorld
 
 		private Effecter effecter = null;
 
-		public const int BaseTicksBetweenPickHits = 120;
+		public const int BaseTicksBetweenPickHits = 110;
 
 		private const int BaseDamagePerPickHit_NaturalRock = 80;
 
@@ -134,7 +134,7 @@ namespace RimWorld
 			{
 				num = 0.5f;
 			}
-			this.ticksToPickHit = (int)Math.Round((double)(120f / num));
+			this.ticksToPickHit = (int)Math.Round((double)(110f / num));
 		}
 
 		public override void ExposeData()

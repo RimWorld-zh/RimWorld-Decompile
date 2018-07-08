@@ -10,17 +10,27 @@ namespace RimWorld
 {
 	public static class StorytellerUtility
 	{
-		private const float PointsPer1000Wealth = 7.5f;
+		private const float PointsPer1000Wealth = 6f;
 
 		public const float BuildingWealthFactor = 0.5f;
-
-		private const float PointsPerColonist = 34f;
 
 		private const float PointsPerTameAnimalCombatPower = 0.09f;
 
 		private const float PointsPerPlayerPawnFactorInContainer = 0.3f;
 
 		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.5f;
+
+		private static readonly SimpleCurve PointsPerColonistByWealthCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 30f),
+				true
+			},
+			{
+				new CurvePoint(300000f, 80f),
+				true
+			}
+		};
 
 		private static readonly SimpleCurve PostProcessCurve = new SimpleCurve
 		{
@@ -33,11 +43,11 @@ namespace RimWorld
 				true
 			},
 			{
-				new CurvePoint(1000f, 1000f),
+				new CurvePoint(1000f, 700f),
 				true
 			},
 			{
-				new CurvePoint(2000f, 2000f),
+				new CurvePoint(2000f, 1600f),
 				true
 			},
 			{
@@ -45,7 +55,7 @@ namespace RimWorld
 				true
 			},
 			{
-				new CurvePoint(5000f, 4100f),
+				new CurvePoint(5000f, 4250f),
 				true
 			},
 			{
@@ -61,22 +71,32 @@ namespace RimWorld
 		public static readonly SimpleCurve ThreatPointsToSiteThreatPointsCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 150f),
+				new CurvePoint(300f, 100f),
 				true
 			},
 			{
-				new CurvePoint(300f, 240f),
+				new CurvePoint(1300f, 200f),
 				true
 			},
 			{
-				new CurvePoint(5000f, 2000f),
+				new CurvePoint(2300f, 400f),
 				true
 			},
 			{
-				new CurvePoint(10000f, 4000f),
+				new CurvePoint(3300f, 600f),
+				true
+			},
+			{
+				new CurvePoint(4300f, 700f),
+				true
+			},
+			{
+				new CurvePoint(5300f, 800f),
 				true
 			}
 		};
+
+		public static readonly FloatRange SitePointRandomFactorRange = new FloatRange(0.7f, 1.3f);
 
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 
@@ -137,14 +157,14 @@ namespace RimWorld
 		{
 			float num = target.PlayerWealthForStoryteller;
 			num = Mathf.Max(num, 0f);
-			float num2 = num / 1000f * 7.5f;
+			float num2 = num / 1000f * 6f;
 			float num3 = 0f;
 			foreach (Pawn pawn in target.PlayerPawnsForStoryteller)
 			{
 				float num4 = 0f;
 				if (pawn.IsFreeColonist)
 				{
-					num4 = 34f;
+					num4 = StorytellerUtility.PointsPerColonistByWealthCurve.Evaluate(num);
 				}
 				else if (pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer && !pawn.Downed && pawn.training.CanAssignToTrain(TrainableDefOf.Release).Accepted)
 				{

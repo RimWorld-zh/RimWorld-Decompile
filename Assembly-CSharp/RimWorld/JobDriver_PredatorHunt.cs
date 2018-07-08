@@ -15,6 +15,8 @@ namespace RimWorld
 
 		private bool firstHit = true;
 
+		private bool sentLetter;
+
 		public const TargetIndex PreyInd = TargetIndex.A;
 
 		private const TargetIndex CorpseInd = TargetIndex.A;
@@ -55,6 +57,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.firstHit, "firstHit", false, false);
+			Scribe_Values.Look<bool>(ref this.sentLetter, "sentLetter", false, false);
 		}
 
 		public override string GetReport()
@@ -135,7 +138,9 @@ namespace RimWorld
 				}
 				this.firstHit = false;
 			};
-			yield return Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, onHitAction).JumpIfDespawnedOrNull(TargetIndex.A, prepareToEatCorpse).JumpIf(() => this.Corpse != null, prepareToEatCorpse).FailOn(() => Find.TickManager.TicksGame > this.startTick + 5000 && (float)(this.job.GetTarget(TargetIndex.A).Cell - this.pawn.Position).LengthHorizontalSquared > 4f);
+			Toil followAndAttack = Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, onHitAction).JumpIfDespawnedOrNull(TargetIndex.A, prepareToEatCorpse).JumpIf(() => this.Corpse != null, prepareToEatCorpse).FailOn(() => Find.TickManager.TicksGame > this.startTick + 5000 && (float)(this.job.GetTarget(TargetIndex.A).Cell - this.pawn.Position).LengthHorizontalSquared > 4f);
+			followAndAttack.AddPreTickAction(new Action(this.CheckWarnPlayer));
+			yield return followAndAttack;
 			yield return prepareToEatCorpse;
 			Toil gotoCorpse = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
 			yield return gotoCorpse;
@@ -155,10 +160,40 @@ namespace RimWorld
 			}
 		}
 
+		private void CheckWarnPlayer()
+		{
+			if (!this.sentLetter)
+			{
+				Pawn prey = this.Prey;
+				if (!prey.Dead && prey.IsColonist && prey.Spawned)
+				{
+					if (Find.TickManager.TicksGame > this.pawn.mindState.lastPredatorHuntingColonistLetterTick + 2500)
+					{
+						if (prey.Position.InHorDistOf(this.pawn.Position, 30f) && prey.Position.WithinRegions(this.pawn.Position, base.Map, 30, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+						{
+							Find.LetterStack.ReceiveLetter("LetterLabelPredatorHuntingColonist".Translate(new object[]
+							{
+								this.pawn.LabelShort,
+								prey.LabelDefinite()
+							}).CapitalizeFirst(), "LetterPredatorHuntingColonist".Translate(new object[]
+							{
+								this.pawn.LabelIndefinite(),
+								prey.LabelDefinite()
+							}).CapitalizeFirst(), LetterDefOf.ThreatBig, this.pawn, null, null);
+							this.pawn.mindState.Notify_SentPredatorHuntingColonistLetter();
+							this.sentLetter = true;
+						}
+					}
+				}
+			}
+		}
+
 		[CompilerGenerated]
 		private sealed class <MakeNewToils>c__Iterator0 : IEnumerable, IEnumerable<Toil>, IEnumerator, IDisposable, IEnumerator<Toil>
 		{
 			internal Action <onHitAction>__0;
+
+			internal Toil <followAndAttack>__0;
 
 			internal Toil <gotoCorpse>__0;
 
@@ -251,7 +286,9 @@ namespace RimWorld
 						}
 						<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.firstHit = false;
 					};
-					this.$current = Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, onHitAction).JumpIfDespawnedOrNull(TargetIndex.A, <MakeNewToils>c__AnonStorey.prepareToEatCorpse).JumpIf(() => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Corpse != null, <MakeNewToils>c__AnonStorey.prepareToEatCorpse).FailOn(() => Find.TickManager.TicksGame > <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.startTick + 5000 && (float)(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A).Cell - <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Position).LengthHorizontalSquared > 4f);
+					followAndAttack = Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, onHitAction).JumpIfDespawnedOrNull(TargetIndex.A, <MakeNewToils>c__AnonStorey.prepareToEatCorpse).JumpIf(() => <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.Corpse != null, <MakeNewToils>c__AnonStorey.prepareToEatCorpse).FailOn(() => Find.TickManager.TicksGame > <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.startTick + 5000 && (float)(<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.GetTarget(TargetIndex.A).Cell - <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.Position).LengthHorizontalSquared > 4f);
+					followAndAttack.AddPreTickAction(new Action(base.CheckWarnPlayer));
+					this.$current = followAndAttack;
 					if (!this.$disposing)
 					{
 						this.$PC = 2;

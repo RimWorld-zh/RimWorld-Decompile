@@ -81,7 +81,7 @@ namespace RimWorld
 					incidentParms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 					incidentParms.spawnCenter = spawnSpot;
 					incidentParms.points *= 1.35f;
-					QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange);
+					QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange, 0);
 					Find.Storyteller.incidentQueue.Add(qi);
 				};
 				diaOption.resolveTree = true;
@@ -162,7 +162,7 @@ namespace RimWorld
 				incidentParms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 				incidentParms.spawnCenter = this.spawnSpot;
 				incidentParms.points *= 1.35f;
-				QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange);
+				QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange, 0);
 				Find.Storyteller.incidentQueue.Add(qi);
 			}
 

@@ -95,6 +95,8 @@ namespace Verse.AI
 
 		public bool spawnedByInfestationThingComp;
 
+		public int lastPredatorHuntingColonistLetterTick = -99999;
+
 		public float maxDistToSquadFlag = -1f;
 
 		private int lastJobGiverKey = -1;
@@ -200,6 +202,7 @@ namespace Verse.AI
 			this.timesGuestTendedToByPlayer = 0;
 			this.lastSelfTendTick = -99999;
 			this.spawnedByInfestationThingComp = false;
+			this.lastPredatorHuntingColonistLetterTick = -99999;
 		}
 
 		public void ExposeData()
@@ -270,6 +273,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.timesGuestTendedToByPlayer, "timesGuestTendedToByPlayer", 0, false);
 			Scribe_Values.Look<int>(ref this.lastSelfTendTick, "lastSelfTendTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.spawnedByInfestationThingComp, "spawnedByInfestationThingComp", false, false);
+			Scribe_Values.Look<int>(ref this.lastPredatorHuntingColonistLetterTick, "lastPredatorHuntingColonistLetterTick", -99999, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				BackCompatibility.MindStatePostLoadInit(this);
@@ -492,6 +496,11 @@ namespace Verse.AI
 		public void Notify_SelfTended()
 		{
 			this.lastSelfTendTick = Find.TickManager.TicksGame;
+		}
+
+		public void Notify_SentPredatorHuntingColonistLetter()
+		{
+			this.lastPredatorHuntingColonistLetterTick = Find.TickManager.TicksGame;
 		}
 
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)

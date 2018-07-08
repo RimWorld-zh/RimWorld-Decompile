@@ -87,11 +87,19 @@ namespace Verse
 			}
 			try
 			{
-				Find.LetterStack.Notify_MapRemoved(map);
+				Find.Archive.Notify_MapRemoved(map);
 			}
 			catch (Exception arg9)
 			{
-				Log.Error("Error while deiniting map: could not remove things from thing listers: " + arg9, false);
+				Log.Error("Error while deiniting map: could not remove look targets: " + arg9, false);
+			}
+			try
+			{
+				Find.Storyteller.incidentQueue.Notify_MapRemoved(map);
+			}
+			catch (Exception arg10)
+			{
+				Log.Error("Error while deiniting map: could not remove queued incidents: " + arg10, false);
 			}
 		}
 

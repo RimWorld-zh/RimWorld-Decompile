@@ -17,6 +17,8 @@ namespace RimWorld
 
 		public bool peacefulTemples = false;
 
+		public bool predatorsHuntHumanlikes = true;
+
 		public float colonistMoodOffset = 0f;
 
 		public float tradePriceFactorLoss = 0f;

@@ -24,6 +24,8 @@ namespace Verse
 
 		private ProjectileHitFlags desiredHitFlags = ProjectileHitFlags.All;
 
+		protected float weaponDamageMultiplier = 1f;
+
 		protected bool landed;
 
 		protected int ticksToImpact;
@@ -109,6 +111,22 @@ namespace Verse
 			}
 		}
 
+		public int DamageAmount
+		{
+			get
+			{
+				return this.def.projectile.GetDamageAmount(this.weaponDamageMultiplier, null);
+			}
+		}
+
+		public float ArmorPenetration
+		{
+			get
+			{
+				return this.def.projectile.GetArmorPenetration(this.weaponDamageMultiplier, null);
+			}
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -121,6 +139,7 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.equipmentDef, "equipmentDef");
 			Scribe_Defs.Look<ThingDef>(ref this.targetCoverDef, "targetCoverDef");
 			Scribe_Values.Look<ProjectileHitFlags>(ref this.desiredHitFlags, "desiredHitFlags", ProjectileHitFlags.All, false);
+			Scribe_Values.Look<float>(ref this.weaponDamageMultiplier, "weaponDamageMultiplier", 1f, false);
 			Scribe_Values.Look<bool>(ref this.landed, "landed", false, false);
 		}
 
@@ -140,10 +159,12 @@ namespace Verse
 			if (equipment != null)
 			{
 				this.equipmentDef = equipment.def;
+				this.weaponDamageMultiplier = equipment.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier, true);
 			}
 			else
 			{
 				this.equipmentDef = null;
+				this.weaponDamageMultiplier = 1f;
 			}
 			this.destination = usedTarget.Cell.ToVector3Shifted() + Gen.RandomHorizontalVector(0.3f);
 			this.ticksToImpact = this.StartingTicksToImpact;

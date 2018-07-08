@@ -143,6 +143,18 @@ namespace RimWorld
 			}
 		}
 
+		public void Notify_MapRemoved(Map map)
+		{
+			for (int i = 0; i < this.archivables.Count; i++)
+			{
+				LookTargets lookTargets = this.archivables[i].LookTargets;
+				if (lookTargets != null)
+				{
+					lookTargets.Notify_MapRemoved(map);
+				}
+			}
+		}
+
 		[CompilerGenerated]
 		private static bool <ExposeData>m__0(IArchivable x)
 		{

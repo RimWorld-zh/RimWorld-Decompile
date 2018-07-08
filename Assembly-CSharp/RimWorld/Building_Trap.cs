@@ -11,11 +11,17 @@ namespace RimWorld
 	{
 		private List<Pawn> touchingPawns = new List<Pawn>();
 
-		private const float KnowerSpringChance = 0f;
+		private const float KnowerSpringChanceFactorSameFaction = 0.005f;
 
-		private const ushort KnowerPathFindCost = 60;
+		private const float KnowerSpringChanceFactorWildAnimal = 0.2f;
 
-		private const ushort KnowerPathWalkCost = 60;
+		private const float KnowerSpringChanceFactorFactionlessHuman = 0.3f;
+
+		private const float KnowerSpringChanceFactorOther = 0f;
+
+		private const ushort KnowerPathFindCost = 800;
+
+		private const ushort KnowerPathWalkCost = 40;
 
 		protected Building_Trap()
 		{
@@ -63,7 +69,14 @@ namespace RimWorld
 
 		private void CheckSpring(Pawn p)
 		{
-			if (Rand.Value < this.SpringChance(p))
+			Log.Message(string.Concat(new object[]
+			{
+				"CheckSpring ",
+				base.Position,
+				"   ",
+				p.Label
+			}), false);
+			if (Rand.Chance(this.SpringChance(p)))
 			{
 				this.Spring(p);
 				if (p.Faction == Faction.OfPlayer || p.HostFaction == Faction.OfPlayer)
@@ -81,21 +94,35 @@ namespace RimWorld
 
 		protected virtual float SpringChance(Pawn p)
 		{
-			float value;
+			float num = this.GetStatValue(StatDefOf.TrapSpringChance, true);
 			if (this.KnowsOfTrap(p))
 			{
-				value = 0f;
+				if (p.Faction == null)
+				{
+					if (p.RaceProps.Animal)
+					{
+						num *= 0.2f;
+					}
+					else
+					{
+						num *= 0.3f;
+					}
+				}
+				else if (p.Faction == base.Faction)
+				{
+					num *= 0.005f;
+				}
+				else
+				{
+					num *= 0f;
+				}
 			}
-			else
-			{
-				value = this.GetStatValue(StatDefOf.TrapSpringChance, true);
-			}
-			return Mathf.Clamp01(value);
+			return Mathf.Clamp01(num);
 		}
 
 		public bool KnowsOfTrap(Pawn p)
 		{
-			return (p.Faction != null && !p.Faction.HostileTo(base.Faction)) || (p.Faction == null && this.def.building.trapWildAnimalsAvoid && p.RaceProps.Animal && !p.InAggroMentalState) || (p.guest != null && p.guest.Released) || (p.RaceProps.Humanlike && p.IsFormingCaravan());
+			return (p.Faction != null && !p.Faction.HostileTo(base.Faction)) || (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState) || (p.guest != null && p.guest.Released) || (p.RaceProps.Humanlike && p.IsFormingCaravan());
 		}
 
 		public override ushort PathFindCostFor(Pawn p)
@@ -107,7 +134,7 @@ namespace RimWorld
 			}
 			else
 			{
-				result = 60;
+				result = 800;
 			}
 			return result;
 		}
@@ -121,7 +148,7 @@ namespace RimWorld
 			}
 			else
 			{
-				result = 60;
+				result = 40;
 			}
 			return result;
 		}

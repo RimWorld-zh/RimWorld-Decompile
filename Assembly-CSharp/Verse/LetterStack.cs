@@ -133,14 +133,6 @@ namespace Verse
 			this.mouseoverLetterIndex = this.letters.IndexOf(let);
 		}
 
-		public void Notify_MapRemoved(Map map)
-		{
-			for (int i = 0; i < this.letters.Count; i++)
-			{
-				this.letters[i].Notify_MapRemoved(map);
-			}
-		}
-
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Letter>(ref this.letters, "letters", LookMode.Reference, new object[0]);

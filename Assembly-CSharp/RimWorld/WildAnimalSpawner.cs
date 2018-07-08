@@ -11,9 +11,9 @@ namespace RimWorld
 	{
 		private Map map;
 
-		private const int AnimalCheckInterval = 1210;
+		private const int AnimalCheckInterval = 1213;
 
-		private const float BaseAnimalSpawnChancePerInterval = 0.0268888883f;
+		private const float BaseAnimalSpawnChancePerInterval = 0.0173285715f;
 
 		public WildAnimalSpawner(Map map)
 		{
@@ -88,11 +88,11 @@ namespace RimWorld
 
 		public void WildAnimalSpawnerTick()
 		{
-			if (Find.TickManager.TicksGame % 1210 == 0)
+			if (Find.TickManager.TicksGame % 1213 == 0)
 			{
 				if (!this.AnimalEcosystemFull)
 				{
-					if (Rand.Value < 0.0268888883f * this.DesiredAnimalDensity)
+					if (Rand.Chance(0.0173285715f * this.DesiredAnimalDensity))
 					{
 						IntVec3 loc;
 						if (RCellFinder.TryFindRandomPawnEntryCell(out loc, this.map, CellFinder.EdgeRoadChance_Animal, null))

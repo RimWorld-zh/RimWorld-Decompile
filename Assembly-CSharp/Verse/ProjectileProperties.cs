@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
+using RimWorld;
+using UnityEngine;
 
 namespace Verse
 {
@@ -61,63 +64,6 @@ namespace Verse
 		{
 		}
 
-		public int DamageAmount
-		{
-			get
-			{
-				int result;
-				if (this.damageAmountBase != -1)
-				{
-					result = this.damageAmountBase;
-				}
-				else if (this.damageDef != null)
-				{
-					result = this.damageDef.defaultDamage;
-				}
-				else
-				{
-					Log.ErrorOnce("Failed to find sane damage amount", 91094882, false);
-					result = 1;
-				}
-				return result;
-			}
-		}
-
-		public float ArmorPenetration
-		{
-			get
-			{
-				float result;
-				if (this.damageDef.armorCategory == null)
-				{
-					result = 0f;
-				}
-				else
-				{
-					float num;
-					if (this.damageAmountBase != -1 || this.armorPenetrationBase >= 0f)
-					{
-						num = this.armorPenetrationBase;
-					}
-					else
-					{
-						if (this.damageDef == null)
-						{
-							return 0f;
-						}
-						num = this.damageDef.defaultArmorPenetration;
-					}
-					if (num < 0f)
-					{
-						int damageAmount = this.DamageAmount;
-						num = (float)damageAmount * 0.015f;
-					}
-					result = num;
-				}
-				return result;
-			}
-		}
-
 		public float StoppingPower
 		{
 			get
@@ -137,6 +83,97 @@ namespace Verse
 				}
 				return result;
 			}
+		}
+
+		public int GetDamageAmount(Thing weapon, StringBuilder explanation = null)
+		{
+			float weaponDamageMultiplier = (weapon == null) ? 1f : weapon.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier, true);
+			return this.GetDamageAmount(weaponDamageMultiplier, explanation);
+		}
+
+		public int GetDamageAmount(float weaponDamageMultiplier, StringBuilder explanation = null)
+		{
+			int num;
+			if (this.damageAmountBase != -1)
+			{
+				num = this.damageAmountBase;
+			}
+			else
+			{
+				if (this.damageDef == null)
+				{
+					Log.ErrorOnce("Failed to find sane damage amount", 91094882, false);
+					return 1;
+				}
+				num = this.damageDef.defaultDamage;
+			}
+			if (explanation != null)
+			{
+				explanation.Append("StatsReport_BaseValue".Translate() + "\n    " + num);
+				explanation.AppendLine();
+				explanation.AppendLine();
+				explanation.Append("StatsReport_QualityMultiplier".Translate() + ": " + weaponDamageMultiplier.ToStringPercent());
+			}
+			num = Mathf.RoundToInt((float)num * weaponDamageMultiplier);
+			if (explanation != null)
+			{
+				explanation.AppendLine();
+				explanation.AppendLine();
+				explanation.Append("StatsReport_FinalValue".Translate() + ": " + num);
+			}
+			return num;
+		}
+
+		public float GetArmorPenetration(Thing weapon, StringBuilder explanation = null)
+		{
+			float weaponDamageMultiplier = (weapon == null) ? 1f : weapon.GetStatValue(StatDefOf.RangedWeapon_DamageMultiplier, true);
+			return this.GetArmorPenetration(weaponDamageMultiplier, explanation);
+		}
+
+		public float GetArmorPenetration(float weaponDamageMultiplier, StringBuilder explanation = null)
+		{
+			float result;
+			if (this.damageDef.armorCategory == null)
+			{
+				result = 0f;
+			}
+			else
+			{
+				float num;
+				if (this.damageAmountBase != -1 || this.armorPenetrationBase >= 0f)
+				{
+					num = this.armorPenetrationBase;
+				}
+				else
+				{
+					if (this.damageDef == null)
+					{
+						return 0f;
+					}
+					num = this.damageDef.defaultArmorPenetration;
+				}
+				if (num < 0f)
+				{
+					int damageAmount = this.GetDamageAmount(null, null);
+					num = (float)damageAmount * 0.015f;
+				}
+				if (explanation != null)
+				{
+					explanation.Append("StatsReport_BaseValue".Translate() + "\n    " + num.ToStringPercent());
+					explanation.AppendLine();
+					explanation.AppendLine();
+					explanation.Append("StatsReport_QualityMultiplier".Translate() + ": " + weaponDamageMultiplier.ToStringPercent());
+				}
+				num *= weaponDamageMultiplier;
+				if (explanation != null)
+				{
+					explanation.AppendLine();
+					explanation.AppendLine();
+					explanation.Append("StatsReport_FinalValue".Translate() + ": " + num.ToStringPercent());
+				}
+				result = num;
+			}
+			return result;
 		}
 
 		public IEnumerable<string> ConfigErrors(ThingDef parent)

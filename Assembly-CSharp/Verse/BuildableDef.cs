@@ -249,9 +249,9 @@ namespace Verse
 			yield break;
 		}
 
-		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
-			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1())
+			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1(req))
 			{
 				yield return stat;
 			}
@@ -306,9 +306,9 @@ namespace Verse
 
 		[DebuggerHidden]
 		[CompilerGenerated]
-		private IEnumerable<StatDrawEntry> <SpecialDisplayStats>__BaseCallProxy1()
+		private IEnumerable<StatDrawEntry> <SpecialDisplayStats>__BaseCallProxy1(StatRequest req)
 		{
-			return base.SpecialDisplayStats();
+			return base.SpecialDisplayStats(req);
 		}
 
 		[CompilerGenerated]
@@ -447,6 +447,8 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <SpecialDisplayStats>c__Iterator1 : IEnumerable, IEnumerable<StatDrawEntry>, IEnumerator, IDisposable, IEnumerator<StatDrawEntry>
 		{
+			internal StatRequest req;
+
 			internal IEnumerator<StatDrawEntry> $locvar0;
 
 			internal StatDrawEntry <stat>__1;
@@ -482,13 +484,13 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					enumerator = base.<SpecialDisplayStats>__BaseCallProxy1().GetEnumerator();
+					enumerator = base.<SpecialDisplayStats>__BaseCallProxy1(req).GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1EB;
+					goto IL_1F1;
 				default:
 					return false;
 				}
@@ -533,7 +535,7 @@ namespace Verse
 				select ta.label).ToArray<string>();
 				if (affordances.Length <= 0)
 				{
-					goto IL_1EB;
+					goto IL_1F1;
 				}
 				this.$current = new StatDrawEntry(StatCategoryDefOf.Basics, "TerrainRequirement".Translate(), affordances.ToCommaList(false).CapitalizeFirst(), 0, "");
 				if (!this.$disposing)
@@ -541,7 +543,7 @@ namespace Verse
 					this.$PC = 2;
 				}
 				return true;
-				IL_1EB:
+				IL_1F1:
 				this.$PC = -1;
 				return false;
 			}
@@ -608,6 +610,7 @@ namespace Verse
 				}
 				BuildableDef.<SpecialDisplayStats>c__Iterator1 <SpecialDisplayStats>c__Iterator = new BuildableDef.<SpecialDisplayStats>c__Iterator1();
 				<SpecialDisplayStats>c__Iterator.$this = this;
+				<SpecialDisplayStats>c__Iterator.req = req;
 				return <SpecialDisplayStats>c__Iterator;
 			}
 

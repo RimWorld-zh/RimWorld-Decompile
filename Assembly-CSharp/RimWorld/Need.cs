@@ -149,11 +149,6 @@ namespace RimWorld
 			this.CurLevelPercentage = 0.5f;
 		}
 
-		public void ForceSetLevel(float levelPercent)
-		{
-			this.CurLevelPercentage = levelPercent;
-		}
-
 		public virtual void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (rect.height > 70f)

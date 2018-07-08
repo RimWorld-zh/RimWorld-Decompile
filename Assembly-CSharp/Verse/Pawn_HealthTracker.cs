@@ -793,7 +793,7 @@ namespace Verse
 							select x).RandomElement<Hediff_Injury>();
 							float tendQuality = hediff_Injury2.TryGetComp<HediffComp_TendDuration>().tendQuality;
 							float num2 = GenMath.LerpDouble(0f, 1f, 0.5f, 1.5f, Mathf.Clamp01(tendQuality));
-							hediff_Injury2.Heal(22f * num2 * this.pawn.HealthScale * 0.01f);
+							hediff_Injury2.Heal(16f * num2 * this.pawn.HealthScale * 0.01f);
 							flag2 = true;
 						}
 						if (flag2 && !this.HasHediffsNeedingTendByPlayer(false) && !HealthAIUtility.ShouldSeekMedicalRest(this.pawn) && !this.hediffSet.HasTendedAndHealingInjury() && PawnUtility.ShouldSendNotificationAbout(this.pawn))

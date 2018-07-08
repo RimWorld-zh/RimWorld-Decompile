@@ -6,11 +6,9 @@ namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_Interior_AncientTemple : SymbolResolver
 	{
-		private const float MechanoidsChance = 0.5f;
+		private const float MechanoidsChance = 0.65f;
 
 		private static readonly IntRange MechanoidCountRange = new IntRange(1, 5);
-
-		private const float HivesChance = 0.45f;
 
 		private static readonly IntRange HivesCountRange = new IntRange(1, 2);
 
@@ -29,14 +27,14 @@ namespace RimWorld.BaseGen
 			}
 			if (!Find.Storyteller.difficulty.peacefulTemples)
 			{
-				if (Rand.Chance(0.5f))
+				if (Rand.Chance(0.65f))
 				{
 					ResolveParams resolveParams2 = rp;
 					int? mechanoidsCount = rp.mechanoidsCount;
 					resolveParams2.mechanoidsCount = new int?((mechanoidsCount == null) ? SymbolResolver_Interior_AncientTemple.MechanoidCountRange.RandomInRange : mechanoidsCount.Value);
 					BaseGen.symbolStack.Push("randomMechanoidGroup", resolveParams2);
 				}
-				else if (Rand.Chance(0.45f))
+				else
 				{
 					ResolveParams resolveParams3 = rp;
 					int? hivesCount = rp.hivesCount;

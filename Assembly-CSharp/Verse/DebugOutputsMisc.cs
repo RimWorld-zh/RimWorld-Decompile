@@ -1132,7 +1132,7 @@ namespace Verse
 			ThingDef thingDef = ThingDef.Named("Bullet_BoltActionRifle");
 			PawnKindDef slave = PawnKindDefOf.Slave;
 			Faction faction = FactionUtility.DefaultFactionFrom(slave.defaultFactionType);
-			DamageInfo dinfo = new DamageInfo(thingDef.projectile.damageDef, (float)thingDef.projectile.DamageAmount, thingDef.projectile.ArmorPenetration, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+			DamageInfo dinfo = new DamageInfo(thingDef.projectile.damageDef, (float)thingDef.projectile.GetDamageAmount(null, null), thingDef.projectile.GetArmorPenetration(null, null), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 			int num = 0;
 			int num2 = 0;
 			DefMap<BodyPartDef, int> defMap = new DefMap<BodyPartDef, int>();
@@ -1184,7 +1184,7 @@ namespace Verse
 				"x ",
 				thingDef.label,
 				" (",
-				thingDef.projectile.DamageAmount,
+				thingDef.projectile.GetDamageAmount(null, null),
 				" damage) each. Results:"
 			}));
 			stringBuilder.AppendLine(string.Concat(new object[]

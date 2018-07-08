@@ -53,7 +53,7 @@ namespace RimWorld
 		protected virtual IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, Func<IncidentDef, IncidentParms> parmsGetter)
 		{
 			return from x in DefDatabase<IncidentDef>.AllDefsListForReading
-			where x.category == cat && x.Worker.CanFireNow(parmsGetter(x))
+			where x.category == cat && x.Worker.CanFireNow(parmsGetter(x), false)
 			select x;
 		}
 
@@ -218,7 +218,7 @@ namespace RimWorld
 
 			internal bool <>m__0(IncidentDef x)
 			{
-				return x.category == this.cat && x.Worker.CanFireNow(this.parmsGetter(x));
+				return x.category == this.cat && x.Worker.CanFireNow(this.parmsGetter(x), false);
 			}
 		}
 

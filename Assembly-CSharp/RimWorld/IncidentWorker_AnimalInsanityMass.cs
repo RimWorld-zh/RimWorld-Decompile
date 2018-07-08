@@ -81,7 +81,10 @@ namespace RimWorld
 					LetterDef textLetterDef;
 					if (num2 == 1)
 					{
-						label = "LetterLabelAnimalInsanitySingle".Translate() + ": " + pawn.LabelCap;
+						label = "LetterLabelAnimalInsanitySingle".Translate(new object[]
+						{
+							pawn.LabelShort
+						}) + ": " + pawn.LabelCap;
 						text = "AnimalInsanitySingle".Translate(new object[]
 						{
 							pawn.LabelShort
@@ -90,7 +93,10 @@ namespace RimWorld
 					}
 					else
 					{
-						label = "LetterLabelAnimalInsanityMultiple".Translate() + ": " + animalDef.LabelCap;
+						label = "LetterLabelAnimalInsanityMultiple".Translate(new object[]
+						{
+							animalDef.GetLabelPlural(-1)
+						}) + ": " + animalDef.LabelCap;
 						text = "AnimalInsanityMultiple".Translate(new object[]
 						{
 							animalDef.GetLabelPlural(-1)

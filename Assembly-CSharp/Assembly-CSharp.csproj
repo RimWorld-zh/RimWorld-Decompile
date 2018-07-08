@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2CFE46BB-691A-40C6-B58F-BE07AFB60326}</ProjectGuid>
+    <ProjectGuid>{0E1FBA06-BCFF-4CEE-A05D-8F565F37BF29}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -4003,7 +4003,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{2cfe46bb-691a-40c6-b58f-be07afb60327}</Project>
+      <Project>{0e1fba06-bcff-4cee-a05d-8f565f37bf2a}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

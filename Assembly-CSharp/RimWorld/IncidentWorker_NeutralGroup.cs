@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
+using Verse.AI.Group;
 
 namespace RimWorld
 {
@@ -21,7 +22,7 @@ namespace RimWorld
 
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
-			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer);
+			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer) && !this.AnyBlockingHostileLord(map, f);
 		}
 
 		protected bool TryResolveParms(IncidentParms parms)
@@ -75,6 +76,36 @@ namespace RimWorld
 				GenSpawn.Spawn(newThing, loc, map, WipeMode.Vanish);
 			}
 			return list;
+		}
+
+		protected bool AnyBlockingHostileLord(Map map, Faction forFaction)
+		{
+			Faction faction = map.ParentFaction ?? Faction.OfPlayer;
+			List<Lord> lords = map.lordManager.lords;
+			for (int i = 0; i < lords.Count; i++)
+			{
+				if (lords[i].faction != null && lords[i].faction != forFaction && lords[i].faction != faction)
+				{
+					if (lords[i].AnyActivePawn)
+					{
+						LordJob lordJob = lords[i].LordJob;
+						if (lordJob == null || lordJob.CanBlockHostileVisitors)
+						{
+							if (!(lordJob is LordJob_VoluntarilyJoinable))
+							{
+								if (lords[i].faction.HostileTo(forFaction))
+								{
+									if (!lords[i].faction.HostileTo(faction))
+									{
+										return true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
 		}
 	}
 }

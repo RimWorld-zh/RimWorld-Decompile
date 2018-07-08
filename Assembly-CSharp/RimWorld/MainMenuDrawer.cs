@@ -32,6 +32,8 @@ namespace RimWorld
 
 		private static readonly Texture2D TexLudeonLogo = ContentFinder<Texture2D>.Get("UI/HeroArt/LudeonLogoSmall", true);
 
+		private static readonly string TranslationsContributeURL = "https://rimworldgame.com/helptranslate";
+
 		[CompilerGenerated]
 		private static Action <>f__am$cache0;
 
@@ -132,6 +134,8 @@ namespace RimWorld
 			GUI.color = Color.white;
 			rect.yMin += 17f;
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
+			Rect outRect = new Rect(8f, (float)(UI.screenHeight - 8 - 400), 200f, 400f);
+			MainMenuDrawer.DoMainTextRect(outRect);
 		}
 
 		public static void DoMainMenuControls(Rect rect, bool anyMapFiles)
@@ -292,19 +296,19 @@ namespace RimWorld
 			OptionListingUtility.DrawOptionListing(rect2, list);
 			Text.Font = GameFont.Small;
 			List<ListableOption> list2 = new List<ListableOption>();
-			ListableOption item2 = new ListableOption_WebLink("FictionPrimer".Translate(), "http://rimworldgame.com/backstory", TexButton.IconBlog);
+			ListableOption item2 = new ListableOption_WebLink("FictionPrimer".Translate(), "https://rimworldgame.com/backstory", TexButton.IconBlog);
 			list2.Add(item2);
-			item2 = new ListableOption_WebLink("LudeonBlog".Translate(), "http://ludeon.com/blog", TexButton.IconBlog);
+			item2 = new ListableOption_WebLink("LudeonBlog".Translate(), "https://ludeon.com/blog", TexButton.IconBlog);
 			list2.Add(item2);
-			item2 = new ListableOption_WebLink("Forums".Translate(), "http://ludeon.com/forums", TexButton.IconForums);
+			item2 = new ListableOption_WebLink("Forums".Translate(), "https://ludeon.com/forums", TexButton.IconForums);
 			list2.Add(item2);
-			item2 = new ListableOption_WebLink("OfficialWiki".Translate(), "http://rimworldwiki.com", TexButton.IconBlog);
+			item2 = new ListableOption_WebLink("OfficialWiki".Translate(), "https://rimworldwiki.com", TexButton.IconBlog);
 			list2.Add(item2);
 			item2 = new ListableOption_WebLink("TynansTwitter".Translate(), "https://twitter.com/TynanSylvester", TexButton.IconTwitter);
 			list2.Add(item2);
-			item2 = new ListableOption_WebLink("TynansDesignBook".Translate(), "http://tynansylvester.com/book", TexButton.IconBook);
+			item2 = new ListableOption_WebLink("TynansDesignBook".Translate(), "https://tynansylvester.com/book", TexButton.IconBook);
 			list2.Add(item2);
-			item2 = new ListableOption_WebLink("HelpTranslate".Translate(), "http://ludeon.com/forums/index.php?topic=2933.0", TexButton.IconForums);
+			item2 = new ListableOption_WebLink("HelpTranslate".Translate(), MainMenuDrawer.TranslationsContributeURL, TexButton.IconForums);
 			list2.Add(item2);
 			item2 = new ListableOption_WebLink("BuySoundtrack".Translate(), "http://www.lasgameaudio.co.uk/#!store/t04fw", TexButton.IconSoundtrack);
 			list2.Add(item2);
@@ -329,6 +333,39 @@ namespace RimWorld
 			}
 			GUI.EndGroup();
 			GUI.EndGroup();
+		}
+
+		public static void DoMainTextRect(Rect outRect)
+		{
+			if (LanguageDatabase.activeLanguage != LanguageDatabase.defaultLanguage)
+			{
+				Widgets.DrawWindowBackground(outRect);
+				Rect rect = outRect.ContractedBy(8f);
+				GUI.BeginGroup(rect);
+				rect = rect.AtZero();
+				Rect rect2 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
+				rect.height -= 27f;
+				string text = "";
+				foreach (CreditsEntry creditsEntry in LanguageDatabase.activeLanguage.info.credits)
+				{
+					CreditRecord_Role creditRecord_Role = creditsEntry as CreditRecord_Role;
+					if (creditRecord_Role != null)
+					{
+						text = text + creditRecord_Role.creditee + "\n";
+					}
+				}
+				text = text.TrimEndNewlines();
+				string label = "TranslationThanks".Translate(new object[]
+				{
+					text
+				}) + "\n\n" + "TranslationHowToContribute".Translate();
+				Widgets.Label(rect, label);
+				if (Widgets.ButtonText(rect2, "LearnMore".Translate(), true, false, true))
+				{
+					Application.OpenURL(MainMenuDrawer.TranslationsContributeURL);
+				}
+				GUI.EndGroup();
+			}
 		}
 
 		private static void InitLearnToPlay()

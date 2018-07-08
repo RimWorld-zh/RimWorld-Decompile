@@ -112,6 +112,7 @@ namespace Verse
 				}
 				else if (this.verbProps == null)
 				{
+					Log.ErrorOnce("Verb with null verbProps " + this.ToStringSafe<Verb>(), 184756351, false);
 					result = null;
 				}
 				else
@@ -131,9 +132,14 @@ namespace Verse
 				{
 					result = this.tool.ensureLinkedBodyPartsGroupAlwaysUsable;
 				}
+				else if (this.verbProps == null)
+				{
+					Log.ErrorOnce("Verb with null verbProps " + this.ToStringSafe<Verb>(), 184756351, false);
+					result = false;
+				}
 				else
 				{
-					result = (this.verbProps != null && this.verbProps.ensureLinkedBodyPartsGroupAlwaysUsable);
+					result = this.verbProps.ensureLinkedBodyPartsGroupAlwaysUsable;
 				}
 				return result;
 			}

@@ -26,6 +26,14 @@ namespace RimWorld
 			this.defSpot = defSpot;
 		}
 
+		public override bool CanBlockHostileVisitors
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();

@@ -123,6 +123,10 @@ namespace RimWorld
 			{
 				this.DoCompletionDialog(proj, null);
 			}
+			if (!proj.discoveredLetterTitle.NullOrEmpty())
+			{
+				Find.LetterStack.ReceiveLetter(proj.discoveredLetterTitle, proj.discoveredLetterText, LetterDefOf.NeutralEvent, null);
+			}
 			if (this.currentProj == proj)
 			{
 				this.currentProj = null;
@@ -134,7 +138,7 @@ namespace RimWorld
 			string text = "ResearchFinished".Translate(new object[]
 			{
 				this.currentProj.LabelCap
-			}) + "\n\n" + this.currentProj.DescriptionDiscovered;
+			}) + "\n\n" + this.currentProj.description;
 			DiaNode diaNode = new DiaNode(text);
 			diaNode.options.Add(DiaOption.DefaultOK);
 			DiaOption diaOption = new DiaOption("ResearchScreen".Translate());

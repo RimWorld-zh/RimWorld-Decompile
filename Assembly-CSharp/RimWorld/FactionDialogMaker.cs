@@ -155,7 +155,7 @@ namespace RimWorld
 				bool flag = PlayerItemAccessibilityUtility.ItemStashHas(ThingDefOf.AIPersonaCore);
 				IncidentParms coreIncidentParms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Find.World);
 				coreIncidentParms.faction = faction;
-				bool flag2 = def.Worker.CanFireNow(coreIncidentParms);
+				bool flag2 = def.Worker.CanFireNow(coreIncidentParms, false);
 				if (flag || !flag2)
 				{
 					DiaOption diaOption2 = new DiaOption(text);
@@ -258,7 +258,7 @@ namespace RimWorld
 							incidentParms.faction = faction;
 							incidentParms.traderKind = localTk;
 							incidentParms.forced = true;
-							Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms);
+							Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms, 240000);
 							faction.lastTraderRequestTick = Find.TickManager.TicksGame;
 							Faction faction2 = faction;
 							Faction ofPlayer = Faction.OfPlayer;
@@ -647,7 +647,7 @@ namespace RimWorld
 				incidentParms.faction = this.<>f__ref$3.faction;
 				incidentParms.traderKind = this.localTk;
 				incidentParms.forced = true;
-				Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms);
+				Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms, 240000);
 				this.<>f__ref$3.faction.lastTraderRequestTick = Find.TickManager.TicksGame;
 				Faction faction = this.<>f__ref$3.faction;
 				Faction ofPlayer = Faction.OfPlayer;

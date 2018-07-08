@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	internal class IncidentWorker_Alphabeavers : IncidentWorker
 	{
-		private static readonly FloatRange CountPerColonistRange = new FloatRange(1.7f, 3f);
+		private static readonly FloatRange CountPerColonistRange = new FloatRange(1f, 1.5f);
 
-		private const int MinCount = 6;
+		private const int MinCount = 1;
 
-		private const int MaxCount = 25;
+		private const int MaxCount = 10;
 
 		public IncidentWorker_Alphabeavers()
 		{
@@ -46,12 +46,14 @@ namespace RimWorld
 			{
 				int freeColonistsCount = map.mapPawns.FreeColonistsCount;
 				float randomInRange = IncidentWorker_Alphabeavers.CountPerColonistRange.RandomInRange;
-				int num = Mathf.Clamp(GenMath.RoundRandom((float)freeColonistsCount * randomInRange), 6, 25);
+				float f = (float)freeColonistsCount * randomInRange;
+				int num = Mathf.Clamp(GenMath.RoundRandom(f), 1, 10);
 				for (int i = 0; i < num; i++)
 				{
 					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
 					Pawn newThing = PawnGenerator.GeneratePawn(alphabeaver, null);
-					GenSpawn.Spawn(newThing, loc, map, WipeMode.Vanish);
+					Pawn pawn = (Pawn)GenSpawn.Spawn(newThing, loc, map, WipeMode.Vanish);
+					pawn.needs.food.CurLevelPercentage = 1f;
 				}
 				Find.LetterStack.ReceiveLetter("LetterLabelBeaversArrived".Translate(), "BeaversArrived".Translate(), LetterDefOf.ThreatSmall, new TargetInfo(intVec, map, false), null, null);
 				result = true;

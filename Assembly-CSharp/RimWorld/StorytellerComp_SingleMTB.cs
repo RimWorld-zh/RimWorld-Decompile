@@ -31,7 +31,7 @@ namespace RimWorld
 			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
 			{
 				IncidentParms parms = this.GenerateParms(this.Props.incident.category, target);
-				if (this.Props.incident.Worker.CanFireNow(parms))
+				if (this.Props.incident.Worker.CanFireNow(parms, false))
 				{
 					yield return new FiringIncident(this.Props.incident, this, parms);
 				}
@@ -78,7 +78,7 @@ namespace RimWorld
 					if (Rand.MTBEventOccurs(base.Props.mtbDays, 60000f, 1000f))
 					{
 						parms = this.GenerateParms(base.Props.incident.category, target);
-						if (base.Props.incident.Worker.CanFireNow(parms))
+						if (base.Props.incident.Worker.CanFireNow(parms, false))
 						{
 							this.$current = new FiringIncident(base.Props.incident, this, parms);
 							if (!this.$disposing)

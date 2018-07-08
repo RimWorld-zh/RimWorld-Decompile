@@ -48,7 +48,7 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			return this.CandidateFactions(map, false).Any<Faction>();
+			return parms.faction != null || this.CandidateFactions(map, false).Any<Faction>();
 		}
 
 		public string DebugListingOfGroupSources()

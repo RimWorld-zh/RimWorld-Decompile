@@ -60,7 +60,7 @@ namespace RimWorld
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
 			{
-				StatsReportUtility.cachedDrawEntries.AddRange(def.SpecialDisplayStats());
+				StatsReportUtility.cachedDrawEntries.AddRange(def.SpecialDisplayStats(StatRequest.For(def as BuildableDef, stuff, QualityCategory.Normal)));
 				StatsReportUtility.cachedDrawEntries.AddRange(from r in StatsReportUtility.StatsToDraw(def, stuff)
 				where r.ShouldDisplay
 				select r);
@@ -73,7 +73,7 @@ namespace RimWorld
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
 			{
-				StatsReportUtility.cachedDrawEntries.AddRange(thing.def.SpecialDisplayStats());
+				StatsReportUtility.cachedDrawEntries.AddRange(thing.def.SpecialDisplayStats(StatRequest.For(thing)));
 				StatsReportUtility.cachedDrawEntries.AddRange(from r in StatsReportUtility.StatsToDraw(thing)
 				where r.ShouldDisplay
 				select r);
@@ -87,7 +87,7 @@ namespace RimWorld
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
 			{
-				StatsReportUtility.cachedDrawEntries.AddRange(worldObject.def.SpecialDisplayStats());
+				StatsReportUtility.cachedDrawEntries.AddRange(worldObject.def.SpecialDisplayStats(StatRequest.ForEmpty()));
 				StatsReportUtility.cachedDrawEntries.AddRange(from r in StatsReportUtility.StatsToDraw(worldObject)
 				where r.ShouldDisplay
 				select r);

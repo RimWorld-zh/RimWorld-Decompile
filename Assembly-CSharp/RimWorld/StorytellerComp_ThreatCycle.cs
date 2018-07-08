@@ -84,7 +84,7 @@ namespace RimWorld
 			IncidentDef raidEnemy;
 			if ((float)GenDate.DaysPassed < this.Props.minDaysBeforeNonRaidThreatBig)
 			{
-				if (!IncidentDefOf.RaidEnemy.Worker.CanFireNow(parms))
+				if (!IncidentDefOf.RaidEnemy.Worker.CanFireNow(parms, false))
 				{
 					return null;
 				}

@@ -28,11 +28,11 @@ namespace Verse
 
 		public const int InjuryHealInterval = 600;
 
-		public const float InjuryHealPerDay_Untended = 8f;
+		public const float InjuryHealPerDay_Base = 8f;
 
-		public const float InjuryHealPerDay_Tended = 22f;
+		public const float InjuryHealPerDayOffset_Laying = 4f;
 
-		public const float InjuryHealPerDay_Laying = 4f;
+		public const float InjuryHealPerDayOffset_Tended = 16f;
 
 		public const int InjurySeverityTendedPerMedicine = 20;
 

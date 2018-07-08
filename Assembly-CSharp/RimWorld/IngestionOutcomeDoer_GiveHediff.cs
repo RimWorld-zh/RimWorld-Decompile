@@ -47,7 +47,7 @@ namespace RimWorld
 		{
 			if (parentDef.IsDrug && this.chance >= 1f)
 			{
-				foreach (StatDrawEntry s in this.hediffDef.SpecialDisplayStats())
+				foreach (StatDrawEntry s in this.hediffDef.SpecialDisplayStats(StatRequest.ForEmpty()))
 				{
 					yield return s;
 				}
@@ -87,9 +87,9 @@ namespace RimWorld
 				case 0u:
 					if (!parentDef.IsDrug || this.chance < 1f)
 					{
-						goto IL_E0;
+						goto IL_E5;
 					}
-					enumerator = this.hediffDef.SpecialDisplayStats().GetEnumerator();
+					enumerator = this.hediffDef.SpecialDisplayStats(StatRequest.ForEmpty()).GetEnumerator();
 					num = 4294967293u;
 					break;
 				case 1u:
@@ -124,7 +124,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_E0:
+				IL_E5:
 				this.$PC = -1;
 				return false;
 			}

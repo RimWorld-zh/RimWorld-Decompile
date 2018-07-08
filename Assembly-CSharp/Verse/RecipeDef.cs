@@ -454,7 +454,7 @@ namespace Verse
 			return result;
 		}
 
-		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
 		{
 			if (this.workSkill != null)
 			{

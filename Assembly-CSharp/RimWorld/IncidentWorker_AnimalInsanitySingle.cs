@@ -45,7 +45,10 @@ namespace RimWorld
 				{
 					pawn.Label
 				});
-				Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.ThreatSmall, pawn, null, null);
+				Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(new object[]
+				{
+					pawn.Label
+				}), text, LetterDefOf.ThreatSmall, pawn, null, null);
 				result = true;
 			}
 			return result;
