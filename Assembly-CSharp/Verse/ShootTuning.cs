@@ -4,13 +4,23 @@ namespace Verse
 {
 	public static class ShootTuning
 	{
+		public const float DistTouch = 3f;
+
+		public const float DistShort = 12f;
+
+		public const float DistMedium = 25f;
+
+		public const float DistLong = 40f;
+
+		public const float MeleeRange = 1.42f;
+
+		public const float HitChanceFactorFromEquipmentMin = 0.01f;
+
 		public const float MinAccuracyFactorFromShooterAndDistance = 0.0201f;
 
 		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
 
 		public const float HitChanceFactorIfLayingDown = 0.2f;
-
-		public const float NonPawnShooterHitFactorPerDistance = 0.96f;
 
 		public const float ExecutionMaxDistance = 3.9f;
 
@@ -95,6 +105,10 @@ namespace Verse
 		};
 
 		public const float CanInterceptPawnsChanceOnWildOrForcedMissRadius = 0.5f;
+
+		public const float InterceptDistMin = 5f;
+
+		public const float InterceptDistMax = 12f;
 
 		public const float Intercept_Pawn_HitChancePerBodySize = 0.4f;
 

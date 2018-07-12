@@ -13,7 +13,7 @@ namespace RimWorld
 	{
 		private const int JobEndInterval = 4000;
 
-		private const float BaseResearchSpeed = 1.1f;
+		private const float BaseResearchSpeed = 1f;
 
 		public JobDriver_Research()
 		{
@@ -48,7 +48,7 @@ namespace RimWorld
 			research.tickAction = delegate()
 			{
 				Pawn actor = research.actor;
-				float num = 1.1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+				float num = 1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 				num *= this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 				Find.ResearchManager.ResearchPerformed(num, actor);
 				actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
@@ -119,7 +119,7 @@ namespace RimWorld
 					<MakeNewToils>c__AnonStorey.research.tickAction = delegate()
 					{
 						Pawn actor = <MakeNewToils>c__AnonStorey.research.actor;
-						float num2 = 1.1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+						float num2 = 1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 						num2 *= <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 						Find.ResearchManager.ResearchPerformed(num2, actor);
 						actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);
@@ -233,7 +233,7 @@ namespace RimWorld
 				internal void <>m__0()
 				{
 					Pawn actor = this.research.actor;
-					float num = 1.1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+					float num = 1f * actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 					num *= this.<>f__ref$0.$this.TargetThingA.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 					Find.ResearchManager.ResearchPerformed(num, actor);
 					actor.skills.Learn(SkillDefOf.Intellectual, 0.11f, false);

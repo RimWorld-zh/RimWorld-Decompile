@@ -183,27 +183,27 @@ namespace RimWorld
 				{
 					str = " (" + "WornBy".Translate(new object[]
 					{
-						(labelElement2.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort
+						((Pawn)labelElement2.thingTemplate.ParentHolder.ParentHolder).LabelShort
 					}) + ")";
 				}
 				else if (labelElement2.thingTemplate.ParentHolder is Pawn_EquipmentTracker)
 				{
 					str = " (" + "EquippedBy".Translate(new object[]
 					{
-						(labelElement2.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort
+						((Pawn)labelElement2.thingTemplate.ParentHolder.ParentHolder).LabelShort
 					}) + ")";
 				}
 				if (labelElement2.count == 1)
 				{
-					stringBuilder.AppendLine("  " + labelElement2.thingTemplate.LabelCap + str);
+					stringBuilder.AppendLine("  - " + labelElement2.thingTemplate.LabelCap + str);
 				}
 				else
 				{
-					stringBuilder.AppendLine("  " + GenLabel.ThingLabel(labelElement2.thingTemplate.def, labelElement2.thingTemplate.Stuff, labelElement2.count).CapitalizeFirst() + str);
+					stringBuilder.AppendLine("  - " + GenLabel.ThingLabel(labelElement2.thingTemplate.def, labelElement2.thingTemplate.Stuff, labelElement2.count).CapitalizeFirst() + str);
 				}
 			}
 			GenLabel.tmpThingsLabelElements.Clear();
-			return stringBuilder.ToString();
+			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
 		public static string BestKindLabel(Pawn pawn, bool mustNoteGender = false, bool mustNoteLifeStage = false, bool plural = false, int pluralCount = -1)

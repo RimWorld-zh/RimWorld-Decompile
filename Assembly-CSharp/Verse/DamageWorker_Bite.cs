@@ -12,11 +12,5 @@ namespace Verse
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, BodyPartDepth.Outside);
 		}
-
-		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
-		{
-			totalDamage *= this.def.biteDamageMultiplier;
-			base.FinalizeAndAddInjury(pawn, totalDamage, dinfo, result);
-		}
 	}
 }

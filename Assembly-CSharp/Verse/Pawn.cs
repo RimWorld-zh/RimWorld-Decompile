@@ -1359,7 +1359,7 @@ namespace Verse
 			PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(this, dinfo, PawnDiedOrDownedThoughtsKind.Died);
 			if (Current.ProgramState == ProgramState.Playing && this.IsColonist)
 			{
-				Find.StoryWatcher.watcherRampUp.Notify_ColonistViolentlyDownedOrKilled(this);
+				Find.StoryWatcher.watcherRampUp.Notify_ColonyPawnDied(this);
 			}
 			if (this.IsColonist)
 			{

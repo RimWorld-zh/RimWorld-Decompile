@@ -38,12 +38,12 @@ namespace RimWorld
 			}
 		};
 
-		private static readonly FloatRange RewardValueFactorRange = new FloatRange(1.8f, 2.5f);
+		private static readonly FloatRange RewardValueFactorRange = new FloatRange(1.5f, 2.1f);
 
 		private static readonly SimpleCurve RewardValueFactorFromWealthCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(0f, 1.25f),
+				new CurvePoint(0f, 1.15f),
 				true
 			},
 			{

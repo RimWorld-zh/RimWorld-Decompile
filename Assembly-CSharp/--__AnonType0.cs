@@ -4,60 +4,48 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 [CompilerGenerated]
-internal sealed class <>__AnonType0<<Race>__T, <Hits>__T, <DiedDueToDamageThreshold>__T>
+internal sealed class <>__AnonType0<<Parent>__T, <Tool>__T>
 {
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	private readonly <Race>__T <Race>;
+	private readonly <Parent>__T <Parent>;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	private readonly <Hits>__T <Hits>;
-
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	private readonly <DiedDueToDamageThreshold>__T <DiedDueToDamageThreshold>;
+	private readonly <Tool>__T <Tool>;
 
 	[DebuggerHidden]
-	public <>__AnonType0(<Race>__T Race, <Hits>__T Hits, <DiedDueToDamageThreshold>__T DiedDueToDamageThreshold)
+	public <>__AnonType0(<Parent>__T Parent, <Tool>__T Tool)
 	{
-		this.<Race> = Race;
-		this.<Hits> = Hits;
-		this.<DiedDueToDamageThreshold> = DiedDueToDamageThreshold;
+		this.<Parent> = Parent;
+		this.<Tool> = Tool;
 	}
 
-	public <Race>__T Race
+	public <Parent>__T Parent
 	{
 		get
 		{
-			return this.<Race>;
+			return this.<Parent>;
 		}
 	}
 
-	public <Hits>__T Hits
+	public <Tool>__T Tool
 	{
 		get
 		{
-			return this.<Hits>;
-		}
-	}
-
-	public <DiedDueToDamageThreshold>__T DiedDueToDamageThreshold
-	{
-		get
-		{
-			return this.<DiedDueToDamageThreshold>;
+			return this.<Tool>;
 		}
 	}
 
 	[DebuggerHidden]
 	public override bool Equals(object obj)
 	{
-		var <>__AnonType = obj as <>__AnonType0<<Race>__T, <Hits>__T, <DiedDueToDamageThreshold>__T>;
-		return <>__AnonType != null && (EqualityComparer<<Race>__T>.Default.Equals(this.<Race>, <>__AnonType.<Race>) && EqualityComparer<<Hits>__T>.Default.Equals(this.<Hits>, <>__AnonType.<Hits>)) && EqualityComparer<<DiedDueToDamageThreshold>__T>.Default.Equals(this.<DiedDueToDamageThreshold>, <>__AnonType.<DiedDueToDamageThreshold>);
+		var <>__AnonType = obj as <>__AnonType0<<Parent>__T, <Tool>__T>;
+		return <>__AnonType != null && EqualityComparer<<Parent>__T>.Default.Equals(this.<Parent>, <>__AnonType.<Parent>) && EqualityComparer<<Tool>__T>.Default.Equals(this.<Tool>, <>__AnonType.<Tool>);
 	}
 
 	[DebuggerHidden]
 	public override int GetHashCode()
 	{
-		int num = (((-2128831035 ^ EqualityComparer<<Race>__T>.Default.GetHashCode(this.<Race>)) * 16777619 ^ EqualityComparer<<Hits>__T>.Default.GetHashCode(this.<Hits>)) * 16777619 ^ EqualityComparer<<DiedDueToDamageThreshold>__T>.Default.GetHashCode(this.<DiedDueToDamageThreshold>)) * 16777619;
+		int num = ((-2128831035 ^ EqualityComparer<<Parent>__T>.Default.GetHashCode(this.<Parent>)) * 16777619 ^ EqualityComparer<<Tool>__T>.Default.GetHashCode(this.<Tool>)) * 16777619;
 		num += num << 13;
 		num ^= num >> 7;
 		num += num << 3;
@@ -68,48 +56,35 @@ internal sealed class <>__AnonType0<<Race>__T, <Hits>__T, <DiedDueToDamageThresh
 	[DebuggerHidden]
 	public override string ToString()
 	{
-		string[] array = new string[8];
+		string[] array = new string[6];
 		array[0] = "{";
-		array[1] = " Race = ";
+		array[1] = " Parent = ";
 		int num = 2;
 		string text;
-		if (this.<Race> != null)
+		if (this.<Parent> != null)
 		{
-			<Race>__T <Race>__T = this.<Race>;
-			text = <Race>__T.ToString();
+			<Parent>__T <Parent>__T = this.<Parent>;
+			text = <Parent>__T.ToString();
 		}
 		else
 		{
 			text = "";
 		}
 		array[num] = text;
-		array[3] = ", Hits = ";
+		array[3] = ", Tool = ";
 		int num2 = 4;
 		string text2;
-		if (this.<Hits> != null)
+		if (this.<Tool> != null)
 		{
-			<Hits>__T <Hits>__T = this.<Hits>;
-			text2 = <Hits>__T.ToString();
+			<Tool>__T <Tool>__T = this.<Tool>;
+			text2 = <Tool>__T.ToString();
 		}
 		else
 		{
 			text2 = "";
 		}
 		array[num2] = text2;
-		array[5] = ", DiedDueToDamageThreshold = ";
-		int num3 = 6;
-		string text3;
-		if (this.<DiedDueToDamageThreshold> != null)
-		{
-			<DiedDueToDamageThreshold>__T <DiedDueToDamageThreshold>__T = this.<DiedDueToDamageThreshold>;
-			text3 = <DiedDueToDamageThreshold>__T.ToString();
-		}
-		else
-		{
-			text3 = "";
-		}
-		array[num3] = text3;
-		array[7] = " }";
+		array[5] = " }";
 		return string.Concat(array);
 	}
 }

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using RimWorld;
 
 namespace Verse
@@ -94,6 +98,107 @@ namespace Verse
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;
+		}
+
+		public IEnumerable<string> ConfigErrors()
+		{
+			if (this.Id.NullOrEmpty())
+			{
+				yield return "tool has null Id (power=" + this.power.ToString("0.##") + ")";
+			}
+			yield break;
+		}
+
+		[CompilerGenerated]
+		private sealed class <ConfigErrors>c__Iterator0 : IEnumerable, IEnumerable<string>, IEnumerator, IDisposable, IEnumerator<string>
+		{
+			internal Tool $this;
+
+			internal string $current;
+
+			internal bool $disposing;
+
+			internal int $PC;
+
+			[DebuggerHidden]
+			public <ConfigErrors>c__Iterator0()
+			{
+			}
+
+			public bool MoveNext()
+			{
+				uint num = (uint)this.$PC;
+				this.$PC = -1;
+				switch (num)
+				{
+				case 0u:
+					if (base.Id.NullOrEmpty())
+					{
+						this.$current = "tool has null Id (power=" + this.power.ToString("0.##") + ")";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
+					break;
+				case 1u:
+					break;
+				default:
+					return false;
+				}
+				this.$PC = -1;
+				return false;
+			}
+
+			string IEnumerator<string>.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			object IEnumerator.Current
+			{
+				[DebuggerHidden]
+				get
+				{
+					return this.$current;
+				}
+			}
+
+			[DebuggerHidden]
+			public void Dispose()
+			{
+				this.$disposing = true;
+				this.$PC = -1;
+			}
+
+			[DebuggerHidden]
+			public void Reset()
+			{
+				throw new NotSupportedException();
+			}
+
+			[DebuggerHidden]
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.System.Collections.Generic.IEnumerable<string>.GetEnumerator();
+			}
+
+			[DebuggerHidden]
+			IEnumerator<string> IEnumerable<string>.GetEnumerator()
+			{
+				if (Interlocked.CompareExchange(ref this.$PC, 0, -2) == -2)
+				{
+					return this;
+				}
+				Tool.<ConfigErrors>c__Iterator0 <ConfigErrors>c__Iterator = new Tool.<ConfigErrors>c__Iterator0();
+				<ConfigErrors>c__Iterator.$this = this;
+				return <ConfigErrors>c__Iterator;
+			}
 		}
 	}
 }

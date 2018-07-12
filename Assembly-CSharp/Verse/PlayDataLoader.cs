@@ -201,6 +201,7 @@ namespace Verse
 				PawnGenerator.Reset();
 				TunnelHiveSpawner.ResetStaticData();
 				Hive.ResetStaticData();
+				ExpectationsUtility.Reset();
 				WorkGiver_FillFermentingBarrel.ResetStaticData();
 				WorkGiver_DoBill.ResetStaticData();
 				WorkGiver_InteractAnimal.ResetStaticData();

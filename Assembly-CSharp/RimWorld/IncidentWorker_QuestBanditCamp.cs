@@ -47,7 +47,7 @@ namespace RimWorld
 					faction.leader.LabelShort,
 					faction.def.leaderTitle,
 					faction.Name,
-					list[0].LabelCap
+					GenLabel.ThingsLabel(list)
 				});
 				result = true;
 			}

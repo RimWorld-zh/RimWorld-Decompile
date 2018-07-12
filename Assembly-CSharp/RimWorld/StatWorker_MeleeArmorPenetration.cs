@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 			else
 			{
-				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList();
+				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList(false);
 				if (updatedAvailableVerbsList.Count == 0)
 				{
 					result = 0f;
@@ -49,16 +49,23 @@ namespace RimWorld
 							num += updatedAvailableVerbsList[i].GetSelectionWeight(null);
 						}
 					}
-					float num2 = 0f;
-					for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+					if (num == 0f)
 					{
-						if (updatedAvailableVerbsList[j].IsMeleeAttack)
-						{
-							ThingWithComps ownerEquipment = updatedAvailableVerbsList[j].verb.ownerEquipment;
-							num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedArmorPenetration(updatedAvailableVerbsList[j].verb, pawn, ownerEquipment);
-						}
+						result = 0f;
 					}
-					result = num2;
+					else
+					{
+						float num2 = 0f;
+						for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+						{
+							if (updatedAvailableVerbsList[j].IsMeleeAttack)
+							{
+								ThingWithComps ownerEquipment = updatedAvailableVerbsList[j].verb.ownerEquipment;
+								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedArmorPenetration(updatedAvailableVerbsList[j].verb, pawn, ownerEquipment);
+							}
+						}
+						result = num2;
+					}
 				}
 			}
 			return result;

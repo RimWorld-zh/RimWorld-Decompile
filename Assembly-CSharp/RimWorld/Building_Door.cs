@@ -278,9 +278,9 @@ namespace RimWorld
 				for (int i = 0; i < thingList.Count; i++)
 				{
 					Pawn pawn = thingList[i] as Pawn;
-					if (pawn != null && !pawn.HostileTo(this))
+					if (pawn != null)
 					{
-						this.FriendlyTouched();
+						this.CheckFriendlyTouched(pawn);
 					}
 				}
 				if (this.ticksUntilClose > 0)
@@ -309,17 +309,17 @@ namespace RimWorld
 			}
 		}
 
-		public void FriendlyTouched()
+		public void CheckFriendlyTouched(Pawn p)
 		{
-			this.lastFriendlyTouchTick = Find.TickManager.TicksGame;
+			if (!p.HostileTo(this) && this.PawnCanOpen(p))
+			{
+				this.lastFriendlyTouchTick = Find.TickManager.TicksGame;
+			}
 		}
 
 		public void Notify_PawnApproaching(Pawn p, int moveCost)
 		{
-			if (!p.HostileTo(this))
-			{
-				this.FriendlyTouched();
-			}
+			this.CheckFriendlyTouched(p);
 			if (this.PawnCanOpen(p))
 			{
 				base.Map.fogGrid.Notify_PawnEnteringDoor(this, p);

@@ -69,13 +69,6 @@ namespace RimWorld
 
 		private void CheckSpring(Pawn p)
 		{
-			Log.Message(string.Concat(new object[]
-			{
-				"CheckSpring ",
-				base.Position,
-				"   ",
-				p.Label
-			}), false);
 			if (Rand.Chance(this.SpringChance(p)))
 			{
 				this.Spring(p);

@@ -934,26 +934,26 @@ namespace RimWorld
 					int num5 = 10000;
 					for (int i = 0; i < num5; i++)
 					{
-						float randomPainFactor = PermanentInjuryUtility.GetRandomPainFactor();
-						if (randomPainFactor < 0f)
+						float num6 = Mathf.Max(0f, Rand.ByCurve(HealthTuning.PermanentInjuryPainFactorRandomCurve));
+						if (num6 < 0f)
 						{
 							Log.Error("Pain factor < 0", false);
 						}
-						if (randomPainFactor == 0f)
+						if (num6 == 0f)
 						{
 							num++;
 						}
-						if (randomPainFactor < 1f)
+						if (num6 < 1f)
 						{
 							num2++;
 						}
-						if (randomPainFactor < 5f)
+						if (num6 < 5f)
 						{
 							num3++;
 						}
-						if (randomPainFactor > num4)
+						if (num6 > num4)
 						{
-							num4 = randomPainFactor;
+							num4 = num6;
 						}
 					}
 					stringBuilder.AppendLine("total: " + num5);
@@ -1182,26 +1182,26 @@ namespace RimWorld
 			int num5 = 10000;
 			for (int i = 0; i < num5; i++)
 			{
-				float randomPainFactor = PermanentInjuryUtility.GetRandomPainFactor();
-				if (randomPainFactor < 0f)
+				float num6 = Mathf.Max(0f, Rand.ByCurve(HealthTuning.PermanentInjuryPainFactorRandomCurve));
+				if (num6 < 0f)
 				{
 					Log.Error("Pain factor < 0", false);
 				}
-				if (randomPainFactor == 0f)
+				if (num6 == 0f)
 				{
 					num++;
 				}
-				if (randomPainFactor < 1f)
+				if (num6 < 1f)
 				{
 					num2++;
 				}
-				if (randomPainFactor < 5f)
+				if (num6 < 5f)
 				{
 					num3++;
 				}
-				if (randomPainFactor > num4)
+				if (num6 > num4)
 				{
-					num4 = randomPainFactor;
+					num4 = num6;
 				}
 			}
 			stringBuilder.AppendLine("total: " + num5);

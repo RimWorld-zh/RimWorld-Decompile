@@ -55,11 +55,11 @@ namespace RimWorld
 				true
 			},
 			{
-				new CurvePoint(5000f, 4250f),
+				new CurvePoint(5000f, 3900f),
 				true
 			},
 			{
-				new CurvePoint(100000f, 70000f),
+				new CurvePoint(20000f, 10000f),
 				true
 			}
 		};
@@ -71,27 +71,27 @@ namespace RimWorld
 		public static readonly SimpleCurve ThreatPointsToSiteThreatPointsCurve = new SimpleCurve
 		{
 			{
-				new CurvePoint(300f, 100f),
+				new CurvePoint(100f, 120f),
 				true
 			},
 			{
-				new CurvePoint(1300f, 200f),
+				new CurvePoint(1100f, 250f),
 				true
 			},
 			{
-				new CurvePoint(2300f, 400f),
+				new CurvePoint(2100f, 500f),
 				true
 			},
 			{
-				new CurvePoint(3300f, 600f),
+				new CurvePoint(3100f, 700f),
 				true
 			},
 			{
-				new CurvePoint(4300f, 700f),
+				new CurvePoint(4100f, 800f),
 				true
 			},
 			{
-				new CurvePoint(5300f, 800f),
+				new CurvePoint(5100f, 850f),
 				true
 			}
 		};

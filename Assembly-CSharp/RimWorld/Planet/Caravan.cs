@@ -597,6 +597,10 @@ namespace RimWorld.Planet
 			else
 			{
 				Pawn pawn = p.carryTracker.CarriedThing as Pawn;
+				if (pawn != null)
+				{
+					p.carryTracker.innerContainer.Remove(pawn);
+				}
 				if (p.Spawned)
 				{
 					p.DeSpawn(DestroyMode.Vanish);
@@ -609,7 +613,6 @@ namespace RimWorld.Planet
 					}
 					if (pawn != null)
 					{
-						p.carryTracker.innerContainer.Remove(pawn);
 						if (this.ShouldAutoCapture(pawn))
 						{
 							pawn.guest.CapturedBy(base.Faction, p);
@@ -1041,6 +1044,10 @@ namespace RimWorld.Planet
 
 		public virtual void Notify_MemberDied(Pawn member)
 		{
+			if (!base.Spawned)
+			{
+				Log.Error("Caravan member died in an unspawned caravan. Unspawned caravans shouldn't be kept for more than a single frame.", false);
+			}
 			if (!this.PawnsListForReading.Any((Pawn x) => x != member && this.IsOwner(x)))
 			{
 				this.RemovePawn(member);
@@ -1051,6 +1058,7 @@ namespace RimWorld.Planet
 						this.Name
 					}).CapitalizeFirst(), LetterDefOf.NegativeEvent, new GlobalTargetInfo(base.Tile), null, null);
 				}
+				this.pawns.Clear();
 				Find.WorldObjects.Remove(this);
 			}
 			else

@@ -19,13 +19,9 @@ namespace RimWorld
 
 		private List<Pawn> spawnedPawns = new List<Pawn>();
 
-		private int ticksToSpawnInitialPawns = -1;
-
 		public bool caveColony = false;
 
 		public bool canSpawnPawns = true;
-
-		private const int InitialPawnSpawnDelay = 0;
 
 		public const int PawnSpawnRadius = 2;
 
@@ -131,15 +127,14 @@ namespace RimWorld
 			{
 				this.SetFaction(Faction.OfInsects, null);
 			}
-			if (!respawningAfterLoad)
+			if (!respawningAfterLoad && this.active)
 			{
-				this.ticksToSpawnInitialPawns = 0;
+				this.SpawnInitialPawns();
 			}
 		}
 
-		private void SpawnInitialPawnsNow()
+		private void SpawnInitialPawns()
 		{
-			this.ticksToSpawnInitialPawns = -1;
 			this.SpawnPawnsUntilPoints(200f);
 			this.CalculateNextPawnSpawnTick();
 		}
@@ -176,15 +171,7 @@ namespace RimWorld
 				}
 				if (this.active)
 				{
-					if (this.ticksToSpawnInitialPawns > 0)
-					{
-						this.ticksToSpawnInitialPawns--;
-						if (this.ticksToSpawnInitialPawns <= 0)
-						{
-							this.SpawnInitialPawnsNow();
-						}
-					}
-					else if (Find.TickManager.TicksGame >= this.nextPawnSpawnTick)
+					if (Find.TickManager.TicksGame >= this.nextPawnSpawnTick)
 					{
 						if (this.SpawnedPawnsPoints < 500f)
 						{
@@ -216,10 +203,6 @@ namespace RimWorld
 		{
 			if (dinfo.Def.externalViolence && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
 			{
-				if (this.ticksToSpawnInitialPawns > 0)
-				{
-					this.SpawnInitialPawnsNow();
-				}
 				Lord lord = this.Lord;
 				if (lord != null)
 				{
@@ -243,7 +226,6 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.active, "active", false, false);
 			Scribe_Values.Look<int>(ref this.nextPawnSpawnTick, "nextPawnSpawnTick", 0, false);
 			Scribe_Collections.Look<Pawn>(ref this.spawnedPawns, "spawnedPawns", LookMode.Reference, new object[0]);
-			Scribe_Values.Look<int>(ref this.ticksToSpawnInitialPawns, "ticksToSpawnInitialPawns", 0, false);
 			Scribe_Values.Look<bool>(ref this.caveColony, "caveColony", false, false);
 			Scribe_Values.Look<bool>(ref this.canSpawnPawns, "canSpawnPawns", true, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -255,6 +237,7 @@ namespace RimWorld
 		private void Activate()
 		{
 			this.active = true;
+			this.SpawnInitialPawns();
 			this.CalculateNextPawnSpawnTick();
 			CompSpawnerHives comp = base.GetComp<CompSpawnerHives>();
 			if (comp != null)

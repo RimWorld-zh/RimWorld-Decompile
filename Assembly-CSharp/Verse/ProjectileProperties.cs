@@ -12,7 +12,7 @@ namespace Verse
 {
 	public class ProjectileProperties
 	{
-		public float speed = 4f;
+		public float speed = 5f;
 
 		public bool flyOverhead = false;
 
@@ -24,7 +24,7 @@ namespace Verse
 
 		private float armorPenetrationBase = -1f;
 
-		public float stoppingPower = 0f;
+		public float stoppingPower = 0.5f;
 
 		public SoundDef soundHitThickRoof = null;
 

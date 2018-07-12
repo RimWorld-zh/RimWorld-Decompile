@@ -163,7 +163,7 @@ namespace RimWorld
 			for (int i = 0; i < targets.Count; i++)
 			{
 				IIncidentTarget targ = targets[i];
-				if (comp.props.allowedTargetTypes == null || comp.props.allowedTargetTypes.Count == 0 || comp.props.allowedTargetTypes.Intersect(targ.AcceptedTypes()).Any<IncidentTargetTypeDef>())
+				if (comp.props.allowedTargetTypes == null || comp.props.allowedTargetTypes.Count == 0 || targ.AcceptedTypes().Any((IncidentTargetTypeDef x) => comp.props.allowedTargetTypes.Contains(x)))
 				{
 					foreach (FiringIncident fi in comp.MakeIntervalIncidents(targ))
 					{
@@ -190,9 +190,8 @@ namespace RimWorld
 				stringBuilder.AppendLine("Storyteller : " + this.def.label);
 				stringBuilder.AppendLine("------------- Global threats data ---------------");
 				stringBuilder.AppendLine("   NumRaidsEnemy: " + Find.StoryWatcher.statsRecord.numRaidsEnemy);
-				stringBuilder.AppendLine("   TotalThreatPointsFactor: " + Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor.ToString("F5"));
-				stringBuilder.AppendLine("      ShortTermFactor: " + Find.StoryWatcher.watcherRampUp.ShortTermFactor.ToString("F5"));
-				stringBuilder.AppendLine("      LongTermFactor: " + Find.StoryWatcher.watcherRampUp.LongTermFactor.ToString("F5"));
+				stringBuilder.AppendLine("   Ramp-Days: " + Find.StoryWatcher.watcherRampUp.RampDays.ToString("F1"));
+				stringBuilder.AppendLine("   Ramp-PointsFactor: " + Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor.ToString("F2"));
 				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (ally): " + StorytellerUtility.AllyIncidentMTBMultiplier(false).ToString());
 				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (non-hostile): " + StorytellerUtility.AllyIncidentMTBMultiplier(true).ToString());
 				stringBuilder.AppendLine();
@@ -424,6 +423,8 @@ namespace RimWorld
 
 			internal int $PC;
 
+			private Storyteller.<MakeIncidentsForInterval>c__Iterator1.<MakeIncidentsForInterval>c__AnonStorey2 $locvar1;
+
 			[DebuggerHidden]
 			public <MakeIncidentsForInterval>c__Iterator1()
 			{
@@ -442,7 +443,7 @@ namespace RimWorld
 						return false;
 					}
 					i = 0;
-					goto IL_1B5;
+					goto IL_1ED;
 				case 1u:
 					Block_5:
 					try
@@ -479,9 +480,9 @@ namespace RimWorld
 				default:
 					return false;
 				}
-				IL_1A6:
+				IL_1DE:
 				i++;
-				IL_1B5:
+				IL_1ED:
 				if (i >= targets.Count)
 				{
 					this.$PC = -1;
@@ -489,13 +490,13 @@ namespace RimWorld
 				else
 				{
 					targ = targets[i];
-					if (comp.props.allowedTargetTypes == null || comp.props.allowedTargetTypes.Count == 0 || comp.props.allowedTargetTypes.Intersect(targ.AcceptedTypes()).Any<IncidentTargetTypeDef>())
+					if (<MakeIncidentsForInterval>c__AnonStorey.comp.props.allowedTargetTypes == null || <MakeIncidentsForInterval>c__AnonStorey.comp.props.allowedTargetTypes.Count == 0 || targ.AcceptedTypes().Any((IncidentTargetTypeDef x) => <MakeIncidentsForInterval>c__AnonStorey.comp.props.allowedTargetTypes.Contains(x)))
 					{
-						enumerator = comp.MakeIntervalIncidents(targ).GetEnumerator();
+						enumerator = <MakeIncidentsForInterval>c__AnonStorey.comp.MakeIntervalIncidents(targ).GetEnumerator();
 						num = 4294967293u;
 						goto Block_5;
 					}
-					goto IL_1A6;
+					goto IL_1DE;
 				}
 				return false;
 			}
@@ -564,6 +565,22 @@ namespace RimWorld
 				<MakeIncidentsForInterval>c__Iterator.comp = comp;
 				<MakeIncidentsForInterval>c__Iterator.targets = targets;
 				return <MakeIncidentsForInterval>c__Iterator;
+			}
+
+			private sealed class <MakeIncidentsForInterval>c__AnonStorey2
+			{
+				internal StorytellerComp comp;
+
+				internal Storyteller.<MakeIncidentsForInterval>c__Iterator1 <>f__ref$1;
+
+				public <MakeIncidentsForInterval>c__AnonStorey2()
+				{
+				}
+
+				internal bool <>m__0(IncidentTargetTypeDef x)
+				{
+					return this.comp.props.allowedTargetTypes.Contains(x);
+				}
 			}
 		}
 	}

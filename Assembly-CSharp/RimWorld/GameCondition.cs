@@ -290,6 +290,10 @@ namespace RimWorld
 		{
 		}
 
+		public virtual void PostMake()
+		{
+		}
+
 		// Note: this type is marked as 'beforefieldinit'.
 		static GameCondition()
 		{

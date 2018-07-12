@@ -17,7 +17,7 @@ namespace Verse
 
 		public int hitPoints = 10;
 
-		public float permanentInjuryBaseChance = 0.08f;
+		public float permanentInjuryChanceFactor = 1f;
 
 		public float bleedRate = 1f;
 
@@ -28,6 +28,8 @@ namespace Verse
 		private bool solid = false;
 
 		public bool alive = true;
+
+		public bool delicate = false;
 
 		public bool beautyRelated;
 
@@ -45,14 +47,6 @@ namespace Verse
 
 		public BodyPartDef()
 		{
-		}
-
-		public bool IsDelicate
-		{
-			get
-			{
-				return this.permanentInjuryBaseChance >= 0.999f;
-			}
 		}
 
 		public bool IsSolidInDefinition_Debug
@@ -97,17 +91,17 @@ namespace Verse
 			{
 				yield return "frostbitePriority > max 10: " + this.frostbiteVulnerability;
 			}
-			if (this.solid && this.permanentInjuryBaseChance > 0f)
+			if (this.solid && this.permanentInjuryChanceFactor > 0f)
 			{
-				yield return "solid but permanentInjuryBaseChance is not zero; it is " + this.permanentInjuryBaseChance + ". Solid parts must have zero permanent injury chance.";
+				yield return "solid but permanentInjuryChanceFactor is not zero; it is " + this.permanentInjuryChanceFactor + ". Solid parts must have zero permanent injury chance.";
 			}
 			if (this.solid && this.bleedRate > 0f)
 			{
 				yield return "solid but bleedRate is not zero";
 			}
-			if (this.solid && this.permanentInjuryBaseChance > 0f)
+			if (this.solid && this.permanentInjuryChanceFactor > 0f)
 			{
-				yield return "solid but permanentInjuryBaseChance is not zero";
+				yield return "solid but permanentInjuryChanceFactor is not zero";
 			}
 			yield break;
 		}
@@ -248,9 +242,9 @@ namespace Verse
 					return true;
 				}
 				IL_10D:
-				if (this.solid && this.permanentInjuryBaseChance > 0f)
+				if (this.solid && this.permanentInjuryChanceFactor > 0f)
 				{
-					this.$current = "solid but permanentInjuryBaseChance is not zero; it is " + this.permanentInjuryBaseChance + ". Solid parts must have zero permanent injury chance.";
+					this.$current = "solid but permanentInjuryChanceFactor is not zero; it is " + this.permanentInjuryChanceFactor + ". Solid parts must have zero permanent injury chance.";
 					if (!this.$disposing)
 					{
 						this.$PC = 3;
@@ -268,9 +262,9 @@ namespace Verse
 					return true;
 				}
 				IL_1AF:
-				if (this.solid && this.permanentInjuryBaseChance > 0f)
+				if (this.solid && this.permanentInjuryChanceFactor > 0f)
 				{
-					this.$current = "solid but permanentInjuryBaseChance is not zero";
+					this.$current = "solid but permanentInjuryChanceFactor is not zero";
 					if (!this.$disposing)
 					{
 						this.$PC = 5;

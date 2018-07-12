@@ -70,7 +70,7 @@ namespace RimWorld
 			for (int i = 0; i < num3; i++)
 			{
 				IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
-				where x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryBaseChance != 0f || x.def.pawnGeneratorCanAmputate) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x)
+				where x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryChanceFactor != 0f || x.def.pawnGeneratorCanAmputate) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x)
 				select x;
 				if (source.Any<BodyPartRecord>())
 				{
@@ -92,7 +92,7 @@ namespace RimWorld
 							}
 						}
 					}
-					else if (bodyPartRecord.def.permanentInjuryBaseChance > 0f && hediffDefFromDamage.HasComp(typeof(HediffComp_GetsPermanent)))
+					else if (bodyPartRecord.def.permanentInjuryChanceFactor > 0f && hediffDefFromDamage.HasComp(typeof(HediffComp_GetsPermanent)))
 					{
 						Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
 						hediff_Injury.Severity = (float)Rand.RangeInclusive(2, 6);
@@ -354,7 +354,7 @@ namespace RimWorld
 
 			internal bool <>m__0(BodyPartRecord x)
 			{
-				return x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryBaseChance != 0f || x.def.pawnGeneratorCanAmputate) && !this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x);
+				return x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryChanceFactor != 0f || x.def.pawnGeneratorCanAmputate) && !this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x);
 			}
 		}
 	}

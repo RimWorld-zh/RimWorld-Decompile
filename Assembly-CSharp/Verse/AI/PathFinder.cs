@@ -62,13 +62,13 @@ namespace Verse.AI
 
 		private const int Cost_DoorToBash = 300;
 
-		private const int Cost_BlockedWall = 70;
+		private const int Cost_BlockedWallBase = 70;
 
-		private const float Cost_BlockedWallPerHitPoint = 0.11f;
+		private const float Cost_BlockedWallExtraPerHitPoint = 0.2f;
 
 		private const int Cost_BlockedDoor = 50;
 
-		private const float Cost_BlockedDoorPerHitPoint = 0.11f;
+		private const float Cost_BlockedDoorPerHitPoint = 0.2f;
 
 		public const int Cost_OutsideAllowedArea = 600;
 
@@ -322,7 +322,7 @@ namespace Verse.AI
 											{
 												goto IL_DCD;
 											}
-											num16 += (int)((float)building.HitPoints * 0.11f);
+											num16 += (int)((float)building.HitPoints * 0.2f);
 										}
 										if (i > 3)
 										{
@@ -649,7 +649,7 @@ namespace Verse.AI
 					{
 						return building_Door.TicksToOpenNow;
 					}
-					return 50 + (int)((float)building_Door.HitPoints * 0.11f);
+					return 50 + (int)((float)building_Door.HitPoints * 0.2f);
 				}
 			}
 			else if (pawn != null)

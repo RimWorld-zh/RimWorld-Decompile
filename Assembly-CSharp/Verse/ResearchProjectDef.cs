@@ -50,6 +50,8 @@ namespace Verse
 
 		public const TechLevel MaxEffectiveTechLevel = TechLevel.Industrial;
 
+		private const float ResearchCostFactorPerTechLevelDiff = 0.5f;
+
 		public ResearchProjectDef()
 		{
 		}
@@ -212,7 +214,7 @@ namespace Verse
 			else
 			{
 				int num = (int)(techLevel - researcherTechLevel);
-				result = 1f + (float)num;
+				result = 1f + (float)num * 0.5f;
 			}
 			return result;
 		}

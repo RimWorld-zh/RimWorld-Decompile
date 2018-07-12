@@ -1347,12 +1347,12 @@ namespace Verse
 				{
 					if (this.statBases.Any((StatModifier s) => s.stat == StatDefOf.Mass))
 					{
-						goto IL_D98;
+						goto IL_D9C;
 					}
 				}
 				yield return "is haulable, but does not have an authored mass value";
 			}
-			IL_D98:
+			IL_D9C:
 			if (this.ingestible == null && this.GetStatValueAbstract(StatDefOf.Nutrition, null) != 0f)
 			{
 				yield return "has nutrition but ingestible properties are null";
@@ -1477,6 +1477,13 @@ namespace Verse
 				if (dupeTool != null)
 				{
 					yield return string.Format("duplicate thingdef tool id {0}", dupeTool.Id);
+				}
+				foreach (Tool t in this.tools)
+				{
+					foreach (string e4 in t.ConfigErrors())
+					{
+						yield return e4;
+					}
 				}
 			}
 			yield break;
@@ -1843,6 +1850,14 @@ namespace Verse
 
 			internal Tool <dupeTool>__19;
 
+			internal List<Tool>.Enumerator $locvarE;
+
+			internal Tool <t>__20;
+
+			internal IEnumerator<string> $locvarF;
+
+			internal string <e>__21;
+
 			internal ThingDef $this;
 
 			internal string $current;
@@ -1851,19 +1866,19 @@ namespace Verse
 
 			internal int $PC;
 
-			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey2 $locvarE;
+			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey2 $locvar10;
 
 			private static Predicate<CompProperties> <>f__am$cache0;
 
 			private static Predicate<CompProperties> <>f__am$cache1;
 
-			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey4 $locvarF;
+			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey4 $locvar11;
 
 			private static Predicate<CompProperties> <>f__am$cache2;
 
 			private static Predicate<StatModifier> <>f__am$cache3;
 
-			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey5 $locvar10;
+			private ThingDef.<ConfigErrors>c__Iterator0.<ConfigErrors>c__AnonStorey5 $locvar12;
 
 			[DebuggerHidden]
 			public <ConfigErrors>c__Iterator0()
@@ -1884,9 +1899,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_1A4;
+					goto IL_1A8;
 				case 3u:
-					goto IL_1DA;
+					goto IL_1DE;
 				case 4u:
 					Block_8:
 					try
@@ -1916,7 +1931,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_2FE;
+					goto IL_302;
 				case 5u:
 					Block_10:
 					try
@@ -1924,7 +1939,7 @@ namespace Verse
 						switch (num)
 						{
 						case 5u:
-							IL_3CF:
+							IL_3D3:
 							break;
 						}
 						if (enumerator4.MoveNext())
@@ -1942,7 +1957,7 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_3CF;
+							goto IL_3D3;
 						}
 					}
 					finally
@@ -1952,9 +1967,9 @@ namespace Verse
 							((IDisposable)enumerator4).Dispose();
 						}
 					}
-					goto IL_3FC;
+					goto IL_400;
 				case 6u:
-					IL_45F:
+					IL_463:
 					if (char.IsNumber(this.defName[this.defName.Length - 1]))
 					{
 						this.$current = "ends with a numerical digit, which is not allowed on ThingDefs.";
@@ -1964,21 +1979,21 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_4AA;
+					goto IL_4AE;
 				case 7u:
-					goto IL_4AA;
+					goto IL_4AE;
 				case 8u:
-					goto IL_4D9;
+					goto IL_4DD;
 				case 9u:
-					goto IL_52E;
+					goto IL_532;
 				case 10u:
-					goto IL_57F;
+					goto IL_583;
 				case 11u:
-					goto IL_5AA;
+					goto IL_5AE;
 				case 12u:
-					goto IL_6B1;
+					goto IL_6B5;
 				case 13u:
-					IL_6F3:
+					IL_6F7:
 					if (this.comps.Any((CompProperties c) => c.compClass == typeof(CompPowerTrader)) && this.drawerType == DrawerType.MapMeshOnly)
 					{
 						this.$current = "has PowerTrader comp but does not draw real time. It won't draw a needs-power overlay.";
@@ -1988,18 +2003,18 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_756;
+					goto IL_75A;
 				case 14u:
-					goto IL_756;
+					goto IL_75A;
 				case 15u:
-					goto IL_797;
+					goto IL_79B;
 				case 16u:
-					goto IL_7E9;
+					goto IL_7ED;
 				case 17u:
-					IL_839:
+					IL_83D:
 					if (!this.destroyOnDrop)
 					{
-						goto IL_8C0;
+						goto IL_8C4;
 					}
 					if (!this.menuHidden)
 					{
@@ -2010,24 +2025,24 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_87A;
+					goto IL_87E;
 				case 18u:
-					goto IL_87A;
+					goto IL_87E;
 				case 19u:
-					goto IL_8BF;
+					goto IL_8C3;
 				case 20u:
-					IL_901:
+					IL_905:
 					if (this.damageMultipliers != null)
 					{
 						enumerator6 = this.damageMultipliers.GetEnumerator();
 						num = 4294967293u;
 						goto Block_55;
 					}
-					goto IL_A02;
+					goto IL_A06;
 				case 21u:
-					goto IL_92C;
+					goto IL_930;
 				case 22u:
-					IL_A43:
+					IL_A47:
 					if (base.MadeFromStuff && this.constructEffect != null)
 					{
 						this.$current = "madeFromStuff but has a defined constructEffect (which will always be overridden by stuff's construct animation).";
@@ -2037,35 +2052,35 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_A83;
+					goto IL_A87;
 				case 23u:
-					goto IL_A83;
+					goto IL_A87;
 				case 24u:
-					goto IL_AC8;
+					goto IL_ACC;
 				case 25u:
-					goto IL_B1E;
+					goto IL_B22;
 				case 26u:
-					goto IL_B69;
+					goto IL_B6D;
 				case 27u:
-					goto IL_BCC;
+					goto IL_BD0;
 				case 28u:
-					goto IL_C0C;
+					goto IL_C10;
 				case 29u:
-					goto IL_C66;
+					goto IL_C6A;
 				case 30u:
-					goto IL_CAB;
+					goto IL_CAF;
 				case 31u:
-					goto IL_D01;
+					goto IL_D05;
 				case 32u:
-					goto IL_D98;
+					goto IL_D9C;
 				case 33u:
-					goto IL_DE3;
+					goto IL_DE7;
 				case 34u:
-					goto IL_E39;
+					goto IL_E3D;
 				case 35u:
-					goto IL_E94;
+					goto IL_E98;
 				case 36u:
-					IL_ED5:
+					IL_ED9:
 					if (this.deepCommonality > 0f != this.deepLumpSizeRange.TrueMax > 0)
 					{
 						this.$current = "if deepCommonality or deepLumpSizeRange is set, the other also must be set";
@@ -2075,11 +2090,11 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_F1F;
+					goto IL_F23;
 				case 37u:
-					goto IL_F1F;
+					goto IL_F23;
 				case 38u:
-					goto IL_F65;
+					goto IL_F69;
 				case 39u:
 					Block_115:
 					try
@@ -2110,9 +2125,9 @@ namespace Verse
 						}
 					}
 					i++;
-					goto IL_104F;
+					goto IL_1053;
 				case 40u:
-					goto IL_1180;
+					goto IL_1184;
 				case 41u:
 					Block_122:
 					try
@@ -2142,7 +2157,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_1269;
+					goto IL_126D;
 				case 42u:
 					Block_124:
 					try
@@ -2172,7 +2187,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_1318;
+					goto IL_131C;
 				case 43u:
 					Block_126:
 					try
@@ -2203,7 +2218,7 @@ namespace Verse
 						}
 					}
 					j++;
-					goto IL_13ED;
+					goto IL_13F1;
 				case 44u:
 					Block_128:
 					try
@@ -2233,7 +2248,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_14B2;
+					goto IL_14B6;
 				case 45u:
 					Block_130:
 					try
@@ -2263,7 +2278,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_155B;
+					goto IL_155F;
 				case 46u:
 					Block_132:
 					try
@@ -2293,7 +2308,7 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_1604;
+					goto IL_1608;
 				case 47u:
 					Block_135:
 					try
@@ -2301,7 +2316,7 @@ namespace Verse
 						switch (num)
 						{
 						case 47u:
-							IL_1701:
+							IL_1705:
 							break;
 						}
 						if (enumerator14.MoveNext())
@@ -2323,7 +2338,7 @@ namespace Verse
 								flag = true;
 								return true;
 							}
-							goto IL_1701;
+							goto IL_1705;
 						}
 					}
 					finally
@@ -2333,9 +2348,14 @@ namespace Verse
 							((IDisposable)enumerator14).Dispose();
 						}
 					}
-					goto IL_172E;
+					goto IL_1732;
 				case 48u:
-					goto IL_17A2;
+					IL_17A5:
+					enumerator15 = this.tools.GetEnumerator();
+					num = 4294967293u;
+					goto Block_139;
+				case 49u:
+					goto IL_17BF;
 				default:
 					return false;
 				}
@@ -2375,16 +2395,16 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_1A4:
+				IL_1A8:
 				if (this.graphicData == null)
 				{
-					goto IL_251;
+					goto IL_255;
 				}
 				enumerator2 = this.graphicData.ConfigErrors(this).GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_1DA:
+					IL_1DE:
 					switch (num)
 					{
 					}
@@ -2410,21 +2430,21 @@ namespace Verse
 						}
 					}
 				}
-				IL_251:
+				IL_255:
 				if (this.projectile != null)
 				{
 					enumerator3 = this.projectile.ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_8;
 				}
-				IL_2FE:
+				IL_302:
 				if (this.statBases != null)
 				{
 					enumerator4 = this.statBases.GetEnumerator();
 					num = 4294967293u;
 					goto Block_10;
 				}
-				IL_3FC:
+				IL_400:
 				if (!BeautyUtility.BeautyRelevant(this.category) && this.StatBaseDefined(StatDefOf.Beauty))
 				{
 					this.$current = "Beauty stat base is defined, but Things of category " + this.category + " cannot have beauty.";
@@ -2434,8 +2454,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_45F;
-				IL_4AA:
+				goto IL_463;
+				IL_4AE:
 				if (this.thingClass == null)
 				{
 					this.$current = "has null thingClass.";
@@ -2445,7 +2465,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_4D9:
+				IL_4DD:
 				if (this.comps.Count > 0 && !typeof(ThingWithComps).IsAssignableFrom(this.thingClass))
 				{
 					this.$current = "has components but it's thingClass is not a ThingWithComps";
@@ -2455,7 +2475,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_52E:
+				IL_532:
 				if (base.ConnectToPower && this.drawerType == DrawerType.RealtimeOnly && base.IsFrame)
 				{
 					this.$current = "connects to power but does not add to map mesh. Will not create wire meshes.";
@@ -2465,20 +2485,20 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_57F:
+				IL_583:
 				if (this.costList == null)
 				{
-					goto IL_642;
+					goto IL_646;
 				}
 				enumerator5 = this.costList.GetEnumerator();
 				num = 4294967293u;
 				try
 				{
-					IL_5AA:
+					IL_5AE:
 					switch (num)
 					{
 					case 11u:
-						IL_615:
+						IL_619:
 						break;
 					}
 					if (enumerator5.MoveNext())
@@ -2494,7 +2514,7 @@ namespace Verse
 							flag = true;
 							return true;
 						}
-						goto IL_615;
+						goto IL_619;
 					}
 				}
 				finally
@@ -2504,7 +2524,7 @@ namespace Verse
 						((IDisposable)enumerator5).Dispose();
 					}
 				}
-				IL_642:
+				IL_646:
 				if (this.thingCategories != null)
 				{
 					doubleCat = this.thingCategories.FirstOrDefault((ThingCategoryDef cat) => this.thingCategories.Count((ThingCategoryDef c) => c == cat) > 1);
@@ -2518,7 +2538,7 @@ namespace Verse
 						return true;
 					}
 				}
-				IL_6B1:
+				IL_6B5:
 				if (base.Fillage == FillCategory.Full && this.category != ThingCategory.Building)
 				{
 					this.$current = "gives full cover but is not a building.";
@@ -2528,11 +2548,11 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_6F3;
-				IL_756:
+				goto IL_6F7;
+				IL_75A:
 				if (this.equipmentType == EquipmentType.None)
 				{
-					goto IL_7EA;
+					goto IL_7EE;
 				}
 				if (this.techLevel == TechLevel.Undefined)
 				{
@@ -2543,7 +2563,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_797:
+				IL_79B:
 				if (!this.comps.Any((CompProperties c) => c.compClass == typeof(CompEquippable)))
 				{
 					this.$current = "is equipment but has no CompEquippable";
@@ -2553,8 +2573,8 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_7E9:
-				IL_7EA:
+				IL_7ED:
+				IL_7EE:
 				if (this.thingClass == typeof(Bullet) && this.projectile.damageDef == null)
 				{
 					this.$current = " is a bullet but has no damageDef.";
@@ -2564,8 +2584,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_839;
-				IL_87A:
+				goto IL_83D;
+				IL_87E:
 				if (this.tradeability != Tradeability.None)
 				{
 					this.$current = "destroyOnDrop but tradeability is " + this.tradeability;
@@ -2575,8 +2595,8 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_8BF:
-				IL_8C0:
+				IL_8C3:
+				IL_8C4:
 				if (this.stackLimit > 1 && !this.drawGUIOverlay)
 				{
 					this.$current = "has stackLimit > 1 but also has drawGUIOverlay = false.";
@@ -2586,11 +2606,11 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_901;
+				goto IL_905;
 				Block_55:
 				try
 				{
-					IL_92C:
+					IL_930:
 					switch (num)
 					{
 					case 21u:
@@ -2622,7 +2642,7 @@ namespace Verse
 						((IDisposable)enumerator6).Dispose();
 					}
 				}
-				IL_A02:
+				IL_A06:
 				if (base.Fillage == FillCategory.Full && !this.IsEdifice())
 				{
 					this.$current = "fillPercent is 1.00 but is not edifice";
@@ -2632,8 +2652,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_A43;
-				IL_A83:
+				goto IL_A47;
+				IL_A87:
 				if (base.MadeFromStuff && this.stuffCategories.NullOrEmpty<StuffCategoryDef>())
 				{
 					this.$current = "madeFromStuff but has no stuffCategories.";
@@ -2643,7 +2663,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_AC8:
+				IL_ACC:
 				if (this.costList.NullOrEmpty<ThingDefCountClass>() && this.costStuffCount <= 0 && this.recipeMaker != null)
 				{
 					this.$current = "has a recipeMaker but no costList or costStuffCount.";
@@ -2653,7 +2673,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_B1E:
+				IL_B22:
 				if (this.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) > 1E-05f && !base.CanEverDeteriorate)
 				{
 					this.$current = "has >0 DeteriorationRate but can't deteriorate.";
@@ -2663,7 +2683,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_B69:
+				IL_B6D:
 				if (this.drawerType == DrawerType.MapMeshOnly)
 				{
 					if (this.comps.Any((CompProperties c) => c.compClass == typeof(CompForbiddable)))
@@ -2676,7 +2696,7 @@ namespace Verse
 						return true;
 					}
 				}
-				IL_BCC:
+				IL_BD0:
 				if (this.smeltProducts != null && this.smeltable)
 				{
 					this.$current = "has smeltProducts but has smeltable=false";
@@ -2686,7 +2706,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_C0C:
+				IL_C10:
 				if (this.equipmentType != EquipmentType.None && this.verbs.NullOrEmpty<VerbProperties>() && this.tools.NullOrEmpty<Tool>())
 				{
 					this.$current = "is equipment but has no verbs or tools";
@@ -2696,7 +2716,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_C66:
+				IL_C6A:
 				if (base.Minifiable && this.thingCategories.NullOrEmpty<ThingCategoryDef>())
 				{
 					this.$current = "is minifiable but not in any thing category";
@@ -2706,7 +2726,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_CAB:
+				IL_CAF:
 				if (this.category == ThingCategory.Building && !base.Minifiable && !this.thingCategories.NullOrEmpty<ThingCategoryDef>())
 				{
 					this.$current = "is not minifiable yet has thing categories (could be confusing in thing filters because it can't be moved/stored anyway)";
@@ -2716,14 +2736,14 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_D01:
+				IL_D05:
 				if (this != ThingDefOf.MinifiedThing && (base.EverHaulable || base.Minifiable))
 				{
 					if (!this.statBases.NullOrEmpty<StatModifier>())
 					{
 						if (this.statBases.Any((StatModifier s) => s.stat == StatDefOf.Mass))
 						{
-							goto IL_D98;
+							goto IL_D9C;
 						}
 					}
 					this.$current = "is haulable, but does not have an authored mass value";
@@ -2733,7 +2753,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_D98:
+				IL_D9C:
 				if (this.ingestible == null && this.GetStatValueAbstract(StatDefOf.Nutrition, null) != 0f)
 				{
 					this.$current = "has nutrition but ingestible properties are null";
@@ -2743,7 +2763,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_DE3:
+				IL_DE7:
 				if (base.BaseFlammability != 0f && !this.useHitPoints && this.category != ThingCategory.Pawn)
 				{
 					this.$current = "flammable but has no hitpoints (will burn indefinitely)";
@@ -2753,7 +2773,7 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_E39:
+				IL_E3D:
 				if (this.graphicData != null && this.graphicData.shadowData != null)
 				{
 					if (this.staticSunShadowHeight > 0f)
@@ -2766,7 +2786,7 @@ namespace Verse
 						return true;
 					}
 				}
-				IL_E94:
+				IL_E98:
 				if (this.saveCompressible && base.Claimable)
 				{
 					this.$current = "claimable item is compressible; faction will be unset after load";
@@ -2776,8 +2796,8 @@ namespace Verse
 					}
 					return true;
 				}
-				goto IL_ED5;
-				IL_F1F:
+				goto IL_ED9;
+				IL_F23:
 				if (this.deepCommonality > 0f && this.deepCountPerPortion <= 0)
 				{
 					this.$current = "deepCommonality > 0 but deepCountPerPortion is not set";
@@ -2787,29 +2807,29 @@ namespace Verse
 					}
 					return true;
 				}
-				IL_F65:
+				IL_F69:
 				if (this.verbs == null)
 				{
-					goto IL_106B;
+					goto IL_106F;
 				}
 				i = 0;
-				IL_104F:
+				IL_1053:
 				if (i < this.verbs.Count)
 				{
 					enumerator7 = this.verbs[i].ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_115;
 				}
-				IL_106B:
+				IL_106F:
 				if (this.race != null && this.tools != null)
 				{
 					int i = 0;
-					goto IL_1199;
+					goto IL_119D;
 				}
-				goto IL_11BA;
-				IL_1180:
+				goto IL_11BE;
+				IL_1184:
 				<ConfigErrors>c__AnonStorey3.i++;
-				IL_1199:
+				IL_119D:
 				if (<ConfigErrors>c__AnonStorey3.i < this.tools.Count)
 				{
 					if (this.tools[<ConfigErrors>c__AnonStorey3.i].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((BodyPartRecord part) => part.groups.Contains(<ConfigErrors>c__AnonStorey3.<>f__ref$0.$this.tools[<ConfigErrors>c__AnonStorey3.i].linkedBodyPartsGroup)))
@@ -2828,80 +2848,134 @@ namespace Verse
 						}
 						return true;
 					}
-					goto IL_1180;
+					goto IL_1184;
 				}
-				IL_11BA:
+				IL_11BE:
 				if (this.building != null)
 				{
 					enumerator8 = this.building.ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_122;
 				}
-				IL_1269:
+				IL_126D:
 				if (this.apparel != null)
 				{
 					enumerator9 = this.apparel.ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_124;
 				}
-				IL_1318:
+				IL_131C:
 				if (this.comps == null)
 				{
-					goto IL_1409;
+					goto IL_140D;
 				}
 				j = 0;
-				IL_13ED:
+				IL_13F1:
 				if (j < this.comps.Count)
 				{
 					enumerator10 = this.comps[j].ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
 					goto Block_126;
 				}
-				IL_1409:
+				IL_140D:
 				if (this.race != null)
 				{
 					enumerator11 = this.race.ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_128;
 				}
-				IL_14B2:
+				IL_14B6:
 				if (this.ingestible != null)
 				{
 					enumerator12 = this.ingestible.ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_130;
 				}
-				IL_155B:
+				IL_155F:
 				if (this.plant != null)
 				{
 					enumerator13 = this.plant.ConfigErrors().GetEnumerator();
 					num = 4294967293u;
 					goto Block_132;
 				}
-				IL_1604:
+				IL_1608:
 				if (this.recipes != null && this.race != null)
 				{
 					enumerator14 = this.recipes.GetEnumerator();
 					num = 4294967293u;
 					goto Block_135;
 				}
-				IL_172E:
-				if (this.tools != null)
+				IL_1732:
+				if (this.tools == null)
 				{
-					dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
-					where lhs != rhs && lhs.Id == rhs.Id
-					select rhs).FirstOrDefault<Tool>();
-					if (dupeTool != null)
+					goto IL_18A2;
+				}
+				dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
+				where lhs != rhs && lhs.Id == rhs.Id
+				select rhs).FirstOrDefault<Tool>();
+				if (dupeTool != null)
+				{
+					this.$current = string.Format("duplicate thingdef tool id {0}", dupeTool.Id);
+					if (!this.$disposing)
 					{
-						this.$current = string.Format("duplicate thingdef tool id {0}", dupeTool.Id);
-						if (!this.$disposing)
+						this.$PC = 48;
+					}
+					return true;
+				}
+				goto IL_17A5;
+				Block_139:
+				try
+				{
+					IL_17BF:
+					switch (num)
+					{
+					case 49u:
+						Block_224:
+						try
 						{
-							this.$PC = 48;
+							switch (num)
+							{
+							}
+							if (enumerator16.MoveNext())
+							{
+								e4 = enumerator16.Current;
+								this.$current = e4;
+								if (!this.$disposing)
+								{
+									this.$PC = 49;
+								}
+								flag = true;
+								return true;
+							}
 						}
-						return true;
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator16 != null)
+								{
+									enumerator16.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator15.MoveNext())
+					{
+						t = enumerator15.Current;
+						enumerator16 = t.ConfigErrors().GetEnumerator();
+						num = 4294967293u;
+						goto Block_224;
 					}
 				}
-				IL_17A2:
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator15).Dispose();
+					}
+				}
+				IL_18A2:
 				this.$PC = -1;
 				return false;
 			}
@@ -3086,6 +3160,25 @@ namespace Verse
 					finally
 					{
 						((IDisposable)enumerator14).Dispose();
+					}
+					break;
+				case 49u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator16 != null)
+							{
+								enumerator16.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)enumerator15).Dispose();
 					}
 					break;
 				}

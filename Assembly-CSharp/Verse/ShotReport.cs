@@ -145,25 +145,11 @@ namespace Verse
 
 		public static ShotReport HitReportFor(Thing caster, Verb verb, LocalTargetInfo target)
 		{
-			Pawn pawn = caster as Pawn;
 			IntVec3 cell = target.Cell;
 			ShotReport result;
 			result.distance = (cell - caster.Position).LengthHorizontal;
 			result.target = target.ToTargetInfo(caster.Map);
-			float f;
-			if (pawn != null)
-			{
-				f = pawn.GetStatValue(StatDefOf.ShootingAccuracy, true);
-			}
-			else
-			{
-				f = 0.96f;
-			}
-			result.factorFromShooterAndDist = Mathf.Pow(f, result.distance);
-			if (result.factorFromShooterAndDist < 0.0201f)
-			{
-				result.factorFromShooterAndDist = 0.0201f;
-			}
+			result.factorFromShooterAndDist = ShotReport.HitFactorFromShooter(caster, result.distance);
 			result.factorFromEquipment = verb.verbProps.GetHitChanceFactor(verb.ownerEquipment, result.distance);
 			result.covers = CoverUtility.CalculateCoverGiverSet(target, caster.Position, caster.Map);
 			result.coversOverallBlockChance = CoverUtility.CalculateOverallBlockChance(target, caster.Position, caster.Map);
@@ -193,10 +179,10 @@ namespace Verse
 			}
 			if (target.HasThing)
 			{
-				Pawn pawn2 = target.Thing as Pawn;
-				if (pawn2 != null)
+				Pawn pawn = target.Thing as Pawn;
+				if (pawn != null)
 				{
-					result.factorFromTargetSize = pawn2.BodySize;
+					result.factorFromTargetSize = pawn.BodySize;
 				}
 				else
 				{
@@ -210,6 +196,13 @@ namespace Verse
 			}
 			result.forcedMissRadius = verb.verbProps.forcedMissRadius;
 			return result;
+		}
+
+		public static float HitFactorFromShooter(Thing caster, float distance)
+		{
+			float f = (!(caster is Pawn)) ? caster.GetStatValue(StatDefOf.ShootingAccuracyTurret, true) : caster.GetStatValue(StatDefOf.ShootingAccuracyPawn, true);
+			float a = Mathf.Pow(f, distance);
+			return Mathf.Max(a, 0.0201f);
 		}
 
 		public string GetTextReadout()

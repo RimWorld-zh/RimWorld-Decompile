@@ -28,11 +28,18 @@ namespace Verse
 			if (this.tools != null)
 			{
 				Tool dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
-				where lhs != rhs && lhs.label == rhs.label
+				where lhs != rhs && lhs.Id == rhs.Id
 				select rhs).FirstOrDefault<Tool>();
 				if (dupeTool != null)
 				{
 					yield return string.Format("duplicate hediff tool id {0}", dupeTool.Id);
+				}
+				foreach (Tool t in this.tools)
+				{
+					foreach (string e in t.ConfigErrors())
+					{
+						yield return e;
+					}
 				}
 			}
 			yield break;
@@ -55,6 +62,14 @@ namespace Verse
 			internal string <err>__1;
 
 			internal Tool <dupeTool>__2;
+
+			internal List<Tool>.Enumerator $locvar1;
+
+			internal Tool <t>__3;
+
+			internal IEnumerator<string> $locvar2;
+
+			internal string <e>__4;
 
 			internal HediffCompProperties_VerbGiver $this;
 
@@ -83,7 +98,9 @@ namespace Verse
 				case 1u:
 					break;
 				case 2u:
-					goto IL_130;
+					goto IL_134;
+				case 3u:
+					goto IL_14E;
 				default:
 					return false;
 				}
@@ -116,23 +133,75 @@ namespace Verse
 				}
 				if (this.tools == null)
 				{
-					goto IL_131;
+					goto IL_22E;
 				}
 				dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
-				where lhs != rhs && lhs.label == rhs.label
+				where lhs != rhs && lhs.Id == rhs.Id
 				select rhs).FirstOrDefault<Tool>();
-				if (dupeTool == null)
+				if (dupeTool != null)
 				{
-					goto IL_130;
+					this.$current = string.Format("duplicate hediff tool id {0}", dupeTool.Id);
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
 				}
-				this.$current = string.Format("duplicate hediff tool id {0}", dupeTool.Id);
-				if (!this.$disposing)
+				IL_134:
+				enumerator2 = this.tools.GetEnumerator();
+				num = 4294967293u;
+				try
 				{
-					this.$PC = 2;
+					IL_14E:
+					switch (num)
+					{
+					case 3u:
+						Block_14:
+						try
+						{
+							switch (num)
+							{
+							}
+							if (enumerator3.MoveNext())
+							{
+								e = enumerator3.Current;
+								this.$current = e;
+								if (!this.$disposing)
+								{
+									this.$PC = 3;
+								}
+								flag = true;
+								return true;
+							}
+						}
+						finally
+						{
+							if (!flag)
+							{
+								if (enumerator3 != null)
+								{
+									enumerator3.Dispose();
+								}
+							}
+						}
+						break;
+					}
+					if (enumerator2.MoveNext())
+					{
+						t = enumerator2.Current;
+						enumerator3 = t.ConfigErrors().GetEnumerator();
+						num = 4294967293u;
+						goto Block_14;
+					}
 				}
-				return true;
-				IL_130:
-				IL_131:
+				finally
+				{
+					if (!flag)
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+				}
+				IL_22E:
 				this.$PC = -1;
 				return false;
 			}
@@ -175,6 +244,25 @@ namespace Verse
 						}
 					}
 					break;
+				case 3u:
+					try
+					{
+						try
+						{
+						}
+						finally
+						{
+							if (enumerator3 != null)
+							{
+								enumerator3.Dispose();
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)enumerator2).Dispose();
+					}
+					break;
 				}
 			}
 
@@ -206,7 +294,7 @@ namespace Verse
 			internal IEnumerable<Tool> <>m__0(Tool lhs)
 			{
 				return from rhs in this.tools
-				where lhs != rhs && lhs.label == rhs.label
+				where lhs != rhs && lhs.Id == rhs.Id
 				select rhs;
 			}
 
@@ -222,7 +310,7 @@ namespace Verse
 
 				internal bool <>m__0(Tool rhs)
 				{
-					return this.lhs != rhs && this.lhs.label == rhs.label;
+					return this.lhs != rhs && this.lhs.Id == rhs.Id;
 				}
 			}
 		}

@@ -8,24 +8,6 @@ namespace Verse
 {
 	public class DamageWorker_AddInjury : DamageWorker
 	{
-		private const float SpreadDamageChance = 0.5f;
-
-		private static readonly SimpleCurve PartBlowOffChancePerOverkillDamagePercent = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.1f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.7f, 1f),
-				true
-			}
-		};
-
 		[CompilerGenerated]
 		private static Func<LifeStageAge, SoundDef> <>f__am$cache0;
 
@@ -214,7 +196,7 @@ namespace Verse
 					if (dinfo.InstantPermanentInjury)
 					{
 						HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
-						if (hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsPermanent)) == null || dinfo.HitPart.def.permanentInjuryBaseChance == 0f || dinfo.HitPart.def.IsSolid(dinfo.HitPart, pawn.health.hediffSet.hediffs) || pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(dinfo.HitPart))
+						if (hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsPermanent)) == null || dinfo.HitPart.def.permanentInjuryChanceFactor == 0f || dinfo.HitPart.def.IsSolid(dinfo.HitPart, pawn.health.hediffSet.hediffs) || pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(dinfo.HitPart))
 						{
 							return;
 						}
@@ -279,7 +261,11 @@ namespace Verse
 
 		protected float FinalizeAndAddInjury(Pawn pawn, Hediff_Injury injury, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
-			this.CalculatePermanentInjuryDamageThreshold(pawn, injury);
+			HediffComp_GetsPermanent hediffComp_GetsPermanent = injury.TryGetComp<HediffComp_GetsPermanent>();
+			if (hediffComp_GetsPermanent != null)
+			{
+				hediffComp_GetsPermanent.PreFinalizeInjury();
+			}
 			pawn.health.AddHediff(injury, null, new DamageInfo?(dinfo), result);
 			float num = Mathf.Min(injury.Severity, pawn.health.hediffSet.GetPartHealth(injury.Part));
 			result.totalDamageDealt += num;
@@ -287,33 +273,6 @@ namespace Verse
 			result.AddPart(pawn, injury.Part);
 			result.AddHediff(injury);
 			return num;
-		}
-
-		private void CalculatePermanentInjuryDamageThreshold(Pawn pawn, Hediff_Injury injury)
-		{
-			HediffCompProperties_GetsPermanent hediffCompProperties_GetsPermanent = injury.def.CompProps<HediffCompProperties_GetsPermanent>();
-			if (hediffCompProperties_GetsPermanent != null)
-			{
-				if (!injury.Part.def.IsSolid(injury.Part, pawn.health.hediffSet.hediffs) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(injury.Part) && !injury.IsPermanent() && injury.Part.def.permanentInjuryBaseChance >= 1E-05f)
-				{
-					bool isDelicate = injury.Part.def.IsDelicate;
-					if ((Rand.Value <= injury.Part.def.permanentInjuryBaseChance * hediffCompProperties_GetsPermanent.becomePermanentChance && injury.Severity >= injury.Part.def.GetMaxHealth(pawn) * 0.25f && injury.Severity >= 7f) || isDelicate)
-					{
-						HediffComp_GetsPermanent hediffComp_GetsPermanent = injury.TryGetComp<HediffComp_GetsPermanent>();
-						float num = 1f;
-						float num2 = injury.Severity / 2f;
-						if (num <= num2)
-						{
-							hediffComp_GetsPermanent.permanentDamageThreshold = Rand.Range(num, num2);
-						}
-						if (isDelicate)
-						{
-							hediffComp_GetsPermanent.permanentDamageThreshold = injury.Severity;
-							hediffComp_GetsPermanent.IsPermanent = true;
-						}
-					}
-				}
-			}
 		}
 
 		private void CheckDuplicateDamageToOuterParts(DamageInfo dinfo, Pawn pawn, float totalDamage, DamageWorker.DamageResult result)
@@ -414,9 +373,9 @@ namespace Verse
 				{
 					float maxHealth = dinfo.HitPart.def.GetMaxHealth(pawn);
 					float num = postArmorDamage - partHealth;
-					float x = num / maxHealth;
-					float num2 = DamageWorker_AddInjury.PartBlowOffChancePerOverkillDamagePercent.Evaluate(x);
-					if (Rand.Value < num2)
+					float f = num / maxHealth;
+					float chance = this.def.overkillPctToDestroyPart.InverseLerpThroughRange(f);
+					if (Rand.Chance(chance))
 					{
 						result = postArmorDamage;
 					}
@@ -432,11 +391,6 @@ namespace Verse
 		public static bool ShouldReduceDamageToPreservePart(BodyPartRecord bodyPart)
 		{
 			return bodyPart.depth == BodyPartDepth.Outside && !bodyPart.IsCorePart;
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static DamageWorker_AddInjury()
-		{
 		}
 
 		[CompilerGenerated]

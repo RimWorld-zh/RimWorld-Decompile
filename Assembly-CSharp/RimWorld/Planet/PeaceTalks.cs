@@ -206,7 +206,7 @@ namespace RimWorld.Planet
 			{
 				base.Faction.Name,
 				randomInRange,
-				list[0].Label
+				GenLabel.ThingsLabel(list)
 			}), caravan, playerRelationKind), LetterDefOf.PositiveEvent, caravan, base.Faction, null);
 		}
 

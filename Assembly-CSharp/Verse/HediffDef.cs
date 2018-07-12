@@ -152,7 +152,7 @@ namespace Verse
 			return null;
 		}
 
-		public T CompProps<T>() where T : class
+		public T CompProps<T>() where T : HediffCompProperties
 		{
 			if (this.comps != null)
 			{

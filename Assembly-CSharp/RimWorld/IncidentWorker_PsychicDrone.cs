@@ -11,14 +11,18 @@ namespace RimWorld
 
 		protected override void DoConditionAndLetter(Map map, int duration, Gender gender)
 		{
+			PsychicDroneLevel psychicDroneLevel = ExpectationsUtility.CurrentExpectationFor(map).psychicDroneLevel;
 			GameCondition_PsychicEmanation gameCondition_PsychicEmanation = (GameCondition_PsychicEmanation)GameConditionMaker.MakeCondition(GameConditionDefOf.PsychicDrone, duration, 0);
 			gameCondition_PsychicEmanation.gender = gender;
+			gameCondition_PsychicEmanation.level = psychicDroneLevel;
 			map.gameConditionManager.RegisterCondition(gameCondition_PsychicEmanation);
+			string label = "LetterLabelPsychicDrone".Translate() + " (" + psychicDroneLevel.GetLabel() + ")";
 			string text = "LetterIncidentPsychicDrone".Translate(new object[]
 			{
-				gender.ToString().Translate().ToLower()
+				gender.ToString().Translate().ToLower(),
+				psychicDroneLevel.GetLabel()
 			});
-			Find.LetterStack.ReceiveLetter("LetterLabelPsychicDrone".Translate(), text, LetterDefOf.NegativeEvent, null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, null);
 		}
 	}
 }

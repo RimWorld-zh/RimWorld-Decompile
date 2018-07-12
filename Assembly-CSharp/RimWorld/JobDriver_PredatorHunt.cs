@@ -11,11 +11,11 @@ namespace RimWorld
 {
 	public class JobDriver_PredatorHunt : JobDriver
 	{
-		private bool notifiedPlayer;
+		private bool notifiedPlayerAttacked;
+
+		private bool notifiedPlayerAttacking;
 
 		private bool firstHit = true;
-
-		private bool sentLetter;
 
 		public const TargetIndex PreyInd = TargetIndex.A;
 
@@ -57,7 +57,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.firstHit, "firstHit", false, false);
-			Scribe_Values.Look<bool>(ref this.sentLetter, "sentLetter", false, false);
+			Scribe_Values.Look<bool>(ref this.notifiedPlayerAttacking, "notifiedPlayerAttacking", false, false);
 		}
 
 		public override string GetReport()
@@ -125,9 +125,9 @@ namespace RimWorld
 				bool surpriseAttack = this.firstHit && !prey.IsColonist;
 				if (this.pawn.meleeVerbs.TryMeleeAttack(prey, this.job.verbToUse, surpriseAttack))
 				{
-					if (!this.notifiedPlayer && PawnUtility.ShouldSendNotificationAbout(prey))
+					if (!this.notifiedPlayerAttacked && PawnUtility.ShouldSendNotificationAbout(prey))
 					{
-						this.notifiedPlayer = true;
+						this.notifiedPlayerAttacked = true;
 						Messages.Message("MessageAttackedByPredator".Translate(new object[]
 						{
 							prey.LabelShort,
@@ -162,26 +162,37 @@ namespace RimWorld
 
 		private void CheckWarnPlayer()
 		{
-			if (!this.sentLetter)
+			if (!this.notifiedPlayerAttacking)
 			{
 				Pawn prey = this.Prey;
-				if (!prey.Dead && prey.IsColonist && prey.Spawned)
+				if (prey.Spawned && prey.Faction == Faction.OfPlayer)
 				{
-					if (Find.TickManager.TicksGame > this.pawn.mindState.lastPredatorHuntingColonistLetterTick + 2500)
+					if (Find.TickManager.TicksGame > this.pawn.mindState.lastPredatorHuntingPlayerNotificationTick + 2500)
 					{
-						if (prey.Position.InHorDistOf(this.pawn.Position, 30f) && prey.Position.WithinRegions(this.pawn.Position, base.Map, 30, TraverseParms.For(this.pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable))
+						if (prey.Position.InHorDistOf(this.pawn.Position, 60f))
 						{
-							Find.LetterStack.ReceiveLetter("LetterLabelPredatorHuntingColonist".Translate(new object[]
+							if (prey.RaceProps.Humanlike)
 							{
-								this.pawn.LabelShort,
-								prey.LabelDefinite()
-							}).CapitalizeFirst(), "LetterPredatorHuntingColonist".Translate(new object[]
+								Find.LetterStack.ReceiveLetter("LetterLabelPredatorHuntingColonist".Translate(new object[]
+								{
+									this.pawn.LabelShort,
+									prey.LabelDefinite()
+								}).CapitalizeFirst(), "LetterPredatorHuntingColonist".Translate(new object[]
+								{
+									this.pawn.LabelIndefinite(),
+									prey.LabelDefinite()
+								}).CapitalizeFirst(), LetterDefOf.ThreatBig, this.pawn, null, null);
+							}
+							else
 							{
-								this.pawn.LabelIndefinite(),
-								prey.LabelDefinite()
-							}).CapitalizeFirst(), LetterDefOf.ThreatBig, this.pawn, null, null);
-							this.pawn.mindState.Notify_SentPredatorHuntingColonistLetter();
-							this.sentLetter = true;
+								Messages.Message("MessagePredatorHuntingPlayerAnimal".Translate(new object[]
+								{
+									this.pawn.LabelIndefinite(),
+									prey.LabelDefinite()
+								}).CapitalizeFirst(), this.pawn, MessageTypeDefOf.ThreatBig, true);
+							}
+							this.pawn.mindState.Notify_PredatorHuntingPlayerNotification();
+							this.notifiedPlayerAttacking = true;
 						}
 					}
 				}
@@ -273,9 +284,9 @@ namespace RimWorld
 						bool surpriseAttack = <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.firstHit && !prey.IsColonist;
 						if (<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.pawn.meleeVerbs.TryMeleeAttack(prey, <MakeNewToils>c__AnonStorey.<>f__ref$0.$this.job.verbToUse, surpriseAttack))
 						{
-							if (!<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.notifiedPlayer && PawnUtility.ShouldSendNotificationAbout(prey))
+							if (!<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.notifiedPlayerAttacked && PawnUtility.ShouldSendNotificationAbout(prey))
 							{
-								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.notifiedPlayer = true;
+								<MakeNewToils>c__AnonStorey.<>f__ref$0.$this.notifiedPlayerAttacked = true;
 								Messages.Message("MessageAttackedByPredator".Translate(new object[]
 								{
 									prey.LabelShort,
@@ -443,9 +454,9 @@ namespace RimWorld
 					bool surpriseAttack = this.<>f__ref$0.$this.firstHit && !prey.IsColonist;
 					if (this.<>f__ref$0.$this.pawn.meleeVerbs.TryMeleeAttack(prey, this.<>f__ref$0.$this.job.verbToUse, surpriseAttack))
 					{
-						if (!this.<>f__ref$0.$this.notifiedPlayer && PawnUtility.ShouldSendNotificationAbout(prey))
+						if (!this.<>f__ref$0.$this.notifiedPlayerAttacked && PawnUtility.ShouldSendNotificationAbout(prey))
 						{
-							this.<>f__ref$0.$this.notifiedPlayer = true;
+							this.<>f__ref$0.$this.notifiedPlayerAttacked = true;
 							Messages.Message("MessageAttackedByPredator".Translate(new object[]
 							{
 								prey.LabelShort,

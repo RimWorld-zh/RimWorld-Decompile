@@ -19,9 +19,15 @@ namespace RimWorld
 
 		private Pawn_MeleeVerbs_TerrainSource terrainVerbs = null;
 
+		public int lastTerrainBasedVerbUseTick = -99999;
+
 		private static List<VerbEntry> meleeVerbs = new List<VerbEntry>();
 
 		private const int BestMeleeVerbUpdateInterval = 60;
+
+		public const int TerrainBasedVerbUseDelay = 1200;
+
+		private const float TerrainBasedVerbChooseChance = 0.04f;
 
 		public Pawn_MeleeVerbs(Pawn pawn)
 		{
@@ -52,9 +58,20 @@ namespace RimWorld
 
 		private void ChooseMeleeVerb(Thing target)
 		{
-			List<VerbEntry> updatedAvailableVerbsList = this.GetUpdatedAvailableVerbsList();
+			bool flag = Rand.Chance(0.04f);
+			List<VerbEntry> updatedAvailableVerbsList = this.GetUpdatedAvailableVerbsList(flag);
+			bool flag2 = false;
 			VerbEntry verbEntry;
 			if (updatedAvailableVerbsList.TryRandomElementByWeight((VerbEntry ve) => ve.GetSelectionWeight(target), out verbEntry))
+			{
+				flag2 = true;
+			}
+			else if (flag)
+			{
+				updatedAvailableVerbsList = this.GetUpdatedAvailableVerbsList(false);
+				flag2 = updatedAvailableVerbsList.TryRandomElementByWeight((VerbEntry ve) => ve.GetSelectionWeight(target), out verbEntry);
+			}
+			if (flag2)
 			{
 				this.SetCurMeleeVerb(verbEntry.verb, target);
 			}
@@ -132,77 +149,80 @@ namespace RimWorld
 			return result;
 		}
 
-		public List<VerbEntry> GetUpdatedAvailableVerbsList()
+		public List<VerbEntry> GetUpdatedAvailableVerbsList(bool terrainTools)
 		{
 			Profiler.BeginSample("GetUpdatedAvailableVerbsList");
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
-			List<Verb> allVerbs = this.pawn.verbTracker.AllVerbs;
-			for (int i = 0; i < allVerbs.Count; i++)
+			if (!terrainTools)
 			{
-				if (allVerbs[i].IsStillUsableBy(this.pawn))
+				List<Verb> allVerbs = this.pawn.verbTracker.AllVerbs;
+				for (int i = 0; i < allVerbs.Count; i++)
 				{
-					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs[i], this.pawn, null));
-				}
-			}
-			if (this.pawn.equipment != null)
-			{
-				List<ThingWithComps> allEquipmentListForReading = this.pawn.equipment.AllEquipmentListForReading;
-				for (int j = 0; j < allEquipmentListForReading.Count; j++)
-				{
-					ThingWithComps thingWithComps = allEquipmentListForReading[j];
-					CompEquippable comp = thingWithComps.GetComp<CompEquippable>();
-					if (comp != null)
+					if (allVerbs[i].IsStillUsableBy(this.pawn))
 					{
-						List<Verb> allVerbs2 = comp.AllVerbs;
-						if (allVerbs2 != null)
+						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs[i], this.pawn, null));
+					}
+				}
+				if (this.pawn.equipment != null)
+				{
+					List<ThingWithComps> allEquipmentListForReading = this.pawn.equipment.AllEquipmentListForReading;
+					for (int j = 0; j < allEquipmentListForReading.Count; j++)
+					{
+						ThingWithComps thingWithComps = allEquipmentListForReading[j];
+						CompEquippable comp = thingWithComps.GetComp<CompEquippable>();
+						if (comp != null)
 						{
-							for (int k = 0; k < allVerbs2.Count; k++)
+							List<Verb> allVerbs2 = comp.AllVerbs;
+							if (allVerbs2 != null)
 							{
-								if (allVerbs2[k].IsStillUsableBy(this.pawn))
+								for (int k = 0; k < allVerbs2.Count; k++)
 								{
-									Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs2[k], this.pawn, thingWithComps));
+									if (allVerbs2[k].IsStillUsableBy(this.pawn))
+									{
+										Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs2[k], this.pawn, thingWithComps));
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			if (this.pawn.apparel != null)
-			{
-				List<Apparel> wornApparel = this.pawn.apparel.WornApparel;
-				for (int l = 0; l < wornApparel.Count; l++)
+				if (this.pawn.apparel != null)
 				{
-					Apparel apparel = wornApparel[l];
-					CompEquippable comp2 = apparel.GetComp<CompEquippable>();
-					if (comp2 != null)
+					List<Apparel> wornApparel = this.pawn.apparel.WornApparel;
+					for (int l = 0; l < wornApparel.Count; l++)
 					{
-						List<Verb> allVerbs3 = comp2.AllVerbs;
-						if (allVerbs3 != null)
+						Apparel apparel = wornApparel[l];
+						CompEquippable comp2 = apparel.GetComp<CompEquippable>();
+						if (comp2 != null)
 						{
-							for (int m = 0; m < allVerbs3.Count; m++)
+							List<Verb> allVerbs3 = comp2.AllVerbs;
+							if (allVerbs3 != null)
 							{
-								if (allVerbs3[m].IsStillUsableBy(this.pawn))
+								for (int m = 0; m < allVerbs3.Count; m++)
 								{
-									Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs3[m], this.pawn, apparel));
+									if (allVerbs3[m].IsStillUsableBy(this.pawn))
+									{
+										Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs3[m], this.pawn, apparel));
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			foreach (Verb verb in this.pawn.health.hediffSet.GetHediffsVerbs())
-			{
-				if (verb.IsStillUsableBy(this.pawn))
+				foreach (Verb verb in this.pawn.health.hediffSet.GetHediffsVerbs())
 				{
-					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn, null));
+					if (verb.IsStillUsableBy(this.pawn))
+					{
+						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn, null));
+					}
 				}
 			}
-			if (this.pawn.Spawned)
+			else if (this.pawn.Spawned)
 			{
-				TerrainDef terrainDef = this.pawn.Map.terrainGrid.TerrainAt(this.pawn.Position);
-				if (this.terrainVerbs == null || this.terrainVerbs.def != terrainDef)
+				TerrainDef terrain = this.pawn.Position.GetTerrain(this.pawn.Map);
+				if (this.terrainVerbs == null || this.terrainVerbs.def != terrain)
 				{
-					this.terrainVerbs = Pawn_MeleeVerbs_TerrainSource.Create(this, terrainDef);
+					this.terrainVerbs = Pawn_MeleeVerbs_TerrainSource.Create(this, terrain);
 				}
 				List<Verb> allVerbs4 = this.terrainVerbs.tracker.AllVerbs;
 				for (int n = 0; n < allVerbs4.Count; n++)
@@ -226,6 +246,11 @@ namespace RimWorld
 		public void Notify_PawnDespawned()
 		{
 			this.SetCurMeleeVerb(null, null);
+		}
+
+		public void Notify_UsedTerrainBasedVerb()
+		{
+			this.lastTerrainBasedVerbUseTick = Find.TickManager.TicksGame;
 		}
 
 		private void SetCurMeleeVerb(Verb v, Thing target)
@@ -254,6 +279,7 @@ namespace RimWorld
 			Scribe_References.Look<Verb>(ref this.curMeleeVerb, "curMeleeVerb", false);
 			Scribe_Values.Look<int>(ref this.curMeleeVerbUpdateTick, "curMeleeVerbUpdateTick", 0, false);
 			Scribe_Deep.Look<Pawn_MeleeVerbs_TerrainSource>(ref this.terrainVerbs, "terrainVerbs", new object[0]);
+			Scribe_Values.Look<int>(ref this.lastTerrainBasedVerbUseTick, "lastTerrainBasedVerbUseTick", -99999, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				if (this.terrainVerbs != null)
@@ -278,6 +304,11 @@ namespace RimWorld
 			}
 
 			internal float <>m__0(VerbEntry ve)
+			{
+				return ve.GetSelectionWeight(this.target);
+			}
+
+			internal float <>m__1(VerbEntry ve)
 			{
 				return ve.GetSelectionWeight(this.target);
 			}

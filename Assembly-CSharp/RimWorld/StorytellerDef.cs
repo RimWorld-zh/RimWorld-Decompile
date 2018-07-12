@@ -43,6 +43,70 @@ namespace RimWorld
 
 		public SimpleCurve populationIntentFromTimeCurve;
 
+		public SimpleCurve pointsFactorFromRampDays = new SimpleCurve
+		{
+			{
+				new CurvePoint(10f, 1f),
+				true
+			},
+			{
+				new CurvePoint(130f, 2f),
+				true
+			},
+			{
+				new CurvePoint(1000f, 5f),
+				true
+			}
+		};
+
+		public SimpleCurve rampDaysLossFromColonistDiedByPostPopulation = new SimpleCurve
+		{
+			{
+				new CurvePoint(3f, 9999f),
+				true
+			},
+			{
+				new CurvePoint(4f, 30f),
+				true
+			},
+			{
+				new CurvePoint(7f, 30f),
+				true
+			},
+			{
+				new CurvePoint(8f, 20f),
+				true
+			},
+			{
+				new CurvePoint(9f, 15f),
+				true
+			},
+			{
+				new CurvePoint(10f, 13f),
+				true
+			},
+			{
+				new CurvePoint(15f, 10f),
+				true
+			}
+		};
+
+		public SimpleCurve rampDaysLossFromColonistViolentlyDownedByPopulation = new SimpleCurve
+		{
+			{
+				new CurvePoint(5f, 2f),
+				true
+			},
+			{
+				new CurvePoint(8f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(10f, 0f),
+				true
+			}
+		};
+
 		[Unsaved]
 		public Texture2D portraitLargeTex;
 

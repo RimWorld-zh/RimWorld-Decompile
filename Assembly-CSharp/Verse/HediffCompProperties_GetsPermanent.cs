@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class HediffCompProperties_GetsPermanent : HediffCompProperties
 	{
-		public float becomePermanentChance = 1f;
+		public float becomePermanentChanceFactor = 1f;
 
 		public string permanentLabel = null;
 

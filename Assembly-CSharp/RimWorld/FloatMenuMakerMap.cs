@@ -825,7 +825,7 @@ namespace RimWorld
 				foreach (LocalTargetInfo target in GenUI.TargetsAt(clickPos, TargetingParameters.ForRescue(pawn), true))
 				{
 					Pawn p = (Pawn)target.Thing;
-					if (p.RaceProps.Humanlike || p.Faction == Faction.OfPlayer)
+					if (p.Faction == Faction.OfPlayer || p.IsPrisonerOfColony || CaravanUtility.ShouldAutoCapture(p, Faction.OfPlayer))
 					{
 						if (!pawn.CanReach(p, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
 						{

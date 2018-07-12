@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class StoryWatcher_RampUp : IExposable
 	{
-		private float shortTermFactor = 1f;
+		private float rampDays = 0f;
 
-		private float longTermFactor = 1f;
-
-		private const int UpdateInterval = 5000;
-
-		private const float ShortFactor_GameStartGraceDays = 21f;
-
-		private const float ShortFactor_DaysToDouble = 234f;
-
-		private const float LongFactor_GameStartGraceDays = 42f;
-
-		private const float LongFactor_DaysToDouble = 360f;
+		private const int UpdateInterval = 30000;
 
 		public StoryWatcher_RampUp()
 		{
@@ -28,128 +19,92 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.shortTermFactor * this.longTermFactor;
+				return Find.Storyteller.def.pointsFactorFromRampDays.Evaluate(this.rampDays);
 			}
 		}
 
-		public float ShortTermFactor
+		public float RampDays
 		{
 			get
 			{
-				return this.shortTermFactor;
+				return this.rampDays;
 			}
 		}
 
-		public float LongTermFactor
+		private int Population
 		{
 			get
 			{
-				return this.longTermFactor;
+				return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists.Count<Pawn>();
 			}
 		}
 
-		public void Notify_ColonistViolentlyDownedOrKilled(Pawn p)
+		public void Notify_ColonyPawnDowned(Pawn p, DamageInfo? dinfo)
+		{
+			if (p.RaceProps.Humanlike && dinfo != null && dinfo.Value.Def.externalViolence)
+			{
+				float rampDaysLoss = Find.Storyteller.def.rampDaysLossFromColonistViolentlyDownedByPopulation.Evaluate((float)this.Population);
+				if (DebugViewSettings.logRampUp)
+				{
+					Log.Message(string.Concat(new object[]
+					{
+						"RampUp: Colony pawn downed (",
+						p,
+						" by ",
+						dinfo,
+						"). Loss: ",
+						rampDaysLoss.ToString("F1"),
+						" from ",
+						this.rampDays.ToString("F1")
+					}), false);
+				}
+				this.LoseRampDays(rampDaysLoss);
+			}
+		}
+
+		public void Notify_ColonyPawnDied(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
 			{
-				float num = this.shortTermFactor - 1f;
-				float num2 = this.longTermFactor - 1f;
-				int num3 = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists.Count<Pawn>();
-				switch (num3)
+				int num = this.Population - 1;
+				float rampDaysLoss = Find.Storyteller.def.rampDaysLossFromColonistDiedByPostPopulation.Evaluate((float)num);
+				if (DebugViewSettings.logRampUp)
 				{
-				case 0:
-					num *= 0f;
-					num2 *= 0f;
-					break;
-				case 1:
-					num *= 0f;
-					num2 *= 0f;
-					break;
-				case 2:
-					num *= 0f;
-					num2 *= 0f;
-					break;
-				case 3:
-					num *= 0f;
-					num2 *= 0.2f;
-					break;
-				case 4:
-					num *= 0.15f;
-					num2 *= 0.4f;
-					break;
-				case 5:
-					num *= 0.25f;
-					num2 *= 0.6f;
-					break;
-				case 6:
-					num *= 0.3f;
-					num2 *= 0.7f;
-					break;
-				case 7:
-					num *= 0.35f;
-					num2 *= 0.75f;
-					break;
-				case 8:
-					num *= 0.4f;
-					num2 *= 0.8f;
-					break;
-				case 9:
-					num *= 0.45f;
-					num2 *= 0.85f;
-					break;
-				case 10:
-					num *= 0.5f;
-					num2 *= 0.9f;
-					break;
-				case 11:
-					num *= 0.55f;
-					num2 *= 0.91f;
-					break;
-				case 12:
-					num *= 0.6f;
-					num2 *= 0.92f;
-					break;
-				case 13:
-					num *= 0.65f;
-					num2 *= 0.93f;
-					break;
-				case 14:
-					num *= 0.7f;
-					num2 *= 0.94f;
-					break;
-				case 15:
-					num *= 0.75f;
-					num2 *= 0.95f;
-					break;
-				default:
-					num *= GenMath.LerpDoubleClamped(16f, 30f, 0.8f, 1f, (float)num3);
-					num2 *= GenMath.LerpDoubleClamped(16f, 30f, 0.95f, 1f, (float)num3);
-					break;
+					Log.Message(string.Concat(new object[]
+					{
+						"RampUp: Colony pawn died (",
+						p,
+						"). Loss: ",
+						rampDaysLoss.ToString("F1"),
+						" from ",
+						this.rampDays.ToString("F1")
+					}), false);
 				}
-				this.shortTermFactor = 1f + num;
-				this.longTermFactor = 1f + num2;
+				this.LoseRampDays(rampDaysLoss);
 			}
+		}
+
+		private void LoseRampDays(float rampDaysLoss)
+		{
+			this.rampDays = Mathf.Max(0f, this.rampDays - rampDaysLoss);
 		}
 
 		public void RampUpWatcherTick()
 		{
-			if (Find.TickManager.TicksGame % 5000 == 0)
+			if (Find.TickManager.TicksGame % 30000 == 0)
 			{
-				if ((float)GenDate.DaysPassed >= 21f)
-				{
-					this.shortTermFactor += 0.000356125354f;
-				}
-				if ((float)GenDate.DaysPassed >= 42f)
-				{
-					this.longTermFactor += 0.000231481492f;
-				}
+				this.rampDays += 0.5f;
 			}
 		}
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look<float>(ref this.shortTermFactor, "shortTermFactor", 0f, false);
-			Scribe_Values.Look<float>(ref this.longTermFactor, "longTermFactor", 0f, false);
+			Scribe_Values.Look<float>(ref this.rampDays, "rampDays", 0f, false);
+		}
+
+		public void Debug_RampUpNow(float days)
+		{
+			this.rampDays += days;
 		}
 	}
 }

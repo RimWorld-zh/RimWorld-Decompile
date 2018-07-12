@@ -7,28 +7,22 @@ namespace RimWorld
 {
 	public class Bombardment : OrbitalStrike
 	{
-		private bool anyExplosion;
+		private const int ImpactAreaRadius = 15;
+
+		private const int ExplosionRadiusMin = 6;
+
+		private const int ExplosionRadiusMax = 8;
 
 		public const int EffectiveRadius = 23;
 
-		private const int SingleExplosionRadius = 8;
-
-		private const int ExplosionCenterRadius = 15;
-
 		public const int RandomFireRadius = 25;
 
-		private const float BombMTBRealSeconds = 0.375f;
+		private const int BombIntervalTicks = 18;
 
 		private const int StartRandomFireEveryTicks = 20;
 
 		public Bombardment()
 		{
-		}
-
-		public override void ExposeData()
-		{
-			base.ExposeData();
-			Scribe_Values.Look<bool>(ref this.anyExplosion, "anyExplosion", false, false);
 		}
 
 		public override void StartStrike()
@@ -42,17 +36,13 @@ namespace RimWorld
 			base.Tick();
 			if (!base.Destroyed)
 			{
-				if (Rand.MTBEventOccurs(0.375f, 60f, 1f))
+				if (Find.TickManager.TicksGame % 18 == 0)
 				{
 					this.CreateRandomExplosion();
 				}
 				if (Find.TickManager.TicksGame % 20 == 0)
 				{
 					this.StartRandomFire();
-				}
-				if (base.TicksPassed >= this.duration / 2 && !this.anyExplosion)
-				{
-					this.CreateRandomExplosion();
 				}
 			}
 		}
@@ -62,15 +52,15 @@ namespace RimWorld
 			IntVec3 intVec = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
 			where x.InBounds(base.Map)
 			select x).RandomElement<IntVec3>();
+			float num = (float)Rand.Range(6, 8);
 			IntVec3 center = intVec;
 			Map map = base.Map;
-			float radius = 8f;
+			float radius = num;
 			DamageDef bomb = DamageDefOf.Bomb;
 			Thing instigator = this.instigator;
 			ThingDef def = this.def;
 			ThingDef weaponDef = this.weaponDef;
 			GenExplosion.DoExplosion(center, map, radius, bomb, instigator, -1, -1f, null, weaponDef, def, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
-			this.anyExplosion = true;
 		}
 
 		private void StartRandomFire()

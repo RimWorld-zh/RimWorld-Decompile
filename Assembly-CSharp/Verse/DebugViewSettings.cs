@@ -176,6 +176,8 @@ namespace Verse
 
 		public static bool logFilthSummary = false;
 
+		public static bool logRampUp = false;
+
 		public static bool debugApparelOptimize = false;
 
 		public static bool showAllRoomStats = false;

@@ -13,6 +13,8 @@ namespace RimWorld
 
 		public bool integersOnly = false;
 
+		public bool devModeOnly = false;
+
 		public List<HistoryAutoRecorderDef> historyAutoRecorderDefs = new List<HistoryAutoRecorderDef>();
 
 		public HistoryAutoRecorderGroupDef()

@@ -123,10 +123,11 @@ namespace RimWorld.Planet
 			string result;
 			if (this.active)
 			{
+				string text = GenThing.ThingsToCommaList(this.rewards, true, true, 5).CapitalizeFirst();
 				result = "QuestTargetDestroyInspectString".Translate(new object[]
 				{
 					this.requestingFaction.Name,
-					this.rewards[0].LabelCap
+					text
 				}).CapitalizeFirst();
 			}
 			else

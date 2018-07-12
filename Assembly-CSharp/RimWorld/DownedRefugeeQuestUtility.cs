@@ -13,7 +13,7 @@ namespace RimWorld
 		{
 			PawnKindDef spaceRefugee = PawnKindDefOf.SpaceRefugee;
 			Faction randomFactionForRefugee = DownedRefugeeQuestUtility.GetRandomFactionForRefugee();
-			PawnGenerationRequest request = new PawnGenerationRequest(spaceRefugee, randomFactionForRefugee, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 20f, false, true, true, false, false, false, false, null, null, new float?(0.2f), null, null, null, null, null);
+			PawnGenerationRequest request = new PawnGenerationRequest(spaceRefugee, randomFactionForRefugee, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 20f, true, true, true, false, false, false, false, null, null, new float?(0.2f), null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			HealthUtility.DamageUntilDowned(pawn, false);
 			HealthUtility.DamageLegsUntilIncapableOfMoving(pawn, false);

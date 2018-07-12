@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0E1FBA06-BCFF-4CEE-A05D-8F565F37BF29}</ProjectGuid>
+    <ProjectGuid>{0B5DA5AA-8658-43DF-A378-127B74D03DB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="--__AnonType0.cs" />
+    <Compile Include="--__AnonType1.cs" />
     <Compile Include="-PrivateImplementationDetails-.cs" />
     <Compile Include="Ionic\Crc\CRC32.cs" />
     <Compile Include="Ionic\Crc\CrcCalculatorStream.cs" />
@@ -773,6 +774,7 @@
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_ColonistMood.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_FreeColonists.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_Prisoners.cs" />
+    <Compile Include="RimWorld\HistoryAutoRecorderWorker_RampUp.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthBuildings.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthItems.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthTameAnimals.cs" />
@@ -1801,6 +1803,7 @@
     <Compile Include="RimWorld\PrisonerWillingToJoinQuestUtility.cs" />
     <Compile Include="RimWorld\Projectile_DoomsdayRocket.cs" />
     <Compile Include="RimWorld\PsychicDroneLevel.cs" />
+    <Compile Include="RimWorld\PsychicDroneLevelUtility.cs" />
     <Compile Include="RimWorld\Quadrum.cs" />
     <Compile Include="RimWorld\QuadrumUtility.cs" />
     <Compile Include="RimWorld\QualityCategory.cs" />
@@ -2968,6 +2971,7 @@
     <Compile Include="Verse\DamageInfo.cs" />
     <Compile Include="Verse\DamageMultiplier.cs" />
     <Compile Include="Verse\DamageOverlay.cs" />
+    <Compile Include="Verse\DamageTuning.cs" />
     <Compile Include="Verse\DamageWorker.cs" />
     <Compile Include="Verse\DamageWorker_AddGlobal.cs" />
     <Compile Include="Verse\DamageWorker_AddInjury.cs" />
@@ -3571,7 +3575,6 @@
     <Compile Include="Verse\Pawn_StanceTracker.cs" />
     <Compile Include="Verse\PerfLogger.cs" />
     <Compile Include="Verse\PermadeathModeUtility.cs" />
-    <Compile Include="Verse\PermanentInjuryUtility.cs" />
     <Compile Include="Verse\PhysicalInteractionReservationManager.cs" />
     <Compile Include="Verse\PlaceWorker.cs" />
     <Compile Include="Verse\PlayDataLoader.cs" />
@@ -4003,7 +4006,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{0e1fba06-bcff-4cee-a05d-8f565f37bf2a}</Project>
+      <Project>{0b5da5aa-8658-43df-a378-127b74d03db4}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

@@ -217,6 +217,10 @@ namespace Verse
 				{
 					result = false;
 				}
+				else if (this.terrainDef != null && Find.TickManager.TicksGame < pawn.meleeVerbs.lastTerrainBasedVerbUseTick + 1200)
+				{
+					result = false;
+				}
 				else if (this.GetDamageFactorFor(pawn) == 0f)
 				{
 					Profiler.EndSample();
@@ -385,6 +389,10 @@ namespace Verse
 					if (this.CasterPawn.MentalState != null)
 					{
 						this.CasterPawn.MentalState.Notify_AttackedTarget(localTargetInfo);
+					}
+					if (this.terrainDef != null)
+					{
+						this.CasterPawn.meleeVerbs.Notify_UsedTerrainBasedVerb();
 					}
 					if (!this.CasterPawn.Spawned)
 					{

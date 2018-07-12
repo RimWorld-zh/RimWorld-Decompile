@@ -95,7 +95,7 @@ namespace Verse.AI
 
 		public bool spawnedByInfestationThingComp;
 
-		public int lastPredatorHuntingColonistLetterTick = -99999;
+		public int lastPredatorHuntingPlayerNotificationTick = -99999;
 
 		public float maxDistToSquadFlag = -1f;
 
@@ -202,7 +202,7 @@ namespace Verse.AI
 			this.timesGuestTendedToByPlayer = 0;
 			this.lastSelfTendTick = -99999;
 			this.spawnedByInfestationThingComp = false;
-			this.lastPredatorHuntingColonistLetterTick = -99999;
+			this.lastPredatorHuntingPlayerNotificationTick = -99999;
 		}
 
 		public void ExposeData()
@@ -273,7 +273,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.timesGuestTendedToByPlayer, "timesGuestTendedToByPlayer", 0, false);
 			Scribe_Values.Look<int>(ref this.lastSelfTendTick, "lastSelfTendTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.spawnedByInfestationThingComp, "spawnedByInfestationThingComp", false, false);
-			Scribe_Values.Look<int>(ref this.lastPredatorHuntingColonistLetterTick, "lastPredatorHuntingColonistLetterTick", -99999, false);
+			Scribe_Values.Look<int>(ref this.lastPredatorHuntingPlayerNotificationTick, "lastPredatorHuntingPlayerNotificationTick", -99999, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				BackCompatibility.MindStatePostLoadInit(this);
@@ -420,7 +420,7 @@ namespace Verse.AI
 					{
 						this.StartManhunterBecauseOfPawnAction("AnimalManhunterFromDamage");
 					}
-					else if (dinfo.Instigator != null && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
+					else if (dinfo.Instigator != null && dinfo.Def.makesAnimalsFlee && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
 					{
 						this.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
 					}
@@ -498,9 +498,9 @@ namespace Verse.AI
 			this.lastSelfTendTick = Find.TickManager.TicksGame;
 		}
 
-		public void Notify_SentPredatorHuntingColonistLetter()
+		public void Notify_PredatorHuntingPlayerNotification()
 		{
-			this.lastPredatorHuntingColonistLetterTick = Find.TickManager.TicksGame;
+			this.lastPredatorHuntingPlayerNotificationTick = Find.TickManager.TicksGame;
 		}
 
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)
@@ -540,19 +540,13 @@ namespace Verse.AI
 					{
 						target = new TargetInfo(this.pawn.Position, this.pawn.Map, false);
 						text += "\n\n";
-						text += ((!"AnimalManhunterOthers".CanTranslate()) ? "AnimalManhunterFromDamageOthers".Translate(new object[]
-						{
-							this.pawn.def.label
-						}) : "AnimalManhunterOthers".Translate(new object[]
+						text += "AnimalManhunterOthers".Translate(new object[]
 						{
 							this.pawn.kindDef.GetLabelPlural(-1)
-						}));
+						});
 					}
 				}
-				string label = (!"LetterLabelAnimalManhunterRevenge".CanTranslate()) ? "LetterLabelAnimalManhunterFromDamage".Translate(new object[]
-				{
-					this.pawn.Label
-				}).CapitalizeFirst() : "LetterLabelAnimalManhunterRevenge".Translate(new object[]
+				string label = "LetterLabelAnimalManhunterRevenge".Translate(new object[]
 				{
 					this.pawn.Label
 				}).CapitalizeFirst();

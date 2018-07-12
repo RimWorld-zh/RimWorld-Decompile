@@ -40,7 +40,12 @@ namespace RimWorld
 			}
 		};
 
+		private static List<Pawn> tmpPredatorCandidates = new List<Pawn>();
+
 		private static List<ThoughtDef> ingestThoughts = new List<ThoughtDef>();
+
+		[CompilerGenerated]
+		private static RegionProcessor <>f__am$cache0;
 
 		public static bool TryFindBestFoodSourceFor(Pawn getter, Pawn eater, bool desperate, out Thing foodSource, out ThingDef foodDef, bool canRefillDispenser = true, bool canUseInventory = true, bool allowForbidden = false, bool allowCorpse = true, bool allowSociallyImproper = false, bool allowHarvest = false, bool forceScanWholeMap = false)
 		{
@@ -134,7 +139,7 @@ namespace RimWorld
 				}
 				if (thing2 == null && getter == eater && (getter.RaceProps.predator || getter.IsWildMan()))
 				{
-					Pawn pawn = FoodUtility.BestPawnToHuntForPredator(getter);
+					Pawn pawn = FoodUtility.BestPawnToHuntForPredator(getter, forceScanWholeMap);
 					if (pawn != null)
 					{
 						Profiler.EndSample();
@@ -337,19 +342,7 @@ namespace RimWorld
 				}
 				else
 				{
-					int searchRegionsMax2;
-					if (<BestFoodSourceOnMap>c__AnonStorey.forceScanWholeMap)
-					{
-						searchRegionsMax2 = -1;
-					}
-					else if (<BestFoodSourceOnMap>c__AnonStorey.getter.Faction == Faction.OfPlayer)
-					{
-						searchRegionsMax2 = 100;
-					}
-					else
-					{
-						searchRegionsMax2 = 30;
-					}
+					int maxRegionsToScan = FoodUtility.GetMaxRegionsToScan(<BestFoodSourceOnMap>c__AnonStorey.getter, <BestFoodSourceOnMap>c__AnonStorey.forceScanWholeMap);
 					FoodUtility.filtered.Clear();
 					foreach (Thing thing2 in GenRadial.RadialDistinctThingsAround(<BestFoodSourceOnMap>c__AnonStorey.getter.Position, <BestFoodSourceOnMap>c__AnonStorey.getter.Map, 2f, true))
 					{
@@ -369,7 +362,7 @@ namespace RimWorld
 					TraverseParms traverseParams = TraverseParms.For(<BestFoodSourceOnMap>c__AnonStorey.getter, Danger.Deadly, TraverseMode.ByPawn, false);
 					Predicate<Thing> validator = predicate;
 					bool ignoreEntirelyForbiddenRegions = flag;
-					<BestFoodSourceOnMap>c__AnonStorey3.bestThing = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, searchRegionsMax2, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
+					<BestFoodSourceOnMap>c__AnonStorey3.bestThing = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, maxRegionsToScan, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
 					FoodUtility.filtered.Clear();
 					if (<BestFoodSourceOnMap>c__AnonStorey.bestThing == null)
 					{
@@ -382,7 +375,7 @@ namespace RimWorld
 						traverseParams = TraverseParms.For(<BestFoodSourceOnMap>c__AnonStorey.getter, Danger.Deadly, TraverseMode.ByPawn, false);
 						validator = <BestFoodSourceOnMap>c__AnonStorey.foodValidator;
 						ignoreEntirelyForbiddenRegions = flag;
-						<BestFoodSourceOnMap>c__AnonStorey4.bestThing = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, searchRegionsMax2, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
+						<BestFoodSourceOnMap>c__AnonStorey4.bestThing = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, maxRegionsToScan, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
 					}
 					if (<BestFoodSourceOnMap>c__AnonStorey.bestThing != null)
 					{
@@ -391,6 +384,28 @@ namespace RimWorld
 				}
 				Profiler.EndSample();
 				result = <BestFoodSourceOnMap>c__AnonStorey.bestThing;
+			}
+			return result;
+		}
+
+		private static int GetMaxRegionsToScan(Pawn getter, bool forceScanWholeMap)
+		{
+			int result;
+			if (getter.RaceProps.Humanlike)
+			{
+				result = -1;
+			}
+			else if (forceScanWholeMap)
+			{
+				result = -1;
+			}
+			else if (getter.Faction == Faction.OfPlayer)
+			{
+				result = 100;
+			}
+			else
+			{
+				result = 30;
 			}
 			return result;
 		}
@@ -580,7 +595,7 @@ namespace RimWorld
 			}
 		}
 
-		private static Pawn BestPawnToHuntForPredator(Pawn predator)
+		private static Pawn BestPawnToHuntForPredator(Pawn predator, bool forceScanWholeMap)
 		{
 			Pawn result;
 			if (predator.meleeVerbs.TryGetMeleeVerb(null) == null)
@@ -595,13 +610,31 @@ namespace RimWorld
 				{
 					flag = true;
 				}
-				List<Pawn> allPawnsSpawned = predator.Map.mapPawns.AllPawnsSpawned;
+				FoodUtility.tmpPredatorCandidates.Clear();
+				int maxRegionsToScan = FoodUtility.GetMaxRegionsToScan(predator, forceScanWholeMap);
+				if (maxRegionsToScan < 0)
+				{
+					FoodUtility.tmpPredatorCandidates.AddRange(predator.Map.mapPawns.AllPawnsSpawned);
+				}
+				else
+				{
+					TraverseParms traverseParms = TraverseParms.For(predator, Danger.Deadly, TraverseMode.ByPawn, false);
+					RegionTraverser.BreadthFirstTraverse(predator.Position, predator.Map, (Region from, Region to) => to.Allows(traverseParms, true), delegate(Region x)
+					{
+						List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+						for (int j = 0; j < list.Count; j++)
+						{
+							FoodUtility.tmpPredatorCandidates.Add((Pawn)list[j]);
+						}
+						return false;
+					}, 999999, RegionType.Set_Passable);
+				}
 				Pawn pawn = null;
 				float num = 0f;
 				bool tutorialMode = TutorSystem.TutorialMode;
-				for (int i = 0; i < allPawnsSpawned.Count; i++)
+				for (int i = 0; i < FoodUtility.tmpPredatorCandidates.Count; i++)
 				{
-					Pawn pawn2 = allPawnsSpawned[i];
+					Pawn pawn2 = FoodUtility.tmpPredatorCandidates[i];
 					if (predator.GetRoom(RegionType.Set_Passable) == pawn2.GetRoom(RegionType.Set_Passable))
 					{
 						if (predator != pawn2)
@@ -630,6 +663,7 @@ namespace RimWorld
 						}
 					}
 				}
+				FoodUtility.tmpPredatorCandidates.Clear();
 				result = pawn;
 			}
 			return result;
@@ -704,7 +738,7 @@ namespace RimWorld
 					GenDraw.DrawLineBetween(pawn.Position.ToVector3Shifted(), thing.Position.ToVector3Shifted());
 					if (!(thing is Pawn))
 					{
-						Pawn pawn2 = FoodUtility.BestPawnToHuntForPredator(pawn);
+						Pawn pawn2 = FoodUtility.BestPawnToHuntForPredator(pawn, true);
 						if (pawn2 != null)
 						{
 							GenDraw.DrawLineBetween(pawn.Position.ToVector3Shifted(), pawn2.Position.ToVector3Shifted());
@@ -896,6 +930,17 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
+		private static bool <BestPawnToHuntForPredator>m__0(Region x)
+		{
+			List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+			for (int i = 0; i < list.Count; i++)
+			{
+				FoodUtility.tmpPredatorCandidates.Add((Pawn)list[i]);
+			}
+			return false;
+		}
+
+		[CompilerGenerated]
 		private sealed class <BestFoodSourceOnMap>c__AnonStorey0
 		{
 			internal bool allowDispenserFull;
@@ -972,6 +1017,21 @@ namespace RimWorld
 			internal bool <>m__2(Thing t)
 			{
 				return this.foodValidator(t) && !FoodUtility.filtered.Contains(t) && (t is Building_NutrientPasteDispenser || t.def.ingestible.preferability > FoodPreferability.DesperateOnly) && !t.IsNotFresh();
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <BestPawnToHuntForPredator>c__AnonStorey1
+		{
+			internal TraverseParms traverseParms;
+
+			public <BestPawnToHuntForPredator>c__AnonStorey1()
+			{
+			}
+
+			internal bool <>m__0(Region from, Region to)
+			{
+				return to.Allows(this.traverseParms, true);
 			}
 		}
 	}

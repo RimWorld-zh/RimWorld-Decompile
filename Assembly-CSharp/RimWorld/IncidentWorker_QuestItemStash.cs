@@ -83,7 +83,7 @@ namespace RimWorld
 				alliedFaction.leader.LabelShort,
 				alliedFaction.def.leaderTitle,
 				alliedFaction.Name,
-				GenLabel.ThingsLabel(items).TrimEndNewlines(),
+				GenLabel.ThingsLabel(items),
 				days.ToString(),
 				SitePartUtility.GetDescriptionDialogue(site, sitePart)
 			}).CapitalizeFirst();

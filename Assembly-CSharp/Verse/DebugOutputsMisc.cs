@@ -134,16 +134,16 @@ namespace Verse
 		private static Func<ThingDef, StatDef, string> <>f__am$cache27;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache28;
+		private static Func<ThingDef, float> <>f__am$cache28;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, float> <>f__am$cache29;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache2A;
+		private static Func<ThingDef, bool> <>f__am$cache2A;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache2B;
+		private static Func<ThingDef, float> <>f__am$cache2B;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache2C;
@@ -185,100 +185,100 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cache38;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache39;
+		private static Func<ThingDef, string> <>f__am$cache39;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache3A;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache3B;
+		private static Func<ThingDef, bool> <>f__am$cache3B;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache3C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache3D;
+		private static Func<ThingDef, string> <>f__am$cache3D;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache3E;
+		private static Func<ThingDef, string> <>f__am$cache3E;
 
 		[CompilerGenerated]
-		private static Func<float, string> <>f__am$cache3F;
+		private static Func<ThingDef, bool> <>f__am$cache3F;
 
 		[CompilerGenerated]
-		private static Func<int, string> <>f__am$cache40;
+		private static Func<ThingDef, float> <>f__am$cache40;
 
 		[CompilerGenerated]
-		private static Func<int, string> <>f__am$cache41;
+		private static Func<float, string> <>f__am$cache41;
 
 		[CompilerGenerated]
 		private static Func<int, string> <>f__am$cache42;
 
 		[CompilerGenerated]
-		private static Func<Hediff_MissingPart, BodyPartDef> <>f__am$cache43;
+		private static Func<int, string> <>f__am$cache43;
 
 		[CompilerGenerated]
-		private static Func<Hediff_MissingPart, BodyPartDef> <>f__am$cache44;
+		private static Func<int, string> <>f__am$cache44;
 
 		[CompilerGenerated]
-		private static Func<PawnBio, IEnumerable<string>> <>f__am$cache45;
+		private static Func<Hediff_MissingPart, BodyPartDef> <>f__am$cache45;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache46;
+		private static Func<Hediff_MissingPart, BodyPartDef> <>f__am$cache46;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache47;
+		private static Func<PawnBio, IEnumerable<string>> <>f__am$cache47;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache48;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache49;
+		private static Func<ThingDef, string> <>f__am$cache49;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache4A;
+		private static Func<ThingDef, string> <>f__am$cache4A;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache4B;
+		private static Func<ThingDef, bool> <>f__am$cache4B;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache4C;
+		private static Func<ThingDef, float> <>f__am$cache4C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, FoodPreferability> <>f__am$cache4D;
+		private static Func<PawnKindDef, bool> <>f__am$cache4D;
 
 		[CompilerGenerated]
-		private static Func<Type, string> <>f__am$cache4E;
+		private static Func<ThingDef, bool> <>f__am$cache4E;
 
 		[CompilerGenerated]
-		private static Func<Type, string> <>f__am$cache4F;
+		private static Func<ThingDef, FoodPreferability> <>f__am$cache4F;
 
 		[CompilerGenerated]
-		private static Func<Def, string> <>f__am$cache50;
+		private static Func<Type, string> <>f__am$cache50;
 
 		[CompilerGenerated]
 		private static Func<Type, string> <>f__am$cache51;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, string> <>f__am$cache52;
+		private static Func<Def, string> <>f__am$cache52;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, int> <>f__am$cache53;
+		private static Func<Type, string> <>f__am$cache53;
 
 		[CompilerGenerated]
 		private static Func<BodyPartDef, string> <>f__am$cache54;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, string> <>f__am$cache55;
+		private static Func<BodyPartDef, int> <>f__am$cache55;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, float> <>f__am$cache56;
+		private static Func<BodyPartDef, string> <>f__am$cache56;
 
 		[CompilerGenerated]
 		private static Func<BodyPartDef, string> <>f__am$cache57;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, string> <>f__am$cache58;
+		private static Func<BodyPartDef, float> <>f__am$cache58;
 
 		[CompilerGenerated]
 		private static Func<BodyPartDef, string> <>f__am$cache59;
@@ -302,40 +302,40 @@ namespace Verse
 		private static Func<BodyPartDef, string> <>f__am$cache5F;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, ThingDef> <>f__am$cache60;
+		private static Func<BodyPartDef, string> <>f__am$cache60;
 
 		[CompilerGenerated]
-		private static Func<BodyPartDef, string> <>f__am$cache61;
+		private static Func<BodyPartDef, ThingDef> <>f__am$cache61;
 
 		[CompilerGenerated]
 		private static Func<BodyPartDef, string> <>f__am$cache62;
 
 		[CompilerGenerated]
-		private static Func<TraderKindDef, string> <>f__am$cache63;
+		private static Func<BodyPartDef, string> <>f__am$cache63;
 
 		[CompilerGenerated]
 		private static Func<TraderKindDef, string> <>f__am$cache64;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache65;
+		private static Func<TraderKindDef, string> <>f__am$cache65;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache66;
+		private static Func<ThingDef, string> <>f__am$cache66;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache67;
+		private static Func<ThingDef, bool> <>f__am$cache67;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache68;
+		private static Func<ThingDef, string> <>f__am$cache68;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, bool> <>f__am$cache69;
+		private static Func<ThingDef, float> <>f__am$cache69;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, float> <>f__am$cache6A;
+		private static Func<RecipeDef, bool> <>f__am$cache6A;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, string> <>f__am$cache6B;
+		private static Func<RecipeDef, float> <>f__am$cache6B;
 
 		[CompilerGenerated]
 		private static Func<RecipeDef, string> <>f__am$cache6C;
@@ -353,28 +353,28 @@ namespace Verse
 		private static Func<RecipeDef, string> <>f__am$cache70;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache71;
+		private static Func<RecipeDef, string> <>f__am$cache71;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, <>__AnonType0<ThingDef, float, int>> <>f__am$cache72;
+		private static Func<ThingDef, bool> <>f__am$cache72;
 
 		[CompilerGenerated]
-		private static Func<<>__AnonType0<ThingDef, float, int>, ThingDef> <>f__am$cache73;
+		private static Func<ThingDef, <>__AnonType1<ThingDef, float, int>> <>f__am$cache73;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache74;
+		private static Func<<>__AnonType1<ThingDef, float, int>, ThingDef> <>f__am$cache74;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, float> <>f__am$cache75;
+		private static Func<ThingDef, bool> <>f__am$cache75;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache76;
+		private static Func<ThingDef, float> <>f__am$cache76;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache77;
 
 		[CompilerGenerated]
-		private static Func<TerrainDef, string> <>f__am$cache78;
+		private static Func<ThingDef, string> <>f__am$cache78;
 
 		[CompilerGenerated]
 		private static Func<TerrainDef, string> <>f__am$cache79;
@@ -422,10 +422,10 @@ namespace Verse
 		private static Func<TerrainDef, string> <>f__am$cache87;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache88;
+		private static Func<TerrainDef, string> <>f__am$cache88;
 
 		[CompilerGenerated]
-		private static Func<BuildableDef, string> <>f__am$cache89;
+		private static Func<ThingDef, bool> <>f__am$cache89;
 
 		[CompilerGenerated]
 		private static Func<BuildableDef, string> <>f__am$cache8A;
@@ -434,10 +434,10 @@ namespace Verse
 		private static Func<BuildableDef, string> <>f__am$cache8B;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cache8C;
+		private static Func<BuildableDef, string> <>f__am$cache8C;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, string> <>f__am$cache8D;
+		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cache8D;
 
 		[CompilerGenerated]
 		private static Func<MentalBreakDef, string> <>f__am$cache8E;
@@ -473,22 +473,22 @@ namespace Verse
 		private static Func<MentalBreakDef, string> <>f__am$cache98;
 
 		[CompilerGenerated]
-		private static Func<TraitDegreeData, TraitDef> <>f__am$cache99;
+		private static Func<MentalBreakDef, string> <>f__am$cache99;
 
 		[CompilerGenerated]
-		private static Func<TraitDef, IEnumerable<TraitDegreeData>> <>f__am$cache9A;
+		private static Func<TraitDegreeData, TraitDef> <>f__am$cache9A;
 
 		[CompilerGenerated]
-		private static Func<TraitDegreeData, string> <>f__am$cache9B;
+		private static Func<TraitDef, IEnumerable<TraitDegreeData>> <>f__am$cache9B;
 
 		[CompilerGenerated]
 		private static Func<TraitDegreeData, string> <>f__am$cache9C;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cache9D;
+		private static Func<TraitDegreeData, string> <>f__am$cache9D;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cache9E;
+		private static Func<ThingDef, bool> <>f__am$cache9E;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cache9F;
@@ -500,31 +500,31 @@ namespace Verse
 		private static Func<ThingDef, string> <>f__am$cacheA1;
 
 		[CompilerGenerated]
-		private static Predicate<Pawn> <>f__am$cacheA2;
+		private static Func<ThingDef, string> <>f__am$cacheA2;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, ThingDef> <>f__am$cacheA3;
+		private static Predicate<Pawn> <>f__am$cacheA3;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, string> <>f__am$cacheA4;
+		private static Func<RecipeDef, ThingDef> <>f__am$cacheA4;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, float> <>f__am$cacheA5;
+		private static Func<RecipeDef, string> <>f__am$cacheA5;
 
 		[CompilerGenerated]
 		private static Func<RecipeDef, float> <>f__am$cacheA6;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, int> <>f__am$cacheA7;
+		private static Func<RecipeDef, float> <>f__am$cacheA7;
 
 		[CompilerGenerated]
-		private static Func<PawnCapacityDef, int> <>f__am$cacheA8;
+		private static Func<RecipeDef, int> <>f__am$cacheA8;
 
 		[CompilerGenerated]
-		private static Func<RecipeDef, bool> <>f__am$cacheA9;
+		private static Func<PawnCapacityDef, int> <>f__am$cacheA9;
 
 		[CompilerGenerated]
-		private static Func<JoyGiverDef, string> <>f__am$cacheAA;
+		private static Func<RecipeDef, bool> <>f__am$cacheAA;
 
 		[CompilerGenerated]
 		private static Func<JoyGiverDef, string> <>f__am$cacheAB;
@@ -557,10 +557,10 @@ namespace Verse
 		private static Func<JoyGiverDef, string> <>f__am$cacheB4;
 
 		[CompilerGenerated]
-		private static Func<JobDef, bool> <>f__am$cacheB5;
+		private static Func<JoyGiverDef, string> <>f__am$cacheB5;
 
 		[CompilerGenerated]
-		private static Func<JobDef, string> <>f__am$cacheB6;
+		private static Func<JobDef, bool> <>f__am$cacheB6;
 
 		[CompilerGenerated]
 		private static Func<JobDef, string> <>f__am$cacheB7;
@@ -581,7 +581,7 @@ namespace Verse
 		private static Func<JobDef, string> <>f__am$cacheBC;
 
 		[CompilerGenerated]
-		private static Func<ThoughtDef, string> <>f__am$cacheBD;
+		private static Func<JobDef, string> <>f__am$cacheBD;
 
 		[CompilerGenerated]
 		private static Func<ThoughtDef, string> <>f__am$cacheBE;
@@ -593,13 +593,13 @@ namespace Verse
 		private static Func<ThoughtDef, string> <>f__am$cacheC0;
 
 		[CompilerGenerated]
-		private static Func<ThoughtDef, float> <>f__am$cacheC1;
+		private static Func<ThoughtDef, string> <>f__am$cacheC1;
 
 		[CompilerGenerated]
 		private static Func<ThoughtDef, float> <>f__am$cacheC2;
 
 		[CompilerGenerated]
-		private static Func<ThoughtDef, string> <>f__am$cacheC3;
+		private static Func<ThoughtDef, float> <>f__am$cacheC3;
 
 		[CompilerGenerated]
 		private static Func<ThoughtDef, string> <>f__am$cacheC4;
@@ -635,13 +635,13 @@ namespace Verse
 		private static Func<ThoughtDef, string> <>f__am$cacheCE;
 
 		[CompilerGenerated]
-		private static Func<GenStepDef, float> <>f__am$cacheCF;
+		private static Func<ThoughtDef, string> <>f__am$cacheCF;
 
 		[CompilerGenerated]
-		private static Func<GenStepDef, ushort> <>f__am$cacheD0;
+		private static Func<GenStepDef, float> <>f__am$cacheD0;
 
 		[CompilerGenerated]
-		private static Func<GenStepDef, string> <>f__am$cacheD1;
+		private static Func<GenStepDef, ushort> <>f__am$cacheD1;
 
 		[CompilerGenerated]
 		private static Func<GenStepDef, string> <>f__am$cacheD2;
@@ -653,13 +653,13 @@ namespace Verse
 		private static Func<GenStepDef, string> <>f__am$cacheD4;
 
 		[CompilerGenerated]
-		private static Func<WorldGenStepDef, float> <>f__am$cacheD5;
+		private static Func<GenStepDef, string> <>f__am$cacheD5;
 
 		[CompilerGenerated]
-		private static Func<WorldGenStepDef, ushort> <>f__am$cacheD6;
+		private static Func<WorldGenStepDef, float> <>f__am$cacheD6;
 
 		[CompilerGenerated]
-		private static Func<WorldGenStepDef, string> <>f__am$cacheD7;
+		private static Func<WorldGenStepDef, ushort> <>f__am$cacheD7;
 
 		[CompilerGenerated]
 		private static Func<WorldGenStepDef, string> <>f__am$cacheD8;
@@ -668,67 +668,70 @@ namespace Verse
 		private static Func<WorldGenStepDef, string> <>f__am$cacheD9;
 
 		[CompilerGenerated]
-		private static Func<StuffCategoryDef, string> <>f__am$cacheDA;
+		private static Func<WorldGenStepDef, string> <>f__am$cacheDA;
 
 		[CompilerGenerated]
-		private static Func<KeyValuePair<DamageDef, float>, string> <>f__am$cacheDB;
+		private static Func<StuffCategoryDef, string> <>f__am$cacheDB;
 
 		[CompilerGenerated]
-		private static Func<BodyPartTagDef, string> <>f__am$cacheDC;
+		private static Func<KeyValuePair<DamageDef, float>, string> <>f__am$cacheDC;
 
 		[CompilerGenerated]
-		private static Func<IngredientCount, string> <>f__am$cacheDD;
+		private static Func<BodyPartTagDef, string> <>f__am$cacheDD;
 
 		[CompilerGenerated]
-		private static Func<SkillRequirement, string> <>f__am$cacheDE;
+		private static Func<IngredientCount, string> <>f__am$cacheDE;
 
 		[CompilerGenerated]
-		private static Func<ResearchProjectDef, string> <>f__am$cacheDF;
+		private static Func<SkillRequirement, string> <>f__am$cacheDF;
 
 		[CompilerGenerated]
-		private static Func<TerrainAffordanceDef, string> <>f__am$cacheE0;
+		private static Func<ResearchProjectDef, string> <>f__am$cacheE0;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, float> <>f__am$cacheE1;
+		private static Func<TerrainAffordanceDef, string> <>f__am$cacheE1;
 
 		[CompilerGenerated]
-		private static Func<ThingRequestGroup, int> <>f__am$cacheE2;
+		private static Func<MentalBreakDef, float> <>f__am$cacheE2;
 
 		[CompilerGenerated]
 		private static Func<ThingRequestGroup, int> <>f__am$cacheE3;
 
 		[CompilerGenerated]
-		private static Func<IngredientCount, ThingDef> <>f__am$cacheE4;
+		private static Func<ThingRequestGroup, int> <>f__am$cacheE4;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheE5;
+		private static Func<IngredientCount, ThingDef> <>f__am$cacheE5;
 
 		[CompilerGenerated]
-		private static Func<IngredientCount, float> <>f__am$cacheE6;
+		private static Func<ThingDef, bool> <>f__am$cacheE6;
 
 		[CompilerGenerated]
-		private static Func<SkillRequirement, int> <>f__am$cacheE7;
+		private static Func<IngredientCount, float> <>f__am$cacheE7;
 
 		[CompilerGenerated]
-		private static Func<PawnCapacityDef, string> <>f__am$cacheE8;
+		private static Func<SkillRequirement, int> <>f__am$cacheE8;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheE9;
+		private static Func<PawnCapacityDef, string> <>f__am$cacheE9;
 
 		[CompilerGenerated]
 		private static Func<ThingDef, string> <>f__am$cacheEA;
 
 		[CompilerGenerated]
-		private static Func<ThoughtStage, bool> <>f__am$cacheEB;
+		private static Func<ThingDef, string> <>f__am$cacheEB;
 
 		[CompilerGenerated]
-		private static Func<ThoughtStage, float> <>f__am$cacheEC;
+		private static Func<ThoughtStage, bool> <>f__am$cacheEC;
 
 		[CompilerGenerated]
-		private static Func<ThoughtStage, bool> <>f__am$cacheED;
+		private static Func<ThoughtStage, float> <>f__am$cacheED;
 
 		[CompilerGenerated]
-		private static Func<ThoughtStage, float> <>f__am$cacheEE;
+		private static Func<ThoughtStage, bool> <>f__am$cacheEE;
+
+		[CompilerGenerated]
+		private static Func<ThoughtStage, float> <>f__am$cacheEF;
 
 		[DebugOutput]
 		public static void MiningResourceGeneration()
@@ -939,7 +942,7 @@ namespace Verse
 		[DebugOutput]
 		public static void Stuffs()
 		{
-			Func<ThingDef, StatDef, string> getStatFactor = delegate(ThingDef d, StatDef stat)
+			Func<ThingDef, StatDef, string> getStatFactorString = delegate(ThingDef d, StatDef stat)
 			{
 				string result;
 				if (d.stuffProps.statFactors == null)
@@ -960,34 +963,47 @@ namespace Verse
 				}
 				return result;
 			};
+			Func<ThingDef, float> meleeDpsSharpFactorOverall = delegate(ThingDef d)
+			{
+				float statValueAbstract = d.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null);
+				float statFactorFromList = d.stuffProps.statFactors.GetStatFactorFromList(StatDefOf.MeleeWeapon_CooldownMultiplier);
+				return statValueAbstract / statFactorFromList;
+			};
+			Func<ThingDef, float> meleeDpsBluntFactorOverall = delegate(ThingDef d)
+			{
+				float statValueAbstract = d.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null);
+				float statFactorFromList = d.stuffProps.statFactors.GetStatFactorFromList(StatDefOf.MeleeWeapon_CooldownMultiplier);
+				return statValueAbstract / statFactorFromList;
+			};
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsStuff
 			orderby d.BaseMarketValue
 			select d;
-			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[23];
+			TableDataGetter<ThingDef>[] array = new TableDataGetter<ThingDef>[24];
 			array[0] = new TableDataGetter<ThingDef>("fabric", (ThingDef d) => d.stuffProps.categories.Contains(StuffCategoryDefOf.Fabric).ToStringCheckBlank());
 			array[1] = new TableDataGetter<ThingDef>("leather", (ThingDef d) => d.stuffProps.categories.Contains(StuffCategoryDefOf.Leathery).ToStringCheckBlank());
 			array[2] = new TableDataGetter<ThingDef>("metal", (ThingDef d) => d.stuffProps.categories.Contains(StuffCategoryDefOf.Metallic).ToStringCheckBlank());
 			array[3] = new TableDataGetter<ThingDef>("stony", (ThingDef d) => d.stuffProps.categories.Contains(StuffCategoryDefOf.Stony).ToStringCheckBlank());
 			array[4] = new TableDataGetter<ThingDef>("woody", (ThingDef d) => d.stuffProps.categories.Contains(StuffCategoryDefOf.Woody).ToStringCheckBlank());
 			array[5] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
-			array[6] = new TableDataGetter<ThingDef>("base market value", (ThingDef d) => d.BaseMarketValue.ToString("F1"));
-			array[7] = new TableDataGetter<ThingDef>("sharp damage", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null).ToString("F2"));
-			array[8] = new TableDataGetter<ThingDef>("blunt damage", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null).ToString("F2"));
-			array[9] = new TableDataGetter<ThingDef>("armor sharp", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Sharp, null).ToString("F2"));
-			array[10] = new TableDataGetter<ThingDef>("armor blunt", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Blunt, null).ToString("F2"));
-			array[11] = new TableDataGetter<ThingDef>("armor heat", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Heat, null).ToString("F2"));
-			array[12] = new TableDataGetter<ThingDef>("ins. cold", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Cold, null).ToString("F2"));
-			array[13] = new TableDataGetter<ThingDef>("ins. heat", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Heat, null).ToString("F2"));
-			array[14] = new TableDataGetter<ThingDef>("flammability", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.Flammability, null).ToString("F2"));
-			array[15] = new TableDataGetter<ThingDef>("fac-Flammability", (ThingDef d) => getStatFactor(d, StatDefOf.Flammability));
-			array[16] = new TableDataGetter<ThingDef>("fac-WorkToMake", (ThingDef d) => getStatFactor(d, StatDefOf.WorkToMake));
-			array[17] = new TableDataGetter<ThingDef>("fac-WorkToBuild", (ThingDef d) => getStatFactor(d, StatDefOf.WorkToBuild));
-			array[18] = new TableDataGetter<ThingDef>("fac-MaxHp", (ThingDef d) => getStatFactor(d, StatDefOf.MaxHitPoints));
-			array[19] = new TableDataGetter<ThingDef>("fac-Beauty", (ThingDef d) => getStatFactor(d, StatDefOf.Beauty));
-			array[20] = new TableDataGetter<ThingDef>("fac-Doorspeed", (ThingDef d) => getStatFactor(d, StatDefOf.DoorOpenSpeed));
-			array[21] = new TableDataGetter<ThingDef>("fac-MeleeCooldown", (ThingDef d) => getStatFactor(d, StatDefOf.MeleeWeapon_CooldownMultiplier));
-			array[22] = new TableDataGetter<ThingDef>("fac-MeleeDamage", (ThingDef d) => getStatFactor(d, StatDefOf.MeleeWeapon_DamageMultiplier));
+			array[6] = new TableDataGetter<ThingDef>("base\nmarket\nvalue", (ThingDef d) => d.BaseMarketValue.ToStringMoney(null));
+			array[7] = new TableDataGetter<ThingDef>("melee\ncooldown\nmultiplier", (ThingDef d) => getStatFactorString(d, StatDefOf.MeleeWeapon_CooldownMultiplier));
+			array[8] = new TableDataGetter<ThingDef>("melee\nsharp\ndamage\nmultiplier", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null).ToString("F2"));
+			array[9] = new TableDataGetter<ThingDef>("melee\nsharp\ndps factor\noverall", (ThingDef d) => meleeDpsSharpFactorOverall(d).ToString("F2"));
+			array[10] = new TableDataGetter<ThingDef>("melee\nblunt\ndamage\nmultiplier", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null).ToString("F2"));
+			array[11] = new TableDataGetter<ThingDef>("melee\nblunt\ndps factor\noverall", (ThingDef d) => meleeDpsBluntFactorOverall(d).ToString("F2"));
+			array[12] = new TableDataGetter<ThingDef>("armor power\nsharp", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Sharp, null).ToString("F2"));
+			array[13] = new TableDataGetter<ThingDef>("armor power\nblunt", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Blunt, null).ToString("F2"));
+			array[14] = new TableDataGetter<ThingDef>("armor power\nheat", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Heat, null).ToString("F2"));
+			array[15] = new TableDataGetter<ThingDef>("insulation\ncold", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Cold, null).ToString("F2"));
+			array[16] = new TableDataGetter<ThingDef>("insulation\nheat", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Heat, null).ToString("F2"));
+			array[17] = new TableDataGetter<ThingDef>("flammability", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.Flammability, null).ToString("F2"));
+			array[18] = new TableDataGetter<ThingDef>("factor\nFlammability", (ThingDef d) => getStatFactorString(d, StatDefOf.Flammability));
+			array[19] = new TableDataGetter<ThingDef>("factor\nWorkToMake", (ThingDef d) => getStatFactorString(d, StatDefOf.WorkToMake));
+			array[20] = new TableDataGetter<ThingDef>("factor\nWorkToBuild", (ThingDef d) => getStatFactorString(d, StatDefOf.WorkToBuild));
+			array[21] = new TableDataGetter<ThingDef>("factor\nMaxHp", (ThingDef d) => getStatFactorString(d, StatDefOf.MaxHitPoints));
+			array[22] = new TableDataGetter<ThingDef>("factor\nBeauty", (ThingDef d) => getStatFactorString(d, StatDefOf.Beauty));
+			array[23] = new TableDataGetter<ThingDef>("factor\nDoorspeed", (ThingDef d) => getStatFactorString(d, StatDefOf.DoorOpenSpeed));
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
@@ -1026,7 +1042,7 @@ namespace Verse
 		[DebugOutput]
 		public static void ShootingAccuracy()
 		{
-			StatDef stat = StatDefOf.ShootingAccuracy;
+			StatDef stat = StatDefOf.ShootingAccuracyPawn;
 			Func<int, float, int, float> accAtDistance = delegate(int level, float dist, int traitDegree)
 			{
 				float num = 1f;
@@ -1826,23 +1842,22 @@ namespace Verse
 		public static void BodyParts()
 		{
 			IEnumerable<BodyPartDef> allDefs = DefDatabase<BodyPartDef>.AllDefs;
-			TableDataGetter<BodyPartDef>[] array = new TableDataGetter<BodyPartDef>[17];
+			TableDataGetter<BodyPartDef>[] array = new TableDataGetter<BodyPartDef>[16];
 			array[0] = new TableDataGetter<BodyPartDef>("defName", (BodyPartDef d) => d.defName);
 			array[1] = new TableDataGetter<BodyPartDef>("hit\npoints", (BodyPartDef d) => d.hitPoints);
 			array[2] = new TableDataGetter<BodyPartDef>("bleeding\nate\nmultiplier", (BodyPartDef d) => d.bleedRate.ToStringPercent());
-			array[3] = new TableDataGetter<BodyPartDef>("perm injury\nbase chance", (BodyPartDef d) => d.permanentInjuryBaseChance.ToStringPercent());
+			array[3] = new TableDataGetter<BodyPartDef>("perm injury\nchance factor", (BodyPartDef d) => d.permanentInjuryChanceFactor.ToStringPercent());
 			array[4] = new TableDataGetter<BodyPartDef>("frostbite\nvulnerability", (BodyPartDef d) => d.frostbiteVulnerability);
 			array[5] = new TableDataGetter<BodyPartDef>("solid", (BodyPartDef d) => (!d.IsSolidInDefinition_Debug) ? "" : "S");
 			array[6] = new TableDataGetter<BodyPartDef>("beauty\nrelated", (BodyPartDef d) => (!d.beautyRelated) ? "" : "B");
 			array[7] = new TableDataGetter<BodyPartDef>("alive", (BodyPartDef d) => (!d.alive) ? "" : "A");
 			array[8] = new TableDataGetter<BodyPartDef>("conceptual", (BodyPartDef d) => (!d.conceptual) ? "" : "C");
-			array[9] = new TableDataGetter<BodyPartDef>("delicate", (BodyPartDef d) => (!d.IsDelicate) ? "" : "D");
-			array[10] = new TableDataGetter<BodyPartDef>("can\nsuggest\namputation", (BodyPartDef d) => (!d.canSuggestAmputation) ? "no A" : "");
-			array[11] = new TableDataGetter<BodyPartDef>("socketed", (BodyPartDef d) => (!d.socketed) ? "" : "DoL");
-			array[12] = new TableDataGetter<BodyPartDef>("skin covered", (BodyPartDef d) => (!d.IsSkinCoveredInDefinition_Debug) ? "" : "skin");
-			array[13] = new TableDataGetter<BodyPartDef>("pawn generator\ncan amputate", (BodyPartDef d) => (!d.pawnGeneratorCanAmputate) ? "" : "amp");
-			array[14] = new TableDataGetter<BodyPartDef>("spawn thing\non removed", (BodyPartDef d) => d.spawnThingOnRemoved);
-			array[15] = new TableDataGetter<BodyPartDef>("hitChanceFactors", delegate(BodyPartDef d)
+			array[9] = new TableDataGetter<BodyPartDef>("can\nsuggest\namputation", (BodyPartDef d) => (!d.canSuggestAmputation) ? "no A" : "");
+			array[10] = new TableDataGetter<BodyPartDef>("socketed", (BodyPartDef d) => (!d.socketed) ? "" : "DoL");
+			array[11] = new TableDataGetter<BodyPartDef>("skin covered", (BodyPartDef d) => (!d.IsSkinCoveredInDefinition_Debug) ? "" : "skin");
+			array[12] = new TableDataGetter<BodyPartDef>("pawn generator\ncan amputate", (BodyPartDef d) => (!d.pawnGeneratorCanAmputate) ? "" : "amp");
+			array[13] = new TableDataGetter<BodyPartDef>("spawn thing\non removed", (BodyPartDef d) => d.spawnThingOnRemoved);
+			array[14] = new TableDataGetter<BodyPartDef>("hitChanceFactors", delegate(BodyPartDef d)
 			{
 				string result;
 				if (d.hitChanceFactors == null)
@@ -1856,7 +1871,7 @@ namespace Verse
 				}
 				return result;
 			});
-			array[16] = new TableDataGetter<BodyPartDef>("tags", delegate(BodyPartDef d)
+			array[15] = new TableDataGetter<BodyPartDef>("tags", delegate(BodyPartDef d)
 			{
 				string result;
 				if (d.tags == null)
@@ -1941,7 +1956,7 @@ namespace Verse
 		[DebugOutput]
 		public static void HitsToKill()
 		{
-			Dictionary<ThingDef, <>__AnonType0<ThingDef, float, int>> data = (from d in DefDatabase<ThingDef>.AllDefs
+			Dictionary<ThingDef, <>__AnonType1<ThingDef, float, int>> data = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.race != null
 			select d).Select(delegate(ThingDef x)
 			{
@@ -2762,159 +2777,163 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <Stuffs>m__28(ThingDef d)
+		private static float <Stuffs>m__28(ThingDef d)
 		{
-			return d.IsStuff;
+			float statValueAbstract = d.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null);
+			float statFactorFromList = d.stuffProps.statFactors.GetStatFactorFromList(StatDefOf.MeleeWeapon_CooldownMultiplier);
+			return statValueAbstract / statFactorFromList;
 		}
 
 		[CompilerGenerated]
 		private static float <Stuffs>m__29(ThingDef d)
 		{
+			float statValueAbstract = d.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null);
+			float statFactorFromList = d.stuffProps.statFactors.GetStatFactorFromList(StatDefOf.MeleeWeapon_CooldownMultiplier);
+			return statValueAbstract / statFactorFromList;
+		}
+
+		[CompilerGenerated]
+		private static bool <Stuffs>m__2A(ThingDef d)
+		{
+			return d.IsStuff;
+		}
+
+		[CompilerGenerated]
+		private static float <Stuffs>m__2B(ThingDef d)
+		{
 			return d.BaseMarketValue;
-		}
-
-		[CompilerGenerated]
-		private static string <Stuffs>m__2A(ThingDef d)
-		{
-			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Fabric).ToStringCheckBlank();
-		}
-
-		[CompilerGenerated]
-		private static string <Stuffs>m__2B(ThingDef d)
-		{
-			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Leathery).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__2C(ThingDef d)
 		{
-			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Metallic).ToStringCheckBlank();
+			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Fabric).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__2D(ThingDef d)
 		{
-			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Stony).ToStringCheckBlank();
+			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Leathery).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__2E(ThingDef d)
 		{
-			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Woody).ToStringCheckBlank();
+			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Metallic).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__2F(ThingDef d)
 		{
-			return d.defName;
+			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Stony).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__30(ThingDef d)
 		{
-			return d.BaseMarketValue.ToString("F1");
+			return d.stuffProps.categories.Contains(StuffCategoryDefOf.Woody).ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__31(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null).ToString("F2");
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__32(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null).ToString("F2");
+			return d.BaseMarketValue.ToStringMoney(null);
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__33(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Sharp, null).ToString("F2");
+			return d.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__34(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Blunt, null).ToString("F2");
+			return d.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__35(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Heat, null).ToString("F2");
+			return d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Sharp, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__36(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Cold, null).ToString("F2");
+			return d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Blunt, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__37(ThingDef d)
 		{
-			return d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Heat, null).ToString("F2");
+			return d.GetStatValueAbstract(StatDefOf.StuffPower_Armor_Heat, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
 		private static string <Stuffs>m__38(ThingDef d)
 		{
+			return d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Cold, null).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Stuffs>m__39(ThingDef d)
+		{
+			return d.GetStatValueAbstract(StatDefOf.StuffPower_Insulation_Heat, null).ToString("F2");
+		}
+
+		[CompilerGenerated]
+		private static string <Stuffs>m__3A(ThingDef d)
+		{
 			return d.GetStatValueAbstract(StatDefOf.Flammability, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static bool <Drugs>m__39(ThingDef d)
+		private static bool <Drugs>m__3B(ThingDef d)
 		{
 			return d.IsDrug;
 		}
 
 		[CompilerGenerated]
-		private static string <Drugs>m__3A(ThingDef d)
+		private static string <Drugs>m__3C(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Drugs>m__3B(ThingDef d)
+		private static string <Drugs>m__3D(ThingDef d)
 		{
 			return (!d.IsPleasureDrug) ? "" : "pleasure";
 		}
 
 		[CompilerGenerated]
-		private static string <Drugs>m__3C(ThingDef d)
+		private static string <Drugs>m__3E(ThingDef d)
 		{
 			return (!d.IsNonMedicalDrug) ? "" : "non-medical";
 		}
 
 		[CompilerGenerated]
-		private static bool <Medicines>m__3D(ThingDef d)
+		private static bool <Medicines>m__3F(ThingDef d)
 		{
 			return typeof(Medicine).IsAssignableFrom(d.thingClass);
 		}
 
 		[CompilerGenerated]
-		private static float <Medicines>m__3E(ThingDef d)
+		private static float <Medicines>m__40(ThingDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
 		}
 
 		[CompilerGenerated]
-		private static string <Medicines>m__3F(float p)
+		private static string <Medicines>m__41(float p)
 		{
 			return p.ToStringPercent();
-		}
-
-		[CompilerGenerated]
-		private static string <ShootingAccuracy>m__40(int lev)
-		{
-			return lev.ToString();
-		}
-
-		[CompilerGenerated]
-		private static string <ShootingAccuracy>m__41(int lev)
-		{
-			return lev.ToString();
 		}
 
 		[CompilerGenerated]
@@ -2924,187 +2943,193 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static BodyPartDef <DamageTest>m__43(Hediff_MissingPart hd)
+		private static string <ShootingAccuracy>m__43(int lev)
+		{
+			return lev.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <ShootingAccuracy>m__44(int lev)
+		{
+			return lev.ToString();
+		}
+
+		[CompilerGenerated]
+		private static BodyPartDef <DamageTest>m__45(Hediff_MissingPart hd)
 		{
 			return hd.Part.def;
 		}
 
 		[CompilerGenerated]
-		private static BodyPartDef <DamageTest>m__44(Hediff_MissingPart hd)
+		private static BodyPartDef <DamageTest>m__46(Hediff_MissingPart hd)
 		{
 			return hd.Part.def;
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<string> <ListSolidBackstories>m__45(PawnBio bio)
+		private static IEnumerable<string> <ListSolidBackstories>m__47(PawnBio bio)
 		{
 			return bio.adulthood.spawnCategories;
 		}
 
 		[CompilerGenerated]
-		private static string <ThingSetMakerPossibleDefs>m__46(ThingDef d)
+		private static string <ThingSetMakerPossibleDefs>m__48(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <ThingSetMakerPossibleDefs>m__47(ThingDef d)
+		private static string <ThingSetMakerPossibleDefs>m__49(ThingDef d)
 		{
 			return d.BaseMarketValue.ToStringMoney(null);
 		}
 
 		[CompilerGenerated]
-		private static string <ThingSetMakerPossibleDefs>m__48(ThingDef d)
+		private static string <ThingSetMakerPossibleDefs>m__4A(ThingDef d)
 		{
 			return d.BaseMass.ToStringMass();
 		}
 
 		[CompilerGenerated]
-		private static bool <ThingSetMakerPossibleDefs>m__49(ThingDef d)
+		private static bool <ThingSetMakerPossibleDefs>m__4B(ThingDef d)
 		{
 			return (d.category == ThingCategory.Item && !d.IsCorpse && !d.isUnfinishedThing) || (d.category == ThingCategory.Building && d.Minifiable) || d.category == ThingCategory.Pawn;
 		}
 
 		[CompilerGenerated]
-		private static float <ThingSetMakerPossibleDefs>m__4A(ThingDef d)
+		private static float <ThingSetMakerPossibleDefs>m__4C(ThingDef d)
 		{
 			return d.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static bool <WorkDisables>m__4B(PawnKindDef ki)
+		private static bool <WorkDisables>m__4D(PawnKindDef ki)
 		{
 			return ki.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <FoodPreferability>m__4C(ThingDef td)
+		private static bool <FoodPreferability>m__4E(ThingDef td)
 		{
 			return td.ingestible != null;
 		}
 
 		[CompilerGenerated]
-		private static FoodPreferability <FoodPreferability>m__4D(ThingDef td)
+		private static FoodPreferability <FoodPreferability>m__4F(ThingDef td)
 		{
 			return td.ingestible.preferability;
 		}
 
 		[CompilerGenerated]
-		private static string <DefNames>m__4E(Type def)
+		private static string <DefNames>m__50(Type def)
 		{
 			return def.Name;
 		}
 
 		[CompilerGenerated]
-		private static string <DefNamesAll>m__4F(Type def)
+		private static string <DefNamesAll>m__51(Type def)
 		{
 			return def.Name;
 		}
 
 		[CompilerGenerated]
-		private static string <DefNamesAll>m__50(Def def)
+		private static string <DefNamesAll>m__52(Def def)
 		{
 			return def.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <DefLabels>m__51(Type def)
+		private static string <DefLabels>m__53(Type def)
 		{
 			return def.Name;
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__52(BodyPartDef d)
+		private static string <BodyParts>m__54(BodyPartDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static int <BodyParts>m__53(BodyPartDef d)
+		private static int <BodyParts>m__55(BodyPartDef d)
 		{
 			return d.hitPoints;
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__54(BodyPartDef d)
+		private static string <BodyParts>m__56(BodyPartDef d)
 		{
 			return d.bleedRate.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__55(BodyPartDef d)
+		private static string <BodyParts>m__57(BodyPartDef d)
 		{
-			return d.permanentInjuryBaseChance.ToStringPercent();
+			return d.permanentInjuryChanceFactor.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static float <BodyParts>m__56(BodyPartDef d)
+		private static float <BodyParts>m__58(BodyPartDef d)
 		{
 			return d.frostbiteVulnerability;
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__57(BodyPartDef d)
+		private static string <BodyParts>m__59(BodyPartDef d)
 		{
 			return (!d.IsSolidInDefinition_Debug) ? "" : "S";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__58(BodyPartDef d)
+		private static string <BodyParts>m__5A(BodyPartDef d)
 		{
 			return (!d.beautyRelated) ? "" : "B";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__59(BodyPartDef d)
+		private static string <BodyParts>m__5B(BodyPartDef d)
 		{
 			return (!d.alive) ? "" : "A";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__5A(BodyPartDef d)
+		private static string <BodyParts>m__5C(BodyPartDef d)
 		{
 			return (!d.conceptual) ? "" : "C";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__5B(BodyPartDef d)
-		{
-			return (!d.IsDelicate) ? "" : "D";
-		}
-
-		[CompilerGenerated]
-		private static string <BodyParts>m__5C(BodyPartDef d)
+		private static string <BodyParts>m__5D(BodyPartDef d)
 		{
 			return (!d.canSuggestAmputation) ? "no A" : "";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__5D(BodyPartDef d)
+		private static string <BodyParts>m__5E(BodyPartDef d)
 		{
 			return (!d.socketed) ? "" : "DoL";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__5E(BodyPartDef d)
+		private static string <BodyParts>m__5F(BodyPartDef d)
 		{
 			return (!d.IsSkinCoveredInDefinition_Debug) ? "" : "skin";
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__5F(BodyPartDef d)
+		private static string <BodyParts>m__60(BodyPartDef d)
 		{
 			return (!d.pawnGeneratorCanAmputate) ? "" : "amp";
 		}
 
 		[CompilerGenerated]
-		private static ThingDef <BodyParts>m__60(BodyPartDef d)
+		private static ThingDef <BodyParts>m__61(BodyPartDef d)
 		{
 			return d.spawnThingOnRemoved;
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__61(BodyPartDef d)
+		private static string <BodyParts>m__62(BodyPartDef d)
 		{
 			string result;
 			if (d.hitChanceFactors == null)
@@ -3120,7 +3145,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__62(BodyPartDef d)
+		private static string <BodyParts>m__63(BodyPartDef d)
 		{
 			string result;
 			if (d.tags == null)
@@ -3136,74 +3161,74 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <TraderKinds>m__63(TraderKindDef d)
+		private static string <TraderKinds>m__64(TraderKindDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <TraderKinds>m__64(TraderKindDef d)
+		private static string <TraderKinds>m__65(TraderKindDef d)
 		{
 			return d.CalculatedCommonality.ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static string <TraderKindThings>m__65(ThingDef d)
+		private static string <TraderKindThings>m__66(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <TraderKindThings>m__66(ThingDef d)
+		private static bool <TraderKindThings>m__67(ThingDef d)
 		{
 			return (d.category == ThingCategory.Item && d.BaseMarketValue > 0.001f && !d.isUnfinishedThing && !d.IsCorpse && !d.destroyOnDrop && d != ThingDefOf.Silver && !d.thingCategories.NullOrEmpty<ThingCategoryDef>()) || (d.category == ThingCategory.Building && d.Minifiable) || d.category == ThingCategory.Pawn;
 		}
 
 		[CompilerGenerated]
-		private static string <TraderKindThings>m__67(ThingDef d)
+		private static string <TraderKindThings>m__68(ThingDef d)
 		{
 			return d.thingCategories.NullOrEmpty<ThingCategoryDef>() ? "zzzzzzz" : d.thingCategories[0].defName;
 		}
 
 		[CompilerGenerated]
-		private static float <TraderKindThings>m__68(ThingDef d)
+		private static float <TraderKindThings>m__69(ThingDef d)
 		{
 			return d.BaseMarketValue;
 		}
 
 		[CompilerGenerated]
-		private static bool <Surgeries>m__69(RecipeDef d)
+		private static bool <Surgeries>m__6A(RecipeDef d)
 		{
 			return d.IsSurgery;
 		}
 
 		[CompilerGenerated]
-		private static float <Surgeries>m__6A(RecipeDef d)
+		private static float <Surgeries>m__6B(RecipeDef d)
 		{
 			return d.WorkAmountTotal(null);
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__6B(RecipeDef d)
+		private static string <Surgeries>m__6C(RecipeDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__6C(RecipeDef d)
+		private static string <Surgeries>m__6D(RecipeDef d)
 		{
 			return d.WorkAmountTotal(null).ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__6D(RecipeDef d)
+		private static string <Surgeries>m__6E(RecipeDef d)
 		{
 			return (from ing in d.ingredients
 			select ing.ToString()).ToCommaList(false);
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__6E(RecipeDef d)
+		private static string <Surgeries>m__6F(RecipeDef d)
 		{
 			string result;
 			if (d.skillRequirements == null)
@@ -3219,25 +3244,25 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__6F(RecipeDef d)
+		private static string <Surgeries>m__70(RecipeDef d)
 		{
 			return d.surgerySuccessChanceFactor.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__70(RecipeDef d)
+		private static string <Surgeries>m__71(RecipeDef d)
 		{
 			return d.deathOnFailedSurgeryChance.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static bool <HitsToKill>m__71(ThingDef d)
+		private static bool <HitsToKill>m__72(ThingDef d)
 		{
 			return d.race != null;
 		}
 
 		[CompilerGenerated]
-		private static <>__AnonType0<ThingDef, float, int> <HitsToKill>m__72(ThingDef x)
+		private static <>__AnonType1<ThingDef, float, int> <HitsToKill>m__73(ThingDef x)
 		{
 			int num = 0;
 			int num2 = 0;
@@ -3278,121 +3303,121 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static ThingDef <HitsToKill>m__73(<>__AnonType0<ThingDef, float, int> x)
+		private static ThingDef <HitsToKill>m__74(<>__AnonType1<ThingDef, float, int> x)
 		{
 			return x.Race;
 		}
 
 		[CompilerGenerated]
-		private static bool <HitsToKill>m__74(ThingDef d)
+		private static bool <HitsToKill>m__75(ThingDef d)
 		{
 			return d.race != null;
 		}
 
 		[CompilerGenerated]
-		private static float <HitsToKill>m__75(ThingDef d)
+		private static float <HitsToKill>m__76(ThingDef d)
 		{
 			return d.race.baseHealthScale;
 		}
 
 		[CompilerGenerated]
-		private static string <HitsToKill>m__76(ThingDef d)
+		private static string <HitsToKill>m__77(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <HitsToKill>m__77(ThingDef d)
+		private static string <HitsToKill>m__78(ThingDef d)
 		{
 			return (!d.race.IsMechanoid) ? "" : "mech";
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__78(TerrainDef d)
+		private static string <Terrains>m__79(TerrainDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__79(TerrainDef d)
+		private static string <Terrains>m__7A(TerrainDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.WorkToBuild, null).ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__7A(TerrainDef d)
+		private static string <Terrains>m__7B(TerrainDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.Beauty, null).ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__7B(TerrainDef d)
+		private static string <Terrains>m__7C(TerrainDef d)
 		{
 			return d.GetStatValueAbstract(StatDefOf.Cleanliness, null).ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__7C(TerrainDef d)
+		private static string <Terrains>m__7D(TerrainDef d)
 		{
 			return d.pathCost.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__7D(TerrainDef d)
+		private static string <Terrains>m__7E(TerrainDef d)
 		{
 			return d.fertility.ToStringPercentEmptyZero("F0");
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__7E(TerrainDef d)
+		private static string <Terrains>m__7F(TerrainDef d)
 		{
 			return d.acceptFilth.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__7F(TerrainDef d)
+		private static string <Terrains>m__80(TerrainDef d)
 		{
 			return d.acceptTerrainSourceFilth.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__80(TerrainDef d)
+		private static string <Terrains>m__81(TerrainDef d)
 		{
 			return (d.generatedFilth == null) ? "" : d.generatedFilth.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__81(TerrainDef d)
+		private static string <Terrains>m__82(TerrainDef d)
 		{
 			return d.holdSnow.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__82(TerrainDef d)
+		private static string <Terrains>m__83(TerrainDef d)
 		{
 			return d.takeFootprints.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__83(TerrainDef d)
+		private static string <Terrains>m__84(TerrainDef d)
 		{
 			return d.avoidWander.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__84(TerrainDef d)
+		private static string <Terrains>m__85(TerrainDef d)
 		{
 			return d.BuildableByPlayer.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__85(TerrainDef d)
+		private static string <Terrains>m__86(TerrainDef d)
 		{
 			return DebugOutputsEconomy.CostListString(d, false, false);
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__86(TerrainDef d)
+		private static string <Terrains>m__87(TerrainDef d)
 		{
 			string result;
 			if (d.researchPrerequisites != null)
@@ -3408,46 +3433,40 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__87(TerrainDef d)
+		private static string <Terrains>m__88(TerrainDef d)
 		{
 			return (from af in d.affordances
 			select af.defName).ToCommaList(false);
 		}
 
 		[CompilerGenerated]
-		private static bool <TerrainAffordances>m__88(ThingDef d)
+		private static bool <TerrainAffordances>m__89(ThingDef d)
 		{
 			return d.category == ThingCategory.Building && !d.IsFrame;
 		}
 
 		[CompilerGenerated]
-		private static string <TerrainAffordances>m__89(BuildableDef d)
+		private static string <TerrainAffordances>m__8A(BuildableDef d)
 		{
 			return (!(d is TerrainDef)) ? "building" : "terrain";
 		}
 
 		[CompilerGenerated]
-		private static string <TerrainAffordances>m__8A(BuildableDef d)
+		private static string <TerrainAffordances>m__8B(BuildableDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <TerrainAffordances>m__8B(BuildableDef d)
+		private static string <TerrainAffordances>m__8C(BuildableDef d)
 		{
 			return (d.terrainAffordanceNeeded == null) ? "" : d.terrainAffordanceNeeded.defName;
 		}
 
 		[CompilerGenerated]
-		private static MentalBreakIntensity <MentalBreaks>m__8C(MentalBreakDef d)
+		private static MentalBreakIntensity <MentalBreaks>m__8D(MentalBreakDef d)
 		{
 			return d.intensity;
-		}
-
-		[CompilerGenerated]
-		private static string <MentalBreaks>m__8D(MentalBreakDef d)
-		{
-			return d.defName;
 		}
 
 		[CompilerGenerated]
@@ -3459,11 +3478,17 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <MentalBreaks>m__8F(MentalBreakDef d)
 		{
-			return d.intensity.ToString();
+			return d.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <MentalBreaks>m__90(MentalBreakDef d)
+		{
+			return d.intensity.ToString();
+		}
+
+		[CompilerGenerated]
+		private static string <MentalBreaks>m__91(MentalBreakDef d)
 		{
 			return (d.baseCommonality / (from x in DefDatabase<MentalBreakDef>.AllDefs
 			where x.intensity == d.intensity
@@ -3471,97 +3496,97 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__91(MentalBreakDef d)
+		private static string <MentalBreaks>m__92(MentalBreakDef d)
 		{
 			return (d.mentalState != null) ? ((float)d.mentalState.minTicksBeforeRecovery / 60000f).ToString("0.##") : "";
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__92(MentalBreakDef d)
+		private static string <MentalBreaks>m__93(MentalBreakDef d)
 		{
 			return (d.mentalState != null) ? (Mathf.Min((float)d.mentalState.minTicksBeforeRecovery + d.mentalState.recoveryMtbDays * 60000f, (float)d.mentalState.maxTicksBeforeRecovery) / 60000f).ToString("0.##") : "";
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__93(MentalBreakDef d)
+		private static string <MentalBreaks>m__94(MentalBreakDef d)
 		{
 			return (d.mentalState != null) ? ((float)d.mentalState.maxTicksBeforeRecovery / 60000f).ToString("0.##") : "";
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__94(MentalBreakDef d)
+		private static string <MentalBreaks>m__95(MentalBreakDef d)
 		{
 			return (d.mentalState == null || !d.mentalState.recoverFromSleep) ? "" : "recoverFromSleep";
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__95(MentalBreakDef d)
+		private static string <MentalBreaks>m__96(MentalBreakDef d)
 		{
 			return (d.mentalState != null) ? d.mentalState.moodRecoveryThought.ToStringSafe<ThoughtDef>() : "";
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__96(MentalBreakDef d)
+		private static string <MentalBreaks>m__97(MentalBreakDef d)
 		{
 			return (d.mentalState == null) ? "" : d.mentalState.category.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__97(MentalBreakDef d)
+		private static string <MentalBreaks>m__98(MentalBreakDef d)
 		{
 			return (d.mentalState == null || !d.mentalState.blockNormalThoughts) ? "" : "blockNormalThoughts";
 		}
 
 		[CompilerGenerated]
-		private static string <MentalBreaks>m__98(MentalBreakDef d)
+		private static string <MentalBreaks>m__99(MentalBreakDef d)
 		{
 			return (d.mentalState == null || !d.mentalState.allowBeatfire) ? "" : "allowBeatfire";
 		}
 
 		[CompilerGenerated]
-		private static TraitDef <TraitsSampled>m__99(TraitDegreeData d)
+		private static TraitDef <TraitsSampled>m__9A(TraitDegreeData d)
 		{
 			return DefDatabase<TraitDef>.AllDefs.First((TraitDef td) => td.degreeDatas.Contains(d));
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<TraitDegreeData> <TraitsSampled>m__9A(TraitDef tr)
+		private static IEnumerable<TraitDegreeData> <TraitsSampled>m__9B(TraitDef tr)
 		{
 			return tr.degreeDatas;
 		}
 
 		[CompilerGenerated]
-		private static string <TraitsSampled>m__9B(TraitDegreeData d)
+		private static string <TraitsSampled>m__9C(TraitDegreeData d)
 		{
 			return d.label;
 		}
 
 		[CompilerGenerated]
-		private static string <TraitsSampled>m__9C(TraitDegreeData d)
+		private static string <TraitsSampled>m__9D(TraitDegreeData d)
 		{
 			return d.marketValueFactorOffset.ToString("F0");
 		}
 
 		[CompilerGenerated]
-		private static bool <BestThingRequestGroup>m__9D(ThingDef x)
+		private static bool <BestThingRequestGroup>m__9E(ThingDef x)
 		{
 			return ListerThings.EverListable(x, ListerThingsUse.Global) || ListerThings.EverListable(x, ListerThingsUse.Region);
 		}
 
 		[CompilerGenerated]
-		private static string <BestThingRequestGroup>m__9E(ThingDef x)
+		private static string <BestThingRequestGroup>m__9F(ThingDef x)
 		{
 			return x.label;
 		}
 
 		[CompilerGenerated]
-		private static string <BestThingRequestGroup>m__9F(ThingDef d)
+		private static string <BestThingRequestGroup>m__A0(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <BestThingRequestGroup>m__A0(ThingDef d)
+		private static string <BestThingRequestGroup>m__A1(ThingDef d)
 		{
 			IEnumerable<ThingRequestGroup> source;
 			if (!ListerThings.EverListable(d, ListerThingsUse.Region))
@@ -3594,7 +3619,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <BestThingRequestGroup>m__A1(ThingDef d)
+		private static string <BestThingRequestGroup>m__A2(ThingDef d)
 		{
 			IEnumerable<ThingRequestGroup> source;
 			if (!ListerThings.EverListable(d, ListerThingsUse.Global))
@@ -3627,32 +3652,32 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <Prosthetics>m__A2(Pawn p)
+		private static bool <Prosthetics>m__A3(Pawn p)
 		{
 			return p.health.hediffSet.hediffs.Count == 0;
 		}
 
 		[CompilerGenerated]
-		private static ThingDef <Prosthetics>m__A3(RecipeDef recipe)
+		private static ThingDef <Prosthetics>m__A4(RecipeDef recipe)
 		{
 			return (from ic in recipe.ingredients
 			select ic.filter.AnyAllowedDef).FirstOrDefault((ThingDef td) => !td.IsMedicine);
 		}
 
 		[CompilerGenerated]
-		private static string <Prosthetics>m__A4(RecipeDef r)
+		private static string <Prosthetics>m__A5(RecipeDef r)
 		{
 			return r.defName;
 		}
 
 		[CompilerGenerated]
-		private static float <Prosthetics>m__A5(RecipeDef r)
+		private static float <Prosthetics>m__A6(RecipeDef r)
 		{
 			return r.workAmount;
 		}
 
 		[CompilerGenerated]
-		private static float <Prosthetics>m__A6(RecipeDef r)
+		private static float <Prosthetics>m__A7(RecipeDef r)
 		{
 			float num = r.ingredients.Sum((IngredientCount ic) => ic.filter.AnyAllowedDef.BaseMarketValue * ic.GetBaseCount());
 			float num2 = r.workAmount * 0.0036f;
@@ -3660,74 +3685,74 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static int <Prosthetics>m__A7(RecipeDef r)
+		private static int <Prosthetics>m__A8(RecipeDef r)
 		{
 			return (from sr in r.skillRequirements
 			select sr.minLevel).Max();
 		}
 
 		[CompilerGenerated]
-		private static int <Prosthetics>m__A8(PawnCapacityDef pc)
+		private static int <Prosthetics>m__A9(PawnCapacityDef pc)
 		{
 			return pc.listOrder;
 		}
 
 		[CompilerGenerated]
-		private static bool <Prosthetics>m__A9(RecipeDef r)
+		private static bool <Prosthetics>m__AA(RecipeDef r)
 		{
 			return r.workerClass == typeof(Recipe_InstallArtificialBodyPart) || r.workerClass == typeof(Recipe_InstallNaturalBodyPart);
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__AA(JoyGiverDef d)
+		private static string <JoyGivers>m__AB(JoyGiverDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__AB(JoyGiverDef d)
+		private static string <JoyGivers>m__AC(JoyGiverDef d)
 		{
 			return (d.joyKind != null) ? d.joyKind.defName : "null";
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__AC(JoyGiverDef d)
+		private static string <JoyGivers>m__AD(JoyGiverDef d)
 		{
 			return d.baseChance.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__AD(JoyGiverDef d)
+		private static string <JoyGivers>m__AE(JoyGiverDef d)
 		{
 			return d.canDoWhileInBed.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__AE(JoyGiverDef d)
+		private static string <JoyGivers>m__AF(JoyGiverDef d)
 		{
 			return d.desireSit.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__AF(JoyGiverDef d)
+		private static string <JoyGivers>m__B0(JoyGiverDef d)
 		{
 			return d.unroofedOnly.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__B0(JoyGiverDef d)
+		private static string <JoyGivers>m__B1(JoyGiverDef d)
 		{
 			return (d.jobDef != null) ? d.jobDef.defName : "null";
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__B1(JoyGiverDef d)
+		private static string <JoyGivers>m__B2(JoyGiverDef d)
 		{
 			return d.pctPawnsEverDo.ToStringPercent();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__B2(JoyGiverDef d)
+		private static string <JoyGivers>m__B3(JoyGiverDef d)
 		{
 			string result;
 			if (d.requiredCapacities == null)
@@ -3737,22 +3762,6 @@ namespace Verse
 			else
 			{
 				result = (from c in d.requiredCapacities
-				select c.defName).ToCommaList(false);
-			}
-			return result;
-		}
-
-		[CompilerGenerated]
-		private static string <JoyGivers>m__B3(JoyGiverDef d)
-		{
-			string result;
-			if (d.thingDefs == null)
-			{
-				result = "";
-			}
-			else
-			{
-				result = (from c in d.thingDefs
 				select c.defName).ToCommaList(false);
 			}
 			return result;
@@ -3769,61 +3778,77 @@ namespace Verse
 			else
 			{
 				result = (from c in d.thingDefs
+				select c.defName).ToCommaList(false);
+			}
+			return result;
+		}
+
+		[CompilerGenerated]
+		private static string <JoyGivers>m__B5(JoyGiverDef d)
+		{
+			string result;
+			if (d.thingDefs == null)
+			{
+				result = "";
+			}
+			else
+			{
+				result = (from c in d.thingDefs
 				select c.GetStatValueAbstract(StatDefOf.JoyGainFactor, null).ToString("F2")).ToCommaList(false);
 			}
 			return result;
 		}
 
 		[CompilerGenerated]
-		private static bool <JoyJobs>m__B5(JobDef j)
+		private static bool <JoyJobs>m__B6(JobDef j)
 		{
 			return j.joyKind != null;
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__B6(JobDef d)
+		private static string <JoyJobs>m__B7(JobDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__B7(JobDef d)
+		private static string <JoyJobs>m__B8(JobDef d)
 		{
 			return d.joyKind.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__B8(JobDef d)
+		private static string <JoyJobs>m__B9(JobDef d)
 		{
 			return d.joyDuration.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__B9(JobDef d)
+		private static string <JoyJobs>m__BA(JobDef d)
 		{
 			return d.joyGainRate.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__BA(JobDef d)
+		private static string <JoyJobs>m__BB(JobDef d)
 		{
 			return d.joyMaxParticipants.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__BB(JobDef d)
+		private static string <JoyJobs>m__BC(JobDef d)
 		{
 			return (d.joySkill == null) ? "" : d.joySkill.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <JoyJobs>m__BC(JobDef d)
+		private static string <JoyJobs>m__BD(JobDef d)
 		{
 			return d.joyXpPerTick.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Thoughts>m__BD(ThoughtDef t)
+		private static string <Thoughts>m__BE(ThoughtDef t)
 		{
 			string text = "";
 			string result;
@@ -3883,29 +3908,21 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <Thoughts>m__BE(ThoughtDef d)
+		private static string <Thoughts>m__BF(ThoughtDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Thoughts>m__BF(ThoughtDef d)
+		private static string <Thoughts>m__C0(ThoughtDef d)
 		{
 			return (!d.IsMemory) ? "situ" : "mem";
 		}
 
 		[CompilerGenerated]
-		private static string <Thoughts>m__C0(ThoughtDef d)
+		private static string <Thoughts>m__C1(ThoughtDef d)
 		{
 			return (!d.IsSocial) ? "mood" : "soc";
-		}
-
-		[CompilerGenerated]
-		private static float <Thoughts>m__C1(ThoughtDef d)
-		{
-			return (from st in d.stages
-			where st != null
-			select st).Max((ThoughtStage st) => st.baseMoodEffect);
 		}
 
 		[CompilerGenerated]
@@ -3913,239 +3930,241 @@ namespace Verse
 		{
 			return (from st in d.stages
 			where st != null
-			select st).Min((ThoughtStage st) => st.baseMoodEffect);
+			select st).Max((ThoughtStage st) => st.baseMoodEffect);
 		}
 
 		[CompilerGenerated]
-		private static string <Thoughts>m__C3(ThoughtDef d)
+		private static float <Thoughts>m__C3(ThoughtDef d)
 		{
-			return d.stackLimit.ToString();
+			return (from st in d.stages
+			where st != null
+			select st).Min((ThoughtStage st) => st.baseMoodEffect);
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__C4(ThoughtDef d)
 		{
-			return (d.stackLimitForSameOtherPawn >= 0) ? d.stackLimitForSameOtherPawn.ToString() : "";
+			return d.stackLimit.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__C5(ThoughtDef d)
 		{
-			return (d.stackLimit != 1) ? d.stackedEffectMultiplier.ToStringPercent() : "";
+			return (d.stackLimitForSameOtherPawn >= 0) ? d.stackLimitForSameOtherPawn.ToString() : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__C6(ThoughtDef d)
 		{
-			return d.durationDays.ToString();
+			return (d.stackLimit != 1) ? d.stackedEffectMultiplier.ToStringPercent() : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__C7(ThoughtDef d)
 		{
-			return (d.effectMultiplyingStat != null) ? d.effectMultiplyingStat.defName : "";
+			return d.durationDays.ToString();
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__C8(ThoughtDef d)
 		{
-			return (d.gameCondition != null) ? d.gameCondition.defName : "";
+			return (d.effectMultiplyingStat != null) ? d.effectMultiplyingStat.defName : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__C9(ThoughtDef d)
 		{
-			return (d.hediff != null) ? d.hediff.defName : "";
+			return (d.gameCondition != null) ? d.gameCondition.defName : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__CA(ThoughtDef d)
 		{
-			return d.lerpOpinionToZeroAfterDurationPct.ToStringPercent();
+			return (d.hediff != null) ? d.hediff.defName : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__CB(ThoughtDef d)
 		{
-			return (d.maxCumulatedOpinionOffset <= 99999f) ? d.maxCumulatedOpinionOffset.ToString() : "";
+			return d.lerpOpinionToZeroAfterDurationPct.ToStringPercent();
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__CC(ThoughtDef d)
 		{
-			return (d.nextThought != null) ? d.nextThought.defName : "";
+			return (d.maxCumulatedOpinionOffset <= 99999f) ? d.maxCumulatedOpinionOffset.ToString() : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__CD(ThoughtDef d)
 		{
-			return d.nullifiedIfNotColonist.ToStringCheckBlank();
+			return (d.nextThought != null) ? d.nextThought.defName : "";
 		}
 
 		[CompilerGenerated]
 		private static string <Thoughts>m__CE(ThoughtDef d)
 		{
+			return d.nullifiedIfNotColonist.ToStringCheckBlank();
+		}
+
+		[CompilerGenerated]
+		private static string <Thoughts>m__CF(ThoughtDef d)
+		{
 			return d.showBubble.ToStringCheckBlank();
 		}
 
 		[CompilerGenerated]
-		private static float <GenSteps>m__CF(GenStepDef x)
+		private static float <GenSteps>m__D0(GenStepDef x)
 		{
 			return x.order;
 		}
 
 		[CompilerGenerated]
-		private static ushort <GenSteps>m__D0(GenStepDef x)
+		private static ushort <GenSteps>m__D1(GenStepDef x)
 		{
 			return x.index;
-		}
-
-		[CompilerGenerated]
-		private static string <GenSteps>m__D1(GenStepDef x)
-		{
-			return x.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <GenSteps>m__D2(GenStepDef x)
 		{
-			return x.order.ToString("0.##");
+			return x.defName;
 		}
 
 		[CompilerGenerated]
 		private static string <GenSteps>m__D3(GenStepDef x)
 		{
-			return x.genStep.GetType().Name;
+			return x.order.ToString("0.##");
 		}
 
 		[CompilerGenerated]
 		private static string <GenSteps>m__D4(GenStepDef x)
 		{
+			return x.genStep.GetType().Name;
+		}
+
+		[CompilerGenerated]
+		private static string <GenSteps>m__D5(GenStepDef x)
+		{
 			return (x.linkWithSite == null) ? "" : x.linkWithSite.defName;
 		}
 
 		[CompilerGenerated]
-		private static float <WorldGenSteps>m__D5(WorldGenStepDef x)
+		private static float <WorldGenSteps>m__D6(WorldGenStepDef x)
 		{
 			return x.order;
 		}
 
 		[CompilerGenerated]
-		private static ushort <WorldGenSteps>m__D6(WorldGenStepDef x)
+		private static ushort <WorldGenSteps>m__D7(WorldGenStepDef x)
 		{
 			return x.index;
 		}
 
 		[CompilerGenerated]
-		private static string <WorldGenSteps>m__D7(WorldGenStepDef x)
+		private static string <WorldGenSteps>m__D8(WorldGenStepDef x)
 		{
 			return x.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <WorldGenSteps>m__D8(WorldGenStepDef x)
+		private static string <WorldGenSteps>m__D9(WorldGenStepDef x)
 		{
 			return x.order.ToString("0.##");
 		}
 
 		[CompilerGenerated]
-		private static string <WorldGenSteps>m__D9(WorldGenStepDef x)
+		private static string <WorldGenSteps>m__DA(WorldGenStepDef x)
 		{
 			return x.worldGenStep.GetType().Name;
 		}
 
 		[CompilerGenerated]
-		private static string <DefaultStuffs>m__DA(StuffCategoryDef c)
+		private static string <DefaultStuffs>m__DB(StuffCategoryDef c)
 		{
 			return c.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__DB(KeyValuePair<DamageDef, float> kvp)
+		private static string <BodyParts>m__DC(KeyValuePair<DamageDef, float> kvp)
 		{
 			return kvp.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <BodyParts>m__DC(BodyPartTagDef t)
+		private static string <BodyParts>m__DD(BodyPartTagDef t)
 		{
 			return t.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__DD(IngredientCount ing)
+		private static string <Surgeries>m__DE(IngredientCount ing)
 		{
 			return ing.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Surgeries>m__DE(SkillRequirement ing)
+		private static string <Surgeries>m__DF(SkillRequirement ing)
 		{
 			return ing.ToString();
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__DF(ResearchProjectDef pr)
+		private static string <Terrains>m__E0(ResearchProjectDef pr)
 		{
 			return pr.defName;
 		}
 
 		[CompilerGenerated]
-		private static string <Terrains>m__E0(TerrainAffordanceDef af)
+		private static string <Terrains>m__E1(TerrainAffordanceDef af)
 		{
 			return af.defName;
 		}
 
 		[CompilerGenerated]
-		private static float <MentalBreaks>m__E1(MentalBreakDef x)
+		private static float <MentalBreaks>m__E2(MentalBreakDef x)
 		{
 			return x.baseCommonality;
 		}
 
 		[CompilerGenerated]
-		private static int <BestThingRequestGroup>m__E2(ThingRequestGroup x)
+		private static int <BestThingRequestGroup>m__E3(ThingRequestGroup x)
 		{
 			return DefDatabase<ThingDef>.AllDefs.Count((ThingDef y) => ListerThings.EverListable(y, ListerThingsUse.Region) && x.Includes(y));
 		}
 
 		[CompilerGenerated]
-		private static int <BestThingRequestGroup>m__E3(ThingRequestGroup x)
+		private static int <BestThingRequestGroup>m__E4(ThingRequestGroup x)
 		{
 			return DefDatabase<ThingDef>.AllDefs.Count((ThingDef y) => ListerThings.EverListable(y, ListerThingsUse.Global) && x.Includes(y));
 		}
 
 		[CompilerGenerated]
-		private static ThingDef <Prosthetics>m__E4(IngredientCount ic)
+		private static ThingDef <Prosthetics>m__E5(IngredientCount ic)
 		{
 			return ic.filter.AnyAllowedDef;
 		}
 
 		[CompilerGenerated]
-		private static bool <Prosthetics>m__E5(ThingDef td)
+		private static bool <Prosthetics>m__E6(ThingDef td)
 		{
 			return !td.IsMedicine;
 		}
 
 		[CompilerGenerated]
-		private static float <Prosthetics>m__E6(IngredientCount ic)
+		private static float <Prosthetics>m__E7(IngredientCount ic)
 		{
 			return ic.filter.AnyAllowedDef.BaseMarketValue * ic.GetBaseCount();
 		}
 
 		[CompilerGenerated]
-		private static int <Prosthetics>m__E7(SkillRequirement sr)
+		private static int <Prosthetics>m__E8(SkillRequirement sr)
 		{
 			return sr.minLevel;
 		}
 
 		[CompilerGenerated]
-		private static string <JoyGivers>m__E8(PawnCapacityDef c)
-		{
-			return c.defName;
-		}
-
-		[CompilerGenerated]
-		private static string <JoyGivers>m__E9(ThingDef c)
+		private static string <JoyGivers>m__E9(PawnCapacityDef c)
 		{
 			return c.defName;
 		}
@@ -4153,29 +4172,35 @@ namespace Verse
 		[CompilerGenerated]
 		private static string <JoyGivers>m__EA(ThingDef c)
 		{
+			return c.defName;
+		}
+
+		[CompilerGenerated]
+		private static string <JoyGivers>m__EB(ThingDef c)
+		{
 			return c.GetStatValueAbstract(StatDefOf.JoyGainFactor, null).ToString("F2");
 		}
 
 		[CompilerGenerated]
-		private static bool <Thoughts>m__EB(ThoughtStage st)
+		private static bool <Thoughts>m__EC(ThoughtStage st)
 		{
 			return st != null;
 		}
 
 		[CompilerGenerated]
-		private static float <Thoughts>m__EC(ThoughtStage st)
+		private static float <Thoughts>m__ED(ThoughtStage st)
 		{
 			return st.baseMoodEffect;
 		}
 
 		[CompilerGenerated]
-		private static bool <Thoughts>m__ED(ThoughtStage st)
+		private static bool <Thoughts>m__EE(ThoughtStage st)
 		{
 			return st != null;
 		}
 
 		[CompilerGenerated]
-		private static float <Thoughts>m__EE(ThoughtStage st)
+		private static float <Thoughts>m__EF(ThoughtStage st)
 		{
 			return st.baseMoodEffect;
 		}
@@ -4296,7 +4321,11 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <Stuffs>c__AnonStorey3
 		{
-			internal Func<ThingDef, StatDef, string> getStatFactor;
+			internal Func<ThingDef, StatDef, string> getStatFactorString;
+
+			internal Func<ThingDef, float> meleeDpsSharpFactorOverall;
+
+			internal Func<ThingDef, float> meleeDpsBluntFactorOverall;
 
 			public <Stuffs>c__AnonStorey3()
 			{
@@ -4304,42 +4333,47 @@ namespace Verse
 
 			internal string <>m__0(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.Flammability);
+				return this.getStatFactorString(d, StatDefOf.MeleeWeapon_CooldownMultiplier);
 			}
 
 			internal string <>m__1(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.WorkToMake);
+				return this.meleeDpsSharpFactorOverall(d).ToString("F2");
 			}
 
 			internal string <>m__2(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.WorkToBuild);
+				return this.meleeDpsBluntFactorOverall(d).ToString("F2");
 			}
 
 			internal string <>m__3(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.MaxHitPoints);
+				return this.getStatFactorString(d, StatDefOf.Flammability);
 			}
 
 			internal string <>m__4(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.Beauty);
+				return this.getStatFactorString(d, StatDefOf.WorkToMake);
 			}
 
 			internal string <>m__5(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.DoorOpenSpeed);
+				return this.getStatFactorString(d, StatDefOf.WorkToBuild);
 			}
 
 			internal string <>m__6(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.MeleeWeapon_CooldownMultiplier);
+				return this.getStatFactorString(d, StatDefOf.MaxHitPoints);
 			}
 
 			internal string <>m__7(ThingDef d)
 			{
-				return this.getStatFactor(d, StatDefOf.MeleeWeapon_DamageMultiplier);
+				return this.getStatFactorString(d, StatDefOf.Beauty);
+			}
+
+			internal string <>m__8(ThingDef d)
+			{
+				return this.getStatFactorString(d, StatDefOf.DoorOpenSpeed);
 			}
 		}
 
@@ -5348,7 +5382,7 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <HitsToKill>c__AnonStorey1A
 		{
-			internal Dictionary<ThingDef, <>__AnonType0<ThingDef, float, int>> data;
+			internal Dictionary<ThingDef, <>__AnonType1<ThingDef, float, int>> data;
 
 			public <HitsToKill>c__AnonStorey1A()
 			{

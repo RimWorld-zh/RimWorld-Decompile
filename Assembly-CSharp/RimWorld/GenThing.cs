@@ -144,10 +144,12 @@ namespace RimWorld
 				}
 			}
 			GenThing.tmpThings.Clear();
+			bool flag2 = false;
 			int num = GenThing.tmpThingCounts.Count;
-			if (maxCount >= 0)
+			if (maxCount >= 0 && num > maxCount)
 			{
-				num = Mathf.Min(num, maxCount);
+				num = maxCount;
+				flag2 = true;
 			}
 			for (int k = 0; k < num; k++)
 			{
@@ -158,7 +160,12 @@ namespace RimWorld
 				}
 				GenThing.tmpThingLabels.Add(text);
 			}
-			return GenThing.tmpThingLabels.ToCommaList(useAnd);
+			string text2 = GenThing.tmpThingLabels.ToCommaList(useAnd && !flag2);
+			if (flag2)
+			{
+				text2 += "...";
+			}
+			return text2;
 		}
 
 		public static float GetMarketValue(IList<Thing> things)

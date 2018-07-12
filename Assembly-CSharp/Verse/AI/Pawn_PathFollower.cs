@@ -459,10 +459,7 @@ namespace Verse.AI
 				stance_Cooldown.neverAimWeapon = true;
 				this.pawn.stances.SetStance(stance_Cooldown);
 				building_Door2.StartManualOpenBy(this.pawn);
-				if (!this.pawn.HostileTo(building_Door2))
-				{
-					building_Door2.FriendlyTouched();
-				}
+				building_Door2.CheckFriendlyTouched(this.pawn);
 			}
 			else
 			{
@@ -485,8 +482,8 @@ namespace Verse.AI
 				Building_Door building_Door3 = this.pawn.Map.thingGrid.ThingAt<Building_Door>(this.lastCell);
 				if (building_Door3 != null && !this.pawn.HostileTo(building_Door3))
 				{
-					building_Door3.FriendlyTouched();
-					if (!building_Door3.BlockedOpenMomentary && !building_Door3.HoldOpen && building_Door3.SlowsPawns)
+					building_Door3.CheckFriendlyTouched(this.pawn);
+					if (!building_Door3.BlockedOpenMomentary && !building_Door3.HoldOpen && building_Door3.SlowsPawns && building_Door3.PawnCanOpen(this.pawn))
 					{
 						building_Door3.StartManualCloseBy(this.pawn);
 						return;

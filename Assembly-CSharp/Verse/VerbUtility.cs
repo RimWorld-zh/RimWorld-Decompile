@@ -7,16 +7,6 @@ namespace Verse
 {
 	public static class VerbUtility
 	{
-		public const float InterceptDist_Possible = 4f;
-
-		private const float InterceptDist_Short = 7f;
-
-		private const float InterceptDist_Normal = 10f;
-
-		private const float InterceptChanceFactor_VeryShort = 0.5f;
-
-		private const float InterceptChanceFactor_Short = 0.75f;
-
 		public static ThingDef GetProjectile(this Verb verb)
 		{
 			Verb_LaunchProjectile verb_LaunchProjectile = verb as Verb_LaunchProjectile;
@@ -138,26 +128,21 @@ namespace Verse
 			return result;
 		}
 
-		public static float DistanceInterceptChance(Vector3 origin, IntVec3 c, IntVec3 intendedTargetCell)
+		public static float InterceptChanceFactorFromDistance(Vector3 origin, IntVec3 c)
 		{
 			float num = (c.ToVector3Shifted() - origin).MagnitudeHorizontalSquared();
-			float num2 = (intendedTargetCell.ToVector3Shifted() - origin).MagnitudeHorizontalSquared();
 			float result;
-			if (num < 16f && num < num2 && c != intendedTargetCell)
+			if (num <= 25f)
 			{
 				result = 0f;
 			}
-			else if (num < 49f)
+			else if (num >= 144f)
 			{
-				result = 0.5f;
-			}
-			else if (num < 100f)
-			{
-				result = 0.75f;
+				result = 1f;
 			}
 			else
 			{
-				result = 1f;
+				result = Mathf.InverseLerp(25f, 144f, num);
 			}
 			return result;
 		}

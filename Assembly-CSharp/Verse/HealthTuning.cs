@@ -38,9 +38,35 @@ namespace Verse
 
 		public const float BaseTotalDamageLethalThreshold = 150f;
 
-		public const int MinDamageSeverityForPermanent = 7;
+		public const float BecomePermanentBaseChance = 0.01f;
 
-		public const float MinDamagePartPctForPermanent = 0.25f;
+		public static readonly SimpleCurve BecomePermanentChanceFactorBySeverityCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(6f, 0f),
+				true
+			},
+			{
+				new CurvePoint(14f, 1f),
+				true
+			}
+		};
+
+		public static readonly SimpleCurve PermanentInjuryPainFactorRandomCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(-2f, 0f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			},
+			{
+				new CurvePoint(6f, 0f),
+				true
+			}
+		};
 
 		public const float MinDamagePartPctForInfection = 0.2f;
 
@@ -75,8 +101,6 @@ namespace Verse
 		public const int ForgetRandomMemoryThoughtCheckInterval = 400;
 
 		public const float PawnBaseHealthForSummary = 75f;
-
-		public const float BaseBecomePermanentChance = 0.1f;
 
 		public const float DeathOnDownedChance_NonColonyAnimal = 0.5f;
 

@@ -39,47 +39,43 @@ namespace RimWorld
 		{
 			if (Find.Storyteller.difficulty.allowCaveHives)
 			{
-				CompProperties_TemperatureDamaged compProperties = ThingDefOf.Hive.GetCompProperties<CompProperties_TemperatureDamaged>();
-				if (compProperties.safeTemperatureRange.Includes(map.mapTemperature.OutdoorTemp))
+				MapGenFloatGrid caves = MapGenerator.Caves;
+				MapGenFloatGrid elevation = MapGenerator.Elevation;
+				float num = 0.7f;
+				int num2 = 0;
+				this.rockCells.Clear();
+				foreach (IntVec3 intVec in map.AllCells)
 				{
-					MapGenFloatGrid caves = MapGenerator.Caves;
-					MapGenFloatGrid elevation = MapGenerator.Elevation;
-					float num = 0.7f;
-					int num2 = 0;
-					this.rockCells.Clear();
-					foreach (IntVec3 intVec in map.AllCells)
+					if (elevation[intVec] > num)
 					{
-						if (elevation[intVec] > num)
-						{
-							this.rockCells.Add(intVec);
-						}
-						if (caves[intVec] > 0f)
-						{
-							num2++;
-						}
+						this.rockCells.Add(intVec);
 					}
-					List<IntVec3> list = (from c in map.AllCells
-					where map.thingGrid.ThingsAt(c).Any((Thing thing) => thing.Faction != null)
-					select c).ToList<IntVec3>();
-					GenMorphology.Dilate(list, 50, map, null);
-					HashSet<IntVec3> hashSet = new HashSet<IntVec3>(list);
-					int num3 = GenMath.RoundRandom((float)num2 / 1000f);
-					GenMorphology.Erode(this.rockCells, 10, map, null);
-					this.possibleSpawnCells.Clear();
-					for (int i = 0; i < this.rockCells.Count; i++)
+					if (caves[intVec] > 0f)
 					{
-						if (caves[this.rockCells[i]] > 0f && !hashSet.Contains(this.rockCells[i]))
-						{
-							this.possibleSpawnCells.Add(this.rockCells[i]);
-						}
+						num2++;
 					}
-					this.spawnedHives.Clear();
-					for (int j = 0; j < num3; j++)
-					{
-						this.TrySpawnHive(map);
-					}
-					this.spawnedHives.Clear();
 				}
+				List<IntVec3> list = (from c in map.AllCells
+				where map.thingGrid.ThingsAt(c).Any((Thing thing) => thing.Faction != null)
+				select c).ToList<IntVec3>();
+				GenMorphology.Dilate(list, 50, map, null);
+				HashSet<IntVec3> hashSet = new HashSet<IntVec3>(list);
+				int num3 = GenMath.RoundRandom((float)num2 / 1000f);
+				GenMorphology.Erode(this.rockCells, 10, map, null);
+				this.possibleSpawnCells.Clear();
+				for (int i = 0; i < this.rockCells.Count; i++)
+				{
+					if (caves[this.rockCells[i]] > 0f && !hashSet.Contains(this.rockCells[i]))
+					{
+						this.possibleSpawnCells.Add(this.rockCells[i]);
+					}
+				}
+				this.spawnedHives.Clear();
+				for (int j = 0; j < num3; j++)
+				{
+					this.TrySpawnHive(map);
+				}
+				this.spawnedHives.Clear();
 			}
 		}
 

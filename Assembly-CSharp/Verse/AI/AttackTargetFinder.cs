@@ -569,7 +569,7 @@ namespace Verse.AI
 						float num = 0f;
 						foreach (IntVec3 c in enumerable)
 						{
-							float num2 = VerbUtility.DistanceInterceptChance(report.ShootLine.Source.ToVector3Shifted(), c, ((Thing)target).Position);
+							float num2 = VerbUtility.InterceptChanceFactorFromDistance(report.ShootLine.Source.ToVector3Shifted(), c);
 							if (num2 > 0f)
 							{
 								List<Thing> thingList = c.GetThingList(map);

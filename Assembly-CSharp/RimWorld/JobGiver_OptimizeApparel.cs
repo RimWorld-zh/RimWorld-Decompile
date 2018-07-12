@@ -39,23 +39,19 @@ namespace RimWorld
 				true
 			},
 			{
-				new CurvePoint(0.2f, 0.15f),
+				new CurvePoint(0.2f, 0.2f),
 				true
 			},
 			{
-				new CurvePoint(0.25f, 0.3f),
+				new CurvePoint(0.22f, 0.6f),
 				true
 			},
 			{
-				new CurvePoint(0.5f, 0.4f),
+				new CurvePoint(0.5f, 0.6f),
 				true
 			},
 			{
-				new CurvePoint(0.55f, 0.85f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1f),
+				new CurvePoint(0.52f, 1f),
 				true
 			}
 		};

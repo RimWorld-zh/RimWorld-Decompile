@@ -12,7 +12,7 @@ namespace RimWorld
 
 		public const float XpPerTickMiningDrilling = 0.0714999959f;
 
-		public const float XpPerTickResearch = 0.044f;
+		public const float XpPerTickResearch = 0.0385f;
 
 		public const float XpPerTickConstruction = 0.275f;
 

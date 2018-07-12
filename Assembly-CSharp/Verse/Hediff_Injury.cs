@@ -32,7 +32,7 @@ namespace Verse
 				HediffComp_GetsPermanent hediffComp_GetsPermanent = this.TryGetComp<HediffComp_GetsPermanent>();
 				if (hediffComp_GetsPermanent != null && hediffComp_GetsPermanent.IsPermanent)
 				{
-					if (base.Part.def.IsDelicate && !hediffComp_GetsPermanent.Props.instantlyPermanentLabel.NullOrEmpty())
+					if (base.Part.def.delicate && !hediffComp_GetsPermanent.Props.instantlyPermanentLabel.NullOrEmpty())
 					{
 						return hediffComp_GetsPermanent.Props.instantlyPermanentLabel;
 					}
@@ -141,7 +141,7 @@ namespace Verse
 					HediffComp_GetsPermanent hediffComp_GetsPermanent = this.TryGetComp<HediffComp_GetsPermanent>();
 					if (hediffComp_GetsPermanent != null && hediffComp_GetsPermanent.IsPermanent)
 					{
-						result = this.Severity * this.def.injuryProps.averagePainPerSeverityPermanent * hediffComp_GetsPermanent.painFactor;
+						result = this.Severity * this.def.injuryProps.averagePainPerSeverityPermanent * hediffComp_GetsPermanent.PainFactor;
 					}
 					else
 					{

@@ -109,21 +109,9 @@ namespace Verse
 
 		public RulePackDef rangedFireRulepack = null;
 
-		public const float DistTouch = 3f;
+		public const float DefaultArmorPenetrationPerDamage = 0.015f;
 
-		public const float DistShort = 12f;
-
-		public const float DistMedium = 25f;
-
-		public const float DistLong = 40f;
-
-		public const float MeleeRange = 1.42f;
-
-		public const float AutoDamageToArmorPenetrationRatio = 0.015f;
-
-		private const float MeleeGunfireWeighting = 0.25f;
-
-		private const float BodypartVerbWeighting = 0.3f;
+		private const float VerbSelectionWeightFactor_BodyPart = 0.3f;
 
 		public VerbProperties()
 		{
@@ -254,7 +242,17 @@ namespace Verse
 			}
 			else
 			{
-				float num = this.AdjustedExpectedDamageForVerbWhichCanBeUsedInMelee(ownerVerb, attacker, equipment) * this.commonality * ((ownerVerb.tool != null) ? ownerVerb.tool.commonality : 1f);
+				float num = 1f;
+				float num2 = this.AdjustedExpectedDamageForVerbWhichCanBeUsedInMelee(ownerVerb, attacker, equipment);
+				if (num2 >= 0.001f || !(ownerVerb is Verb_MeleeApplyHediff))
+				{
+					num *= num2 * num2;
+				}
+				num *= this.commonality;
+				if (ownerVerb.tool != null)
+				{
+					num *= ownerVerb.tool.commonality;
+				}
 				if (this.IsMeleeAttack && equipment != null)
 				{
 					result = num;
@@ -355,36 +353,28 @@ namespace Verse
 
 		public float GetHitChanceFactor(Thing equipment, float dist)
 		{
-			float num;
+			float value;
 			if (dist <= 3f)
 			{
-				num = this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment);
+				value = this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment);
 			}
 			else if (dist <= 12f)
 			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), (dist - 3f) / 9f);
+				value = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), (dist - 3f) / 9f);
 			}
 			else if (dist <= 25f)
 			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), (dist - 12f) / 13f);
+				value = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), (dist - 12f) / 13f);
 			}
 			else if (dist <= 40f)
 			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment), (dist - 25f) / 15f);
+				value = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment), (dist - 25f) / 15f);
 			}
 			else
 			{
-				num = this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment);
+				value = this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment);
 			}
-			if (num < 0.01f)
-			{
-				num = 0.01f;
-			}
-			if (num > 1f)
-			{
-				num = 1f;
-			}
-			return num;
+			return Mathf.Clamp(value, 0.01f, 1f);
 		}
 
 		public void DrawRadiusRing(IntVec3 center)

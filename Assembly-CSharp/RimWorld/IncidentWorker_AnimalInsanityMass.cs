@@ -84,7 +84,7 @@ namespace RimWorld
 						label = "LetterLabelAnimalInsanitySingle".Translate(new object[]
 						{
 							pawn.LabelShort
-						}) + ": " + pawn.LabelCap;
+						});
 						text = "AnimalInsanitySingle".Translate(new object[]
 						{
 							pawn.LabelShort
@@ -96,7 +96,7 @@ namespace RimWorld
 						label = "LetterLabelAnimalInsanityMultiple".Translate(new object[]
 						{
 							animalDef.GetLabelPlural(-1)
-						}) + ": " + animalDef.LabelCap;
+						});
 						text = "AnimalInsanityMultiple".Translate(new object[]
 						{
 							animalDef.GetLabelPlural(-1)

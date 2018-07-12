@@ -63,7 +63,7 @@ namespace RimWorld
 						return job2;
 					}
 				}
-				else if (pawn.GetLord() == null)
+				else if (pawn.GetLord() == null && (pawn.Faction != Faction.OfPlayer || !pawn.Map.IsPlayerHome))
 				{
 					List<IAttackTarget> potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
 					for (int j = 0; j < potentialTargetsFor.Count; j++)
@@ -73,10 +73,14 @@ namespace RimWorld
 						{
 							if (SelfDefenseUtility.ShouldFleeFrom(thing, pawn, false, true))
 							{
-								Job job3 = this.FleeJob(pawn, thing);
-								if (job3 != null)
+								Pawn pawn2 = thing as Pawn;
+								if (pawn2 == null || !pawn2.AnimalOrWildMan() || pawn2.Faction != null)
 								{
-									return job3;
+									Job job3 = this.FleeJob(pawn, thing);
+									if (job3 != null)
+									{
+										return job3;
+									}
 								}
 							}
 						}

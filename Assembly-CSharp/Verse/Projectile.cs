@@ -232,7 +232,11 @@ namespace Verse
 			{
 				result = this.CheckForFreeIntercept(intVec2);
 			}
-			else if (VerbUtility.DistanceInterceptChance(this.origin, intVec2, this.intendedTarget.Cell) > 0f)
+			else if (VerbUtility.InterceptChanceFactorFromDistance(this.origin, intVec2) <= 0f)
+			{
+				result = false;
+			}
+			else
 			{
 				Vector3 vector = lastExactPos;
 				Vector3 v = newExactPos - lastExactPos;
@@ -268,10 +272,6 @@ namespace Verse
 				Block_8:
 				result = false;
 			}
-			else
-			{
-				result = false;
-			}
 			return result;
 		}
 
@@ -284,7 +284,7 @@ namespace Verse
 			}
 			else
 			{
-				float num = VerbUtility.DistanceInterceptChance(this.origin, c, this.intendedTarget.Cell);
+				float num = VerbUtility.InterceptChanceFactorFromDistance(this.origin, c);
 				if (num <= 0f)
 				{
 					result = false;
@@ -374,7 +374,8 @@ namespace Verse
 
 		public override void Draw()
 		{
-			Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.def.DrawMatSingle, 0);
+			Mesh mesh = MeshPool.GridPlane(this.def.graphicData.drawSize);
+			Graphics.DrawMesh(mesh, this.DrawPos, this.ExactRotation, this.def.DrawMatSingle, 0);
 			base.Comps_PostDraw();
 		}
 

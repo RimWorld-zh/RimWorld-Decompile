@@ -113,7 +113,7 @@ namespace RimWorld
 					}
 					else
 					{
-						if (building_Bed.Faction != traveler.Faction)
+						if (building_Bed.Faction != traveler.Faction && (traveler.HostFaction == null || building_Bed.Faction != traveler.HostFaction))
 						{
 							return false;
 						}

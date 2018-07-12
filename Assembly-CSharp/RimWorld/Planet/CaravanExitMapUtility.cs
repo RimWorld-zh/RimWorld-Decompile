@@ -130,7 +130,6 @@ namespace RimWorld.Planet
 			if (caravan != null)
 			{
 				CaravanExitMapUtility.AddCaravanExitTaleIfShould(pawn);
-				pawn.DeSpawn(DestroyMode.Vanish);
 				caravan.AddPawn(pawn, true);
 				pawn.ExitMap(false, exitDir);
 			}

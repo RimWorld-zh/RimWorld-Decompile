@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class JobGiver_Berserk : ThinkNode_JobGiver
 	{
-		private const float MaxAttackDistance = 30f;
+		private const float MaxAttackDistance = 40f;
 
 		private const float WaitChance = 0.5f;
 
@@ -60,7 +60,7 @@ namespace RimWorld
 
 		private Pawn FindPawnTarget(Pawn pawn)
 		{
-			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing x) => x is Pawn, 0f, 30f, default(IntVec3), float.MaxValue, true);
+			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing x) => x is Pawn, 0f, 40f, default(IntVec3), float.MaxValue, true);
 		}
 
 		[CompilerGenerated]

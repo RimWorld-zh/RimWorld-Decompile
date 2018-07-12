@@ -111,15 +111,15 @@ namespace RimWorld
 
 		public static StatDef TrainAnimalChance;
 
-		public static StatDef ShootingAccuracy;
+		public static StatDef ShootingAccuracyPawn;
+
+		public static StatDef ShootingAccuracyTurret;
 
 		public static StatDef AimingDelayFactor;
 
 		public static StatDef MeleeHitChance;
 
 		public static StatDef MeleeDodgeChance;
-
-		public static StatDef Weapon_Bulk;
 
 		public static StatDef MeleeWeapon_AverageDPS;
 

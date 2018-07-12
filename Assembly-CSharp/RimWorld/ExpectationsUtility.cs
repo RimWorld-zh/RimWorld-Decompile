@@ -13,6 +13,13 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<ExpectationDef, float> <>f__am$cache0;
 
+		public static void Reset()
+		{
+			ExpectationsUtility.expectationsInOrder = (from ed in DefDatabase<ExpectationDef>.AllDefs
+			orderby ed.maxMapWealth
+			select ed).ToList<ExpectationDef>();
+		}
+
 		public static ExpectationDef CurrentExpectationFor(Pawn p)
 		{
 			ExpectationDef result;
@@ -37,12 +44,6 @@ namespace RimWorld
 
 		public static ExpectationDef CurrentExpectationFor(Map m)
 		{
-			if (ExpectationsUtility.expectationsInOrder == null)
-			{
-				ExpectationsUtility.expectationsInOrder = (from ed in DefDatabase<ExpectationDef>.AllDefs
-				orderby ed.maxMapWealth
-				select ed).ToList<ExpectationDef>();
-			}
 			float wealthTotal = m.wealthWatcher.WealthTotal;
 			for (int i = 0; i < ExpectationsUtility.expectationsInOrder.Count; i++)
 			{
@@ -56,7 +57,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static float <CurrentExpectationFor>m__0(ExpectationDef ed)
+		private static float <Reset>m__0(ExpectationDef ed)
 		{
 			return ed.maxMapWealth;
 		}

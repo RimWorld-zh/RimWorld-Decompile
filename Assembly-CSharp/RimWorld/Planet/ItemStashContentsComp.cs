@@ -44,20 +44,10 @@ namespace RimWorld.Planet
 			if (this.contents.Any)
 			{
 				string text = GenThing.ThingsToCommaList(this.contents, true, true, 5).CapitalizeFirst();
-				if (this.contents.Count > 5)
+				result = "ItemStashContents".Translate(new object[]
 				{
-					result = "SomeItemStashContents".Translate(new object[]
-					{
-						text
-					});
-				}
-				else
-				{
-					result = "ItemStashContents".Translate(new object[]
-					{
-						text
-					});
-				}
+					text
+				});
 			}
 			else
 			{

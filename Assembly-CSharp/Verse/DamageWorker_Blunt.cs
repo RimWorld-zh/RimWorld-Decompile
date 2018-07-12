@@ -11,8 +11,6 @@ namespace Verse
 	[HasDebugOutput]
 	public class DamageWorker_Blunt : DamageWorker_AddInjury
 	{
-		private const float StunDuration = 3.5f;
-
 		[CompilerGenerated]
 		private static Func<BodyPartRecord, float> <>f__am$cache0;
 
@@ -109,7 +107,7 @@ namespace Verse
 					{
 						DamageInfo dinfo2 = dinfo;
 						dinfo2.Def = DamageDefOf.Stun;
-						dinfo2.SetAmount((float)3.5f.SecondsToTicks() / 30f);
+						dinfo2.SetAmount((float)this.def.bluntStunDuration.SecondsToTicks() / 30f);
 						pawn.TakeDamage(dinfo2);
 					}
 				}

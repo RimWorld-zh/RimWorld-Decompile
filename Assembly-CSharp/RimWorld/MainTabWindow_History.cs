@@ -353,10 +353,13 @@ namespace RimWorld
 				for (int j = 0; j < list2.Count; j++)
 				{
 					HistoryAutoRecorderGroup groupLocal = list2[j];
-					list.Add(new FloatMenuOption(groupLocal.def.LabelCap, delegate()
+					if (!groupLocal.def.devModeOnly || Prefs.DevMode)
 					{
-						this.historyAutoRecorderGroup = groupLocal;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						list.Add(new FloatMenuOption(groupLocal.def.LabelCap, delegate()
+						{
+							this.historyAutoRecorderGroup = groupLocal;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
 				}
 				FloatMenu window = new FloatMenu(list, "SelectGraph".Translate(), false);
 				Find.WindowStack.Add(window);

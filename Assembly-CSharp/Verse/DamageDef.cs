@@ -19,18 +19,20 @@ namespace Verse
 
 		public bool canInterruptJobs = true;
 
-		[MustTranslate]
-		public string deathMessage = "{0} has been killed.";
+		public bool isRanged = false;
 
-		public ImpactSoundTypeDef impactSoundType = null;
-
-		public DamageArmorCategoryDef armorCategory = null;
-
-		public int minDamageToFragment = 99999;
+		public bool makesAnimalsFlee = false;
 
 		public bool execution = false;
 
 		public RulePackDef combatLogRules = null;
+
+		public bool canUseDeflectMetalEffect = true;
+
+		public ImpactSoundTypeDef impactSoundType = null;
+
+		[MustTranslate]
+		public string deathMessage = "{0} has been killed.";
 
 		public int defaultDamage = -1;
 
@@ -38,9 +40,21 @@ namespace Verse
 
 		public float defaultStoppingPower;
 
-		public bool isRanged;
+		public List<DamageDefAdditionalHediff> additionalHediffs = null;
 
-		public bool canUseDeflectMetalEffect = true;
+		public DamageArmorCategoryDef armorCategory = null;
+
+		public int minDamageToFragment = 99999;
+
+		public FloatRange overkillPctToDestroyPart = new FloatRange(0f, 0.7f);
+
+		public bool harmAllLayersUntilOutside = false;
+
+		public HediffDef hediff = null;
+
+		public HediffDef hediffSkin = null;
+
+		public HediffDef hediffSolid = null;
 
 		public bool isExplosive = false;
 
@@ -64,14 +78,6 @@ namespace Verse
 
 		public SoundDef soundExplosion = null;
 
-		public bool harmAllLayersUntilOutside = false;
-
-		public HediffDef hediff = null;
-
-		public HediffDef hediffSkin = null;
-
-		public HediffDef hediffSolid = null;
-
 		public float stabChanceOfForcedInternal = 0f;
 
 		public float stabPierceBonus = 0f;
@@ -86,6 +92,8 @@ namespace Verse
 
 		public FloatRange bluntInnerHitDamageFractionToAdd;
 
+		public float bluntStunDuration = 1f;
+
 		public SimpleCurve bluntStunChancePerDamagePctOfCorePartToHeadCurve = null;
 
 		public SimpleCurve bluntStunChancePerDamagePctOfCorePartToBodyCurve = null;
@@ -93,8 +101,6 @@ namespace Verse
 		public float scratchSplitPercentage = 0.5f;
 
 		public float biteDamageMultiplier = 1f;
-
-		public List<DamageDefAdditionalHediff> additionalHediffs = null;
 
 		[Unsaved]
 		private DamageWorker workerInt = null;

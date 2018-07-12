@@ -542,9 +542,9 @@ namespace Verse
 				}
 				if (this.pawn.Spawned)
 				{
-					if (this.pawn.IsColonist && dinfo != null && dinfo.Value.Def.externalViolence)
+					if (this.pawn.IsColonist)
 					{
-						Find.StoryWatcher.watcherRampUp.Notify_ColonistViolentlyDownedOrKilled(this.pawn);
+						Find.StoryWatcher.watcherRampUp.Notify_ColonyPawnDowned(this.pawn, dinfo);
 					}
 					this.pawn.DropAndForbidEverything(true);
 					this.pawn.stances.CancelBusyStanceSoft();

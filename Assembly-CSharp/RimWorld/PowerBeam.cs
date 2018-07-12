@@ -11,9 +11,9 @@ namespace RimWorld
 	{
 		public const float Radius = 15f;
 
-		private const int FiresStartedPerTick = 3;
+		private const int FiresStartedPerTick = 4;
 
-		private static readonly IntRange FlameDamageAmountRange = new IntRange(43, 95);
+		private static readonly IntRange FlameDamageAmountRange = new IntRange(65, 100);
 
 		private static readonly IntRange CorpseFlameDamageAmountRange = new IntRange(5, 10);
 
@@ -34,7 +34,7 @@ namespace RimWorld
 			base.Tick();
 			if (!base.Destroyed)
 			{
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 4; i++)
 				{
 					this.StartRandomFireAndDoFlameDamage();
 				}

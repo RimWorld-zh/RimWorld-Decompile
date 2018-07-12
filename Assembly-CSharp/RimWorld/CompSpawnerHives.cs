@@ -128,7 +128,7 @@ namespace RimWorld
 				}
 				else
 				{
-					newHive = (Hive)GenSpawn.Spawn(this.parent.def, loc, this.parent.Map, WipeMode.FullRefund);
+					newHive = (Hive)ThingMaker.MakeThing(this.parent.def, null);
 					if (newHive.Faction != this.parent.Faction)
 					{
 						newHive.SetFaction(this.parent.Faction, null);
@@ -138,6 +138,7 @@ namespace RimWorld
 					{
 						newHive.active = hive.active;
 					}
+					GenSpawn.Spawn(newHive, loc, this.parent.Map, WipeMode.FullRefund);
 					this.CalculateNextHiveSpawnTick();
 					result = true;
 				}
