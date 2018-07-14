@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using RimWorld;
@@ -10,7 +11,7 @@ namespace Verse
 {
 	public class Tool
 	{
-		[NoTranslate]
+		[Unsaved]
 		public string id;
 
 		[MustTranslate]
@@ -22,7 +23,7 @@ namespace Verse
 
 		public bool labelUsedInLogging = true;
 
-		public List<ToolCapacityDef> capacities;
+		public List<ToolCapacityDef> capacities = new List<ToolCapacityDef>();
 
 		public float power;
 
@@ -42,6 +43,9 @@ namespace Verse
 
 		public bool ensureLinkedBodyPartsGroupAlwaysUsable;
 
+		[CompilerGenerated]
+		private static Func<ManeuverDef, VerbProperties> <>f__am$cache0;
+
 		public Tool()
 		{
 		}
@@ -54,20 +58,22 @@ namespace Verse
 			}
 		}
 
-		public string Id
+		public IEnumerable<ManeuverDef> Maneuvers
 		{
 			get
 			{
-				string result;
-				if (!this.id.NullOrEmpty())
-				{
-					result = this.id;
-				}
-				else
-				{
-					result = this.untranslatedLabel;
-				}
-				return result;
+				return from x in DefDatabase<ManeuverDef>.AllDefsListForReading
+				where this.capacities.Contains(x.requiredCapacity)
+				select x;
+			}
+		}
+
+		public IEnumerable<VerbProperties> VerbsProperties
+		{
+			get
+			{
+				return from x in this.Maneuvers
+				select x.verb;
 			}
 		}
 
@@ -102,11 +108,23 @@ namespace Verse
 
 		public IEnumerable<string> ConfigErrors()
 		{
-			if (this.Id.NullOrEmpty())
+			if (this.id.NullOrEmpty())
 			{
-				yield return "tool has null Id (power=" + this.power.ToString("0.##") + ")";
+				yield return "tool has null id (power=" + this.power.ToString("0.##") + ")";
 			}
 			yield break;
+		}
+
+		[CompilerGenerated]
+		private bool <get_Maneuvers>m__0(ManeuverDef x)
+		{
+			return this.capacities.Contains(x.requiredCapacity);
+		}
+
+		[CompilerGenerated]
+		private static VerbProperties <get_VerbsProperties>m__1(ManeuverDef x)
+		{
+			return x.verb;
 		}
 
 		[CompilerGenerated]
@@ -132,9 +150,9 @@ namespace Verse
 				switch (num)
 				{
 				case 0u:
-					if (base.Id.NullOrEmpty())
+					if (this.id.NullOrEmpty())
 					{
-						this.$current = "tool has null Id (power=" + this.power.ToString("0.##") + ")";
+						this.$current = "tool has null id (power=" + this.power.ToString("0.##") + ")";
 						if (!this.$disposing)
 						{
 							this.$PC = 1;

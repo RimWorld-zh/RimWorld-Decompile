@@ -88,9 +88,6 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Action <>f__am$cache11;
 
-		[CompilerGenerated]
-		private static Action <>f__am$cache12;
-
 		public static void Init()
 		{
 			PlayerKnowledgeDatabase.Save();
@@ -134,7 +131,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			rect.yMin += 17f;
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
-			Rect outRect = new Rect(8f, (float)(UI.screenHeight - 8 - 400), 200f, 400f);
+			Rect outRect = new Rect(8f, (float)(UI.screenHeight - 8 - 400), 230f, 400f);
 			MainMenuDrawer.DoMainTextRect(outRect);
 		}
 
@@ -209,14 +206,6 @@ namespace RimWorld
 					Find.WindowStack.Add(new Page_ModsConfig());
 				}, null);
 				list.Add(item);
-				if (Prefs.DevMode && LanguageDatabase.activeLanguage != LanguageDatabase.defaultLanguage)
-				{
-					item = new ListableOption("SaveTranslationReport".Translate(), delegate()
-					{
-						LanguageReportGenerator.SaveTranslationReport();
-					}, null);
-					list.Add(item);
-				}
 				item = new ListableOption("Credits".Translate(), delegate()
 				{
 					Find.WindowStack.Add(new Screen_Credits());
@@ -344,7 +333,9 @@ namespace RimWorld
 				GUI.BeginGroup(rect);
 				rect = rect.AtZero();
 				Rect rect2 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
-				rect.height -= 27f;
+				rect.height -= 29f;
+				Rect rect3 = new Rect(5f, rect.height - 25f, rect.width - 10f, 25f);
+				rect.height -= 29f;
 				string text = "";
 				foreach (CreditsEntry creditsEntry in LanguageDatabase.activeLanguage.info.credits)
 				{
@@ -360,9 +351,13 @@ namespace RimWorld
 					text
 				}) + "\n\n" + "TranslationHowToContribute".Translate();
 				Widgets.Label(rect, label);
-				if (Widgets.ButtonText(rect2, "LearnMore".Translate(), true, false, true))
+				if (Widgets.ButtonText(rect3, "LearnMore".Translate(), true, false, true))
 				{
 					Application.OpenURL(MainMenuDrawer.TranslationsContributeURL);
+				}
+				if (Widgets.ButtonText(rect2, "SaveTranslationReport".Translate(), true, false, true))
+				{
+					LanguageReportGenerator.SaveTranslationReport();
 				}
 				GUI.EndGroup();
 			}
@@ -445,17 +440,11 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static void <DoMainMenuControls>m__7()
 		{
-			LanguageReportGenerator.SaveTranslationReport();
-		}
-
-		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__8()
-		{
 			Find.WindowStack.Add(new Screen_Credits());
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__9()
+		private static void <DoMainMenuControls>m__8()
 		{
 			LongEventHandler.QueueLongEvent(delegate()
 			{
@@ -465,7 +454,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__A()
+		private static void <DoMainMenuControls>m__9()
 		{
 			LongEventHandler.QueueLongEvent(delegate()
 			{
@@ -478,7 +467,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__B()
+		private static void <DoMainMenuControls>m__A()
 		{
 			if (GameDataSaveLoader.CurrentGameStateIsValuable)
 			{
@@ -494,7 +483,7 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__C()
+		private static void <DoMainMenuControls>m__B()
 		{
 			if (GameDataSaveLoader.CurrentGameStateIsValuable)
 			{
@@ -510,20 +499,20 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__D()
+		private static void <DoMainMenuControls>m__C()
 		{
 			Root.Shutdown();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__E()
+		private static void <DoMainMenuControls>m__D()
 		{
 			GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
 			MemoryUtility.ClearAllMapsAndWorld();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__F()
+		private static void <DoMainMenuControls>m__E()
 		{
 			GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -533,19 +522,19 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__10()
+		private static void <DoMainMenuControls>m__F()
 		{
 			GenScene.GoToMainMenu();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__11()
+		private static void <DoMainMenuControls>m__10()
 		{
 			Root.Shutdown();
 		}
 
 		[CompilerGenerated]
-		private static void <DoMainMenuControls>m__12()
+		private static void <DoMainMenuControls>m__11()
 		{
 			Root.Shutdown();
 		}

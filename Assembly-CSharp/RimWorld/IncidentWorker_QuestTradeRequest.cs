@@ -10,13 +10,9 @@ namespace RimWorld
 {
 	public class IncidentWorker_QuestTradeRequest : IncidentWorker
 	{
-		private static readonly IntRange RandomDurationRangeDays = new IntRange(18, 38);
+		private const float MinNonTravelTimeFractionOfTravelTime = 0.35f;
 
-		private const int MaxDurationDays = 40;
-
-		private const float MinTravelTimeFraction = 0.35f;
-
-		private const float MinTravelTimeAbsolute = 6f;
+		private const float MinNonTravelTimeDays = 6f;
 
 		private const int MaxTileDistance = 36;
 
@@ -252,12 +248,12 @@ namespace RimWorld
 
 		private int RandomOfferDurationTicks(int tileIdFrom, int tileIdTo)
 		{
-			int randomInRange = IncidentWorker_QuestTradeRequest.RandomDurationRangeDays.RandomInRange;
+			int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
 			int num = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(tileIdFrom, tileIdTo, null);
 			float num2 = (float)num / 60000f;
 			int num3 = Mathf.CeilToInt(Mathf.Max(num2 + 6f, num2 * 1.35f));
 			int result;
-			if (num3 > 40)
+			if (num3 > SiteTuning.QuestSiteTimeoutDaysRange.max)
 			{
 				result = -1;
 			}

@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class IncidentWorker_Infestation : IncidentWorker
 	{
-		private const float HivePoints = 200f;
+		private const float HivePoints = 220f;
 
 		public IncidentWorker_Infestation()
 		{
@@ -25,7 +25,7 @@ namespace RimWorld
 			Map map = (Map)parms.target;
 			List<Thing> list = new List<Thing>();
 			int num;
-			for (int i = Mathf.Max(GenMath.RoundRandom(parms.points / 200f), 1); i > 0; i -= num)
+			for (int i = Mathf.Max(GenMath.RoundRandom(parms.points / 220f), 1); i > 0; i -= num)
 			{
 				num = Mathf.Min(3, i);
 				Thing item = this.SpawnTunnel(num, map);

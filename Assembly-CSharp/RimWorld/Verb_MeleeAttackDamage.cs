@@ -18,20 +18,20 @@ namespace RimWorld
 
 		private IEnumerable<DamageInfo> DamageInfosToApply(LocalTargetInfo target)
 		{
-			float damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn, this.ownerEquipment);
-			float armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn, this.ownerEquipment);
+			float damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn);
+			float armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn);
 			DamageDef damDef = this.verbProps.meleeDamageDef;
 			BodyPartGroupDef bodyPartGroupDef = null;
 			HediffDef hediffDef = null;
 			damAmount = Rand.Range(damAmount * 0.8f, damAmount * 1.2f);
 			if (base.CasterIsPawn)
 			{
-				bodyPartGroupDef = base.LinkedBodyPartsGroup;
+				bodyPartGroupDef = this.verbProps.AdjustedLinkedBodyPartsGroup(this.tool);
 				if (damAmount >= 1f)
 				{
-					if (this.ownerHediffComp != null)
+					if (base.HediffCompSource != null)
 					{
-						hediffDef = this.ownerHediffComp.Def;
+						hediffDef = base.HediffCompSource.Def;
 					}
 				}
 				else
@@ -41,9 +41,9 @@ namespace RimWorld
 				}
 			}
 			ThingDef source;
-			if (this.ownerEquipment != null)
+			if (base.EquipmentSource != null)
 			{
-				source = this.ownerEquipment.def;
+				source = base.EquipmentSource.def;
 			}
 			else
 			{
@@ -159,20 +159,20 @@ namespace RimWorld
 				{
 				case 0u:
 				{
-					damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn, this.ownerEquipment);
-					armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn, this.ownerEquipment);
+					damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn);
+					armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn);
 					damDef = this.verbProps.meleeDamageDef;
 					bodyPartGroupDef = null;
 					hediffDef = null;
 					damAmount = Rand.Range(damAmount * 0.8f, damAmount * 1.2f);
 					if (base.CasterIsPawn)
 					{
-						bodyPartGroupDef = base.LinkedBodyPartsGroup;
+						bodyPartGroupDef = this.verbProps.AdjustedLinkedBodyPartsGroup(this.tool);
 						if (damAmount >= 1f)
 						{
-							if (this.ownerHediffComp != null)
+							if (base.HediffCompSource != null)
 							{
-								hediffDef = this.ownerHediffComp.Def;
+								hediffDef = base.HediffCompSource.Def;
 							}
 						}
 						else
@@ -181,9 +181,9 @@ namespace RimWorld
 							damDef = DamageDefOf.Blunt;
 						}
 					}
-					if (this.ownerEquipment != null)
+					if (base.EquipmentSource != null)
 					{
-						source = this.ownerEquipment.def;
+						source = base.EquipmentSource.def;
 					}
 					else
 					{
@@ -209,7 +209,7 @@ namespace RimWorld
 				case 1u:
 					if (!this.surpriseAttack || ((this.verbProps.surpriseAttack == null || this.verbProps.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()) && this.tool != null && this.tool.surpriseAttack != null && !this.tool.surpriseAttack.extraMeleeDamages.NullOrEmpty<ExtraMeleeDamage>()))
 					{
-						goto IL_51B;
+						goto IL_515;
 					}
 					extraDamages = Enumerable.Empty<ExtraMeleeDamage>();
 					if (this.verbProps.surpriseAttack != null && this.verbProps.surpriseAttack.extraMeleeDamages != null)
@@ -266,7 +266,7 @@ namespace RimWorld
 						}
 					}
 				}
-				IL_51B:
+				IL_515:
 				this.$PC = -1;
 				return false;
 			}

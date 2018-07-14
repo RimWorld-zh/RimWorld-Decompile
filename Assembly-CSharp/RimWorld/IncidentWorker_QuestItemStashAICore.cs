@@ -10,7 +10,7 @@ namespace RimWorld
 		{
 		}
 
-		protected override List<Thing> GenerateItems(Faction siteFaction)
+		protected override List<Thing> GenerateItems(Faction siteFaction, float siteThreatPoints)
 		{
 			return new List<Thing>
 			{

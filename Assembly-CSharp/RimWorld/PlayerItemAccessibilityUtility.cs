@@ -227,7 +227,7 @@ namespace RimWorld
 			}
 		}
 
-		public static bool PlayerOrItemStashHas(ThingFilter thingFilter)
+		public static bool PlayerOrQuestRewardHas(ThingFilter thingFilter)
 		{
 			ThingRequest bestThingRequest = thingFilter.BestThingRequest;
 			List<Map> maps = Find.Maps;
@@ -267,6 +267,18 @@ namespace RimWorld
 					for (int n = 0; n < contents.Count; n++)
 					{
 						if (thingFilter.Allows(contents[n]))
+						{
+							return true;
+						}
+					}
+				}
+				DefeatAllEnemiesQuestComp component2 = sites[m].GetComponent<DefeatAllEnemiesQuestComp>();
+				if (component2 != null)
+				{
+					ThingOwner rewards = component2.rewards;
+					for (int num = 0; num < rewards.Count; num++)
+					{
+						if (thingFilter.Allows(rewards[num]))
 						{
 							return true;
 						}

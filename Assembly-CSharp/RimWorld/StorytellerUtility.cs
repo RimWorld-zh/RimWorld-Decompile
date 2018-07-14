@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -67,36 +68,6 @@ namespace RimWorld
 		public const float CaravanWealthPointsFactor = 0.5f;
 
 		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
-
-		public static readonly SimpleCurve ThreatPointsToSiteThreatPointsCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(100f, 120f),
-				true
-			},
-			{
-				new CurvePoint(1100f, 250f),
-				true
-			},
-			{
-				new CurvePoint(2100f, 500f),
-				true
-			},
-			{
-				new CurvePoint(3100f, 700f),
-				true
-			},
-			{
-				new CurvePoint(4100f, 800f),
-				true
-			},
-			{
-				new CurvePoint(5100f, 850f),
-				true
-			}
-		};
-
-		public static readonly FloatRange SitePointRandomFactorRange = new FloatRange(0.7f, 1.3f);
 
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 
@@ -181,10 +152,15 @@ namespace RimWorld
 				}
 			}
 			float num5 = num2 + num3;
-			num5 *= Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor;
+			num5 *= Find.StoryWatcher.watcherAdaptation.TotalThreatPointsFactor;
 			num5 *= Find.Storyteller.difficulty.threatScale;
 			num5 *= target.IncidentPointsRandomFactorRange.RandomInRange;
 			return StorytellerUtility.PostProcessCurve.Evaluate(num5);
+		}
+
+		public static float DefaultSiteThreatPointsNow()
+		{
+			return SiteTuning.ThreatPointsToSiteThreatPointsCurve.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World)) * SiteTuning.SitePointRandomFactorRange.RandomInRange;
 		}
 
 		public static float AllyIncidentMTBMultiplier(bool enoughIfNonHostile)

@@ -93,6 +93,7 @@ namespace RimWorld
 			curveDrawerStyle.UseFixedScale = this.def.useFixedScale;
 			curveDrawerStyle.FixedScale = this.def.fixedScale;
 			curveDrawerStyle.YIntegersOnly = this.def.integersOnly;
+			curveDrawerStyle.OnlyPositiveValues = this.def.onlyPositiveValues;
 			SimpleCurveDrawer.DrawCurves(graphRect, this.curves, curveDrawerStyle, marks, legendRect);
 			Text.Anchor = TextAnchor.UpperLeft;
 		}

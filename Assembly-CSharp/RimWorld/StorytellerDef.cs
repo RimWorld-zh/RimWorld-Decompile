@@ -43,69 +43,17 @@ namespace RimWorld
 
 		public SimpleCurve populationIntentFromTimeCurve;
 
-		public SimpleCurve pointsFactorFromRampDays = new SimpleCurve
-		{
-			{
-				new CurvePoint(10f, 1f),
-				true
-			},
-			{
-				new CurvePoint(130f, 2f),
-				true
-			},
-			{
-				new CurvePoint(1000f, 5f),
-				true
-			}
-		};
+		public float adaptDaysMin = 0f;
 
-		public SimpleCurve rampDaysLossFromColonistDiedByPostPopulation = new SimpleCurve
-		{
-			{
-				new CurvePoint(3f, 9999f),
-				true
-			},
-			{
-				new CurvePoint(4f, 30f),
-				true
-			},
-			{
-				new CurvePoint(7f, 30f),
-				true
-			},
-			{
-				new CurvePoint(8f, 20f),
-				true
-			},
-			{
-				new CurvePoint(9f, 15f),
-				true
-			},
-			{
-				new CurvePoint(10f, 13f),
-				true
-			},
-			{
-				new CurvePoint(15f, 10f),
-				true
-			}
-		};
+		public float adaptDaysGameStartGraceDays = 0f;
 
-		public SimpleCurve rampDaysLossFromColonistViolentlyDownedByPopulation = new SimpleCurve
-		{
-			{
-				new CurvePoint(5f, 2f),
-				true
-			},
-			{
-				new CurvePoint(8f, 0.5f),
-				true
-			},
-			{
-				new CurvePoint(10f, 0f),
-				true
-			}
-		};
+		public SimpleCurve pointsFactorFromAdaptDays = null;
+
+		public SimpleCurve adaptDaysLossFromColonistLostByPostPopulation = null;
+
+		public SimpleCurve adaptDaysLossFromColonistViolentlyDownedByPopulation = null;
+
+		public SimpleCurve adaptDaysGrowthRateCurve = null;
 
 		[Unsaved]
 		public Texture2D portraitLargeTex;
@@ -136,6 +84,22 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
+			if (this.pointsFactorFromAdaptDays == null)
+			{
+				yield return "pointsFactorFromAdaptDays is null";
+			}
+			if (this.adaptDaysLossFromColonistLostByPostPopulation == null)
+			{
+				yield return "adaptDaysLossFromColonistLostByPostPopulation is null";
+			}
+			if (this.adaptDaysLossFromColonistViolentlyDownedByPopulation == null)
+			{
+				yield return "adaptDaysLossFromColonistViolentlyDownedByPopulation is null";
+			}
+			if (this.adaptDaysGrowthRateCurve == null)
+			{
+				yield return "adaptDaysGrowthRateCurve is null";
+			}
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
 			{
 				yield return e;
@@ -201,13 +165,28 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
-					num = 4294967293u;
+					if (this.pointsFactorFromAdaptDays == null)
+					{
+						this.$current = "pointsFactorFromAdaptDays is null";
+						if (!this.$disposing)
+						{
+							this.$PC = 1;
+						}
+						return true;
+					}
 					break;
 				case 1u:
 					break;
 				case 2u:
-					Block_3:
+					goto IL_96;
+				case 3u:
+					goto IL_C5;
+				case 4u:
+					goto IL_F4;
+				case 5u:
+					goto IL_10E;
+				case 6u:
+					Block_11:
 					try
 					{
 						switch (num)
@@ -219,7 +198,7 @@ namespace RimWorld
 							this.$current = e2;
 							if (!this.$disposing)
 							{
-								this.$PC = 2;
+								this.$PC = 6;
 							}
 							flag = true;
 							return true;
@@ -236,12 +215,45 @@ namespace RimWorld
 						}
 					}
 					i++;
-					goto IL_17A;
+					goto IL_246;
 				default:
 					return false;
 				}
+				if (this.adaptDaysLossFromColonistLostByPostPopulation == null)
+				{
+					this.$current = "adaptDaysLossFromColonistLostByPostPopulation is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_96:
+				if (this.adaptDaysLossFromColonistViolentlyDownedByPopulation == null)
+				{
+					this.$current = "adaptDaysLossFromColonistViolentlyDownedByPopulation is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 3;
+					}
+					return true;
+				}
+				IL_C5:
+				if (this.adaptDaysGrowthRateCurve == null)
+				{
+					this.$current = "adaptDaysGrowthRateCurve is null";
+					if (!this.$disposing)
+					{
+						this.$PC = 4;
+					}
+					return true;
+				}
+				IL_F4:
+				enumerator = base.<ConfigErrors>__BaseCallProxy0().GetEnumerator();
+				num = 4294967293u;
 				try
 				{
+					IL_10E:
 					switch (num)
 					{
 					}
@@ -251,7 +263,7 @@ namespace RimWorld
 						this.$current = e;
 						if (!this.$disposing)
 						{
-							this.$PC = 1;
+							this.$PC = 5;
 						}
 						flag = true;
 						return true;
@@ -268,12 +280,12 @@ namespace RimWorld
 					}
 				}
 				i = 0;
-				IL_17A:
+				IL_246:
 				if (i < this.comps.Count)
 				{
 					enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator();
 					num = 4294967293u;
-					goto Block_3;
+					goto Block_11;
 				}
 				this.$PC = -1;
 				return false;
@@ -305,7 +317,7 @@ namespace RimWorld
 				this.$PC = -1;
 				switch (num)
 				{
-				case 1u:
+				case 5u:
 					try
 					{
 					}
@@ -317,7 +329,7 @@ namespace RimWorld
 						}
 					}
 					break;
-				case 2u:
+				case 6u:
 					try
 					{
 					}

@@ -362,11 +362,6 @@ namespace Verse
 			}
 		}
 
-		public string UniqueVerbOwnerID()
-		{
-			return this.ThingID;
-		}
-
 		public static int IDNumberFromThingID(string thingID)
 		{
 			string value = Regex.Match(thingID, "\\d+$").Value;

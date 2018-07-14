@@ -39,6 +39,8 @@ namespace Verse
 		[MustTranslate]
 		public string discoveredLetterText;
 
+		public int discoveredLetterMinDifficulty = 0;
+
 		[Unsaved]
 		private float x = 1f;
 

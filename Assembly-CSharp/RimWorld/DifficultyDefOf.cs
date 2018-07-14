@@ -7,9 +7,7 @@ namespace RimWorld
 	{
 		public static DifficultyDef Easy;
 
-		public static DifficultyDef Hard;
-
-		public static DifficultyDef ExtraHard;
+		public static DifficultyDef Rough;
 
 		static DifficultyDefOf()
 		{

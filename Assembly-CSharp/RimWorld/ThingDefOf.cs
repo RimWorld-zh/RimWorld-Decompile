@@ -182,6 +182,8 @@ namespace RimWorld
 
 		public static ThingDef MineableComponentsIndustrial;
 
+		public static ThingDef MineableGold;
+
 		public static ThingDef Door;
 
 		public static ThingDef Wall;
@@ -243,6 +245,8 @@ namespace RimWorld
 		public static ThingDef FermentingBarrel;
 
 		public static ThingDef DeepDrill;
+
+		public static ThingDef LongRangeMineralScanner;
 
 		public static ThingDef CollapsedRocks;
 

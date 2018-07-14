@@ -38,7 +38,7 @@ namespace Verse
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look<int>(ref this.disappearAtTick, "disappearAtTick", 0, false);
+			Scribe_Values.Look<int>(ref this.disappearAtTick, "disappearAtTick", -1, false);
 		}
 
 		public void StartTimeout(int duration)

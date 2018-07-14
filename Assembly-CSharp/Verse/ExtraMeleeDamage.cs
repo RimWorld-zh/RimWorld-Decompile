@@ -16,7 +16,7 @@ namespace Verse
 
 		public float AdjustedDamageAmount(Verb verb, Pawn caster)
 		{
-			return (float)this.amount * verb.GetDamageFactorFor(caster);
+			return (float)this.amount * verb.verbProps.GetDamageFactorFor(verb, caster);
 		}
 
 		public float AdjustedArmorPenetration(Verb verb, Pawn caster)

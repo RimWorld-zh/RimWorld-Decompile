@@ -23,11 +23,11 @@ namespace RimWorld
 				Bombardment bombardment = (Bombardment)GenSpawn.Spawn(ThingDefOf.Bombardment, this.currentTarget.Cell, this.caster.Map, WipeMode.Vanish);
 				bombardment.duration = 450;
 				bombardment.instigator = this.caster;
-				bombardment.weaponDef = ((this.ownerEquipment == null) ? null : this.ownerEquipment.def);
+				bombardment.weaponDef = ((base.EquipmentSource == null) ? null : base.EquipmentSource.def);
 				bombardment.StartStrike();
-				if (this.ownerEquipment != null && !this.ownerEquipment.Destroyed)
+				if (base.EquipmentSource != null && !base.EquipmentSource.Destroyed)
 				{
-					this.ownerEquipment.Destroy(DestroyMode.Vanish);
+					base.EquipmentSource.Destroy(DestroyMode.Vanish);
 				}
 				result = true;
 			}

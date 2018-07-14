@@ -11,6 +11,12 @@ namespace Verse
 
 		List<Tool> Tools { get; }
 
+		ImplementOwnerTypeDef ImplementOwnerTypeDef { get; }
+
 		string UniqueVerbOwnerID();
+
+		bool VerbsStillUsableBy(Pawn p);
+
+		Thing ConstantCaster { get; }
 	}
 }

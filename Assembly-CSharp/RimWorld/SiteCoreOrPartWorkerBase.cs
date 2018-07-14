@@ -39,12 +39,12 @@ namespace RimWorld
 			return this.def.label;
 		}
 
-		public virtual SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		public virtual SiteCoreOrPartParams GenerateDefaultParams(Site site, float myThreatPoints)
 		{
 			return new SiteCoreOrPartParams
 			{
 				randomValue = Rand.Int,
-				threatPoints = StorytellerUtility.ThreatPointsToSiteThreatPointsCurve.Evaluate(StorytellerUtility.DefaultThreatPointsNow(Find.World)) * StorytellerUtility.SitePointRandomFactorRange.RandomInRange
+				threatPoints = ((!this.def.wantsThreatPoints) ? 0f : myThreatPoints)
 			};
 		}
 	}

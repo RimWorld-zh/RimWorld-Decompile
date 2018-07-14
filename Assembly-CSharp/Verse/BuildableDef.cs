@@ -71,6 +71,8 @@ namespace Verse
 
 		public Vector2 uiIconOffset;
 
+		public Color uiIconColor = Color.white;
+
 		[Unsaved]
 		public ThingDef blueprintDef;
 
@@ -91,9 +93,6 @@ namespace Verse
 
 		[Unsaved]
 		public float uiIconAngle;
-
-		[Unsaved]
-		public Color uiIconColor = Color.white;
 
 		protected BuildableDef()
 		{

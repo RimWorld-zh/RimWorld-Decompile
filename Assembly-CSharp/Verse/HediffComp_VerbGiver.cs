@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 
 namespace Verse
 {
@@ -44,6 +45,22 @@ namespace Verse
 			}
 		}
 
+		Thing IVerbOwner.ConstantCaster
+		{
+			get
+			{
+				return base.Pawn;
+			}
+		}
+
+		ImplementOwnerTypeDef IVerbOwner.ImplementOwnerTypeDef
+		{
+			get
+			{
+				return ImplementOwnerTypeDefOf.Hediff;
+			}
+		}
+
 		public override void CompExposeData()
 		{
 			base.CompExposeData();
@@ -66,9 +83,14 @@ namespace Verse
 			this.verbTracker.VerbsTick();
 		}
 
-		public string UniqueVerbOwnerID()
+		string IVerbOwner.UniqueVerbOwnerID()
 		{
-			return this.parent.GetUniqueLoadID();
+			return this.parent.GetUniqueLoadID() + "_" + this.parent.comps.IndexOf(this);
+		}
+
+		bool IVerbOwner.VerbsStillUsableBy(Pawn p)
+		{
+			return p.health.hediffSet.hediffs.Contains(this.parent);
 		}
 	}
 }

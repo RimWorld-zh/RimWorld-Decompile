@@ -23,6 +23,8 @@ namespace RimWorld.Planet
 
 		public bool factionMustRemainHostile;
 
+		public float desiredThreatPoints;
+
 		private bool startedCountdown;
 
 		private bool anyEnemiesInitially;
@@ -176,6 +178,19 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public float ActualThreatPoints
+		{
+			get
+			{
+				float num = this.core.parms.threatPoints;
+				for (int i = 0; i < this.parts.Count; i++)
+				{
+					num += this.parts[i].parms.threatPoints;
+				}
+				return num;
+			}
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -186,6 +201,7 @@ namespace RimWorld.Planet
 			Scribe_Values.Look<bool>(ref this.anyEnemiesInitially, "anyEnemiesInitially", false, false);
 			Scribe_Values.Look<bool>(ref this.sitePartsKnown, "sitePartsKnown", false, false);
 			Scribe_Values.Look<bool>(ref this.factionMustRemainHostile, "factionMustRemainHostile", false, false);
+			Scribe_Values.Look<float>(ref this.desiredThreatPoints, "desiredThreatPoints", 0f, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				BackCompatibility.SitePostLoadInit(this);

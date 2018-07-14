@@ -14,6 +14,8 @@ namespace RimWorld
 
 		public static ImplementOwnerTypeDef Terrain;
 
+		public static ImplementOwnerTypeDef NativeVerb;
+
 		static ImplementOwnerTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ImplementOwnerTypeDefOf));

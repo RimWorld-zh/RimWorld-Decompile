@@ -25,9 +25,9 @@ namespace RimWorld
 			return arrivedLetterPart;
 		}
 
-		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site, float myThreatPoints)
 		{
-			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site, myThreatPoints);
 			if (ManhunterPackGenStepUtility.TryGetAnimalsKind(siteCoreOrPartParams.threatPoints, site.Tile, out siteCoreOrPartParams.animalKind))
 			{
 				siteCoreOrPartParams.threatPoints = Mathf.Max(siteCoreOrPartParams.threatPoints, siteCoreOrPartParams.animalKind.combatPower);

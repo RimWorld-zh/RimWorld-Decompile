@@ -108,6 +108,8 @@ namespace Verse
 
 		public ThingDef useLeatherFrom;
 
+		public ThingDef leatherDef;
+
 		public ShadowData specialShadowData;
 
 		public IntRange soundCallIntervalRange;
@@ -125,9 +127,6 @@ namespace Verse
 		public ThingDef meatDef;
 
 		[Unsaved]
-		public ThingDef leatherDef;
-
-		[Unsaved]
 		public ThingDef corpseDef;
 
 		[Unsaved]
@@ -140,6 +139,7 @@ namespace Verse
 			this.meatMarketValue = 2f;
 			this.useMeatFrom = null;
 			this.useLeatherFrom = null;
+			this.leatherDef = null;
 			this.specialShadowData = null;
 			this.soundCallIntervalRange = new IntRange(2000, 4000);
 			this.soundMeleeHitPawn = null;
@@ -147,7 +147,6 @@ namespace Verse
 			this.soundMeleeMiss = null;
 			this.deathActionWorkerInt = null;
 			this.meatDef = null;
-			this.leatherDef = null;
 			this.corpseDef = null;
 			base..ctor();
 		}

@@ -24,7 +24,7 @@ namespace Verse
 			if (pawn != null && !pawn.Downed && base.CasterIsPawn && base.CasterPawn.skills != null)
 			{
 				float num = (!pawn.HostileTo(this.caster)) ? 20f : 170f;
-				float num2 = this.verbProps.AdjustedFullCycleTime(this, base.CasterPawn, this.ownerEquipment);
+				float num2 = this.verbProps.AdjustedFullCycleTime(this, base.CasterPawn);
 				base.CasterPawn.skills.Learn(SkillDefOf.Shooting, num * num2, false);
 			}
 		}

@@ -223,7 +223,19 @@ namespace Verse
 								}
 							}
 						}
-						if (fieldInfo == null)
+						if (fieldInfo.TryGetAttribute<UnsavedAttribute>() != null)
+						{
+							Log.Error(string.Concat(new string[]
+							{
+								"XML error: ",
+								xmlNode.OuterXml,
+								" corresponds to a field in type ",
+								t3.GetType().Name,
+								" which has an Unsaved attribute. Context: ",
+								xmlRoot.OuterXml
+							}), false);
+						}
+						else if (fieldInfo == null)
 						{
 							bool flag = false;
 							foreach (object obj4 in t3.GetType().GetCustomAttributes(typeof(IgnoreSavedElementAttribute), true))
@@ -278,7 +290,7 @@ namespace Verse
 							catch (Exception ex3)
 							{
 								Log.Error("Exception loading from " + xmlNode.ToString() + ": " + ex3.ToString(), false);
-								goto IL_863;
+								goto IL_8C6;
 							}
 							if (!typeof(T).IsValueType)
 							{
@@ -292,7 +304,7 @@ namespace Verse
 							}
 						}
 					}
-					IL_863:;
+					IL_8C6:;
 				}
 				if (doPostLoad)
 				{

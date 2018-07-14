@@ -27,6 +27,8 @@ namespace RimWorld
 
 		public float mineYieldFactor = 1f;
 
+		public float researchSpeedFactor = 1f;
+
 		public float diseaseIntervalFactor = 1f;
 
 		public float enemyReproductionRateFactor = 1f;
@@ -44,6 +46,8 @@ namespace RimWorld
 		public float maintenanceCostFactor = 1f;
 
 		public float enemyDeathOnDownedChanceFactor = 1f;
+
+		public float adaptationGrowthRateFactorOverZero = 1f;
 
 		public DifficultyDef()
 		{

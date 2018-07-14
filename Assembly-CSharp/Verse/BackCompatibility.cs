@@ -2506,6 +2506,22 @@ namespace Verse
 			}
 		}
 
+		public static void PawnNativeVerbsPostLoadInit(Pawn_NativeVerbs nativeVerbs)
+		{
+			if (nativeVerbs.verbTracker == null)
+			{
+				nativeVerbs.verbTracker = new VerbTracker(nativeVerbs);
+			}
+		}
+
+		public static void StoryWatcherPostLoadInit(StoryWatcher storyWatcher)
+		{
+			if (storyWatcher.watcherAdaptation == null)
+			{
+				storyWatcher.watcherAdaptation = new StoryWatcher_Adaptation();
+			}
+		}
+
 		// Note: this type is marked as 'beforefieldinit'.
 		static BackCompatibility()
 		{

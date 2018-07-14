@@ -150,13 +150,20 @@ namespace Verse
 					this.waterDepthMaterial.SetTexture("_AlphaAddTex", TexGame.AlphaAddTex);
 					if (this.waterDepthShaderParameters != null)
 					{
-						for (int i = 0; i < this.waterDepthShaderParameters.Count; i++)
+						for (int j = 0; j < this.waterDepthShaderParameters.Count; j++)
 						{
-							this.waterDepthShaderParameters[i].Apply(this.waterDepthMaterial);
+							this.waterDepthShaderParameters[j].Apply(this.waterDepthMaterial);
 						}
 					}
 				}
 			});
+			if (this.tools != null)
+			{
+				for (int i = 0; i < this.tools.Count; i++)
+				{
+					this.tools[i].id = i.ToString();
+				}
+			}
 			base.PostLoad();
 		}
 

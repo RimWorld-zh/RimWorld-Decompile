@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
@@ -61,6 +62,22 @@ namespace Verse
 			}
 		}
 
+		Thing IVerbOwner.ConstantCaster
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+		ImplementOwnerTypeDef IVerbOwner.ImplementOwnerTypeDef
+		{
+			get
+			{
+				return ImplementOwnerTypeDefOf.Weapon;
+			}
+		}
+
 		public IEnumerable<Command> GetVerbsCommands()
 		{
 			return this.verbTracker.GetVerbsCommands(KeyCode.None);
@@ -99,9 +116,24 @@ namespace Verse
 			}
 		}
 
-		public string UniqueVerbOwnerID()
+		string IVerbOwner.UniqueVerbOwnerID()
 		{
-			return this.parent.ThingID;
+			return "CompEquippable_" + this.parent.ThingID;
+		}
+
+		bool IVerbOwner.VerbsStillUsableBy(Pawn p)
+		{
+			Apparel apparel = this.parent as Apparel;
+			bool result;
+			if (apparel != null)
+			{
+				result = p.apparel.WornApparel.Contains(apparel);
+			}
+			else
+			{
+				result = p.equipment.AllEquipmentListForReading.Contains(this.parent);
+			}
+			return result;
 		}
 	}
 }

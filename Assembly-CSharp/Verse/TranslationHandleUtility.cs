@@ -307,7 +307,7 @@ namespace Verse
 				{
 					handle = TranslationHandleUtility.StringFormatSymbolsRegex.Replace(handle, "");
 				}
-				string text = "(){}[]<>,/?;:'\"|\\+=`~!@#$%^&* \t\r\n";
+				string text = "(){}[]<>,/?;:'’\"„”‘’‛’|\\+=`~!@#$%^&* \t\r\n";
 				for (int i = 0; i < text.Length; i++)
 				{
 					if (handle.IndexOf(text[i]) >= 0)

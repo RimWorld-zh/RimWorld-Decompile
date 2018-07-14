@@ -190,8 +190,8 @@ namespace RimWorld
 				stringBuilder.AppendLine("Storyteller : " + this.def.label);
 				stringBuilder.AppendLine("------------- Global threats data ---------------");
 				stringBuilder.AppendLine("   NumRaidsEnemy: " + Find.StoryWatcher.statsRecord.numRaidsEnemy);
-				stringBuilder.AppendLine("   Ramp-Days: " + Find.StoryWatcher.watcherRampUp.RampDays.ToString("F1"));
-				stringBuilder.AppendLine("   Ramp-PointsFactor: " + Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor.ToString("F2"));
+				stringBuilder.AppendLine("   Adapt-Days: " + Find.StoryWatcher.watcherAdaptation.AdaptDays.ToString("F1"));
+				stringBuilder.AppendLine("   Adapt-PointsFactor: " + Find.StoryWatcher.watcherAdaptation.TotalThreatPointsFactor.ToString("F2"));
 				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (ally): " + StorytellerUtility.AllyIncidentMTBMultiplier(false).ToString());
 				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (non-hostile): " + StorytellerUtility.AllyIncidentMTBMultiplier(true).ToString());
 				stringBuilder.AppendLine();

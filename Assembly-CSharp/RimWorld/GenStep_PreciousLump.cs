@@ -9,12 +9,12 @@ namespace RimWorld
 {
 	public class GenStep_PreciousLump : GenStep_ScatterLumpsMineable
 	{
-		public List<ThingOption> mineables;
+		public List<ThingDef> mineables;
 
 		public FloatRange totalValueRange = new FloatRange(1000f, 2000f);
 
 		[CompilerGenerated]
-		private static Func<ThingOption, float> <>f__am$cache0;
+		private static Func<IntVec3, int> <>f__am$cache0;
 
 		[CompilerGenerated]
 		private static Func<IntVec3, int> <>f__am$cache1;
@@ -24,9 +24,6 @@ namespace RimWorld
 
 		[CompilerGenerated]
 		private static Func<IntVec3, int> <>f__am$cache3;
-
-		[CompilerGenerated]
-		private static Func<IntVec3, int> <>f__am$cache4;
 
 		public GenStep_PreciousLump()
 		{
@@ -48,7 +45,7 @@ namespace RimWorld
 			}
 			else
 			{
-				this.forcedDefToScatter = this.mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
+				this.forcedDefToScatter = this.mineables.RandomElement<ThingDef>();
 			}
 			this.count = 1;
 			float randomInRange = this.totalValueRange.RandomInRange;
@@ -74,31 +71,25 @@ namespace RimWorld
 		}
 
 		[CompilerGenerated]
-		private static float <Generate>m__0(ThingOption x)
+		private static int <ScatterAt>m__0(IntVec3 x)
 		{
-			return x.weight;
+			return x.x;
 		}
 
 		[CompilerGenerated]
 		private static int <ScatterAt>m__1(IntVec3 x)
 		{
-			return x.x;
+			return x.z;
 		}
 
 		[CompilerGenerated]
 		private static int <ScatterAt>m__2(IntVec3 x)
 		{
-			return x.z;
-		}
-
-		[CompilerGenerated]
-		private static int <ScatterAt>m__3(IntVec3 x)
-		{
 			return x.x;
 		}
 
 		[CompilerGenerated]
-		private static int <ScatterAt>m__4(IntVec3 x)
+		private static int <ScatterAt>m__3(IntVec3 x)
 		{
 			return x.z;
 		}

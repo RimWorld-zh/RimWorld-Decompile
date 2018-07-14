@@ -14,9 +14,9 @@ namespace Verse
 		{
 			get
 			{
-				if (this.ownerEquipment != null)
+				if (base.EquipmentSource != null)
 				{
-					CompChangeableProjectile comp = this.ownerEquipment.GetComp<CompChangeableProjectile>();
+					CompChangeableProjectile comp = base.EquipmentSource.GetComp<CompChangeableProjectile>();
 					if (comp != null && comp.Loaded)
 					{
 						return comp.Projectile;
@@ -29,7 +29,7 @@ namespace Verse
 		public override void WarmupComplete()
 		{
 			base.WarmupComplete();
-			Find.BattleLog.Add(new BattleLogEntry_RangedFire(this.caster, (!this.currentTarget.HasThing) ? null : this.currentTarget.Thing, (this.ownerEquipment == null) ? null : this.ownerEquipment.def, this.Projectile, this.ShotsPerBurst > 1));
+			Find.BattleLog.Add(new BattleLogEntry_RangedFire(this.caster, (!this.currentTarget.HasThing) ? null : this.currentTarget.Thing, (base.EquipmentSource == null) ? null : base.EquipmentSource.def, this.Projectile, this.ShotsPerBurst > 1));
 		}
 
 		protected override bool TryCastShot()
@@ -56,16 +56,16 @@ namespace Verse
 					}
 					else
 					{
-						if (this.ownerEquipment != null)
+						if (base.EquipmentSource != null)
 						{
-							CompChangeableProjectile comp = this.ownerEquipment.GetComp<CompChangeableProjectile>();
+							CompChangeableProjectile comp = base.EquipmentSource.GetComp<CompChangeableProjectile>();
 							if (comp != null)
 							{
 								comp.Notify_ProjectileLaunched();
 							}
 						}
 						Thing launcher = this.caster;
-						Thing equipment = this.ownerEquipment;
+						Thing equipment = base.EquipmentSource;
 						CompMannable compMannable = this.caster.TryGetComp<CompMannable>();
 						if (compMannable != null && compMannable.ManningPawn != null)
 						{

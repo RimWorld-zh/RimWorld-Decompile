@@ -111,6 +111,7 @@ namespace Verse
 			List<Pawn> list3 = map.mapPawns.AllPawns.ToList<Pawn>();
 			for (int i = 0; i < list3.Count; i++)
 			{
+				Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(list3[i], AdaptationEvent.LostBecauseMapClosed, null);
 				try
 				{
 					Pawn pawn = list3[i];

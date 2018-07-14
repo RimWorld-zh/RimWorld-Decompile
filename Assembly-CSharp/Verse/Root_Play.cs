@@ -135,7 +135,7 @@ namespace Verse
 			Current.Game.InitData = new GameInitData();
 			Current.Game.Scenario = ScenarioDefOf.Crashlanded.scenario;
 			Find.Scenario.PreConfigure();
-			Current.Game.storyteller = new Storyteller(StorytellerDefOf.Cassandra, DifficultyDefOf.ExtraHard);
+			Current.Game.storyteller = new Storyteller(StorytellerDefOf.Cassandra, DifficultyDefOf.Rough);
 			Current.Game.World = WorldGenerator.GenerateWorld(0.05f, GenText.RandomSeedString(), OverallRainfall.Normal, OverallTemperature.Normal);
 			Find.GameInitData.ChooseRandomStartingTile();
 			Find.GameInitData.mapSize = 150;

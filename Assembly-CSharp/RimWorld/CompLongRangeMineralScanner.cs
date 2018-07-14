@@ -13,20 +13,9 @@ namespace RimWorld
 {
 	public class CompLongRangeMineralScanner : ThingComp
 	{
+		private ThingDef targetMineable = null;
+
 		private CompPowerTrader powerComp;
-
-		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
-
-		private float cachedEffectiveAreaPct;
-
-		private const float NoSitePartChance = 0.6f;
-
-		private const float SiteTimeoutDays = 30f;
-
-		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
-
-		[CompilerGenerated]
-		private static Func<ThingOption, float> <>f__am$cache0;
 
 		public CompLongRangeMineralScanner()
 		{
@@ -40,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		public bool Active
+		public bool CanUseNow
 		{
 			get
 			{
@@ -48,205 +37,116 @@ namespace RimWorld
 			}
 		}
 
-		private float EffectiveMtbDays
+		public override void PostExposeData()
 		{
-			get
+			Scribe_Defs.Look<ThingDef>(ref this.targetMineable, "targetMineable");
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.targetMineable == null)
 			{
-				CompProperties_LongRangeMineralScanner props = this.Props;
-				float effectiveAreaPct = this.EffectiveAreaPct;
-				float result;
-				if (effectiveAreaPct <= 0.001f)
-				{
-					result = -1f;
-				}
-				else
-				{
-					result = props.mtbDays / effectiveAreaPct;
-				}
-				return result;
+				this.SetDefaultTargetMineral();
 			}
 		}
 
-		private float EffectiveAreaPct
+		public override void Initialize(CompProperties props)
 		{
-			get
-			{
-				return this.cachedEffectiveAreaPct;
-			}
+			base.Initialize(props);
+			this.SetDefaultTargetMineral();
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.powerComp = this.parent.GetComp<CompPowerTrader>();
-			this.RecacheEffectiveAreaPct();
 		}
 
-		public override void PostExposeData()
+		private void SetDefaultTargetMineral()
 		{
-			base.PostExposeData();
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			this.targetMineable = ThingDefOf.MineableGold;
+		}
+
+		public void Used(Pawn worker)
+		{
+			if (!this.CanUseNow)
 			{
-				this.RecacheEffectiveAreaPct();
+				Log.Error("Used while CanUseNow is false.", false);
 			}
-		}
-
-		public override void CompTickRare()
-		{
-			base.CompTickRare();
-			this.RecacheEffectiveAreaPct();
-			this.CheckTryFindMinerals(250);
-		}
-
-		private void RecacheEffectiveAreaPct()
-		{
-			if (!this.Active)
+			if (Find.TickManager.TicksGame % 59 == 0)
 			{
-				this.cachedEffectiveAreaPct = 0f;
-			}
-			else
-			{
-				this.CalculateOtherActiveMineralScanners();
-				if (!this.otherActiveMineralScanners.Any<Pair<Vector3, float>>())
+				float statValue = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+				float mtb = this.Props.mtbDays / statValue;
+				if (Rand.MTBEventOccurs(mtb, 60000f, 59f))
 				{
-					this.cachedEffectiveAreaPct = 1f;
-				}
-				else
-				{
-					CompProperties_LongRangeMineralScanner props = this.Props;
-					WorldGrid worldGrid = Find.WorldGrid;
-					Vector3 tileCenter = worldGrid.GetTileCenter(this.parent.Tile);
-					float angle = worldGrid.TileRadiusToAngle(props.radius);
-					int num = 0;
-					int count = this.otherActiveMineralScanners.Count;
-					Rand.PushState(this.parent.thingIDNumber);
-					for (int i = 0; i < 400; i++)
-					{
-						Vector3 point = Rand.PointOnSphereCap(tileCenter, angle);
-						bool flag = false;
-						for (int j = 0; j < count; j++)
-						{
-							Pair<Vector3, float> pair = this.otherActiveMineralScanners[j];
-							if (MeshUtility.Visible(point, 1f, pair.First, pair.Second))
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							num++;
-						}
-					}
-					Rand.PopState();
-					this.cachedEffectiveAreaPct = (float)num / 400f;
+					this.FoundMinerals(worker);
 				}
 			}
 		}
 
-		private void CheckTryFindMinerals(int interval)
+		private void FoundMinerals(Pawn worker)
 		{
-			if (this.Active)
-			{
-				float effectiveMtbDays = this.EffectiveMtbDays;
-				if (effectiveMtbDays > 0f)
-				{
-					if (Rand.MTBEventOccurs(effectiveMtbDays, 60000f, (float)interval))
-					{
-						this.FoundMinerals();
-					}
-				}
-			}
-		}
-
-		private void FoundMinerals()
-		{
+			IntRange preciousLumpSiteDistanceRange = SiteTuning.PreciousLumpSiteDistanceRange;
 			int tile2;
 			ref int tile = ref tile2;
+			int min = preciousLumpSiteDistanceRange.min;
+			int max = preciousLumpSiteDistanceRange.max;
 			int tile3 = this.parent.Tile;
-			if (TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, tile3))
+			if (TileFinder.TryFindNewSiteTile(out tile, min, max, false, true, tile3))
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? CompLongRangeMineralScanner.MineralScannerPreciousLumpThreatTag : null, tile2, null, true, null, true);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? "MineralScannerPreciousLumpThreat" : null, tile2, null, true, null, true, null);
 				if (site != null)
 				{
 					site.sitePartsKnown = true;
-					ThingDef thingDef = ((GenStep_PreciousLump)GenStepDefOf.PreciousLump.genStep).mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
-					site.core.parms.preciousLumpResources = thingDef;
-					site.GetComponent<TimeoutComp>().StartTimeout(1800000);
+					site.core.parms.preciousLumpResources = this.targetMineable;
+					int randomInRange = SiteTuning.MineralScannerPreciousLumpTimeoutDaysRange.RandomInRange;
+					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 					Find.WorldObjects.Add(site);
 					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(new object[]
 					{
-						thingDef.label,
-						30f.ToString("F0"),
-						SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>()).CapitalizeFirst()
+						this.targetMineable.label,
+						randomInRange,
+						SitePartUtility.GetDescriptionDialogue(site, site.parts.FirstOrDefault<SitePart>()).CapitalizeFirst(),
+						worker.LabelShort
 					}), LetterDefOf.PositiveEvent, site, null, null);
 				}
 			}
 		}
 
-		private void CalculateOtherActiveMineralScanners()
-		{
-			this.otherActiveMineralScanners.Clear();
-			List<Map> maps = Find.Maps;
-			WorldGrid worldGrid = Find.WorldGrid;
-			for (int i = 0; i < maps.Count; i++)
-			{
-				List<Thing> list = maps[i].listerThings.ThingsInGroup(ThingRequestGroup.LongRangeMineralScanner);
-				for (int j = 0; j < list.Count; j++)
-				{
-					CompLongRangeMineralScanner compLongRangeMineralScanner = list[j].TryGetComp<CompLongRangeMineralScanner>();
-					if (this.InterruptsMe(compLongRangeMineralScanner))
-					{
-						Vector3 tileCenter = worldGrid.GetTileCenter(maps[i].Tile);
-						float second = worldGrid.TileRadiusToAngle(compLongRangeMineralScanner.Props.radius);
-						this.otherActiveMineralScanners.Add(new Pair<Vector3, float>(tileCenter, second));
-					}
-				}
-			}
-		}
-
-		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
-		{
-			bool result;
-			if (otherScanner == this)
-			{
-				result = false;
-			}
-			else if (!otherScanner.Active)
-			{
-				result = false;
-			}
-			else if (this.Props.mtbDays != otherScanner.Props.mtbDays)
-			{
-				result = (otherScanner.Props.mtbDays < this.Props.mtbDays);
-			}
-			else
-			{
-				result = (otherScanner.parent.thingIDNumber < this.parent.thingIDNumber);
-			}
-			return result;
-		}
-
-		public override string CompInspectStringExtra()
-		{
-			string result;
-			if (this.Active)
-			{
-				this.RecacheEffectiveAreaPct();
-				result = "LongRangeMineralScannerEfficiency".Translate(new object[]
-				{
-					this.EffectiveAreaPct.ToStringPercent()
-				});
-			}
-			else
-			{
-				result = null;
-			}
-			return result;
-		}
-
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
+			if (this.parent.Faction == Faction.OfPlayer)
+			{
+				ThingDef resource = this.targetMineable.building.mineableThing;
+				Command_Action setTarg = new Command_Action();
+				setTarg.defaultLabel = "CommandSelectMineralToScanFor".Translate() + ": " + resource.LabelCap;
+				setTarg.icon = resource.uiIcon;
+				setTarg.iconAngle = resource.uiIconAngle;
+				setTarg.iconOffset = resource.uiIconOffset;
+				setTarg.action = delegate()
+				{
+					List<ThingDef> mineables = ((GenStep_PreciousLump)GenStepDefOf.PreciousLump.genStep).mineables;
+					List<FloatMenuOption> list = new List<FloatMenuOption>();
+					foreach (ThingDef localD2 in mineables)
+					{
+						ThingDef localD = localD2;
+						FloatMenuOption item = new FloatMenuOption(localD.building.mineableThing.LabelCap, delegate()
+						{
+							foreach (object obj in Find.Selector.SelectedObjects)
+							{
+								Thing thing = obj as Thing;
+								if (thing != null)
+								{
+									CompLongRangeMineralScanner compLongRangeMineralScanner = thing.TryGetComp<CompLongRangeMineralScanner>();
+									if (compLongRangeMineralScanner != null)
+									{
+										compLongRangeMineralScanner.targetMineable = localD;
+									}
+								}
+							}
+						}, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, localD.building.mineableThing), null);
+						list.Add(item);
+					}
+					Find.WindowStack.Add(new FloatMenu(list));
+				};
+				yield return setTarg;
+			}
 			if (Prefs.DevMode)
 			{
 				yield return new Command_Action
@@ -254,28 +154,21 @@ namespace RimWorld
 					defaultLabel = "Dev: Find resources now",
 					action = delegate()
 					{
-						this.FoundMinerals();
+						this.FoundMinerals(PawnsFinder.AllMaps_FreeColonists.FirstOrDefault<Pawn>());
 					}
 				};
 			}
 			yield break;
 		}
 
-		// Note: this type is marked as 'beforefieldinit'.
-		static CompLongRangeMineralScanner()
-		{
-		}
-
-		[CompilerGenerated]
-		private static float <FoundMinerals>m__0(ThingOption x)
-		{
-			return x.weight;
-		}
-
 		[CompilerGenerated]
 		private sealed class <CompGetGizmosExtra>c__Iterator0 : IEnumerable, IEnumerable<Gizmo>, IEnumerator, IDisposable, IEnumerator<Gizmo>
 		{
-			internal Command_Action <forceFindResourcesNow>__1;
+			internal ThingDef <resource>__1;
+
+			internal Command_Action <setTarg>__1;
+
+			internal Command_Action <forceFindResourcesNow>__2;
 
 			internal CompLongRangeMineralScanner $this;
 
@@ -284,6 +177,8 @@ namespace RimWorld
 			internal bool $disposing;
 
 			internal int $PC;
+
+			private static Action <>f__am$cache0;
 
 			[DebuggerHidden]
 			public <CompGetGizmosExtra>c__Iterator0()
@@ -297,15 +192,41 @@ namespace RimWorld
 				switch (num)
 				{
 				case 0u:
-					if (Prefs.DevMode)
+					if (this.parent.Faction == Faction.OfPlayer)
 					{
-						Command_Action forceFindResourcesNow = new Command_Action();
-						forceFindResourcesNow.defaultLabel = "Dev: Find resources now";
-						forceFindResourcesNow.action = delegate()
+						resource = this.targetMineable.building.mineableThing;
+						setTarg = new Command_Action();
+						setTarg.defaultLabel = "CommandSelectMineralToScanFor".Translate() + ": " + resource.LabelCap;
+						setTarg.icon = resource.uiIcon;
+						setTarg.iconAngle = resource.uiIconAngle;
+						setTarg.iconOffset = resource.uiIconOffset;
+						setTarg.action = delegate()
 						{
-							base.FoundMinerals();
+							List<ThingDef> mineables = ((GenStep_PreciousLump)GenStepDefOf.PreciousLump.genStep).mineables;
+							List<FloatMenuOption> list = new List<FloatMenuOption>();
+							foreach (ThingDef localD2 in mineables)
+							{
+								ThingDef localD = localD2;
+								FloatMenuOption item = new FloatMenuOption(localD.building.mineableThing.LabelCap, delegate()
+								{
+									foreach (object obj in Find.Selector.SelectedObjects)
+									{
+										Thing thing = obj as Thing;
+										if (thing != null)
+										{
+											CompLongRangeMineralScanner compLongRangeMineralScanner = thing.TryGetComp<CompLongRangeMineralScanner>();
+											if (compLongRangeMineralScanner != null)
+											{
+												compLongRangeMineralScanner.targetMineable = localD;
+											}
+										}
+									}
+								}, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, localD.building.mineableThing), null);
+								list.Add(item);
+							}
+							Find.WindowStack.Add(new FloatMenu(list));
 						};
-						this.$current = forceFindResourcesNow;
+						this.$current = setTarg;
 						if (!this.$disposing)
 						{
 							this.$PC = 1;
@@ -315,9 +236,27 @@ namespace RimWorld
 					break;
 				case 1u:
 					break;
+				case 2u:
+					goto IL_17A;
 				default:
 					return false;
 				}
+				if (Prefs.DevMode)
+				{
+					Command_Action forceFindResourcesNow = new Command_Action();
+					forceFindResourcesNow.defaultLabel = "Dev: Find resources now";
+					forceFindResourcesNow.action = delegate()
+					{
+						base.FoundMinerals(PawnsFinder.AllMaps_FreeColonists.FirstOrDefault<Pawn>());
+					};
+					this.$current = forceFindResourcesNow;
+					if (!this.$disposing)
+					{
+						this.$PC = 2;
+					}
+					return true;
+				}
+				IL_17A:
 				this.$PC = -1;
 				return false;
 			}
@@ -371,9 +310,66 @@ namespace RimWorld
 				return <CompGetGizmosExtra>c__Iterator;
 			}
 
-			internal void <>m__0()
+			private static void <>m__0()
 			{
-				base.FoundMinerals();
+				List<ThingDef> mineables = ((GenStep_PreciousLump)GenStepDefOf.PreciousLump.genStep).mineables;
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				foreach (ThingDef localD2 in mineables)
+				{
+					ThingDef localD = localD2;
+					FloatMenuOption item = new FloatMenuOption(localD.building.mineableThing.LabelCap, delegate()
+					{
+						foreach (object obj in Find.Selector.SelectedObjects)
+						{
+							Thing thing = obj as Thing;
+							if (thing != null)
+							{
+								CompLongRangeMineralScanner compLongRangeMineralScanner = thing.TryGetComp<CompLongRangeMineralScanner>();
+								if (compLongRangeMineralScanner != null)
+								{
+									compLongRangeMineralScanner.targetMineable = localD;
+								}
+							}
+						}
+					}, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, localD.building.mineableThing), null);
+					list.Add(item);
+				}
+				Find.WindowStack.Add(new FloatMenu(list));
+			}
+
+			internal void <>m__1()
+			{
+				base.FoundMinerals(PawnsFinder.AllMaps_FreeColonists.FirstOrDefault<Pawn>());
+			}
+
+			private sealed class <CompGetGizmosExtra>c__AnonStorey1
+			{
+				internal ThingDef localD;
+
+				public <CompGetGizmosExtra>c__AnonStorey1()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					foreach (object obj in Find.Selector.SelectedObjects)
+					{
+						Thing thing = obj as Thing;
+						if (thing != null)
+						{
+							CompLongRangeMineralScanner compLongRangeMineralScanner = thing.TryGetComp<CompLongRangeMineralScanner>();
+							if (compLongRangeMineralScanner != null)
+							{
+								compLongRangeMineralScanner.targetMineable = this.localD;
+							}
+						}
+					}
+				}
+
+				internal bool <>m__1(Rect rect)
+				{
+					return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, this.localD.building.mineableThing);
+				}
 			}
 		}
 	}

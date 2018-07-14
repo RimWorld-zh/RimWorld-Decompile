@@ -12,19 +12,13 @@ namespace Verse
 	{
 		public VerbProperties verbProps;
 
-		public Thing caster = null;
-
-		public ThingWithComps ownerEquipment = null;
-
-		public HediffComp_VerbGiver ownerHediffComp = null;
-
-		public ImplementOwnerTypeDef implementOwnerType = null;
-
-		public Tool tool = null;
+		public VerbTracker verbTracker;
 
 		public ManeuverDef maneuver = null;
 
-		public TerrainDef terrainDef = null;
+		public Tool tool = null;
+
+		public Thing caster = null;
 
 		public string loadID;
 
@@ -42,14 +36,76 @@ namespace Verse
 
 		public Action castCompleteCallback;
 
-		private const float MinLinkedBodyPartGroupEfficiencyIfMustBeAlwaysUsable = 0.4f;
-
 		private static List<IntVec3> tempLeanShootSources = new List<IntVec3>();
 
 		private static List<IntVec3> tempDestList = new List<IntVec3>();
 
 		protected Verb()
 		{
+		}
+
+		public IVerbOwner DirectOwner
+		{
+			get
+			{
+				return this.verbTracker.directOwner;
+			}
+		}
+
+		public ImplementOwnerTypeDef ImplementOwnerType
+		{
+			get
+			{
+				return this.verbTracker.directOwner.ImplementOwnerTypeDef;
+			}
+		}
+
+		public CompEquippable EquipmentCompSource
+		{
+			get
+			{
+				return this.DirectOwner as CompEquippable;
+			}
+		}
+
+		public ThingWithComps EquipmentSource
+		{
+			get
+			{
+				return (this.EquipmentCompSource == null) ? null : this.EquipmentCompSource.parent;
+			}
+		}
+
+		public HediffComp_VerbGiver HediffCompSource
+		{
+			get
+			{
+				return this.DirectOwner as HediffComp_VerbGiver;
+			}
+		}
+
+		public Hediff HediffSource
+		{
+			get
+			{
+				return (this.HediffCompSource == null) ? null : this.HediffCompSource.parent;
+			}
+		}
+
+		public Pawn_MeleeVerbs_TerrainSource TerrainSource
+		{
+			get
+			{
+				return this.DirectOwner as Pawn_MeleeVerbs_TerrainSource;
+			}
+		}
+
+		public TerrainDef TerrainDefSource
+		{
+			get
+			{
+				return (this.TerrainSource == null) ? null : this.TerrainSource.def;
+			}
 		}
 
 		public Pawn CasterPawn
@@ -81,9 +137,9 @@ namespace Verse
 			get
 			{
 				Texture2D result;
-				if (this.ownerEquipment != null)
+				if (this.EquipmentSource != null)
 				{
-					result = this.ownerEquipment.def.uiIcon;
+					result = this.EquipmentSource.def.uiIcon;
 				}
 				else
 				{
@@ -101,82 +157,12 @@ namespace Verse
 			}
 		}
 
-		public BodyPartGroupDef LinkedBodyPartsGroup
-		{
-			get
-			{
-				BodyPartGroupDef result;
-				if (this.tool != null)
-				{
-					result = this.tool.linkedBodyPartsGroup;
-				}
-				else if (this.verbProps == null)
-				{
-					Log.ErrorOnce("Verb with null verbProps " + this.ToStringSafe<Verb>(), 184756351, false);
-					result = null;
-				}
-				else
-				{
-					result = this.verbProps.linkedBodyPartsGroup;
-				}
-				return result;
-			}
-		}
-
-		public bool EnsureLinkedBodyPartsGroupAlwaysUsable
-		{
-			get
-			{
-				bool result;
-				if (this.tool != null)
-				{
-					result = this.tool.ensureLinkedBodyPartsGroupAlwaysUsable;
-				}
-				else if (this.verbProps == null)
-				{
-					Log.ErrorOnce("Verb with null verbProps " + this.ToStringSafe<Verb>(), 184756351, false);
-					result = false;
-				}
-				else
-				{
-					result = this.verbProps.ensureLinkedBodyPartsGroupAlwaysUsable;
-				}
-				return result;
-			}
-		}
-
 		public bool IsMeleeAttack
 		{
 			get
 			{
 				return this.verbProps.IsMeleeAttack;
 			}
-		}
-
-		public float GetDamageFactorFor(Pawn pawn)
-		{
-			float num = 1f;
-			if (pawn != null)
-			{
-				if (this.ownerHediffComp != null)
-				{
-					num *= PawnCapacityUtility.CalculatePartEfficiency(this.ownerHediffComp.Pawn.health.hediffSet, this.ownerHediffComp.parent.Part, true, null);
-				}
-				else if (this.LinkedBodyPartsGroup != null)
-				{
-					float num2 = PawnCapacityUtility.CalculateNaturalPartsAverageEfficiency(pawn.health.hediffSet, this.LinkedBodyPartsGroup);
-					if (this.EnsureLinkedBodyPartsGroupAlwaysUsable)
-					{
-						num2 = Mathf.Max(num2, 0.4f);
-					}
-					num *= num2;
-				}
-				if (this.IsMeleeAttack)
-				{
-					num *= pawn.ageTracker.CurLifeStage.meleeDamageFactor;
-				}
-			}
-			return num;
 		}
 
 		public bool IsStillUsableBy(Pawn pawn)
@@ -188,49 +174,20 @@ namespace Verse
 				Profiler.EndSample();
 				result = false;
 			}
-			else if (this.ownerEquipment != null && !pawn.equipment.AllEquipmentListForReading.Contains(this.ownerEquipment))
+			else if (!this.DirectOwner.VerbsStillUsableBy(pawn))
+			{
+				Profiler.EndSample();
+				result = false;
+			}
+			else if (this.verbProps.GetDamageFactorFor(this, pawn) == 0f)
 			{
 				Profiler.EndSample();
 				result = false;
 			}
 			else
 			{
-				if (this.ownerHediffComp != null)
-				{
-					bool flag = false;
-					List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-					for (int i = 0; i < hediffs.Count; i++)
-					{
-						if (hediffs[i] == this.ownerHediffComp.parent)
-						{
-							flag = true;
-							break;
-						}
-					}
-					if (!flag)
-					{
-						Profiler.EndSample();
-						return false;
-					}
-				}
-				if (this.terrainDef != null && (!pawn.Spawned || this.terrainDef != pawn.Position.GetTerrain(pawn.Map)))
-				{
-					result = false;
-				}
-				else if (this.terrainDef != null && Find.TickManager.TicksGame < pawn.meleeVerbs.lastTerrainBasedVerbUseTick + 1200)
-				{
-					result = false;
-				}
-				else if (this.GetDamageFactorFor(pawn) == 0f)
-				{
-					Profiler.EndSample();
-					result = false;
-				}
-				else
-				{
-					Profiler.EndSample();
-					result = true;
-				}
+				Profiler.EndSample();
+				result = true;
 			}
 			return result;
 		}
@@ -258,7 +215,7 @@ namespace Verse
 
 		public static string CalculateUniqueLoadID(IVerbOwner owner, Tool tool, ManeuverDef maneuver)
 		{
-			return string.Format("{0}_{1}_{2}", owner.UniqueVerbOwnerID(), (tool == null) ? "NT" : tool.Id, (maneuver == null) ? "NM" : maneuver.defName);
+			return string.Format("{0}_{1}_{2}", owner.UniqueVerbOwnerID(), (tool == null) ? "NT" : tool.id, (maneuver == null) ? "NM" : maneuver.defName);
 		}
 
 		public static string CalculateUniqueLoadID(IVerbOwner owner, int index)
@@ -390,7 +347,7 @@ namespace Verse
 					{
 						this.CasterPawn.MentalState.Notify_AttackedTarget(localTargetInfo);
 					}
-					if (this.terrainDef != null)
+					if (this.TerrainDefSource != null)
 					{
 						this.CasterPawn.meleeVerbs.Notify_UsedTerrainBasedVerb();
 					}
@@ -426,7 +383,7 @@ namespace Verse
 				this.state = VerbState.Idle;
 				if (this.CasterIsPawn)
 				{
-					this.CasterPawn.stances.SetStance(new Stance_Cooldown(this.verbProps.AdjustedCooldownTicks(this, this.CasterPawn, this.ownerEquipment), this.currentTarget, this));
+					this.CasterPawn.stances.SetStance(new Stance_Cooldown(this.verbProps.AdjustedCooldownTicks(this, this.CasterPawn), this.currentTarget, this));
 				}
 				if (this.castCompleteCallback != null)
 				{
@@ -644,17 +601,17 @@ namespace Verse
 			{
 				text = this.verbProps.label;
 			}
-			else if (this.ownerHediffComp != null)
+			else if (this.HediffCompSource != null)
 			{
-				text = this.ownerHediffComp.Def.label;
+				text = this.HediffCompSource.Def.label;
 			}
-			else if (this.ownerEquipment != null)
+			else if (this.EquipmentSource != null)
 			{
-				text = this.ownerEquipment.def.label;
+				text = this.EquipmentSource.def.label;
 			}
-			else if (this.LinkedBodyPartsGroup != null)
+			else if (this.verbProps.AdjustedLinkedBodyPartsGroup(this.tool) != null)
 			{
-				text = this.LinkedBodyPartsGroup.defName;
+				text = this.verbProps.AdjustedLinkedBodyPartsGroup(this.tool).defName;
 			}
 			else
 			{
@@ -662,7 +619,7 @@ namespace Verse
 			}
 			if (this.tool != null)
 			{
-				text = text + "/" + this.tool.Id;
+				text = text + "/" + this.loadID;
 			}
 			return base.GetType().ToString() + "(" + text + ")";
 		}

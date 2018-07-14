@@ -37,9 +37,9 @@ namespace RimWorld
 			return arrivedLetterPart;
 		}
 
-		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site, float myThreatPoints)
 		{
-			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site, myThreatPoints);
 			siteCoreOrPartParams.mortarsCount = Rand.RangeInclusive(0, 1);
 			siteCoreOrPartParams.turretsCount = Mathf.Clamp(Mathf.RoundToInt(siteCoreOrPartParams.threatPoints / 250f), 2, 11);
 			return siteCoreOrPartParams;

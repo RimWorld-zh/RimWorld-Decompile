@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0B5DA5AA-8658-43DF-A378-127B74D03DB3}</ProjectGuid>
+    <ProjectGuid>{8B7EC31C-BB77-4115-ABF5-3D62F1011C06}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -102,6 +102,7 @@
     <Compile Include="RimWorld\ActiveDropPod.cs" />
     <Compile Include="RimWorld\ActiveDropPodInfo.cs" />
     <Compile Include="RimWorld\ActiveLessonHandler.cs" />
+    <Compile Include="RimWorld\AdaptationEvent.cs" />
     <Compile Include="RimWorld\AddictionUtility.cs" />
     <Compile Include="RimWorld\AgeInjuryUtility.cs" />
     <Compile Include="RimWorld\AITuning.cs" />
@@ -771,10 +772,11 @@
     <Compile Include="RimWorld\HistoryAutoRecorderGroup.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderGroupDef.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker.cs" />
+    <Compile Include="RimWorld\HistoryAutoRecorderWorker_Adaptation.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_ColonistMood.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_FreeColonists.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_Prisoners.cs" />
-    <Compile Include="RimWorld\HistoryAutoRecorderWorker_RampUp.cs" />
+    <Compile Include="RimWorld\HistoryAutoRecorderWorker_ThreatPoints.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthBuildings.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthItems.cs" />
     <Compile Include="RimWorld\HistoryAutoRecorderWorker_WealthTameAnimals.cs" />
@@ -1001,6 +1003,7 @@
     <Compile Include="RimWorld\JobDriver_Nuzzle.cs" />
     <Compile Include="RimWorld\JobDriver_Open.cs" />
     <Compile Include="RimWorld\JobDriver_OperateDeepDrill.cs" />
+    <Compile Include="RimWorld\JobDriver_OperateScanner.cs" />
     <Compile Include="RimWorld\JobDriver_PlaceNoCostFrame.cs" />
     <Compile Include="RimWorld\JobDriver_PlantCut.cs" />
     <Compile Include="RimWorld\JobDriver_PlantCut_Designated.cs" />
@@ -1656,6 +1659,7 @@
     <Compile Include="RimWorld\Planet\SiteMakerHelper.cs" />
     <Compile Include="RimWorld\Planet\SitePart.cs" />
     <Compile Include="RimWorld\Planet\SitePartWorker_Ambush.cs" />
+    <Compile Include="RimWorld\Planet\SiteTuning.cs" />
     <Compile Include="RimWorld\Planet\SphereGenerator.cs" />
     <Compile Include="RimWorld\Planet\Tile.cs" />
     <Compile Include="RimWorld\Planet\TileFinder.cs" />
@@ -2143,7 +2147,7 @@
     <Compile Include="RimWorld\StorytellerUI.cs" />
     <Compile Include="RimWorld\StorytellerUtility.cs" />
     <Compile Include="RimWorld\StoryWatcher.cs" />
-    <Compile Include="RimWorld\StoryWatcher_RampUp.cs" />
+    <Compile Include="RimWorld\StoryWatcher_Adaptation.cs" />
     <Compile Include="RimWorld\StrengthWatcher.cs" />
     <Compile Include="RimWorld\StrikeRecord.cs" />
     <Compile Include="RimWorld\StuffAppearanceDefOf.cs" />
@@ -2517,6 +2521,7 @@
     <Compile Include="RimWorld\WorkGiver_Milk.cs" />
     <Compile Include="RimWorld\WorkGiver_Miner.cs" />
     <Compile Include="RimWorld\WorkGiver_Open.cs" />
+    <Compile Include="RimWorld\WorkGiver_OperateScanner.cs" />
     <Compile Include="RimWorld\WorkGiver_PatientGoToBedEmergencyTreatment.cs" />
     <Compile Include="RimWorld\WorkGiver_PatientGoToBedRecuperate.cs" />
     <Compile Include="RimWorld\WorkGiver_PatientGoToBedTreatment.cs" />
@@ -4006,7 +4011,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{0b5da5aa-8658-43df-a378-127b74d03db4}</Project>
+      <Project>{8b7ec31c-bb77-4115-abf5-3d62f1011c07}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

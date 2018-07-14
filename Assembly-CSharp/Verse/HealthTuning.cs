@@ -32,13 +32,13 @@ namespace Verse
 
 		public const float InjuryHealPerDayOffset_Laying = 4f;
 
-		public const float InjuryHealPerDayOffset_Tended = 16f;
+		public const float InjuryHealPerDayOffset_Tended = 8f;
 
 		public const int InjurySeverityTendedPerMedicine = 20;
 
 		public const float BaseTotalDamageLethalThreshold = 150f;
 
-		public const float BecomePermanentBaseChance = 0.01f;
+		public const float BecomePermanentBaseChance = 0.02f;
 
 		public static readonly SimpleCurve BecomePermanentChanceFactorBySeverityCurve = new SimpleCurve
 		{
@@ -89,6 +89,10 @@ namespace Verse
 		public const float BurnDamagePerTempOverage = 0.06f;
 
 		public const int MinBurnDamage = 3;
+
+		public const float ImmunityGainRandomFactorMin = 0.8f;
+
+		public const float ImmunityGainRandomFactorMax = 1.2f;
 
 		public const float ImpossibleToFallSickIfAboveThisImmunityLevel = 0.6f;
 

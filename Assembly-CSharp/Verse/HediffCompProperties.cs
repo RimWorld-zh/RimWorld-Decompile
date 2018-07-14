@@ -16,6 +16,10 @@ namespace Verse
 		{
 		}
 
+		public virtual void PostLoad()
+		{
+		}
+
 		public virtual IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
 			if (this.compClass == null)

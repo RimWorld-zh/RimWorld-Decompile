@@ -83,8 +83,7 @@ namespace Verse
 					yield return this.CreateVerbTargetCommand(ownerThing, verb);
 				}
 			}
-			CompEquippable equippable = this.directOwner as CompEquippable;
-			if (!this.directOwner.Tools.NullOrEmpty<Tool>() && equippable != null && equippable.parent.def.IsMeleeWeapon)
+			if (!this.directOwner.Tools.NullOrEmpty<Tool>() && ce != null && ce.parent.def.IsMeleeWeapon)
 			{
 				yield return this.CreateVerbTargetCommand(ownerThing, (from v in verbs
 				where v.verbProps.IsMeleeAttack
@@ -124,6 +123,22 @@ namespace Verse
 				}
 			}
 			return command_VerbTarget;
+		}
+
+		public Verb GetVerb(VerbCategory category)
+		{
+			List<Verb> allVerbs = this.AllVerbs;
+			if (allVerbs != null)
+			{
+				for (int i = 0; i < allVerbs.Count; i++)
+				{
+					if (allVerbs[i].verbProps.category == category)
+					{
+						return allVerbs[i];
+					}
+				}
+			}
+			return null;
 		}
 
 		public void ExposeData()
@@ -176,7 +191,7 @@ namespace Verse
 					{
 						VerbProperties verbProperties2 = verbProperties[i];
 						string text = Verb.CalculateUniqueLoadID(this.directOwner, i);
-						this.InitVerb(creator(verbProperties2.verbClass, text), verbProperties2, this.directOwner, null, null, text);
+						this.InitVerb(creator(verbProperties2.verbClass, text), verbProperties2, null, null, text);
 					}
 					catch (Exception ex)
 					{
@@ -196,15 +211,13 @@ namespace Verse
 				for (int j = 0; j < tools.Count; j++)
 				{
 					Tool tool = tools[j];
-					foreach (ManeuverDef maneuverDef in from maneuver in DefDatabase<ManeuverDef>.AllDefsListForReading
-					where tool.capacities.Contains(maneuver.requiredCapacity)
-					select maneuver)
+					foreach (ManeuverDef maneuverDef in tool.Maneuvers)
 					{
 						try
 						{
 							VerbProperties verb = maneuverDef.verb;
 							string text2 = Verb.CalculateUniqueLoadID(this.directOwner, tool, maneuverDef);
-							this.InitVerb(creator(verb.verbClass, text2), verb, this.directOwner, tool, maneuverDef, text2);
+							this.InitVerb(creator(verb.verbClass, text2), verb, tool, maneuverDef, text2);
 						}
 						catch (Exception ex2)
 						{
@@ -219,88 +232,16 @@ namespace Verse
 					}
 				}
 			}
-			Pawn pawn = this.directOwner as Pawn;
-			if (pawn != null && !pawn.def.tools.NullOrEmpty<Tool>())
-			{
-				for (int k = 0; k < pawn.def.tools.Count; k++)
-				{
-					Tool tool = pawn.def.tools[k];
-					foreach (ManeuverDef maneuverDef2 in from maneuver in DefDatabase<ManeuverDef>.AllDefsListForReading
-					where tool.capacities.Contains(maneuver.requiredCapacity)
-					select maneuver)
-					{
-						try
-						{
-							VerbProperties verb2 = maneuverDef2.verb;
-							string text3 = Verb.CalculateUniqueLoadID(this.directOwner, tool, maneuverDef2);
-							this.InitVerb(creator(verb2.verbClass, text3), verb2, this.directOwner, tool, maneuverDef2, text3);
-						}
-						catch (Exception ex3)
-						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Could not instantiate Verb (directOwner=",
-								this.directOwner.ToStringSafe<IVerbOwner>(),
-								"): ",
-								ex3
-							}), false);
-						}
-					}
-				}
-			}
 		}
 
-		private void InitVerb(Verb verb, VerbProperties properties, IVerbOwner owner, Tool tool, ManeuverDef maneuver, string id)
+		private void InitVerb(Verb verb, VerbProperties properties, Tool tool, ManeuverDef maneuver, string id)
 		{
 			verb.loadID = id;
 			verb.verbProps = properties;
+			verb.verbTracker = this;
 			verb.tool = tool;
 			verb.maneuver = maneuver;
-			CompEquippable compEquippable = this.directOwner as CompEquippable;
-			Pawn pawn = this.directOwner as Pawn;
-			HediffComp_VerbGiver hediffComp_VerbGiver = this.directOwner as HediffComp_VerbGiver;
-			Pawn_MeleeVerbs_TerrainSource pawn_MeleeVerbs_TerrainSource = this.directOwner as Pawn_MeleeVerbs_TerrainSource;
-			if (compEquippable != null)
-			{
-				verb.ownerEquipment = compEquippable.parent;
-			}
-			else if (pawn != null)
-			{
-				verb.caster = pawn;
-			}
-			else if (hediffComp_VerbGiver != null)
-			{
-				verb.ownerHediffComp = hediffComp_VerbGiver;
-				verb.caster = hediffComp_VerbGiver.Pawn;
-			}
-			else if (pawn_MeleeVerbs_TerrainSource != null)
-			{
-				verb.terrainDef = pawn_MeleeVerbs_TerrainSource.def;
-				verb.caster = pawn_MeleeVerbs_TerrainSource.parent.Pawn;
-			}
-			else
-			{
-				Log.ErrorOnce("Couldn't find verb source", 27797477, false);
-			}
-			if (verb.tool != null)
-			{
-				if (verb.ownerEquipment != null)
-				{
-					verb.implementOwnerType = ImplementOwnerTypeDefOf.Weapon;
-				}
-				else if (verb.ownerHediffComp != null)
-				{
-					verb.implementOwnerType = ImplementOwnerTypeDefOf.Hediff;
-				}
-				else if (verb.terrainDef != null)
-				{
-					verb.implementOwnerType = ImplementOwnerTypeDefOf.Terrain;
-				}
-				else
-				{
-					verb.implementOwnerType = ImplementOwnerTypeDefOf.Bodypart;
-				}
-			}
+			verb.caster = this.directOwner.ConstantCaster;
 		}
 
 		[CompilerGenerated]
@@ -329,8 +270,6 @@ namespace Verse
 			internal int <i>__1;
 
 			internal Verb <verb>__2;
-
-			internal CompEquippable <equippable>__0;
 
 			internal VerbTracker $this;
 
@@ -368,7 +307,7 @@ namespace Verse
 					i++;
 					break;
 				case 2u:
-					IL_1AA:
+					IL_194:
 					this.$PC = -1;
 					return false;
 				default:
@@ -376,10 +315,9 @@ namespace Verse
 				}
 				if (i >= verbs.Count)
 				{
-					equippable = (this.directOwner as CompEquippable);
-					if (this.directOwner.Tools.NullOrEmpty<Tool>() || equippable == null || !equippable.parent.def.IsMeleeWeapon)
+					if (this.directOwner.Tools.NullOrEmpty<Tool>() || ce == null || !ce.parent.def.IsMeleeWeapon)
 					{
-						goto IL_1AA;
+						goto IL_194;
 					}
 					this.$current = base.CreateVerbTargetCommand(ownerThing, (from v in verbs
 					where v.verbProps.IsMeleeAttack
@@ -499,36 +437,6 @@ namespace Verse
 				{
 					return v.loadID == this.id && v.GetType() == this.type;
 				}
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <InitVerbs>c__AnonStorey3
-		{
-			internal Tool tool;
-
-			public <InitVerbs>c__AnonStorey3()
-			{
-			}
-
-			internal bool <>m__0(ManeuverDef maneuver)
-			{
-				return this.tool.capacities.Contains(maneuver.requiredCapacity);
-			}
-		}
-
-		[CompilerGenerated]
-		private sealed class <InitVerbs>c__AnonStorey4
-		{
-			internal Tool tool;
-
-			public <InitVerbs>c__AnonStorey4()
-			{
-			}
-
-			internal bool <>m__0(ManeuverDef maneuver)
-			{
-				return this.tool.capacities.Contains(maneuver.requiredCapacity);
 			}
 		}
 	}

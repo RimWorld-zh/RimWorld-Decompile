@@ -323,7 +323,7 @@ namespace Verse
 		{
 			get
 			{
-				return null;
+				return this.def.tools;
 			}
 		}
 
@@ -741,6 +741,32 @@ namespace Verse
 					result = this.TryGetAttackVerb(null, !this.IsColonist);
 				}
 				return result;
+			}
+		}
+
+		string IVerbOwner.UniqueVerbOwnerID()
+		{
+			return base.GetUniqueLoadID();
+		}
+
+		bool IVerbOwner.VerbsStillUsableBy(Pawn p)
+		{
+			return p == this;
+		}
+
+		Thing IVerbOwner.ConstantCaster
+		{
+			get
+			{
+				return this;
+			}
+		}
+
+		ImplementOwnerTypeDef IVerbOwner.ImplementOwnerTypeDef
+		{
+			get
+			{
+				return ImplementOwnerTypeDefOf.Bodypart;
 			}
 		}
 
@@ -1357,9 +1383,9 @@ namespace Verse
 				num = ((Fire)attachment).CurrentSize();
 			}
 			PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(this, dinfo, PawnDiedOrDownedThoughtsKind.Died);
-			if (Current.ProgramState == ProgramState.Playing && this.IsColonist)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				Find.StoryWatcher.watcherRampUp.Notify_ColonyPawnDied(this);
+				Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(this, AdaptationEvent.Died, null);
 			}
 			if (this.IsColonist)
 			{
@@ -1794,6 +1820,7 @@ namespace Verse
 
 		public void PreKidnapped(Pawn kidnapper)
 		{
+			Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(this, AdaptationEvent.Kidnapped, null);
 			if (this.IsColonist && kidnapper != null)
 			{
 				TaleRecorder.RecordTale(TaleDefOf.KidnappedColonist, new object[]

@@ -9,12 +9,6 @@ namespace RimWorld
 {
 	public class IncidentWorker_QuestItemStash : IncidentWorker
 	{
-		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
-
-		private const float NoSitePartChance = 0.15f;
-
-		private static readonly string ItemStashQuestThreatTag = "ItemStashQuestThreat";
-
 		public IncidentWorker_QuestItemStash()
 		{
 		}
@@ -23,7 +17,7 @@ namespace RimWorld
 		{
 			int num;
 			Faction faction;
-			return base.CanFireNowSub(parms) && (Find.FactionManager.RandomNonHostileFaction(false, false, false, TechLevel.Undefined) != null && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1)) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, null, out faction, true, null);
+			return base.CanFireNowSub(parms) && (Find.FactionManager.RandomNonHostileFaction(false, false, false, TechLevel.Undefined) != null && this.TryFindTile(out num)) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, null, out faction, true, null);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
@@ -41,37 +35,46 @@ namespace RimWorld
 			{
 				result = false;
 			}
-			else if (!TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, -1))
+			else if (!this.TryFindTile(out tile))
 			{
 				result = false;
 			}
-			else if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? IncidentWorker_QuestItemStash.ItemStashQuestThreatTag : null, out sitePart, out siteFaction, null, true, null))
+			else if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? "ItemStashQuestThreat" : null, out sitePart, out siteFaction, null, true, null))
 			{
 				result = false;
 			}
 			else
 			{
-				int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
-				List<Thing> items = this.GenerateItems(siteFaction);
-				Site site = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction, items);
-				string letterText = this.GetLetterText(faction, items, randomInRange, site, site.parts.FirstOrDefault<SitePart>());
+				int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
+				Site site = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction);
+				List<Thing> list = this.GenerateItems(siteFaction, site.desiredThreatPoints);
+				site.GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(list, false, false);
+				string letterText = this.GetLetterText(faction, list, randomInRange, site, site.parts.FirstOrDefault<SitePart>());
 				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, site, faction, null);
 				result = true;
 			}
 			return result;
 		}
 
-		protected virtual List<Thing> GenerateItems(Faction siteFaction)
+		private bool TryFindTile(out int tile)
 		{
-			return ThingSetMakerDefOf.Reward_ItemStashQuestContents.root.Generate();
+			IntRange itemStashQuestSiteDistanceRange = SiteTuning.ItemStashQuestSiteDistanceRange;
+			return TileFinder.TryFindNewSiteTile(out tile, itemStashQuestSiteDistanceRange.min, itemStashQuestSiteDistanceRange.max, false, true, -1);
 		}
 
-		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items)
+		protected virtual List<Thing> GenerateItems(Faction siteFaction, float siteThreatPoints)
 		{
-			Site site = SiteMaker.MakeSite(SiteCoreDefOf.ItemStash, sitePart, tile, siteFaction, true);
+			float val = SiteTuning.QuestRewardMarketValueThreatPointsFactor.Evaluate(siteThreatPoints);
+			ThingSetMakerParams parms = default(ThingSetMakerParams);
+			parms.totalMarketValueRange = new FloatRange?(SiteTuning.ItemStashQuestMarketValueRange * val);
+			return ThingSetMakerDefOf.Reward_ItemStashQuestContents.root.Generate(parms);
+		}
+
+		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction)
+		{
+			Site site = SiteMaker.MakeSite(SiteCoreDefOf.ItemStash, sitePart, tile, siteFaction, true, null);
 			site.sitePartsKnown = true;
 			site.GetComponent<TimeoutComp>().StartTimeout(days * 60000);
-			site.GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(items, false, false);
 			Find.WorldObjects.Add(site);
 			return site;
 		}
@@ -100,11 +103,6 @@ namespace RimWorld
 				});
 			}
 			return text;
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static IncidentWorker_QuestItemStash()
-		{
 		}
 
 		[CompilerGenerated]

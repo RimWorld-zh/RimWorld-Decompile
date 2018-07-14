@@ -150,7 +150,7 @@ namespace Verse
 			result.distance = (cell - caster.Position).LengthHorizontal;
 			result.target = target.ToTargetInfo(caster.Map);
 			result.factorFromShooterAndDist = ShotReport.HitFactorFromShooter(caster, result.distance);
-			result.factorFromEquipment = verb.verbProps.GetHitChanceFactor(verb.ownerEquipment, result.distance);
+			result.factorFromEquipment = verb.verbProps.GetHitChanceFactor(verb.EquipmentSource, result.distance);
 			result.covers = CoverUtility.CalculateCoverGiverSet(target, caster.Position, caster.Map);
 			result.coversOverallBlockChance = CoverUtility.CalculateOverallBlockChance(target, caster.Position, caster.Map);
 			result.coveringGas = null;

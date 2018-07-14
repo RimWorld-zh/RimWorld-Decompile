@@ -75,7 +75,7 @@ namespace RimWorld
 				List<Verb> allVerbs = p.verbTracker.AllVerbs;
 				result = (from x in allVerbs
 				where x.IsMeleeAttack && x.IsStillUsableBy(p)
-				select x).TryRandomElementByWeight((Verb x) => x.verbProps.AdjustedMeleeDamageAmount(x, p, null), out verb);
+				select x).TryRandomElementByWeight((Verb x) => x.verbProps.AdjustedMeleeDamageAmount(x, p), out verb);
 			}
 			return result;
 		}
@@ -96,7 +96,7 @@ namespace RimWorld
 
 			internal float <>m__1(Verb x)
 			{
-				return x.verbProps.AdjustedMeleeDamageAmount(x, this.p, null);
+				return x.verbProps.AdjustedMeleeDamageAmount(x, this.p);
 			}
 		}
 	}

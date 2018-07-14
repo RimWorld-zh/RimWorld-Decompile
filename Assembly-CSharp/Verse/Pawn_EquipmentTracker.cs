@@ -117,7 +117,6 @@ namespace Verse
 					foreach (Verb verb in thingWithComps.GetComp<CompEquippable>().AllVerbs)
 					{
 						verb.caster = this.pawn;
-						verb.ownerEquipment = thingWithComps;
 					}
 				}
 			}

@@ -160,7 +160,7 @@ namespace RimWorld
 				{
 					if (allVerbs[i].IsStillUsableBy(this.pawn))
 					{
-						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs[i], this.pawn, null));
+						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs[i], this.pawn));
 					}
 				}
 				if (this.pawn.equipment != null)
@@ -179,7 +179,7 @@ namespace RimWorld
 								{
 									if (allVerbs2[k].IsStillUsableBy(this.pawn))
 									{
-										Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs2[k], this.pawn, thingWithComps));
+										Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs2[k], this.pawn));
 									}
 								}
 							}
@@ -202,7 +202,7 @@ namespace RimWorld
 								{
 									if (allVerbs3[m].IsStillUsableBy(this.pawn))
 									{
-										Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs3[m], this.pawn, apparel));
+										Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs3[m], this.pawn));
 									}
 								}
 							}
@@ -213,7 +213,7 @@ namespace RimWorld
 				{
 					if (verb.IsStillUsableBy(this.pawn))
 					{
-						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn, null));
+						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn));
 					}
 				}
 			}
@@ -230,7 +230,7 @@ namespace RimWorld
 					Verb verb2 = allVerbs4[n];
 					if (verb2.IsStillUsableBy(this.pawn))
 					{
-						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb2, this.pawn, null));
+						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb2, this.pawn));
 					}
 				}
 			}

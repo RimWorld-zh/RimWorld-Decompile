@@ -97,8 +97,6 @@ namespace Verse
 
 		public bool alwaysFlee;
 
-		public List<Tool> tools;
-
 		public List<RecipeDef> recipes;
 
 		public GraphicData graphicData;
@@ -194,6 +192,8 @@ namespace Verse
 		public ColorGenerator colorGeneratorInTraderStock;
 
 		private List<VerbProperties> verbs = null;
+
+		public List<Tool> tools;
 
 		public float equippedAngleOffset;
 
@@ -1039,6 +1039,13 @@ namespace Verse
 					this.graphic = this.graphicData.Graphic;
 				});
 			}
+			if (this.tools != null)
+			{
+				for (int i = 0; i < this.tools.Count; i++)
+				{
+					this.tools[i].id = i.ToString();
+				}
+			}
 			if (this.verbs != null && this.verbs.Count == 1)
 			{
 				this.verbs[0].label = this.label;
@@ -1472,11 +1479,11 @@ namespace Verse
 			if (this.tools != null)
 			{
 				Tool dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
-				where lhs != rhs && lhs.Id == rhs.Id
+				where lhs != rhs && lhs.id == rhs.id
 				select rhs).FirstOrDefault<Tool>();
 				if (dupeTool != null)
 				{
-					yield return string.Format("duplicate thingdef tool id {0}", dupeTool.Id);
+					yield return string.Format("duplicate thingdef tool id {0}", dupeTool.id);
 				}
 				foreach (Tool t in this.tools)
 				{
@@ -2911,11 +2918,11 @@ namespace Verse
 					goto IL_18A2;
 				}
 				dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
-				where lhs != rhs && lhs.Id == rhs.Id
+				where lhs != rhs && lhs.id == rhs.id
 				select rhs).FirstOrDefault<Tool>();
 				if (dupeTool != null)
 				{
-					this.$current = string.Format("duplicate thingdef tool id {0}", dupeTool.Id);
+					this.$current = string.Format("duplicate thingdef tool id {0}", dupeTool.id);
 					if (!this.$disposing)
 					{
 						this.$PC = 48;
@@ -3236,7 +3243,7 @@ namespace Verse
 			internal IEnumerable<Tool> <>m__5(Tool lhs)
 			{
 				return from rhs in this.tools
-				where lhs != rhs && lhs.Id == rhs.Id
+				where lhs != rhs && lhs.id == rhs.id
 				select rhs;
 			}
 
@@ -3316,7 +3323,7 @@ namespace Verse
 
 				internal bool <>m__0(Tool rhs)
 				{
-					return this.lhs != rhs && this.lhs.Id == rhs.Id;
+					return this.lhs != rhs && this.lhs.id == rhs.id;
 				}
 			}
 		}

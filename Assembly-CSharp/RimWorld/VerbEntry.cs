@@ -9,10 +9,10 @@ namespace RimWorld
 
 		private float cachedSelectionWeight;
 
-		public VerbEntry(Verb verb, Pawn pawn, Thing equipment = null)
+		public VerbEntry(Verb verb, Pawn pawn)
 		{
 			this.verb = verb;
-			this.cachedSelectionWeight = verb.verbProps.AdjustedMeleeSelectionWeight(verb, pawn, equipment);
+			this.cachedSelectionWeight = verb.verbProps.AdjustedMeleeSelectionWeight(verb, pawn);
 		}
 
 		public bool IsMeleeAttack

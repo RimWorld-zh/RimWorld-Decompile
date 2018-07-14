@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using RimWorld.Planet;
 using UnityEngine;
@@ -146,16 +147,8 @@ namespace Verse
 			else
 			{
 				Tool tool2 = tools.MaxBy((Tool tool) => tool.power);
-				List<ManeuverDef> allDefsListForReading = DefDatabase<ManeuverDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
-				{
-					ManeuverDef maneuverDef = allDefsListForReading[i];
-					if (tool2.capacities.Contains(maneuverDef.requiredCapacity))
-					{
-						return maneuverDef.verb.meleeDamageDef;
-					}
-				}
-				result = null;
+				ManeuverDef maneuverDef = tool2.Maneuvers.FirstOrDefault<ManeuverDef>();
+				result = ((maneuverDef == null) ? null : maneuverDef.verb.meleeDamageDef);
 			}
 			return result;
 		}

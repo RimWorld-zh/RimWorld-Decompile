@@ -40,6 +40,22 @@ namespace RimWorld
 			}
 		}
 
+		Thing IVerbOwner.ConstantCaster
+		{
+			get
+			{
+				return this.parent.Pawn;
+			}
+		}
+
+		ImplementOwnerTypeDef IVerbOwner.ImplementOwnerTypeDef
+		{
+			get
+			{
+				return ImplementOwnerTypeDefOf.Terrain;
+			}
+		}
+
 		public static Pawn_MeleeVerbs_TerrainSource Create(Pawn_MeleeVerbs parent, TerrainDef terrainDef)
 		{
 			Pawn_MeleeVerbs_TerrainSource pawn_MeleeVerbs_TerrainSource = new Pawn_MeleeVerbs_TerrainSource();
@@ -58,9 +74,14 @@ namespace RimWorld
 			});
 		}
 
-		public string UniqueVerbOwnerID()
+		string IVerbOwner.UniqueVerbOwnerID()
 		{
 			return "TerrainVerbs_" + this.parent.Pawn.ThingID;
+		}
+
+		bool IVerbOwner.VerbsStillUsableBy(Pawn p)
+		{
+			return p == this.parent.Pawn && p.Spawned && this.def == p.Position.GetTerrain(p.Map) && Find.TickManager.TicksGame >= this.parent.lastTerrainBasedVerbUseTick + 1200;
 		}
 	}
 }

@@ -21,9 +21,9 @@ namespace Verse
 			get
 			{
 				Color result;
-				if (this.verb.ownerEquipment != null)
+				if (this.verb.EquipmentSource != null)
 				{
-					result = this.verb.ownerEquipment.DrawColor;
+					result = this.verb.EquipmentSource.DrawColor;
 				}
 				else
 				{

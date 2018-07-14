@@ -7,14 +7,6 @@ namespace RimWorld
 {
 	public class IncidentWorker_QuestPrisonerRescue : IncidentWorker
 	{
-		private const int MinDistance = 2;
-
-		private const int MaxDistance = 18;
-
-		private static readonly string PrisonerRescueQuestThreatTag = "PrisonerRescueQuestThreat";
-
-		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
-
 		public IncidentWorker_QuestPrisonerRescue()
 		{
 		}
@@ -24,7 +16,7 @@ namespace RimWorld
 			int num;
 			SitePartDef sitePartDef;
 			Faction faction;
-			return base.CanFireNowSub(parms) && Find.AnyPlayerHomeMap != null && this.TryFindTile(out num) && SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, out sitePartDef, out faction, null, true, null);
+			return base.CanFireNowSub(parms) && Find.AnyPlayerHomeMap != null && this.TryFindTile(out num) && SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, "PrisonerRescueQuestThreat", out sitePartDef, out faction, null, true, null);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
@@ -37,7 +29,7 @@ namespace RimWorld
 			}
 			else
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, tile, null, true, null, true);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, "PrisonerRescueQuestThreat", tile, null, true, null, true, null);
 				if (site == null)
 				{
 					result = false;
@@ -47,7 +39,7 @@ namespace RimWorld
 					site.sitePartsKnown = true;
 					Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
 					site.GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);
-					int randomInRange = IncidentWorker_QuestPrisonerRescue.TimeoutDaysRange.RandomInRange;
+					int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
 					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 					Find.WorldObjects.Add(site);
 					string text;
@@ -62,7 +54,8 @@ namespace RimWorld
 
 		private bool TryFindTile(out int tile)
 		{
-			return TileFinder.TryFindNewSiteTile(out tile, 2, 18, false, false, -1);
+			IntRange prisonerRescueQuestSiteDistanceRange = SiteTuning.PrisonerRescueQuestSiteDistanceRange;
+			return TileFinder.TryFindNewSiteTile(out tile, prisonerRescueQuestSiteDistanceRange.min, prisonerRescueQuestSiteDistanceRange.max, false, false, -1);
 		}
 
 		private void GetLetterText(Pawn prisoner, Site site, SitePart sitePart, int days, out string letter, out string label)
@@ -105,11 +98,6 @@ namespace RimWorld
 				days,
 				prisoner.LabelShort
 			});
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static IncidentWorker_QuestPrisonerRescue()
-		{
 		}
 	}
 }

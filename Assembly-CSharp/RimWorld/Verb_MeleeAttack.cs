@@ -51,7 +51,7 @@ namespace RimWorld
 				casterPawn.rotationTracker.Face(thing.DrawPos);
 				if (!this.IsTargetImmobile(this.currentTarget) && casterPawn.skills != null)
 				{
-					casterPawn.skills.Learn(SkillDefOf.Melee, 200f * this.verbProps.AdjustedFullCycleTime(this, casterPawn, this.ownerEquipment), false);
+					casterPawn.skills.Learn(SkillDefOf.Melee, 200f * this.verbProps.AdjustedFullCycleTime(this, casterPawn), false);
 				}
 				Pawn pawn = thing as Pawn;
 				if (pawn != null && !pawn.Dead)
@@ -144,7 +144,7 @@ namespace RimWorld
 			}
 			else
 			{
-				BattleLogEntry_MeleeCombat battleLogEntry_MeleeCombat = new BattleLogEntry_MeleeCombat(rulePackGetter(this.maneuver), alwaysShow, base.CasterPawn, this.currentTarget.Thing, this.implementOwnerType, (!this.tool.labelUsedInLogging) ? "" : this.tool.label, (this.ownerEquipment != null) ? this.ownerEquipment.def : null, (this.ownerHediffComp != null) ? this.ownerHediffComp.Def : null, this.maneuver.logEntryDef);
+				BattleLogEntry_MeleeCombat battleLogEntry_MeleeCombat = new BattleLogEntry_MeleeCombat(rulePackGetter(this.maneuver), alwaysShow, base.CasterPawn, this.currentTarget.Thing, base.ImplementOwnerType, (!this.tool.labelUsedInLogging) ? "" : this.tool.label, (base.EquipmentSource != null) ? base.EquipmentSource.def : null, (base.HediffCompSource != null) ? base.HediffCompSource.Def : null, this.maneuver.logEntryDef);
 				Find.BattleLog.Add(battleLogEntry_MeleeCombat);
 				result = battleLogEntry_MeleeCombat;
 			}
@@ -214,18 +214,18 @@ namespace RimWorld
 
 		private SoundDef SoundHitPawn()
 		{
-			if (this.ownerEquipment != null && this.ownerEquipment.Stuff != null)
+			if (base.EquipmentSource != null && base.EquipmentSource.Stuff != null)
 			{
 				if (this.verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
 				{
-					if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
+					if (!base.EquipmentSource.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
 					{
-						return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp;
+						return base.EquipmentSource.Stuff.stuffProps.soundMeleeHitSharp;
 					}
 				}
-				else if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
+				else if (!base.EquipmentSource.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
 				{
-					return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt;
+					return base.EquipmentSource.Stuff.stuffProps.soundMeleeHitBlunt;
 				}
 			}
 			if (base.CasterPawn != null)
@@ -240,18 +240,18 @@ namespace RimWorld
 
 		private SoundDef SoundHitBuilding()
 		{
-			if (this.ownerEquipment != null && this.ownerEquipment.Stuff != null)
+			if (base.EquipmentSource != null && base.EquipmentSource.Stuff != null)
 			{
 				if (this.verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
 				{
-					if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
+					if (!base.EquipmentSource.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
 					{
-						return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp;
+						return base.EquipmentSource.Stuff.stuffProps.soundMeleeHitSharp;
 					}
 				}
-				else if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
+				else if (!base.EquipmentSource.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
 				{
-					return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt;
+					return base.EquipmentSource.Stuff.stuffProps.soundMeleeHitBlunt;
 				}
 			}
 			if (base.CasterPawn != null)

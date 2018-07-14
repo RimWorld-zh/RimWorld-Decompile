@@ -7,16 +7,6 @@ namespace RimWorld
 {
 	public class IncidentWorker_QuestDownedRefugee : IncidentWorker
 	{
-		private const float NoSitePartChance = 0.3f;
-
-		private const int MinDistance = 2;
-
-		private const int MaxDistance = 13;
-
-		private static readonly string DownedRefugeeQuestThreatTag = "DownedRefugeeQuestThreat";
-
-		private static readonly IntRange TimeoutDaysRange = new IntRange(7, 15);
-
 		public IncidentWorker_QuestDownedRefugee()
 		{
 		}
@@ -38,7 +28,7 @@ namespace RimWorld
 			}
 			else
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.DownedRefugee, (!Rand.Chance(0.3f)) ? IncidentWorker_QuestDownedRefugee.DownedRefugeeQuestThreatTag : null, tile, null, true, null, true);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.DownedRefugee, (!Rand.Chance(0.3f)) ? "DownedRefugeeQuestThreat" : null, tile, null, true, null, true, null);
 				if (site == null)
 				{
 					result = false;
@@ -48,7 +38,7 @@ namespace RimWorld
 					site.sitePartsKnown = true;
 					Pawn pawn = DownedRefugeeQuestUtility.GenerateRefugee(tile);
 					site.GetComponent<DownedRefugeeComp>().pawn.TryAdd(pawn, true);
-					int randomInRange = IncidentWorker_QuestDownedRefugee.TimeoutDaysRange.RandomInRange;
+					int randomInRange = SiteTuning.QuestSiteRefugeeTimeoutDaysRange.RandomInRange;
 					site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 					Find.WorldObjects.Add(site);
 					string text = this.def.letterLabel;
@@ -91,12 +81,8 @@ namespace RimWorld
 
 		private bool TryFindTile(out int tile)
 		{
-			return TileFinder.TryFindNewSiteTile(out tile, 2, 13, true, false, -1);
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static IncidentWorker_QuestDownedRefugee()
-		{
+			IntRange downedRefugeeQuestSiteDistanceRange = SiteTuning.DownedRefugeeQuestSiteDistanceRange;
+			return TileFinder.TryFindNewSiteTile(out tile, downedRefugeeQuestSiteDistanceRange.min, downedRefugeeQuestSiteDistanceRange.max, true, false, -1);
 		}
 	}
 }

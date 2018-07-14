@@ -13,8 +13,8 @@ namespace RimWorld
 		public static IEnumerable<VerbProperties> AllVerbDefs()
 		{
 			VerbProperties d = new VerbProperties();
+			d.verbClass = typeof(Verb_BeatFire);
 			d.category = VerbCategory.BeatFire;
-			d.label = "Beat fire";
 			d.range = 1.42f;
 			d.noiseRadius = 3f;
 			d.targetParams.canTargetFires = true;
@@ -26,8 +26,8 @@ namespace RimWorld
 			d.soundCast = SoundDefOf.Interact_BeatFire;
 			yield return d;
 			d = new VerbProperties();
+			d.verbClass = typeof(Verb_Ignite);
 			d.category = VerbCategory.Ignite;
-			d.label = "Ignite";
 			d.range = 1.42f;
 			d.noiseRadius = 3f;
 			d.targetParams.onlyTargetFlammables = true;
@@ -65,8 +65,8 @@ namespace RimWorld
 				{
 				case 0u:
 					d = new VerbProperties();
+					d.verbClass = typeof(Verb_BeatFire);
 					d.category = VerbCategory.BeatFire;
-					d.label = "Beat fire";
 					d.range = 1.42f;
 					d.noiseRadius = 3f;
 					d.targetParams.canTargetFires = true;
@@ -84,8 +84,8 @@ namespace RimWorld
 					return true;
 				case 1u:
 					d = new VerbProperties();
+					d.verbClass = typeof(Verb_Ignite);
 					d.category = VerbCategory.Ignite;
-					d.label = "Ignite";
 					d.range = 1.42f;
 					d.noiseRadius = 3f;
 					d.targetParams.onlyTargetFlammables = true;

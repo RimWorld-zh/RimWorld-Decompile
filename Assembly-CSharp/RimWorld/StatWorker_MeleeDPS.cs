@@ -94,8 +94,7 @@ namespace RimWorld
 						{
 							if (updatedAvailableVerbsList[j].IsMeleeAttack)
 							{
-								ThingWithComps ownerEquipment = updatedAvailableVerbsList[j].verb.ownerEquipment;
-								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedMeleeDamageAmount(updatedAvailableVerbsList[j].verb, pawn, ownerEquipment);
+								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedMeleeDamageAmount(updatedAvailableVerbsList[j].verb, pawn);
 							}
 						}
 						result = num2;
@@ -155,8 +154,7 @@ namespace RimWorld
 						{
 							if (updatedAvailableVerbsList[j].IsMeleeAttack)
 							{
-								ThingWithComps ownerEquipment = updatedAvailableVerbsList[j].verb.ownerEquipment;
-								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * (float)updatedAvailableVerbsList[j].verb.verbProps.AdjustedCooldownTicks(updatedAvailableVerbsList[j].verb, pawn, ownerEquipment);
+								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * (float)updatedAvailableVerbsList[j].verb.verbProps.AdjustedCooldownTicks(updatedAvailableVerbsList[j].verb, pawn);
 							}
 						}
 						result = num2 / 60f;

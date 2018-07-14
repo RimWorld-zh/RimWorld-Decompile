@@ -21,7 +21,7 @@ namespace Verse
 
 		public bool forceIncap = false;
 
-		public bool beCarriedByCaravanIfSick = true;
+		public bool beCarriedByCaravanIfSick;
 
 		public HediffSet hediffSet = null;
 
@@ -62,6 +62,7 @@ namespace Verse
 			this.summaryHealth = new SummaryHealthHandler(pawn);
 			this.surgeryBills = new BillStack(pawn);
 			this.immunity = new ImmunityHandler(pawn);
+			this.beCarriedByCaravanIfSick = pawn.RaceProps.Humanlike;
 		}
 
 		public PawnHealthState State
@@ -534,6 +535,7 @@ namespace Verse
 				{
 					this.pawn.guilt.Notify_Guilty();
 				}
+				Find.StoryWatcher.watcherAdaptation.Notify_PawnEvent(this.pawn, AdaptationEvent.Downed, dinfo);
 				this.healthState = PawnHealthState.Down;
 				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(this.pawn, dinfo, PawnDiedOrDownedThoughtsKind.Downed);
 				if (this.pawn.InMentalState)
@@ -542,10 +544,6 @@ namespace Verse
 				}
 				if (this.pawn.Spawned)
 				{
-					if (this.pawn.IsColonist)
-					{
-						Find.StoryWatcher.watcherRampUp.Notify_ColonyPawnDowned(this.pawn, dinfo);
-					}
 					this.pawn.DropAndForbidEverything(true);
 					this.pawn.stances.CancelBusyStanceSoft();
 				}
@@ -793,7 +791,7 @@ namespace Verse
 							select x).RandomElement<Hediff_Injury>();
 							float tendQuality = hediff_Injury2.TryGetComp<HediffComp_TendDuration>().tendQuality;
 							float num2 = GenMath.LerpDouble(0f, 1f, 0.5f, 1.5f, Mathf.Clamp01(tendQuality));
-							hediff_Injury2.Heal(16f * num2 * this.pawn.HealthScale * 0.01f);
+							hediff_Injury2.Heal(8f * num2 * this.pawn.HealthScale * 0.01f);
 							flag2 = true;
 						}
 						if (flag2 && !this.HasHediffsNeedingTendByPlayer(false) && !HealthAIUtility.ShouldSeekMedicalRest(this.pawn) && !this.hediffSet.HasTendedAndHealingInjury() && PawnUtility.ShouldSendNotificationAbout(this.pawn))

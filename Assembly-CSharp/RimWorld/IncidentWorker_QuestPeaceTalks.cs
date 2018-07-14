@@ -9,12 +9,6 @@ namespace RimWorld
 {
 	public class IncidentWorker_QuestPeaceTalks : IncidentWorker
 	{
-		private const int MinDistance = 5;
-
-		private const int MaxDistance = 13;
-
-		private static readonly IntRange TimeoutDaysRange = new IntRange(21, 23);
-
 		public IncidentWorker_QuestPeaceTalks()
 		{
 		}
@@ -44,7 +38,7 @@ namespace RimWorld
 				PeaceTalks peaceTalks = (PeaceTalks)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.PeaceTalks);
 				peaceTalks.Tile = tile;
 				peaceTalks.SetFaction(faction);
-				int randomInRange = IncidentWorker_QuestPeaceTalks.TimeoutDaysRange.RandomInRange;
+				int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
 				peaceTalks.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 				Find.WorldObjects.Add(peaceTalks);
 				string text = string.Format(this.def.letterText.AdjustedFor(faction.leader, "PAWN"), faction.def.leaderTitle, faction.Name, randomInRange).CapitalizeFirst();
@@ -63,7 +57,8 @@ namespace RimWorld
 
 		private bool TryFindTile(out int tile)
 		{
-			return TileFinder.TryFindNewSiteTile(out tile, 5, 13, false, false, -1);
+			IntRange peaceTalksQuestSiteDistanceRange = SiteTuning.PeaceTalksQuestSiteDistanceRange;
+			return TileFinder.TryFindNewSiteTile(out tile, peaceTalksQuestSiteDistanceRange.min, peaceTalksQuestSiteDistanceRange.max, false, false, -1);
 		}
 
 		private bool PeaceTalksExist(Faction faction)
@@ -77,11 +72,6 @@ namespace RimWorld
 				}
 			}
 			return false;
-		}
-
-		// Note: this type is marked as 'beforefieldinit'.
-		static IncidentWorker_QuestPeaceTalks()
-		{
 		}
 
 		[CompilerGenerated]

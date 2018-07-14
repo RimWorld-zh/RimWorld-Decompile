@@ -66,7 +66,7 @@ namespace RimWorld
 						return false;
 					}
 					Messages.Message("Difficulty has been automatically selected (debug mode only)", MessageTypeDefOf.SilentInput, false);
-					this.difficulty = DifficultyDefOf.ExtraHard;
+					this.difficulty = DifficultyDefOf.Rough;
 				}
 				Current.Game.storyteller = new Storyteller(this.storyteller, this.difficulty);
 				result = true;

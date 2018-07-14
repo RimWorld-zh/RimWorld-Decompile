@@ -459,85 +459,85 @@ namespace Verse
 		private static Action <>f__am$cache90;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cache91;
+		private static Action <>f__am$cache91;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cache92;
+		private static Func<Thing, bool> <>f__am$cache92;
 
 		[CompilerGenerated]
-		private static Predicate<int> <>f__am$cache93;
+		private static Func<PawnKindDef, bool> <>f__am$cache93;
 
 		[CompilerGenerated]
-		private static Func<StorytellerComp, bool> <>f__am$cache94;
+		private static Predicate<int> <>f__am$cache94;
 
 		[CompilerGenerated]
-		private static Func<SoundDef, bool> <>f__am$cache95;
+		private static Func<StorytellerComp, bool> <>f__am$cache95;
 
 		[CompilerGenerated]
-		private static Func<LordToil, bool> <>f__am$cache96;
+		private static Func<SoundDef, bool> <>f__am$cache96;
 
 		[CompilerGenerated]
-		private static Action <>f__am$cache97;
+		private static Func<LordToil, bool> <>f__am$cache97;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cache98;
+		private static Action <>f__am$cache98;
 
 		[CompilerGenerated]
-		private static Func<RuleDef, string> <>f__am$cache99;
+		private static Func<Faction, bool> <>f__am$cache99;
 
 		[CompilerGenerated]
-		private static Action<bool> <>f__am$cache9A;
+		private static Func<RuleDef, string> <>f__am$cache9A;
 
 		[CompilerGenerated]
-		private static Func<BodyPartRecord, bool> <>f__am$cache9B;
+		private static Action<bool> <>f__am$cache9B;
 
 		[CompilerGenerated]
 		private static Func<BodyPartRecord, bool> <>f__am$cache9C;
 
 		[CompilerGenerated]
-		private static Func<Hediff_Injury, bool> <>f__am$cache9D;
+		private static Func<BodyPartRecord, bool> <>f__am$cache9D;
 
 		[CompilerGenerated]
-		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9E;
+		private static Func<Hediff_Injury, bool> <>f__am$cache9E;
 
 		[CompilerGenerated]
-		private static Func<HediffStage, bool> <>f__am$cache9F;
+		private static Func<HediffGiverSetDef, IEnumerable<HediffGiver>> <>f__am$cache9F;
 
 		[CompilerGenerated]
-		private static Func<VerbEntry, string> <>f__am$cacheA0;
+		private static Func<HediffStage, bool> <>f__am$cacheA0;
 
 		[CompilerGenerated]
 		private static Func<VerbEntry, string> <>f__am$cacheA1;
 
 		[CompilerGenerated]
-		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA2;
+		private static Func<VerbEntry, string> <>f__am$cacheA2;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheA3;
+		private static Func<MentalBreakDef, MentalBreakIntensity> <>f__am$cacheA3;
 
 		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__am$cacheA4;
+		private static Func<Thing, bool> <>f__am$cacheA4;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheA5;
+		private static Func<Pawn, bool> <>f__am$cacheA5;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA6;
+		private static Func<PawnKindDef, string> <>f__am$cacheA6;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA7;
+		private static Func<ThingDef, bool> <>f__am$cacheA7;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheA8;
+		private static Func<ThingDef, string> <>f__am$cacheA8;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, string> <>f__am$cacheA9;
+		private static Func<ThingDef, bool> <>f__am$cacheA9;
 
 		[CompilerGenerated]
-		private static Action<Pawn> <>f__am$cacheAA;
+		private static Func<ThingDef, string> <>f__am$cacheAA;
 
 		[CompilerGenerated]
-		private static Predicate<IntVec3> <>f__am$cacheAB;
+		private static Action<Pawn> <>f__am$cacheAB;
 
 		[CompilerGenerated]
 		private static Predicate<IntVec3> <>f__am$cacheAC;
@@ -549,31 +549,34 @@ namespace Verse
 		private static Predicate<IntVec3> <>f__am$cacheAE;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, string> <>f__am$cacheAF;
+		private static Predicate<IntVec3> <>f__am$cacheAF;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheB0;
+		private static Func<PawnKindDef, string> <>f__am$cacheB0;
 
 		[CompilerGenerated]
-		private static Func<ToolCapacityDef, bool> <>f__am$cacheB1;
+		private static Func<PawnKindDef, bool> <>f__am$cacheB1;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB2;
+		private static Func<ToolCapacityDef, bool> <>f__am$cacheB2;
 
 		[CompilerGenerated]
-		private static Func<ThingDef, bool> <>f__am$cacheB3;
+		private static Func<PawnKindDef, ToolCapacityDef, string> <>f__am$cacheB3;
 
 		[CompilerGenerated]
-		private static Func<PawnKindDef, bool> <>f__am$cacheB4;
+		private static Func<ThingDef, bool> <>f__am$cacheB4;
 
 		[CompilerGenerated]
-		private static Func<Faction, bool> <>f__am$cacheB5;
+		private static Func<PawnKindDef, bool> <>f__am$cacheB5;
 
 		[CompilerGenerated]
-		private static Func<Thing, bool> <>f__am$cacheB6;
+		private static Func<Faction, bool> <>f__am$cacheB6;
 
 		[CompilerGenerated]
 		private static Func<Thing, bool> <>f__am$cacheB7;
+
+		[CompilerGenerated]
+		private static Func<Thing, bool> <>f__am$cacheB8;
 
 		public Dialog_DebugActionsMenu()
 		{
@@ -999,9 +1002,9 @@ namespace Verse
 					}
 				}
 			});
-			base.DebugAction("Ramp up 10 days", delegate
+			base.DebugAction("Adaptation progress 10 days", delegate
 			{
-				Find.StoryWatcher.watcherRampUp.Debug_RampUpNow(10f);
+				Find.StoryWatcher.watcherAdaptation.Debug_OffsetAdaptDays(10f);
 			});
 			base.DebugAction("Unload unused assets", delegate
 			{
@@ -2959,7 +2962,7 @@ namespace Verse
 							List<DebugMenuOption> list2 = new List<DebugMenuOption>();
 							list2.Add(new DebugMenuOption("-Done (" + parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 							{
-								Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true);
+								Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true, null);
 								if (site == null)
 								{
 									Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
@@ -2968,6 +2971,65 @@ namespace Verse
 								{
 									Find.WorldObjects.Add(site);
 								}
+							}));
+							foreach (SitePartDef sitePartDef in DefDatabase<SitePartDef>.AllDefs)
+							{
+								SitePartDef localPart = sitePartDef;
+								list2.Add(new DebugMenuOption(sitePartDef.defName, DebugMenuOptionMode.Action, delegate()
+								{
+									parts.Add(localPart);
+									addPart();
+								}));
+							}
+							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+						};
+						list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, addPart));
+					}
+					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+				}
+			});
+			base.DebugToolWorld("Spawn site with points", delegate
+			{
+				int tile = GenWorld.MouseTile(false);
+				if (tile < 0 || Find.World.Impassable(tile))
+				{
+					Messages.Message("Impassable", MessageTypeDefOf.RejectInput, false);
+				}
+				else
+				{
+					List<DebugMenuOption> list = new List<DebugMenuOption>();
+					List<SitePartDef> parts = new List<SitePartDef>();
+					foreach (SiteCoreDef localDef3 in DefDatabase<SiteCoreDef>.AllDefs)
+					{
+						SiteCoreDef localDef = localDef3;
+						Action addPart = null;
+						addPart = delegate()
+						{
+							List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+							list2.Add(new DebugMenuOption("-Done (" + parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
+							{
+								List<DebugMenuOption> list3 = new List<DebugMenuOption>();
+								foreach (float localPoints2 in Dialog_DebugActionsMenu.PointsOptions(true))
+								{
+									float localPoints = localPoints2;
+									list3.Add(new DebugMenuOption(localPoints2.ToString("F0"), DebugMenuOptionMode.Action, delegate()
+									{
+										SiteCoreDef localDef2 = localDef;
+										List<SitePartDef> parts = parts;
+										int tile = tile;
+										float? threatPoints = new float?(localPoints);
+										Site site = SiteMaker.TryMakeSite(localDef2, parts, tile, true, null, true, threatPoints);
+										if (site == null)
+										{
+											Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
+										}
+										else
+										{
+											Find.WorldObjects.Add(site);
+										}
+									}));
+								}
+								Find.WindowStack.Add(new Dialog_DebugOptionListLister(list3));
 							}));
 							foreach (SitePartDef sitePartDef in DefDatabase<SitePartDef>.AllDefs)
 							{
@@ -3685,7 +3747,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static void <DoListingItems_MapActions>m__1A()
 		{
-			Find.StoryWatcher.watcherRampUp.Debug_RampUpNow(10f);
+			Find.StoryWatcher.watcherAdaptation.Debug_OffsetAdaptDays(10f);
 		}
 
 		[CompilerGenerated]
@@ -5896,7 +5958,7 @@ namespace Verse
 						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
 						list2.Add(new DebugMenuOption("-Done (" + parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 						{
-							Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true);
+							Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true, null);
 							if (site == null)
 							{
 								Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
@@ -5934,6 +5996,67 @@ namespace Verse
 			else
 			{
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				List<SitePartDef> parts = new List<SitePartDef>();
+				foreach (SiteCoreDef localDef3 in DefDatabase<SiteCoreDef>.AllDefs)
+				{
+					SiteCoreDef localDef = localDef3;
+					Action addPart = null;
+					addPart = delegate()
+					{
+						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+						list2.Add(new DebugMenuOption("-Done (" + parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
+						{
+							List<DebugMenuOption> list3 = new List<DebugMenuOption>();
+							foreach (float localPoints2 in Dialog_DebugActionsMenu.PointsOptions(true))
+							{
+								float localPoints = localPoints2;
+								list3.Add(new DebugMenuOption(localPoints2.ToString("F0"), DebugMenuOptionMode.Action, delegate()
+								{
+									SiteCoreDef localDef2 = localDef;
+									List<SitePartDef> parts = parts;
+									int tile = tile;
+									float? threatPoints = new float?(localPoints);
+									Site site = SiteMaker.TryMakeSite(localDef2, parts, tile, true, null, true, threatPoints);
+									if (site == null)
+									{
+										Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
+									}
+									else
+									{
+										Find.WorldObjects.Add(site);
+									}
+								}));
+							}
+							Find.WindowStack.Add(new Dialog_DebugOptionListLister(list3));
+						}));
+						foreach (SitePartDef sitePartDef in DefDatabase<SitePartDef>.AllDefs)
+						{
+							SitePartDef localPart = sitePartDef;
+							list2.Add(new DebugMenuOption(sitePartDef.defName, DebugMenuOptionMode.Action, delegate()
+							{
+								parts.Add(localPart);
+								addPart();
+							}));
+						}
+						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+					};
+					list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, addPart));
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+			}
+		}
+
+		[CompilerGenerated]
+		private static void <DoListingItems_World>m__AD()
+		{
+			int tile = GenWorld.MouseTile(false);
+			if (tile < 0 || Find.World.Impassable(tile))
+			{
+				Messages.Message("Impassable", MessageTypeDefOf.RejectInput, false);
+			}
+			else
+			{
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				foreach (WorldObjectDef localDef2 in DefDatabase<WorldObjectDef>.AllDefs)
 				{
 					WorldObjectDef localDef = localDef2;
@@ -5950,7 +6073,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_World>m__AD()
+		private static void <DoListingItems_World>m__AE()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (Type localType2 in typeof(WorldCameraConfig).AllSubclasses())
@@ -5970,61 +6093,61 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <OffsetNeed>m__AE(Thing t)
+		private static bool <OffsetNeed>m__AF(Thing t)
 		{
 			return t is Pawn;
 		}
 
 		[CompilerGenerated]
-		private static bool <AddGuest>m__AF(PawnKindDef pk)
+		private static bool <AddGuest>m__B0(PawnKindDef pk)
 		{
 			return pk.defaultFactionType != null && !pk.defaultFactionType.isPlayer && pk.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_AllModePlayActions>m__B0(int x)
+		private static bool <DoListingItems_AllModePlayActions>m__B1(int x)
 		{
 			return Find.World.HasCaves(x);
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B1(StorytellerComp x)
+		private static bool <DoListingItems_MapActions>m__B2(StorytellerComp x)
 		{
 			return x is StorytellerComp_ThreatCycle || x is StorytellerComp_RandomMain;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B2(SoundDef s)
+		private static bool <DoListingItems_MapActions>m__B3(SoundDef s)
 		{
 			return !s.sustain;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B3(LordToil st)
+		private static bool <DoListingItems_MapActions>m__B4(LordToil st)
 		{
 			return st is LordToil_PanicFlee;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapActions>m__B4()
+		private static void <DoListingItems_MapActions>m__B5()
 		{
 			Find.WindowStack.Add(new Dialog_NamePlayerFaction());
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapActions>m__B5(Faction x)
+		private static bool <DoListingItems_MapActions>m__B6(Faction x)
 		{
 			return x.leader != null;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__B6(RuleDef x)
+		private static string <DoListingItems_MapTools>m__B7(RuleDef x)
 		{
 			return x.symbol;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__B7(bool bestSideOnly)
+		private static void <DoListingItems_MapTools>m__B8(bool bestSideOnly)
 		{
 			DebugTool tool = null;
 			IntVec3 firstCorner;
@@ -6048,39 +6171,33 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__B8(BodyPartRecord x)
-		{
-			return !x.def.conceptual;
-		}
-
-		[CompilerGenerated]
 		private static bool <DoListingItems_MapTools>m__B9(BodyPartRecord x)
 		{
 			return !x.def.conceptual;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__BA(Hediff_Injury x)
+		private static bool <DoListingItems_MapTools>m__BA(BodyPartRecord x)
+		{
+			return !x.def.conceptual;
+		}
+
+		[CompilerGenerated]
+		private static bool <DoListingItems_MapTools>m__BB(Hediff_Injury x)
 		{
 			return x.CanHealNaturally() || x.CanHealFromTending();
 		}
 
 		[CompilerGenerated]
-		private static IEnumerable<HediffGiver> <DoListingItems_MapTools>m__BB(HediffGiverSetDef set)
+		private static IEnumerable<HediffGiver> <DoListingItems_MapTools>m__BC(HediffGiverSetDef set)
 		{
 			return set.hediffGivers;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__BC(HediffStage s)
+		private static bool <DoListingItems_MapTools>m__BD(HediffStage s)
 		{
 			return s.becomeVisible;
-		}
-
-		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__BD(VerbEntry verb)
-		{
-			return verb.ToString();
 		}
 
 		[CompilerGenerated]
@@ -6090,7 +6207,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__BF()
+		private static string <DoListingItems_MapTools>m__BF(VerbEntry verb)
+		{
+			return verb.ToString();
+		}
+
+		[CompilerGenerated]
+		private void <DoListingItems_MapTools>m__C0()
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Pawn
@@ -6102,7 +6225,7 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private void <DoListingItems_MapTools>m__C0()
+		private void <DoListingItems_MapTools>m__C1()
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
 			where t is Pawn
@@ -6114,55 +6237,55 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static MentalBreakIntensity <DoListingItems_MapTools>m__C1(MentalBreakDef x)
+		private static MentalBreakIntensity <DoListingItems_MapTools>m__C2(MentalBreakDef x)
 		{
 			return x.intensity;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C2(Thing t)
+		private static bool <DoListingItems_MapTools>m__C3(Thing t)
 		{
 			return t is Building_WorkTable;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C3(Pawn x)
+		private static bool <DoListingItems_MapTools>m__C4(Pawn x)
 		{
 			return x.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C4(PawnKindDef kd)
+		private static string <DoListingItems_MapTools>m__C5(PawnKindDef kd)
 		{
 			return kd.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C5(ThingDef def)
+		private static bool <DoListingItems_MapTools>m__C6(ThingDef def)
 		{
 			return def.equipmentType == EquipmentType.Primary;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C6(ThingDef d)
+		private static string <DoListingItems_MapTools>m__C7(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__C7(ThingDef def)
+		private static bool <DoListingItems_MapTools>m__C8(ThingDef def)
 		{
 			return def.IsApparel;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__C8(ThingDef d)
+		private static string <DoListingItems_MapTools>m__C9(ThingDef d)
 		{
 			return d.defName;
 		}
 
 		[CompilerGenerated]
-		private static void <DoListingItems_MapTools>m__C9(Pawn p)
+		private static void <DoListingItems_MapTools>m__CA(Pawn p)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			foreach (PawnKindDef kLocal2 in from x in DefDatabase<PawnKindDef>.AllDefs
@@ -6179,12 +6302,6 @@ namespace Verse
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
-		}
-
-		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CA(IntVec3 c)
-		{
-			return c.Standable(Find.CurrentMap);
 		}
 
 		[CompilerGenerated]
@@ -6206,51 +6323,51 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__CE(PawnKindDef kd)
+		private static bool <DoListingItems_MapTools>m__CE(IntVec3 c)
+		{
+			return c.Standable(Find.CurrentMap);
+		}
+
+		[CompilerGenerated]
+		private static string <DoListingItems_MapTools>m__CF(PawnKindDef kd)
 		{
 			return kd.defName;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__CF(PawnKindDef k)
+		private static bool <DoListingItems_MapTools>m__D0(PawnKindDef k)
 		{
 			return k.RaceProps.Humanlike;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__D0(ToolCapacityDef tc)
+		private static bool <DoListingItems_MapTools>m__D1(ToolCapacityDef tc)
 		{
 			return tc != ToolCapacityDefOf.KickMaterialInEyes;
 		}
 
 		[CompilerGenerated]
-		private static string <DoListingItems_MapTools>m__D1(PawnKindDef pkd, ToolCapacityDef dd)
+		private static string <DoListingItems_MapTools>m__D2(PawnKindDef pkd, ToolCapacityDef dd)
 		{
 			return string.Format("{0}_{1}", pkd.label, dd.defName);
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D2(ThingDef def)
+		private static bool <DoListingItems_World>m__D3(ThingDef def)
 		{
 			return def.IsWeapon && def.PlayerAcquirable;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D3(PawnKindDef d)
+		private static bool <DoListingItems_World>m__D4(PawnKindDef d)
 		{
 			return d.RaceProps.Animal && d.RaceProps.wildness < 1f;
 		}
 
 		[CompilerGenerated]
-		private static bool <DoListingItems_World>m__D4(Faction x)
+		private static bool <DoListingItems_World>m__D5(Faction x)
 		{
 			return !x.IsPlayer && !x.def.hidden;
-		}
-
-		[CompilerGenerated]
-		private static bool <DoListingItems_MapTools>m__D5(Thing t)
-		{
-			return t is Pawn;
 		}
 
 		[CompilerGenerated]
@@ -6260,13 +6377,19 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoIncidentDebugAction>c__AnonStorey4C
+		private static bool <DoListingItems_MapTools>m__D7(Thing t)
+		{
+			return t is Pawn;
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoIncidentDebugAction>c__AnonStorey51
 		{
 			internal IIncidentTarget target;
 
 			private static Func<IncidentDef, string> <>f__am$cache0;
 
-			public <DoIncidentDebugAction>c__AnonStorey4C()
+			public <DoIncidentDebugAction>c__AnonStorey51()
 			{
 			}
 
@@ -6308,17 +6431,17 @@ namespace Verse
 				return d.defName;
 			}
 
-			private sealed class <DoIncidentDebugAction>c__AnonStorey4D
+			private sealed class <DoIncidentDebugAction>c__AnonStorey52
 			{
 				internal IncidentDef localDef;
 
 				internal IncidentParms parms;
 
-				internal Dialog_DebugActionsMenu.<DoIncidentDebugAction>c__AnonStorey4C <>f__ref$76;
+				internal Dialog_DebugActionsMenu.<DoIncidentDebugAction>c__AnonStorey51 <>f__ref$81;
 
 				private static Func<StorytellerComp, bool> <>f__am$cache0;
 
-				public <DoIncidentDebugAction>c__AnonStorey4D()
+				public <DoIncidentDebugAction>c__AnonStorey52()
 				{
 				}
 
@@ -6340,13 +6463,13 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoIncidentWithPointsAction>c__AnonStorey4E
+		private sealed class <DoIncidentWithPointsAction>c__AnonStorey53
 		{
 			internal IIncidentTarget target;
 
 			private static Func<IncidentDef, string> <>f__am$cache0;
 
-			public <DoIncidentWithPointsAction>c__AnonStorey4E()
+			public <DoIncidentWithPointsAction>c__AnonStorey53()
 			{
 			}
 
@@ -6393,15 +6516,15 @@ namespace Verse
 				return d.defName;
 			}
 
-			private sealed class <DoIncidentWithPointsAction>c__AnonStorey50
+			private sealed class <DoIncidentWithPointsAction>c__AnonStorey55
 			{
 				internal IncidentParms parms;
 
 				internal IncidentDef localDef;
 
-				internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey4E <>f__ref$78;
+				internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey53 <>f__ref$83;
 
-				public <DoIncidentWithPointsAction>c__AnonStorey50()
+				public <DoIncidentWithPointsAction>c__AnonStorey55()
 				{
 				}
 
@@ -6420,20 +6543,20 @@ namespace Verse
 					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 				}
 
-				private sealed class <DoIncidentWithPointsAction>c__AnonStorey4F
+				private sealed class <DoIncidentWithPointsAction>c__AnonStorey54
 				{
 					internal float localPoints;
 
-					internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey4E.<DoIncidentWithPointsAction>c__AnonStorey50 <>f__ref$80;
+					internal Dialog_DebugActionsMenu.<DoIncidentWithPointsAction>c__AnonStorey53.<DoIncidentWithPointsAction>c__AnonStorey55 <>f__ref$85;
 
-					public <DoIncidentWithPointsAction>c__AnonStorey4F()
+					public <DoIncidentWithPointsAction>c__AnonStorey54()
 					{
 					}
 
 					internal void <>m__0()
 					{
-						this.<>f__ref$80.parms.points = this.localPoints;
-						this.<>f__ref$80.localDef.Worker.TryExecute(this.<>f__ref$80.parms);
+						this.<>f__ref$85.parms.points = this.localPoints;
+						this.<>f__ref$85.localDef.Worker.TryExecute(this.<>f__ref$85.parms);
 					}
 				}
 			}
@@ -8442,7 +8565,7 @@ namespace Verse
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$69.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
 				{
-					Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true);
+					Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true, null);
 					if (site == null)
 					{
 						Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
@@ -8468,7 +8591,7 @@ namespace Verse
 
 			internal void <>m__1()
 			{
-				Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true);
+				Site site = SiteMaker.TryMakeSite(this.localDef, this.<>f__ref$69.parts, this.<>f__ref$71.tile, true, null, true, null);
 				if (site == null)
 				{
 					Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
@@ -8500,11 +8623,11 @@ namespace Verse
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey4A
+		private sealed class <DoListingItems_World>c__AnonStorey4B
 		{
 			internal int tile;
 
-			public <DoListingItems_World>c__AnonStorey4A()
+			public <DoListingItems_World>c__AnonStorey4B()
 			{
 			}
 		}
@@ -8512,28 +8635,189 @@ namespace Verse
 		[CompilerGenerated]
 		private sealed class <DoListingItems_World>c__AnonStorey49
 		{
-			internal WorldObjectDef localDef;
-
-			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74;
+			internal List<SitePartDef> parts;
 
 			public <DoListingItems_World>c__AnonStorey49()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey4A
+		{
+			internal SiteCoreDef localDef;
+
+			internal Action addPart;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
+
+			public <DoListingItems_World>c__AnonStorey4A()
+			{
+			}
+
+			internal void <>m__0()
+			{
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				list.Add(new DebugMenuOption("-Done (" + this.<>f__ref$73.parts.Count + " parts)-", DebugMenuOptionMode.Action, delegate()
+				{
+					List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+					foreach (float localPoints2 in Dialog_DebugActionsMenu.PointsOptions(true))
+					{
+						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75 = this.<>f__ref$75;
+						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73 = this.<>f__ref$73;
+						Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74 = this;
+						float localPoints = localPoints2;
+						list2.Add(new DebugMenuOption(localPoints2.ToString("F0"), DebugMenuOptionMode.Action, delegate()
+						{
+							SiteCoreDef core = <>f__ref$74.localDef;
+							List<SitePartDef> parts = <>f__ref$73.parts;
+							int tile = <>f__ref$75.tile;
+							float? threatPoints = new float?(localPoints);
+							Site site = SiteMaker.TryMakeSite(core, parts, tile, true, null, true, threatPoints);
+							if (site == null)
+							{
+								Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
+							}
+							else
+							{
+								Find.WorldObjects.Add(site);
+							}
+						}));
+					}
+					Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+				}));
+				foreach (SitePartDef sitePartDef in DefDatabase<SitePartDef>.AllDefs)
+				{
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73 = this.<>f__ref$73;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74 = this;
+					SitePartDef localPart = sitePartDef;
+					list.Add(new DebugMenuOption(sitePartDef.defName, DebugMenuOptionMode.Action, delegate()
+					{
+						<>f__ref$73.parts.Add(localPart);
+						<>f__ref$74.addPart();
+					}));
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+			}
+
+			internal void <>m__1()
+			{
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				foreach (float localPoints2 in Dialog_DebugActionsMenu.PointsOptions(true))
+				{
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75 = this.<>f__ref$75;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73 = this.<>f__ref$73;
+					Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74 = this;
+					float localPoints = localPoints2;
+					list.Add(new DebugMenuOption(localPoints2.ToString("F0"), DebugMenuOptionMode.Action, delegate()
+					{
+						SiteCoreDef core = <>f__ref$74.localDef;
+						List<SitePartDef> parts = <>f__ref$73.parts;
+						int tile = <>f__ref$75.tile;
+						float? threatPoints = new float?(localPoints);
+						Site site = SiteMaker.TryMakeSite(core, parts, tile, true, null, true, threatPoints);
+						if (site == null)
+						{
+							Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
+						}
+						else
+						{
+							Find.WorldObjects.Add(site);
+						}
+					}));
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+			}
+
+			private sealed class <DoListingItems_World>c__AnonStorey4D
+			{
+				internal SitePartDef localPart;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74;
+
+				public <DoListingItems_World>c__AnonStorey4D()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					this.<>f__ref$73.parts.Add(this.localPart);
+					this.<>f__ref$74.addPart();
+				}
+			}
+
+			private sealed class <DoListingItems_World>c__AnonStorey4C
+			{
+				internal float localPoints;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4B <>f__ref$75;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey49 <>f__ref$73;
+
+				internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4A <>f__ref$74;
+
+				public <DoListingItems_World>c__AnonStorey4C()
+				{
+				}
+
+				internal void <>m__0()
+				{
+					SiteCoreDef localDef = this.<>f__ref$74.localDef;
+					List<SitePartDef> parts = this.<>f__ref$73.parts;
+					int tile = this.<>f__ref$75.tile;
+					float? threatPoints = new float?(this.localPoints);
+					Site site = SiteMaker.TryMakeSite(localDef, parts, tile, true, null, true, threatPoints);
+					if (site == null)
+					{
+						Messages.Message("Could not find any valid faction for this site.", MessageTypeDefOf.RejectInput, false);
+					}
+					else
+					{
+						Find.WorldObjects.Add(site);
+					}
+				}
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey4F
+		{
+			internal int tile;
+
+			public <DoListingItems_World>c__AnonStorey4F()
+			{
+			}
+		}
+
+		[CompilerGenerated]
+		private sealed class <DoListingItems_World>c__AnonStorey4E
+		{
+			internal WorldObjectDef localDef;
+
+			internal Dialog_DebugActionsMenu.<DoListingItems_World>c__AnonStorey4F <>f__ref$79;
+
+			public <DoListingItems_World>c__AnonStorey4E()
 			{
 			}
 
 			internal void <>m__0()
 			{
 				WorldObject worldObject = WorldObjectMaker.MakeWorldObject(this.localDef);
-				worldObject.Tile = this.<>f__ref$74.tile;
+				worldObject.Tile = this.<>f__ref$79.tile;
 				Find.WorldObjects.Add(worldObject);
 			}
 		}
 
 		[CompilerGenerated]
-		private sealed class <DoListingItems_World>c__AnonStorey4B
+		private sealed class <DoListingItems_World>c__AnonStorey50
 		{
 			internal Type localType;
 
-			public <DoListingItems_World>c__AnonStorey4B()
+			public <DoListingItems_World>c__AnonStorey50()
 			{
 			}
 

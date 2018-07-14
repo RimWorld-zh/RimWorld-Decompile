@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public float radius = 30f;
 
-		public float mtbDays = 18f;
+		public float mtbDays = 8f;
 
 		public CompProperties_LongRangeMineralScanner()
 		{

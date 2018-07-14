@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		private static readonly IntRange RaidDelay = new IntRange(1000, 2500);
 
-		private const float RaidPointsFactor = 1.35f;
+		private const float RaidPointsFactor = 1.45f;
 
 		private const float RelationWithColonistWeight = 20f;
 
@@ -80,7 +80,7 @@ namespace RimWorld
 					incidentParms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 					incidentParms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 					incidentParms.spawnCenter = spawnSpot;
-					incidentParms.points *= 1.35f;
+					incidentParms.points *= 1.45f;
 					QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange, 0);
 					Find.Storyteller.incidentQueue.Add(qi);
 				};
@@ -161,7 +161,7 @@ namespace RimWorld
 				incidentParms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 				incidentParms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 				incidentParms.spawnCenter = this.spawnSpot;
-				incidentParms.points *= 1.35f;
+				incidentParms.points *= 1.45f;
 				QueuedIncident qi = new QueuedIncident(new FiringIncident(IncidentDefOf.RaidEnemy, null, incidentParms), Find.TickManager.TicksGame + IncidentWorker_RefugeeChased.RaidDelay.RandomInRange, 0);
 				Find.Storyteller.incidentQueue.Add(qi);
 			}

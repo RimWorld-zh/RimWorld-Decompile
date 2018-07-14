@@ -11,7 +11,7 @@ namespace RimWorld
 
 		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
 
-		private float GlobalProgressFactor = 0.007f;
+		private float ResearchPointsPerWorkTick = 0.0075f;
 
 		[CompilerGenerated]
 		private static Predicate<ResearchProjectDef> <>f__am$cache0;
@@ -61,7 +61,8 @@ namespace RimWorld
 			}
 			else
 			{
-				amount *= this.GlobalProgressFactor;
+				amount *= this.ResearchPointsPerWorkTick;
+				amount *= Find.Storyteller.difficulty.researchSpeedFactor;
 				if (researcher != null && researcher.Faction != null)
 				{
 					amount /= this.currentProj.CostFactor(researcher.Faction.def.techLevel);
@@ -123,7 +124,7 @@ namespace RimWorld
 			{
 				this.DoCompletionDialog(proj, null);
 			}
-			if (!proj.discoveredLetterTitle.NullOrEmpty())
+			if (!proj.discoveredLetterTitle.NullOrEmpty() && Find.Storyteller.difficulty.difficulty >= proj.discoveredLetterMinDifficulty)
 			{
 				Find.LetterStack.ReceiveLetter(proj.discoveredLetterTitle, proj.discoveredLetterText, LetterDefOf.NeutralEvent, null);
 			}

@@ -147,6 +147,7 @@ namespace RimWorld
 				letterLabel = null;
 				letterDef = null;
 			}
+			Find.TickManager.slower.SignalForceNormalSpeed();
 		}
 
 		private static void RemoveRandomRooms(HashSet<Room> participatingRooms, Pawn initiator)

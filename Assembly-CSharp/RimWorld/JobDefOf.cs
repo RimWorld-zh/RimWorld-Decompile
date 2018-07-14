@@ -76,6 +76,8 @@ namespace RimWorld
 
 		public static JobDef OperateDeepDrill;
 
+		public static JobDef OperateScanner;
+
 		public static JobDef Repair;
 
 		public static JobDef FixBrokenDownBuilding;

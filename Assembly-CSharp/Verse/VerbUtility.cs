@@ -64,19 +64,8 @@ namespace Verse
 			return projectile != null && projectile.projectile.explosionRadius > 0f;
 		}
 
-		public static string GenerateBeatFireLoadId(Pawn pawn)
+		public static List<Verb> GetConcreteExampleVerbs(Def def, ThingDef stuff = null)
 		{
-			return string.Format("{0}_BeatFire", pawn.ThingID);
-		}
-
-		public static string GenerateIgniteLoadId(Pawn pawn)
-		{
-			return string.Format("{0}_Ignite", pawn.ThingID);
-		}
-
-		public static List<Verb> GetConcreteExampleVerbs(Def def, out Thing owner, ThingDef stuff = null)
-		{
-			owner = null;
 			List<Verb> result = null;
 			ThingDef thingDef = def as ThingDef;
 			if (thingDef != null)
@@ -84,17 +73,16 @@ namespace Verse
 				Thing concreteExample = thingDef.GetConcreteExample(stuff);
 				if (concreteExample is Pawn)
 				{
-					result = (concreteExample as Pawn).VerbTracker.AllVerbs;
+					result = ((Pawn)concreteExample).VerbTracker.AllVerbs;
 				}
 				else if (concreteExample is ThingWithComps)
 				{
-					result = (concreteExample as ThingWithComps).GetComp<CompEquippable>().AllVerbs;
+					result = ((ThingWithComps)concreteExample).GetComp<CompEquippable>().AllVerbs;
 				}
 				else
 				{
 					result = null;
 				}
-				owner = concreteExample;
 			}
 			HediffDef hediffDef = def as HediffDef;
 			if (hediffDef != null)

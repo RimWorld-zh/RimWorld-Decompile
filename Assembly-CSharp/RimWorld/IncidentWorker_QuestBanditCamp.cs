@@ -18,7 +18,7 @@ namespace RimWorld
 			Faction faction;
 			Faction faction2;
 			int num;
-			return base.CanFireNowSub(parms) && this.TryFindFactions(out faction, out faction2) && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1);
+			return base.CanFireNowSub(parms) && this.TryFindFactions(out faction, out faction2) && this.TryFindTile(out num);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
@@ -31,32 +31,44 @@ namespace RimWorld
 			{
 				result = false;
 			}
-			else if (!TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, -1))
+			else if (!this.TryFindTile(out tile))
 			{
 				result = false;
 			}
 			else
 			{
-				Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, tile, faction2, true);
+				Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, tile, faction2, true, null);
 				site.sitePartsKnown = true;
-				List<Thing> list = this.GenerateRewards(faction);
+				List<Thing> list = this.GenerateRewards(faction, site.desiredThreatPoints);
 				site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 10, list);
+				int randomInRange = SiteTuning.QuestSiteTimeoutDaysRange.RandomInRange;
+				site.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 				Find.WorldObjects.Add(site);
 				base.SendStandardLetter(site, faction, new string[]
 				{
 					faction.leader.LabelShort,
 					faction.def.leaderTitle,
 					faction.Name,
-					GenLabel.ThingsLabel(list)
+					GenLabel.ThingsLabel(list),
+					randomInRange.ToString()
 				});
 				result = true;
 			}
 			return result;
 		}
 
-		private List<Thing> GenerateRewards(Faction alliedFaction)
+		private bool TryFindTile(out int tile)
 		{
-			return ThingSetMakerDefOf.Reward_StandardByDropPod.root.Generate();
+			IntRange banditCampQuestSiteDistanceRange = SiteTuning.BanditCampQuestSiteDistanceRange;
+			return TileFinder.TryFindNewSiteTile(out tile, banditCampQuestSiteDistanceRange.min, banditCampQuestSiteDistanceRange.max, false, true, -1);
+		}
+
+		private List<Thing> GenerateRewards(Faction alliedFaction, float siteThreatPoints)
+		{
+			float val = SiteTuning.QuestRewardMarketValueThreatPointsFactor.Evaluate(siteThreatPoints);
+			ThingSetMakerParams parms = default(ThingSetMakerParams);
+			parms.totalMarketValueRange = new FloatRange?(SiteTuning.BanditCampQuestRewardMarketValueRange * val);
+			return ThingSetMakerDefOf.Reward_StandardByDropPod.root.Generate(parms);
 		}
 
 		private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)

@@ -60,8 +60,7 @@ namespace RimWorld
 						{
 							if (updatedAvailableVerbsList[j].IsMeleeAttack)
 							{
-								ThingWithComps ownerEquipment = updatedAvailableVerbsList[j].verb.ownerEquipment;
-								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedArmorPenetration(updatedAvailableVerbsList[j].verb, pawn, ownerEquipment);
+								num2 += updatedAvailableVerbsList[j].GetSelectionWeight(null) / num * updatedAvailableVerbsList[j].verb.verbProps.AdjustedArmorPenetration(updatedAvailableVerbsList[j].verb, pawn);
 							}
 						}
 						result = num2;

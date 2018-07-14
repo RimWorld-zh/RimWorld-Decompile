@@ -43,9 +43,9 @@ namespace RimWorld
 			});
 		}
 
-		public override SiteCoreOrPartParams GenerateDefaultParams(Site site)
+		public override SiteCoreOrPartParams GenerateDefaultParams(Site site, float myThreatPoints)
 		{
-			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site);
+			SiteCoreOrPartParams siteCoreOrPartParams = base.GenerateDefaultParams(site, myThreatPoints);
 			siteCoreOrPartParams.threatPoints = Mathf.Max(siteCoreOrPartParams.threatPoints, site.Faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Settlement));
 			return siteCoreOrPartParams;
 		}

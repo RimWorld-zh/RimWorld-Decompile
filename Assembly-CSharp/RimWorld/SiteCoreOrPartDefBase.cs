@@ -43,6 +43,8 @@ namespace RimWorld
 		[MustTranslate]
 		public string descriptionDialogue;
 
+		public bool wantsThreatPoints;
+
 		[Unsaved]
 		private SiteCoreOrPartWorkerBase workerInt;
 
